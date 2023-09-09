@@ -1,0 +1,306 @@
+[data-theme='dark'] .theme1 {
+  .ant-menu.ant-menu-dark {
+    color: #fff;
+  }
+
+  ul li {
+    border: none;
+
+    &:hover {
+      border: none;
+      box-shadow: none;
+      color: inherit;
+    }
+  }
+
+  .vben-basic-menu__sidebar-hor.ant-menu-horizontal.ant-menu-dark .ant-menu-item-selected, .vben-basic-menu__sidebar-hor.ant-menu-horizontal.ant-menu-dark .ant-menu-item:hover, .vben-basic-menu__sidebar-hor.ant-menu-horizontal.ant-menu-dark .ant-menu-item-active {
+    background-color: transparent !important;
+    color: #1890FF;
+  }
+
+  .ant-menu-horizontal.ant-menu-dark > .ant-menu-item:hover::after,
+  .ant-menu-horizonta.ant-menu-dark > .ant-menu-item-active::after,
+  .ant-menu-horizontal.ant-menu-dark > .ant-menu-item-selected::after {
+    border-bottom-color: #1890FF;
+  }
+
+  .ant-menu-dark {
+    .ant-menu-item {
+      color: #fff;
+    }
+
+    .ant-menu-item-selected .anticon {
+      color: #1890FF;
+    }
+  }
+
+  .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
+    border: none;
+  }
+}
+
+.theme1 {
+  .ant-layout {
+    background: url('../assets/images/background1.png') no-repeat center/100% 100%;
+  }
+
+  .vben-layout-header--dark {
+    border-bottom-color: rgb(255 255 255 / 16%);
+    border-left-color: rgb(15 67 155 / 20%);
+    background-color: rgb(15 67 155 / 20%) !important;
+
+    .vben-layout-header-logo{
+      background: url('../assets/images/my-logo-dark.png') no-repeat 24px 6px/104px auto;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  .vben-app-logo.dark {
+    border-bottom: none !important;
+  }
+
+  // .vben-layout-breadcrumb--dark .ant-breadcrumb-link a {
+  //   color: rgb(255 255 255 / 90%);
+  // }
+
+  // .ant-breadcrumb-overlay-link > .anticon {
+  //   color: rgb(255 255 255 / 90%);
+  // }
+
+  .vben-layout-header--dark .vben-layout-header-action__item {
+    color: #fff;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  .vben-layout-header--dark .vben-layout-header-action span[role='img'] {
+    color: #fff;
+  }
+
+  .vben-header-user-dropdown--dark {
+    .vben-header-user-dropdown__name {
+      color: #fff;
+    }
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  .vben-multiple-tabs {
+    border-bottom: none;
+    background-color: rgb(15 67 155 / 20%);
+    box-shadow: 0 0 5px 0 rgb(255 255 255 / 10%);
+
+    .ant-tabs.ant-tabs-card .ant-tabs-nav {
+      background-color: transparent;
+  
+      .ant-tabs-tab {
+        background-color: transparent;
+        color: #fff;
+  
+        &:not(.ant-tabs-tab-active):hover {
+          color: #1890FF;
+        }
+      }
+  
+      .ant-tabs-tab-active {
+        background-color: rgb(24 144 255 / 10%);
+        
+        span {
+          color: #1890FF !important;
+        }
+
+        svg {
+          fill: #1890FF !important;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          border-bottom: 2px solid #1890FF;
+        }
+      }
+    }
+  }
+
+  .vben-multiple-tabs-content__extra-quick, .vben-multiple-tabs-content__extra-redo, .vben-multiple-tabs-content__extra-fold {
+    border-left-color:rgb(255 255 255 / 16%);
+    color: rgb(255 255 255 / 60%);
+
+    &:hover {
+      color: rgb(255 255 255 / 60%);
+    }
+  }
+  
+  .vben-layout-sideBar.ant-layout-sider-dark {
+    background-color: rgb(15 67 155 / 20%);
+
+    .ant-layout-sider-trigger {
+      color: #B8BDC2;
+    }
+  }
+
+  .vben-menu-dark.vben-menu-vertical {
+    .vben-simple-menu__parent {
+      background-color: transparent;
+  
+      &> .vben-menu-submenu-title {
+        background-color: transparent;
+      }
+    }
+
+    .vben-simple-menu__children {
+      background-color: rgb(0 0 0 / 50%);
+    }
+
+    .vben-menu-item-active:not(.vben-menu-submenu) {
+      background-color: #1890FF !important;
+    }
+  }
+
+  // .ant-card {
+  //   background-color: #001b52;
+  //   color: #fff;
+  // }
+
+  // .ant-card-bordered {
+  //   border: none;
+  //   box-shadow: 0 0 5px 0 rgb(13 5 16 / 10%);
+  // }
+
+  // .ant-card-head {
+  //   border-bottom-color: rgb(255 255 255 / 16%);
+  //   color: #fff;
+
+  //   .ant-tabs-top {
+  //     color: #fff;
+  //   }
+  // }
+
+  // .ant-tabs-tab:hover {
+  //   color: #069DFD;
+  // }
+
+  // .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  //   color: #069DFD;
+  // }
+
+  // .ant-tabs-ink-bar {
+  //   background-color: #069DFD;
+  // }
+
+  .home-page {
+    .real-time-title {
+      .title-text {
+        color: #fff;  
+      }
+  
+      .time-text {
+        color: rgb(255 254 254 / 50%);
+      }
+    }
+
+    .real-time-content {
+      .real-time-item {
+        background-color: rgb(15 67 155 / 20%);
+        box-shadow: 0 0 5px 0 rgb(13 5 16 / 10%);
+
+        .real-time-item-title {
+          color: rgb(255 255 255 / 59%);
+        }
+
+        .real-time-value {
+          color: #fff;
+        }
+
+        .trend-box {
+          .ratio-name-text {
+            color: rgb(255 255 255 / 40%);
+          }
+        }
+      }
+    }
+
+    .chart-row {
+      .chart-item {
+        background-color: rgb(15 67 155 / 20%);
+        box-shadow: 0 0 5px 0 rgb(13 5 16 / 10%);
+
+        .chart-item-title {
+          .left {
+            color: #fff;
+
+            .title-icon {
+              background-color: #1890ff;
+            }
+          }
+
+          .right {
+            .radio-group-style.ant-radio-group-small {
+              .ant-radio-button-wrapper {
+                border-color: rgb(217 217 217 / 20%);
+                color: rgb(255 255 255 / 80%);
+
+                &:not(:first-child){
+                  border-left: none;
+
+                  &::before {
+                    background-color: rgb(217 217 217 / 20%);
+                  }
+                }
+
+                &:hover {
+                  color: rgb(24 144 255 / 80%); 
+                }
+              }
+
+              .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+                border-color: rgb(24 144 255 / 26%);
+                color: rgb(24 144 255 / 80%);
+
+                &::before {
+                  background-color: rgb(24 144 255 / 26%);
+                }
+              }
+
+              
+            }
+
+            .more-text {
+              color: rgb(255 255 255 / 40%);
+            }
+          }
+        }
+
+        .chart-item-content { 
+            .loss-power-title {
+              color: rgb(255 255 255 / 50%);
+            }
+
+            .loss-power-value {
+              color: #fff;
+            }
+
+            .loss-power-legend-item { 
+              .legend-label {
+                color: rgb(255 255 255 / 50%);
+              }
+
+              .legend-value {
+                color: rgb(255 255 255 / 90%);
+              }
+            }
+        }
+      }
+    }
+  }
+}

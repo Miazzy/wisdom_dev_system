@@ -1,0 +1,54 @@
+.my-layout {
+  overflow: visible !important;
+
+  .vben-layout-header {
+    height: 46px;
+    line-height: 46px;
+  }
+
+  .vben-layout-sideBar--mix {
+    top: 46px;
+    height: calc(100% - 46px);
+  }
+
+  .vben-menu-vertical .vben-menu-item, .vben-menu-vertical .vben-menu-submenu-title {
+    padding: 9px 24px;
+  }
+
+  .vben-multiple-tabs {
+    height: 40px;
+    line-height: 40px;
+
+    .ant-tabs-small {
+      height: 40px;
+    }
+
+    .ant-tabs-card.ant-tabs-top > .ant-tabs-nav {
+      height: 40px;
+      padding-top: 0;
+      
+      .ant-tabs-tab {
+        height: 40px;
+        border-radius: 0;
+        line-height: 40px;
+
+        .ant-tabs-tab-remove {
+          height: 40px;
+        }
+      }
+  
+      &::before {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .vben-multiple-tabs-content__extra-quick, .vben-multiple-tabs-content__extra-redo, .vben-multiple-tabs-content__extra-fold {
+    height: 40px;
+    line-height: 40px;
+
+    .anticon {
+      vertical-align: middle !important;
+    }
+  }
+}

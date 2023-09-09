@@ -1,0 +1,41 @@
+node_modules
+.DS_Store
+dist
+.cache
+.turbo
+
+tests/server/static
+tests/server/static/upload
+
+.local
+# local env files
+.env.local
+.env.*.local
+.eslintcache
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+# .vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+package-lock.json
+pnpm-lock.yaml
+
+.history
+
+# 前端框架 - 多项目 - 权限分离 - 目录忽略
+src/views/dashboard
+# 运维管理 使用单独的git仓库 需配置忽略目录
+src/views/operation        
+# 生产基地 使用单独的git仓库 需配置忽略目录
+src/views/prodMonitoring
