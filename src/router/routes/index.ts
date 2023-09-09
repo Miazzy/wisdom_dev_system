@@ -7,7 +7,7 @@ import { PageEnum } from '/@/enums/pageEnum';
 import { t } from '/@/hooks/web/useI18n';
 
 // import.meta.glob() 直接引入所有的模块 Vite 独有的功能
-const systemModules = import.meta.glob('./modules/system/*.ts', { eager: true }); //  生产监视菜单配置导入
+const systemModules = import.meta.glob('./modules/**/*.ts', { eager: true }); //  生产监视菜单配置导入
 const routeModuleList: AppRouteModule[] = [];
 
 // 系统模块加入到路由集合中

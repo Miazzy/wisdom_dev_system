@@ -11,7 +11,7 @@ const system: AppRouteModule = {
   redirect: '/system/base',
   meta: {
     orderNo: 0,
-    icon: 'ion:grid-outline',
+    icon: 'ion:settings',
     title: t('routes.basic.base'),
   },
   children: [

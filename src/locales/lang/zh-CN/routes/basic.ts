@@ -3,6 +3,14 @@ export default {
   errorLogList: '错误日志列表',
   base: '系统设置',
 
+  bpm: {
+    name: '流程引擎',
+    management: '流程管理',
+    manage: {
+      workflow: '流程模型',
+    },
+  },
+
   dashboard: '生产监视',
   workbench: '电站总览',
   analysis: '集团总览',
