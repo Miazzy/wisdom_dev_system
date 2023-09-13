@@ -17,11 +17,13 @@ export class DateTools {
       format = date;
       date = new Date();
     } else if (typeof date == 'string' && !(format == null || format == undefined)) {
-      date = new Date(date);
+      date = new Date(date); // 类型为字符串
+    } else if (typeof date == 'number') {
+      date = new Date(date); // 类型为时间戳
     }
 
     if (format == null || format == undefined || format == '') {
-      format = DATE_TIME_FORMAT;
+      format = DATE_FORMAT;
     }
 
     const targetDate = date as Date;
@@ -56,5 +58,19 @@ export function formatToDateTime(date?: dayjs.ConfigType, format = DATE_TIME_FOR
 export function formatToDate(date?: dayjs.ConfigType, format = DATE_FORMAT): string {
   return dayjs(date).format(format);
 }
+
+export const dateFormatter = (row, column, cellValue) => {
+  if (!cellValue) {
+    return;
+  }
+  return formatToDate(cellValue);
+};
+
+export const timeFormatter = (row, column, cellValue) => {
+  if (!cellValue) {
+    return;
+  }
+  return formatToDateTime(cellValue);
+};
 
 export const dateUtil = dayjs;

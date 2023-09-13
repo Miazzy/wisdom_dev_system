@@ -50,18 +50,162 @@
       </el-form>
     </div>
 
+    <!-- 搜索内容 -->
     <div class="search-content">
-      <a-table :dataSource="tableData" :columns="columns" />
+      <el-table v-loading="loading" :data="list">
+        <el-table-column label="流程标识" align="center" prop="key" width="200" />
+        <el-table-column label="流程名称" align="center" prop="name" width="200">
+          <template #default="scope">
+            <el-button type="primary" link @click="handleBpmnDetail(scope.row)">
+              <span>{{ scope.row.name }}</span>
+            </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="流程分类" align="center" prop="category" width="100">
+          <template #default="scope">
+            <dict-tag :type="DICT_TYPE.BPM_MODEL_CATEGORY" :value="scope.row.category" />
+          </template>
+        </el-table-column>
+        <el-table-column label="表单信息" align="center" prop="formType" width="200">
+          <template #default="scope">
+            <el-button
+              v-if="scope.row.formType === 10"
+              type="primary"
+              link
+              @click="handleFormDetail(scope.row)"
+            >
+              <span>{{ scope.row.formName }}</span>
+            </el-button>
+            <el-button
+              v-else-if="scope.row.formType === 20"
+              type="primary"
+              link
+              @click="handleFormDetail(scope.row)"
+            >
+              <span>{{ scope.row.formCustomCreatePath }}</span>
+            </el-button>
+            <label v-else>暂无表单</label>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="创建时间"
+          align="center"
+          prop="createTime"
+          width="180"
+          :formatter="dateFormatter"
+        />
+        <el-table-column label="最新部署的流程定义" align="center">
+          <el-table-column
+            label="流程版本"
+            align="center"
+            prop="processDefinition.version"
+            width="100"
+          >
+            <template #default="scope">
+              <el-tag v-if="scope.row.processDefinition">
+                v{{ scope.row.processDefinition.version }}
+              </el-tag>
+              <el-tag v-else type="warning">未部署</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="激活状态"
+            align="center"
+            prop="processDefinition.version"
+            width="85"
+          >
+            <template #default="scope">
+              <el-switch
+                v-if="scope.row.processDefinition"
+                v-model="scope.row.processDefinition.suspensionState"
+                :active-value="1"
+                :inactive-value="2"
+                @change="handleChangeState(scope.row)"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column label="部署时间" align="center" prop="deploymentTime" width="180">
+            <template #default="scope">
+              <span v-if="scope.row.processDefinition">
+                {{ DateTools.format(scope.row.processDefinition.deploymentTime, 'YYYY-MM-DD') }}
+              </span>
+            </template>
+          </el-table-column>
+        </el-table-column>
+        <el-table-column label="操作" align="center" width="240" fixed="right">
+          <template #default="scope">
+            <el-button
+              link
+              type="primary"
+              @click="openForm('update', scope.row.id)"
+              v-hasPermi="['bpm:model:update']"
+            >
+              修改流程
+            </el-button>
+            <el-button
+              link
+              type="primary"
+              @click="handleDesign(scope.row)"
+              v-hasPermi="['bpm:model:update']"
+            >
+              设计流程
+            </el-button>
+            <el-button
+              link
+              type="primary"
+              @click="handleAssignRule(scope.row)"
+              v-hasPermi="['bpm:task-assign-rule:query']"
+            >
+              分配规则
+            </el-button>
+            <el-button
+              link
+              type="primary"
+              @click="handleDeploy(scope.row)"
+              v-hasPermi="['bpm:model:deploy']"
+            >
+              发布流程
+            </el-button>
+            <el-button
+              link
+              type="primary"
+              v-hasPermi="['bpm:process-definition:query']"
+              @click="handleDefinitionList(scope.row)"
+            >
+              流程定义
+            </el-button>
+            <el-button
+              link
+              type="danger"
+              @click="handleDelete(scope.row.id)"
+              v-hasPermi="['bpm:model:delete']"
+            >
+              删除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!-- 分页 -->
+      <Pagination
+        :total="total"
+        v-model:page="queryParams.pageNo"
+        v-model:limit="queryParams.pageSize"
+        @pagination="getList"
+      />
     </div>
   </ContentWrap>
 </template>
 <script lang="ts" setup>
+  import { DICT_TYPE } from '@/utils/dict';
+  import { DateTools, dateFormatter } from '@/utils/dateUtil';
   import { useI18n } from '/@/hooks/web/useI18n';
-  import { ref, unref, computed, reactive, onMounted } from 'vue';
+  import { ref, reactive, onMounted } from 'vue';
+  import { useRouter } from 'vue-router';
 
   defineOptions({ name: 'WorkFlow' });
 
   const { t } = useI18n();
+  const { push } = useRouter(); // 路由
   const searchName = t('routes.basic.bpm.manage.wflowpage.search'); // 搜索
   const resetName = t('routes.basic.bpm.manage.wflowpage.reset'); // 重置
   const newWflowName = t('routes.basic.bpm.manage.wflowpage.newwflow'); // 新建流程
@@ -71,7 +215,7 @@
   const total = ref(0); // 列表的总页数
   const list = ref([]); // 列表的数据
   const queryFormRef = ref(); // 搜索的表单
-
+  const tableData = ref([]);
   const queryParams = reactive({
     pageNo: 1,
     pageSize: 10,
@@ -79,6 +223,26 @@
     name: undefined,
     category: undefined,
   });
+
+  /** 流程图的详情按钮操作 */
+  const bpmnDetailVisible = ref(false);
+  const bpmnXML = ref(null);
+  const bpmnControlForm = ref({
+    prefix: 'flowable',
+  });
+
+  /** 流程表单的详情按钮操作 */
+  const formDetailVisible = ref(false);
+  const formDetailPreview = ref({
+    rule: [],
+    option: {},
+  });
+
+  /** 添加/修改操作 */
+  const importFormRef = ref();
+
+  /** 添加/修改操作 */
+  const formRef = ref();
 
   const getDictTypeWflow = () => {
     const type = JSON.parse(
@@ -94,15 +258,129 @@
     return data;
   };
 
-  const handleQuery = () => {};
-  const resetQuery = () => {};
-  const openForm = (type: string) => {};
-  const openImportForm = () => {};
-  const tableData = ref([]);
+  /** 搜索按钮操作 */
+  const handleQuery = () => {
+    queryParams.pageNo = 1;
+    getList();
+  };
 
+  /** 重置按钮操作 */
+  const resetQuery = () => {
+    queryFormRef.value.resetFields();
+    handleQuery();
+  };
+
+  /** 查询列表 */
+  const getList = async () => {
+    loading.value = true;
+    try {
+      const data = getTableDataWflow();
+      debugger;
+      list.value = data.list;
+      total.value = data.total;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const openForm = (type: string, id?: number) => {
+    formRef.value.open(type, id);
+  };
+
+  const openImportForm = () => {
+    importFormRef.value.open();
+  };
+
+  /** 删除按钮操作 */
+  const handleDelete = async (id: number) => {
+    try {
+      // 刷新列表
+      await getList();
+    } catch (e) {
+      //
+    }
+  };
+
+  /** 更新状态操作 */
+  const handleChangeState = async (row) => {
+    const state = row.processDefinition.suspensionState;
+    try {
+      // 修改状态的二次确认
+      const id = row.id;
+      const statusState = state === 1 ? '激活' : '挂起';
+      const content = '是否确认' + statusState + '流程名字为"' + row.name + '"的数据项?';
+      // 刷新列表
+      await getList();
+    } catch {
+      // 取消后，进行恢复按钮
+      row.processDefinition.suspensionState = state === 1 ? 2 : 1;
+    }
+  };
+
+  /** 设计流程 */
+  const handleDesign = (row) => {
+    push({
+      name: 'BpmModelEditor',
+      query: {
+        modelId: row.id,
+      },
+    });
+  };
+
+  /** 发布流程 */
+  const handleDeploy = async (row) => {
+    try {
+      // 刷新列表
+      await getList();
+    } catch {
+      //
+    }
+  };
+
+  /** 点击任务分配按钮 */
+  const handleAssignRule = (row) => {
+    push({
+      name: 'BpmTaskAssignRuleList',
+      query: {
+        modelId: row.id,
+      },
+    });
+  };
+
+  /** 跳转到指定流程定义列表 */
+  const handleDefinitionList = (row) => {
+    push({
+      name: 'BpmProcessDefinition',
+      query: {
+        key: row.key,
+      },
+    });
+  };
+
+  const handleFormDetail = async (row) => {
+    if (row.formType == 10) {
+      // 设置表单
+      const data = {};
+      // 弹窗打开
+      formDetailVisible.value = true;
+    } else {
+      await push({
+        path: row.formCustomCreatePath,
+      });
+    }
+  };
+
+  const handleBpmnDetail = async (row) => {
+    const data = JSON.parse(
+      `{"key":"vue3_huoqian","name":"vue3会签","description":null,"category":null,"formType":null,"formId":null,"formCustomCreatePath":null,"formCustomViewPath":null,"id":"de3a16a7-a0a5-11ed-9f70-acde48001122","formName":null,"createTime":1675086977675,"processDefinition":null}`,
+    );
+    bpmnXML.value = data.bpmnXml || '';
+    bpmnDetailVisible.value = true;
+  };
+
+  /** 初始化 **/
   onMounted(() => {
-    getTableDataWflow();
-    tableData.value = [];
+    getList();
   });
 </script>
 <style scoped>
