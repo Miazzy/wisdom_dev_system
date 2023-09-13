@@ -1,3 +1,5 @@
+export type InfoType = 'success' | 'info' | 'warning' | 'danger';
+
 export enum DICT_TYPE {
   // ========== BPM 模块 ==========
   BPM_MODEL_CATEGORY = 'bpm_model_category',
@@ -8,3 +10,19 @@ export enum DICT_TYPE {
   BPM_TASK_ASSIGN_SCRIPT = 'bpm_task_assign_script',
   BPM_OA_LEAVE_TYPE = 'bpm_oa_leave_type',
 }
+
+export interface DictDataType {
+  dictType: string;
+  label: string;
+  value: string | number | boolean;
+  colorType: InfoType | '';
+  cssClass: string;
+}
+
+// 获取流程分类数据字典
+export const getDictTypeWflow = () => {
+  const type = JSON.parse(
+    `[{"value":1,"label":"默认","colorType":"primary","cssClass":""},{"value":2,"label":"OA","colorType":"success","cssClass":""}]`,
+  );
+  return type;
+};

@@ -2,8 +2,9 @@ import type { ModalFunc, ModalFuncProps } from 'ant-design-vue/lib/modal/Modal';
 import { Modal, message as Message, notification } from 'ant-design-vue';
 import { InfoCircleFilled, CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons-vue';
 import { NotificationArgsProps, ConfigProps } from 'ant-design-vue/lib/notification';
-import { useI18n } from './useI18n';
+import { useI18n } from '/@/hooks/web/useI18n';
 import { isString } from '/@/utils/is';
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 
 export interface NotifyApi {
   info(config: NotificationArgsProps): void;
@@ -105,6 +106,118 @@ notification.config({
   duration: 3,
 });
 
+// 消息提示
+function info(content: string) {
+  ElMessage.info(content);
+}
+
+// 错误消息
+function error(content: string) {
+  ElMessage.error(content);
+}
+
+// 成功消息
+function success(content: string) {
+  ElMessage.success(content);
+}
+
+// 警告消息
+function warning(content: string) {
+  ElMessage.warning(content);
+}
+
+// 弹出提示
+function alert(content: string) {
+  const { t } = useI18n();
+  ElMessageBox.alert(content, t('common.message.confirmTitle'));
+}
+
+// 错误提示
+function alertError(content: string) {
+  const { t } = useI18n();
+  ElMessageBox.alert(content, t('common.message.confirmTitle'), { type: 'error' });
+}
+
+// 成功提示
+function alertSuccess(content: string) {
+  const { t } = useI18n();
+  ElMessageBox.alert(content, t('common.message.confirmTitle'), { type: 'success' });
+}
+
+// 警告提示
+function alertWarning(content: string) {
+  const { t } = useI18n();
+  ElMessageBox.alert(content, t('common.message.confirmTitle'), { type: 'warning' });
+}
+
+// 通知提示
+function notify(content: string) {
+  ElNotification.info(content);
+}
+
+// 错误通知
+function notifyError(content: string) {
+  ElNotification.error(content);
+}
+
+// 成功通知
+function notifySuccess(content: string) {
+  ElNotification.success(content);
+}
+
+// 警告通知
+function notifyWarning(content: string) {
+  ElNotification.warning(content);
+}
+
+// 确认窗体
+function confirm(content: string, tip?: string) {
+  const { t } = useI18n();
+  return ElMessageBox.confirm(content, tip ? tip : t('common.message.confirmTitle'), {
+    confirmButtonText: t('common.okText'),
+    cancelButtonText: t('common.cancelText'),
+    type: 'warning',
+  });
+}
+
+// 删除窗体
+function delConfirm(content?: string, tip?: string) {
+  const { t } = useI18n();
+  return ElMessageBox.confirm(
+    content ? content : t('common.message.delMessage'),
+    tip ? tip : t('common.message.confirmTitle'),
+    {
+      confirmButtonText: t('common.okText'),
+      cancelButtonText: t('common.cancelText'),
+      type: 'warning',
+    },
+  );
+}
+
+// 导出窗体
+function exportConfirm(content?: string, tip?: string) {
+  const { t } = useI18n();
+  return ElMessageBox.confirm(
+    content ? content : t('common.message.exportMessage'),
+    tip ? tip : t('common.message.confirmTitle'),
+    {
+      confirmButtonText: t('common.okText'),
+      cancelButtonText: t('common.cancelText'),
+      type: 'warning',
+    },
+  );
+}
+
+// 提交内容
+function prompt(content: string, tip: string) {
+  const { t } = useI18n();
+  return ElMessageBox.prompt(content, tip, {
+    confirmButtonText: t('common.okText'),
+    cancelButtonText: t('common.cancelText'),
+    type: 'warning',
+  });
+}
+
 /**
  * @description: message
  */
@@ -117,5 +230,21 @@ export function useMessage() {
     createErrorModal,
     createInfoModal,
     createWarningModal,
+    info,
+    error,
+    success,
+    warning,
+    alert,
+    alertError,
+    alertSuccess,
+    alertWarning,
+    notify,
+    notifyError,
+    notifySuccess,
+    notifyWarning,
+    confirm,
+    delConfirm,
+    exportConfirm,
+    prompt,
   };
 }

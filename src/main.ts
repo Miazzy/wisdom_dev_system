@@ -2,7 +2,7 @@ import 'uno.css';
 import '@/design/index.less';
 import '@/components/VxeTable/src/css/index.scss';
 import 'ant-design-vue/dist/antd.less';
-import 'element-plus/dist/index.css';
+// import 'element-plus/dist/index.css';
 
 // Register icon sprite
 import 'virtual:svg-icons-register';

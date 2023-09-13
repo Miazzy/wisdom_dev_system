@@ -17,4 +17,11 @@ export default {
 
   light: 'Light',
   dark: 'Dark',
+
+  message: {
+    confirmTitle: '温馨提示',
+    alertTitle: '系统提示',
+    delMessage: '是否确认删除此数据项？',
+    exportMessage: '是否确认导出此数据项？',
+  },
 };

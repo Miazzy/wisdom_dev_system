@@ -16,7 +16,7 @@
         </el-table-column>
         <el-table-column label="流程分类" align="center" prop="category" width="100">
           <template #default="scope">
-            <dict-tag :type="DICT_TYPE.BPM_MODEL_CATEGORY" :value="scope.row.category" />
+            <DictTag :type="DICT_TYPE.BPM_MODEL_CATEGORY" :value="scope.row.category" />
           </template>
         </el-table-column>
         <el-table-column label="表单信息" align="center" prop="formType" width="200">
@@ -139,7 +139,7 @@
         </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <Pagination
+      <ElPagination
         :total="total"
         v-model:page="queryParams.pageNo"
         v-model:limit="queryParams.pageSize"
@@ -154,9 +154,13 @@
   import { ref, reactive, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
   import searchbox from './searchbox.vue';
+  import DictTag from '@/components/Framework/Tag/DictTag/DictTag.vue';
   import { getTableDataWflow } from './workflow';
+  import { ElPagination } from 'element-plus';
+  import { useMessage } from '/@/hooks/web/useMessage';
 
   defineOptions({ name: 'WorkFlow' });
+  const message = useMessage(); // 消息弹窗
   const { push } = useRouter(); // 路由
 
   const loading = ref(true); // 列表的加载中
@@ -205,7 +209,7 @@
     handleQuery();
   };
 
-  /** 查询列表 */
+  // 查询流程表格列表数据 
   const getList = async () => {
     loading.value = true;
     try {
@@ -225,29 +229,55 @@
     importFormRef.value.open();
   };
 
-  /** 删除按钮操作 */
+  // 执行删除流程记录操作 
   const handleDelete = async (id: number) => {
     try {
+      // 删除的二次确认
+      await message.delConfirm(`请确认是否删除此流程数据项？`);
+
+      // 调用集维后端接口，删除流程相应数据 TODO 
+
       // 刷新列表
       await getList();
     } catch (e) {
-      //
+      // console.error(e);
     }
   };
 
-  /** 更新状态操作 */
+  //  设置流程激活状态
   const handleChangeState = async (row) => {
     const state = row.processDefinition.suspensionState;
     try {
       // 修改状态的二次确认
       const id = row.id;
       const statusState = state === 1 ? '激活' : '挂起';
-      const content = '是否确认' + statusState + '流程名字为"' + row.name + '"的数据项?';
+      const content = '请确认是否' + statusState + '流程名字为"' + row.name + '"的数据项?';
+
+      // 确认是否更新流程激活状态
+      await message.confirm(content);
+
+      // 调用集维后端接口，激活该流程状态 TODO 
+
       // 刷新列表
       await getList();
     } catch {
       // 取消后，进行恢复按钮
       row.processDefinition.suspensionState = state === 1 ? 2 : 1;
+    }
+  };
+
+  // 执行部署流程/发布流程操作
+  const handleDeploy = async (row) => {
+    try {
+      // 删除的二次确认
+      await message.confirm('请确认是否部署该流程？')
+
+      // 调用集维后端接口，部署该流程 TODO
+
+      // 刷新列表
+      await getList();
+    } catch (e) {
+      // console.error(e);
     }
   };
 
@@ -259,16 +289,6 @@
         modelId: row.id,
       },
     });
-  };
-
-  /** 发布流程 */
-  const handleDeploy = async (row) => {
-    try {
-      // 刷新列表
-      await getList();
-    } catch {
-      //
-    }
   };
 
   /** 点击任务分配按钮 */
@@ -305,9 +325,7 @@
   };
 
   const handleBpmnDetail = async (row) => {
-    const data = JSON.parse(
-      `{"key":"vue3_huoqian","name":"vue3会签","description":null,"category":null,"formType":null,"formId":null,"formCustomCreatePath":null,"formCustomViewPath":null,"id":"de3a16a7-a0a5-11ed-9f70-acde48001122","formName":null,"createTime":1675086977675,"processDefinition":null}`,
-    );
+    const data = getTableDataWflow();
     bpmnXML.value = data.bpmnXml || '';
     bpmnDetailVisible.value = true;
   };
@@ -323,26 +341,5 @@
     height: calc(100vh - 150px);
     margin: 15px 15px 10px 10px;
     background: #fefefe;
-  }
-
-  .surely-table-body {
-    div {
-      div {
-        display: none !important;
-        opacity: 0 !important;
-      }
-
-      div.surely-table-body-viewport-container {
-        display: block !important;
-      }
-
-      div.surely-table-body-scroll-measure {
-        display: block !important;
-      }
-
-      div.surely-table-body-inner-measure {
-        display: block !important;
-      }
-    }
-  }
+  } 
 </style>

@@ -6,14 +6,6 @@ export type ParamsType = {
   category: undefined | string;
 };
 
-// 获取流程分类数据字典
-export const getDictTypeWflow = () => {
-  const type = JSON.parse(
-    `[{"value":1,"label":"默认","colorType":"primary","cssClass":""},{"value":2,"label":"OA","colorType":"success","cssClass":""}]`,
-  );
-  return type;
-};
-
 // 获取流程表格列表数据
 export const getTableDataWflow = () => {
   const data = JSON.parse(

@@ -53,7 +53,7 @@
 <script lang="ts" setup>
   import { onMounted, watch, PropType, reactive } from 'vue';
   import { useI18n } from '/@/hooks/web/useI18n';
-  import { getDictTypeWflow } from './workflow';
+  import { getDictTypeWflow } from '@/utils/dict';
   import type { ParamsType } from './workflow';
 
   const { t } = useI18n();
