@@ -36,11 +36,10 @@
       type: Number,
       default: 20,
     },
-    // 设置最大页码按钮数。 页码按钮的数量，当总页数超过该值时会折叠
     // 移动端页码按钮的数量端默认值 5
     pagerCount: {
       type: Number,
-      default: document.body.clientWidth < 992 ? 5 : 7,
+      default: document.body.clientWidth < 992 ? 5 : 7, // 设置最大页码按钮数。 页码按钮的数量，当总页数超过该值时会折叠
     },
   });
 
