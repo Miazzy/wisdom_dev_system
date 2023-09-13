@@ -30,20 +30,22 @@
               />
             </el-select>
           </el-form-item>
+          <el-form-item>
+            <el-button @click="handleQuery">
+              <span style="margin-left: 0px"> {{ searchName }} </span>
+            </el-button>
+            <el-button @click="resetQuery">
+              <span style="margin-left: 0px"> {{ resetName }} </span>
+            </el-button>
+          </el-form-item>
         </div>
         <div class="form-line form-bottom">
           <el-form-item>
-            <el-button @click="handleQuery">
-              <span style="margin-left: 5px"> {{ searchName }} </span>
-            </el-button>
-            <el-button @click="resetQuery">
-              <span style="margin-left: 5px"> {{ resetName }} </span>
-            </el-button>
             <el-button type="primary" plain @click="openForm('create')">
-              <span style="margin-left: 5px"> {{ newWflowName }} </span>
+              <span style="margin-left: 0px"> {{ newWflowName }} </span>
             </el-button>
             <el-button type="success" plain @click="openImportForm">
-              <span style="margin-left: 5px"> {{ importWflowName }} </span>
+              <span style="margin-left: 0px"> {{ importWflowName }} </span>
             </el-button>
           </el-form-item>
         </div>
@@ -385,13 +387,12 @@
 </script>
 <style scoped>
   .search-form {
-    height: 150px;
+    height: 140px;
     margin: 15px 15px 10px 10px;
     padding: 5px;
     border: 1px solid #fafafa;
     background: #fcfcfc;
-    line-height: 150px;
-
+    line-height: 140px;
     .ml-15px {
       margin-left: 15px;
     }
@@ -399,7 +400,7 @@
     .form-line {
       width: 100%;
       height: 50px;
-
+      margin-top: 5px;
       &:first-child {
         margin-top: -25px;
       }
