@@ -8,6 +8,12 @@ export default {
     management: 'Process management',
     manage: {
       workflow: 'Process model',
+      wflowpage: {
+        search: 'Search',
+        reset: 'Reset',
+        newwflow: 'Add Process',
+        importwflow: 'Import Process',
+      },
     },
   },
 

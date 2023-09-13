@@ -2,11 +2,15 @@ import 'uno.css';
 import '@/design/index.less';
 import '@/components/VxeTable/src/css/index.scss';
 import 'ant-design-vue/dist/antd.less';
+import 'element-plus/dist/index.css';
+
 // Register icon sprite
 import 'virtual:svg-icons-register';
 
 import { createApp } from 'vue';
 
+import ElementPlus from 'element-plus';
+import Antd from 'ant-design-vue';
 import { registerGlobComp } from '@/components/registerGlobComp';
 import { setupGlobDirectives } from '@/directives';
 import { setupI18n } from '@/locales/setupI18n';
@@ -20,6 +24,10 @@ import App from './App.vue';
 
 async function bootstrap() {
   const app = createApp(App);
+
+  // 先全局注册组件，后期优化
+  app.use(ElementPlus);
+  app.use(Antd);
 
   // Configure store
   // 配置 store

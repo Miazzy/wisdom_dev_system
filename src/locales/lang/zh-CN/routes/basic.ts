@@ -8,6 +8,12 @@ export default {
     management: '流程管理',
     manage: {
       workflow: '流程模型',
+      wflowpage: {
+        search: '搜索',
+        reset: '重置',
+        newwflow: '新建流程',
+        importwflow: '导入流程',
+      },
     },
   },
 

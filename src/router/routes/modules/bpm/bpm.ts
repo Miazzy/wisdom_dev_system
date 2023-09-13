@@ -26,7 +26,7 @@ const system: AppRouteModule = {
         {
           path: 'workflow',
           name: 'workflow',
-          component: () => import('/@/views/sys/iframe/FrameBlank.vue'),
+          component: () => import('/@/views/bpm/manage/workflow/workflow.vue'),
           meta: {
             title: t('routes.basic.bpm.manage.workflow'),
           },
