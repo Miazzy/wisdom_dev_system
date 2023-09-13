@@ -54,7 +54,7 @@
   import { onMounted, watch, PropType, reactive } from 'vue';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { getDictTypeWflow } from '@/utils/dict';
-  import type { ParamsType } from './workflow';
+  import type { ParamsType } from '/#/workflow';
 
   const { t } = useI18n();
   const emit = defineEmits(['handle', 'reset', 'open', 'import']);

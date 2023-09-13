@@ -1,7 +1,7 @@
 <template>
   <ContentWrap>
     <!-- 搜索工作栏 -->
-    <searchbox @handle="handleQuery" @reset="resetQuery" @open="openForm" @import="importForm" />
+    <SearchBox @handle="handleQuery" @reset="resetQuery" @open="openForm" @import="importForm" />
 
     <!-- 搜索内容 -->
     <div class="search-content">
@@ -138,11 +138,12 @@
           </template>
         </el-table-column>
       </el-table>
+
       <!-- 分页 -->
-      <ElPagination
+      <Pagination
         :total="total"
-        v-model:page="queryParams.pageNo"
-        v-model:limit="queryParams.pageSize"
+        v-model:page="params.pageNo"
+        v-model:limit="params.pageSize"
         @pagination="getList"
       />
     </div>
@@ -153,10 +154,10 @@
   import { DateTools, dateFormatter } from '@/utils/dateUtil';
   import { ref, reactive, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
-  import searchbox from './searchbox.vue';
+  import SearchBox from '@/components/Framework/WorkFlow/SearchBox.vue';
   import DictTag from '@/components/Framework/Tag/DictTag/DictTag.vue';
+  import Pagination from '@/components/Framework/Pagination/Pagination.vue';
   import { getTableDataWflow } from './workflow';
-  import { ElPagination } from 'element-plus';
   import { useMessage } from '/@/hooks/web/useMessage';
 
   defineOptions({ name: 'WorkFlow' });
@@ -169,7 +170,7 @@
   const queryFormRef = ref(); // 搜索的表单
   const tableData = ref([]);
 
-  const queryParams = reactive({
+  const params = reactive({
     pageNo: 1,
     pageSize: 10,
     key: undefined,
@@ -199,7 +200,7 @@
 
   /** 搜索按钮操作 */
   const handleQuery = () => {
-    queryParams.pageNo = 1;
+    params.pageNo = 1;
     getList();
   };
 
@@ -209,7 +210,7 @@
     handleQuery();
   };
 
-  // 查询流程表格列表数据 
+  // 查询流程表格列表数据
   const getList = async () => {
     loading.value = true;
     try {
@@ -229,13 +230,13 @@
     importFormRef.value.open();
   };
 
-  // 执行删除流程记录操作 
+  // 执行删除流程记录操作
   const handleDelete = async (id: number) => {
     try {
       // 删除的二次确认
       await message.delConfirm(`请确认是否删除此流程数据项？`);
 
-      // 调用集维后端接口，删除流程相应数据 TODO 
+      // 调用集维后端接口，删除流程相应数据 TODO
 
       // 刷新列表
       await getList();
@@ -256,7 +257,7 @@
       // 确认是否更新流程激活状态
       await message.confirm(content);
 
-      // 调用集维后端接口，激活该流程状态 TODO 
+      // 调用集维后端接口，激活该流程状态 TODO
 
       // 刷新列表
       await getList();
@@ -270,7 +271,7 @@
   const handleDeploy = async (row) => {
     try {
       // 删除的二次确认
-      await message.confirm('请确认是否部署该流程？')
+      await message.confirm('请确认是否部署该流程？');
 
       // 调用集维后端接口，部署该流程 TODO
 
@@ -291,7 +292,7 @@
     });
   };
 
-  /** 点击任务分配按钮 */
+  // 点击任务分配按钮
   const handleAssignRule = (row) => {
     push({
       name: 'BpmTaskAssignRuleList',
@@ -301,7 +302,7 @@
     });
   };
 
-  /** 跳转到指定流程定义列表 */
+  // 跳转到指定流程定义列表
   const handleDefinitionList = (row) => {
     push({
       name: 'BpmProcessDefinition',
@@ -341,5 +342,5 @@
     height: calc(100vh - 150px);
     margin: 15px 15px 10px 10px;
     background: #fefefe;
-  } 
+  }
 </style>
