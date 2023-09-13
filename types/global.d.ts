@@ -25,6 +25,7 @@ declare global {
   // vue
   declare type PropType<T> = VuePropType<T>;
   declare type VueNode = VNodeChild | JSX.Element;
+  declare type ElRef<T extends HTMLElement = HTMLDivElement> = Nullable<T>;
 
   export type Writable<T> = {
     -readonly [P in keyof T]: T[P];

@@ -1,4 +1,3 @@
-<!-- 基于 ruoyi-vue3 的 Pagination 重构，核心是简化无用的属性，并使用 ts 重写 -->
 <template>
   <el-pagination
     v-show="total > 0"
@@ -19,7 +18,6 @@
   import { computed } from 'vue';
 
   defineOptions({ name: 'Pagination' });
-
   const props = defineProps({
     // 总条目数
     total: {

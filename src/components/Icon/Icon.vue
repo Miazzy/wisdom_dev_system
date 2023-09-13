@@ -102,8 +102,6 @@
 <style lang="less">
   .app-iconify {
     display: inline-block;
-    // vertical-align: middle;
-
     &-spin {
       svg {
         animation: loadingCircle 1s infinite linear;
