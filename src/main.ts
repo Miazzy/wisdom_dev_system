@@ -2,7 +2,6 @@ import 'uno.css';
 import '@/design/index.less';
 import '@/components/VxeTable/src/css/index.scss';
 import 'ant-design-vue/dist/antd.less';
-// import 'element-plus/dist/index.css';
 
 // Register icon sprite
 import 'virtual:svg-icons-register';
@@ -63,9 +62,7 @@ async function bootstrap() {
   // 配置全局错误处理
   setupErrorHandle(app);
 
-  // https://next.router.vuejs.org/api/#isready
-  // await router.isReady();
-
+  // Vue应用挂载
   app.mount('#app');
 }
 
