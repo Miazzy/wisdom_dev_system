@@ -1,7 +1,16 @@
 <template>
   <ContentWrap>
     <!-- 搜索工作栏 -->
-    <SearchBox @handle="handleQuery" @reset="resetQuery" @open="openForm" @import="importForm" />
+    <div class="search-box" style="width: 100%; height: 100px; margin: 10px 10px 10px 10px">
+      <!-- search box -->
+      <SearchBox
+        :columns="searchBoxColumns"
+        :data="searchBoxData"
+        twidth="500px"
+        style="width: 300px; height: 100px"
+      />
+      
+    </div>
 
     <!-- 搜索内容 -->
     <div class="search-content">
@@ -154,7 +163,8 @@
   import { DateTools, dateFormatter } from '@/utils/dateUtil';
   import { ref, reactive, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
-  import SearchBox from '@/components/Framework/WorkFlow/SearchBox.vue';
+  import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
+  // import SearchBox from '@/components/Framework/WorkFlow/SearchBox.vue';
   import DictTag from '@/components/Framework/Tag/DictTag/DictTag.vue';
   import Pagination from '@/components/Framework/Pagination/Pagination.vue';
   import { getTableDataWflow } from './workflow';
@@ -169,6 +179,17 @@
   const list = ref([]); // 列表的数据
   const queryFormRef = ref(); // 搜索的表单
   const tableData = ref([]);
+
+  const searchBoxColumns = ref([
+    { title: '年份', dataIndex: 'year', key: 'year', fixed: 'left', minWidth: 100 },
+    { title: '月份', dataIndex: 'month', key: 'month', fixed: 'left', minWidth: 100 },
+    { title: '期间', dataIndex: 'date', key: 'date', minWidth: 150 },
+  ]);
+
+  const searchBoxData = ref([
+    { year: '2020', month: '06', date: '2020-06' },
+    { year: '2020', month: '07', date: '2020-07' },
+  ]);
 
   const params = reactive({
     pageNo: 1,
