@@ -1,4 +1,3 @@
-<template></template>
 <script lang="tsx">
   import type { CSSProperties } from 'vue';
   import type {
@@ -417,8 +416,8 @@
       expose(instance);
 
       return () => {
-        const { title, helpMessage, toolbar, search, checkable } = props;
-        const showTitle = title || toolbar || search || slots.headerTitle;
+        const { title, helpMessage, toolbar, search, checkable, isShowOperationBtns } = props;
+        const showTitle = title || toolbar || search || slots.headerTitle || isShowOperationBtns;
         const scrollStyle: CSSProperties = { height: 'calc(100% - 38px)' };
         return (
           <div class={[bem(), 'h-full', attrs.class]}>
@@ -434,6 +433,7 @@
                 onStrictlyChange={onStrictlyChange}
                 onSearch={handleSearch}
                 searchText={searchState.searchText}
+                isShowOperationBtns={isShowOperationBtns}
               >
                 {extendSlots(slots)}
               </TreeHeader>
