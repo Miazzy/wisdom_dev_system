@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 搜索工作栏 -->
-    <SearchBox @handle="handleQuery" @reset="resetQuery" @open="openForm" @import="importForm" />
+    <WfSearchBox @handle="handleQuery" @reset="resetQuery" @open="openForm" @import="importForm" />
 
     <!-- 搜索内容 -->
     <div class="search-content">
@@ -117,7 +117,7 @@
   import { DateTools, dateFormatter } from '@/utils/dateUtil';
   import { ref, reactive, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
-  import SearchBox from '@/components/Framework/WorkFlow/SearchBox.vue';
+  import WfSearchBox from '/@/components/Framework/WorkFlow/WfSearchBox.vue';
   import DictTag from '@/components/Framework/Tag/DictTag/DictTag.vue';
   import { getTableDataWflow } from './workflow';
   import Pagination from '@/components/Framework/Pagination/Pagination.vue';
