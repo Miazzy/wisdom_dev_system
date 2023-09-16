@@ -3,6 +3,10 @@ export default {
   errorLogList: '错误日志列表',
   base: '系统设置',
 
+  dev: {
+    dev: '开发验证',
+  },
+
   bpm: {
     name: '流程引擎',
     management: '流程管理',

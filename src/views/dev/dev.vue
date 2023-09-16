@@ -28,8 +28,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { DICT_TYPE } from '@/utils/dict';
-  import { DateTools, dateFormatter } from '@/utils/dateUtil';
   import { ref, reactive, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
   import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
@@ -47,6 +45,8 @@
   const list = ref([]); // 列表的数据
   const queryFormRef = ref(); // 搜索的表单
   const tableData = ref([]);
+
+  const open = ref<boolean>(false);
 
   const billTitleOptions = reactive<BillTitleOptions>({});
   billTitleOptions.title = '电站填报';
@@ -275,8 +275,6 @@
 
   /** 初始化 **/
   onMounted(() => {
-    queryDeptTreeList();
-    getList();
   });
 </script>
 <style scoped>

@@ -1,175 +1,115 @@
 <template>
-  <!-- 搜索工作栏 -->
-  <div class="search-box" style="width: 100%; height: 1000px; margin: 10px 10px 10px 10px">
-    <!-- 标题 -->
-    <BillTitle :options="billTitleOptions" />
+  <div>
+    <!-- 搜索工作栏 -->
+    <SearchBox @handle="handleQuery" @reset="resetQuery" @open="openForm" @import="importForm" />
 
-    <!-- search box -->
-    <SearchBox
-      :columns="searchBoxColumns"
-      :data="searchBoxData"
-      twidth="500px"
-      style="width: 300px; height: 100px"
-    />
-
-    <!-- 部门树 -->
-    <CommonTree
-      :title="`电站树`"
-      @select="handleSelect"
-      :value="treeData"
-      class="w-1/4"
-      :isShowOperationBtns="true"
-      :fieldNames="{ key: 'id', title: 'deptName' }"
-      @edit="handleTreeEdit"
-      @add="handleTreeAdd"
-      @delete="handleTreeDelete"
-      @refresh="handleTreeRefresh"
-    />
-  </div>
-
-  <!-- 搜索内容 -->
-  <div class="search-content">
-    <el-table v-loading="loading" :data="list">
-      <el-table-column label="流程标识" align="center" prop="key" width="200" />
-      <el-table-column label="流程名称" align="center" prop="name" width="200">
-        <template #default="scope">
-          <el-button type="primary" link @click="handleBpmnDetail(scope.row)">
-            <span>{{ scope.row.name }}</span>
-          </el-button>
-        </template>
-      </el-table-column>
-      <el-table-column label="流程分类" align="center" prop="category" width="100">
-        <template #default="scope">
-          <DictTag :type="DICT_TYPE.BPM_MODEL_CATEGORY" :value="scope.row.category" />
-        </template>
-      </el-table-column>
-      <el-table-column label="表单信息" align="center" prop="formType" width="200">
-        <template #default="scope">
-          <el-button
-            v-if="scope.row.formType === 10"
-            type="primary"
-            link
-            @click="handleFormDetail(scope.row)"
+    <!-- 搜索内容 -->
+    <div class="search-content">
+      <el-table v-loading="loading" :data="list">
+        <el-table-column label="流程标识" align="center" prop="key" width="200" />
+        <el-table-column label="流程名称" align="center" prop="name" width="200">
+          <template #default="scope">
+            <el-button type="primary" link @click="handleBpmnDetail(scope.row)">
+              <span>{{ scope.row.name }}</span>
+            </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="流程分类" align="center" prop="category" width="100">
+          <template #default="scope">
+            <DictTag :type="DICT_TYPE.BPM_MODEL_CATEGORY" :value="scope.row.category" />
+          </template>
+        </el-table-column>
+        <el-table-column label="表单信息" align="center" prop="formType" width="200">
+          <template #default="scope">
+            <el-button
+              v-if="scope.row.formType === 10"
+              type="primary"
+              link
+              @click="handleFormDetail(scope.row)"
+            >
+              <span>{{ scope.row.formName }}</span>
+            </el-button>
+            <el-button
+              v-else-if="scope.row.formType === 20"
+              type="primary"
+              link
+              @click="handleFormDetail(scope.row)"
+            >
+              <span>{{ scope.row.formCustomCreatePath }}</span>
+            </el-button>
+            <label v-else>暂无表单</label>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="创建时间"
+          align="center"
+          prop="createTime"
+          width="180"
+          :formatter="dateFormatter"
+        />
+        <el-table-column label="最新部署的流程定义" align="center">
+          <el-table-column
+            label="流程版本"
+            align="center"
+            prop="processDefinition.version"
+            width="100"
           >
-            <span>{{ scope.row.formName }}</span>
-          </el-button>
-          <el-button
-            v-else-if="scope.row.formType === 20"
-            type="primary"
-            link
-            @click="handleFormDetail(scope.row)"
+            <template #default="scope">
+              <el-tag v-if="scope.row.processDefinition">
+                v{{ scope.row.processDefinition.version }}
+              </el-tag>
+              <el-tag v-else type="warning">未部署</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="激活状态"
+            align="center"
+            prop="processDefinition.version"
+            width="85"
           >
-            <span>{{ scope.row.formCustomCreatePath }}</span>
-          </el-button>
-          <label v-else>暂无表单</label>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="创建时间"
-        align="center"
-        prop="createTime"
-        width="180"
-        :formatter="dateFormatter"
+            <template #default="scope">
+              <el-switch
+                v-if="scope.row.processDefinition"
+                v-model="scope.row.processDefinition.suspensionState"
+                :active-value="1"
+                :inactive-value="2"
+                @change="handleChangeState(scope.row)"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column label="部署时间" align="center" prop="deploymentTime" width="180">
+            <template #default="scope">
+              <span v-if="scope.row.processDefinition">
+                {{ DateTools.format(scope.row.processDefinition.deploymentTime, 'YYYY-MM-DD') }}
+              </span>
+            </template>
+          </el-table-column>
+        </el-table-column>
+        <el-table-column label="操作" align="center" width="240" fixed="right">
+          <template #default="scope">
+            <el-button link type="primary" @click="openForm('update', scope.row.id)">
+              修改流程
+            </el-button>
+            <el-button link type="primary" @click="handleDesign(scope.row)"> 设计流程 </el-button>
+            <el-button link type="primary" @click="handleAssignRule(scope.row)">
+              分配规则
+            </el-button>
+            <el-button link type="primary" @click="handleDeploy(scope.row)"> 发布流程 </el-button>
+            <el-button link type="primary" @click="handleDefinitionList(scope.row)">
+              流程定义
+            </el-button>
+            <el-button link type="danger" @click="handleDelete(scope.row.id)"> 删除 </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!-- 分页 -->
+      <Pagination
+        :total="total"
+        v-model:page="queryParams.pageNo"
+        v-model:limit="queryParams.pageSize"
+        @pagination="getList"
       />
-      <el-table-column label="最新部署的流程定义" align="center">
-        <el-table-column
-          label="流程版本"
-          align="center"
-          prop="processDefinition.version"
-          width="100"
-        >
-          <template #default="scope">
-            <el-tag v-if="scope.row.processDefinition">
-              v{{ scope.row.processDefinition.version }}
-            </el-tag>
-            <el-tag v-else type="warning">未部署</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="激活状态"
-          align="center"
-          prop="processDefinition.version"
-          width="85"
-        >
-          <template #default="scope">
-            <el-switch
-              v-if="scope.row.processDefinition"
-              v-model="scope.row.processDefinition.suspensionState"
-              :active-value="1"
-              :inactive-value="2"
-              @change="handleChangeState(scope.row)"
-            />
-          </template>
-        </el-table-column>
-        <el-table-column label="部署时间" align="center" prop="deploymentTime" width="180">
-          <template #default="scope">
-            <span v-if="scope.row.processDefinition">
-              {{ DateTools.format(scope.row.processDefinition.deploymentTime, 'YYYY-MM-DD') }}
-            </span>
-          </template>
-        </el-table-column>
-      </el-table-column>
-      <el-table-column label="操作" align="center" width="240" fixed="right">
-        <template #default="scope">
-          <el-button
-            link
-            type="primary"
-            @click="openForm('update', scope.row.id)"
-            v-hasPermi="['bpm:model:update']"
-          >
-            修改流程
-          </el-button>
-          <el-button
-            link
-            type="primary"
-            @click="handleDesign(scope.row)"
-            v-hasPermi="['bpm:model:update']"
-          >
-            设计流程
-          </el-button>
-          <el-button
-            link
-            type="primary"
-            @click="handleAssignRule(scope.row)"
-            v-hasPermi="['bpm:task-assign-rule:query']"
-          >
-            分配规则
-          </el-button>
-          <el-button
-            link
-            type="primary"
-            @click="handleDeploy(scope.row)"
-            v-hasPermi="['bpm:model:deploy']"
-          >
-            发布流程
-          </el-button>
-          <el-button
-            link
-            type="primary"
-            v-hasPermi="['bpm:process-definition:query']"
-            @click="handleDefinitionList(scope.row)"
-          >
-            流程定义
-          </el-button>
-          <el-button
-            link
-            type="danger"
-            @click="handleDelete(scope.row.id)"
-            v-hasPermi="['bpm:model:delete']"
-          >
-            删除
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <!-- 分页 -->
-    <Pagination
-      :total="total"
-      v-model:page="params.pageNo"
-      v-model:limit="params.pageSize"
-      @pagination="getList"
-    />
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -177,15 +117,11 @@
   import { DateTools, dateFormatter } from '@/utils/dateUtil';
   import { ref, reactive, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
-  import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
-  import CommonTree from '@/components/Framework/Tree/CommonTree.vue';
-  import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
-  // import SearchBox from '@/components/Framework/WorkFlow/SearchBox.vue';
+  import SearchBox from '@/components/Framework/WorkFlow/SearchBox.vue';
   import DictTag from '@/components/Framework/Tag/DictTag/DictTag.vue';
-  import Pagination from '@/components/Framework/Pagination/Pagination.vue';
   import { getTableDataWflow } from './workflow';
+  import Pagination from '@/components/Framework/Pagination/Pagination.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { TreeItem } from '/@/components/Tree';
 
   defineOptions({ name: 'WorkFlow' });
   const message = useMessage(); // 消息弹窗
@@ -197,41 +133,7 @@
   const queryFormRef = ref(); // 搜索的表单
   const tableData = ref([]);
 
-  const billTitleOptions = reactive<BillTitleOptions>({});
-  billTitleOptions.title = '电站填报';
-  billTitleOptions.infoItems = [
-    {
-      key: 'billCode',
-      label: '单据编号',
-      value: 'DZSSDL-202308110001',
-      position: 'left',
-    },
-    {
-      key: 'fillinDate',
-      label: '制单日期',
-      value: '2023-08-11 13:38',
-      position: 'center',
-    },
-    {
-      key: 'createPerson',
-      label: '创建人',
-      value: '软件部.管理员',
-      position: 'right',
-    },
-  ];
-
-  const searchBoxColumns = ref([
-    { title: '年份', dataIndex: 'year', key: 'year', fixed: 'left', minWidth: 100 },
-    { title: '月份', dataIndex: 'month', key: 'month', fixed: 'left', minWidth: 100 },
-    { title: '期间', dataIndex: 'date', key: 'date', minWidth: 150 },
-  ]);
-
-  const searchBoxData = ref([
-    { year: '2020', month: '06', date: '2020-06' },
-    { year: '2020', month: '07', date: '2020-07' },
-  ]);
-
-  const params = reactive({
+  const queryParams = reactive({
     pageNo: 1,
     pageSize: 10,
     key: undefined,
@@ -261,7 +163,7 @@
 
   /** 搜索按钮操作 */
   const handleQuery = () => {
-    params.pageNo = 1;
+    queryParams.pageNo = 1;
     getList();
   };
 
@@ -353,7 +255,7 @@
     });
   };
 
-  // 点击任务分配按钮
+  /** 点击任务分配按钮 */
   const handleAssignRule = (row) => {
     push({
       name: 'BpmTaskAssignRuleList',
@@ -363,7 +265,7 @@
     });
   };
 
-  // 跳转到指定流程定义列表
+  /** 跳转到指定流程定义列表 */
   const handleDefinitionList = (row) => {
     push({
       name: 'BpmProcessDefinition',
@@ -392,39 +294,8 @@
     bpmnDetailVisible.value = true;
   };
 
-  const treeData = ref<TreeItem[]>([]); // 左侧电站树数据
-  // 查询左侧电站树数据
-  async function queryDeptTreeList() {
-    const deptList = JSON.parse(
-      '[{"id":"0","deptName":"华东分部","orderNo":1,"createTime":"1994-03-30 00:48:18","remark":"认约快改们构想记指历社","status":"0","children":[{"id":"0-0","deptName":"研发部","orderNo":1,"createTime":"1996-08-28 05:09:32","remark":"号专六机局两其系油其员","status":"1","parentDept":"0"},{"id":"0-1","deptName":"市场部","orderNo":2,"createTime":"2017-12-07 08:08:03","remark":"装它做眼革提影委看地联命使美","status":"0","parentDept":"0"},{"id":"0-2","deptName":"商务部","orderNo":3,"createTime":"1983-06-08 07:21:54","remark":"切建叫入能权展容式值","status":"0","parentDept":"0"},{"id":"0-3","deptName":"财务部","orderNo":4,"createTime":"2008-08-13 15:14:15","remark":"多群示列众社强且白科矿改指","status":"1","parentDept":"0"}]},{"id":"1","deptName":"华南分部","orderNo":2,"createTime":"2020-03-04 23:20:18","remark":"受至己思元照再老代外四米办别品","status":"0","children":[{"id":"1-0","deptName":"研发部","orderNo":1,"createTime":"2004-06-14 18:04:06","remark":"义厂明到非很该信委十须明","status":"1","parentDept":"1"},{"id":"1-1","deptName":"市场部","orderNo":2,"createTime":"1993-08-29 18:05:18","remark":"下美四打者究日外公半最参备很百对称省","status":"1","parentDept":"1"},{"id":"1-2","deptName":"商务部","orderNo":3,"createTime":"2022-03-02 21:47:12","remark":"性出被间报速始六研想日我改","status":"0","parentDept":"1"},{"id":"1-3","deptName":"财务部","orderNo":4,"createTime":"1972-02-10 15:29:13","remark":"两段选段及向集太段数叫分","status":"1","parentDept":"1"}]},{"id":"2","deptName":"西北分部","orderNo":3,"createTime":"1982-12-26 23:06:46","remark":"江保学学却复前导作清油按那内成常","status":"0","children":[{"id":"2-0","deptName":"研发部","orderNo":1,"createTime":"2014-10-08 22:36:15","remark":"得省最做铁用种采她员特大听程斯例","status":"1","parentDept":"2"},{"id":"2-1","deptName":"市场部","orderNo":2,"createTime":"1973-08-08 20:39:11","remark":"间适事地和北我白者等调美果团置日元","status":"1","parentDept":"2"},{"id":"2-2","deptName":"商务部","orderNo":3,"createTime":"2013-03-14 04:32:44","remark":"着性下极别问拉和都手住","status":"0","parentDept":"2"},{"id":"2-3","deptName":"财务部","orderNo":4,"createTime":"2006-01-21 06:18:01","remark":"理正指加转气龙照光最上连生口对马名治越","status":"0","parentDept":"2"}]}]',
-    ) as unknown as TreeItem[];
-    treeData.value = deptList;
-  }
-  // 左侧树状菜单选中事件
-  function handleSelect(node, element) {
-    // TODO node：被选中的节点，element：相关事件对象
-  }
-  // 编辑树的回调
-  function handleTreeEdit(node) {
-    console.log('handleTreeEdit', node);
-  }
-  // 新增树节点的的回调
-  function handleTreeAdd(node) {
-    console.log('handleTreeAdd', node);
-  }
-  // 删除树节点的回调
-  function handleTreeDelete(node) {
-    console.log('handleTreeDelete', node);
-  }
-  // 刷新树的回调
-  function handleTreeRefresh() {
-    console.log('handleTreeRefresh');
-    queryDeptTreeList();
-  }
-
   /** 初始化 **/
   onMounted(() => {
-    queryDeptTreeList();
     getList();
   });
 </script>

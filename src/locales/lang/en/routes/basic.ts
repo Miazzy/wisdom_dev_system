@@ -3,6 +3,10 @@ export default {
   errorLogList: 'Error log list',
   base: 'System settings',
 
+  dev: {
+    dev: 'dev',
+  },
+
   bpm: {
     name: 'Process Engine',
     management: 'Process management',

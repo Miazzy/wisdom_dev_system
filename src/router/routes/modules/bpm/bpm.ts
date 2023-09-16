@@ -31,6 +31,14 @@ const system: AppRouteModule = {
             title: t('routes.basic.bpm.manage.workflow'),
           },
         },
+        {
+          path: 'dev',
+          name: 'dev',
+          component: () => import('/@/views/dev/dev.vue'),
+          meta: {
+            title: t('routes.basic.dev.dev'),
+          },
+        },
       ],
     },
   ],
