@@ -11,6 +11,7 @@ export default {
 
   inputText: '请输入',
   chooseText: '请选择',
+  inputKeyWords: '请输入关键字',
 
   redo: '刷新',
   back: '返回',

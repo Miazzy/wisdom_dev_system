@@ -86,6 +86,11 @@ export default {
 
     checkStrictly: 'Hierarchical association',
     checkUnStrictly: 'Hierarchical independence',
+
+    edit: 'edit',
+    add: 'add',
+    delete: 'delete',
+    refresh: 'refresh',
   },
   upload: {
     save: 'Save',

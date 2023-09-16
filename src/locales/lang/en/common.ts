@@ -11,6 +11,7 @@ export default {
 
   inputText: 'Please enter',
   chooseText: 'Please choose',
+  inputKeyWords: 'Please input key words',
 
   redo: 'Refresh',
   back: 'Back',

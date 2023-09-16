@@ -89,6 +89,10 @@ export default {
     unExpandAll: '折叠全部',
     checkStrictly: '层级关联',
     checkUnStrictly: '层级独立',
+    edit: '编辑',
+    add: '新增',
+    delete: '删除',
+    refresh: '刷新',
   },
   upload: {
     save: '保存',

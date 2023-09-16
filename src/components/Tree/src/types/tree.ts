@@ -10,6 +10,10 @@ export enum ToolbarEnum {
   UN_EXPAND_ALL,
   CHECK_STRICTLY,
   CHECK_UN_STRICTLY,
+  EDIT,
+  ADD,
+  DELETE,
+  REFRESH,
 }
 
 export const treeEmits = [
@@ -135,6 +139,7 @@ export const treeProps = buildProps({
     default: false,
   },
   treeWrapperClassName: String,
+  isShowOperationBtns: Boolean
 });
 
 export type TreeProps = ExtractPropTypes<typeof treeProps>;
