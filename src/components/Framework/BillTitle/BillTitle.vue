@@ -1,7 +1,7 @@
 <template>
   <div
     class="bill-title-box"
-    :style="`height: ${billTitleOption.height}px; border-bottom: ${billTitleOption.bottomLine};`"
+    :style="`min-height: ${billTitleOption.height}px; border-bottom: ${billTitleOption.bottomLine};`"
   >
     <h2 class="bill-title">{{ billTitleOption.title }}</h2>
     <div class="bill-info-box" v-if="billTitleOption.infoItems && billTitleOption.infoItems.length">

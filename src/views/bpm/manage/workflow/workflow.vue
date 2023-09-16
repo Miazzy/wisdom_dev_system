@@ -1,6 +1,9 @@
 <template>
   <!-- 搜索工作栏 -->
   <div class="search-box" style="width: 100%; height: 1000px; margin: 10px 10px 10px 10px">
+    <!-- 标题 -->
+    <BillTitle :options="billTitleOptions" />
+
     <!-- search box -->
     <SearchBox
       :columns="searchBoxColumns"
@@ -176,6 +179,7 @@
   import { useRouter } from 'vue-router';
   import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
   import CommonTree from '@/components/Framework/Tree/CommonTree.vue';
+  import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
   // import SearchBox from '@/components/Framework/WorkFlow/SearchBox.vue';
   import DictTag from '@/components/Framework/Tag/DictTag/DictTag.vue';
   import Pagination from '@/components/Framework/Pagination/Pagination.vue';
@@ -192,6 +196,29 @@
   const list = ref([]); // 列表的数据
   const queryFormRef = ref(); // 搜索的表单
   const tableData = ref([]);
+
+  const billTitleOptions = reactive<BillTitleOptions>({});
+  billTitleOptions.title = '电站填报';
+  billTitleOptions.infoItems = [
+    {
+      key: 'billCode',
+      label: '单据编号',
+      value: 'DZSSDL-202308110001',
+      position: 'left',
+    },
+    {
+      key: 'fillinDate',
+      label: '制单日期',
+      value: '2023-08-11 13:38',
+      position: 'center',
+    },
+    {
+      key: 'createPerson',
+      label: '创建人',
+      value: '软件部.管理员',
+      position: 'right',
+    },
+  ];
 
   const searchBoxColumns = ref([
     { title: '年份', dataIndex: 'year', key: 'year', fixed: 'left', minWidth: 100 },
