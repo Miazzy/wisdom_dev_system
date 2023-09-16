@@ -1,6 +1,6 @@
 <template>
   <!-- 搜索工作栏 -->
-  <div class="search-box" style="width: 100%; height: 1000px; margin: 10px 10px 10px 10px">
+  <div class="search-box" style="width: 100%; height: calc(100% - 20px); margin: 10px">
     <!-- 标题 -->
     <BillTitle :options="billTitleOptions" />
 
@@ -25,16 +25,28 @@
       @delete="handleTreeDelete"
       @refresh="handleTreeRefresh"
     />
+
+    <!-- 审批按钮 -->
+    <div style=" margin: 16px 0 0 16px;">
+      <Button @click="handleOpenApprovalDrawer">审批</Button>
+    </div>
+
+    <!-- 流程审批抽屉组件 -->
+    <ApprovalDrawer @register="approvalDrawerRegister" />
   </div>
 </template>
 <script lang="ts" setup>
   import { ref, reactive, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
+  import { Button } from 'ant-design-vue';
   import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
   import CommonTree from '@/components/Framework/Tree/CommonTree.vue';
   import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
+  import { BillTitleOptions } from '/@/components/Framework/BillTitle/types';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { TreeItem } from '/@/components/Tree';
+  import { useDrawer } from '/@/components/Drawer';
+  import ApprovalDrawer from '/@/components/Framework/ApprovalDrawer/ApprovalDrawer.vue';
 
   defineOptions({ name: 'WorkFlow' });
   const message = useMessage(); // 消息弹窗
@@ -273,8 +285,16 @@
     queryDeptTreeList();
   }
 
+  const [approvalDrawerRegister, { openDrawer: openApprovalDrawer }] = useDrawer();
+
+  // 打开流程审批抽屉
+  function handleOpenApprovalDrawer() {
+    openApprovalDrawer(true);
+  }
+
   /** 初始化 **/
   onMounted(() => {
+    queryDeptTreeList();
   });
 </script>
 <style scoped>

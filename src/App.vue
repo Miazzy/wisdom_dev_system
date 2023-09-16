@@ -1,5 +1,11 @@
+<!--
+ * @Description: 
+ * @Date: 2023-09-12 09:04:31
+ * @LastEditTime: 2023-09-16 17:10:02
+ * @FilePath: \ygwl-framework\src\App.vue
+-->
 <template>
-  <ConfigProvider :locale="getAntdLocale">
+  <ConfigProvider :locale="getAntdLocale" :autoInsertSpaceInButton="false">
     <AppProvider>
       <RouterView />
     </AppProvider>
