@@ -12,6 +12,7 @@
       style="width: 300px; height: 100px"
     />
 
+    <!-- tree box -->
     <TreeBox
       :fieldNames="{ key: 'id', title: 'deptName' }"
       :data="treeData"
