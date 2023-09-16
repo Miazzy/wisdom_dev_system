@@ -17,7 +17,13 @@
           <button class="search-button" @click="searchData">搜索</button>
         </div>
       </div>
-      <a-table :columns="columns" :data-source="data" size="small" :pagination="false" />
+      <a-table
+        :columns="columns"
+        :data-source="tableData"
+        size="small"
+        :pagination="false"
+        :loading="loading"
+      />
     </div>
   </div>
 </template>
@@ -29,6 +35,8 @@
   const searchRealText = ref('');
   const searchTableText = ref('');
   const searchBox = ref<any>(null);
+  const loading = ref(false);
+  const tableData = ref([]);
 
   const props = defineProps({
     columns: Array, // 列定义
@@ -49,7 +57,13 @@
   });
 
   const searchData = () => {
-    emit('update:searchText', searchTableText.value); // 向父组件传递搜索文本的更新
+    loading.value = true;
+    tableData.value = [];
+    emit('searchData', searchTableText.value); // 向父组件传递搜索文本的更新
+    setTimeout(() => {
+      tableData.value = props.data;
+      loading.value = false;
+    }, 2000);
   };
 
   const toggleDropdown = (event) => {
@@ -68,6 +82,8 @@
   };
 
   onMounted(() => {
+    searchTableText.value = computedSearchText.value;
+    tableData.value = props.data;
     window.addEventListener('click', handleClickOutside);
   });
 
@@ -104,15 +120,15 @@
       color: #cecece;
       background: #fefefe;
       position: absolute;
-      top: 5px; /* 控制按钮固定在顶部 */
-      right: 0; /* 控制按钮固定在右侧 */
+      top: 5px;
+      right: 0;
     }
     .close-button {
       color: #cecece;
       background: #fefefe;
       position: absolute;
-      top: 5px; /* 控制按钮固定在顶部 */
-      right: 40px; /* 控制按钮与搜索按钮的距离 */
+      top: 5px;
+      right: 40px;
     }
   }
 

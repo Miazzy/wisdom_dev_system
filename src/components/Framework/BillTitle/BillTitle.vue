@@ -5,25 +5,45 @@
   >
     <h2 class="bill-title">{{ billTitleOption.title }}</h2>
     <div class="bill-info-box" v-if="billTitleOption.infoItems && billTitleOption.infoItems.length">
-      <div class="bill-info-item" v-for="(item, index) in billTitleOption.infoItems" :key="index">
-        {{ item.label }}：{{ item.value }}
+      <div class="bill-info-item left">
+        <div v-if="billInfo.left" class="bill-info-item-content"
+          >{{ billInfo.left.label }}：{{ billInfo.left.value }}</div
+        >
+      </div>
+      <div class="bill-info-item center">
+        <div v-if="billInfo.center" class="bill-info-item-content"
+          >{{ billInfo.center.label }}：{{ billInfo.center.value }}</div
+        >
+      </div>
+      <div class="bill-info-item right">
+        <div v-if="billInfo.right" class="bill-info-item-content"
+          >{{ billInfo.right.label }}：{{ billInfo.right.value }}</div
+        >
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, ref, watch, PropType, reactive } from 'vue';
-  import { BillTitleOptions } from './types';
+  import { onMounted, ref, watch, PropType, reactive, computed } from 'vue';
+  import type { BillTitleOptions } from '#/framework';
 
   const props = defineProps({
-    title: { type: String },
-    height: { type: Number },
-    bottomLine: { type: String },
     options: { type: Object as PropType<BillTitleOptions> },
   });
-  const DEF_HEIGHT = 65;
+  const DEF_TITLE = '';
+  const DEF_HEIGHT = 70;
   const DEF_BOTTOM_LINE = '1px solid #f0f0f0';
   const billTitleOption = reactive<BillTitleOptions>({});
+
+  const billInfo = computed(() => {
+    let obj = {};
+    if (billTitleOption?.infoItems?.length) {
+      billTitleOption.infoItems.forEach((item) => {
+        obj[item.position] = item;
+      });
+    }
+    return obj;
+  });
 
   watch(
     () => props.options,
@@ -36,9 +56,9 @@
   );
 
   onMounted(() => {
-    billTitleOption.title = props.options?.title || props?.title;
-    billTitleOption.height = props.options?.height || props?.height || DEF_HEIGHT;
-    billTitleOption.bottomLine = props.options?.bottomLine || props?.bottomLine || DEF_BOTTOM_LINE;
+    billTitleOption.title = props.options?.title || DEF_TITLE;
+    billTitleOption.height = props.options?.height || DEF_HEIGHT;
+    billTitleOption.bottomLine = props.options?.bottomLine || DEF_BOTTOM_LINE;
     billTitleOption.infoItems = props.options?.infoItems || [];
   });
 </script>
@@ -46,6 +66,7 @@
   .bill-title-box {
     width: 100%;
     padding: 15px;
+    background-color: #fff;
 
     .bill-title {
       color: #333;
@@ -63,11 +84,11 @@
         color: #777;
         font-size: 12px;
 
-        &:nth-child(2) {
+        &.center {
           text-align: center;
         }
 
-        &:last-child {
+        &.right {
           text-align: right;
         }
       }
