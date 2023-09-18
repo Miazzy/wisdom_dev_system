@@ -245,12 +245,12 @@
       line-height: @detail-header-height;
     }
 
-    .scrollbar__wrap {
-      padding: 0 !important;
-    }
-
     .ant-drawer-body {
       height: calc(100% - @detail-header-height);
+
+      .scrollbar__wrap {
+        padding: 0 !important;
+      }
     }
   }
 </style>

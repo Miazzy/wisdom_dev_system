@@ -1,6 +1,6 @@
 <template>
   <!-- 搜索工作栏 -->
-  <div class="search-box" style="width: 100%; height: calc(100% - 20px); margin: 10px">
+  <div class="search-box" style="width: calc(100% - 20px); height: calc(100% - 20px); margin: 10px">
     <!-- 标题 -->
     <BillTitle :options="billTitleOptions" />
 
@@ -34,6 +34,19 @@
       :fieldNames="{ key: 'id', title: 'deptName' }"
       :data="treeData"
       style="width: 300px; height: 100px"
+    />
+
+    <CommonTree
+      :title="`电站树`"
+      @select="handleSelect"
+      :value="treeData"
+      class="w-1/4"
+      :isShowOperationBtns="true"
+      :fieldNames="{ key: 'id', title: 'deptName' }"
+      @edit="handleTreeEdit"
+      @add="handleTreeAdd"
+      @delete="handleTreeDelete"
+      @refresh="handleTreeRefresh"
     />
 
     <!-- 审批按钮 -->
