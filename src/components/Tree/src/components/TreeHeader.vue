@@ -3,23 +3,17 @@
     <div class="flex px-2 py-1.5 items-center bg-[#F5F5F5]">
       <slot name="headerTitle" v-if="slots.headerTitle"></slot>
       <BasicTitle :helpMessage="helpMessage" v-if="!slots.headerTitle && title">
-        {{ title }}
+      {{ title }}
       </BasicTitle>
       <div
-        class="flex items-center flex-1 cursor-pointer justify-self-stretch justify-end"
-        v-if="search || toolbar"
+      class="flex items-center flex-1 cursor-pointer justify-self-stretch justify-end"
+      v-if="search || toolbar"
       >
-        <Space v-if="toolbar && isShowOperationBtns" :size="0">
+        <Space v-if="toolbar&&isShowOperationBtns" :size="0">
           <Button size="small" @click="handleTreeAdd" type="text"><Icon icon="ion:add" /></Button>
-          <Button size="small" @click="handleTreeEdit" type="text"
-            ><Icon icon="fluent:edit-16-regular"
-          /></Button>
-          <Button size="small" @click="handleTreeDelete" type="text"
-            ><Icon icon="ant-design:delete-outlined"
-          /></Button>
-          <Button size="small" @click="handleTreeRefresh" type="text"
-            ><Icon icon="ion:refresh"
-          /></Button>
+          <Button size="small" @click="handleTreeEdit" type="text"><Icon icon="fluent:edit-16-regular" /></Button>
+          <Button size="small" @click="handleTreeDelete" type="text"><Icon icon="ant-design:delete-outlined" /></Button>
+          <Button size="small" @click="handleTreeRefresh" type="text"><Icon icon="ion:refresh" /></Button>
         </Space>
         <Dropdown @click.prevent v-if="toolbar">
           <Icon icon="ion:ellipsis-vertical" />
@@ -42,7 +36,7 @@
           <Icon icon="ant-design:search-outlined" color="rgba(0, 0, 0, 0.45)" />
         </template>
         <template #enterButton>
-          <Button>{{ t('common.searchText') }}</Button>
+          <Button>{{t('common.searchText')}}</Button>
         </template>
       </InputSearch>
     </div>
@@ -50,16 +44,8 @@
 </template>
 <script lang="ts" setup>
   import { type PropType, computed, ref, watch, useSlots, onMounted, unref, inject } from 'vue';
-  import {
-    Dropdown,
-    Menu,
-    MenuItem,
-    MenuDivider,
-    InputSearch,
-    Button,
-    Space,
-  } from 'ant-design-vue';
-
+  import { Dropdown, Menu, MenuItem, MenuDivider, InputSearch, Button, Space } from 'ant-design-vue';
+  
   import Icon from '@/components/Icon/Icon.vue';
   import { BasicTitle } from '/@/components/Basic';
   import { useI18n } from '/@/hooks/web/useI18n';
@@ -107,7 +93,7 @@
     isShowOperationBtns: {
       type: Boolean,
       default: false,
-    },
+    }
   } as const);
   const emit = defineEmits(['strictly-change', 'search']);
 
@@ -136,27 +122,25 @@
       },
     ];
 
-    const operationBtnList = isShowOperationBtns
-      ? []
-      : [
-          {
-            label: t('component.tree.add'),
-            value: ToolbarEnum.ADD,
-          },
-          {
-            label: t('component.tree.edit'),
-            value: ToolbarEnum.EDIT,
-          },
-          {
-            label: t('component.tree.delete'),
-            value: ToolbarEnum.DELETE,
-          },
-          {
-            label: t('component.tree.refresh'),
-            value: ToolbarEnum.REFRESH,
-            divider: isShowOperationBtns,
-          },
-        ];
+    const operationBtnList = isShowOperationBtns?[]:[
+      {
+        label: t('component.tree.add'), 
+        value: ToolbarEnum.ADD,
+      },
+      { 
+        label: t('component.tree.edit'), 
+        value: ToolbarEnum.EDIT 
+      },
+      {
+        label: t('component.tree.delete'),
+        value: ToolbarEnum.DELETE,
+      },
+      {
+        label: t('component.tree.refresh'),
+        value: ToolbarEnum.REFRESH,
+        divider: isShowOperationBtns,
+      }
+    ];
 
     return checkable
       ? [
@@ -171,7 +155,10 @@
           { label: t('component.tree.checkStrictly'), value: ToolbarEnum.CHECK_STRICTLY },
           { label: t('component.tree.checkUnStrictly'), value: ToolbarEnum.CHECK_UN_STRICTLY },
         ]
-      : [...operationBtnList, ...defaultToolbarList];
+      : [
+          ...operationBtnList,
+          ...defaultToolbarList
+        ];
   });
 
   const handleTreeEdit = inject('handleTreeEdit', null);
@@ -236,44 +223,59 @@
     },
   );
 
-  onMounted(() => {});
+  onMounted(()=>{
+    
+  })
 </script>
 <style lang="less" scoped>
-  .fit-tree-header.vben-tree-header {
-    border-bottom: none;
+.fit-tree-header.vben-tree-header {
+  border-bottom: none;
 
-    :deep(.ant-input-search .ant-input-group .ant-input-affix-wrapper:not(:last-child)) {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
+  :deep(.ant-input-search .ant-input-group .ant-input-affix-wrapper:not(:last-child)) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 
-    :deep(.ant-input-search > .ant-input-group > .ant-input-group-addon:last-child) {
-      left: 0;
-    }
+  :deep(.ant-input-search > .ant-input-group > .ant-input-group-addon:last-child) {
+    left: 0;
+  }
 
-    :deep(
-        .ant-input-search
-          > .ant-input-group
-          > .ant-input-group-addon:last-child
-          .ant-input-search-button
-      ) {
-      border-right: none;
-      border-left: none;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
+  :deep(.ant-input-search > .ant-input-group > .ant-input-group-addon:last-child .ant-input-search-button) {
+    border-right: none;
+    border-left: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 
-      &:hover {
-        border-color: #d9d9d9;
-        color: #2a7dc9;
-      }
-    }
-
-    :deep(.ant-input-affix-wrapper) {
-      border-left: none;
-
-      &:hover {
-        border-color: #d9d9d9;
-      }
+    &:hover {
+      border-color: #d9d9d9;
+      color: #2a7dc9;
     }
   }
+
+  :deep(.ant-input-affix-wrapper) {
+    border-left: none;
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1px;
+      height: 31px;
+      transition: all 0.3s;
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    &:hover::after, &:focus::after, &.ant-input-affix-wrapper-focused::after {
+      display: block;
+      background-color: #2a7dc9;
+    }
+  }
+
+  :deep(.ant-input-affix-wrapper-focused) {
+    box-shadow: none;
+  }
+}
 </style>
