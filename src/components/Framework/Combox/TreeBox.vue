@@ -15,10 +15,10 @@
       <!-- 基础Tree组件 -->
       <a-tree :tree-data="treeData" show-icon default-expand-all>
         <template #switcherIcon="{ switcherCls }">
-          <Icon icon="ant-design:down-outlined" color="#333" size="14" :class="switcherCls" />
+          <Icon :icon="props.icons.parent" color="#333" size="14" :class="switcherCls" />
         </template>
         <template #icon="{ key, isLeaf }">
-          <Icon v-if="isLeaf" icon="gridicons:multiple-users" color="#333" size="14" />
+          <Icon v-if="isLeaf" :icon="props.icons.leaf" color="#333" size="14" />
         </template>
       </a-tree>
     </div>
@@ -48,6 +48,10 @@
       type: Object,
       default: { key: 'id', title: 'title' },
     },
+    icons: {
+      type: Object,
+      default: { parent: 'ant-design:down-outlined', leaf: 'gridicons:multiple-users' },
+    }
   });
 
   const emit = defineEmits(['update:searchText', 'searchData']); // 允许双向绑定searchText
