@@ -38,7 +38,7 @@
 
     <Button @click="handleOpenCgDialog">打开分类Dialog</Button>
     <Button @click="handleOpenOgDialog">打开组织Dialog</Button>
-    <ComboDialog
+    <CategoryDialog
       :title="`分类树Dialog`"
       :visible="modalVisible"
       @update:visible="modalVisible = $event"
@@ -80,7 +80,7 @@
   import { useDrawer } from '/@/components/Drawer';
   import ApprovalDrawer from '/@/components/Framework/ApprovalDrawer/ApprovalDrawer.vue';
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
-  import ComboDialog from '@/components/Framework/Modal/ComboDialog.vue';
+  import CategoryDialog from '/@/components/Framework/Modal/CategoryDialog.vue';
   import OrganDialog from '@/components/Framework/Modal/OrganDialog.vue';
   import type { Dayjs } from 'dayjs';
   import dayjs from 'dayjs';
