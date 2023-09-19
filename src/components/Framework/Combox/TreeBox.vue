@@ -3,7 +3,7 @@
     <!-- 输入框区域 -->
     <a-input v-model="realText" class="tree-text" @click="toggleDropdown($event)" placeholder="" />
     <!-- 下拉表格弹框区域 -->
-    <div v-show="showDropdown" class="tree-content" :style="`width: ${twidth}`">
+    <div v-show="showDropdown" class="tree-content" :style="`width: ${twidth}; z-index:10000;`">
       <!-- 输入框、搜索按钮和关闭按钮区域 -->
       <div class="search-panel">
         <div class="search-popup-subcontent">
@@ -15,10 +15,10 @@
       <!-- 基础Tree组件 -->
       <a-tree :tree-data="treeData" show-icon default-expand-all>
         <template #switcherIcon="{ switcherCls }">
-          <DownOutlined :class="switcherCls" />
+          <Icon icon="ant-design:down-outlined" color="#333" size="14" :class="switcherCls" />
         </template>
         <template #icon="{ key, isLeaf }">
-          <SmileTwoTone v-if="isLeaf" />
+          <Icon v-if="isLeaf" icon="gridicons:multiple-users" color="#333" size="14" />
         </template>
       </a-tree>
     </div>
@@ -28,7 +28,7 @@
 <script lang="ts" setup>
   import { ref, onMounted, onUnmounted, defineProps, defineEmits, watch, unref } from 'vue';
   import { TreeItem } from '../../Tree';
-  import { DownOutlined, SmileTwoTone } from '@ant-design/icons-vue';
+  import Icon from '@/components/Icon/Icon.vue';
 
   const showDropdown = ref(false);
   const realText = ref('');
@@ -128,6 +128,18 @@
 
   .tree-content {
     margin-top: 5px;
+
+    &:deep(.ant-tree .ant-tree-list .ant-tree-list-holder) {
+      z-index: 1000 !important;
+    }
+
+    &:deep(.ant-tree .ant-tree-list .ant-tree-list-holder .ant-tree-list-holder-inner) {
+      z-index: 1000 !important;
+    }
+
+    &:deep(.ant-tree .ant-tree-list .ant-tree-list-holder .ant-tree-list-holder-inner .ant-tree-treenode) {
+      z-index: 1000 !important;
+    }
   }
 
   .search-panel {

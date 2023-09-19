@@ -12,6 +12,17 @@
       <!-- 左侧分类树 -->
       <div class="category-tree">
         <span>分类</span>
+        <div class="tree-content">
+          <!-- 基础Tree组件 -->
+          <a-tree :tree-data="treeData" show-icon default-expand-all>
+            <template #switcherIcon="{ switcherCls }">
+              <DownOutlined :class="switcherCls" />
+            </template>
+            <template #icon="{ key, isLeaf }">
+              <div v-if="isLeaf"></div>
+            </template>
+          </a-tree>
+        </div>
       </div>
 
       <!-- 右侧表格 -->
@@ -27,12 +38,21 @@
   import { ref, defineProps, defineEmits, computed, onMounted, watch } from 'vue';
 
   const modalVisible = ref(false);
+  const treeData = ref([]);
+  type fieldType = { key: String; title: String };
 
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
     title: String, // 弹框标题
     width: { type: Number, default: 700 }, // 弹框宽度
     height: { type: Number, default: 500 }, // 弹框高度
+    tdata: { type: Array }, // Tree数据
+    tfields: {
+      type: Object,
+      default: { key: 'id', title: 'title' },
+    }, // Tree数据的对应字段解析
+    gdata: { type: Array, default: <any>[] }, // 表格数据
+    gcolumns: { type: Array, default: <any>[] },
   });
   const emit = defineEmits(['update:visible', 'cancel', 'confirm']); // 定义事件
 
@@ -57,7 +77,8 @@
   );
 
   onMounted(() => {
-    modalVisible.value = props.visible;
+    modalVisible.value = props.visible; // 根据传入参数控制Dialog显示
+
   });
 </script>
 
