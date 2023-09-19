@@ -250,7 +250,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
         // authentication schemes，e.g: Bearer
         // authenticationScheme: 'Bearer',
         authenticationScheme: '',
-        timeout: 30 * 1000, // 超时时间 30秒
+        timeout: 30 * 1000, // 超时时间 30秒 TIMEOUT SETTING
         // 基础接口地址
         // baseURL: globSetting.apiUrl,
 
