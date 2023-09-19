@@ -24,15 +24,15 @@
         :columns="searchBoxColumns"
         :data="searchBoxData"
         twidth="500px"
-        style="width: 300px; height: 60px;"
+        style="width: 220px; height: 60px;"
       />
       <span style="float:left;"> treebox </span>
       <!-- tree box -->
       <TreeBox
-        :fieldNames="{ key: 'id', title: 'deptName' }"
+        :tfields="{ key: 'id', title: 'deptName' }"
         :data="treeData"
         twidth="400px"
-        style="width: 300px; height: 60px"
+        style="width: 220px; height: 60px"
       />
     </div>
 
@@ -42,6 +42,10 @@
       :title="`分类树Dialog`"
       :visible="modalVisible"
       @update:visible="modalVisible = $event"
+      :tdata="treeData"
+      :tfields="{ key: 'id', title: 'deptName' }"
+      :gcolumns="searchBoxColumns"
+      :gdata="searchBoxData"
       :width="800"
       :height="600"
     />
@@ -52,8 +56,6 @@
       :width="800"
       :height="600"
     />
-
-    
 
     <!-- 审批按钮 -->
     <div style="margin: 16px 0 0 16px">
@@ -130,6 +132,15 @@
   const searchBoxData = ref([
     { year: '2020', month: '06', date: '2020-06' },
     { year: '2020', month: '07', date: '2020-07' },
+    { year: '2020', month: '08', date: '2020-08' },
+    { year: '2020', month: '09', date: '2020-09' },
+    { year: '2020', month: '10', date: '2020-10' },
+    { year: '2020', month: '11', date: '2020-11' },
+    { year: '2020', month: '12', date: '2020-12' },
+    { year: '2021', month: '01', date: '2021-01' },
+    { year: '2021', month: '02', date: '2021-02' },
+    { year: '2021', month: '03', date: '2021-03' },
+    { year: '2021', month: '04', date: '2021-04' },
   ]);
 
   const treeData = ref<TreeItem[]>([]); // 左侧电站树数据

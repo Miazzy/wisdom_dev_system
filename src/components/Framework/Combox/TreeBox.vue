@@ -15,10 +15,10 @@
       <!-- 基础Tree组件 -->
       <a-tree :tree-data="treeData" show-icon default-expand-all>
         <template #switcherIcon="{ switcherCls }">
-          <Icon :icon="props.icons.parent" color="#333" size="14" :class="switcherCls" />
+          <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
         </template>
         <template #icon="{ key, isLeaf }">
-          <Icon v-if="isLeaf" :icon="props.icons.leaf" color="#333" size="14" />
+          <Icon v-if="isLeaf" :icon="props.ticons.leaf" color="#333" size="14" />
         </template>
       </a-tree>
     </div>
@@ -37,6 +37,7 @@
   const loading = ref(false);
   const treeData = ref([]);
   type fieldType = { key: String; title: String };
+  type tIconsType = { parent: String, leaf: String };
 
   const props = defineProps({
     columns: Array, // 列定义
@@ -44,14 +45,14 @@
     twidth: { type: String, default: '100%' },
     searchText: String, // 搜索框文本
     className: { type: String },
-    fieldNames: {
+    ticons: {
       type: Object,
-      default: { key: 'id', title: 'title' },
+      default: { parent: 'ant-design:down-outlined', leaf: 'gridicons:multiple-users' } as tIconsType,
     },
-    icons: {
+    tfields: {
       type: Object,
-      default: { parent: 'ant-design:down-outlined', leaf: 'gridicons:multiple-users' },
-    }
+      default: { key: 'id', title: 'title' } as fieldType,
+    },
   });
 
   const emit = defineEmits(['update:searchText', 'searchData']); // 允许双向绑定searchText
@@ -81,6 +82,7 @@
     }
   };
 
+  // 按tfields生成转换规则
   const reverseRule = (rule) => {
     const reversedRule = {};
     for (const key in rule) {
@@ -89,6 +91,7 @@
     return reversedRule;
   };
 
+  // 按tfields的设置转换tree的数据
   const transformData = (data, rule) => {
     const rules = reverseRule(rule);
     return data.map((item) => {
@@ -110,7 +113,7 @@
   watch(
     () => props.data,
     (newValue) => {
-      const rule = props?.fieldNames as fieldType;
+      const rule = props?.tfields as fieldType;
       const data = unref(props.data as unknown[] as TreeItem[]);
       treeData.value = transformData(data, rule);
     },
