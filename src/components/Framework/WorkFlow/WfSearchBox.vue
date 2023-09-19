@@ -1,6 +1,6 @@
 <template>
   <div class="search-form">
-    <el-form class="ml-15px" ref="queryFormRef" :inline="true">
+    <el-form class="ml-15px" ref="queryFormRef" :inline="true" :model="qparams">
       <div class="form-line">
         <el-form-item label="流程标识" prop="key">
           <el-input
@@ -30,20 +30,20 @@
         </el-form-item>
         <el-form-item>
           <el-button @click="handleQuery">
-            <span style="margin-left: 0px"> {{ searchName }} </span>
+            <span style="margin-left: 0"> {{ searchName }} </span>
           </el-button>
           <el-button @click="resetQuery">
-            <span style="margin-left: 0px"> {{ resetName }} </span>
+            <span style="margin-left: 0"> {{ resetName }} </span>
           </el-button>
         </el-form-item>
       </div>
       <div class="form-line form-bottom">
         <el-form-item>
           <el-button type="primary" plain @click="openForm">
-            <span style="margin-left: 0px"> {{ newWflowName }} </span>
+            <span style="margin-left: 0"> {{ newWflowName }} </span>
           </el-button>
           <el-button type="success" plain @click="importForm">
-            <span style="margin-left: 0px"> {{ importWflowName }} </span>
+            <span style="margin-left: 0"> {{ importWflowName }} </span>
           </el-button>
         </el-form-item>
       </div>

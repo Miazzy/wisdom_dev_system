@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 搜索工作栏 -->
-    <WfSearchBox @handle="handleQuery" @reset="resetQuery" @open="openForm" @import="importForm" />
+    <WfSearchBox ref="wfSearchBox" @handle="handleQuery" @reset="resetQuery" @open="openForm" @import="importForm" />
 
     <!-- 搜索内容 -->
     <div class="search-content">
@@ -130,7 +130,7 @@
   const loading = ref(true); // 列表的加载中
   const total = ref(0); // 列表的总页数
   const list = ref([]); // 列表的数据
-  const queryFormRef = ref(); // 搜索的表单
+  const wfSearchBox = ref(); // 搜索的表单
   const tableData = ref([]);
 
   const queryParams = reactive({
@@ -169,7 +169,8 @@
 
   /** 重置按钮操作 */
   const resetQuery = () => {
-    queryFormRef.value.resetFields();
+    const formRef = wfSearchBox.value.$refs.queryFormRef;
+    formRef.resetFields();
     handleQuery();
   };
 
