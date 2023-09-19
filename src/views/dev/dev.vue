@@ -4,13 +4,37 @@
     <!-- 标题 -->
     <BillTitle :options="billTitleOptions" />
 
-    <!-- search box -->
-    <SearchBox
-      :columns="searchBoxColumns"
-      :data="searchBoxData"
-      twidth="500px"
-      style="width: 300px; height: 100px"
+    <CommonTree
+      :title="`电站树`"
+      @select="handleSelect"
+      :value="treeData"
+      class="w-1/4"
+      :isShowOperationBtns="true"
+      :fieldNames="{ key: 'id', title: 'deptName' }"
+      @edit="handleTreeEdit"
+      @add="handleTreeAdd"
+      @delete="handleTreeDelete"
+      @refresh="handleTreeRefresh"
     />
+
+    <div class="" style="width:100%;"> 
+      <span style="float:left;"> searchbox </span>
+      <!-- search box -->
+      <SearchBox
+        :columns="searchBoxColumns"
+        :data="searchBoxData"
+        twidth="500px"
+        style="width: 300px; height: 60px;"
+      />
+      <span style="float:left;"> treebox </span>
+      <!-- tree box -->
+      <TreeBox
+        :fieldNames="{ key: 'id', title: 'deptName' }"
+        :data="treeData"
+        twidth="400px"
+        style="width: 300px; height: 60px"
+      />
+    </div>
 
     <Button @click="handleOpenCgDialog">打开分类Dialog</Button>
     <Button @click="handleOpenOgDialog">打开组织Dialog</Button>
@@ -29,25 +53,7 @@
       :height="600"
     />
 
-    <!-- tree box -->
-    <TreeBox
-      :fieldNames="{ key: 'id', title: 'deptName' }"
-      :data="treeData"
-      style="width: 300px; height: 100px"
-    />
-
-    <CommonTree
-      :title="`电站树`"
-      @select="handleSelect"
-      :value="treeData"
-      class="w-1/4"
-      :isShowOperationBtns="true"
-      :fieldNames="{ key: 'id', title: 'deptName' }"
-      @edit="handleTreeEdit"
-      @add="handleTreeAdd"
-      @delete="handleTreeDelete"
-      @refresh="handleTreeRefresh"
-    />
+    
 
     <!-- 审批按钮 -->
     <div style="margin: 16px 0 0 16px">

@@ -128,17 +128,18 @@
 
   .tree-content {
     margin-top: 5px;
+    position: relative;
+
+    &:deep(.ant-tree) {
+      z-index: 10000 !important;
+    }
 
     &:deep(.ant-tree .ant-tree-list .ant-tree-list-holder) {
-      z-index: 1000 !important;
+      z-index: 10000 !important;
     }
 
     &:deep(.ant-tree .ant-tree-list .ant-tree-list-holder .ant-tree-list-holder-inner) {
-      z-index: 1000 !important;
-    }
-
-    &:deep(.ant-tree .ant-tree-list .ant-tree-list-holder .ant-tree-list-holder-inner .ant-tree-treenode) {
-      z-index: 1000 !important;
+      z-index: 10000 !important;
     }
   }
 

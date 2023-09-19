@@ -99,6 +99,11 @@
 
   .search-content {
     margin-top: 5px;
+    position: relative;
+
+    &:deep(.ant-table-wrapper) {
+      z-index: 10000 !important;
+    }
 
     &:deep(.ant-table-wrapper .ant-spin-nested-loading .ant-spin-container) {
       z-index: 1000 !important;
@@ -109,11 +114,13 @@
     position: relative;
     background: #fefefe;
     border-bottom: 0px solid #cecece;
+    z-index: 10000 !important;
     .search-popup-subcontent {
       margin: 0px 5px 1px 5px;
       & input.search-text {
         width: 100%;
         padding: 5px;
+        z-index: 10000 !important;
       }
     }
     .search-button {
