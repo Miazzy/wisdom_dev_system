@@ -21,9 +21,12 @@
       <span style="float:left;"> searchbox </span>
       <!-- search box -->
       <SearchBox
+        v-model:searchText="searchTableText"
         :columns="searchBoxColumns"
         :data="searchBoxData"
+        :vfield="'date'"
         twidth="500px"
+        @select="tableBoxSelect"
         style="width: 220px; height: 60px;"
       />
       <span style="float:left;"> treebox </span>
@@ -146,6 +149,7 @@
 
   const treeData = ref<TreeItem[]>([]); // 左侧电站树数据
   const searchTreeText = ref('');
+  const searchTableText = ref('');
   // 查询左侧电站树数据
   async function queryDeptTreeList() {
     const deptList = JSON.parse(
@@ -199,8 +203,12 @@
   }
   
   const treeBoxSelect = (node, event) => {
-
+    searchTreeText.value;
   };
+
+  const tableBoxSelect = (node, event) => {
+    searchTableText.value;
+  }
 
   const handleAgree = (flowData) => {
     console.log('同意', flowData);

@@ -1,8 +1,9 @@
+import { default } from '../../Bpm/src/translations';
 <template>
   <div class="search-box" ref="searchBox">
     <!-- 输入框区域 -->
     <a-input
-      v-model="searchRealText"
+      v-model:value="searchRealText"
       class="search-text"
       @click="toggleDropdown($event)"
       placeholder=""
@@ -19,13 +20,13 @@
       </div>
       <div class="search-table">
         <a-table
-          :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: handleSelect }"
           :columns="columns"
           :data-source="tableData"
           size="small"
           :pagination="false"
           :loading="loading"
           :scroll="{ y: theight }"
+          :customRow="handleClick"
         />
       </div>
     </div>
@@ -33,16 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-  import {
-    ref,
-    onMounted,
-    onUnmounted,
-    defineProps,
-    defineEmits,
-    computed,
-    unref,
-    watch,
-  } from 'vue';
+  import { ref, onMounted, onUnmounted, defineProps, defineEmits, unref, watch } from 'vue';
 
   const showDropdown = ref(false);
   const searchRealText = ref('');
@@ -50,30 +42,21 @@
   const searchBox = ref<any>(null);
   const loading = ref(false);
   const tableData = ref([]);
-  const selectedRowKeys = ref([]);
   const theight = ref(260);
 
   const props = defineProps({
     columns: Array, // 列定义
     data: Array, // 表格数据
     twidth: { type: String, default: '100%' },
-    searchText: String, // 搜索框文本
+    searchText: { String, default: '' }, // 搜索框文本
     tfields: {
       type: Object,
       default: { key: 'id' }, // table必须含有key字段，此处是只将数组对象的那个字段转化为key字段
     },
+    vfield: { type: String, default: '' },
   });
 
-  const emit = defineEmits(['update:searchText']); // 允许双向绑定searchText
-
-  // 使用计算属性将searchText和searchRealText关联
-  const computedSearchText = computed({
-    get: () => searchRealText.value,
-    set: (value) => {
-      searchRealText.value = value;
-      emit('update:searchText', value);
-    },
-  });
+  const emit = defineEmits(['update:searchText', 'select']); // 允许双向绑定searchText
 
   const searchData = () => {
     loading.value = true;
@@ -125,8 +108,16 @@
     }
   };
 
-  const handleSelect = (selectedKeys, node) => {
-    debugger;
+  const handleClick = (record, index) => {
+    const clickFunc = (event) => {
+      console.log(record, index);
+      searchRealText.value = record[props.vfield];
+      emit('update:searchText', record[props.vfield]);
+      emit('select', { record, index }, event);
+    };
+    return {
+      onclick: clickFunc,
+    };
   };
 
   const reloadData = () => {
@@ -144,7 +135,6 @@
   );
 
   onMounted(() => {
-    searchTableText.value = computedSearchText.value;
     reloadData();
     window.addEventListener('click', handleClickOutside);
   });
@@ -234,6 +224,3 @@
     }
   }
 </style>
-
-function watch(arg0: () => unknown[]|undefined, arg1: (newValue: any) => void) { throw new
-Error('Function not implemented.'); }

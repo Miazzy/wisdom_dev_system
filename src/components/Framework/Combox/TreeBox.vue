@@ -200,8 +200,8 @@
   // 树节点选中事件
   const handleSelect = (node, event) => {
     realText.value = event.node.title;
-    emit('select', event.node, event);
     emit('update:searchText', event.node.title);
+    emit('select', event.node, event);
     showDropdown.value = false;
   };
 
