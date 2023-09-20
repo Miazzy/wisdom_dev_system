@@ -17,24 +17,23 @@
       @refresh="handleTreeRefresh"
     />
 
-    <div class="" style="width: 100%">
-      <span style="float: left"> searchbox </span>
+    <div class="" style="width:100%;"> 
+      <span style="float:left;"> searchbox </span>
       <!-- search box -->
       <SearchBox
         :columns="searchBoxColumns"
         :data="searchBoxData"
         twidth="500px"
-        style="width: 220px; height: 60px"
+        style="width: 220px; height: 60px;"
       />
-      <span style="float: left"> treebox </span>
+      <span style="float:left;"> treebox </span>
       <!-- tree box -->
       <TreeBox
         v-model:searchText="searchTreeText"
         :tfields="{ key: 'id', title: 'deptName' }"
         :data="treeData"
         @select="treeBoxSelect"
-        style="width: 220px; height: 60px"
-        twidth="400px"
+        style="width: 220px; height: 60px;" twidth="400px"
       />
     </div>
 
@@ -64,42 +63,8 @@
       <Button @click="handleOpenApprovalDrawer">审批</Button>
     </div>
 
-    <a-form
-      :model="formState"
-      name="basic"
-      :label-col="{ span: 8 }"
-      :wrapper-col="{ span: 16 }"
-      autocomplete="off"
-      @finish="onFinish"
-      @finishFailed="onFinishFailed"
-    >
-      <a-form-item
-        label="Username"
-        name="username"
-        :rules="[{ required: true, message: 'Please input your username!' }]"
-      >
-        <a-input v-model:value="formState.username" />
-      </a-form-item>
-
-      <a-form-item
-        label="Password"
-        name="password"
-        :rules="[{ required: true, message: 'Please input your password!' }]"
-      >
-        <a-input-password v-model:value="formState.password" />
-      </a-form-item>
-
-      <a-form-item name="remember" :wrapper-col="{ offset: 8, span: 16 }">
-        <a-checkbox v-model:checked="formState.remember">Remember me</a-checkbox>
-      </a-form-item>
-
-      <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-        <a-button type="primary" html-type="submit">Submit</a-button>
-      </a-form-item>
-    </a-form>
-
     <!-- 流程审批抽屉组件 -->
-    <ApprovalDrawer @register="approvalDrawerRegister" />
+    <ApprovalDrawer @register="approvalDrawerRegister" :flowData="flowData" @agree="handleAgree" @reject="handleReject" @save="handleSave" @end="handleEnd" @transfer="handleTransfer" @notice="handleNotice" @collect="handleCollect" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -136,19 +101,6 @@
   const modalVisible = ref(false);
   const organVisible = ref(false);
 
-  const formState = reactive<any>({
-    username: '',
-    password: '',
-    remember: true,
-  });
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
-
   const billTitleOptions = reactive<BillTitleOptions>({});
   billTitleOptions.title = '电站填报';
   billTitleOptions.infoItems = [
@@ -179,17 +131,17 @@
   ]);
 
   const searchBoxData = ref([
-    { id: '2020-06', year: '2020', month: '06', date: '2020-06' },
-    { id: '2020-07', year: '2020', month: '07', date: '2020-07' },
-    { id: '2020-08', year: '2020', month: '08', date: '2020-08' },
-    { id: '2020-09', year: '2020', month: '09', date: '2020-09' },
-    { id: '2020-10', year: '2020', month: '10', date: '2020-10' },
-    { id: '2020-11', year: '2020', month: '11', date: '2020-11' },
-    { id: '2020-12', year: '2020', month: '12', date: '2020-12' },
-    { id: '2021-01', year: '2021', month: '01', date: '2021-01' },
-    { id: '2021-02', year: '2021', month: '02', date: '2021-02' },
-    { id: '2021-03', year: '2021', month: '03', date: '2021-03' },
-    { id: '2021-04', year: '2021', month: '04', date: '2021-04' },
+    { year: '2020', month: '06', date: '2020-06' },
+    { year: '2020', month: '07', date: '2020-07' },
+    { year: '2020', month: '08', date: '2020-08' },
+    { year: '2020', month: '09', date: '2020-09' },
+    { year: '2020', month: '10', date: '2020-10' },
+    { year: '2020', month: '11', date: '2020-11' },
+    { year: '2020', month: '12', date: '2020-12' },
+    { year: '2021', month: '01', date: '2021-01' },
+    { year: '2021', month: '02', date: '2021-02' },
+    { year: '2021', month: '03', date: '2021-03' },
+    { year: '2021', month: '04', date: '2021-04' },
   ]);
 
   const treeData = ref<TreeItem[]>([]); // 左侧电站树数据
@@ -202,7 +154,7 @@
     treeData.value = deptList;
   }
   // 左侧树状菜单选中事件
-  function handleSelect(node, element) {
+  function handleSelect(node) {
     // TODO node：被选中的节点，element：相关事件对象
   }
   // 编辑树的回调
@@ -228,6 +180,14 @@
   // 打开流程审批抽屉
   function handleOpenApprovalDrawer() {
     openApprovalDrawer(true);
+    queryFlowNodeList();
+  }
+
+  const flowData = ref([]);
+  // 获取流程节点数据
+  async function queryFlowNodeList() {
+    const flowNodeList = JSON.parse('[{"id":"fa4b117c-5395-11ee-b5c1-480fcf57f666","name":"总经理审批","claimTime":null,"createTime":"2023-09-15 15:03:31","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":null,"durationInMillis":null,"result":1,"reason":null,"definitionKey":"Activity_1ge9o3y","assigneeUser":{"id":128,"nickname":"饶勇","deptId":138,"deptName":"总经办"}},{"id":"6186a3a5-5395-11ee-b5c1-480fcf57f666","name":"财务部负责人审批","claimTime":null,"createTime":"2023-09-15 14:59:15","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 15:03:31","durationInMillis":256225,"result":2,"reason":"同意。","definitionKey":"Activity_12fthtb","assigneeUser":{"id":130,"nickname":"曾宁若","deptId":139,"deptName":"财务部"}},{"id":"63d8cdd0-5391-11ee-b5c1-480fcf57f666","name":"部门领导审批","claimTime":null,"createTime":"2023-09-15 14:30:41","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 14:59:15","durationInMillis":1714085,"result":2,"reason":"同意。","definitionKey":"Activity_0zvw3s2","assigneeUser":{"id":126,"nickname":"刘超","deptId":136,"deptName":"技术中心"}},{"id":"4b70bf0b-5390-11ee-b5c1-480fcf57f666","name":"财务部负责人审批","claimTime":null,"createTime":"2023-09-15 14:22:50","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f 666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 14:30:41","durationInMillis":470436,"result":4,"reason":"Change activity to Activity_0zvw3s2","definitionKey":"Activity_12fthtb","assigneeUser":{"id":130,"nickname":"曾宁若","deptId":139,"deptName":"财务部"}},{"id":"0e202e9c-5390-11ee-b5c1-480fcf57f666","name":"部门领导审批","claimTime":null,"createTime":"2023-09-15 14:21:07","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 14:22:50","durationInMillis":102859,"result":2,"reason":"测试打回。","definitionKey":"Activity_0zvw3s2","assigneeUser":{"id":126,"nickname":"刘超","deptId":136,"deptName":"技术中心"}}]');
+    flowData.value = flowNodeList;
   }
 
   function handleOpenCgDialog() {
@@ -237,8 +197,38 @@
   function handleOpenOgDialog() {
     organVisible.value = true;
   }
+  
+  const treeBoxSelect = (node, event) => {
 
-  const treeBoxSelect = (node, event) => {};
+  };
+
+  const handleAgree = (flowData) => {
+    console.log('同意', flowData);
+  };
+
+  const handleReject = (flowData) => {
+    console.log('驳回', flowData);
+  };
+
+  const handleSave = (flowData) => {
+    console.log('保存', flowData);
+  };
+
+  const handleEnd = (flowData) => {
+    console.log('终止', flowData);
+  };
+
+  const handleTransfer = (flowData) => {
+    console.log('转办', flowData);
+  };
+
+  const handleNotice = (flowData) => {
+    console.log('知会', flowData);
+  };
+
+  const handleCollect = (flowData) => {
+    console.log('收藏', flowData);
+  };
 
   /** 初始化 **/
   onMounted(() => {
