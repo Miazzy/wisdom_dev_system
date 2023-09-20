@@ -45,8 +45,9 @@
   }
 
   function handleSelect(keys) {
-    emit('select', keys[0]);
     selectedNode.value = keys[0];
+    const node = getTree().getSelectedNode(selectedNode.value);
+    emit('select', node);
   }
 
   // 编辑
