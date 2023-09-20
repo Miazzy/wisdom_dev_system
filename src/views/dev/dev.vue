@@ -29,10 +29,11 @@
       <span style="float:left;"> treebox </span>
       <!-- tree box -->
       <TreeBox
+        v-model:searchText="searchTreeText"
         :tfields="{ key: 'id', title: 'deptName' }"
         :data="treeData"
-        twidth="400px"
-        style="width: 220px; height: 60px"
+        @select="treeBoxSelect"
+        style="width: 220px; height: 60px;" twidth="400px"
       />
     </div>
 
@@ -144,6 +145,7 @@
   ]);
 
   const treeData = ref<TreeItem[]>([]); // 左侧电站树数据
+  const searchTreeText = ref('');
   // 查询左侧电站树数据
   async function queryDeptTreeList() {
     const deptList = JSON.parse(
@@ -187,6 +189,10 @@
   function handleOpenOgDialog() {
     organVisible.value = true;
   }
+
+  const treeBoxSelect = (node, event) => {
+
+  };
 
   /** 初始化 **/
   onMounted(() => {
