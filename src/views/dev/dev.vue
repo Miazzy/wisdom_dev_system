@@ -64,7 +64,7 @@
     </div>
 
     <!-- 流程审批抽屉组件 -->
-    <ApprovalDrawer @register="approvalDrawerRegister" />
+    <ApprovalDrawer @register="approvalDrawerRegister" :flowData="flowData" @agree="handleAgree" @reject="handleReject" @save="handleSave" @end="handleEnd" @transfer="handleTransfer" @notice="handleNotice" @collect="handleCollect" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -154,7 +154,7 @@
     treeData.value = deptList;
   }
   // 左侧树状菜单选中事件
-  function handleSelect(node, element) {
+  function handleSelect(node) {
     // TODO node：被选中的节点，element：相关事件对象
   }
   // 编辑树的回调
@@ -180,6 +180,14 @@
   // 打开流程审批抽屉
   function handleOpenApprovalDrawer() {
     openApprovalDrawer(true);
+    queryFlowNodeList();
+  }
+
+  const flowData = ref([]);
+  // 获取流程节点数据
+  async function queryFlowNodeList() {
+    const flowNodeList = JSON.parse('[{"id":"fa4b117c-5395-11ee-b5c1-480fcf57f666","name":"总经理审批","claimTime":null,"createTime":"2023-09-15 15:03:31","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":null,"durationInMillis":null,"result":1,"reason":null,"definitionKey":"Activity_1ge9o3y","assigneeUser":{"id":128,"nickname":"饶勇","deptId":138,"deptName":"总经办"}},{"id":"6186a3a5-5395-11ee-b5c1-480fcf57f666","name":"财务部负责人审批","claimTime":null,"createTime":"2023-09-15 14:59:15","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 15:03:31","durationInMillis":256225,"result":2,"reason":"同意。","definitionKey":"Activity_12fthtb","assigneeUser":{"id":130,"nickname":"曾宁若","deptId":139,"deptName":"财务部"}},{"id":"63d8cdd0-5391-11ee-b5c1-480fcf57f666","name":"部门领导审批","claimTime":null,"createTime":"2023-09-15 14:30:41","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 14:59:15","durationInMillis":1714085,"result":2,"reason":"同意。","definitionKey":"Activity_0zvw3s2","assigneeUser":{"id":126,"nickname":"刘超","deptId":136,"deptName":"技术中心"}},{"id":"4b70bf0b-5390-11ee-b5c1-480fcf57f666","name":"财务部负责人审批","claimTime":null,"createTime":"2023-09-15 14:22:50","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f 666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 14:30:41","durationInMillis":470436,"result":4,"reason":"Change activity to Activity_0zvw3s2","definitionKey":"Activity_12fthtb","assigneeUser":{"id":130,"nickname":"曾宁若","deptId":139,"deptName":"财务部"}},{"id":"0e202e9c-5390-11ee-b5c1-480fcf57f666","name":"部门领导审批","claimTime":null,"createTime":"2023-09-15 14:21:07","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 14:22:50","durationInMillis":102859,"result":2,"reason":"测试打回。","definitionKey":"Activity_0zvw3s2","assigneeUser":{"id":126,"nickname":"刘超","deptId":136,"deptName":"技术中心"}}]');
+    flowData.value = flowNodeList;
   }
 
   function handleOpenCgDialog() {
@@ -189,9 +197,37 @@
   function handleOpenOgDialog() {
     organVisible.value = true;
   }
-
+  
   const treeBoxSelect = (node, event) => {
 
+  };
+
+  const handleAgree = (flowData) => {
+    console.log('同意', flowData);
+  };
+
+  const handleReject = (flowData) => {
+    console.log('驳回', flowData);
+  };
+
+  const handleSave = (flowData) => {
+    console.log('保存', flowData);
+  };
+
+  const handleEnd = (flowData) => {
+    console.log('终止', flowData);
+  };
+
+  const handleTransfer = (flowData) => {
+    console.log('转办', flowData);
+  };
+
+  const handleNotice = (flowData) => {
+    console.log('知会', flowData);
+  };
+
+  const handleCollect = (flowData) => {
+    console.log('收藏', flowData);
   };
 
   /** 初始化 **/
