@@ -25,6 +25,7 @@
         :columns="searchBoxColumns"
         :data="searchBoxData"
         :vfield="'date'"
+        :pagination="false"
         twidth="500px"
         @select="tableBoxSelect"
         style="width: 220px; height: 60px;"

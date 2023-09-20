@@ -23,8 +23,9 @@ import { default } from '../../Bpm/src/translations';
           :columns="columns"
           :data-source="tableData"
           size="small"
-          :pagination="false"
+          :pagination="props.pagination"
           :loading="loading"
+          :bordered="true"
           :scroll="{ y: theight }"
           :customRow="handleClick"
         />
@@ -48,12 +49,13 @@ import { default } from '../../Bpm/src/translations';
     columns: Array, // 列定义
     data: Array, // 表格数据
     twidth: { type: String, default: '100%' },
-    searchText: { String, default: '' }, // 搜索框文本
+    searchText: { type: String, default: '' }, // 搜索框文本
     tfields: {
       type: Object,
       default: { key: 'id' }, // table必须含有key字段，此处是只将数组对象的那个字段转化为key字段
     },
     vfield: { type: String, default: '' },
+    pagination: { type: Boolean, default: false },
   });
 
   const emit = defineEmits(['update:searchText', 'select']); // 允许双向绑定searchText
@@ -63,7 +65,11 @@ import { default } from '../../Bpm/src/translations';
     tableData.value = [];
     emit('searchData', searchTableText.value); // 向父组件传递搜索文本的更新
     setTimeout(() => {
-      tableData.value = props.data;
+      const rule = props?.tfields;
+      const data = unref(props.data as unknown[]);
+      const resultData = JSON.parse(JSON.stringify(data));
+      const result = findNodes(resultData, searchTableText.value);
+      tableData.value = transformData(result, rule);
       loading.value = false;
     }, 500);
   };
@@ -75,6 +81,7 @@ import { default } from '../../Bpm/src/translations';
 
   const clearData = () => {
     searchTableText.value = '';
+    searchData();
   };
 
   // 按tfields生成转换规则
@@ -102,6 +109,26 @@ import { default } from '../../Bpm/src/translations';
     });
   };
 
+  // 查找节点
+  const findNodes = (data, searchValue) => {
+    if (searchValue == '' || searchValue == null || typeof searchValue == 'undefined') {
+      return data;
+    }
+    const result = [];
+    // 递归函数
+    function recursiveSearch(node) {
+      const temp = JSON.parse(JSON.stringify(node));
+      if (JSON.stringify(temp).includes(searchValue)) {
+        result.push(temp);
+      }
+    }
+    // 开始遍历
+    for (const item of data) {
+      recursiveSearch(item);
+    }
+    return result;
+  };
+
   const handleClickOutside = (event) => {
     if (searchBox.value && !searchBox.value.contains(event.target)) {
       showDropdown.value = false;
@@ -114,6 +141,7 @@ import { default } from '../../Bpm/src/translations';
       searchRealText.value = record[props.vfield];
       emit('update:searchText', record[props.vfield]);
       emit('select', { record, index }, event);
+      showDropdown.value = false;
     };
     return {
       onclick: clickFunc,
@@ -209,6 +237,13 @@ import { default } from '../../Bpm/src/translations';
       z-index: 1000 !important;
       top: 36px;
       border-top: 1px solid #f0f0f0;
+
+      .ant-table-wrapper {
+        border-top: 1px solid #e9e9e9;
+        border-right: 1px solid #e9e9e9;
+        border-left: 1px solid #e9e9e9;
+        border-bottom: 1px solid #e9e9e9;
+      }
     }
   }
 
