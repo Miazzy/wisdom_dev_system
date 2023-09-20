@@ -1,7 +1,13 @@
 <template>
   <div>
     <!-- 搜索工作栏 -->
-    <WfSearchBox ref="wfSearchBox" @handle="handleQuery" @reset="resetQuery" @open="openForm" @import="importForm" />
+    <WfSearchBox
+      ref="wfSearchBox"
+      @handle="handleQuery"
+      @reset="resetQuery"
+      @open="openForm"
+      @import="importForm"
+    />
 
     <!-- 搜索内容 -->
     <div class="search-content">
