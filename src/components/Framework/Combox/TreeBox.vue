@@ -267,6 +267,11 @@
       right: 0;
       background: #fefefe;
       color: #cecece;
+
+      &:hover{
+        color: #c0c0c0;
+        cursor: pointer;
+      }
     }
 
     .close-button {
@@ -275,6 +280,11 @@
       right: 40px;
       background: #fefefe;
       color: #cecece;
+
+      &:hover{
+        color: #c0c0c0;
+        cursor: pointer;
+      }
     }
   }
 

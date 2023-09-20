@@ -17,23 +17,24 @@
       @refresh="handleTreeRefresh"
     />
 
-    <div class="" style="width:100%;"> 
-      <span style="float:left;"> searchbox </span>
+    <div class="" style="width: 100%">
+      <span style="float: left"> searchbox </span>
       <!-- search box -->
       <SearchBox
         :columns="searchBoxColumns"
         :data="searchBoxData"
         twidth="500px"
-        style="width: 220px; height: 60px;"
+        style="width: 220px; height: 60px"
       />
-      <span style="float:left;"> treebox </span>
+      <span style="float: left"> treebox </span>
       <!-- tree box -->
       <TreeBox
         v-model:searchText="searchTreeText"
         :tfields="{ key: 'id', title: 'deptName' }"
         :data="treeData"
         @select="treeBoxSelect"
-        style="width: 220px; height: 60px;" twidth="400px"
+        style="width: 220px; height: 60px"
+        twidth="400px"
       />
     </div>
 
@@ -62,6 +63,40 @@
     <div style="margin: 16px 0 0 16px">
       <Button @click="handleOpenApprovalDrawer">审批</Button>
     </div>
+
+    <a-form
+      :model="formState"
+      name="basic"
+      :label-col="{ span: 8 }"
+      :wrapper-col="{ span: 16 }"
+      autocomplete="off"
+      @finish="onFinish"
+      @finishFailed="onFinishFailed"
+    >
+      <a-form-item
+        label="Username"
+        name="username"
+        :rules="[{ required: true, message: 'Please input your username!' }]"
+      >
+        <a-input v-model:value="formState.username" />
+      </a-form-item>
+
+      <a-form-item
+        label="Password"
+        name="password"
+        :rules="[{ required: true, message: 'Please input your password!' }]"
+      >
+        <a-input-password v-model:value="formState.password" />
+      </a-form-item>
+
+      <a-form-item name="remember" :wrapper-col="{ offset: 8, span: 16 }">
+        <a-checkbox v-model:checked="formState.remember">Remember me</a-checkbox>
+      </a-form-item>
+
+      <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
+        <a-button type="primary" html-type="submit">Submit</a-button>
+      </a-form-item>
+    </a-form>
 
     <!-- 流程审批抽屉组件 -->
     <ApprovalDrawer @register="approvalDrawerRegister" />
@@ -101,6 +136,19 @@
   const modalVisible = ref(false);
   const organVisible = ref(false);
 
+  const formState = reactive<any>({
+    username: '',
+    password: '',
+    remember: true,
+  });
+  const onFinish = (values: any) => {
+    console.log('Success:', values);
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
+
   const billTitleOptions = reactive<BillTitleOptions>({});
   billTitleOptions.title = '电站填报';
   billTitleOptions.infoItems = [
@@ -131,17 +179,17 @@
   ]);
 
   const searchBoxData = ref([
-    { year: '2020', month: '06', date: '2020-06' },
-    { year: '2020', month: '07', date: '2020-07' },
-    { year: '2020', month: '08', date: '2020-08' },
-    { year: '2020', month: '09', date: '2020-09' },
-    { year: '2020', month: '10', date: '2020-10' },
-    { year: '2020', month: '11', date: '2020-11' },
-    { year: '2020', month: '12', date: '2020-12' },
-    { year: '2021', month: '01', date: '2021-01' },
-    { year: '2021', month: '02', date: '2021-02' },
-    { year: '2021', month: '03', date: '2021-03' },
-    { year: '2021', month: '04', date: '2021-04' },
+    { id: '2020-06', year: '2020', month: '06', date: '2020-06' },
+    { id: '2020-07', year: '2020', month: '07', date: '2020-07' },
+    { id: '2020-08', year: '2020', month: '08', date: '2020-08' },
+    { id: '2020-09', year: '2020', month: '09', date: '2020-09' },
+    { id: '2020-10', year: '2020', month: '10', date: '2020-10' },
+    { id: '2020-11', year: '2020', month: '11', date: '2020-11' },
+    { id: '2020-12', year: '2020', month: '12', date: '2020-12' },
+    { id: '2021-01', year: '2021', month: '01', date: '2021-01' },
+    { id: '2021-02', year: '2021', month: '02', date: '2021-02' },
+    { id: '2021-03', year: '2021', month: '03', date: '2021-03' },
+    { id: '2021-04', year: '2021', month: '04', date: '2021-04' },
   ]);
 
   const treeData = ref<TreeItem[]>([]); // 左侧电站树数据
@@ -190,9 +238,7 @@
     organVisible.value = true;
   }
 
-  const treeBoxSelect = (node, event) => {
-
-  };
+  const treeBoxSelect = (node, event) => {};
 
   /** 初始化 **/
   onMounted(() => {
