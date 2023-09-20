@@ -25,4 +25,6 @@ export default {
     delMessage: '是否确认删除此数据项？',
     exportMessage: '是否确认导出此数据项？',
   },
+
+  updateSuccess: '修改成功',
 };
