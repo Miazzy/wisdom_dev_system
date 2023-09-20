@@ -88,7 +88,7 @@
     },
   });
 
-  const emit = defineEmits(['update:searchText', 'searchData', 'select']); // 允许双向绑定searchText
+  const emit = defineEmits(['update:searchText', 'searchData', 'clearData', 'select']); // 允许双向绑定searchText
 
   const searchData = () => {
     loading.value = true;
@@ -97,7 +97,8 @@
     setTimeout(() => {
       const rule = props?.tfields as fieldType;
       const data = unref(props.data as unknown[] as TreeItem[]);
-      const result = findNodes(data, text);
+      const resultData = JSON.parse(JSON.stringify(data));
+      const result = findNodes(resultData, text);
       treeData.value = transformData(result, rule);
     }, 100);
   };
@@ -107,10 +108,20 @@
     showDropdown.value = true;
   };
 
+  // 清空
   const clearData = () => {
     searchTreeText.value = '';
+    loading.value = true;
+    emit('clearData', searchTreeText.value); // 向父组件传递搜索文本的更新
+    setTimeout(() => {
+      const rule = props?.tfields as fieldType;
+      const data = unref(props.data as unknown[] as TreeItem[]);
+      const resultData = JSON.parse(JSON.stringify(data));
+      treeData.value = transformData(resultData, rule);
+    }, 100);
   };
 
+  // 点击组件外的区域，关闭弹框
   const handleClickOutside = (event) => {
     if (treeBox.value && !treeBox.value.contains(event.target)) {
       showDropdown.value = false;
@@ -145,12 +156,18 @@
     });
   };
 
+  // 查找节点
   const findNodes = (data, searchValue) => {
+    if (searchValue == '' || searchValue == null || typeof searchValue == 'undefined') {
+      return data;
+    }
     const result = [];
     // 递归函数
     function recursiveSearch(node) {
-      if (JSON.stringify(node).includes(searchValue)) {
-        result.push(node);
+      const temp = JSON.parse(JSON.stringify(node));
+      delete temp.children;
+      if (JSON.stringify(temp).includes(searchValue)) {
+        result.push(temp);
       }
       if (node.children && node.children.length > 0) {
         for (const child of node.children) {
@@ -163,12 +180,14 @@
       recursiveSearch(item);
     }
     return result;
-  }
+  };
 
+  // 判断是否为顶层节点
   const isTopNode = (key) => {
     return !!treeMap.value.get(key);
   };
 
+  // 将数据节点转换为Map
   const transformMap = (data, rule) => {
     const treeMap = new Map();
     data.forEach((item) => {
@@ -178,10 +197,12 @@
     return treeMap;
   };
 
+  // 树节点选中事件
   const handleSelect = (node, event) => {
     realText.value = event.node.title;
     emit('select', event.node, event);
     emit('update:searchText', event.node.title);
+    showDropdown.value = false;
   };
 
   watch(
@@ -189,7 +210,8 @@
     (newValue) => {
       const rule = props?.tfields as fieldType;
       const data = unref(props.data as unknown[] as TreeItem[]);
-      treeData.value = transformData(data, rule);
+      const resultData = JSON.parse(JSON.stringify(data));
+      treeData.value = transformData(resultData, rule);
       treeMap.value = transformMap(data, rule);
     },
   );
