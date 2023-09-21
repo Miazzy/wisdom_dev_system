@@ -13,8 +13,7 @@ enum Api {
  * @description: user login api
  */
 export function loginApi(params: LoginParams) {
-  const headers = { Authorization: 'Bearer' };
-  const requestParams = { url: Api.Login, params, headers };
+  const requestParams = { url: Api.Login, params };
   return defHttp.post<LoginResultModel>(requestParams, {});
 }
 
@@ -22,8 +21,7 @@ export function loginApi(params: LoginParams) {
  * @description: user logout
  */
 export function doLogout() {
-  const headers = { Authorization: 'Bearer #{{TOKEN}}' };
-  const requestParams = { url: Api.Logout, headers };
+  const requestParams = { url: Api.Logout };
   return defHttp.get(requestParams);
 }
 
@@ -31,7 +29,6 @@ export function doLogout() {
  * @description: get user info
  */
 export function getUserInfo() {
-  const headers = { Authorization: 'Bearer #{{TOKEN}}' };
-  const requestParams = { url: Api.GetPermissionInfo, headers };
+  const requestParams = { url: Api.GetPermissionInfo };
   return defHttp.get<GetUserInfoModel>(requestParams, {});
 }
