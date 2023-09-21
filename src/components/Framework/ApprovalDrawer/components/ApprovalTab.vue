@@ -188,8 +188,8 @@
           <span v-if="item.result&&resultObj[item.result]" class="flow-status-text" :style="{color: resultObj[item.result].color}">({{resultObj[item.result].text}})</span>
         </div>
         <div class="flow-row-3">
-          <div v-if="item.reason&&!editAuthority" class="comment-text">{{item.reason}}</div>
-          <Textarea v-if="item.result===1&&editAuthority" class="fit-comment-textarea" v-model:value="item.reason" placeholder="回复意见" :auto-size="{ minRows: 5 }" :bordered="false" />
+          <div v-if="item.reason&&!editAuthority(item)" class="comment-text">{{item.reason}}</div>
+          <Textarea v-if="item.result===1&&editAuthority(item)" class="fit-comment-textarea" v-model:value="item.reason" placeholder="回复意见" :auto-size="{ minRows: 5 }" :bordered="false" />
         </div>
       </div>
     </div>
@@ -231,6 +231,7 @@
 
   const innerFlowData = ref([]);
   function handleFlowData(data) {
+    // 流程数据是倒序的
     let arr = [];
     data?.forEach(item => {
       arr.unshift(item);
@@ -238,8 +239,11 @@
     innerFlowData.value = arr;
   };
 
+  const userId = 128;
   // TODO 编辑权限
-  const editAuthority = true;
+  const editAuthority = (item) => {
+    return item.assigneeUser.id === userId
+  }
 
   defineExpose({
     innerFlowData
