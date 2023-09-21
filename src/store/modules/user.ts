@@ -57,6 +57,9 @@ export const useUserStore = defineStore({
     },
   },
   actions: {
+    getAccessToken() {
+      return this.token;
+    },
     setToken(info: string | undefined) {
       this.token = info ? info : ''; // for null or undefined value
       setAuthCache(TOKEN_KEY, info);
@@ -89,15 +92,14 @@ export const useUserStore = defineStore({
       },
     ): Promise<GetUserInfoModel | null> {
       try {
-        const { goHome = true, mode, ...loginParams } = params;
-        const uinfo = `{"roles":[{"roleName":"Super Admin","value":"super"}],"userId":"1","username":"vben","token":"fakeToken1","realName":"Vben Admin","desc":"manager"}`;
+        const { goHome = true, ...loginParams } = params;
         // TODO 此处估计后端API：Login接口传入登录账户参数，获取用户登录返回结果
-        const data = JSON.parse(uinfo); // await loginApi(loginParams, mode);
-        const { token } = data;
-
-        // save token
-        this.setToken(token);
-        return this.afterLoginAction(goHome);
+        const data = await loginApi(loginParams); // JSON.parse(uinfo);
+        if (data && data.result) {
+          const { accessToken, refreshToken, userId } = data?.result || {};
+          this.setToken(accessToken); // save token
+          return this.afterLoginAction(goHome);
+        }
       } catch (error) {
         return Promise.reject(error);
       }
@@ -106,7 +108,7 @@ export const useUserStore = defineStore({
       if (!this.getToken) return null;
       // get user info
       const userInfo = await this.getUserInfoAction();
-
+      debugger;
       const sessionTimeout = this.sessionTimeout;
       if (sessionTimeout) {
         this.setSessionTimeout(false);
@@ -126,6 +128,7 @@ export const useUserStore = defineStore({
     },
     async getUserInfoAction(): Promise<UserInfo | null> {
       if (!this.getToken) return null;
+      debugger;
       const userInfo = await getUserInfo();
       const { roles = [] } = userInfo;
       if (isArray(roles)) {

@@ -13,6 +13,7 @@ import { AxiosCanceler } from './axiosCancel';
 import { isFunction } from '/@/utils/is';
 import { cloneDeep } from 'lodash-es';
 import { ContentTypeEnum, RequestEnum } from '/@/enums/httpEnum';
+import { useUserStore } from '/@/store/modules/user';
 
 export * from './axiosTransform';
 
@@ -155,7 +156,6 @@ export class VAxios {
       data: formData,
       headers: {
         'Content-type': ContentTypeEnum.FORM_DATA,
-        // @ts-ignore
         ignoreCancelToken: true,
       },
     });
@@ -197,29 +197,25 @@ export class VAxios {
   }
 
   request<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
+    const userStore = useUserStore();
     let conf: CreateAxiosOptions = cloneDeep(config);
     // cancelToken 如果被深拷贝，会导致最外层无法使用cancel方法来取消请求
     if (config.cancelToken) {
       conf.cancelToken = config.cancelToken;
     }
-
     const transform = this.getTransform();
 
     const { requestOptions } = this.options;
 
     const opt: RequestOptions = Object.assign({}, requestOptions, options);
 
-    // TODO 代理设置 /scomms-po /jw 等请求路径跳转对应代理路径 proxy setting
-    if (conf.url?.startsWith('/scomms-po') || conf.url?.startsWith('/jw')) {
+    // TODO 代理设置 /scomms-po /jw /admin-api/system/auth/login 等请求路径跳转对应代理路径 proxy setting
+    if (
+      conf.url?.startsWith('/scomms-po') ||
+      conf.url?.startsWith('/jw') ||
+      conf.url?.startsWith('/admin-api/system/auth')
+    ) {
       opt.apiUrl = '';
-    }
-
-    // TODO getUserInfo接口 现在返回示例数据，在接通后端接口后需注释
-    if (conf.url === '/getUserInfo') {
-      return new Promise((resolve) => {
-        const result = `{"userId":"1","username":"vben","realName":"Vben Admin","avatar":"","desc":"manager","password":"123456","token":"fakeToken1","homePath":"/system","roles":[{"roleName":"Super Admin","value":"super"}]}`;
-        resolve(JSON.parse(result));
-      });
     }
 
     // TODO logout接口
@@ -237,6 +233,11 @@ export class VAxios {
     conf.requestOptions = opt;
 
     conf = this.supportFormData(conf);
+
+    const token = userStore.getAccessToken();
+    if (conf && conf.headers && conf.headers.Authorization && token) {
+      conf.headers.Authorization = 'Bearer #{{TOKEN}}'.replace(/#{{TOKEN}}/g, token);
+    }
 
     return new Promise((resolve, reject) => {
       this.axiosInstance

@@ -1,33 +1,37 @@
 import { defHttp } from '/@/utils/http/axios';
 import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
 
-import { ErrorMessageMode } from '/#/axios';
-
 enum Api {
-  Login = '/login',
-  Logout = '/logout',
-  GetUserInfo = '/getUserInfo',
-  GetPermCode = '/getPermCode',
+  Login = '/admin-api/system/auth/login',
+  Logout = '/admin-api/system/auth/logout',
+  RefreshToken = '/admin-api/system/auth/refresh-token',
+  ListMenus = '/admin-api/system/auth/list-menus',
+  GetPermissionInfo = '/admin-api/system/auth/get-permission-info',
 }
 
 /**
  * @description: user login api
  */
-export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') {
-  return defHttp.post<LoginResultModel>({ url: Api.Login, params }, { errorMessageMode: mode });
+export function loginApi(params: LoginParams) {
+  const headers = { Authorization: 'Bearer' };
+  const requestParams = { url: Api.Login, params, headers };
+  return defHttp.post<LoginResultModel>(requestParams, {});
 }
 
 /**
- * @description: getUserInfo
+ * @description: user logout
+ */
+export function doLogout() {
+  const headers = { Authorization: 'Bearer #{{TOKEN}}' };
+  const requestParams = { url: Api.Logout, headers };
+  return defHttp.get(requestParams);
+}
+
+/**
+ * @description: get user info
  */
 export function getUserInfo() {
-  return defHttp.get<GetUserInfoModel>({ url: Api.GetUserInfo }, { errorMessageMode: 'none' });
-}
-
-export function getPermCode() {
-  return defHttp.get<string[]>({ url: Api.GetPermCode });
-}
-
-export function doLogout() {
-  return defHttp.get({ url: Api.Logout });
+  const headers = { Authorization: 'Bearer #{{TOKEN}}' };
+  const requestParams = { url: Api.GetPermissionInfo, headers };
+  return defHttp.get<GetUserInfoModel>(requestParams, {});
 }

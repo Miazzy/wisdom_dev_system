@@ -16,6 +16,14 @@ export default defineApplicationConfig({
     },
     server: {
       proxy: {
+        '/admin-api/system/auth': {
+          target: 'http://10.8.111.231:48081',
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path) => path.replace(new RegExp(`^/admin-api`), '/admin-api'),
+          // only https
+          // secure: false
+        },
         '/scomms-po': {
           target: 'http://10.8.111.173:48085',
           changeOrigin: true,
