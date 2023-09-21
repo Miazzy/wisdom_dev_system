@@ -1,7 +1,7 @@
 <!--
  * @Description: 
  * @Date: 2023-09-14 14:31:30
- * @LastEditTime: 2023-09-18 10:35:22
+ * @LastEditTime: 2023-09-21 09:06:01
  * @FilePath: \ygwl-framework\src\components\Framework\ApprovalDrawer\ApprovalDrawer.vue
 -->
 <template>
@@ -9,7 +9,7 @@
     <div>
       <Tabs class="fit-approval-tab" v-model:activeKey="activeKey">
         <TabPane key="1" tab="流程审批">
-          <ApprovalTab />
+          <ApprovalTab ref="approvalTabRef" :flowData="flowData" />
         </TabPane>
         <TabPane key="2" tab="流程轨迹" force-render>
           <div>流程轨迹</div>
@@ -21,14 +21,15 @@
     </div>
     <template #footer>
       <Button class="fit-footer-btn" type="primary" @click="handleAgree">同意</Button>
-      <Button class="fit-footer-btn" @click="handleBack">驳回</Button>
+      <Button class="fit-footer-btn" @click="handleReject">驳回</Button>
       <Button class="fit-footer-btn" @click="handleSave">保存</Button>
       <Dropdown>
         <template #overlay>
           <Menu @click="handleMenuClick">
-            <MenuItem key="1">1st item</MenuItem>
-            <MenuItem key="2">2nd item</MenuItem>
-            <MenuItem key="3">3rd item</MenuItem>
+            <MenuItem key="1">终止</MenuItem>
+            <MenuItem key="2">转办</MenuItem>
+            <MenuItem key="3">知会</MenuItem>
+            <MenuItem key="4">收藏任务</MenuItem>
           </Menu>
         </template>
         <Button class="fit-footer-btn">
@@ -48,30 +49,57 @@
   import { BasicDrawer } from '/@/components/Drawer';
   import ApprovalTab from '/@/components/Framework/ApprovalDrawer/components/ApprovalTab.vue';
 
-  // export default defineComponent({
-  //   components: { BasicDrawer },
-  // });
+  const props = defineProps({
+    flowData: { type: Array },
+  });
+
+  const approvalTabRef = ref();
+
   const activeKey = ref('1');
+
+  const emit = defineEmits(['agree', 'reject', 'save', 'end', 'transfer', 'notice', 'collect']);
 
   // 更多
   const handleMenuClick: MenuProps['onClick'] = e => {
-      console.log('click', e);
+      const {key} = e;
+      const { innerFlowData } = approvalTabRef.value;
+      switch(key) {
+        case '1':
+          // 终止
+          emit('end', innerFlowData);
+          break;
+        case '2':
+          // 转办
+          emit('transfer', innerFlowData);
+          break;
+        case '3':
+          // 知会
+          emit('notice', innerFlowData);
+          break;
+        case '4':
+          // 收藏任务
+          emit('collect', innerFlowData);
+          break;
+      };
   };
 
   // 同意
   function handleAgree() {
-    console.log('handleAgree');
+    const { innerFlowData } = approvalTabRef.value;
+    emit('agree', innerFlowData);
   };
 
   // 驳回
-  function handleBack() {
-    console.log('handleBack');
-  }
+  function handleReject() {
+    const { innerFlowData } = approvalTabRef.value;
+    emit('reject', innerFlowData);
+  };
 
   // 保存
   function handleSave() {
-    console.log('handleSave');
-  }
+    const { innerFlowData } = approvalTabRef.value;
+    emit('save', innerFlowData);
+  };
 </script>
 <style lang="less">
 .vben-basic-drawer-footer {

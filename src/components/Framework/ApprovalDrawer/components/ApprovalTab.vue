@@ -1,6 +1,6 @@
 <template>
   <div class="approval-tab">
-    <div class="flow-item">
+    <!-- <div class="flow-item">
       <div class="flow-item-left">
         <div class="circle-out">
           <div class="circle-inner-text blue">云</div>
@@ -152,11 +152,7 @@
       <div class="flow-item-left">
         <div class="circle-out">
           <div class="circle-inner-text gray">林</div>
-          <!-- <div class="status-icon green">
-            <Icon class="fit-status-icon" icon="ant-design:check-outlined" color="#fff" size="8" />
-          </div> -->
         </div>
-        <!-- <div class="flow-vertical-line solid"></div> -->
       </div>
       <div class="flow-item-right">
         <div class="flow-row-1">
@@ -167,16 +163,98 @@
           <span class="person-text">工程部－李木林</span>
         </div>
       </div>
+    </div> -->
+
+    <div class="flow-item" v-for="(item, index) in innerFlowData" :key="item.id">
+      <div class="flow-item-left">
+        <div class="circle-out">
+          <div class="circle-inner-text blue">{{item.assigneeUser.nickname.slice(-1)}}</div>
+          <div v-if="item.result&&item.result!==1" class="status-icon green">
+            <Icon class="fit-status-icon" icon="ant-design:check-outlined" color="#fff" size="8" />
+          </div>
+          <div v-if="item.result&&item.result===1" class="status-icon blue">
+            <Icon class="fit-status-icon" icon="ic:round-edit" color="#fff" size="8" />
+          </div>
+        </div>
+        <div class="flow-vertical-line" v-if="index < flowData.length - 1" :class="item.result===1?'dashed':'solid'"></div>
+      </div>
+      <div class="flow-item-right">
+        <div class="flow-row-1">
+          <span class="node-name-text">{{item.name}}</span>
+          <span class="node-time-text">{{item.createTime}}</span>
+        </div>
+        <div class="flow-row-2">
+          <span class="person-text">{{item.assigneeUser.deptName+'－'+item.assigneeUser.nickname}}</span>
+          <span v-if="item.result&&resultObj[item.result]" class="flow-status-text" :style="{color: resultObj[item.result].color}">({{resultObj[item.result].text}})</span>
+        </div>
+        <div class="flow-row-3">
+          <div v-if="item.reason&&!editAuthority" class="comment-text">{{item.reason}}</div>
+          <Textarea v-if="item.result===1&&editAuthority" class="fit-comment-textarea" v-model:value="item.reason" placeholder="回复意见" :auto-size="{ minRows: 5 }" :bordered="false" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { ref, computed, reactive, onMounted, watch } from 'vue';
   import { Textarea } from 'ant-design-vue';
   import Icon from '@/components/Icon/Icon.vue';
 
   const comment = ref<string>('');
+
+  const props = defineProps({
+    flowData: { type: Array },
+  });
+  const resultObj = reactive({
+    '1': {
+      text: '处理中',
+      color: '#1890FF'
+    },
+    '2': {
+      text: '通过',
+      color: '#25C28A'
+    },
+    '3': {
+      text: '不通过',
+      color: '#FF4D4F'
+    },
+    '4': {
+      text: '已取消',
+      color: '#8C8C8C'
+    },
+    '5': {
+      text: '退回/驳回',
+      color: '#FF4D4F'
+    }
+  });
+
+  const innerFlowData = ref([]);
+  function handleFlowData(data) {
+    let arr = [];
+    data?.forEach(item => {
+      arr.unshift(item);
+    });
+    innerFlowData.value = arr;
+  };
+
+  // TODO 编辑权限
+  const editAuthority = true;
+
+  defineExpose({
+    innerFlowData
+  })
+
+  watch(
+    () => props.flowData,
+    (newValue) => {
+      handleFlowData(newValue);
+    },
+  );
+
+  onMounted(() => {
+    handleFlowData(props.flowData);
+  });
 </script>
 
 <style lang="less" scoped>
@@ -261,7 +339,7 @@
             border-left: 1px solid #1890ff;
           }
 
-          &.dash {
+          &.dashed {
             border-left: 1px dashed #ccc;
           }
         }
