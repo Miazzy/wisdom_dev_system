@@ -50,7 +50,7 @@
   </Dialog>
 </template>
 <script lang="ts" setup>
-  import { getAccessToken, getTenantId } from '@/utils/auth';
+  // import { getAccessToken, getTenantId } from '@/utils/auth';
   import { ref, reactive } from 'vue';
   import { useMessage } from '/@/hooks/web/useMessage';
 

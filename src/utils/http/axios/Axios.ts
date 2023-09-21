@@ -218,6 +218,14 @@ export class VAxios {
       opt.apiUrl = '';
     }
 
+    // TODO getUserInfo接口 现在返回示例数据，在接通后端接口后需注释
+    if (conf.url === '/admin-api/system/auth/get-permission-info') {
+      return new Promise((resolve) => {
+        const result = `{"userId":"1","username":"vben","realName":"Vben Admin","avatar":"","desc":"manager","password":"123456","token":"fakeToken1","homePath":"/system","roles":[{"roleName":"Super Admin","value":"super"}]}`;
+        resolve(JSON.parse(result));
+      });
+    }
+
     // TODO logout接口
     if (conf.url === '/logout') {
       return new Promise((resolve) => {
