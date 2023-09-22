@@ -288,164 +288,175 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ElMessageBox } from 'element-plus'
-import { createListenerObject, updateElementExtensions } from '../../utils'
-import { initListenerForm, initListenerType, eventType, listenerType, fieldType } from './utilSelf'
+  import { ElMessageBox } from 'element-plus';
+  import { inject, ref, nextTick, watch } from 'vue';
+  import { createListenerObject, updateElementExtensions } from '../../utils';
+  import {
+    initListenerForm,
+    initListenerType,
+    eventType,
+    listenerType,
+    fieldType,
+  } from './utilSelf';
 
-defineOptions({ name: 'UserTaskListeners' })
+  defineOptions({ name: 'UserTaskListeners' });
 
-const props = defineProps({
-  id: String,
-  type: String
-})
-const prefix = inject('prefix')
-const width = inject('width')
-const elementListenersList = ref<any[]>([])
-const listenerEventTypeObject = ref(eventType)
-const listenerTypeObject = ref(listenerType)
-const listenerFormModelVisible = ref(false)
-const listenerForm = ref<any>({})
-const fieldTypeObject = ref(fieldType)
-const fieldsListOfListener = ref<any[]>([])
-const listenerFieldFormModelVisible = ref(false) // 监听器 注入字段表单弹窗 显示状态
-const editingListenerIndex = ref(-1) // 监听器所在下标，-1 为新增
-const editingListenerFieldIndex = ref(-1) // 字段所在下标，-1 为新增
-const listenerFieldForm = ref<any>({}) // 监听器 注入字段 详情表单
-const bpmnElement = ref()
-const bpmnElementListeners = ref()
-const otherExtensionList = ref()
-const listenerFormRef = ref()
-const listenerFieldFormRef = ref()
-const bpmnInstances = () => (window as any)?.bpmnInstances
+  const props = defineProps({
+    id: String,
+    type: String,
+  });
+  const prefix = inject('prefix');
+  const width = inject('width');
+  const elementListenersList = ref<any[]>([]);
+  const listenerEventTypeObject = ref(eventType);
+  const listenerTypeObject = ref(listenerType);
+  const listenerFormModelVisible = ref(false);
+  const listenerForm = ref<any>({});
+  const fieldTypeObject = ref(fieldType);
+  const fieldsListOfListener = ref<any[]>([]);
+  const listenerFieldFormModelVisible = ref(false); // 监听器 注入字段表单弹窗 显示状态
+  const editingListenerIndex = ref(-1); // 监听器所在下标，-1 为新增
+  const editingListenerFieldIndex = ref(-1); // 字段所在下标，-1 为新增
+  const listenerFieldForm = ref<any>({}); // 监听器 注入字段 详情表单
+  const bpmnElement = ref();
+  const bpmnElementListeners = ref();
+  const otherExtensionList = ref();
+  const listenerFormRef = ref();
+  const listenerFieldFormRef = ref();
+  const bpmnInstances = () => (window as any)?.bpmnInstances;
 
-const resetListenersList = () => {
-  console.log(
-    bpmnInstances().bpmnElement,
-    'window.bpmnInstances.bpmnElementwindow.bpmnInstances.bpmnElementwindow.bpmnInstances.bpmnElementwindow.bpmnInstances.bpmnElementwindow.bpmnInstances.bpmnElementwindow.bpmnInstances.bpmnElement'
-  )
-  bpmnElement.value = bpmnInstances().bpmnElement
-  otherExtensionList.value = []
-  bpmnElementListeners.value =
-    bpmnElement.value.businessObject?.extensionElements?.values.filter(
-      (ex) => ex.$type === `${prefix}:TaskListener`
-    ) ?? []
-  elementListenersList.value = bpmnElementListeners.value.map((listener) =>
-    initListenerType(listener)
-  )
-}
-const openListenerForm = (listener, index?) => {
-  if (listener) {
-    listenerForm.value = initListenerForm(listener)
-    editingListenerIndex.value = index
-  } else {
-    listenerForm.value = {}
-    editingListenerIndex.value = -1 // 标记为新增
-  }
-  if (listener && listener.fields) {
-    fieldsListOfListener.value = listener.fields.map((field) => ({
-      ...field,
-      fieldType: field.string ? 'string' : 'expression'
-    }))
-  } else {
-    fieldsListOfListener.value = []
-    listenerForm.value['fields'] = []
-  }
-  // 打开侧边栏并清楚验证状态
-  listenerFormModelVisible.value = true
-  nextTick(() => {
-    if (listenerFormRef.value) listenerFormRef.value.clearValidate()
-  })
-}
-// 移除监听器
-const removeListener = (listener, index?) => {
-  console.log(listener, 'listener')
-  ElMessageBox.confirm('确认移除该监听器吗？', '提示', {
-    confirmButtonText: '确 认',
-    cancelButtonText: '取 消'
-  })
-    .then(() => {
-      bpmnElementListeners.value.splice(index, 1)
-      elementListenersList.value.splice(index, 1)
-      updateElementExtensions(
-        bpmnElement.value,
-        otherExtensionList.value.concat(bpmnElementListeners.value)
-      )
+  const resetListenersList = () => {
+    console.log(
+      bpmnInstances().bpmnElement,
+      'window.bpmnInstances.bpmnElementwindow.bpmnInstances.bpmnElementwindow.bpmnInstances.bpmnElementwindow.bpmnInstances.bpmnElementwindow.bpmnInstances.bpmnElementwindow.bpmnInstances.bpmnElement',
+    );
+    bpmnElement.value = bpmnInstances().bpmnElement;
+    otherExtensionList.value = [];
+    bpmnElementListeners.value =
+      bpmnElement.value.businessObject?.extensionElements?.values.filter(
+        (ex) => ex.$type === `${prefix}:TaskListener`,
+      ) ?? [];
+    elementListenersList.value = bpmnElementListeners.value.map((listener) =>
+      initListenerType(listener),
+    );
+  };
+  const openListenerForm = (listener, index?) => {
+    if (listener) {
+      listenerForm.value = initListenerForm(listener);
+      editingListenerIndex.value = index;
+    } else {
+      listenerForm.value = {};
+      editingListenerIndex.value = -1; // 标记为新增
+    }
+    if (listener && listener.fields) {
+      fieldsListOfListener.value = listener.fields.map((field) => ({
+        ...field,
+        fieldType: field.string ? 'string' : 'expression',
+      }));
+    } else {
+      fieldsListOfListener.value = [];
+      listenerForm.value['fields'] = [];
+    }
+    // 打开侧边栏并清楚验证状态
+    listenerFormModelVisible.value = true;
+    nextTick(() => {
+      if (listenerFormRef.value) listenerFormRef.value.clearValidate();
+    });
+  };
+  // 移除监听器
+  const removeListener = (listener, index?) => {
+    console.log(listener, 'listener');
+    ElMessageBox.confirm('确认移除该监听器吗？', '提示', {
+      confirmButtonText: '确 认',
+      cancelButtonText: '取 消',
     })
-    .catch(() => console.info('操作取消'))
-}
-// 保存监听器
-const saveListenerConfig = async () => {
-  let validateStatus = await listenerFormRef.value.validate()
-  if (!validateStatus) return // 验证不通过直接返回
-  const listenerObject = createListenerObject(listenerForm.value, true, prefix)
-  if (editingListenerIndex.value === -1) {
-    bpmnElementListeners.value.push(listenerObject)
-    elementListenersList.value.push(listenerForm.value)
-  } else {
-    bpmnElementListeners.value.splice(editingListenerIndex.value, 1, listenerObject)
-    elementListenersList.value.splice(editingListenerIndex.value, 1, listenerForm.value)
-  }
-  // 保存其他配置
-  otherExtensionList.value =
-    bpmnElement.value.businessObject?.extensionElements?.values?.filter(
-      (ex) => ex.$type !== `${prefix}:TaskListener`
-    ) ?? []
-  updateElementExtensions(
-    bpmnElement.value,
-    otherExtensionList.value.concat(bpmnElementListeners.value)
-  )
-  // 4. 隐藏侧边栏
-  listenerFormModelVisible.value = false
-  listenerForm.value = {}
-}
-// 打开监听器字段编辑弹窗
-const openListenerFieldForm = (field, index?) => {
-  listenerFieldForm.value = field ? JSON.parse(JSON.stringify(field)) : {}
-  editingListenerFieldIndex.value = field ? index : -1
-  listenerFieldFormModelVisible.value = true
-  nextTick(() => {
-    if (listenerFieldFormRef.value) listenerFieldFormRef.value.clearValidate()
-  })
-}
-// 保存监听器注入字段
-const saveListenerFiled = async () => {
-  let validateStatus = await listenerFieldFormRef.value.validate()
-  if (!validateStatus) return // 验证不通过直接返回
-  if (editingListenerFieldIndex.value === -1) {
-    fieldsListOfListener.value.push(listenerFieldForm.value)
-    listenerForm.value.fields.push(listenerFieldForm.value)
-  } else {
-    fieldsListOfListener.value.splice(editingListenerFieldIndex.value, 1, listenerFieldForm.value)
-    listenerForm.value.fields.splice(editingListenerFieldIndex.value, 1, listenerFieldForm.value)
-  }
-  listenerFieldFormModelVisible.value = false
-  nextTick(() => {
-    listenerFieldForm.value = {}
-  })
-}
-// 移除监听器字段
-const removeListenerField = (field, index) => {
-  console.log(field, 'field')
-  ElMessageBox.confirm('确认移除该字段吗？', '提示', {
-    confirmButtonText: '确 认',
-    cancelButtonText: '取 消'
-  })
-    .then(() => {
-      fieldsListOfListener.value.splice(index, 1)
-      listenerForm.value.fields.splice(index, 1)
-    })
-    .catch(() => console.info('操作取消'))
-}
-
-watch(
-  () => props.id,
-  (val) => {
-    val &&
-      val.length &&
-      nextTick(() => {
-        resetListenersList()
+      .then(() => {
+        bpmnElementListeners.value.splice(index, 1);
+        elementListenersList.value.splice(index, 1);
+        updateElementExtensions(
+          bpmnElement.value,
+          otherExtensionList.value.concat(bpmnElementListeners.value),
+        );
       })
-  },
-  { immediate: true }
-)
+      .catch(() => console.info('操作取消'));
+  };
+  // 保存监听器
+  const saveListenerConfig = async () => {
+    let validateStatus = await listenerFormRef.value.validate();
+    if (!validateStatus) return; // 验证不通过直接返回
+    const listenerObject = createListenerObject(listenerForm.value, true, prefix);
+    if (editingListenerIndex.value === -1) {
+      bpmnElementListeners.value.push(listenerObject);
+      elementListenersList.value.push(listenerForm.value);
+    } else {
+      bpmnElementListeners.value.splice(editingListenerIndex.value, 1, listenerObject);
+      elementListenersList.value.splice(editingListenerIndex.value, 1, listenerForm.value);
+    }
+    // 保存其他配置
+    otherExtensionList.value =
+      bpmnElement.value.businessObject?.extensionElements?.values?.filter(
+        (ex) => ex.$type !== `${prefix}:TaskListener`,
+      ) ?? [];
+    updateElementExtensions(
+      bpmnElement.value,
+      otherExtensionList.value.concat(bpmnElementListeners.value),
+    );
+    // 4. 隐藏侧边栏
+    listenerFormModelVisible.value = false;
+    listenerForm.value = {};
+  };
+  // 打开监听器字段编辑弹窗
+  const openListenerFieldForm = (field, index?) => {
+    listenerFieldForm.value = field ? JSON.parse(JSON.stringify(field)) : {};
+    editingListenerFieldIndex.value = field ? index : -1;
+    listenerFieldFormModelVisible.value = true;
+    nextTick(() => {
+      if (listenerFieldFormRef.value) listenerFieldFormRef.value.clearValidate();
+    });
+  };
+  // 保存监听器注入字段
+  const saveListenerFiled = async () => {
+    let validateStatus = await listenerFieldFormRef.value.validate();
+    if (!validateStatus) return; // 验证不通过直接返回
+    if (editingListenerFieldIndex.value === -1) {
+      fieldsListOfListener.value.push(listenerFieldForm.value);
+      listenerForm.value.fields.push(listenerFieldForm.value);
+    } else {
+      fieldsListOfListener.value.splice(
+        editingListenerFieldIndex.value,
+        1,
+        listenerFieldForm.value,
+      );
+      listenerForm.value.fields.splice(editingListenerFieldIndex.value, 1, listenerFieldForm.value);
+    }
+    listenerFieldFormModelVisible.value = false;
+    nextTick(() => {
+      listenerFieldForm.value = {};
+    });
+  };
+  // 移除监听器字段
+  const removeListenerField = (field, index) => {
+    console.log(field, 'field');
+    ElMessageBox.confirm('确认移除该字段吗？', '提示', {
+      confirmButtonText: '确 认',
+      cancelButtonText: '取 消',
+    })
+      .then(() => {
+        fieldsListOfListener.value.splice(index, 1);
+        listenerForm.value.fields.splice(index, 1);
+      })
+      .catch(() => console.info('操作取消'));
+  };
+
+  watch(
+    () => props.id,
+    (val) => {
+      val &&
+        val.length &&
+        nextTick(() => {
+          resetListenersList();
+        });
+    },
+    { immediate: true },
+  );
 </script>

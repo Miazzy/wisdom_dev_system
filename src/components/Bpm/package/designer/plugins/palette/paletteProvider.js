@@ -1,8 +1,5 @@
-import { assign } from 'min-dash'
+import { assign } from 'min-dash';
 
-/**
- * A palette provider for BPMN 2.0 elements.
- */
 export default function PaletteProvider(
   palette,
   create,
@@ -11,18 +8,18 @@ export default function PaletteProvider(
   lassoTool,
   handTool,
   globalConnect,
-  translate
+  translate,
 ) {
-  this._palette = palette
-  this._create = create
-  this._elementFactory = elementFactory
-  this._spaceTool = spaceTool
-  this._lassoTool = lassoTool
-  this._handTool = handTool
-  this._globalConnect = globalConnect
-  this._translate = translate
+  this._palette = palette;
+  this._create = create;
+  this._elementFactory = elementFactory;
+  this._spaceTool = spaceTool;
+  this._lassoTool = lassoTool;
+  this._handTool = handTool;
+  this._globalConnect = globalConnect;
+  this._translate = translate;
 
-  palette.registerProvider(this)
+  palette.registerProvider(this);
 }
 
 PaletteProvider.$inject = [
@@ -33,8 +30,8 @@ PaletteProvider.$inject = [
   'lassoTool',
   'handTool',
   'globalConnect',
-  'translate'
-]
+  'translate',
+];
 
 PaletteProvider.prototype.getPaletteEntries = function () {
   const actions = {},
@@ -44,20 +41,20 @@ PaletteProvider.prototype.getPaletteEntries = function () {
     lassoTool = this._lassoTool,
     handTool = this._handTool,
     globalConnect = this._globalConnect,
-    translate = this._translate
+    translate = this._translate;
 
   function createAction(type, group, className, title, options) {
     function createListener(event) {
-      const shape = elementFactory.createShape(assign({ type: type }, options))
+      const shape = elementFactory.createShape(assign({ type: type }, options));
 
       if (options) {
-        shape.businessObject.di.isExpanded = options.isExpanded
+        shape.businessObject.di.isExpanded = options.isExpanded;
       }
 
-      create.start(event, shape)
+      create.start(event, shape);
     }
 
-    const shortType = type.replace(/^bpmn:/, '')
+    const shortType = type.replace(/^bpmn:/, '');
 
     return {
       group: group,
@@ -65,9 +62,9 @@ PaletteProvider.prototype.getPaletteEntries = function () {
       title: title || translate('Create {type}', { type: shortType }),
       action: {
         dragstart: createListener,
-        click: createListener
-      }
-    }
+        click: createListener,
+      },
+    };
   }
 
   function createSubprocess(event) {
@@ -75,25 +72,25 @@ PaletteProvider.prototype.getPaletteEntries = function () {
       type: 'bpmn:SubProcess',
       x: 0,
       y: 0,
-      isExpanded: true
-    })
+      isExpanded: true,
+    });
 
     const startEvent = elementFactory.createShape({
       type: 'bpmn:StartEvent',
       x: 40,
       y: 82,
-      parent: subProcess
-    })
+      parent: subProcess,
+    });
 
     create.start(event, [subProcess, startEvent], {
       hints: {
-        autoSelect: [startEvent]
-      }
-    })
+        autoSelect: [startEvent],
+      },
+    });
   }
 
   function createParticipant(event) {
-    create.start(event, elementFactory.createParticipantShape())
+    create.start(event, elementFactory.createParticipantShape());
   }
 
   assign(actions, {
@@ -103,9 +100,9 @@ PaletteProvider.prototype.getPaletteEntries = function () {
       title: translate('Activate the hand tool'),
       action: {
         click: function (event) {
-          handTool.activateHand(event)
-        }
-      }
+          handTool.activateHand(event);
+        },
+      },
     },
     'lasso-tool': {
       group: 'tools',
@@ -113,9 +110,9 @@ PaletteProvider.prototype.getPaletteEntries = function () {
       title: translate('Activate the lasso tool'),
       action: {
         click: function (event) {
-          lassoTool.activateSelection(event)
-        }
-      }
+          lassoTool.activateSelection(event);
+        },
+      },
     },
     'space-tool': {
       group: 'tools',
@@ -123,9 +120,9 @@ PaletteProvider.prototype.getPaletteEntries = function () {
       title: translate('Activate the create/remove space tool'),
       action: {
         click: function (event) {
-          spaceTool.activateSelection(event)
-        }
-      }
+          spaceTool.activateSelection(event);
+        },
+      },
     },
     'global-connect-tool': {
       group: 'tools',
@@ -133,55 +130,55 @@ PaletteProvider.prototype.getPaletteEntries = function () {
       title: translate('Activate the global connect tool'),
       action: {
         click: function (event) {
-          globalConnect.toggle(event)
-        }
-      }
+          globalConnect.toggle(event);
+        },
+      },
     },
     'tool-separator': {
       group: 'tools',
-      separator: true
+      separator: true,
     },
     'create.start-event': createAction(
       'bpmn:StartEvent',
       'event',
       'bpmn-icon-start-event-none',
-      translate('Create StartEvent')
+      translate('Create StartEvent'),
     ),
     'create.intermediate-event': createAction(
       'bpmn:IntermediateThrowEvent',
       'event',
       'bpmn-icon-intermediate-event-none',
-      translate('Create Intermediate/Boundary Event')
+      translate('Create Intermediate/Boundary Event'),
     ),
     'create.end-event': createAction(
       'bpmn:EndEvent',
       'event',
       'bpmn-icon-end-event-none',
-      translate('Create EndEvent')
+      translate('Create EndEvent'),
     ),
     'create.exclusive-gateway': createAction(
       'bpmn:ExclusiveGateway',
       'gateway',
       'bpmn-icon-gateway-none',
-      translate('Create Gateway')
+      translate('Create Gateway'),
     ),
     'create.user-task': createAction(
       'bpmn:UserTask',
       'activity',
       'bpmn-icon-user-task',
-      translate('Create User Task')
+      translate('Create User Task'),
     ),
     'create.data-object': createAction(
       'bpmn:DataObjectReference',
       'data-object',
       'bpmn-icon-data-object',
-      translate('Create DataObjectReference')
+      translate('Create DataObjectReference'),
     ),
     'create.data-store': createAction(
       'bpmn:DataStoreReference',
       'data-store',
       'bpmn-icon-data-store',
-      translate('Create DataStoreReference')
+      translate('Create DataStoreReference'),
     ),
     'create.subprocess-expanded': {
       group: 'activity',
@@ -189,8 +186,8 @@ PaletteProvider.prototype.getPaletteEntries = function () {
       title: translate('Create expanded SubProcess'),
       action: {
         dragstart: createSubprocess,
-        click: createSubprocess
-      }
+        click: createSubprocess,
+      },
     },
     'create.participant-expanded': {
       group: 'collaboration',
@@ -198,16 +195,16 @@ PaletteProvider.prototype.getPaletteEntries = function () {
       title: translate('Create Pool/Participant'),
       action: {
         dragstart: createParticipant,
-        click: createParticipant
-      }
+        click: createParticipant,
+      },
     },
     'create.group': createAction(
       'bpmn:Group',
       'artifact',
       'bpmn-icon-group',
-      translate('Create Group')
-    )
-  })
+      translate('Create Group'),
+    ),
+  });
 
-  return actions
-}
+  return actions;
+};

@@ -46,68 +46,71 @@
   </div>
 </template>
 <script lang="ts" setup>
-defineOptions({ name: 'SignalAndMassage' })
+  import { ref, computed, onMounted } from 'vue';
+  import { useMessage } from '/@/hooks/web/useMessage';
 
-const message = useMessage()
-const signalList = ref<any[]>([])
-const messageList = ref<any[]>([])
-const dialogVisible = ref(false)
-const modelType = ref('')
-const modelObjectForm = ref<any>({})
-const rootElements = ref()
-const messageIdMap = ref()
-const signalIdMap = ref()
-const modelConfig = computed(() => {
-  if (modelType.value === 'message') {
-    return { title: '创建消息', idLabel: '消息ID', nameLabel: '消息名称' }
-  } else {
-    return { title: '创建信号', idLabel: '信号ID', nameLabel: '信号名称' }
-  }
-})
-const bpmnInstances = () => (window as any)?.bpmnInstances
+  defineOptions({ name: 'SignalAndMassage' });
 
-const initDataList = () => {
-  console.log(window, 'window')
-  rootElements.value = bpmnInstances().modeler.getDefinitions().rootElements
-  messageIdMap.value = {}
-  signalIdMap.value = {}
-  messageList.value = []
-  signalList.value = []
-  rootElements.value.forEach((el) => {
-    if (el.$type === 'bpmn:Message') {
-      messageIdMap.value[el.id] = true
-      messageList.value.push({ ...el })
+  const message = useMessage();
+  const signalList = ref<any[]>([]);
+  const messageList = ref<any[]>([]);
+  const dialogVisible = ref(false);
+  const modelType = ref('');
+  const modelObjectForm = ref<any>({});
+  const rootElements = ref();
+  const messageIdMap = ref();
+  const signalIdMap = ref();
+  const modelConfig = computed(() => {
+    if (modelType.value === 'message') {
+      return { title: '创建消息', idLabel: '消息ID', nameLabel: '消息名称' };
+    } else {
+      return { title: '创建信号', idLabel: '信号ID', nameLabel: '信号名称' };
     }
-    if (el.$type === 'bpmn:Signal') {
-      signalIdMap.value[el.id] = true
-      signalList.value.push({ ...el })
-    }
-  })
-}
-const openModel = (type) => {
-  modelType.value = type
-  modelObjectForm.value = {}
-  dialogVisible.value = true
-}
-const addNewObject = () => {
-  if (modelType.value === 'message') {
-    if (messageIdMap.value[modelObjectForm.value.id]) {
-      message.error('该消息已存在，请修改id后重新保存')
-    }
-    const messageRef = bpmnInstances().moddle.create('bpmn:Message', modelObjectForm.value)
-    rootElements.value.push(messageRef)
-  } else {
-    if (signalIdMap.value[modelObjectForm.value.id]) {
-      message.error('该信号已存在，请修改id后重新保存')
-    }
-    const signalRef = bpmnInstances().moddle.create('bpmn:Signal', modelObjectForm.value)
-    rootElements.value.push(signalRef)
-  }
-  dialogVisible.value = false
-  initDataList()
-}
+  });
+  const bpmnInstances = () => (window as any)?.bpmnInstances;
 
-onMounted(() => {
-  initDataList()
-})
+  const initDataList = () => {
+    console.log(window, 'window');
+    rootElements.value = bpmnInstances().modeler.getDefinitions().rootElements;
+    messageIdMap.value = {};
+    signalIdMap.value = {};
+    messageList.value = [];
+    signalList.value = [];
+    rootElements.value.forEach((el) => {
+      if (el.$type === 'bpmn:Message') {
+        messageIdMap.value[el.id] = true;
+        messageList.value.push({ ...el });
+      }
+      if (el.$type === 'bpmn:Signal') {
+        signalIdMap.value[el.id] = true;
+        signalList.value.push({ ...el });
+      }
+    });
+  };
+  const openModel = (type) => {
+    modelType.value = type;
+    modelObjectForm.value = {};
+    dialogVisible.value = true;
+  };
+  const addNewObject = () => {
+    if (modelType.value === 'message') {
+      if (messageIdMap.value[modelObjectForm.value.id]) {
+        message.error('该消息已存在，请修改id后重新保存');
+      }
+      const messageRef = bpmnInstances().moddle.create('bpmn:Message', modelObjectForm.value);
+      rootElements.value.push(messageRef);
+    } else {
+      if (signalIdMap.value[modelObjectForm.value.id]) {
+        message.error('该信号已存在，请修改id后重新保存');
+      }
+      const signalRef = bpmnInstances().moddle.create('bpmn:Signal', modelObjectForm.value);
+      rootElements.value.push(signalRef);
+    }
+    dialogVisible.value = false;
+    initDataList();
+  };
+
+  onMounted(() => {
+    initDataList();
+  });
 </script>

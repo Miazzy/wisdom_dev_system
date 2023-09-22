@@ -1,9 +1,3 @@
-/**
- * This is a sample file that should be replaced with the actual translation.
- *
- * Checkout https://github.com/bpmn-io/bpmn-js-i18n for a list of available
- * translations and labels to translate.
- */
 export default {
   // 添加部分
   'Append EndEvent': '追加结束事件',
@@ -236,5 +230,5 @@ export default {
   'Specify more than one user as a comma separated list.': '指定多个用户作为逗号分隔的列表。',
   'Tasklist Configuration': 'Tasklist配置',
   Startable: '启动',
-  'Specify more than one group as a comma separated list.': '指定多个组作为逗号分隔的列表。'
-}
+  'Specify more than one group as a comma separated list.': '指定多个组作为逗号分隔的列表。',
+};

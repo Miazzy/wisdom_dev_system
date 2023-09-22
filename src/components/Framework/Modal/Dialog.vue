@@ -1,7 +1,6 @@
 <template>
   <div class="modal-mask" v-if="visible">
     <div class="modal-container" :style="{ width: width + 'px', height: height + 'px' }">
-
       <div class="modal-header">
         <span>{{ title }}</span>
         <button class="modal-close" @click="closeModal">×</button>
@@ -11,8 +10,7 @@
         <!-- 插槽：用于自定义弹框内容 -->
         <slot></slot>
       </div>
-      <div class="modal-footer" style="position:relative;">
-
+      <div class="modal-footer" style="position: relative">
         <!-- 底部按钮插槽：可以包含“取消”、“确定”按钮 -->
         <div class="footer-button" style="">
           <slot name="footer">

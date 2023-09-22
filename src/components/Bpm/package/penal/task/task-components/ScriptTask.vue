@@ -45,55 +45,57 @@
 </template>
 
 <script lang="ts" setup>
-defineOptions({ name: 'ScriptTask' })
-const props = defineProps({
-  id: String,
-  type: String
-})
-const defaultTaskForm = ref({
-  scriptFormat: '',
-  script: '',
-  resource: '',
-  resultVariable: ''
-})
-const scriptTaskForm = ref<any>({})
-const bpmnElement = ref()
+  import { ref, toRaw, onBeforeUnmount, watch, nextTick } from 'vue';
 
-const bpmnInstances = () => (window as any)?.bpmnInstances
+  defineOptions({ name: 'ScriptTask' });
+  const props = defineProps({
+    id: String,
+    type: String,
+  });
+  const defaultTaskForm = ref({
+    scriptFormat: '',
+    script: '',
+    resource: '',
+    resultVariable: '',
+  });
+  const scriptTaskForm = ref<any>({});
+  const bpmnElement = ref();
 
-const resetTaskForm = () => {
-  for (let key in defaultTaskForm.value) {
-    let value = bpmnElement.value?.businessObject[key] || defaultTaskForm.value[key]
-    scriptTaskForm.value[key] = value
-  }
-  scriptTaskForm.value.scriptType = scriptTaskForm.value.script ? 'inline' : 'external'
-}
-const updateElementTask = () => {
-  let taskAttr = Object.create(null)
-  taskAttr.scriptFormat = scriptTaskForm.value.scriptFormat || null
-  taskAttr.resultVariable = scriptTaskForm.value.resultVariable || null
-  if (scriptTaskForm.value.scriptType === 'inline') {
-    taskAttr.script = scriptTaskForm.value.script || null
-    taskAttr.resource = null
-  } else {
-    taskAttr.resource = scriptTaskForm.value.resource || null
-    taskAttr.script = null
-  }
-  bpmnInstances().modeling.updateProperties(toRaw(bpmnElement.value), taskAttr)
-}
+  const bpmnInstances = () => (window as any)?.bpmnInstances;
 
-onBeforeUnmount(() => {
-  bpmnElement.value = null
-})
+  const resetTaskForm = () => {
+    for (let key in defaultTaskForm.value) {
+      let value = bpmnElement.value?.businessObject[key] || defaultTaskForm.value[key];
+      scriptTaskForm.value[key] = value;
+    }
+    scriptTaskForm.value.scriptType = scriptTaskForm.value.script ? 'inline' : 'external';
+  };
+  const updateElementTask = () => {
+    let taskAttr = Object.create(null);
+    taskAttr.scriptFormat = scriptTaskForm.value.scriptFormat || null;
+    taskAttr.resultVariable = scriptTaskForm.value.resultVariable || null;
+    if (scriptTaskForm.value.scriptType === 'inline') {
+      taskAttr.script = scriptTaskForm.value.script || null;
+      taskAttr.resource = null;
+    } else {
+      taskAttr.resource = scriptTaskForm.value.resource || null;
+      taskAttr.script = null;
+    }
+    bpmnInstances().modeling.updateProperties(toRaw(bpmnElement.value), taskAttr);
+  };
 
-watch(
-  () => props.id,
-  () => {
-    bpmnElement.value = bpmnInstances().bpmnElement
-    nextTick(() => {
-      resetTaskForm()
-    })
-  },
-  { immediate: true }
-)
+  onBeforeUnmount(() => {
+    bpmnElement.value = null;
+  });
+
+  watch(
+    () => props.id,
+    () => {
+      bpmnElement.value = bpmnInstances().bpmnElement;
+      nextTick(() => {
+        resetTaskForm();
+      });
+    },
+    { immediate: true },
+  );
 </script>

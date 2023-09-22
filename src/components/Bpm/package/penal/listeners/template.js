@@ -174,5 +174,5 @@ export const template = (isTaskListener) => {
       </template>
     </el-dialog>
   </div>
-  `
-}
+  `;
+};
