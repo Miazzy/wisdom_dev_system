@@ -1,5 +1,5 @@
 <template>
-  <Dialog :visible="dialogVisible" @update:visible="updateVisible"  :title="dialogTitle" :width="600" @confirm="confirm">
+  <Dialog :visible="dialogVisible" @update:visible="updateVisible"  :title="dialogTitle" :width="600" @confirm="confirm" @cancel="cancel">
     <el-form
       ref="formRef"
       v-loading="formLoading"
@@ -243,7 +243,8 @@
   };
 
   const cancel = () => {
-    emit('cancel'); // 发送取消事件
+    dialogVisible.value = false;
+    emit('update:visible', false); // 关闭弹框
   };
 
   watch(

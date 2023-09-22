@@ -119,6 +119,9 @@
 
     <!-- 表单弹窗：添加/修改流程 -->
     <FormDialog ref="formDialogRef" @success="getList" :visible="formDialogVisible" @update:visible="formDialogVisible = $event" />
+
+    <!-- 表单弹窗：导入流程 -->
+    <ImportDialog ref="importDialogRef" @success="getList" :visible="importDialogVisible" @update:visible="importDialogVisible = $event" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -132,6 +135,7 @@
   import Pagination from '@/components/Framework/Pagination/Pagination.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import FormDialog from './formDialog.vue';
+  import ImportDialog from './importDialog.vue';
   
 
   defineOptions({ name: 'WorkFlow' });
@@ -166,14 +170,18 @@
     option: {},
   });
 
-  /** 添加/修改操作 */
-  const importFormRef = ref();
+  const importDialogVisible = ref(false);
+  /** 导入流程操作 */
+  const importDialogRef = ref();
+  const importForm = () => {
+    importDialogVisible.value = true;
+    importDialogRef.value.open();
+  };
 
   const formDialogVisible = ref(false);
   /** 添加/修改操作 */
   const formDialogRef = ref();
   const openForm = (type: string, id?: number) => {
-    console.log('formDialogRef', formDialogRef);
     formDialogVisible.value = true;
     formDialogRef.value.open(type, id);
   }
@@ -201,10 +209,6 @@
     } finally {
       loading.value = false;
     }
-  };
-
-  const importForm = () => {
-    importFormRef.value.open();
   };
 
   // 执行删除流程记录操作

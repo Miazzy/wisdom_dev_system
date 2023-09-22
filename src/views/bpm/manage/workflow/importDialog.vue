@@ -1,6 +1,6 @@
 <template>
-  <Dialog v-model="dialogVisible" title="导入流程" width="400">
-    <div>
+  <Dialog :visible="dialogVisible" @update:visible="updateVisible" title="导入流程" :width="400" :height="500" @confirm="confirm" @cancel="cancel">
+    <div style="padding-top:20px;">
       <el-upload
         ref="uploadRef"
         v-model:file-list="fileList"
@@ -43,20 +43,26 @@
         </template>
       </el-upload>
     </div>
-    <template #footer>
+    <!-- <template #footer>
       <el-button :disabled="formLoading" type="primary" @click="submitForm">确 定</el-button>
       <el-button @click="dialogVisible = false">取 消</el-button>
-    </template>
+    </template> -->
   </Dialog>
 </template>
 <script lang="ts" setup>
   // import { getAccessToken, getTenantId } from '@/utils/auth';
-  import { ref, reactive } from 'vue';
+  import { ref, reactive, watch, onMounted } from 'vue';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import Dialog from '@/components/Framework/Modal/Dialog.vue';
+  import Icon from '@/components/Icon/Icon.vue';
 
-  defineOptions({ name: 'ModelImportForm' });
+  defineOptions({ name: 'ImportDialog' });
 
   const message = useMessage(); // 消息弹窗
+
+  const props = defineProps({
+    visible: Boolean, // 是否显示弹框
+  });
 
   const dialogVisible = ref(false); // 弹窗的是否展示
   const formLoading = ref(false); // 表单的加载中
@@ -77,13 +83,12 @@
 
   /** 打开弹窗 */
   const open = async () => {
-    dialogVisible.value = true;
     resetForm();
   };
   defineExpose({ open }); // 提供 open 方法，用于打开弹窗
 
   /** 提交表单 */
-  const submitForm = async () => {
+  const confirm = async () => {
     // 校验表单
     if (!formRef.value) return;
     const valid = await formRef.value.validate();
@@ -102,7 +107,7 @@
   };
 
   /** 文件上传成功 */
-  const emit = defineEmits(['success']); // 定义 success 事件，用于操作成功后的回调
+  const emit = defineEmits(['update:visible', 'success']); // 定义 success 事件，用于操作成功后的回调
   const submitFormSuccess = async (response: any) => {
     if (response.code !== 0) {
       message.error(response.msg);
@@ -139,4 +144,25 @@
   const handleExceed = (): void => {
     message.error('最多只能上传一个文件！');
   };
+
+  const updateVisible = ($event) => {
+    dialogVisible.value = $event;
+    emit('update:visible', false); // 关闭弹框
+  };
+
+  const cancel = () => {
+    dialogVisible.value = false;
+    emit('update:visible', false); // 关闭弹框
+  };
+
+  watch(
+    () => props.visible,
+    (newValue) => {
+      dialogVisible.value = newValue;
+    },
+  );
+
+  onMounted(() => {
+    dialogVisible.value = props.visible; // 根据传入参数控制Dialog显示  
+  });
 </script>
