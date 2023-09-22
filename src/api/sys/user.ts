@@ -22,7 +22,7 @@ export function loginApi(params: LoginParams) {
  */
 export function doLogout() {
   const requestParams = { url: Api.Logout };
-  return defHttp.get(requestParams);
+  return defHttp.get(requestParams, { isOnlyResult: true });
 }
 
 /**
@@ -31,4 +31,20 @@ export function doLogout() {
 export function getUserInfo() {
   const requestParams = { url: Api.GetPermissionInfo };
   return defHttp.get<GetUserInfoModel>(requestParams, { isOnlyResult: true });
+}
+
+/**
+ * @description: refresh token
+ */
+export function execRefreshToken(rtoken: string) {
+  const requestParams = { url: Api.RefreshToken + '?refreshToken=' + rtoken };
+  return defHttp.post<any>(requestParams, { isOnlyResult: true });
+}
+
+/**
+ * @description: get user info
+ */
+export function getListMenus() {
+  const requestParams = { url: Api.ListMenus };
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 }

@@ -43,4 +43,14 @@ export default {
   accountDetail: 'Personnel details',
   power: 'Power generation management',
   report: 'BI report',
+
+  baseset: {
+    name: 'Baseset Name',
+    monitorset: {
+      name: 'MonitorSet Name',
+      sunRiseSet: 'Sun Rise Setup',
+      areaSet: 'Area Setup',
+      modelSet: 'Model Setup',
+    },
+  },
 };

@@ -24,6 +24,14 @@ export default defineApplicationConfig({
           // only https
           // secure: false
         },
+        '/base': {
+          target: 'http://localhost:48083',
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path) => path.replace(new RegExp(`^/base`), '/base'),
+          // only https
+          // secure: false
+        },
         '/admin-api/system/auth': {
           target: 'http://10.8.111.231:48081',
           changeOrigin: true,

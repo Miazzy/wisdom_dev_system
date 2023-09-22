@@ -4,10 +4,10 @@ import { defineStore } from 'pinia';
 import { store } from '/@/store';
 import { RoleEnum } from '/@/enums/roleEnum';
 import { PageEnum } from '/@/enums/pageEnum';
-import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
+import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY, REFRESH_TOKEN_KEY } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
-import { doLogout, getUserInfo, loginApi } from '/@/api/sys/user';
+import { doLogout, getUserInfo, loginApi, execRefreshToken } from '/@/api/sys/user';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
@@ -16,10 +16,12 @@ import { RouteRecordRaw } from 'vue-router';
 import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
 import { isArray } from '/@/utils/is';
 import { h } from 'vue';
+import { TaskExecutor } from '/@/executor/taskExecutor';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
   token?: string;
+  rtoken?: string;
   roleList: RoleEnum[];
   sessionTimeout?: boolean;
   lastUpdateTime: number;
@@ -32,6 +34,8 @@ export const useUserStore = defineStore({
     userInfo: null,
     // token
     token: undefined,
+    // refresh token
+    rtoken: undefined,
     // roleList
     roleList: [],
     // Whether the login expired
@@ -45,6 +49,9 @@ export const useUserStore = defineStore({
     },
     getToken(state): string {
       return state.token || getAuthCache<string>(TOKEN_KEY);
+    },
+    getRefreshToken(state): string {
+      return state.rtoken || getAuthCache<string>(REFRESH_TOKEN_KEY);
     },
     getRoleList(state): RoleEnum[] {
       return state.roleList.length > 0 ? state.roleList : getAuthCache<RoleEnum[]>(ROLES_KEY);
@@ -63,6 +70,10 @@ export const useUserStore = defineStore({
     setToken(info: string | undefined) {
       this.token = info ? info : ''; // for null or undefined value
       setAuthCache(TOKEN_KEY, info);
+    },
+    setRefreshToken(info: string | undefined) {
+      this.rtoken = info ? info : ''; // for null or undefined value
+      setAuthCache(REFRESH_TOKEN_KEY, info);
     },
     setRoleList(roleList: RoleEnum[]) {
       this.roleList = roleList;
@@ -93,10 +104,18 @@ export const useUserStore = defineStore({
     ): Promise<GetUserInfoModel | null> {
       try {
         const { goHome = true, ...loginParams } = params;
+        const task = TaskExecutor.getNewInstance();
         // TODO 此处估计后端API：Login接口传入登录账户参数，获取用户登录返回结果
         const data = await loginApi(loginParams); // JSON.parse(uinfo);
-        const { accessToken } = data || {};
+        const { accessToken, refreshToken } = data || {};
         this.setToken(accessToken as string); // save token
+        this.setRefreshToken(refreshToken as string);
+        task.pushTask(async () => {
+          const response = await execRefreshToken(this.getRefreshToken as string);
+          const { accessToken } = response || {};
+          this.setToken(accessToken as string);
+        });
+        task.start();
         return this.afterLoginAction(goHome);
       } catch (error) {
         return Promise.reject(error);

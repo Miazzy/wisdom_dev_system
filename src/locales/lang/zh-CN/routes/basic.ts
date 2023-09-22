@@ -46,4 +46,14 @@ export default {
   power: '发电管理',
 
   report: 'BI报表',
+
+  baseset: {
+    name: '基础设置',
+    monitorset: {
+      name: '监视设置',
+      sunRiseSet: '日出设置',
+      areaSet: '区域设置',
+      modelSet: '型号设置',
+    },
+  },
 };
