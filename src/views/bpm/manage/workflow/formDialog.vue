@@ -1,11 +1,12 @@
 <template>
-  <Dialog v-model="dialogVisible" :title="dialogTitle" width="600">
+  <Dialog :visible="dialogVisible" @update:visible="updateVisible"  :title="dialogTitle" :width="600" @confirm="confirm" @cancel="cancel">
     <el-form
       ref="formRef"
       v-loading="formLoading"
       :model="formData"
       :rules="formRules"
       label-width="110px"
+      style="padding-top:20px;"
     >
       <el-form-item label="流程标识" prop="key">
         <el-input
@@ -43,7 +44,7 @@
           style="width: 100%"
         >
           <el-option
-            v-for="dict in getIntDictOptions(DICT_TYPE.BPM_MODEL_CATEGORY)"
+            v-for="dict in getDictTypeWflow()"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -57,7 +58,7 @@
         <el-form-item label="表单类型" prop="formType">
           <el-radio-group v-model="formData.formType">
             <el-radio
-              v-for="dict in getIntDictOptions(DICT_TYPE.BPM_MODEL_FORM_TYPE)"
+              v-for="dict in getBpmModelFormType()"
               :key="dict.value"
               :label="dict.value"
             >
@@ -115,25 +116,30 @@
         </el-form-item>
       </div>
     </el-form>
-    <template #footer>
+    <!-- <template #footer>
       <el-button :disabled="formLoading" type="primary" @click="submitForm">确 定</el-button>
       <el-button @click="dialogVisible = false">取 消</el-button>
-    </template>
+    </template> -->
   </Dialog>
 </template>
 <script lang="ts" setup>
-  import { DICT_TYPE, getIntDictOptions } from '@/utils/dict';
+  import { getDictTypeWflow, getBpmModelFormType } from '@/utils/dict';
   import { ElMessageBox } from 'element-plus';
   import * as ModelApi from '@/api/bpm/model';
   import * as FormApi from '@/api/bpm/form';
-  import { reactive, ref } from 'vue';
+  import { reactive, ref, watch, onMounted } from 'vue';
   import { useI18n } from 'vue-i18n';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import Dialog from '@/components/Framework/Modal/Dialog.vue';
 
-  defineOptions({ name: 'ModelForm' });
+  defineOptions({ name: 'FormDialog' });
 
   const { t } = useI18n(); // 国际化
   const message = useMessage(); // 消息弹窗
+
+  const props = defineProps({
+    visible: Boolean, // 是否显示弹框
+  });
 
   const dialogVisible = ref(false); // 弹窗的是否展示
   const dialogTitle = ref(''); // 弹窗的标题
@@ -160,8 +166,7 @@
 
   /** 打开弹窗 */
   const open = async (type: string, id?: number) => {
-    dialogVisible.value = true;
-    dialogTitle.value = t('action.' + type);
+    dialogTitle.value = t('common.action.' + type);
     formType.value = type;
     resetForm();
     // 修改时，设置数据
@@ -178,9 +183,10 @@
   };
   defineExpose({ open }); // 提供 open 方法，用于打开弹窗
 
+  
+  const emit = defineEmits(['update:visible', 'success']); // 定义事件
   /** 提交表单 */
-  const emit = defineEmits(['success']); // 定义 success 事件，用于操作成功后的回调
-  const submitForm = async () => {
+  const confirm = async () => {
     // 校验表单
     if (!formRef.value) return;
     const valid = await formRef.value.validate();
@@ -230,4 +236,25 @@
     };
     formRef.value?.resetFields();
   };
+
+  const updateVisible = ($event) => {
+    dialogVisible.value = $event;
+    emit('update:visible', false); // 关闭弹框
+  };
+
+  const cancel = () => {
+    dialogVisible.value = false;
+    emit('update:visible', false); // 关闭弹框
+  };
+
+  watch(
+    () => props.visible,
+    (newValue) => {
+      dialogVisible.value = newValue;
+    },
+  );
+
+  onMounted(() => {
+    dialogVisible.value = props.visible; // 根据传入参数控制Dialog显示  
+  });
 </script>

@@ -27,4 +27,9 @@ export default {
   },
 
   updateSuccess: '修改成功',
+
+  action: {
+    create: '新增',
+    update: '编辑',
+  },
 };
