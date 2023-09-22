@@ -5,7 +5,7 @@
       ref="wfSearchBox"
       @handle="handleQuery"
       @reset="resetQuery"
-      @open="openForm"
+      @open="openForm('create')"
       @import="importForm"
     />
 
@@ -22,7 +22,7 @@
         </el-table-column>
         <el-table-column label="流程分类" align="center" prop="category" width="100">
           <template #default="scope">
-            <DictTag :type="DICT_TYPE.BPM_MODEL_CATEGORY" :value="scope.row.category" />
+            <DictTag v-if="scope.row.category" :type="DICT_TYPE.BPM_MODEL_CATEGORY" :value="scope.row.category" />
           </template>
         </el-table-column>
         <el-table-column label="表单信息" align="center" prop="formType" width="200">
@@ -117,7 +117,8 @@
       />
     </div>
 
-
+    <!-- 表单弹窗：添加/修改流程 -->
+    <FormDialog ref="formDialogRef" @success="getList" :visible="formDialogVisible" @update:visible="formDialogVisible = $event" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -130,7 +131,7 @@
   import { getTableDataWflow } from './workflow';
   import Pagination from '@/components/Framework/Pagination/Pagination.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
-
+  import FormDialog from './formDialog.vue';
   
 
   defineOptions({ name: 'WorkFlow' });
@@ -168,8 +169,14 @@
   /** 添加/修改操作 */
   const importFormRef = ref();
 
+  const formDialogVisible = ref(false);
   /** 添加/修改操作 */
-  const formRef = ref();
+  const formDialogRef = ref();
+  const openForm = (type: string, id?: number) => {
+    console.log('formDialogRef', formDialogRef);
+    formDialogVisible.value = true;
+    formDialogRef.value.open(type, id);
+  }
 
   /** 搜索按钮操作 */
   const handleQuery = () => {
@@ -194,10 +201,6 @@
     } finally {
       loading.value = false;
     }
-  };
-
-  const openForm = (type: string, id?: number) => {
-    formRef.value.open(type, id);
   };
 
   const importForm = () => {
