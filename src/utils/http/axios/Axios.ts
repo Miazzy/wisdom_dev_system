@@ -222,6 +222,11 @@ export class VAxios {
       opt.apiUrl = '';
     }
 
+    // TODO 代理设置
+    if (conf.url?.startsWith('/bpm')) {
+      opt.apiUrl = '/admin-api';
+    }
+
     // TODO logout接口
     if (conf.url === '/logout') {
       return new Promise((resolve) => {
