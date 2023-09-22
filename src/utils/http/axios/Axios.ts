@@ -196,6 +196,10 @@ export class VAxios {
     return this.request({ ...config, method: 'DELETE' }, options);
   }
 
+  download<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
+    return this.request({ ...config, method: 'GET', responseType: 'blob' }, options);
+  }
+
   request<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
     const userStore = useUserStore();
     let conf: CreateAxiosOptions = cloneDeep(config);
@@ -236,7 +240,7 @@ export class VAxios {
 
     const token = userStore.getAccessToken();
     if (conf && conf.headers && conf.headers.Authorization && token) {
-      conf.headers.Authorization = 'Bearer Bearer #{{TOKEN}}'.replace(/#{{TOKEN}}/g, token);
+      conf.headers.Authorization = '#{{TOKEN}}'.replace(/#{{TOKEN}}/g, token);
     }
 
     return new Promise((resolve, reject) => {

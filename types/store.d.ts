@@ -40,6 +40,13 @@ export interface UserInfo {
   roles: RoleInfo[];
 }
 
+export interface User {
+  id?: string | number;
+  avatar?: string;
+  name?: string;
+  realName?: string;
+}
+
 export interface BeforeMiniState {
   menuCollapsed?: boolean;
   menuSplit?: boolean;

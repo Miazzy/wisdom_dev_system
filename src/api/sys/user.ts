@@ -14,7 +14,7 @@ enum Api {
  */
 export function loginApi(params: LoginParams) {
   const requestParams = { url: Api.Login, params };
-  return defHttp.post<LoginResultModel>(requestParams, {});
+  return defHttp.post<LoginResultModel>(requestParams, { isOnlyResult: true });
 }
 
 /**
@@ -30,5 +30,5 @@ export function doLogout() {
  */
 export function getUserInfo() {
   const requestParams = { url: Api.GetPermissionInfo };
-  return defHttp.get<GetUserInfoModel>(requestParams, {});
+  return defHttp.get<GetUserInfoModel>(requestParams, { isOnlyResult: true });
 }

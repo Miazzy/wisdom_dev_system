@@ -87,7 +87,11 @@ const transform: AxiosTransform = {
       } else if (options.successMessageMode === 'message') {
         createMessage.success(successMsg);
       }
-      return { code, result, message };
+      if (options.isOnlyResult === true) {
+        return result;
+      } else {
+        return { code, result, message };
+      }
     }
 
     // 在此处根据自己项目的实际情况对不同的code执行不同的操作

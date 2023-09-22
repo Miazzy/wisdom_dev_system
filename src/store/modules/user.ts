@@ -1,4 +1,4 @@
-import type { UserInfo } from '/#/store';
+import type { UserInfo, User } from '/#/store';
 import type { ErrorMessageMode } from '/#/axios';
 import { defineStore } from 'pinia';
 import { store } from '/@/store';
@@ -95,11 +95,9 @@ export const useUserStore = defineStore({
         const { goHome = true, ...loginParams } = params;
         // TODO 此处估计后端API：Login接口传入登录账户参数，获取用户登录返回结果
         const data = await loginApi(loginParams); // JSON.parse(uinfo);
-        if (data && data.result) {
-          const { accessToken, refreshToken, userId } = data?.result || {};
-          this.setToken(accessToken); // save token
-          return this.afterLoginAction(goHome);
-        }
+        const { accessToken } = data || {};
+        this.setToken(accessToken as string); // save token
+        return this.afterLoginAction(goHome);
       } catch (error) {
         return Promise.reject(error);
       }
@@ -123,21 +121,26 @@ export const useUserStore = defineStore({
         }
         goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME));
       }
-      return userInfo;
+      return userInfo as GetUserInfoModel;
     },
     async getUserInfoAction(): Promise<UserInfo | null> {
       if (!this.getToken) return null;
       const userInfo = await getUserInfo();
-      const { roles = [] } = userInfo;
+      const { roles = [], user } = userInfo;
+      const { id, avatar, name, realName } = user as User;
       if (isArray(roles)) {
-        const roleList = roles.map((item) => item.value) as RoleEnum[];
+        const roleList = roles.map((item) => item) as RoleEnum[];
         this.setRoleList(roleList);
       } else {
         userInfo.roles = [];
         this.setRoleList([]);
       }
-      this.setUserInfo(userInfo);
-      return userInfo;
+      userInfo.userId = id;
+      userInfo.avatar = avatar;
+      userInfo.username = name;
+      userInfo.realName = realName;
+      this.setUserInfo(userInfo as UserInfo);
+      return userInfo as UserInfo;
     },
     /**
      * @description: logout

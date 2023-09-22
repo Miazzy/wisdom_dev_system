@@ -97,7 +97,7 @@
     let canvas = bpmnModeler.get('canvas');
     let todoActivity: any = activityList.find((m: any) => !m.endTime); // 找到待办的任务
     let endActivity: any = activityList[activityList.length - 1]; // 获得最后一个任务
-    // debugger
+
     bpmnModeler.getDefinitions().rootElements[0].flowElements?.forEach((n: any) => {
       let activity: any = activityList.find((m: any) => m.key === n.id); // 找到对应的活动
       if (!activity) {
@@ -120,7 +120,6 @@
         // 处理 outgoing 出线
         const outgoing = getActivityOutgoing(activity);
         outgoing?.forEach((nn: any) => {
-          // debugger
           let targetActivity: any = activityList.find((m: any) => m.key === nn.targetRef.id);
           // 如果目标活动存在，则根据该活动是否结束，进行【bpmn:SequenceFlow】连线的高亮设置
           if (targetActivity) {
@@ -286,7 +285,6 @@
                   <p>部门：${processInstance.value.startUser.deptName}</p>
                   <p>创建时间：${formatDate(processInstance.value.createTime)}`;
       } else if (element.value.type === 'bpmn:UserTask') {
-        // debugger
         let task = taskList.value.find((m) => m.id === activity.taskId); // 找到活动对应的 taskId
         if (!task) {
           return;

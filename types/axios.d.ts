@@ -28,6 +28,8 @@ export interface RequestOptions {
   withToken?: boolean;
   // 请求重试机制
   retryRequest?: RetryRequest;
+  // 是否只返回结果，如果 true , 则只返回结果，如果 false , 则返回 { code, result, msg }
+  isOnlyResult?: string | boolean;
 }
 
 export interface RetryRequest {
