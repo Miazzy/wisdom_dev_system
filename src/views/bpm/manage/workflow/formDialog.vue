@@ -4,6 +4,7 @@
     @update:visible="updateVisible"
     :title="dialogTitle"
     :width="600"
+    :height="300"
     @confirm="confirm"
     @cancel="cancel"
   >
@@ -176,10 +177,7 @@
     if (id) {
       formLoading.value = true;
       try {
-        await ModelApi.getModel(id).then((data) => {
-          console.log(data.result);
-          formData.value = data.result;
-        });
+        formData.value = await ModelApi.getModel(id);
       } finally {
         formLoading.value = false;
       }
