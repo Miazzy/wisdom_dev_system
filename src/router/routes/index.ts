@@ -14,7 +14,13 @@ const routeModuleList: AppRouteModule[] = [];
 Object.keys(systemModules).forEach((key) => {
   const mod = (systemModules as Recordable)[key].default || {};
   const modList = Array.isArray(mod) ? [...mod] : [mod];
-  routeModuleList.push(...modList);
+  const keys = Object.keys(mod);
+
+  // TODO 此处把后端 传递过来的 MENUS 进行匹配 菜单权限过滤
+
+  if (keys && keys.length > 0) {
+    routeModuleList.push(...modList);
+  }
 });
 
 export const asyncRoutes = [PAGE_NOT_FOUND_ROUTE, ...routeModuleList];
