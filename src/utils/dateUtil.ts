@@ -55,6 +55,13 @@ export function formatToDateTime(date?: dayjs.ConfigType, format = DATE_TIME_FOR
   return dayjs(date).format(format);
 }
 
+export function formatDate(date: Date | number, format: string = DATE_FORMAT): string {
+  if (!date) { // 日期不存在，则返回空
+    return '';
+  }
+  return dayjs(date).format(format);
+}
+
 export function formatToDate(date?: dayjs.ConfigType, format = DATE_FORMAT): string {
   return dayjs(date).format(format);
 }

@@ -56,7 +56,6 @@ function FlowableModdleExtension(eventBus) {
 }
 
 FlowableModdleExtension.$inject = ['eventBus'];
-
 FlowableModdleExtension.prototype.canCloneProperty = function (newElement, propDescriptor) {
   if (isAllowed('flowable:FailedJobRetryTimeCycle', propDescriptor, newElement)) {
     return (
@@ -65,11 +64,9 @@ FlowableModdleExtension.prototype.canCloneProperty = function (newElement, propD
       is(newElement.loopCharacteristics, 'bpmn:MultiInstanceLoopCharacteristics')
     );
   }
-
   if (isAllowed('flowable:Connector', propDescriptor, newElement)) {
     return includesType(newElement.eventDefinitions, 'bpmn:MessageEventDefinition');
   }
-
   if (isAllowed('flowable:Field', propDescriptor, newElement)) {
     return includesType(newElement.eventDefinitions, 'bpmn:MessageEventDefinition');
   }

@@ -12,10 +12,10 @@ export default function customTranslate(translations) {
         translations[replacements[key]] !== undefined
       ) {
         // eslint-disable-next-line no-mixed-spaces-and-tabs
-        str = translations[replacements[key]]
+        str = translations[replacements[key]];
         // eslint-disable-next-line no-mixed-spaces-and-tabs
       }
-      return str || '{' + key + '}'
-    })
-  }
+      return str || '{' + key + '}';
+    });
+  };
 }

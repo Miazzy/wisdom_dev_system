@@ -10,7 +10,7 @@
   import BpmnViewer from 'bpmn-js/lib/Viewer';
   import DefaultEmptyXML from './plugins/defaultEmpty';
   import { DICT_TYPE, getIntDictOptions } from '@/utils/dict';
-  import { formatDate } from '@/utils/formatTime';
+  import { formatDate } from '@/utils/dateUtil';
 
   defineOptions({ name: 'MyProcessViewer' });
 
@@ -268,13 +268,7 @@
     !elementOverlayIds.value && (elementOverlayIds.value = {});
     !overlays.value && (overlays.value = bpmnModeler.get('overlays'));
     // 展示信息
-    console.log(activityLists.value, 'activityLists.value');
-    console.log(element.value, 'element.value');
     const activity = activityLists.value.find((m) => m.key === element.value.id);
-    console.log(activity, 'activityactivityactivityactivity');
-    // if (!activity) {
-    //   return
-    // }
     if (!elementOverlayIds.value[element.value.id] && element.value.type !== 'bpmn:Process') {
       let html = `<div class="element-overlays">
             <p>Elemet id: ${element.value.id}</p>
@@ -300,13 +294,6 @@
                   <p>部门：${task.assigneeUser.deptName}</p>
                   <p>结果：${dataResult}</p>
                   <p>创建时间：${formatDate(task.createTime)}</p>`;
-        // html = `<p>审批人：${task.assigneeUser.nickname}</p>
-        //             <p>部门：${task.assigneeUser.deptName}</p>
-        //             <p>结果：${getIntDictOptions(
-        //               DICT_TYPE.BPM_PROCESS_INSTANCE_RESULT,
-        //               task.result
-        //             )}</p>
-        //             <p>创建时间：${formatDate(task.createTime)}</p>`
         if (task.endTime) {
           html += `<p>结束时间：${formatDate(task.endTime)}</p>`;
         }

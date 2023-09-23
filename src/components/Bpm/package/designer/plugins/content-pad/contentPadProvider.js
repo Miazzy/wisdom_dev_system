@@ -5,9 +5,6 @@ import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 import { getChildLanes } from 'bpmn-js/lib/features/modeling/util/LaneUtil';
 import { hasPrimaryModifier } from 'diagram-js/lib/util/Mouse';
 
-/**
- * A provider for BPMN 2.0 elements context pad
- */
 export default function ContextPadProvider(
   config,
   injector,
@@ -117,12 +114,10 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
 
   /**
    * Create an append action
-   *
    * @param {string} type
    * @param {string} className
    * @param {string} [title]
    * @param {Object} [options]
-   *
    * @return {Object} descriptor
    */
   function appendAction(type, className, title, options) {
@@ -158,10 +153,7 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
 
   function splitLaneHandler(count) {
     return function (event, element) {
-      // actual split
       modeling.splitLane(element, count);
-      // refresh context pad after split to
-      // get rid of split icons
       contextPad.open(element, true);
     };
   }
@@ -302,7 +294,6 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
   }
 
   if (!popupMenu.isEmpty(element, 'bpmn-replace')) {
-    // Replace menu entry
     assign(actions, {
       replace: {
         group: 'edit',
@@ -367,12 +358,8 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
       'append.text-annotation': appendAction('bpmn:TextAnnotation', 'bpmn-icon-text-annotation'),
     });
   }
-
-  // delete element entry, only show if allowed by rules
   let deleteAllowed = rules.allowed('elements.delete', { elements: [element] });
-
   if (isArray(deleteAllowed)) {
-    // was the element returned as a deletion candidate?
     deleteAllowed = deleteAllowed[0] === element;
   }
 
@@ -392,18 +379,14 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
   return actions;
 };
 
-// helpers /////////
-
 function isEventType(eventBo, type, definition) {
   const isType = eventBo.$instanceOf(type);
   let isDefinition = false;
-
   const definitions = eventBo.eventDefinitions || [];
   forEach(definitions, function (def) {
     if (def.$type === definition) {
       isDefinition = true;
     }
   });
-
   return isType && isDefinition;
 }
