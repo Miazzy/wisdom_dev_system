@@ -56,7 +56,7 @@ export function formatToDateTime(date?: dayjs.ConfigType, format = DATE_TIME_FOR
 }
 
 export function formatDate(date: Date | number, format: string = DATE_FORMAT): string {
-  if (!date) { // 日期不存在，则返回空
+  if (!date) {
     return '';
   }
   return dayjs(date).format(format);
