@@ -1,6 +1,14 @@
 <template>
-  <Dialog :visible="dialogVisible" @update:visible="updateVisible" title="导入流程" :width="400" :height="500" @confirm="confirm" @cancel="cancel">
-    <div style="padding-top:20px;">
+  <Dialog
+    :visible="dialogVisible"
+    @update:visible="updateVisible"
+    title="导入流程"
+    :width="400"
+    :height="500"
+    @confirm="confirm"
+    @cancel="cancel"
+  >
+    <div style="padding-top: 20px">
       <el-upload
         ref="uploadRef"
         v-model:file-list="fileList"
@@ -77,7 +85,7 @@
   });
   const formRef = ref(); // 表单 Ref
   const uploadRef = ref(); // 上传 Ref
-  const importUrl = '/bpm/model/import'; // TODO 请调整导入路径
+  const importUrl = '/admin-api/bpm/model/import'; // TODO 请调整导入路径
   const uploadHeaders = ref(); // 上传 Header 头
   const fileList = ref([]); // 文件列表
 
@@ -99,8 +107,10 @@
     }
     // 提交请求
     uploadHeaders.value = {
-      Authorization: 'Bearer ' + getAccessToken(),
-      'tenant-id': getTenantId(),
+      Authorization: 'Bearer test1',
+      // Authorization: 'Bearer ' + getAccessToken(),
+      'tenant-id': 1,
+      //'tenant-id': getTenantId(),
     };
     formLoading.value = true;
     uploadRef.value!.submit();
@@ -163,6 +173,6 @@
   );
 
   onMounted(() => {
-    dialogVisible.value = props.visible; // 根据传入参数控制Dialog显示  
+    dialogVisible.value = props.visible; // 根据传入参数控制Dialog显示
   });
 </script>

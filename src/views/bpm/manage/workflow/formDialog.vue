@@ -1,12 +1,19 @@
 <template>
-  <Dialog :visible="dialogVisible" @update:visible="updateVisible"  :title="dialogTitle" :width="600" @confirm="confirm" @cancel="cancel">
+  <Dialog
+    :visible="dialogVisible"
+    @update:visible="updateVisible"
+    :title="dialogTitle"
+    :width="600"
+    @confirm="confirm"
+    @cancel="cancel"
+  >
     <el-form
       ref="formRef"
       v-loading="formLoading"
       :model="formData"
       :rules="formRules"
       label-width="110px"
-      style="padding-top:20px;"
+      style="padding-top: 20px"
     >
       <el-form-item label="流程标识" prop="key">
         <el-input
@@ -57,11 +64,7 @@
       <div v-if="formData.id">
         <el-form-item label="表单类型" prop="formType">
           <el-radio-group v-model="formData.formType">
-            <el-radio
-              v-for="dict in getBpmModelFormType()"
-              :key="dict.value"
-              :label="dict.value"
-            >
+            <el-radio v-for="dict in getBpmModelFormType()" :key="dict.value" :label="dict.value">
               {{ dict.label }}
             </el-radio>
           </el-radio-group>
@@ -173,7 +176,10 @@
     if (id) {
       formLoading.value = true;
       try {
-        formData.value = await ModelApi.getModel(id);
+        await ModelApi.getModel(id).then((data) => {
+          console.log(data.result);
+          formData.value = data.result;
+        });
       } finally {
         formLoading.value = false;
       }
@@ -183,7 +189,6 @@
   };
   defineExpose({ open }); // 提供 open 方法，用于打开弹窗
 
-  
   const emit = defineEmits(['update:visible', 'success']); // 定义事件
   /** 提交表单 */
   const confirm = async () => {
@@ -255,6 +260,6 @@
   );
 
   onMounted(() => {
-    dialogVisible.value = props.visible; // 根据传入参数控制Dialog显示  
+    dialogVisible.value = props.visible; // 根据传入参数控制Dialog显示
   });
 </script>

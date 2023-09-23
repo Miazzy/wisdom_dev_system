@@ -16,11 +16,11 @@ export default defineApplicationConfig({
     },
     server: {
       proxy: {
-        '/bpm/': {
-          target: 'http://10.8.111.231:48081',
+        '/admin-api/bpm/': {
+          target: 'http://localhost:48080',
           changeOrigin: true,
           ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/bpm`), '/bpm'),
+          rewrite: (path) => path.replace(new RegExp(`^/admin-api/bpm/`), '/admin-api/bpm/'),
           // only https
           // secure: false
         },

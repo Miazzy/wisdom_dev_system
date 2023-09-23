@@ -22,7 +22,11 @@
         </el-table-column>
         <el-table-column label="流程分类" align="center" prop="category" width="100">
           <template #default="scope">
-            <DictTag v-if="scope.row.category" :type="DICT_TYPE.BPM_MODEL_CATEGORY" :value="scope.row.category" />
+            <DictTag
+              v-if="scope.row.category"
+              :type="DICT_TYPE.BPM_MODEL_CATEGORY"
+              :value="scope.row.category"
+            />
           </template>
         </el-table-column>
         <el-table-column label="表单信息" align="center" prop="formType" width="200">
@@ -118,10 +122,20 @@
     </div>
 
     <!-- 表单弹窗：添加/修改流程 -->
-    <FormDialog ref="formDialogRef" @success="getList" :visible="formDialogVisible" @update:visible="formDialogVisible = $event" />
+    <FormDialog
+      ref="formDialogRef"
+      @success="getList"
+      :visible="formDialogVisible"
+      @update:visible="formDialogVisible = $event"
+    />
 
     <!-- 表单弹窗：导入流程 -->
-    <ImportDialog ref="importDialogRef" @success="getList" :visible="importDialogVisible" @update:visible="importDialogVisible = $event" />
+    <ImportDialog
+      ref="importDialogRef"
+      @success="getList"
+      :visible="importDialogVisible"
+      @update:visible="importDialogVisible = $event"
+    />
   </div>
 </template>
 <script lang="ts" setup>
@@ -136,7 +150,8 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import FormDialog from './formDialog.vue';
   import ImportDialog from './importDialog.vue';
-  
+
+  import { getModelPage, deployModel, deleteModel } from '@/api/bpm/model';
 
   defineOptions({ name: 'WorkFlow' });
   const message = useMessage(); // 消息弹窗
@@ -184,28 +199,35 @@
   const openForm = (type: string, id?: number) => {
     formDialogVisible.value = true;
     formDialogRef.value.open(type, id);
-  }
+  };
 
   /** 搜索按钮操作 */
-  const handleQuery = () => {
+  const handleQuery = (params) => {
     queryParams.pageNo = 1;
-    getList();
+    getList(params);
   };
 
   /** 重置按钮操作 */
-  const resetQuery = () => {
+  const resetQuery = (params) => {
     const formRef = wfSearchBox.value.$refs.queryFormRef;
     formRef.resetFields();
-    handleQuery();
+    handleQuery(params);
   };
 
   // 查询流程表格列表数据
-  const getList = async () => {
+  const getList = async (params) => {
     loading.value = true;
     try {
-      const data = getTableDataWflow();
-      list.value = data.list;
-      total.value = data.total;
+      getModelPage({
+        pageNo: queryParams.pageNo,
+        pageSize: queryParams.pageSize,
+        key: params ? params.key : '',
+        name: params ? params.name : '',
+        category: params ? params.category : '',
+      }).then((data) => {
+        list.value = data.result.list;
+        total.value = data.result.total;
+      });
     } finally {
       loading.value = false;
     }
@@ -218,9 +240,10 @@
       await message.delConfirm(`请确认是否删除此流程数据项？`);
 
       // 调用集维后端接口，删除流程相应数据 TODO
-
-      // 刷新列表
-      await getList();
+      deleteModel(id).then(() => {
+        // 刷新列表
+        getList();
+      });
     } catch (e) {
       // console.error(e);
     }
@@ -255,6 +278,10 @@
       await message.confirm('请确认是否部署该流程？');
 
       // 调用集维后端接口，部署该流程 TODO
+      deployModel(row.id).then(() => {
+        // 刷新列表
+        getList();
+      });
 
       // 刷新列表
       await getList();

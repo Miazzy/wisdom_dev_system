@@ -83,6 +83,9 @@
   // 重置按钮操作
   const resetQuery = () => {
     emit('reset', qparams);
+    qparams.key = '';
+    qparams.name = '';
+    qparams.category = '';
   };
 
   // 新建表单
