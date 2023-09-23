@@ -136,6 +136,34 @@
       :visible="importDialogVisible"
       @update:visible="importDialogVisible = $event"
     />
+
+    <!-- 弹窗：表单详情 -->
+    <Dialog
+      title="表单详情"
+      v-model:visible="formDetailVisible"
+      :width="800"
+      :height="600"
+      :showBtm="false"
+    >
+      <form-create :rule="formDetailPreview.rule" :option="formDetailPreview.option" />
+    </Dialog>
+
+    <!-- 弹窗：流程模型图的预览 -->
+    <Dialog
+      title="流程图"
+      v-model:visible="bpmnDetailVisible"
+      :width="800"
+      :height="600"
+      :showBtm="false"
+    >
+      <MyProcessViewer
+        key="designer"
+        v-model="bpmnXML"
+        :value="bpmnXML"
+        v-bind="bpmnControlForm"
+        :prefix="bpmnControlForm.prefix"
+      />
+    </Dialog>
   </div>
 </template>
 <script lang="ts" setup>
@@ -148,8 +176,10 @@
   import { getTableDataWflow } from './workflow';
   import Pagination from '@/components/Framework/Pagination/Pagination.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import FormDialog from './formDialog.vue';
   import ImportDialog from './importDialog.vue';
+  import { MyProcessViewer } from '@/components/Bpm/package';
 
   defineOptions({ name: 'WorkFlow' });
   const message = useMessage(); // 消息弹窗
@@ -170,7 +200,7 @@
 
   /** 流程图的详情按钮操作 */
   const bpmnDetailVisible = ref(false);
-  const bpmnXML = ref(null);
+  const bpmnXML = ref('');
   const bpmnControlForm = ref({
     prefix: 'flowable',
   });
@@ -319,9 +349,9 @@
   };
 
   const handleBpmnDetail = async (row) => {
-    const data = getTableDataWflow();
-    bpmnXML.value = data.bpmnXml || '';
     bpmnDetailVisible.value = true;
+    const data = { bpmnXml: '' }; // TODO 需袁老师联调接口，获取流程设计XML详情
+    bpmnXML.value = data.bpmnXml || '';
   };
 
   /** 初始化 **/

@@ -1,6 +1,14 @@
 <template>
-  <Dialog :visible="dialogVisible" @update:visible="updateVisible" title="导入流程" :width="400" :height="500" @confirm="confirm" @cancel="cancel">
-    <div style="padding-top:20px;">
+  <Dialog
+    :visible="dialogVisible"
+    @update:visible="updateVisible"
+    title="导入流程"
+    :width="800"
+    :height="500"
+    @confirm="confirm"
+    @cancel="cancel"
+  >
+    <div style="padding-top: 20px">
       <el-upload
         ref="uploadRef"
         v-model:file-list="fileList"
@@ -163,6 +171,6 @@
   );
 
   onMounted(() => {
-    dialogVisible.value = props.visible; // 根据传入参数控制Dialog显示  
+    dialogVisible.value = props.visible; // 根据传入参数控制Dialog显示
   });
 </script>
