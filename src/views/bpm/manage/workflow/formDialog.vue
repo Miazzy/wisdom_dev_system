@@ -176,7 +176,10 @@
     if (id) {
       formLoading.value = true;
       try {
-        formData.value = await ModelApi.getModel(id);
+        await ModelApi.getModel(id).then((data) => {
+          console.log(data.result);
+          formData.value = data.result;
+        });
       } finally {
         formLoading.value = false;
       }

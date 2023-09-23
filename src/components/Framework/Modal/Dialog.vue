@@ -10,7 +10,7 @@
         <!-- 插槽：用于自定义弹框内容 -->
         <slot></slot>
       </div>
-      <div v-if="props.showBtm" class="modal-footer" style="position: relative">
+      <div class="modal-footer" style="position: relative">
         <!-- 底部按钮插槽：可以包含“取消”、“确定”按钮 -->
         <div class="footer-button" style="">
           <slot name="footer">
@@ -32,7 +32,6 @@
     tsize: { type: String, default: '16' }, // 标题大小
     width: { type: Number, default: 400 }, // 弹框宽度
     height: { type: Number, default: 300 }, // 弹框高度
-    showBtm: { type: Boolean, default: true },
   });
 
   const emit = defineEmits(['update:visible', 'cancel', 'confirm']); // 定义事件

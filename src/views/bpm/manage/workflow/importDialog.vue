@@ -3,7 +3,7 @@
     :visible="dialogVisible"
     @update:visible="updateVisible"
     title="导入流程"
-    :width="800"
+    :width="400"
     :height="500"
     @confirm="confirm"
     @cancel="cancel"
@@ -85,7 +85,7 @@
   });
   const formRef = ref(); // 表单 Ref
   const uploadRef = ref(); // 上传 Ref
-  const importUrl = '/bpm/model/import'; // TODO 请调整导入路径
+  const importUrl = '/admin-api/bpm/model/import'; // TODO 请调整导入路径
   const uploadHeaders = ref(); // 上传 Header 头
   const fileList = ref([]); // 文件列表
 
@@ -107,8 +107,10 @@
     }
     // 提交请求
     uploadHeaders.value = {
-      Authorization: 'Bearer ' + getAccessToken(),
-      'tenant-id': getTenantId(),
+      Authorization: 'Bearer test1',
+      // Authorization: 'Bearer ' + getAccessToken(),
+      'tenant-id': 1,
+      //'tenant-id': getTenantId(),
     };
     formLoading.value = true;
     uploadRef.value!.submit();

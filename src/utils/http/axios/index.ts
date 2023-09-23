@@ -184,6 +184,12 @@ const transform: AxiosTransform = {
       (config as Recordable).headers.Authorization = options.authenticationScheme
         ? `${options.authenticationScheme} ${token}`
         : token;
+      // TODO 代理设置
+      if (config.url?.startsWith('/admin-api/bpm')) {
+        (config as Recordable).headers.Authorization = 'Bearer test1';
+        (config as Recordable).headers['Tenant-Id'] = 1;
+        (config as Recordable).headers['login_user_type'] = 2;
+      }
     }
     return config;
   },

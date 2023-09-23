@@ -17,16 +17,18 @@
   </ElCard>
 </template>
 <script lang="ts" setup>
-  import { ElCard } from 'element-plus';
+  import { propTypes } from '@/utils/propType';
   import { useDesigns } from '@/hooks/web/useDesign';
+  import { ElCard } from 'element-plus';
 
   defineOptions({ name: 'ContentWrap' });
 
   const { getPrefixCls } = useDesigns();
+
   const prefixCls = getPrefixCls('content-wrap');
 
   defineProps({
-    title: { type: String },
-    message: { type: String },
+    title: propTypes.string.def(''),
+    message: propTypes.string.def(''),
   });
 </script>

@@ -26,8 +26,10 @@
 
 <script lang="ts" setup>
   import { MyProcessDesigner, MyProcessPenal } from '@/components/Bpm/package';
-  import CustomContentPadProvider from '@/components/Bpm/package/designer/plugins/content-pad'; // 自定义元素选中时的弹出菜单（修改 默认任务 为 用户任务）
-  import CustomPaletteProvider from '@/components/Bpm/package/designer/plugins/palette'; // 自定义左侧菜单（修改 默认任务 为 用户任务）
+  // 自定义元素选中时的弹出菜单（修改 默认任务 为 用户任务）
+  import CustomContentPadProvider from '@/components/bpmnProcessDesigner/package/designer/plugins/content-pad';
+  // 自定义左侧菜单（修改 默认任务 为 用户任务）
+  import CustomPaletteProvider from '@/components/bpmnProcessDesigner/package/designer/plugins/palette';
   import * as ModelApi from '@/api/bpm/model';
   import { ref, onMounted } from 'vue';
   import { useRouter, useRoute } from 'vue-router';

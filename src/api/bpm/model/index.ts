@@ -60,7 +60,7 @@ export const updateModelState = async (id: number, state: number) => {
 
 export const createModel = async (data: ModelVO) => {
   const requestParams = { url: BpmModelApi.CreateModel, data };
-  return defHttp.put<any>(requestParams, {});
+  return defHttp.post<any>(requestParams, {});
 };
 
 export const deleteModel = async (id: number) => {
