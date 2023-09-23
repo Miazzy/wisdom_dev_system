@@ -159,7 +159,6 @@
   const total = ref(0); // 列表的总页数
   const list = ref([]); // 列表的数据
   const wfSearchBox = ref(); // 搜索的表单
-  const tableData = ref([]);
 
   const queryParams = reactive({
     pageNo: 1,
