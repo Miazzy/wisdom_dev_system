@@ -135,13 +135,11 @@
     if (!data) return;
     try {
       loading.value = true;
-      debugger;
       const userInfo = await userStore.login({
         loginName: data.account,
         password: data.password,
         mode: 'none', //不要默认的错误提示
       });
-      debugger;
       if (userInfo) {
         const username = userInfo.realName || userInfo.userId;
         notification.success({

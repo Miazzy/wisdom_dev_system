@@ -7,6 +7,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { provide, ref, toRaw, onMounted, onBeforeUnmount, watch } from 'vue';
   import BpmnViewer from 'bpmn-js/lib/Viewer';
   import DefaultEmptyXML from './plugins/defaultEmpty';
   import { DICT_TYPE, getIntDictOptions } from '@/utils/dict';
