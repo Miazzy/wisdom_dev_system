@@ -2,7 +2,7 @@
   <div class="modal-mask" v-if="visible">
     <div class="modal-container" :style="{ width: width + 'px', height: height + 'px' }">
       <div class="modal-header">
-        <span>{{ title }}</span>
+        <span :style="`font-size: ${tsize}px;`">{{ title }}</span>
         <button class="modal-close" @click="closeModal">×</button>
       </div>
 
@@ -29,6 +29,7 @@
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
     title: String, // 弹框标题
+    tsize: { type: String, default: '16' }, // 标题大小
     width: { type: Number, default: 400 }, // 弹框宽度
     height: { type: Number, default: 300 }, // 弹框高度
     showBtm: { type: Boolean, default: true },
