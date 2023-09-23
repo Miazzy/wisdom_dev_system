@@ -22,7 +22,11 @@
         </el-table-column>
         <el-table-column label="流程分类" align="center" prop="category" width="100">
           <template #default="scope">
-            <DictTag v-if="scope.row.category" :type="DICT_TYPE.BPM_MODEL_CATEGORY" :value="scope.row.category" />
+            <DictTag
+              v-if="scope.row.category"
+              :type="DICT_TYPE.BPM_MODEL_CATEGORY"
+              :value="scope.row.category"
+            />
           </template>
         </el-table-column>
         <el-table-column label="表单信息" align="center" prop="formType" width="200">
@@ -118,10 +122,20 @@
     </div>
 
     <!-- 表单弹窗：添加/修改流程 -->
-    <FormDialog ref="formDialogRef" @success="getList" :visible="formDialogVisible" @update:visible="formDialogVisible = $event" />
+    <FormDialog
+      ref="formDialogRef"
+      @success="getList"
+      :visible="formDialogVisible"
+      @update:visible="formDialogVisible = $event"
+    />
 
     <!-- 表单弹窗：导入流程 -->
-    <ImportDialog ref="importDialogRef" @success="getList" :visible="importDialogVisible" @update:visible="importDialogVisible = $event" />
+    <ImportDialog
+      ref="importDialogRef"
+      @success="getList"
+      :visible="importDialogVisible"
+      @update:visible="importDialogVisible = $event"
+    />
   </div>
 </template>
 <script lang="ts" setup>
@@ -136,7 +150,6 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import FormDialog from './formDialog.vue';
   import ImportDialog from './importDialog.vue';
-  
 
   defineOptions({ name: 'WorkFlow' });
   const message = useMessage(); // 消息弹窗
@@ -184,7 +197,7 @@
   const openForm = (type: string, id?: number) => {
     formDialogVisible.value = true;
     formDialogRef.value.open(type, id);
-  }
+  };
 
   /** 搜索按钮操作 */
   const handleQuery = () => {
