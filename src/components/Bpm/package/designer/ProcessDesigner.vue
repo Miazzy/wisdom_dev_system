@@ -8,15 +8,12 @@
           <el-tooltip effect="light" placement="bottom">
             <template #content>
               <div style="color: #409eff">
-                <!-- <el-button link @click="downloadProcessAsXml()">下载为XML文件</el-button> -->
                 <XTextButton title="下载为XML文件" @click="downloadProcessAsXml()" />
                 <br />
 
-                <!-- <el-button link @click="downloadProcessAsSvg()">下载为SVG文件</el-button> -->
                 <XTextButton title="下载为SVG文件" @click="downloadProcessAsSvg()" />
                 <br />
 
-                <!-- <el-button link @click="downloadProcessAsBpmn()">下载为BPMN文件</el-button> -->
                 <XTextButton title="下载为BPMN文件" @click="downloadProcessAsBpmn()" />
               </div>
             </template>
@@ -25,10 +22,8 @@
           <el-tooltip effect="light">
             <XButton preIcon="ep:view" title="浏览" />
             <template #content>
-              <!-- <el-button link @click="previewProcessXML">预览XML</el-button> -->
               <XTextButton title="预览XML" @click="previewProcessXML" />
               <br />
-              <!-- <el-button link @click="previewProcessJson">预览JSON</el-button> -->
               <XTextButton title="预览JSON" @click="previewProcessJson" />
             </template>
           </el-tooltip>
@@ -42,11 +37,6 @@
         </ElButtonGroup>
         <ElButtonGroup key="align-control">
           <el-tooltip effect="light" content="向左对齐">
-            <!-- <el-button
-              class="align align-left"
-              icon="el-icon-s-data"
-              @click="elementsAlign('left')"
-            /> -->
             <XButton
               preIcon="fa:align-left"
               class="align align-bottom"
@@ -54,11 +44,6 @@
             />
           </el-tooltip>
           <el-tooltip effect="light" content="向右对齐">
-            <!-- <el-button
-              class="align align-right"
-              icon="el-icon-s-data"
-              @click="elementsAlign('right')"
-            /> -->
             <XButton
               preIcon="fa:align-left"
               class="align align-top"
@@ -66,11 +51,6 @@
             />
           </el-tooltip>
           <el-tooltip effect="light" content="向上对齐">
-            <!-- <el-button
-              class="align align-top"
-              icon="el-icon-s-data"
-              @click="elementsAlign('top')"
-            /> -->
             <XButton
               preIcon="fa:align-left"
               class="align align-left"
@@ -78,11 +58,6 @@
             />
           </el-tooltip>
           <el-tooltip effect="light" content="向下对齐">
-            <!-- <el-button
-              class="align align-bottom"
-              icon="el-icon-s-data"
-              @click="elementsAlign('bottom')"
-            /> -->
             <XButton
               preIcon="fa:align-left"
               class="align align-right"

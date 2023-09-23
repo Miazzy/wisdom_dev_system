@@ -34,3 +34,8 @@ export const getBpmModelFormType = () => {
   );
   return type;
 };
+
+//
+export const getIntDictOptions = () => {
+  return null;
+};
