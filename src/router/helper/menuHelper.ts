@@ -47,11 +47,9 @@ export function transformRouteToMenu(routeModList: AppRouteModule[], routerMappi
 
   // 对路由项进行修改
   cloneRouteModList.forEach((item) => {
-    debugger
     if (routerMapping && item?.meta?.hideChildrenInMenu && typeof item.redirect === 'string') {
       item.path = item.redirect;
     }
-
     if (item.meta?.single) {
       const realItem = item?.children?.[0];
       realItem && routeList.push(realItem);
