@@ -62,6 +62,13 @@ export function formatDate(date: Date | number, format: string = DATE_FORMAT): s
   return dayjs(date).format(format);
 }
 
+export function formatTime(date: Date | number, format: string = DATE_TIME_FORMAT): string {
+  if (!date) {
+    return '';
+  }
+  return dayjs(date).format(format);
+}
+
 export function formatToDate(date?: dayjs.ConfigType, format = DATE_FORMAT): string {
   return dayjs(date).format(format);
 }
