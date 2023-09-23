@@ -3,6 +3,7 @@ import type { AppRouteModule } from '/@/router/types';
 import { LAYOUT } from '/@/router/constant';
 import { t } from '/@/hooks/web/useI18n';
 
+/**
 // 基础设置菜单配置位置
 const baseset: AppRouteModule = {
   path: '/baseset',
@@ -45,3 +46,5 @@ const baseset: AppRouteModule = {
 };
 
 export default baseset;
+
+*/
