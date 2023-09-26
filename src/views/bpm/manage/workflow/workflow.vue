@@ -168,7 +168,7 @@
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import FormDialog from './formDialog.vue';
   import ImportDialog from './importDialog.vue';
-  import { getModelPage, deployModel, deleteModel } from '@/api/bpm/model';
+  import { getModelPage, getModel, deployModel, deleteModel } from '@/api/bpm/model';
   import { MyProcessViewer } from '@/components/Bpm/package';
 
   defineOptions({ name: 'WorkFlow' });
@@ -242,8 +242,8 @@
         name: params ? params.name : '',
         category: params ? params.category : '',
       }).then((data) => {
-        list.value = data.result.list;
-        total.value = data.result.total;
+        list.value = data.list;
+        total.value = data.total;
       });
     } finally {
       loading.value = false;
@@ -294,14 +294,10 @@
       // 删除的二次确认
       await message.confirm('请确认是否部署该流程？');
 
-      // 调用集维后端接口，部署该流程 TODO
       deployModel(row.id).then(() => {
         // 刷新列表
         getList();
       });
-
-      // 刷新列表
-      await getList();
     } catch (e) {
       // console.error(e);
     }
@@ -352,8 +348,10 @@
 
   const handleBpmnDetail = async (row) => {
     bpmnDetailVisible.value = true;
-    const data = { bpmnXml: '' }; // TODO 需袁老师联调接口，获取流程设计XML详情
-    bpmnXML.value = data.bpmnXml || '';
+
+    getModel(row.id).then((data) => {
+      bpmnXML.value = data.bpmnXml;
+    });
   };
 
   /** 初始化 **/
