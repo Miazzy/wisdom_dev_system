@@ -18,7 +18,7 @@
         <div class="tree-content">
           <div class="tree-value" :style="`margin: 10px 0px 0px 0px; height: calc(${props.height}px - 140px); overflow-y: scroll;`"> 
             <!-- 基础Tree组件 -->
-            <a-tree :tree-data="treeData" show-icon default-expand-all >
+            <a-tree :tree-data="treeData" show-icon default-expand-all @select="handleSelect">
               <template #switcherIcon="{ switcherCls }">
                 <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
               </template>
@@ -29,7 +29,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- 右侧表格 -->
       <div class="category-table">
         <div class="category-title">
@@ -41,14 +41,14 @@
               关键字：
             </div>
             <div class="search-input">
-              <a-input placeholder="请输入搜索关键字..." />
+              <a-input v-model:value="searchText" placeholder="请输入搜索关键字..." />
             </div>
             <div class="search-button">
-              <a-button size="middle" preIcon="ant-design:search" type="primary" style="width: 80px; border-radius: 4px;">搜索</a-button>
+              <a-button size="middle" preIcon="ant-design:search" type="primary" style="width: 80px; border-radius: 4px;" @click="handleSearch">搜索</a-button>
             </div>
           </div>
           <div id="combo-dialog-table" class="table-content" >
-            <a-table size="small" :columns="props.gcolumns" :data-source="gdata" :scroll="{ y: theight }"  >
+            <a-table size="small" :columns="props.gcolumns" :data-source="filterGdata" :scroll="{ y: theight }" :customRow="handleTableClick" >
             </a-table>
           </div>
         </div>
@@ -59,14 +59,17 @@
 
 <script lang="ts" setup>
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
-  import { ref, defineProps, defineEmits, computed, onMounted, watch, unref } from 'vue';
+  import { ref, defineProps, defineEmits, onMounted, watch, unref } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
   import { TreeItem } from '../../Tree';
 
   const modalVisible = ref(false);
   const treeData = ref([]);
   const theight = ref(300);
+  const filterGdata = ref<any>([]);
   const comboDialog = ref<any>(null);
+  const searchText = ref('');
+  const selectedNode = ref(null);
   type fieldType = { key: String; title: String };
   type tIconsType = { parent: String, leaf: String };
 
@@ -88,14 +91,18 @@
     gcolumns: { type: Array, default: <any>[] },
   });
 
-  const emit = defineEmits(['update:visible', 'cancel', 'confirm']); // 定义事件
+  const emit = defineEmits(['update:visible', 'cancel', 'confirm', 'tclick']); // 定义事件
 
   const cancel = () => {
+    modalVisible.value = false;
+    emit('update:visible', false); // 关闭弹框
     emit('cancel'); // 发送取消事件
   };
 
   const confirm = () => {
-    emit('confirm'); // 发送确定事件
+    modalVisible.value = false;
+    emit('update:visible', false); // 关闭弹框
+    emit('confirm', selectedNode.value); // 发送确定事件
   };
 
   const updateVisible = ($event) => {
@@ -120,6 +127,7 @@
       for (const key in item) {
         if (key in rules) {
           newItem[rules[key]] = item[key];
+          newItem[key] = item[key];
         } else {
           newItem[key] = item[key];
         }
@@ -131,11 +139,50 @@
     });
   };
 
-  const setTableHeight = (height) => {
-    const comboTableBody = document.querySelector('#combo-dialog-table .ant-table-body');
-    if (comboTableBody && comboTableBody.style) {
-      comboTableBody.style.minHeight = `${height}px`;
-    }
+  // 列表搜索点击事件
+  const handleSearch = () => {
+    const selectedTitle = searchText.value;
+    const dataList = props.gdata as any[];
+
+    // 使用筛选函数，根据 selectedTitle 筛选出匹配项
+    filterGdata.value = dataList.filter((item) => {
+      return JSON.stringify(item).includes(selectedTitle);
+    });
+  }
+
+  // 树节点选中事件
+  const handleSelect = (nodeKey, event) => {
+    const node = event.node;
+    const selectedTitle = node.title; // 获取选中节点的标题
+    const dataList = props.gdata as any[];
+
+    // 使用筛选函数，根据 selectedTitle 筛选出匹配项
+    filterGdata.value = dataList.filter((item) => {
+      return JSON.stringify(item).includes(selectedTitle);
+    });
+  };
+
+  // 表格点击事件
+  const handleTableClick = (record, index) => {
+    const clickFunc = (event) => {
+      // 获取当前点击的行
+      const currentRow = event.currentTarget;
+      // 获取所有兄弟节点
+      const siblingRows = currentRow.parentElement.querySelectorAll('.ant-table-row');
+      // 移除兄弟节点中的 selected 类样式
+      siblingRows.forEach((siblingRow) => {
+        siblingRow.classList.remove('selected');
+      });
+      // 为当前行添加 selected 类样式
+      currentRow.classList.add('selected');
+      // 设置选中的节点
+      selectedNode.value = record;
+      // 触发tclick事件
+      emit('tclick', { record, index }, event);
+    };
+    return {
+      onclick: clickFunc,
+    };
   }
 
   watch(
@@ -164,6 +211,7 @@
   onMounted(() => {
     theight.value = props.height - 260;
     modalVisible.value = props.visible; // 根据传入参数控制Dialog显示  
+    filterGdata.value = props.gdata as unknown[];
   });
 </script>
 
@@ -258,6 +306,14 @@
 
         :deep(.ant-table-body) {
           height: 100vh;
+        }
+
+        :deep(.ant-table-body .ant-table-row.selected) {
+          background: var(--el-color-primary-light-8);
+        }
+
+        :deep(.ant-table-body .ant-table-row.selected td) {
+          background: var(--el-color-primary-light-8);
         }
       }
     }
