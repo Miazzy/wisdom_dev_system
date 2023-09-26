@@ -6,7 +6,10 @@
         <button class="modal-close" @click="closeModal">×</button>
       </div>
 
-      <div class="modal-body" :style="{ height: bodyHeight + 'px' }">
+      <div
+        class="modal-body"
+        :style="{ height: bodyHeight + 'px', overflowY: overflowY, overflowX: overflowX }"
+      >
         <!-- 插槽：用于自定义弹框内容 -->
         <slot></slot>
       </div>
@@ -33,6 +36,8 @@
     width: { type: Number, default: 800 }, // 弹框宽度
     height: { type: Number, default: 600 }, // 弹框高度
     showBtm: { type: Boolean, default: true },
+    overflowY: { type: String, default: 'hidden' },
+    overflowX: { type: String, default: 'hidden' },
   });
 
   const emit = defineEmits(['update:visible', 'cancel', 'confirm']); // 定义事件
