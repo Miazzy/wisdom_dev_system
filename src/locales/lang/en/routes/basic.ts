@@ -12,6 +12,7 @@ export default {
     management: 'Process management',
     manage: {
       workflow: 'Process model',
+      wfeditor: 'Process Editor',
       wflowpage: {
         search: 'Search',
         reset: 'Reset',

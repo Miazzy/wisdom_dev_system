@@ -144,7 +144,13 @@
       const newItem = {};
       for (const key in item) {
         if (key in rules) {
-          newItem[rules[key]] = item[key];
+          if (rules[key] == 'title') {
+            newItem[rules[key]] = item[key];
+            newItem[key] = item[key];
+          } else if (rules[key] == 'id') {
+            newItem[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key].slice(0, 5);
+            newItem[key] = item[key];
+          }
         } else {
           newItem[key] = item[key];
         }
@@ -211,8 +217,8 @@
       const rule = props?.tfields as fieldType;
       const data = unref(props.data as unknown[] as TreeItem[]);
       const resultData = JSON.parse(JSON.stringify(data));
-      treeData.value = transformData(resultData, rule);
       treeMap.value = transformMap(data, rule);
+      treeData.value = transformData(resultData, rule);
     },
   );
 
@@ -268,7 +274,7 @@
       background: #fefefe;
       color: #cecece;
 
-      &:hover{
+      &:hover {
         color: #c0c0c0;
         cursor: pointer;
       }
@@ -281,7 +287,7 @@
       background: #fefefe;
       color: #cecece;
 
-      &:hover{
+      &:hover {
         color: #c0c0c0;
         cursor: pointer;
       }

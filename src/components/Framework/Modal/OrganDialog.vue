@@ -37,11 +37,15 @@
   const emit = defineEmits(['update:visible', 'cancel', 'confirm']); // 定义事件
 
   const cancel = () => {
+    modalVisible.value = false;
     emit('cancel'); // 发送取消事件
+    emit('update:visible', false); // 关闭弹框
   };
 
   const confirm = () => {
+    modalVisible.value = false;
     emit('confirm'); // 发送确定事件
+    emit('update:visible', false); // 关闭弹框
   };
 
   const updateVisible = ($event) => {

@@ -32,6 +32,14 @@ const system: AppRouteModule = {
           },
         },
         {
+          path: 'wfeditor',
+          name: 'wfeditor',
+          component: () => import('/@/views/bpm/manage/workflow/processEditor.vue'),
+          meta: {
+            title: t('routes.basic.bpm.manage.wfeditor'),
+          },
+        },
+        {
           path: 'dev',
           name: 'dev',
           component: () => import('/@/views/dev/dev.vue'),

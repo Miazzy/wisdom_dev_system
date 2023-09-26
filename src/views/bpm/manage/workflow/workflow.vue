@@ -310,7 +310,7 @@
   /** 设计流程 */
   const handleDesign = (row) => {
     push({
-      name: 'BpmModelEditor',
+      name: 'wfeditor',
       query: {
         modelId: row.id,
       },
