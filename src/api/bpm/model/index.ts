@@ -38,12 +38,12 @@ export enum BpmModelApi {
 
 export const getModelPage = async (params) => {
   const requestParams = { url: BpmModelApi.GetModelPage, params };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
 export const getModel = async (id: number) => {
   const requestParams = { url: BpmModelApi.GetModel + id };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
 export const updateModel = async (data: ModelVO) => {
