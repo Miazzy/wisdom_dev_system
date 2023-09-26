@@ -122,20 +122,10 @@
     </div>
 
     <!-- 表单弹窗：添加/修改流程 -->
-    <FormDialog
-      ref="formDialogRef"
-      @success="getList"
-      :visible="formDialogVisible"
-      @update:visible="formDialogVisible = $event"
-    />
+    <FormDialog ref="formDialogRef" @success="getList" v-model:visible="formDialogVisible" />
 
     <!-- 表单弹窗：导入流程 -->
-    <ImportDialog
-      ref="importDialogRef"
-      @success="getList"
-      :visible="importDialogVisible"
-      @update:visible="importDialogVisible = $event"
-    />
+    <ImportDialog ref="importDialogRef" @success="getList" v-model:visible="importDialogVisible" />
 
     <!-- 弹窗：表单详情 -->
     <Dialog
@@ -173,7 +163,6 @@
   import { useRouter } from 'vue-router';
   import WfSearchBox from '/@/components/Framework/WorkFlow/WfSearchBox.vue';
   import DictTag from '@/components/Framework/Tag/DictTag/DictTag.vue';
-  import { getTableDataWflow } from './workflow';
   import Pagination from '@/components/Framework/Pagination/Pagination.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import Dialog from '@/components/Framework/Modal/Dialog.vue';

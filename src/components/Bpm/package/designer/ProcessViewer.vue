@@ -11,6 +11,7 @@
   import DefaultEmptyXML from './plugins/defaultEmpty';
   import { DICT_TYPE, getIntDictOptions } from '@/utils/dict';
   import { formatDate } from '@/utils/dateUtil';
+  import { provide, ref, toRaw, onMounted, onBeforeUnmount, watch } from 'vue';
 
   defineOptions({ name: 'MyProcessViewer' });
 

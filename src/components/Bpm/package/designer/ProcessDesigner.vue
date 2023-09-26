@@ -273,6 +273,7 @@
   });
 
   provide('configGlobal', props);
+
   let bpmnModeler: any = null;
   const defaultZoom = ref(1);
   const previewModelVisible = ref(false);
