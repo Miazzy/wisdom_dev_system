@@ -39,6 +39,8 @@
   </div>
 </template>
 <script lang="ts" setup>
+  import { ref, reactive, toRaw, onMounted, watch, onBeforeUnmount } from "vue";
+
   defineOptions({ name: 'ElementBaseInfo' });
 
   const props = defineProps({
