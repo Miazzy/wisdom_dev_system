@@ -158,3 +158,25 @@ export interface GlobEnvConfig {
   // Upload url
   VITE_GLOB_UPLOAD_URL?: string;
 }
+
+export interface ApiAttrs {
+  btn: {
+    loading(loading: boolean): void;
+    disabled(disabled: boolean): void;
+    show(show: boolean): void;
+  };
+  resetBtn: {
+    loading(loading: boolean): void;
+    disabled(disabled: boolean): void;
+    show(show: boolean): void;
+  };
+  formEl(): undefined | any;
+  wrapEl(id: string): undefined | any;
+  submit(success: (formData: FormData, $f: any) => void, fail: ($f: any) => void): Promise<any>;
+  clearValidateState(fields?: string | string[], clearSub?: Boolean): void;
+  clearSubValidateState(fields?: string | string[]): void;
+  validate(callback?: (state: any) => void): Promise<any>;
+  validateField(field: string, callback?: (state: any) => void): Promise<any>;
+  submitBtnProps(props: any): void;
+  resetBtnProps(props: any): void;
+}

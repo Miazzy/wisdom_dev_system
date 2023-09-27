@@ -26,5 +26,12 @@ export default {
     exportMessage: 'Comfirm export this data?',
   },
 
+  required: 'required',
   updateSuccess: 'Update Success',
+  delSuccess: 'Delete Success',
+
+  action: {
+    create: 'create',
+    update: 'update',
+  },
 };

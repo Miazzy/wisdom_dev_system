@@ -26,7 +26,9 @@ export default {
     exportMessage: '是否确认导出此数据项？',
   },
 
+  required: '必填',
   updateSuccess: '修改成功',
+  delSuccess: '删除成功',
 
   action: {
     create: '新增',
