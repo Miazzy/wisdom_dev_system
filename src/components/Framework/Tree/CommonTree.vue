@@ -1,3 +1,9 @@
+<!--
+ * @Description: 
+ * @Date: 2023-09-22 08:46:00
+ * @LastEditTime: 2023-09-28 09:09:11
+ * @FilePath: \ygwl-framework\src\components\Framework\Tree\CommonTree.vue
+-->
 <template>
   <div class="m-4 mr-0 overflow-hidden bg-white" style="border: 1px solid #d9d9d9">
     <BasicTree
@@ -52,8 +58,7 @@
 
   // 编辑
   function handleTreeEdit() {
-    if (!selectedNode.value) return;
-    const node = getTree().getSelectedNode(selectedNode.value);
+    const node = getTree().getSelectedNode(selectedNode.value) || null;
     emit('edit', node);
   }
   provide('handleTreeEdit', handleTreeEdit);
@@ -67,8 +72,7 @@
 
   // 删除
   function handleTreeDelete() {
-    if (!selectedNode.value) return;
-    const node = getTree().getSelectedNode(selectedNode.value);
+    const node = getTree().getSelectedNode(selectedNode.value) || null;
     emit('delete', node);
   }
   provide('handleTreeDelete', handleTreeDelete);
