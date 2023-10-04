@@ -4,11 +4,12 @@ enum Api {
   page = '/bpm/model/page',
 }
 
-export const getPage = (params: ParamsType) =>
-  defHttp.get<any>({
+export const getPage = (params: ParamsType) => {
+  return defHttp.get<any>({
     url: Api.page,
     params,
   });
+};
 
 // 获取流程表格列表数据
 export const getTableDataWflow = (queryParams) => {
