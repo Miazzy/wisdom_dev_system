@@ -120,10 +120,6 @@
         </el-form-item>
       </div>
     </el-form>
-    <!-- <template #footer>
-      <el-button :disabled="formLoading" type="primary" @click="submitForm">确 定</el-button>
-      <el-button @click="dialogVisible = false">取 消</el-button>
-    </template> -->
   </Dialog>
 </template>
 <script lang="ts" setup>

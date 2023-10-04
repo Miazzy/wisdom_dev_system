@@ -103,9 +103,7 @@
     // 提交请求
     uploadHeaders.value = {
       Authorization: 'Bearer test1',
-      // Authorization: 'Bearer ' + getAccessToken(),
       'tenant-id': 1,
-      //'tenant-id': getTenantId(),
     };
     formLoading.value = true;
     uploadRef.value!.submit();

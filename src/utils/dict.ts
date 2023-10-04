@@ -114,13 +114,20 @@ export const getBpmModelFormType = () => {
   return type;
 };
 
-//
+// 获取字段选项
 export const getIntDictOptions = (key: any) => {
   if (key === 'bpm_task_assign_script') {
     const type = JSON.parse(
       `[{"value":10,"label":"流程发起人","colorType":"","cssClass":""},{"value":20,"label":"流程发起人的一级领导","colorType":"","cssClass":""},{"value":21,"label":"流程发起人的二级领导","colorType":"","cssClass":""}]`,
     );
     return type;
+  } else if (key === 'bpm_task_assign_rule_type') {
+    const type = JSON.parse(
+      `[{"value":10,"label":"角色","colorType":"info","cssClass":""},{"value":20,"label":"部门的成员","colorType":"primary","cssClass":""},{"value":21,"label":"部门的负责人","colorType":"primary","cssClass":""},{"value":22,"label":"岗位","colorType":"success","cssClass":""},{"value":30,"label":"用户","colorType":"info","cssClass":""},{"value":40,"label":"用户组","colorType":"warning","cssClass":""},{"value":50,"label":"自定义脚本","colorType":"danger","cssClass":""}]`,
+    );
+    return type;
+  } else if (key === 'bpm_model_category') {
+    return null;
   }
   return null;
 };
