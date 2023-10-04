@@ -13,6 +13,8 @@ export default {
     manage: {
       workflow: 'Process model',
       wfeditor: 'Process Editor',
+      wftaskAssignRule: 'Wftask AssignRule',
+      wftaskDefinition: 'Wftask Definition',
       wflowpage: {
         search: 'Search',
         reset: 'Reset',

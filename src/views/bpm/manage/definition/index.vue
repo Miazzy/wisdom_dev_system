@@ -132,7 +132,7 @@
   /** 点击任务分配按钮 */
   const handleAssignRule = (row) => {
     push({
-      name: 'BpmTaskAssignRuleList',
+      name: 'wftaskAssignRule',
       query: {
         modelId: row.id,
       },

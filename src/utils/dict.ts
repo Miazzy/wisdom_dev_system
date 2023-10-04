@@ -87,7 +87,7 @@ export enum DICT_TYPE {
   PROMOTION_COUPON_STATUS = 'promotion_coupon_status', // 优惠劵的状态
   PROMOTION_COUPON_TAKE_TYPE = 'promotion_coupon_take_type', // 优惠劵的领取方式
   PROMOTION_ACTIVITY_STATUS = 'promotion_activity_status', // 优惠活动的状态
-  PROMOTION_CONDITION_TYPE = 'promotion_condition_type' // 营销的条件类型枚举
+  PROMOTION_CONDITION_TYPE = 'promotion_condition_type', // 营销的条件类型枚举
 }
 
 export interface DictDataType {
@@ -115,6 +115,12 @@ export const getBpmModelFormType = () => {
 };
 
 //
-export const getIntDictOptions = () => {
+export const getIntDictOptions = (key: any) => {
+  if (key === 'bpm_task_assign_script') {
+    const type = JSON.parse(
+      `[{"value":10,"label":"流程发起人","colorType":"","cssClass":""},{"value":20,"label":"流程发起人的一级领导","colorType":"","cssClass":""},{"value":21,"label":"流程发起人的二级领导","colorType":"","cssClass":""}]`,
+    );
+    return type;
+  }
   return null;
 };

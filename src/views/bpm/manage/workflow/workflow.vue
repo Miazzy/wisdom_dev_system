@@ -316,7 +316,7 @@
   /** 点击任务分配按钮 */
   const handleAssignRule = (row) => {
     push({
-      name: 'BpmTaskAssignRuleList',
+      name: 'wftaskAssignRule',
       query: {
         modelId: row.id,
       },
@@ -326,7 +326,7 @@
   /** 跳转到指定流程定义列表 */
   const handleDefinitionList = (row) => {
     push({
-      name: 'BpmProcessDefinition',
+      name: 'wftaskDefinition',
       query: {
         key: row.key,
       },

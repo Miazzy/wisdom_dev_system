@@ -51,14 +51,9 @@
         </template>
       </el-upload>
     </div>
-    <!-- <template #footer>
-      <el-button :disabled="formLoading" type="primary" @click="submitForm">确 定</el-button>
-      <el-button @click="dialogVisible = false">取 消</el-button>
-    </template> -->
   </Dialog>
 </template>
 <script lang="ts" setup>
-  // import { getAccessToken, getTenantId } from '@/utils/auth';
   import { ref, reactive, watch, onMounted } from 'vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import Dialog from '@/components/Framework/Modal/Dialog.vue';

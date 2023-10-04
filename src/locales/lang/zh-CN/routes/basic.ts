@@ -13,6 +13,8 @@ export default {
     manage: {
       workflow: '流程模型',
       wfeditor: '流程编辑器',
+      wftaskAssignRule: '流程分配规则',
+      wftaskDefinition: '流程定义',
       wflowpage: {
         search: '搜索',
         reset: '重置',

@@ -32,11 +32,30 @@ const system: AppRouteModule = {
           },
         },
         {
+          path: 'wftaskAssignRule',
+          name: 'wftaskAssignRule',
+          component: () => import('/@/views/bpm/manage/taskAssignRule/index.vue'),
+          meta: {
+            title: t('routes.basic.bpm.manage.wftaskAssignRule'),
+            hideMenu: true,
+          },
+        },
+        {
+          path: 'wftaskDefinition',
+          name: 'wftaskDefinition',
+          component: () => import('/@/views/bpm/manage/definition/index.vue'),
+          meta: {
+            title: t('routes.basic.bpm.manage.wftaskDefinition'),
+            hideMenu: true,
+          },
+        },
+        {
           path: 'wfeditor',
           name: 'wfeditor',
           component: () => import('/@/views/bpm/manage/workflow/processEditor.vue'),
           meta: {
             title: t('routes.basic.bpm.manage.wfeditor'),
+            hideMenu: true,
           },
         },
         {
