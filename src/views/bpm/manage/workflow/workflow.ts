@@ -1,12 +1,11 @@
 import { defHttp } from '/@/utils/http/axios';
-import { GetBPMPageModel } from './model/tableModel';
 
 enum Api {
   page = '/bpm/model/page',
 }
 
 export const getPage = (params: ParamsType) =>
-  defHttp.get<GetBPMPageModel>({
+  defHttp.get<any>({
     url: Api.page,
     params,
   });
