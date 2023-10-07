@@ -1,6 +1,9 @@
 // token key
 export const TOKEN_KEY = 'TOKEN__';
 
+// menulist key
+export const MENU_LIST_KEY = 'MENU_LIST__';
+
 // refresh token key
 export const REFRESH_TOKEN_KEY = 'REFRESH_TOKEN__';
 

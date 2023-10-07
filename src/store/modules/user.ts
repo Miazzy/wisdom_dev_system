@@ -4,7 +4,13 @@ import { defineStore } from 'pinia';
 import { store } from '/@/store';
 import { RoleEnum } from '/@/enums/roleEnum';
 import { PageEnum } from '/@/enums/pageEnum';
-import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY, REFRESH_TOKEN_KEY } from '/@/enums/cacheEnum';
+import {
+  ROLES_KEY,
+  TOKEN_KEY,
+  USER_INFO_KEY,
+  REFRESH_TOKEN_KEY,
+  MENU_LIST_KEY,
+} from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
 import { doLogout, getUserInfo, loginApi, execRefreshToken } from '/@/api/sys/user';
@@ -23,6 +29,7 @@ interface UserState {
   token?: string;
   rtoken?: string;
   roleList: RoleEnum[];
+  menuList: [];
   sessionTimeout?: boolean;
   lastUpdateTime: number;
 }
@@ -38,6 +45,8 @@ export const useUserStore = defineStore({
     rtoken: undefined,
     // roleList
     roleList: [],
+    // menuList
+    menuList: [],
     // Whether the login expired
     sessionTimeout: false,
     // Last fetch time
@@ -56,6 +65,9 @@ export const useUserStore = defineStore({
     getRoleList(state): RoleEnum[] {
       return state.roleList.length > 0 ? state.roleList : getAuthCache<RoleEnum[]>(ROLES_KEY);
     },
+    getMenuList(state) {
+      return state.menuList.length > 0 ? state.menuList : [];
+    },
     getSessionTimeout(state): boolean {
       return !!state.sessionTimeout;
     },
@@ -70,6 +82,10 @@ export const useUserStore = defineStore({
     setToken(info: string | undefined) {
       this.token = info ? info : ''; // for null or undefined value
       setAuthCache(TOKEN_KEY, info);
+    },
+    setMenuList(list: []) {
+      this.menuList = list;
+      setAuthCache(MENU_LIST_KEY, list);
     },
     setRefreshToken(info: string | undefined) {
       this.rtoken = info ? info : ''; // for null or undefined value
@@ -145,7 +161,7 @@ export const useUserStore = defineStore({
     async getUserInfoAction(): Promise<UserInfo | null> {
       if (!this.getToken) return null;
       const userInfo = await getUserInfo();
-      const { roles = [], user } = userInfo;
+      const { roles = [], user, menus = [] } = userInfo;
       const { id, avatar, name, realName } = user as User;
       if (isArray(roles)) {
         const roleList = roles.map((item) => item) as RoleEnum[];
@@ -154,6 +170,7 @@ export const useUserStore = defineStore({
         userInfo.roles = [];
         this.setRoleList([]);
       }
+      this.setMenuList(menus as []);
       userInfo.userId = id;
       userInfo.avatar = avatar;
       userInfo.username = name;
