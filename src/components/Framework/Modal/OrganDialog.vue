@@ -11,12 +11,70 @@
     <div class="dialog-content" :style="`height: calc(${props.height}px - 90px)`">
       <!-- 左侧分类树 -->
       <div class="category-tree">
-        <span>组织结构</span>
+        <span class="category-title">
+          <span>组织结构</span>
+        </span>
+        <div class="category-content" :style="`height: calc(${props.height}px - 130px)`">
+          <div class="category-search-box" style="position: relative">
+            <span class="search-title" style="">搜索</span>
+            <a-input-search class="search-input" placeholder="请输入搜索内容" enter-button />
+            <span class="search-icon" style="left: 300px">
+              <Icon
+                icon="mdi:arrow-up"
+                color="#333"
+                size="22"
+                class="rotate-left"
+                @click="handleNode"
+              />
+            </span>
+            <span class="search-icon" style="left: 340px">
+              <Icon icon="material-symbols:delete-outline" color="#333" size="22" @click="handleDelete"/>
+            </span>
+          </div>
+          <div class="tree-value" :style="`height: calc(${props.height}px - 140px);`">
+            <!-- 基础Tree组件 -->
+            <a-tree :tree-data="treeData" show-icon default-expand-all @select="handleSelect">
+              <template #switcherIcon="{ switcherCls }">
+                <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
+              </template>
+              <template #icon="{ key, isLeaf }">
+                <Icon
+                  v-if="isLeaf && !isTopNode(key)"
+                  :icon="props.ticons.leaf"
+                  color="#333"
+                  size="14"
+                />
+                <Icon
+                  v-if="!isLeaf && !isTopNode(key)"
+                  :icon="props.ticons.middle"
+                  color="#333"
+                  size="14"
+                />
+              </template>
+            </a-tree>
+          </div>
+        </div>
       </div>
 
       <!-- 右侧表格 -->
       <div class="employee-table">
-        <span>被选人员</span>
+        <span class="employee-title">
+          <span>被选人员</span>
+        </span>
+        <div class="employee-content">
+          <div position="center" class="layout-content" style="height: 335px">
+            <div class="component-wrap">
+              <template :key="index" v-for="(item, index) of allNodes">
+                <a class="component-item">
+                  <span class="ui-component-text" :title="item[props.tfields.title]">
+                    {{ item[props.tfields.title] }}
+                  </span>
+                  <i class="icon-close"></i>
+                </a>
+              </template>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </Dialog>
@@ -24,16 +82,39 @@
 
 <script lang="ts" setup>
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
-  import { ref, defineProps, defineEmits, computed, onMounted, watch } from 'vue';
+  import Icon from '@/components/Icon/Icon.vue';
+  import { ref, defineProps, defineEmits, computed, onMounted, watch, unref } from 'vue';
 
   const modalVisible = ref(false);
+  const treeData = ref([]);
+  const searchText = ref('');
+  const selectedNode = ref(null);
+  const allNodes = ref<any>([]);
+  const treeMap = ref<any>();
+  type fieldType = { key: String; title: String };
+  type tIconsType = { parent: String; leaf: String };
 
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
     title: String, // 弹框标题
     width: { type: Number, default: 700 }, // 弹框宽度
     height: { type: Number, default: 500 }, // 弹框高度
+
+    tdata: { type: Array }, // Tree数据
+    tfields: {
+      type: Object,
+      default: { key: 'id', title: 'title' } as fieldType,
+    }, // Tree数据的对应字段解析
+    ticons: {
+      type: Object,
+      default: {
+        parent: 'ant-design:down-outlined',
+        middle: 'mingcute:department-line',
+        leaf: 'gridicons:multiple-users',
+      } as tIconsType,
+    },
   });
+
   const emit = defineEmits(['update:visible', 'cancel', 'confirm']); // 定义事件
 
   const cancel = () => {
@@ -53,10 +134,84 @@
     emit('update:visible', false); // 关闭弹框
   };
 
+  // 判断是否为顶层节点
+  const isTopNode = (key) => {
+    return !!treeMap.value.get(key);
+  };
+
+  const handleSelect = (nodeKey, event) => {
+    const node = event.node;
+    const selectedTitle = node.title; // 获取选中节点的标题
+    selectedNode.value = node;
+  };
+
+  const handleNode = () => {
+    allNodes.value.push(selectedNode.value);
+    // TODO 去除掉nodeId相同的节点
+  };
+
+  const handleDelete = () => {
+    allNodes.value = [];
+  };
+
+  // 按tfields生成转换规则
+  const reverseRule = (rule) => {
+    const reversedRule = {};
+    for (const key in rule) {
+      reversedRule[rule[key]] = key;
+    }
+    return reversedRule;
+  };
+
+  // 按tfields的设置转换tree的数据
+  const transformData = (data, rule) => {
+    const rules = reverseRule(rule);
+    return data.map((item) => {
+      const newItem = {};
+      for (const key in item) {
+        if (key in rules) {
+          if (rules[key] == 'title') {
+            newItem[rules[key]] = item[key];
+            newItem[key] = item[key];
+          } else if (rules[key] == 'id') {
+            newItem[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key];
+            newItem[key] = item[key];
+          }
+        } else {
+          newItem[key] = item[key];
+        }
+      }
+      if (item.children && item.children.length > 0) {
+        newItem.children = transformData(item.children, rule);
+      }
+      return newItem;
+    });
+  };
+
+  // 将数据节点转换为Map
+  const transformMap = (data, rule) => {
+    const treeMap = new Map();
+    data.forEach((item) => {
+      const key = item[rule['key']];
+      treeMap.set(key, item);
+    });
+    return treeMap;
+  };
+
   watch(
     () => props.visible,
     (newValue) => {
       modalVisible.value = newValue;
+    },
+  );
+
+  watch(
+    () => props.tdata,
+    (newValue) => {
+      const rule = props?.tfields as fieldType;
+      const data = unref(props.tdata as unknown[] as TreeItem[]);
+      treeData.value = transformData(data, rule);
+      treeMap.value = transformMap(data, rule);
     },
   );
 
@@ -78,8 +233,70 @@
     border-right: 1px solid #ebebeb; /* 右侧加上分割线 */
     text-align: left;
 
-    span {
+    span.category-title {
+      display: block;
       text-align: left;
+      width: calc(100% + 25px);
+      margin-left: -17.5px;
+      border-bottom: 1px solid rgb(240, 240, 240);
+      padding-bottom: 5px;
+
+      span {
+        margin-left: 20px;
+      }
+    }
+
+    div.category-content {
+      width: calc(100% + 25px);
+      margin-left: -17.5px;
+
+      div.category-search-box {
+        height: 45px;
+        border-bottom: 1px solid #f0f0f0;
+        width: 100%;
+
+        .search-title {
+          height: 45px;
+          line-height: 45px;
+          margin: 0 10px 0 20px;
+        }
+
+        .search-input {
+          height: 45px;
+          line-height: 45px;
+          width: 220px;
+          margin: 5px 0 0 0;
+        }
+
+        .search-icon {
+          display: block;
+          height: 35px;
+          line-height: 35px;
+          width: 36px;
+          margin: 0px 3px 0px 3px;
+          padding-top: 2px;
+          text-align: center;
+          border-radius: 4px;
+          position: absolute;
+          top: 4px;
+          cursor: pointer;
+          border: 1px solid rgb(240, 240, 240);
+
+          .app-iconify.anticon.rotate-left {
+            -moz-transform: rotate(90deg);
+            -webkit-transform: rotate(90deg);
+          }
+        }
+      }
+
+      div.tree-value {
+        margin: 10px 0px 0px 0px;
+        overflow-y: scroll;
+      }
+
+      :deep(.ant-btn .anticon) {
+        margin-top: 7.5px;
+      }
     }
   }
 
@@ -88,8 +305,50 @@
     padding: 10px;
     text-align: left;
 
-    span {
+    span.employee-title {
+      display: block;
       text-align: left;
+      width: calc(100% + 25px);
+      margin-left: -17.5px;
+      border-bottom: 1px solid rgb(240, 240, 240);
+      padding-bottom: 5px;
+
+      span {
+        margin-left: 30px;
+      }
+    }
+
+    div.employee-content {
+      .layout-content {
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding-left: 5px;
+        padding-right: 5px;
+        height: auto;
+        width: 100%;
+        -webkit-overflow-scrolling: touch;
+
+        .component-wrap {
+          width: auto;
+          float: none;
+          padding: 5px;
+          overflow: hidden;
+
+          a.component-item {
+            float: left;
+            margin: 5px 4px 0 4px;
+            white-space: nowrap;
+            display: inline-block;
+            height: 30px;
+            line-height: 30px;
+            padding: 0px 15px 0px 15px;
+            border: 1px dashed #cdcdcd;
+            background-color: #ffffff;
+            color: #303030;
+            text-decoration: none;
+          }
+        }
+      }
     }
   }
 </style>

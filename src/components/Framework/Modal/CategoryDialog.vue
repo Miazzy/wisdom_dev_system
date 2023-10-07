@@ -9,7 +9,7 @@
         </div>
         <div class="tree-content">
           <div class="tree-value"
-            :style="`margin: 10px 0px 0px 0px; height: calc(${props.height}px - 140px); overflow-y: scroll;`">
+            :style="`height: calc(${props.height}px - 140px);`">
             <!-- 基础Tree组件 -->
             <a-tree :tree-data="treeData" show-icon default-expand-all @select="handleSelect">
               <template #switcherIcon="{ switcherCls }">
@@ -271,7 +271,10 @@ onMounted(() => {
   }
 
   div.tree-content {
-    .tree-value {}
+    .tree-value {
+      margin: 10px 0px 0px 0px;
+      overflow-y: scroll;
+    }
   }
 }
 

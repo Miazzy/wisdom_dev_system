@@ -58,6 +58,8 @@
       :title="`组织人员Dialog`"
       :visible="organVisible"
       @update:visible="organVisible = $event"
+      :tdata="treeData"
+      :tfields="{ key: 'nodeId', title: 'nodeName' }"
       :width="800"
       :height="600"
     />
