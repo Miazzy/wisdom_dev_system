@@ -7,6 +7,14 @@ export default {
     dev: '开发验证',
   },
 
+  hr: {
+    name: '人力资源',
+    management: '考勤管理',
+    manage: {
+      oaleave: '请假申请',
+    },
+  },
+
   bpm: {
     name: '流程引擎',
     management: '流程管理',

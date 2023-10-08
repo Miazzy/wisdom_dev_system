@@ -1,4 +1,11 @@
+/**
+ * 数据字典工具类
+ */
+import { useDictStoreWithOut } from '@/store/modules/dict';
+
 export type InfoType = 'success' | 'info' | 'warning' | 'danger';
+
+const dictStore = useDictStoreWithOut();
 
 export enum DICT_TYPE {
   USER_TYPE = 'user_type',
@@ -96,6 +103,56 @@ export interface DictDataType {
   value: string | number | boolean;
   colorType: InfoType | '';
   cssClass: string;
+}
+
+export function getDictDatas(dictType: string) {
+  return dictStore.getDictMap[dictType] || [];
+}
+
+export function getDictOpts(dictType: string) {
+  /**
+   * 这里原来是转换类型  转换类型后反而显示不出来正确的Tag
+   * 实际类型转换交给下面的getDictOptions来处理
+   *
+   * bugfix:
+   * dictOption.push({
+          ...dict,
+          value: parseInt(dict.value + '')
+        })
+     原来的这种写法是造成页面卡死的原因
+   */
+  return getDictDatas(dictType);
+}
+
+export function getDictOptions(dictType: string, valueType?: 'string' | 'number' | 'boolean') {
+  const dictOption: DictDataType[] = [];
+  const dictOptions: DictDataType[] = getDictDatas(dictType);
+  if (dictOptions && dictOptions.length > 0) {
+    dictOptions.forEach((dict: DictDataType) => {
+      dictOption.push({
+        ...dict,
+        key: dict.value,
+        value:
+          valueType === 'string'
+            ? `${dict.value}`
+            : valueType === 'boolean'
+            ? `${dict.value}` === 'true'
+            : Number.parseInt(`${dict.value}`),
+      });
+    });
+  }
+  return dictOption;
+}
+
+export function getDictObj(dictType: string, value: any) {
+  const dictOptions: DictDataType[] = getDictDatas(dictType);
+  if (dictOptions) {
+    dictOptions.forEach((dict: DictDataType) => {
+      if (dict.value === value.toString()) return dict;
+    });
+  } else {
+    return null;
+  }
 }
 
 // 获取流程分类数据字典
