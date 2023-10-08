@@ -41,3 +41,5 @@ src/views/operation
 src/views/prodMonitoring
 # 基础设置
 src/views/scomms-baseset
+# 流程引擎
+src/views/bpm
