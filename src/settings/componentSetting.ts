@@ -5,14 +5,14 @@ export default {
     // support xxx.xxx.xxx
     fetchSetting: {
       // The field name of the current page passed to the background
-      pageField: 'page',
+      pageField: 'pageNo',
       // The number field name of each page displayed in the background
       sizeField: 'pageSize',
       // Field name of the form data returned by the interface
       // listField: 'items',
 
       // 这里要和 mock 和 api 返回的数据字段匹配
-      listField: 'pager.list',
+      listField: 'list',
 
       // Total number of tables returned by the interface field name
       totalField: 'total',

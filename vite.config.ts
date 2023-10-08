@@ -22,11 +22,11 @@ export default defineApplicationConfig({
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/admin-api/bpm/`), '/admin-api/bpm/'),
         },
-        '/baseset': {
-          target: 'http://10.8.111.173:48083',
+        '/baseset/oa-leave/': {
+          target: 'http://10.8.111.31:48085',
           changeOrigin: true,
           ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/base`), '/base'),
+          rewrite: (path) => path.replace(new RegExp(`^/baseset/oa-leave/`), '/baseset/oa-leave/'),
         },
         '/base': {
           target: 'http://localhost:48083',
