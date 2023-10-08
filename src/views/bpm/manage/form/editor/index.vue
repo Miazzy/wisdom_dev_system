@@ -42,9 +42,9 @@
   import { DICT_TYPE, getIntDictOptions } from '@/utils/dict';
   import { CommonStatusEnum } from '@/utils/constants';
   import * as FormApi from '@/api/bpm/form';
-  import FcDesigner from '@form-create/designer';
+  // import FcDesigner from '@form-create/designer';
   import { encodeConf, encodeFields, setConfAndFields } from '@/utils/formCreate';
-  import { useTagsViewStore } from '@/store/modules/tagsView';
+  // import { useTagsViewStore } from '@/store/modules/tagsView';
   import { ref, reactive, unref, onMounted } from 'vue';
   import { useI18n } from 'vue-i18n';
   import { useRouter, useRoute } from 'vue-router';
@@ -56,7 +56,7 @@
   const message = useMessage(); // 消息
   const { push, currentRoute } = useRouter(); // 路由
   const { query } = useRoute(); // 路由信息
-  const { delView } = useTagsViewStore(); // 视图操作
+  // const { delView } = useTagsViewStore(); // 视图操作
 
   const designer = ref(); // 表单设计器
   const dialogVisible = ref(false); // 弹窗是否展示
@@ -80,7 +80,7 @@
   /** 提交表单 */
   const submitForm = async () => {
     // 校验表单
-    if (!formRef) return;
+    if (!formRef.value) return;
     const valid = await formRef.value.validate();
     if (!valid) return;
     // 提交请求
@@ -104,7 +104,7 @@
   };
   /** 关闭按钮 */
   const close = () => {
-    delView(unref(currentRoute));
+    // delView(unref(currentRoute));
     push('/bpm/manager/form');
   };
 

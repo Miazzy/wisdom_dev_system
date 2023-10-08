@@ -91,103 +91,107 @@
 </template>
 
 <script lang="ts" setup>
-import { DICT_TYPE } from '@/utils/dict'
-import { dateFormatter } from '@/utils/formatTime'
-import * as FormApi from '@/api/bpm/form'
-import { setConfAndFields2 } from '@/utils/formCreate'
+  import { DICT_TYPE } from '@/utils/dict';
+  import { dateFormatter } from '@/utils/dateUtil';
+  import * as FormApi from '@/api/bpm/form';
+  import { setConfAndFields2 } from '@/utils/formCreate';
+  import { ref, reactive, watch, onMounted } from 'vue';
+  import { useI18n } from 'vue-i18n';
+  import { useRouter } from 'vue-router';
+  import { useMessage } from '/@/hooks/web/useMessage';
 
-defineOptions({ name: 'BpmForm' })
+  defineOptions({ name: 'BpmForm' });
 
-const message = useMessage() // 消息弹窗
-const { t } = useI18n() // 国际化
-const { currentRoute, push } = useRouter() // 路由
+  const message = useMessage(); // 消息弹窗
+  const { t } = useI18n(); // 国际化
+  const { currentRoute, push } = useRouter(); // 路由
 
-const loading = ref(true) // 列表的加载中
-const total = ref(0) // 列表的总页数
-const list = ref([]) // 列表的数据
-const queryParams = reactive({
-  pageNo: 1,
-  pageSize: 10,
-  name: null
-})
-const queryFormRef = ref() // 搜索的表单
+  const loading = ref(true); // 列表的加载中
+  const total = ref(0); // 列表的总页数
+  const list = ref([]); // 列表的数据
+  const queryParams = reactive({
+    pageNo: 1,
+    pageSize: 10,
+    name: null,
+  });
+  const queryFormRef = ref(); // 搜索的表单
 
-/** 查询列表 */
-const getList = async () => {
-  loading.value = true
-  try {
-    const data = await FormApi.getFormPage(queryParams)
-    list.value = data.list
-    total.value = data.total
-  } finally {
-    loading.value = false
-  }
-}
-
-/** 搜索按钮操作 */
-const handleQuery = () => {
-  queryParams.pageNo = 1
-  getList()
-}
-
-/** 重置按钮操作 */
-const resetQuery = () => {
-  queryFormRef.value.resetFields()
-  handleQuery()
-}
-
-/** 添加/修改操作 */
-const openForm = (id?: number) => {
-  const toRouter: { name: string; query?: { id: number } } = {
-    name: 'BpmFormEditor'
-  }
-  // 表单新建的时候id传的是event需要排除
-  if (typeof id === 'number') {
-    toRouter.query = {
-      id
+  /** 查询列表 */
+  const getList = async () => {
+    loading.value = true;
+    try {
+      const data = await FormApi.getFormPage(queryParams);
+      list.value = data.list;
+      total.value = data.total;
+    } finally {
+      loading.value = false;
     }
-  }
-  push(toRouter)
-}
+  };
 
-/** 删除按钮操作 */
-const handleDelete = async (id: number) => {
-  try {
-    // 删除的二次确认
-    await message.delConfirm()
-    // 发起删除
-    await FormApi.deleteForm(id)
-    message.success(t('common.delSuccess'))
-    // 刷新列表
-    await getList()
-  } catch {}
-}
+  /** 搜索按钮操作 */
+  const handleQuery = () => {
+    queryParams.pageNo = 1;
+    getList();
+  };
 
-/** 详情操作 */
-const detailVisible = ref(false)
-const detailData = ref({
-  rule: [],
-  option: {}
-})
-const openDetail = async (rowId: number) => {
-  // 设置表单
-  const data = await FormApi.getForm(rowId)
-  setConfAndFields2(detailData, data.conf, data.fields)
-  // 弹窗打开
-  detailVisible.value = true
-}
-/**表单保存返回后重新加载列表 */
-watch(
-  () => currentRoute.value,
-  () => {
-    getList()
-  },
-  {
-    immediate: true
-  }
-)
-/** 初始化 **/
-onMounted(() => {
-  getList()
-})
+  /** 重置按钮操作 */
+  const resetQuery = () => {
+    queryFormRef.value.resetFields();
+    handleQuery();
+  };
+
+  /** 添加/修改操作 */
+  const openForm = (id?: number) => {
+    const toRouter: { name: string; query?: { id: number } } = {
+      name: 'BpmFormEditor',
+    };
+    // 表单新建的时候id传的是event需要排除
+    if (typeof id === 'number') {
+      toRouter.query = {
+        id,
+      };
+    }
+    push(toRouter);
+  };
+
+  /** 删除按钮操作 */
+  const handleDelete = async (id: number) => {
+    try {
+      // 删除的二次确认
+      await message.delConfirm();
+      // 发起删除
+      await FormApi.deleteForm(id);
+      message.success(t('common.delSuccess'));
+      // 刷新列表
+      await getList();
+    } catch {}
+  };
+
+  /** 详情操作 */
+  const detailVisible = ref(false);
+  const detailData = ref({
+    rule: [],
+    option: {},
+  });
+  const openDetail = async (rowId: number) => {
+    // 设置表单
+    const data = await FormApi.getForm(rowId);
+    setConfAndFields2(detailData, data.conf, data.fields);
+    // 弹窗打开
+    detailVisible.value = true;
+  };
+  /**表单保存返回后重新加载列表 */
+  watch(
+    () => currentRoute.value,
+    () => {
+      getList();
+    },
+    {
+      immediate: true,
+    },
+  );
+  /** 初始化 **/
+  onMounted(() => {
+    getList();
+  });
 </script>
