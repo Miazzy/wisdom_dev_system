@@ -4,13 +4,14 @@
       <img :class="`${prefixCls}__header`" :src="getUserInfo.avatar" />
       <span :class="`${prefixCls}__info hidden md:block`">
         <span :class="`${prefixCls}__name  `" class="truncate">
-          {{ getUserInfo.realName }}
+          {{ truncateName(getUserInfo.realName) }}
         </span>
       </span>
     </span>
 
     <template #overlay>
       <Menu @click="handleMenuClick">
+        <MenuItem key="lock" :text="truncateName(getUserInfo.realName)" icon="ph:user-thin" />
         <MenuItem
           v-if="getUseLockPage"
           key="lock"
@@ -68,9 +69,24 @@
       const { getShowDoc, getUseLockPage } = useHeaderSetting();
       const userStore = useUserStore();
 
+      const truncateName = (name, maxLength = 10) => {
+        if (name.length <= maxLength) {
+          return name;
+        } else {
+          return name.slice(0, maxLength) + '...';
+        }
+      };
+
       const getUserInfo = computed(() => {
-        const { realName = '', avatar, desc } = userStore.getUserInfo || {};
-        return { realName, avatar: avatar || headerImg, desc };
+        const {
+          realName = '',
+          username = '',
+          avatar,
+          desc,
+          user,
+          roles = [],
+        } = userStore.getUserInfo || {};
+        return { realName: realName || username || user?.id, avatar: avatar || headerImg, desc };
       });
 
       const [register, { openModal }] = useModal();
@@ -106,6 +122,7 @@
       return {
         prefixCls,
         t,
+        truncateName,
         getUserInfo,
         handleMenuClick,
         getShowDoc,

@@ -151,12 +151,12 @@
   ]);
 
   const searchBoxData = ref([
-    { typeName: '财务部类型', year: '2020', month: '06', date: '2020-06' },
-    { typeName: '市场部类型', year: '2020', month: '07', date: '2020-07' },
-    { typeName: '华南分部类型', year: '2020', month: '08', date: '2020-08' },
-    { typeName: '西北分部类型', year: '2020', month: '09', date: '2020-09' },
-    { typeName: '华东分部类型', year: '2020', month: '10', date: '2020-10' },
-    { typeName: '商务部类型', year: '2020', month: '11', date: '2020-11' },
+    { typeName: '财务部类型-吉林通榆', year: '2020', month: '06', date: '2020-06' },
+    { typeName: '市场部类型-吉林通榆', year: '2020', month: '07', date: '2020-07' },
+    { typeName: '华南分部类型-江苏如东', year: '2020', month: '08', date: '2020-08' },
+    { typeName: '西北分部类型-吉林通榆', year: '2020', month: '09', date: '2020-09' },
+    { typeName: '华东分部类型-吉林通榆', year: '2020', month: '10', date: '2020-10' },
+    { typeName: '商务部类型-江苏如东', year: '2020', month: '11', date: '2020-11' },
     { typeName: '研发部类型', year: '2020', month: '12', date: '2020-12' },
     { typeName: '财务部类型', year: '2021', month: '01', date: '2021-01' },
     { typeName: '研发部类型', year: '2021', month: '02', date: '2021-02' },

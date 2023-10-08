@@ -14,6 +14,7 @@ import {
   APP_SESSION_CACHE_KEY,
   MULTIPLE_TABS_KEY,
   REFRESH_TOKEN_KEY,
+  MENU_LIST_KEY,
 } from '/@/enums/cacheEnum';
 import { DEFAULT_CACHE_TIME } from '/@/settings/encryptionSetting';
 import { toRaw } from 'vue';
@@ -24,6 +25,7 @@ interface BasicStore {
   [REFRESH_TOKEN_KEY]: string | number | null | undefined;
   [USER_INFO_KEY]: UserInfo;
   [ROLES_KEY]: string[];
+  [MENU_LIST_KEY]: [];
   [LOCK_INFO_KEY]: LockInfo;
   [PROJ_CFG_KEY]: ProjectConfig;
   [MULTIPLE_TABS_KEY]: RouteLocationNormalized[];

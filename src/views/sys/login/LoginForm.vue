@@ -28,7 +28,6 @@
     <ARow class="enter-x">
       <ACol :span="12">
         <FormItem>
-          <!-- No logic, you need to deal with it yourself -->
           <Checkbox v-model:checked="rememberMe" size="small">
             {{ t('sys.login.rememberMe') }}
           </Checkbox>
@@ -36,7 +35,6 @@
       </ACol>
       <ACol :span="12">
         <FormItem :style="{ 'text-align': 'right' }">
-          <!-- No logic, you need to deal with it yourself -->
           <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">
             {{ t('sys.login.forgetPassword') }}
           </Button>
@@ -48,29 +46,7 @@
       <Button type="primary" size="large" block @click="handleLogin" :loading="loading">
         {{ t('sys.login.loginButton') }}
       </Button>
-      <!-- <Button size="large" class="mt-4 enter-x" block @click="handleRegister">
-        {{ t('sys.login.registerButton') }}
-      </Button> -->
     </FormItem>
-    <ARow class="enter-x" :gutter="[16, 16]" style="display: none">
-      <ACol :md="8" :xs="24">
-        <Button block @click="setLoginState(LoginStateEnum.MOBILE)">
-          {{ t('sys.login.mobileSignInFormTitle') }}
-        </Button>
-      </ACol>
-      <ACol :md="8" :xs="24">
-        <Button block @click="setLoginState(LoginStateEnum.QR_CODE)">
-          {{ t('sys.login.qrSignInFormTitle') }}
-        </Button>
-      </ACol>
-      <ACol :md="8" :xs="24">
-        <Button block @click="setLoginState(LoginStateEnum.REGISTER)">
-          {{ t('sys.login.registerButton') }}
-        </Button>
-      </ACol>
-    </ARow>
-
-    <Divider class="enter-x" style="display: none">{{ t('sys.login.otherSignIn') }}</Divider>
 
     <div
       class="flex justify-evenly enter-x"
@@ -135,13 +111,11 @@
     if (!data) return;
     try {
       loading.value = true;
-      debugger;
       const userInfo = await userStore.login({
         loginName: data.account,
         password: data.password,
         mode: 'none', //不要默认的错误提示
       });
-      debugger;
       if (userInfo) {
         const username = userInfo.realName || userInfo.userId;
         notification.success({
