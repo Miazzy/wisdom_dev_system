@@ -22,6 +22,12 @@ export default defineApplicationConfig({
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/admin-api/bpm/`), '/admin-api/bpm/'),
         },
+        '/baseset': {
+          target: 'http://10.8.111.173:48083',
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path) => path.replace(new RegExp(`^/base`), '/base'),
+        },
         '/base': {
           target: 'http://localhost:48083',
           changeOrigin: true,
