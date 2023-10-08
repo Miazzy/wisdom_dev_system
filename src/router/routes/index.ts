@@ -1,13 +1,13 @@
 import type { AppRouteRecordRaw, AppRouteModule } from '/@/router/types';
-
 import { PAGE_NOT_FOUND_ROUTE, REDIRECT_ROUTE } from '/@/router/routes/basic';
 import { mainOutRoutes } from './mainOut';
 import { PageEnum } from '/@/enums/pageEnum';
 import { t } from '/@/hooks/web/useI18n';
 import { getAuthCache } from '/@/utils/auth';
 import { MENU_LIST_KEY } from '/@/enums/cacheEnum';
+import { DefaultMenuInfo } from '/@/utils/constants';
 
-// 这个函数用于将后端的菜单数据转换为前端的路由配置
+// 路由转换函数 这个函数用于将后端的菜单数据转换为前端的路由配置
 function transformMenusToRoutes(menus) {
   const routes = [];
   menus.forEach((menu) => {
@@ -24,6 +24,7 @@ function transformMenusToRoutes(menus) {
       meta: {
         title: menu.title || menu.name,
         icon: menu.icon,
+        hideMenu: menu.openWindowModel == 'hidden' ? true : false,
       },
     };
     if (menu.children && menu.children.length > 0) {
@@ -34,49 +35,37 @@ function transformMenusToRoutes(menus) {
   return routes;
 }
 
+// 获取用户菜单函数
 function queryUserMenus() {
-  const defaultMenuList = [
-    {
-      id: '001000',
-      parentId: '1',
-      name: '系统设置',
-      url: '/system/base',
-      icon: 'ion:settings',
-      component: 'LAYOUT',
-      redirect: '/system/base',
-      sequence: 1,
-      children: [
-        {
-          id: '001001',
-          name: 'FrameBlank设置',
-          url: '/system/base',
-          icon: 'ion:settings',
-          component: '/@/views/sys/iframe/FrameBlank.vue',
-          sequence: 1,
-        },
-      ],
-    },
-  ];
+  const defaultMenuList = [DefaultMenuInfo];
   const list = getAuthCache(MENU_LIST_KEY) as [];
   return list && list.length > 0 ? list : defaultMenuList;
 }
 
+// 获取基础路由
+function queryBaseHomeRoute() {
+  // TODO 调用后端接口获取设置的基础路由
+  return PageEnum.BASE_HOME;
+}
+
 // 假设后端传递的菜单数据存储在一个名为menus的数组中
 const backendMenus = queryUserMenus();
+// 获取转换后的菜单路由
 const dynamicRoutes = transformMenusToRoutes(backendMenus);
-
+// 暴露动态路由
 export const asyncRoutes = [PAGE_NOT_FOUND_ROUTE, ...dynamicRoutes];
 
 // 根路由
 export const RootRoute: AppRouteRecordRaw = {
   path: '/',
   name: 'Root',
-  redirect: PageEnum.BASE_HOME,
+  redirect: queryBaseHomeRoute(),
   meta: {
     title: 'Root',
   },
 };
 
+// 登录路由
 export const LoginRoute: AppRouteRecordRaw = {
   path: '/login',
   name: 'Login',
@@ -86,6 +75,7 @@ export const LoginRoute: AppRouteRecordRaw = {
   },
 };
 
+// 暴露基础路由
 export const basicRoutes = [
   LoginRoute,
   RootRoute,
