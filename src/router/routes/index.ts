@@ -6,15 +6,6 @@ import { t } from '/@/hooks/web/useI18n';
 import { getAuthCache } from '/@/utils/auth';
 import { MENU_LIST_KEY } from '/@/enums/cacheEnum';
 import { DefaultMenuInfo } from '/@/utils/constants';
-import {
-  FrameBlank,
-  Workflow,
-  TaskAssignRule,
-  Definition,
-  ProcessEditor,
-  DevPage,
-  routePageMap,
-} from '@/router/constant';
 
 // 路由转换函数 这个函数用于将后端的菜单数据转换为前端的路由配置
 function transformMenusToRoutes(menus) {
@@ -24,11 +15,24 @@ function transformMenusToRoutes(menus) {
       path: menu.url.startsWith('/') ? menu.url : `/${menu.url}`,
       name: menu.name,
       component: () => {
-        const response =
-          menu.component == 'LAYOUT' || menu.parentId == '1'
-            ? import('/@/layouts/default/index.vue')
-            : routePageMap.get(menu.component);
-        return response;
+        // 此处不能通过 import(menu.component) 进行动态加载，会导致vite打包分析问题
+        if (menu.component == 'LAYOUT' || menu.parentId == '1') {
+          return import('/@/layouts/default/index.vue');
+        } else if (menu.component == '/@/views/sys/iframe/FrameBlank.vue') {
+          return import('/@/views/sys/iframe/FrameBlank.vue');
+        } else if (menu.component == '/@/views/bpm/manage/workflow/workflow.vue') {
+          return import('/@/views/bpm/manage/workflow/workflow.vue');
+        } else if (menu.component == '/@/views/bpm/manage/taskAssignRule/index.vue') {
+          return import('/@/views/bpm/manage/taskAssignRule/index.vue');
+        } else if (menu.component == '/@/views/bpm/manage/definition/index.vue') {
+          return import('/@/views/bpm/manage/definition/index.vue');
+        } else if (menu.component == '/@/views/bpm/manage/workflow/processEditor.vue') {
+          return import('/@/views/bpm/manage/workflow/processEditor.vue');
+        } else if (menu.component == '/@/views/dev/dev.vue') {
+          return import('/@/views/dev/dev.vue');
+        } else {
+          return import('/@/layouts/default/index.vue');
+        }
       },
       meta: {
         title: menu.title || menu.name,
@@ -72,62 +76,6 @@ export const RootRoute: AppRouteRecordRaw = {
   meta: {
     title: 'Root',
   },
-  children: [
-    {
-      path: '/hidden/frameblank',
-      name: 'FrameBlank',
-      component: FrameBlank,
-      meta: {
-        title: 'FrameBlank',
-        hideMenu: true,
-      },
-    },
-    {
-      path: '/hidden/workflow',
-      name: 'Workflow',
-      component: Workflow,
-      meta: {
-        title: 'Workflow',
-        hideMenu: true,
-      },
-    },
-    {
-      path: '/hidden/taskassignrule',
-      name: 'TaskAssignRule',
-      component: TaskAssignRule,
-      meta: {
-        title: 'TaskAssignRule',
-        hideMenu: true,
-      },
-    },
-    {
-      path: '/hidden/definition',
-      name: 'Definition',
-      component: Definition,
-      meta: {
-        title: 'Definition',
-        hideMenu: true,
-      },
-    },
-    {
-      path: '/hidden/processeditor',
-      name: 'ProcessEditor',
-      component: ProcessEditor,
-      meta: {
-        title: 'ProcessEditor',
-        hideMenu: true,
-      },
-    },
-    {
-      path: '/hidden/devpage',
-      name: 'DevPage',
-      component: DevPage,
-      meta: {
-        title: 'DevPage',
-        hideMenu: true,
-      },
-    },
-  ],
 };
 
 // 登录路由
