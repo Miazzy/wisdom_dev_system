@@ -12,7 +12,7 @@ function transformMenusToRoutes(menus) {
   const routes = [];
   menus.forEach((menu) => {
     const route: AppRouteModule = {
-      path: menu.url,
+      path: menu.url.startsWith('/') ? menu.url : `/${menu.url}`,
       name: menu.name,
       component: () => {
         const response =
