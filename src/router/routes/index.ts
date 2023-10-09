@@ -6,6 +6,15 @@ import { t } from '/@/hooks/web/useI18n';
 import { getAuthCache } from '/@/utils/auth';
 import { MENU_LIST_KEY } from '/@/enums/cacheEnum';
 import { DefaultMenuInfo } from '/@/utils/constants';
+import {
+  FrameBlank,
+  Workflow,
+  TaskAssignRule,
+  Definition,
+  ProcessEditor,
+  DevPage,
+  routePageMap,
+} from '@/router/constant';
 
 // 路由转换函数 这个函数用于将后端的菜单数据转换为前端的路由配置
 function transformMenusToRoutes(menus) {
@@ -18,7 +27,7 @@ function transformMenusToRoutes(menus) {
         const response =
           menu.component == 'LAYOUT' || menu.parentId == '1'
             ? import('/@/layouts/default/index.vue')
-            : import(menu.component);
+            : routePageMap.get(menu.component);
         return response;
       },
       meta: {
@@ -63,6 +72,62 @@ export const RootRoute: AppRouteRecordRaw = {
   meta: {
     title: 'Root',
   },
+  children: [
+    {
+      path: '/hidden/frameblank',
+      name: 'FrameBlank',
+      component: FrameBlank,
+      meta: {
+        title: 'FrameBlank',
+        hideMenu: true,
+      },
+    },
+    {
+      path: '/hidden/workflow',
+      name: 'Workflow',
+      component: Workflow,
+      meta: {
+        title: 'Workflow',
+        hideMenu: true,
+      },
+    },
+    {
+      path: '/hidden/taskassignrule',
+      name: 'TaskAssignRule',
+      component: TaskAssignRule,
+      meta: {
+        title: 'TaskAssignRule',
+        hideMenu: true,
+      },
+    },
+    {
+      path: '/hidden/definition',
+      name: 'Definition',
+      component: Definition,
+      meta: {
+        title: 'Definition',
+        hideMenu: true,
+      },
+    },
+    {
+      path: '/hidden/processeditor',
+      name: 'ProcessEditor',
+      component: ProcessEditor,
+      meta: {
+        title: 'ProcessEditor',
+        hideMenu: true,
+      },
+    },
+    {
+      path: '/hidden/devpage',
+      name: 'DevPage',
+      component: DevPage,
+      meta: {
+        title: 'DevPage',
+        hideMenu: true,
+      },
+    },
+  ],
 };
 
 // 登录路由
