@@ -338,3 +338,12 @@ export const DefaultMenuInfo = {
     },
   ],
 };
+
+export const routePageList = [
+  '/@/views/sys/iframe/FrameBlank.vue',
+  '/@/views/bpm/manage/workflow/workflow.vue',
+  '/@/views/bpm/manage/taskAssignRule/index.vue',
+  '/@/views/bpm/manage/definition/index.vue',
+  '/@/views/bpm/manage/workflow/processEditor.vue',
+  '/@/views/dev/dev.vue',
+];

@@ -52,18 +52,6 @@ export default defineApplicationConfig({
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/jw`), '/jw'),
         },
-        '/basic-api': {
-          target: 'http://localhost:3000',
-          changeOrigin: true,
-          ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/basic-api`), ''),
-        },
-        '/upload': {
-          target: 'http://localhost:3300/upload',
-          changeOrigin: true,
-          ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/upload`), ''),
-        },
       },
     },
   },

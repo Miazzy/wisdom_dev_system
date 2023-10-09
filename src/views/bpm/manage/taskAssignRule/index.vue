@@ -34,7 +34,7 @@
 </template>
 <script lang="ts" setup>
   import { DICT_TYPE, getIntDictOptions } from '@/utils/dict';
-  import TaskAssignRuleForm from './TaskAssignRuleForm.vue';
+  import TaskAssignRuleForm from '@/views/bpm/manage/taskAssignRule/taskAssignRuleForm.vue';
   import * as TaskAssignRuleApi from '@/api/bpm/taskAssignRule';
   import * as RoleApi from '@/api/system/role';
   import * as DeptApi from '@/api/system/dept';
