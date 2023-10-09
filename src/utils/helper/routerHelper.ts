@@ -228,6 +228,7 @@ const addToChildren = (routes: any[], children: any[], routeModule: any) => {
     }
   }
 };
+
 const toCamelCase = (str: string, upperCaseFirst: boolean) => {
   str = (str || '')
     .replace(/-(.)/g, function (group1: string) {
