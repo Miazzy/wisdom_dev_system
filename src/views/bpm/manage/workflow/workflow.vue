@@ -173,7 +173,7 @@
 
   defineOptions({ name: 'WorkFlow' });
   const message = useMessage(); // 消息弹窗
-  const { push } = useRouter(); // 路由
+  const router = useRouter();
 
   const loading = ref(true); // 列表的加载中
   const total = ref(0); // 列表的总页数
@@ -305,32 +305,17 @@
 
   /** 设计流程 */
   const handleDesign = (row) => {
-    push({
-      name: 'wfeditor',
-      query: {
-        modelId: row.id,
-      },
-    });
+    router.push(`/bpm/manage/wfeditor?modelId=${row.id}`);
   };
 
   /** 点击任务分配按钮 */
   const handleAssignRule = (row) => {
-    push({
-      name: 'wftaskAssignRule',
-      query: {
-        modelId: row.id,
-      },
-    });
+    router.push(`/bpm/manage/wftaskAssignRule?modelId=${row.id}`);
   };
 
   /** 跳转到指定流程定义列表 */
   const handleDefinitionList = (row) => {
-    push({
-      name: 'wftaskDefinition',
-      query: {
-        key: row.key,
-      },
-    });
+    router.push(`/bpm/manage/wftaskDefinition?key=${row.key}&modelId=${row.id}`);
   };
 
   const handleFormDetail = async (row) => {
@@ -340,7 +325,7 @@
       // 弹窗打开
       formDetailVisible.value = true;
     } else {
-      await push({
+      router.push({
         path: row.formCustomCreatePath,
       });
     }
