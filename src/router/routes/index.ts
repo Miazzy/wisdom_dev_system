@@ -12,7 +12,7 @@ function transformMenusToRoutes(menus) {
   const routes = [];
   menus.forEach((menu) => {
     const route: AppRouteModule = {
-      path: menu.url.startsWith('/') ? menu.url : `/${menu.url}`,
+      path: queryMenuUrl(menu.url),
       name: menu.name,
       component: () => {
         // 此处不能通过 import(menu.component) 进行动态加载，会导致vite打包分析问题
@@ -31,15 +31,15 @@ function transformMenusToRoutes(menus) {
         } else if (menu.component == '/@/views/dev/dev.vue') {
           return import('/@/views/dev/dev.vue');
         } else if (menu.component == '/@/views/baseset/monitor/areaset/areaSet.vue') {
-          // return import('/@/views/baseset/monitor/areaset/areaSet.vue');
+          return import('/@/views/baseset/monitor/areaset/areaSet.vue');
         } else if (menu.component == '/@/views/baseset/monitor/modelset/modelSet.vue') {
-          // return import('/@/views/baseset/monitor/modelset/modelSet.vue');
+          return import('/@/views/baseset/monitor/modelset/modelSet.vue');
         } else if (menu.componet == '/@/views/baseset/monitor/deviceset/deviceSet.vue') {
-          // return import('/@/views/baseset/monitor/deviceset/deviceSet.vue');
+          return import('/@/views/baseset/monitor/deviceset/deviceSet.vue');
         } else if (menu.component == '/@/views/baseset/monitor/deviceinfoset/deviceInfoSet.vue') {
-          // return import('/@/views/baseset/monitor/deviceinfoset/deviceInfoSet.vue');
+          return import('/@/views/baseset/monitor/deviceinfoset/deviceInfoSet.vue');
         } else if (menu.component == '/@/views/baseset/monitor/sunriseset/sunriseSet.vue') {
-          // return import('/@/views/baseset/monitor/sunriseset/sunriseSet.vue');
+          return import('/@/views/baseset/monitor/sunriseset/sunriseSet.vue');
         } else {
           return import('/@/layouts/default/index.vue');
         }
@@ -56,6 +56,16 @@ function transformMenusToRoutes(menus) {
     routes.push(route);
   });
   return routes;
+}
+
+// 获取菜单URL
+function queryMenuUrl(url = '') {
+  if (url == null || typeof url == 'undefined') {
+    return '/';
+  } else if (typeof url == 'string') {
+    return url.startsWith('/') ? url : `/${url}`;
+  }
+  return url;
 }
 
 // 获取用户菜单函数
