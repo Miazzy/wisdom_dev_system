@@ -38,7 +38,7 @@ export const getRolePage = async (params: any) => {
 // 查询角色（精简)列表
 export const getSimpleRoleList = async (): Promise<RoleVO[]> => {
   const requestParams = { url: SystemRoleApi.GetSimpleRoleList };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
 // 查询角色详情

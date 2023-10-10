@@ -9,12 +9,12 @@ export enum BpmDefinitionApi {
 
 export const getProcessDefinitionBpmnXML = async (id: number) => {
   const requestParams = { url: BpmDefinitionApi.DefinitionBpmnXML, params: { id } };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
 export const getProcessDefinitionPage = async (params) => {
   const requestParams = { url: BpmDefinitionApi.DefinitionPage, params };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
 export const getProcessDefinitionList = async (params) => {
