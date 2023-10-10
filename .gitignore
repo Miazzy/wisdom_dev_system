@@ -1,4 +1,4 @@
-node_modules
+﻿node_modules
 .DS_Store
 dist
 .cache
@@ -39,8 +39,7 @@ src/views/dashboard
 src/views/operation        
 # 生产基地 使用单独的git仓库 需配置忽略目录
 src/views/prodMonitoring
-
-# 基础设置
-src/views/scomms-baseset
+# 基础设置 使用单独的git仓库 需配置忽略目录
+src/views/baseset
 # 流程引擎
 src/views/bpm
