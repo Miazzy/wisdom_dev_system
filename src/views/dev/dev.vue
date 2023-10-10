@@ -66,6 +66,13 @@
     <br />
     <span style="margin-top: 10px; margin-left: 5px; display: block;"> {{ categoryConfirm }} </span>
 
+    <DictSelectBox
+      v-model:value="selectedValue"
+      :type="`nation`"
+      :width="300"
+      @change="handleDictSelectBoxChange"
+    />
+
     <!-- 审批按钮 -->
     <div style="margin: 16px 0 0 16px">
       <Button @click="handleOpenApprovalDrawer">审批</Button>
@@ -92,6 +99,7 @@
   import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
   import TreeBox from '@/components/Framework/Combox/TreeBox.vue';
   import CommonTree from '@/components/Framework/Tree/CommonTree.vue';
+  import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';
   import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
   import { BillTitleOptions } from '/@/components/Framework/BillTitle/types';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -119,6 +127,7 @@
   const modalVisible = ref(false);
   const organVisible = ref(false);
   const categoryConfirm = ref('');
+  const selectedValue = ref('');
 
   const billTitleOptions = reactive<BillTitleOptions>({});
   billTitleOptions.title = '电站填报';
@@ -196,6 +205,10 @@
   function handleTreeRefresh() {
     console.log('handleTreeRefresh');
     queryDeptTreeList();
+  }
+
+  function handleDictSelectBoxChange(value, node, allNodes) {
+    console.log('selectedValue:', selectedValue.value);
   }
 
   const [approvalDrawerRegister, { openDrawer: openApprovalDrawer }] = useDrawer();

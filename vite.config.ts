@@ -40,17 +40,17 @@ export default defineApplicationConfig({
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/admin-api`), '/admin-api'),
         },
+        '/admin-api/system/dict-data': {
+          target: 'http://10.8.111.231:48081',
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path) => path.replace(new RegExp(`^/admin-api`), '/admin-api'),
+        },
         '/scomms-po': {
           target: 'http://10.8.111.173:48085',
           changeOrigin: true,
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/scomms-po`), '/scomms-po'),
-        },
-        '/jw': {
-          target: 'https://ygyt.ygwl.net',
-          changeOrigin: true,
-          ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/jw`), '/jw'),
         },
       },
     },

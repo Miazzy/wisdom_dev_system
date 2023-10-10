@@ -218,7 +218,8 @@ export class VAxios {
       conf.url?.startsWith('/scomms-po') ||
       conf.url?.startsWith('/jw') ||
       conf.url?.startsWith('/base') ||
-      conf.url?.startsWith('/admin-api/system/auth')
+      conf.url?.startsWith('/admin-api/system/auth') ||
+      conf.url?.startsWith('/admin-api/system/dict-data')
     ) {
       opt.apiUrl = '';
     }
