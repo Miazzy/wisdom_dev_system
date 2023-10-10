@@ -18,22 +18,32 @@
   const options = ref<SelectProps['options']>([]);
 
   const props = defineProps({
+    loadMode: { type: String, default: 'group' },
     width: { type: String, default: '220' },
     type: { type: String, default: '' },
+    filter: { type: Function, default: null },
     value: { type: String, default: '' }, // 搜索框文本
   });
 
+  // 选中下拉框选项事件函数
   const handleChange = (value: string, node) => {
     emit('update:value', value);
     emit('change', value, node, options.value);
   };
 
+  // 选项过滤函数
   const filterOption = (input: string, option: any) => {
-    return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+    if (props.filter == null) {
+      return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+    } else {
+      return props.filter(input, option);
+    }
   };
 
-  const emit = defineEmits(['update:value', 'change']); // 允许双向绑定searchText
+  // 定义emits
+  const emit = defineEmits(['update:value', 'change']);
 
+  // 启动加载
   onMounted(async () => {
     // 在组件挂载后，通过后端接口获取数据字段的数据
     try {
@@ -45,7 +55,7 @@
     }
   });
 
-  // 替换下面的 fetchBackendData 函数为实际的后端接口调用函数
+  // 获取后端数据
   async function fetchBackendData() {
     // 调用后端接口获取数据的逻辑，返回数据数组
     const response = await getDictDataMap({ dictTypeList: props.type });

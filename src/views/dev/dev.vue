@@ -69,7 +69,31 @@
     <DictSelectBox
       v-model:value="selectedValue"
       :type="`nation`"
-      :width="300"
+      :width="220"
+      @change="handleDictSelectBoxChange"
+    />
+
+    <DictSelectBox
+      v-model:value="selectedValue"
+      :type="`uiElementStatus`"
+      :width="220"
+      style="margin-left: 5px"
+      @change="handleDictSelectBoxChange"
+    />
+
+    <DictSelectBox
+      v-model:value="selectedValue"
+      :type="`orgAdminKind`"
+      :width="220"
+      style="margin-left: 5px"
+      @change="handleDictSelectBoxChange"
+    />
+
+    <DictSelectBox
+      v-model:value="selectedValue"
+      :type="`taskKind`"
+      :width="220"
+      style="margin-left: 5px"
       @change="handleDictSelectBoxChange"
     />
 
