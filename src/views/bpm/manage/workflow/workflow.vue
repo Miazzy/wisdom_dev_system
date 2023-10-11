@@ -133,6 +133,7 @@
       v-model:visible="formDetailVisible"
       :width="800"
       :height="800"
+      :overflowY="'scroll'"
       :showBtm="false"
     >
       <form-create :rule="formDetailPreview.rule" :option="formDetailPreview.option" />
@@ -144,6 +145,8 @@
       v-model:visible="bpmnDetailVisible"
       :width="800"
       :height="800"
+      :overflowY="'scroll'"
+      :overflowX="'scroll'"
       :showBtm="false"
     >
       <MyProcessViewer

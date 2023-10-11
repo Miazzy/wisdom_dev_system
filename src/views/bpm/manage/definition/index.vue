@@ -94,6 +94,8 @@
     v-model:visible="bpmnDetailVisible"
     :width="800"
     :height="800"
+    :overflowY="'scroll'"
+    :overflowX="'scroll'"
     :showBtm="false"
   >
     <MyProcessViewer
@@ -143,7 +145,7 @@
 
   /** 点击任务分配按钮 */
   const handleAssignRule = (row) => {
-    router.push(`/bpm/manage/wftaskAssignRule?modelId=${row.id}`);
+    router.push(`/bpm/manage/wftaskAssignRule?modelId=${query.modelId}`);
   };
 
   /** 流程表单的详情按钮操作 */
