@@ -25,7 +25,7 @@ export enum DeptApi {
 // 查询部门（精简)列表
 export const getSimpleDeptList = async (): Promise<DeptVO[]> => {
   const requestParams = { url: DeptApi.GetSimpleDeptList };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
 // 查询部门列表

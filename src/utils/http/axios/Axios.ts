@@ -227,7 +227,9 @@ export class VAxios {
     if (
       conf.url?.startsWith('/bpm') ||
       conf.url?.startsWith('/system/role') ||
-      conf.url?.startsWith('/system/dept')
+      conf.url?.startsWith('/system/dept') ||
+      conf.url?.startsWith('/system/post') ||
+      conf.url?.startsWith('/system/user')
     ) {
       opt.apiUrl = '/admin-api';
     }

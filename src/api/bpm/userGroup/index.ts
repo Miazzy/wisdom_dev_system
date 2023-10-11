@@ -53,5 +53,5 @@ export const getUserGroupPage = async (params) => {
 // 获取用户组精简信息列表
 export const getSimpleUserGroupList = async (): Promise<UserGroupVO[]> => {
   const requestParams = { url: BpmUserGroupApi.GetSimpleUserGroupList };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };

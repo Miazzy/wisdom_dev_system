@@ -185,7 +185,12 @@ const transform: AxiosTransform = {
         ? `${options.authenticationScheme} ${token}`
         : token;
       // TODO 代理设置
-      if (config.url?.startsWith('/admin-api/bpm')) {
+      if (
+        config.url?.startsWith('/admin-api/bpm') ||
+        config.url?.startsWith('/admin-api/system/dept') ||
+        config.url?.startsWith('/admin-api/system/post') ||
+        config.url?.startsWith('/admin-api/system/user')
+      ) {
         (config as Recordable).headers.Authorization = 'Bearer test1';
         (config as Recordable).headers['Tenant-Id'] = 1;
         (config as Recordable).headers['login_user_type'] = 2;
