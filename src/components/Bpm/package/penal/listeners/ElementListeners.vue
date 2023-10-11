@@ -246,6 +246,7 @@
   import { inject, ref, nextTick, watch } from 'vue';
   import { createListenerObject, updateElementExtensions } from '../../utils';
   import { initListenerType, initListenerForm, listenerType, fieldType } from './utilSelf';
+  import XButton from '@/components/Framework/XButton/XButton.vue';
 
   defineOptions({ name: 'ElementListeners' });
 

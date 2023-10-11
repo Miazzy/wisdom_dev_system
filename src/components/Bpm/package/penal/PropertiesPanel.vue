@@ -24,10 +24,9 @@
       </el-collapse-item>
       <el-collapse-item name="condition" v-if="formVisible" key="form">
         <template #title><Icon icon="ep:list" />表单</template>
-        <!-- <element-form :id="elementId" :type="elementType" /> -->
         友情提示：使用
-        <router-link :to="{ path: '/bpm/manager/form' }"
-          ><el-link type="danger">流程表单</el-link>
+        <router-link :to="{ path: '/bpm/manager/form' }">
+          <el-link type="danger">流程表单</el-link>
         </router-link>
         替代，提供更好的表单设计功能
       </el-collapse-item>

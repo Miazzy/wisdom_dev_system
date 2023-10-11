@@ -51,6 +51,7 @@
 <script lang="ts" setup>
   import { ref, toRaw, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import XButton from '@/components/Framework/XButton/XButton.vue';
 
   defineOptions({ name: 'ReceiveTask' });
   const props = defineProps({

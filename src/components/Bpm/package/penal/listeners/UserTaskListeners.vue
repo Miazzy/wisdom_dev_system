@@ -298,6 +298,7 @@
     listenerType,
     fieldType,
   } from './utilSelf';
+  import XButton from '@/components/Framework/XButton/XButton.vue';
 
   defineOptions({ name: 'UserTaskListeners' });
 

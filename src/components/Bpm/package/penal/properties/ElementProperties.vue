@@ -56,6 +56,7 @@
 <script lang="ts" setup>
   import { ref, toRaw, watch, nextTick, inject } from 'vue';
   import { ElMessageBox } from 'element-plus';
+  import XButton from '@/components/Framework/XButton/XButton.vue';
 
   defineOptions({ name: 'ElementProperties' });
   const props = defineProps({
