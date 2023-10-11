@@ -97,6 +97,9 @@
       @change="handleDictSelectBoxChange"
     />
 
+    <XButton preIcon="ep:folder-opened" title="打开文件" />
+    <XTextButton preIcon="ep:folder-opened" title="打开文件" />
+
     <!-- 审批按钮 -->
     <div style="margin: 16px 0 0 16px">
       <Button @click="handleOpenApprovalDrawer">审批</Button>
@@ -133,6 +136,8 @@
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import CategoryDialog from '/@/components/Framework/Modal/CategoryDialog.vue';
   import OrganDialog from '@/components/Framework/Modal/OrganDialog.vue';
+  import XButton from '@/components/Framework/XButton/XButton.vue';
+  import XTextButton from '@/components/Framework/XButton/XTextButton.vue';
   import type { Dayjs } from 'dayjs';
   import dayjs from 'dayjs';
 

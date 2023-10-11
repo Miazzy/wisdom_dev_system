@@ -19,7 +19,7 @@
 
   const props = defineProps({
     loadMode: { type: String, default: 'group' },
-    width: { type: String, default: '220' },
+    width: { type: Number, default: 220 },
     type: { type: String, default: '' },
     filter: { type: Function, default: null },
     value: { type: String, default: '' }, // 搜索框文本
