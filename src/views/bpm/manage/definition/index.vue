@@ -78,12 +78,24 @@
   </ContentWrap>
 
   <!-- 弹窗：表单详情 -->
-  <Dialog title="表单详情" v-model="formDetailVisible" width="800">
+  <Dialog
+    :title="`表单详情`"
+    v-model:visible="formDetailVisible"
+    :width="800"
+    :height="800"
+    :showBtm="false"
+  >
     <form-create :rule="formDetailPreview.rule" :option="formDetailPreview.option" />
   </Dialog>
 
   <!-- 弹窗：流程模型图的预览 -->
-  <Dialog title="流程图" v-model="bpmnDetailVisible" width="800">
+  <Dialog
+    :title="`流程图`"
+    v-model:visible="bpmnDetailVisible"
+    :width="800"
+    :height="800"
+    :showBtm="false"
+  >
     <MyProcessViewer
       key="designer"
       v-model="bpmnXML"
@@ -102,12 +114,12 @@
   import { setConfAndFields2 } from '@/utils/formCreate';
   import { ref, reactive, onMounted } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
+  import Dialog from '@/components/Framework/Modal/Dialog.vue';
 
   defineOptions({ name: 'BpmProcessDefinition' });
 
-  const { push } = useRouter(); // 路由
   const { query } = useRoute(); // 查询参数
-
+  const router = useRouter(); // 路由
   const loading = ref(true); // 列表的加载中
   const total = ref(0); // 列表的总页数
   const list = ref([]); // 列表的数据
@@ -131,12 +143,7 @@
 
   /** 点击任务分配按钮 */
   const handleAssignRule = (row) => {
-    push({
-      name: 'wftaskAssignRule',
-      query: {
-        modelId: row.id,
-      },
-    });
+    router.push(`/bpm/manage/wftaskAssignRule?modelId=${row.id}`);
   };
 
   /** 流程表单的详情按钮操作 */
@@ -165,8 +172,8 @@
     prefix: 'flowable',
   });
   const handleBpmnDetail = async (row) => {
-    bpmnXML.value = await DefinitionApi.getProcessDefinitionBpmnXML(row.id);
     bpmnDetailVisible.value = true;
+    bpmnXML.value = await DefinitionApi.getProcessDefinitionBpmnXML(row.id);
   };
 
   /** 初始化 **/
