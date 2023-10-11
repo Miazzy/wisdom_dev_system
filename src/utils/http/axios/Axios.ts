@@ -224,7 +224,11 @@ export class VAxios {
       opt.apiUrl = '';
     }
     // TODO 代理设置
-    if (conf.url?.startsWith('/bpm')) {
+    if (
+      conf.url?.startsWith('/bpm') ||
+      conf.url?.startsWith('/system/role') ||
+      conf.url?.startsWith('/system/dept')
+    ) {
       opt.apiUrl = '/admin-api';
     }
 
