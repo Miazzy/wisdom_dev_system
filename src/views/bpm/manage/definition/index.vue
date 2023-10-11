@@ -77,6 +77,16 @@
     />
   </ContentWrap>
 
+  <Dialog
+    :title="`表单详情`"
+    v-model:visible="iframeVisible"
+    :width="1000"
+    :height="800"
+    :showBtm="false"
+  >
+    <TaskAssignRule :modelId="modelId" />
+  </Dialog>
+
   <!-- 弹窗：表单详情 -->
   <Dialog
     :title="`表单详情`"
@@ -117,6 +127,7 @@
   import { ref, reactive, onMounted } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
+  import TaskAssignRule from '@/views/bpm/manage/taskAssignRule/index.vue';
 
   defineOptions({ name: 'BpmProcessDefinition' });
 
@@ -125,6 +136,8 @@
   const loading = ref(true); // 列表的加载中
   const total = ref(0); // 列表的总页数
   const list = ref([]); // 列表的数据
+  const iframeVisible = ref(false); // 列表的加载中
+  const modelId = ref('');
   const queryParams = reactive({
     pageNo: 1,
     pageSize: 10,
@@ -145,7 +158,8 @@
 
   /** 点击任务分配按钮 */
   const handleAssignRule = (row) => {
-    router.push(`/bpm/manage/wftaskAssignRule?modelId=${query.modelId}`);
+    modelId.value = query.modelId as String;
+    iframeVisible.value = true;
   };
 
   /** 流程表单的详情按钮操作 */

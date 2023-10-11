@@ -47,12 +47,17 @@
 
   defineOptions({ name: 'BpmTaskAssignRule' });
 
+  const props = defineProps({
+    modelId: { type: String, default: '' },
+    processDefinitionId: { type: String, default: '' },
+  });
+
   const { query } = useRoute(); // 查询参数
   const loading = ref(true); // 列表的加载中
   const list = ref([]); // 列表的数据
   const queryParams = reactive({
-    modelId: query.modelId, // 流程模型的编号。如果 modelId 非空，则用于流程模型的查看与配置
-    processDefinitionId: query.processDefinitionId, // 流程定义的编号。如果 processDefinitionId 非空，则用于流程定义的查看，不支持配置
+    modelId: query.modelId || props.modelId, // 流程模型的编号。如果 modelId 非空，则用于流程模型的查看与配置
+    processDefinitionId: query.processDefinitionId || props.processDefinitionId, // 流程定义的编号。如果 processDefinitionId 非空，则用于流程定义的查看，不支持配置
   });
   const roleOptions = ref<RoleApi.RoleVO[]>([]); // 角色列表
   const deptOptions = ref<DeptApi.DeptVO[]>([]); // 部门列表

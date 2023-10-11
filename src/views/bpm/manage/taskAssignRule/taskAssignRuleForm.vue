@@ -124,7 +124,7 @@
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
     title: String, // 弹框标题
-    width: { type: Number, default: 700 }, // 弹框宽度
+    width: { type: Number, default: 750 }, // 弹框宽度
     height: { type: Number, default: 500 }, // 弹框高度
     modelId: { type: String, default: '' },
     row: { type: Object, default: null },

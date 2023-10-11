@@ -11,7 +11,8 @@
         :style="{ height: bodyHeight + 'px', overflowY: overflowY, overflowX: overflowX }"
       >
         <!-- 插槽：用于自定义弹框内容 -->
-        <slot></slot>
+        <slot v-if="props.mode !== 'iframe'"></slot>
+        <iframe v-else :src="props.url" frameborder="0" width="100%" height="100%"></iframe>
       </div>
       <div v-if="props.showBtm" class="modal-footer" style="position: relative">
         <!-- 底部按钮插槽：可以包含“取消”、“确定”按钮 -->
@@ -36,6 +37,8 @@
     width: { type: Number, default: 800 }, // 弹框宽度
     height: { type: Number, default: 600 }, // 弹框高度
     showBtm: { type: Boolean, default: true },
+    mode: { type: String, default: '' },
+    url: { type: String, default: '' },
     overflowY: { type: String, default: 'hidden' },
     overflowX: { type: String, default: 'hidden' },
   });
