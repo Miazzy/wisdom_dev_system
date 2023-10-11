@@ -132,7 +132,7 @@
       title="表单详情"
       v-model:visible="formDetailVisible"
       :width="800"
-      :height="600"
+      :height="800"
       :showBtm="false"
     >
       <form-create :rule="formDetailPreview.rule" :option="formDetailPreview.option" />
@@ -143,7 +143,7 @@
       title="流程图"
       v-model:visible="bpmnDetailVisible"
       :width="800"
-      :height="600"
+      :height="800"
       :showBtm="false"
     >
       <MyProcessViewer
