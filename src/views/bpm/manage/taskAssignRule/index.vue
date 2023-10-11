@@ -29,6 +29,7 @@
       </el-table-column>
     </el-table>
   </ContentWrap>
+
   <!-- 添加/修改弹窗 -->
   <TaskAssignRuleForm ref="formRef" @success="getList" />
 </template>
@@ -71,7 +72,6 @@
   };
 
   /** 翻译规则范围 */
-  // TODO 芋艿：各种 ts 报错
   const getAssignRuleOptionName = (type, option) => {
     if (type === 10) {
       for (const roleOption of roleOptions.value) {

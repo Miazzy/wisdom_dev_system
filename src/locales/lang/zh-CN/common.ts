@@ -35,6 +35,7 @@ export default {
   delSuccessText: '删除成功',
 
   required: '必填',
+  createSuccess: '创建成功',
   updateSuccess: '修改成功',
   delSuccess: '删除成功',
   saveSuccessText: '保存成功',

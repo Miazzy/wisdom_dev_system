@@ -1,5 +1,10 @@
 <template>
-  <Dialog v-model="dialogVisible" title="修改任务规则" width="600">
+  <Dialog
+    :title="`修改任务规则`"
+    v-model:visible="modalVisible"
+    :width="props.width"
+    :height="props.height"
+  >
     <el-form ref="formRef" :model="formData" :rules="formRules" label-width="80px">
       <el-form-item label="任务名称" prop="taskDefinitionName">
         <el-input v-model="formData.taskDefinitionName" disabled placeholder="请输入流标标识" />
@@ -93,28 +98,39 @@
     <!-- 操作按钮 -->
     <template #footer>
       <el-button :disabled="formLoading" type="primary" @click="submitForm">确 定</el-button>
-      <el-button @click="dialogVisible = false">取 消</el-button>
+      <el-button @click="modalVisible = false">取 消</el-button>
     </template>
   </Dialog>
 </template>
 <script lang="ts" setup>
+  import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import { DICT_TYPE, getIntDictOptions } from '@/utils/dict';
   import { defaultProps, handleTree } from '@/utils/tree';
+  import { ref, reactive, onMounted, watch } from 'vue';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { useI18n } from 'vue-i18n';
   import * as TaskAssignRuleApi from '@/api/bpm/taskAssignRule';
   import * as RoleApi from '@/api/system/role';
   import * as DeptApi from '@/api/system/dept';
   import * as PostApi from '@/api/system/post';
   import * as UserApi from '@/api/system/user';
   import * as UserGroupApi from '@/api/bpm/userGroup';
-  import { ref, reactive } from 'vue';
-  import { useI18n } from 'vue-i18n';
-  import { useMessage } from '/@/hooks/web/useMessage';
 
   defineOptions({ name: 'BpmTaskAssignRuleForm' });
-
+  const emit = defineEmits(['update:visible', 'success']); // 定义 success 事件，用于操作成功后的回调
   const { t } = useI18n(); // 国际化
   const message = useMessage(); // 消息弹窗
 
+  const props = defineProps({
+    visible: Boolean, // 是否显示弹框
+    title: String, // 弹框标题
+    width: { type: Number, default: 700 }, // 弹框宽度
+    height: { type: Number, default: 500 }, // 弹框高度
+    modelId: { type: String, default: '' },
+    row: { type: Object, default: null },
+  });
+
+  const modalVisible = ref(false);
   const dialogVisible = ref(false); // 弹窗的是否展示
   const formLoading = ref(false); // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
   const formData = ref({
@@ -148,6 +164,8 @@
 
   /** 打开弹窗 */
   const open = async (modelId: string, row: TaskAssignRuleApi.TaskAssignVO) => {
+    modalVisible.value = true;
+    emit('update:visible', true); // 关闭弹框
     // 1. 先重置表单
     resetForm();
     // 2. 再设置表单
@@ -191,10 +209,8 @@
     // 获得用户组列表
     userGroupOptions.value = await UserGroupApi.getSimpleUserGroupList();
   };
-  defineExpose({ open }); // 提供 open 方法，用于打开弹窗
 
   /** 提交表单 */
-  const emit = defineEmits(['success']); // 定义 success 事件，用于操作成功后的回调
   const submitForm = async () => {
     // 校验表单
     if (!formRef.value) return;
@@ -243,6 +259,7 @@
       emit('success');
     } finally {
       formLoading.value = false;
+      modalVisible.value = false;
     }
   };
 
@@ -250,4 +267,20 @@
   const resetForm = () => {
     formRef.value?.resetFields();
   };
+
+  watch(
+    () => props.visible,
+    (newValue) => {
+      modalVisible.value = newValue;
+      if (newValue == true) {
+        open(props.modelId, props.row);
+      }
+    },
+  );
+
+  onMounted(() => {
+    modalVisible.value = props.visible; // 根据传入参数控制Dialog显示
+  });
+
+  defineExpose({ open, resetForm, submitForm }); // 提供 open 方法，用于打开弹窗
 </script>

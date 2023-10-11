@@ -230,9 +230,8 @@ onMounted(() => {
   theight.value = props.height - 260;
   modalVisible.value = props.visible; // 根据传入参数控制Dialog显示  
   filterGdata.value = props.gdata as unknown[];
-
-
 });
+
 </script>
 
 <style lang="less" scoped>

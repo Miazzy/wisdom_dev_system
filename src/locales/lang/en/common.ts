@@ -27,6 +27,7 @@ export default {
   },
 
   required: 'required',
+  createSuccess: 'Create Success',
   updateSuccess: 'Update Success',
   delSuccess: 'Delete Success',
 
