@@ -3,8 +3,9 @@
     :visible="dialogVisible"
     @update:visible="updateVisible"
     :title="dialogTitle"
-    :width="600"
-    :height="300"
+    :width="800"
+    :height="500"
+    :overflowY="'scroll'"
     @confirm="confirm"
     @cancel="cancel"
   >
