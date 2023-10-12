@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-  import { propTypes } from '@/utils/proptypes';
   import Iconify from '@purge-icons/generated';
   import { useDesigns } from '@/hooks/web/useDesign';
   import { computed, nextTick, ref, unref, watch } from 'vue';
@@ -13,14 +12,10 @@
   const prefixCls = getPrefixCls('icon');
 
   const props = defineProps({
-    // icon name
-    icon: propTypes.string,
-    // icon color
-    color: propTypes.string,
-    // icon size
-    size: propTypes.number.def(16),
-    // icon svg class
-    svgClass: propTypes.string.def(''),
+    icon: { type: String, default: '' },
+    color: { type: String, default: '' },
+    size: { type: Number, default: '' },
+    svgClass: { type: String, default: '' },
   });
 
   const elRef = ref<ElRef>(null);

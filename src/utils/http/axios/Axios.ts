@@ -260,10 +260,16 @@ export class VAxios {
         .request<any, AxiosResponse<Result>>(conf)
         .then((res: AxiosResponse<Result>) => {
           if (transformResponseHook && isFunction(transformResponseHook)) {
+            let ret;
             try {
-              const ret = transformResponseHook(res, opt);
+              debugger;
+              ret = transformResponseHook(res, opt);
+              debugger;
               resolve(ret);
             } catch (err) {
+              // if(res.config.url == ){
+
+              // }
               reject(err || new Error('request error!'));
             }
             return;
