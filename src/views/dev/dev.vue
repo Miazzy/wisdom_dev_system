@@ -99,6 +99,14 @@
       @change="handleDictSelectBoxChange"
     />
 
+    <DictSelectBox
+      v-model:value="selectedValue"
+      :type="`orgKindStatus`"
+      :width="220"
+      style="margin-left: 5px"
+      @change="handleDictSelectBoxChange"
+    />
+
     <XButton preIcon="ep:folder-opened" title="打开文件" />
     <XTextButton preIcon="ep:folder-opened" title="打开文件" />
 
