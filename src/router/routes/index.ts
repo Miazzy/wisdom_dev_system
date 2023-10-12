@@ -57,10 +57,7 @@ function transformMenusToRoutes(menus) {
         else if (menu.component == '/@/views/baseset/operation/assessRule/assessRule.vue') {
           return import('/@/views/baseset/operation/assessRule/assessRule.vue');
         }
-        else if (menu.component == '/@/views/baseset/safeCheckSet/safeCheckSet.vue') {
-          return import('/@/views/baseset/safeCheckSet/safeCheckSet.vue');
-        }
-
+        
         else {
           return import('/@/layouts/default/index.vue');
         }
