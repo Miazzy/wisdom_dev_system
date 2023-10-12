@@ -270,7 +270,9 @@ export class VAxios {
                 res.config.url == SystemAuthApi.GetPermissionInfo &&
                 res.data.code == ResultEnum.ACCOUNT_ERROR;
               if (logoutFlag) {
-                userStore.logout(true);
+                setTimeout(() => {
+                  userStore.logout(true);
+                }, 500);
               }
             }
             return;
