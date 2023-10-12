@@ -57,7 +57,7 @@ export default defineApplicationConfig({
           rewrite: (path) => path.replace(new RegExp(`^/baseset/oa-leave/`), '/baseset/oa-leave/'),
         },
         '/base': {
-          target: 'http://localhost:48083',
+          target: 'http://localhost:48085',
           changeOrigin: true,
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/base`), '/base'),

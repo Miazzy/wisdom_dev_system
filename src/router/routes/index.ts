@@ -30,17 +30,38 @@ function transformMenusToRoutes(menus) {
           return import('/@/views/bpm/manage/workflow/processEditor.vue');
         } else if (menu.component == '/@/views/dev/dev.vue') {
           return import('/@/views/dev/dev.vue');
-        } else if (menu.component == '/@/views/baseset/monitor/areaset/areaSet.vue') {
-          return import('/@/views/baseset/monitor/areaset/areaSet.vue');
-        } else if (menu.component == '/@/views/baseset/monitor/modelset/modelSet.vue') {
-          return import('/@/views/baseset/monitor/modelset/modelSet.vue');
-        } else if (menu.componet == '/@/views/baseset/monitor/deviceset/deviceSet.vue') {
-          return import('/@/views/baseset/monitor/deviceSet/deviceSet.vue');
-        } else if (menu.component == '/@/views/baseset/monitor/deviceinfoset/deviceInfoSet.vue') {
-          return import('/@/views/baseset/monitor/deviceinfoset/deviceInfoSet.vue');
-        } else if (menu.component == '/@/views/baseset/monitor/sunriseset/sunriseSet.vue') {
-          return import('/@/views/baseset/monitor/sunriseset/sunriseSet.vue');
-        } else {
+        }
+        // baseset/monitor
+        else if (menu.component == '/@/views/baseset/monitor/area/areaSet.vue') {
+          return import('/@/views/baseset/monitor/area/areaSet.vue');
+        }
+        else if (menu.component == '/@/views/baseset/monitor/model/modelSet.vue') {
+          return import('/@/views/baseset/monitor/model/modelSet.vue');
+        }
+        else if (menu.component == '/@/views/baseset/monitor/device/deviceSet.vue') {
+          return import('/@/views/baseset/monitor/device/deviceSet.vue');
+        }
+        else if (menu.component == '/@/views/baseset/monitor/deviceinfo/deviceInfoSet.vue') {
+          return import('/@/views/baseset/monitor/deviceinfo/deviceInfoSet.vue');
+        }
+        else if (menu.component == '/@/views/baseset/monitor/sunrise/sunriseSet.vue') {
+          return import('/@/views/baseset/monitor/sunrise/sunriseSet.vue');
+        }
+        // baseset/operation
+        else if (menu.component == '/@/views/baseset/operation/powerstation/index.vue') {
+          return import('/@/views/baseset/operation/powerstation/index.vue');
+        }
+        else if (menu.component == '/@/views/baseset/operation/material/material.vue') {
+          return import('/@/views/baseset/operation/material/material.vue');
+        }
+        else if (menu.component == '/@/views/baseset/operation/assessRule/assessRule.vue') {
+          return import('/@/views/baseset/operation/assessRule/assessRule.vue');
+        }
+        else if (menu.component == '/@/views/baseset/safeCheckSet/safeCheckSet.vue') {
+          return import('/@/views/baseset/safeCheckSet/safeCheckSet.vue');
+        }
+
+        else {
           return import('/@/layouts/default/index.vue');
         }
       },
