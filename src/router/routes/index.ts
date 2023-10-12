@@ -35,7 +35,7 @@ function transformMenusToRoutes(menus) {
         } else if (menu.component == '/@/views/baseset/monitor/modelset/modelSet.vue') {
           return import('/@/views/baseset/monitor/modelset/modelSet.vue');
         } else if (menu.componet == '/@/views/baseset/monitor/deviceset/deviceSet.vue') {
-          return import('/@/views/baseset/monitor/deviceset/deviceSet.vue');
+          return import('/@/views/baseset/monitor/deviceSet/deviceSet.vue');
         } else if (menu.component == '/@/views/baseset/monitor/deviceinfoset/deviceInfoSet.vue') {
           return import('/@/views/baseset/monitor/deviceinfoset/deviceInfoSet.vue');
         } else if (menu.component == '/@/views/baseset/monitor/sunriseset/sunriseSet.vue') {
