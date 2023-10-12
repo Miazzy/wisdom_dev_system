@@ -13,7 +13,9 @@
   import type { SelectProps } from 'ant-design-vue';
   import { ref, onMounted, defineProps, defineEmits } from 'vue';
   import { getDictDataMap } from '/@/api/system/dict/data';
+  import { useDictStoreWithOut } from '@/store/modules/dict';
 
+  const dictStore = useDictStoreWithOut();
   const selectedValue = ref<string | undefined>('');
   const options = ref<SelectProps['options']>([]);
 
@@ -47,9 +49,11 @@
   onMounted(async () => {
     // 在组件挂载后，通过后端接口获取数据字段的数据
     try {
-      const response = await fetchBackendData(); // 调用后端接口获取数据
-      // 格式化后端数据，将数据转换为适用于下拉框的格式
-      options.value = response;
+      if (props.mode !== 'group') {
+        const response = await fetchBackendData(); // 调用后端接口获取数据
+        // 格式化后端数据，将数据转换为适用于下拉框的格式
+        options.value = response;
+      }
     } catch (error) {
       console.error('Failed to fetch data:', error);
     }

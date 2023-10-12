@@ -17,7 +17,7 @@
       @refresh="handleTreeRefresh"
     />
     <div class="" style="width: 100%">
-      <span style="float: left"> searchbox </span>
+      <span style="float: left"> SearchBox </span>
       <!-- search box -->
       <SearchBox
         v-model:searchText="searchTableText"
@@ -29,7 +29,7 @@
         @select="tableBoxSelect"
         style="width: 220px; height: 60px"
       />
-      <span style="float: left"> treebox </span>
+      <span style="float: left"> TreeBox </span>
       <!-- tree box -->
       <TreeBox
         v-model:searchText="searchTreeText"
@@ -66,6 +66,8 @@
     <br />
     <span style="margin-top: 10px; margin-left: 5px; display: block;"> {{ categoryConfirm }} </span>
 
+    <span style="float: left"> DictSelectBox </span>
+    <br />
     <DictSelectBox
       v-model:value="selectedValue"
       :type="`nation`"
