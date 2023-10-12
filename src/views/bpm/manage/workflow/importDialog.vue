@@ -3,8 +3,9 @@
     :visible="dialogVisible"
     @update:visible="updateVisible"
     title="导入流程"
-    :width="400"
+    :width="600"
     :height="500"
+    :overflowY="'scroll'"
     @confirm="confirm"
     @cancel="cancel"
   >

@@ -90,5 +90,5 @@ export const updateUserStatus = (id: number, status: number) => {
 // 获取用户精简信息列表
 export const getSimpleUserList = (): Promise<UserVO[]> => {
   const requestParams = { url: SystemRoleApi.GetSimpleUserList };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };

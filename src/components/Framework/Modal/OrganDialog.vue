@@ -84,6 +84,7 @@
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import Icon from '@/components/Icon/Icon.vue';
   import { ref, defineProps, defineEmits, computed, onMounted, watch, unref } from 'vue';
+  import { TreeItem } from '@/components/Tree';
 
   const modalVisible = ref(false);
   const treeData = ref([]);

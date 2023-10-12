@@ -1,7 +1,7 @@
 import { defHttp } from '/@/utils/http/axios';
 import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
 
-enum Api {
+export enum SystemAuthApi {
   Login = '/admin-api/system/auth/login',
   Logout = '/admin-api/system/auth/logout',
   RefreshToken = '/admin-api/system/auth/refresh-token',
@@ -13,7 +13,7 @@ enum Api {
  * @description: user login api
  */
 export function loginApi(params: LoginParams) {
-  const requestParams = { url: Api.Login, params };
+  const requestParams = { url: SystemAuthApi.Login, params };
   return defHttp.post<LoginResultModel>(requestParams, { isOnlyResult: true });
 }
 
@@ -21,7 +21,7 @@ export function loginApi(params: LoginParams) {
  * @description: user logout
  */
 export function doLogout() {
-  const requestParams = { url: Api.Logout };
+  const requestParams = { url: SystemAuthApi.Logout };
   return defHttp.get(requestParams, { isOnlyResult: true });
 }
 
@@ -29,7 +29,7 @@ export function doLogout() {
  * @description: get user info
  */
 export function getUserInfo() {
-  const requestParams = { url: Api.GetPermissionInfo };
+  const requestParams = { url: SystemAuthApi.GetPermissionInfo };
   return defHttp.get<GetUserInfoModel>(requestParams, { isOnlyResult: true });
 }
 
@@ -37,7 +37,7 @@ export function getUserInfo() {
  * @description: refresh token
  */
 export function execRefreshToken(rtoken: string) {
-  const requestParams = { url: Api.RefreshToken + '?refreshToken=' + rtoken };
+  const requestParams = { url: SystemAuthApi.RefreshToken + '?refreshToken=' + rtoken };
   return defHttp.post<any>(requestParams, { isOnlyResult: true });
 }
 
@@ -45,6 +45,6 @@ export function execRefreshToken(rtoken: string) {
  * @description: get user info
  */
 export function getListMenus() {
-  const requestParams = { url: Api.ListMenus };
+  const requestParams = { url: SystemAuthApi.ListMenus };
   return defHttp.get<any>(requestParams, { isOnlyResult: true });
 }

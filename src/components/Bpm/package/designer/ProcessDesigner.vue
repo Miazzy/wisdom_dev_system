@@ -2,7 +2,7 @@
   <div class="my-process-designer">
     <div class="my-process-designer__header" style="z-index: 999; display: table-row-group">
       <slot name="control-header"></slot>
-      <template v-if="!$slots['control-header']">
+      <template v-if="!$slots['control-header'] || true">
         <ElButtonGroup key="file-control">
           <XButton preIcon="ep:folder-opened" title="打开文件" @click="refFile.click()" />
           <el-tooltip effect="light" placement="bottom">
@@ -10,10 +10,8 @@
               <div style="color: #409eff">
                 <XTextButton title="下载为XML文件" @click="downloadProcessAsXml()" />
                 <br />
-
                 <XTextButton title="下载为SVG文件" @click="downloadProcessAsSvg()" />
                 <br />
-
                 <XTextButton title="下载为BPMN文件" @click="downloadProcessAsBpmn()" />
               </div>
             </template>
@@ -65,12 +63,6 @@
             />
           </el-tooltip>
           <el-tooltip effect="light" content="水平居中">
-            <!-- <el-button
-              class="align align-center"
-              icon="el-icon-s-data"
-              @click="elementsAlign('center')"
-            /> -->
-            <!-- class="align align-center" -->
             <XButton
               preIcon="fa:align-left"
               class="align align-center"
@@ -78,11 +70,6 @@
             />
           </el-tooltip>
           <el-tooltip effect="light" content="垂直居中">
-            <!-- <el-button
-              class="align align-middle"
-              icon="el-icon-s-data"
-              @click="elementsAlign('middle')"
-            /> -->
             <XButton
               preIcon="fa:align-left"
               class="align align-middle"
@@ -92,11 +79,6 @@
         </ElButtonGroup>
         <ElButtonGroup key="scale-control">
           <el-tooltip effect="light" content="缩小视图">
-            <!-- <el-button
-              :disabled="defaultZoom < 0.2"
-              icon="el-icon-zoom-out"
-              @click="processZoomOut()"
-            /> -->
             <XButton
               preIcon="ep:zoom-out"
               @click="processZoomOut()"
@@ -105,33 +87,20 @@
           </el-tooltip>
           <el-button>{{ Math.floor(defaultZoom * 10 * 10) + '%' }}</el-button>
           <el-tooltip effect="light" content="放大视图">
-            <!-- <el-button
-              :disabled="defaultZoom > 4"
-              icon="el-icon-zoom-in"
-              @click="processZoomIn()"
-            /> -->
             <XButton preIcon="ep:zoom-in" @click="processZoomIn()" :disabled="defaultZoom > 4" />
           </el-tooltip>
           <el-tooltip effect="light" content="重置视图并居中">
-            <!-- <el-button icon="el-icon-c-scale-to-original" @click="processReZoom()" /> -->
             <XButton preIcon="ep:scale-to-original" @click="processReZoom()" />
           </el-tooltip>
         </ElButtonGroup>
         <ElButtonGroup key="stack-control">
           <el-tooltip effect="light" content="撤销">
-            <!-- <el-button :disabled="!revocable" icon="el-icon-refresh-left" @click="processUndo()" /> -->
             <XButton preIcon="ep:refresh-left" @click="processUndo()" :disabled="!revocable" />
           </el-tooltip>
           <el-tooltip effect="light" content="恢复">
-            <!-- <el-button
-              :disabled="!recoverable"
-              icon="el-icon-refresh-right"
-              @click="processRedo()"
-            /> -->
             <XButton preIcon="ep:refresh-right" @click="processRedo()" :disabled="!recoverable" />
           </el-tooltip>
           <el-tooltip effect="light" content="重新绘制">
-            <!-- <el-button icon="el-icon-refresh" @click="processRestart" /> -->
             <XButton preIcon="ep:refresh" @click="processRestart()" />
           </el-tooltip>
         </ElButtonGroup>
@@ -160,8 +129,6 @@
         id="bpmnCanvas"
         style="width: 1680px; height: 800px"
       ></div>
-      <!-- <div id="js-properties-panel" class="panel"></div> -->
-      <!-- <div class="my-process-designer__canvas" ref="bpmn-canvas"></div> -->
     </div>
     <Dialog
       title="预览"
@@ -183,7 +150,9 @@
 
 <script lang="ts" setup>
   import { ref, provide, computed, onBeforeMount, onMounted, onBeforeUnmount } from 'vue';
-  import { ElMessage, ElMessageBox } from 'element-plus';
+  import { ElMessage, ElMessageBox, ElButtonGroup, ElTooltip } from 'element-plus';
+  import XButton from '@/components/Framework/XButton/XButton.vue';
+  import XTextButton from '@/components/Framework/XButton/XTextButton.vue';
   import BpmnModeler from 'bpmn-js/lib/Modeler';
   import DefaultEmptyXML from './plugins/defaultEmpty';
   // 翻译方法
@@ -214,24 +183,20 @@
     'input',
     'change',
     'canvas-viewbox-changed',
-    // eventName.name
     'element-click',
   ]);
 
   const props = defineProps({
     value: String, // xml 字符串
-    // valueWatch: true, // xml 字符串的 watch 状态
     processId: String, // 流程 key 标识
     processName: String, // 流程 name 名字
     formId: Number, // 流程 form 表单编号
-    translations: {
-      // 自定义的翻译文件
+    translations: { // 自定义的翻译文件
       type: Object,
       default: () => {},
     },
     additionalModel: [Object, Array], // 自定义model
-    moddleExtension: {
-      // 自定义moddle
+    moddleExtension: { // 自定义moddle
       type: Object,
       default: () => {},
     },
@@ -312,9 +277,6 @@
     }
 
     // 根据需要的流程类型设置扩展元素构建模块
-    // if (this.prefix === "bpmn") {
-    //   Modules.push(bpmnModdleExtension);
-    // }
     console.log(props.prefix, 'props.prefix ');
     if (props.prefix === 'camunda') {
       Modules.push(camundaModdleExtension);
@@ -337,14 +299,12 @@
     if (props.onlyCustomizeModdle) {
       return props.moddleExtension || null;
     }
-
     // 插入用户自定义模块
     if (props.moddleExtension) {
       for (let key in props.moddleExtension) {
         Extensions[key] = props.moddleExtension[key];
       }
     }
-
     // 根据需要的 "流程类型" 设置 对应的解析文件
     if (props.prefix === 'activiti') {
       Extensions.activiti = activitiModdleDescriptor;

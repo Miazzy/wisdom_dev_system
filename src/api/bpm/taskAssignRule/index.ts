@@ -19,7 +19,7 @@ export enum BpmTaskAssignRuleApi {
 
 export const getTaskAssignRuleList = async (params) => {
   const requestParams = { url: BpmTaskAssignRuleApi.GetTaskAssignRuleList, params };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
 export const createTaskAssignRule = async (data: TaskAssignVO) => {

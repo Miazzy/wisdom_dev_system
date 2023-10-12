@@ -17,10 +17,38 @@ export default defineApplicationConfig({
     server: {
       proxy: {
         '/admin-api/bpm/': {
-          target: 'http://10.8.111.31:48080',
+          target: 'http://10.8.111.31:48083',
           changeOrigin: true,
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/admin-api/bpm/`), '/admin-api/bpm/'),
+        },
+        '/admin-api/system/role/': {
+          target: 'http://10.8.111.231:48081',
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path) =>
+            path.replace(new RegExp(`^/admin-api/system/role`), '/admin-api/system/role/'),
+        },
+        '/admin-api/system/dept/': {
+          target: 'http://10.8.111.31:48081',
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path) =>
+            path.replace(new RegExp(`^/admin-api/system/dept`), '/admin-api/system/dept/'),
+        },
+        '/admin-api/system/post/': {
+          target: 'http://10.8.111.31:48081',
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path) =>
+            path.replace(new RegExp(`^/admin-api/system/post`), '/admin-api/system/post/'),
+        },
+        '/admin-api/system/user/': {
+          target: 'http://10.8.111.31:48081',
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path) =>
+            path.replace(new RegExp(`^/admin-api/system/user`), '/admin-api/system/user/'),
         },
         '/baseset/oa-leave/': {
           target: 'http://10.8.111.31:48085',
@@ -29,7 +57,7 @@ export default defineApplicationConfig({
           rewrite: (path) => path.replace(new RegExp(`^/baseset/oa-leave/`), '/baseset/oa-leave/'),
         },
         '/base': {
-          target: 'http://localhost:48083',
+          target: 'http://localhost:48085',
           changeOrigin: true,
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/base`), '/base'),
@@ -40,29 +68,17 @@ export default defineApplicationConfig({
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/admin-api`), '/admin-api'),
         },
+        '/admin-api/system/dict-data': {
+          target: 'http://10.8.111.231:48081',
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path) => path.replace(new RegExp(`^/admin-api`), '/admin-api'),
+        },
         '/scomms-po': {
           target: 'http://10.8.111.173:48085',
           changeOrigin: true,
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/scomms-po`), '/scomms-po'),
-        },
-        '/jw': {
-          target: 'https://ygyt.ygwl.net',
-          changeOrigin: true,
-          ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/jw`), '/jw'),
-        },
-        '/basic-api': {
-          target: 'http://localhost:3000',
-          changeOrigin: true,
-          ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/basic-api`), ''),
-        },
-        '/upload': {
-          target: 'http://localhost:3300/upload',
-          changeOrigin: true,
-          ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/upload`), ''),
         },
       },
     },

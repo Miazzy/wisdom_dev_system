@@ -66,6 +66,40 @@
     <br />
     <span style="margin-top: 10px; margin-left: 5px; display: block;"> {{ categoryConfirm }} </span>
 
+    <DictSelectBox
+      v-model:value="selectedValue"
+      :type="`nation`"
+      :width="220"
+      @change="handleDictSelectBoxChange"
+    />
+
+    <DictSelectBox
+      v-model:value="selectedValue"
+      :type="`uiElementStatus`"
+      :width="220"
+      style="margin-left: 5px"
+      @change="handleDictSelectBoxChange"
+    />
+
+    <DictSelectBox
+      v-model:value="selectedValue"
+      :type="`orgAdminKind`"
+      :width="220"
+      style="margin-left: 5px"
+      @change="handleDictSelectBoxChange"
+    />
+
+    <DictSelectBox
+      v-model:value="selectedValue"
+      :type="`taskKind`"
+      :width="220"
+      style="margin-left: 5px"
+      @change="handleDictSelectBoxChange"
+    />
+
+    <XButton preIcon="ep:folder-opened" title="打开文件" />
+    <XTextButton preIcon="ep:folder-opened" title="打开文件" />
+
     <!-- 审批按钮 -->
     <div style="margin: 16px 0 0 16px">
       <Button @click="handleOpenApprovalDrawer">审批</Button>
@@ -92,6 +126,7 @@
   import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
   import TreeBox from '@/components/Framework/Combox/TreeBox.vue';
   import CommonTree from '@/components/Framework/Tree/CommonTree.vue';
+  import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';
   import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
   import { BillTitleOptions } from '/@/components/Framework/BillTitle/types';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -101,6 +136,8 @@
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import CategoryDialog from '/@/components/Framework/Modal/CategoryDialog.vue';
   import OrganDialog from '@/components/Framework/Modal/OrganDialog.vue';
+  import XButton from '@/components/Framework/XButton/XButton.vue';
+  import XTextButton from '@/components/Framework/XButton/XTextButton.vue';
   import type { Dayjs } from 'dayjs';
   import dayjs from 'dayjs';
 
@@ -119,6 +156,7 @@
   const modalVisible = ref(false);
   const organVisible = ref(false);
   const categoryConfirm = ref('');
+  const selectedValue = ref('');
 
   const billTitleOptions = reactive<BillTitleOptions>({});
   billTitleOptions.title = '电站填报';
@@ -196,6 +234,10 @@
   function handleTreeRefresh() {
     console.log('handleTreeRefresh');
     queryDeptTreeList();
+  }
+
+  function handleDictSelectBoxChange(value, node, allNodes) {
+    console.log('selectedValue:', selectedValue.value);
   }
 
   const [approvalDrawerRegister, { openDrawer: openApprovalDrawer }] = useDrawer();

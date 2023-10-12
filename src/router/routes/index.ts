@@ -12,14 +12,58 @@ function transformMenusToRoutes(menus) {
   const routes = [];
   menus.forEach((menu) => {
     const route: AppRouteModule = {
-      path: menu.url,
+      path: queryMenuUrl(menu.url),
       name: menu.name,
       component: () => {
-        const response =
-          menu.component == 'LAYOUT' || menu.parentId == '1'
-            ? import('/@/layouts/default/index.vue')
-            : import(menu.component);
-        return response;
+        // 此处不能通过 import(menu.component) 进行动态加载，会导致vite打包分析问题
+        if (menu.component == 'LAYOUT' || menu.parentId == '1') {
+          return import('/@/layouts/default/index.vue');
+        } else if (menu.component == '/@/views/sys/iframe/FrameBlank.vue') {
+          return import('/@/views/sys/iframe/FrameBlank.vue');
+        } else if (menu.component == '/@/views/bpm/manage/workflow/workflow.vue') {
+          return import('/@/views/bpm/manage/workflow/workflow.vue');
+        } else if (menu.component == '/@/views/bpm/manage/taskAssignRule/index.vue') {
+          return import('/@/views/bpm/manage/taskAssignRule/index.vue');
+        } else if (menu.component == '/@/views/bpm/manage/definition/index.vue') {
+          return import('/@/views/bpm/manage/definition/index.vue');
+        } else if (menu.component == '/@/views/bpm/manage/workflow/processEditor.vue') {
+          return import('/@/views/bpm/manage/workflow/processEditor.vue');
+        } else if (menu.component == '/@/views/dev/dev.vue') {
+          return import('/@/views/dev/dev.vue');
+        }
+        // baseset/monitor
+        else if (menu.component == '/@/views/baseset/monitor/area/areaSet.vue') {
+          return import('/@/views/baseset/monitor/area/areaSet.vue');
+        }
+        else if (menu.component == '/@/views/baseset/monitor/model/modelSet.vue') {
+          return import('/@/views/baseset/monitor/model/modelSet.vue');
+        }
+        else if (menu.component == '/@/views/baseset/monitor/device/deviceSet.vue') {
+          return import('/@/views/baseset/monitor/device/deviceSet.vue');
+        }
+        else if (menu.component == '/@/views/baseset/monitor/deviceinfo/deviceInfoSet.vue') {
+          return import('/@/views/baseset/monitor/deviceinfo/deviceInfoSet.vue');
+        }
+        else if (menu.component == '/@/views/baseset/monitor/sunrise/sunriseSet.vue') {
+          return import('/@/views/baseset/monitor/sunrise/sunriseSet.vue');
+        }
+        // baseset/operation
+        else if (menu.component == '/@/views/baseset/operation/powerstation/index.vue') {
+          return import('/@/views/baseset/operation/powerstation/index.vue');
+        }
+        else if (menu.component == '/@/views/baseset/operation/material/material.vue') {
+          return import('/@/views/baseset/operation/material/material.vue');
+        }
+        else if (menu.component == '/@/views/baseset/operation/assessRule/assessRule.vue') {
+          return import('/@/views/baseset/operation/assessRule/assessRule.vue');
+        }
+        else if (menu.component == '/@/views/baseset/safeCheckSet/safeCheckSet.vue') {
+          return import('/@/views/baseset/safeCheckSet/safeCheckSet.vue');
+        }
+
+        else {
+          return import('/@/layouts/default/index.vue');
+        }
       },
       meta: {
         title: menu.title || menu.name,
@@ -33,6 +77,16 @@ function transformMenusToRoutes(menus) {
     routes.push(route);
   });
   return routes;
+}
+
+// 获取菜单URL
+function queryMenuUrl(url = '') {
+  if (url == null || typeof url == 'undefined') {
+    return '/';
+  } else if (typeof url == 'string') {
+    return url.startsWith('/') ? url : `/${url}`;
+  }
+  return url;
 }
 
 // 获取用户菜单函数

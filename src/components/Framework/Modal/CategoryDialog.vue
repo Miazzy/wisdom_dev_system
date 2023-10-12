@@ -57,7 +57,7 @@
 import Dialog from '@/components/Framework/Modal/Dialog.vue';
 import { ref, defineProps, defineEmits, onMounted, watch, unref } from 'vue';
 import Icon from '@/components/Icon/Icon.vue';
-import { TreeItem } from '../../Tree';
+import { TreeItem } from '@/components/Tree';
 
 const modalVisible = ref(false);
 const treeData = ref([]);
@@ -230,9 +230,8 @@ onMounted(() => {
   theight.value = props.height - 260;
   modalVisible.value = props.visible; // 根据传入参数控制Dialog显示  
   filterGdata.value = props.gdata as unknown[];
-
-
 });
+
 </script>
 
 <style lang="less" scoped>

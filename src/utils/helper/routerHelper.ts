@@ -23,8 +23,9 @@ export const registerComponent = (componentPath: string) => {
     }
   }
 };
+
 /* Layout */
-export const Layout = () => import('@/layout/Layout.vue');
+export const Layout = () => import('@/layouts/default/index.vue');
 
 export const getParentLayout = () => {
   return () =>
@@ -139,6 +140,7 @@ export const generateRoute = (routes: any[]): any[] => {
   }
   return res;
 };
+
 export const getRedirect = (parentPath: string, children: any[]) => {
   if (!children || children.length == 0) {
     return parentPath;
@@ -156,6 +158,7 @@ const generateRoutePath = (parentPath: string, path: string) => {
   }
   return parentPath + path;
 };
+
 export const pathResolve = (parentPath: string, path: string) => {
   if (isUrl(path)) return path;
   const childPath = path.startsWith('/') || !path ? path : `/${path}`;
@@ -225,6 +228,7 @@ const addToChildren = (routes: any[], children: any[], routeModule: any) => {
     }
   }
 };
+
 const toCamelCase = (str: string, upperCaseFirst: boolean) => {
   str = (str || '')
     .replace(/-(.)/g, function (group1: string) {

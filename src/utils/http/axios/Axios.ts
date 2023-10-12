@@ -12,8 +12,9 @@ import qs from 'qs';
 import { AxiosCanceler } from './axiosCancel';
 import { isFunction } from '/@/utils/is';
 import { cloneDeep } from 'lodash-es';
-import { ContentTypeEnum, RequestEnum } from '/@/enums/httpEnum';
+import { ContentTypeEnum, RequestEnum, ResultEnum } from '/@/enums/httpEnum';
 import { useUserStore } from '/@/store/modules/user';
+import { SystemAuthApi } from '@/api/sys/user';
 
 export * from './axiosTransform';
 
@@ -218,12 +219,19 @@ export class VAxios {
       conf.url?.startsWith('/scomms-po') ||
       conf.url?.startsWith('/jw') ||
       conf.url?.startsWith('/base') ||
-      conf.url?.startsWith('/admin-api/system/auth')
+      conf.url?.startsWith('/admin-api/system/auth') ||
+      conf.url?.startsWith('/admin-api/system/dict-data')
     ) {
       opt.apiUrl = '';
     }
     // TODO 代理设置
-    if (conf.url?.startsWith('/bpm')) {
+    if (
+      conf.url?.startsWith('/bpm') ||
+      conf.url?.startsWith('/system/role') ||
+      conf.url?.startsWith('/system/dept') ||
+      conf.url?.startsWith('/system/post') ||
+      conf.url?.startsWith('/system/user')
+    ) {
       opt.apiUrl = '/admin-api';
     }
 
@@ -258,6 +266,14 @@ export class VAxios {
               resolve(ret);
             } catch (err) {
               reject(err || new Error('request error!'));
+              const logoutFlag =
+                res.config.url == SystemAuthApi.GetPermissionInfo &&
+                res.data.code == ResultEnum.ACCOUNT_ERROR;
+              if (logoutFlag) {
+                setTimeout(() => {
+                  userStore.logout(true);
+                }, 500);
+              }
             }
             return;
           }

@@ -223,6 +223,8 @@
 </template>
 
 <script lang="ts" setup>
+  import XButton from '@/components/Framework/XButton/XButton.vue';
+
   defineOptions({ name: 'ElementForm' });
 
   const props = defineProps({

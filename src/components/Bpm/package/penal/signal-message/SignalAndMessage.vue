@@ -48,6 +48,7 @@
 <script lang="ts" setup>
   import { ref, computed, onMounted } from 'vue';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import XButton from '@/components/Framework/XButton/XButton.vue';
 
   defineOptions({ name: 'SignalAndMassage' });
 

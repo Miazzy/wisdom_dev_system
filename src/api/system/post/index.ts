@@ -30,7 +30,7 @@ export const getPostPage = async (params: any) => {
 // 获取岗位精简信息列表
 export const getSimplePostList = async (): Promise<PostVO[]> => {
   const requestParams = { url: PostApi.GetSimplePostList };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
 // 查询岗位详情
