@@ -2,7 +2,7 @@ import { defHttp } from '/@/utils/http/axios';
 
 // 表单API
 export enum DictDataApi {
-  GetDictDataMap = '/admin-api/system/dict-data/getMap',
+  GetDictDataMap = '/system/dict-data/getMap',
 }
 
 // 查询字典数据列表

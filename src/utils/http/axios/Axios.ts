@@ -209,29 +209,11 @@ export class VAxios {
       conf.cancelToken = config.cancelToken;
     }
     const transform = this.getTransform();
-
     const { requestOptions } = this.options;
-
     const opt: RequestOptions = Object.assign({}, requestOptions, options);
 
-    // TODO 代理设置 /scomms-po /jw /admin-api/system/auth/login 等请求路径跳转对应代理路径 proxy setting
-    if (
-      conf.url?.startsWith('/scomms-po') ||
-      conf.url?.startsWith('/jw') ||
-      conf.url?.startsWith('/base') ||
-      conf.url?.startsWith('/admin-api/system/auth') ||
-      conf.url?.startsWith('/admin-api/system/dict-data')
-    ) {
-      opt.apiUrl = '';
-    }
     // TODO 代理设置
-    if (
-      conf.url?.startsWith('/bpm') ||
-      conf.url?.startsWith('/system/role') ||
-      conf.url?.startsWith('/system/dept') ||
-      conf.url?.startsWith('/system/post') ||
-      conf.url?.startsWith('/system/user')
-    ) {
+    if (conf.url?.startsWith('/bpm') || conf.url?.startsWith('/system')) {
       opt.apiUrl = '/admin-api';
     }
 
@@ -248,9 +230,7 @@ export class VAxios {
       conf = beforeRequestHook(conf, opt);
     }
     conf.requestOptions = opt;
-
     conf = this.supportFormData(conf);
-
     const token = userStore.getAccessToken();
     if (conf && conf.headers && conf.headers.Authorization && token) {
       conf.headers.Authorization = '#{{TOKEN}}'.replace(/#{{TOKEN}}/g, token);
