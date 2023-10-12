@@ -1,7 +1,7 @@
 import { defHttp } from '/@/utils/http/axios';
 import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
 
-enum SystemAuthApi {
+export enum SystemAuthApi {
   Login = '/admin-api/system/auth/login',
   Logout = '/admin-api/system/auth/logout',
   RefreshToken = '/admin-api/system/auth/refresh-token',

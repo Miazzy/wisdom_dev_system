@@ -12,8 +12,9 @@ import qs from 'qs';
 import { AxiosCanceler } from './axiosCancel';
 import { isFunction } from '/@/utils/is';
 import { cloneDeep } from 'lodash-es';
-import { ContentTypeEnum, RequestEnum } from '/@/enums/httpEnum';
+import { ContentTypeEnum, RequestEnum, ResultEnum } from '/@/enums/httpEnum';
 import { useUserStore } from '/@/store/modules/user';
+import { SystemAuthApi } from '@/api/sys/user';
 
 export * from './axiosTransform';
 
@@ -260,15 +261,17 @@ export class VAxios {
         .request<any, AxiosResponse<Result>>(conf)
         .then((res: AxiosResponse<Result>) => {
           if (transformResponseHook && isFunction(transformResponseHook)) {
-            let ret;
             try {
-              ret = transformResponseHook(res, opt);
+              const ret = transformResponseHook(res, opt);
               resolve(ret);
             } catch (err) {
-              // if(res.config.url == ){
-
-              // }
               reject(err || new Error('request error!'));
+              const logoutFlag =
+                res.config.url == SystemAuthApi.GetPermissionInfo &&
+                res.data.code == ResultEnum.ACCOUNT_ERROR;
+              if (logoutFlag) {
+                userStore.logout(true);
+              }
             }
             return;
           }
