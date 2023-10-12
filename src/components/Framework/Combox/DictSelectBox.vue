@@ -18,7 +18,7 @@
   const options = ref<SelectProps['options']>([]);
 
   const props = defineProps({
-    loadMode: { type: String, default: 'group' },
+    mode: { type: String, default: 'group' }, // 如果mode为group模式，则统一加载数据
     width: { type: Number, default: 220 },
     type: { type: String, default: '' },
     filter: { type: Function, default: null },

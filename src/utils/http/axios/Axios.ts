@@ -262,9 +262,7 @@ export class VAxios {
           if (transformResponseHook && isFunction(transformResponseHook)) {
             let ret;
             try {
-              debugger;
               ret = transformResponseHook(res, opt);
-              debugger;
               resolve(ret);
             } catch (err) {
               // if(res.config.url == ){
