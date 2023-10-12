@@ -25,6 +25,7 @@
     type: { type: String, default: '' },
     filter: { type: Function, default: null },
     value: { type: String, default: '' }, // 搜索框文本
+    delaytimes: { type: Number, default: 300 },
   });
 
   // 选中下拉框选项事件函数
@@ -53,6 +54,14 @@
         const response = await fetchBackendData(); // 调用后端接口获取数据
         // 格式化后端数据，将数据转换为适用于下拉框的格式
         options.value = response;
+      } else {
+        const timestamp = props.delaytimes * (1 + Math.random());
+        dictStore.setDictKey(props.type);
+        setTimeout(async () => {
+          const typeList = dictStore.getDictKey.join(',');
+          const response = await fetchBackendData(typeList); // 调用后端接口获取数据
+          options.value = response; // 格式化后端数据，将数据转换为适用于下拉框的格式
+        }, timestamp);
       }
     } catch (error) {
       console.error('Failed to fetch data:', error);
@@ -60,9 +69,11 @@
   });
 
   // 获取后端数据
-  async function fetchBackendData() {
+  async function fetchBackendData(typeList: string = '') {
+    // 获取type内容
+    const typeContent = typeList != '' ? typeList : props.type;
     // 调用后端接口获取数据的逻辑，返回数据数组
-    const response = await getDictDataMap({ dictTypeList: props.type });
+    const response = await getDictDataMap({ dictTypeList: typeContent });
     // 返回查询结果
     if (Reflect.has(response, 'result') && Reflect.has(response.result, props.type)) {
       return response.result[props.type];

@@ -101,7 +101,15 @@
 
     <DictSelectBox
       v-model:value="selectedValue"
-      :type="`orgKindStatus`"
+      :type="`certificateKind`"
+      :width="220"
+      style="margin-left: 5px"
+      @change="handleDictSelectBoxChange"
+    />
+
+    <DictSelectBox
+      v-model:value="selectedValue"
+      :type="`dataSourceKind`"
       :width="220"
       style="margin-left: 5px"
       @change="handleDictSelectBoxChange"

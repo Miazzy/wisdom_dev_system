@@ -14,8 +14,11 @@ import { isFunction } from '/@/utils/is';
 import { cloneDeep } from 'lodash-es';
 import { ContentTypeEnum, RequestEnum, ResultEnum } from '/@/enums/httpEnum';
 import { useUserStore } from '/@/store/modules/user';
-import { SystemAuthApi } from '@/api/sys/user';
+import { SystemAuthApi } from '/@/api/sys/user';
+import { DictDataApi } from '/@/api/system/dict/data';
+import { createLocalStorage } from '@/utils/cache';
 
+const ls = createLocalStorage();
 export * from './axiosTransform';
 
 /**
@@ -217,6 +220,17 @@ export class VAxios {
       opt.apiUrl = '/admin-api';
     }
 
+    // 检查查询数据字典
+    if (conf.url == DictDataApi.GetDictDataMap) {
+      const key = DictDataApi.GetDictDataMap + '?' + qs.stringify(config.params);
+      const cache = ls.get(key);
+      if (cache) {
+        return new Promise((resolve) => {
+          resolve(cache);
+        });
+      }
+    }
+
     // TODO logout接口
     if (conf.url === '/logout') {
       return new Promise((resolve) => {
@@ -243,6 +257,10 @@ export class VAxios {
           if (transformResponseHook && isFunction(transformResponseHook)) {
             try {
               const ret = transformResponseHook(res, opt);
+              if (conf.url == opt.apiUrl + DictDataApi.GetDictDataMap) {
+                const key = DictDataApi.GetDictDataMap + '?' + qs.stringify(config.params);
+                ls.set(key, ret, 300);
+              }
               resolve(ret);
             } catch (err) {
               reject(err || new Error('request error!'));
