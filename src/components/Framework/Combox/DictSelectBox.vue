@@ -55,7 +55,7 @@
         // 格式化后端数据，将数据转换为适用于下拉框的格式
         options.value = response;
       } else {
-        const timestamp = props.delaytimes * (1 + Math.random());
+        const timestamp = (props.delaytimes * (Math.random() + Math.random() + Math.random())) / 2;
         dictStore.setDictKey(props.type);
         setTimeout(async () => {
           const typeList = dictStore.getDictKey.join(',');
