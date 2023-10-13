@@ -16,53 +16,23 @@ export default defineApplicationConfig({
     },
     server: {
       proxy: {
-        '/admin-api/bpm/': {
+        '/admin-api/bpm': {
           target: 'http://10.8.111.31:48083',
           changeOrigin: true,
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/admin-api/bpm/`), '/admin-api/bpm/'),
         },
-        '/admin-api/system/role/': {
-          target: 'http://10.8.111.231:48081',
+        '/admin-api/system': {
+          target: 'http://10.8.111.231:48080',
           changeOrigin: true,
           ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/admin-api/system/role`), '/admin-api/system/role/'),
+          rewrite: (path) => path.replace(new RegExp(`^/admin-api/system/`), '/admin-api/system/'),
         },
-        '/admin-api/system/dept/': {
-          target: 'http://10.8.111.31:48081',
-          changeOrigin: true,
-          ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/admin-api/system/dept`), '/admin-api/system/dept/'),
-        },
-        '/admin-api/system/post/': {
-          target: 'http://10.8.111.31:48081',
-          changeOrigin: true,
-          ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/admin-api/system/post`), '/admin-api/system/post/'),
-        },
-        '/admin-api/system/user/': {
-          target: 'http://10.8.111.31:48081',
-          changeOrigin: true,
-          ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/admin-api/system/user`), '/admin-api/system/user/'),
-        },
-        '/admin-api/baseset/oa-leave/': {
+        '/admin-api/baseset': {
           target: 'http://10.8.111.31:48085',
           changeOrigin: true,
           ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/baseset/oa-leave/`), '/baseset/oa-leave/'),
-        },
-        '/admin-api/system/auth': {
-          target: 'http://10.8.111.231:48081',
-          changeOrigin: true,
-          ws: true,
-          rewrite: (path) => path.replace(new RegExp(`/admin-api/system/auth`), '/admin-api/system/auth'),
-        },
-        '/admin-api/system/dict-data': {
-          target: 'http://10.8.111.231:48081',
-          changeOrigin: true,
-          ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/admin-api/system/dict-data`), '/admin-api/system/dict-data'),
+          rewrite: (path) => path.replace(new RegExp(`^/admin-api/baseset/`), '/baseset/'),
         },
       },
     },
