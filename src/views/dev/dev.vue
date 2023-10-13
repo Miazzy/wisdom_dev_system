@@ -70,6 +70,7 @@
     <br />
     <DictSelectBox
       v-model:value="selectedValue"
+      :multiple="`multiple`"
       :type="`nation`"
       :width="220"
       @change="handleDictSelectBoxChange"
@@ -77,6 +78,7 @@
 
     <DictSelectBox
       v-model:value="selectedValue"
+      :multiple="`multiple`"
       :type="`uiElementStatus`"
       :width="220"
       style="margin-left: 5px"
@@ -166,7 +168,7 @@
   const modalVisible = ref(false);
   const organVisible = ref(false);
   const categoryConfirm = ref('');
-  const selectedValue = ref('');
+  const selectedValue = ref([]);
 
   const billTitleOptions = reactive<BillTitleOptions>({});
   billTitleOptions.title = '电站填报';

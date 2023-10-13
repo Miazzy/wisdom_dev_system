@@ -2,6 +2,7 @@
   <a-select
     v-model:value="selectedValue"
     show-search
+    :mode="props.multiple"
     placeholder="请选择数据..."
     :style="`width: ${props.width}px`"
     :options="options"
@@ -15,7 +16,7 @@
   import { useDictStoreWithOut } from '@/store/modules/dict';
 
   const dictStore = useDictStoreWithOut();
-  const selectedValue = ref<string | undefined>('');
+  const selectedValue = ref<string | string[] | undefined>('');
   const options = ref<SelectProps['options']>([]);
 
   const props = defineProps({
@@ -23,8 +24,9 @@
     width: { type: Number, default: 220 },
     type: { type: String, default: '' },
     filter: { type: Function, default: null },
-    value: { type: String, default: '' }, // 搜索框文本
+    value: { type: [String, Array], default: null }, // 搜索框文本
     delaytimes: { type: Number, default: 900 },
+    multiple: { type: String, default: 'combobox' },
   });
 
   // 选中下拉框选项事件函数
@@ -49,6 +51,9 @@
   onMounted(async () => {
     // 在组件挂载后，通过后端接口获取数据字段的数据
     try {
+      if (props.multiple == 'multiple') {
+        selectedValue.value = [];
+      }
       if (props.mode !== 'group') {
         const response = await dictStore.fetchBackendData('', props); // 调用后端接口获取数据
         // 格式化后端数据，将数据转换为适用于下拉框的格式
