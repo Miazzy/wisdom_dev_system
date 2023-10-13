@@ -1,16 +1,17 @@
 <script lang="ts" setup>
   import { columns, searchFormSchema } from './oaLeave.data';
   import { useI18n } from '@/hooks/web/useI18n';
-  import { useGo } from '@/hooks/web/usePage';
   import { useMessage } from '@/hooks/web/useMessage';
   import { IconEnum } from '@/enums/appEnum';
   import { BasicTable, useTable, TableAction } from '@/components/Table';
   import { deleteOaLeave, exportOaLeave, getOaLeavePage } from '@/api/hr/oaleave';
+  import { useRouter } from 'vue-router';
+  import { exportExcelFile } from '@/utils/file/download.ts';
 
   defineOptions({ name: 'OaLeave' });
 
   const { t } = useI18n();
-  const go = useGo();
+  const router = useRouter();
   const { createConfirm, createMessage } = useMessage();
 
   const [registerTable, { getForm, reload }] = useTable({
@@ -29,16 +30,11 @@
   });
 
   function handleCreate() {
-    go({ name: 'OALeaveCreate' });
+    router.push(`/hr/manage/OALeaveCreate`);
   }
 
-  function handleEdit(record: Recordable) {
-    go({
-      name: 'OALeaveCreate',
-      query: {
-        id: record.id,
-      },
-    });
+  function handleEdit(record: any) {
+    router.push(`/hr/manage/OALeaveCreate?id=${record.id}`);
   }
 
   async function handleExport() {
@@ -48,25 +44,14 @@
       content: t('common.message.exportMessage'),
       async onOk() {
         await exportOaLeave(getForm().getFieldsValue()).then((res) => {
-          //这里res.data是返回的blob对象
-          var blob = new Blob([res.data], {
-            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8',
-          }); //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
-          var downloadElement = document.createElement('a');
-          var href = window.URL.createObjectURL(blob); //创建下载的链接
-          downloadElement.href = href;
-          downloadElement.download = 'OA 请假申请.xls'; //下载后文件名
-          document.body.appendChild(downloadElement);
-          downloadElement.click(); //点击下载
-          document.body.removeChild(downloadElement); //下载完成移除元素
-          window.URL.revokeObjectURL(href); //释放掉blob对象
+          exportExcelFile(res?.data, 'OA 请假申请.xls');
         });
         createMessage.success(t('common.exportSuccessText'));
       },
     });
   }
 
-  async function handleDelete(record: Recordable) {
+  async function handleDelete(record: any) {
     await deleteOaLeave(record.id);
     createMessage.success(t('common.delSuccessText'));
     reload();
