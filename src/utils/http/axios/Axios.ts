@@ -216,9 +216,9 @@ export class VAxios {
     const opt: RequestOptions = Object.assign({}, requestOptions, options);
 
     // TODO 代理设置
-    if (conf.url?.startsWith('/bpm') || conf.url?.startsWith('/system')) {
-      opt.apiUrl = '/admin-api';
-    }
+    // if (conf.url?.startsWith('/bpm') || conf.url?.startsWith('/system')) {
+    //   opt.apiUrl = '/admin-api';
+    // }
 
     // 检查查询数据字典
     if (conf.url == DictDataApi.GetDictDataMap) {
