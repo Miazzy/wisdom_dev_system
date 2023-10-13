@@ -12,7 +12,6 @@
 <script lang="ts" setup>
   import type { SelectProps } from 'ant-design-vue';
   import { ref, onMounted, defineProps, defineEmits } from 'vue';
-  import { getDictDataMap } from '/@/api/system/dict/data';
   import { useDictStoreWithOut } from '@/store/modules/dict';
 
   const dictStore = useDictStoreWithOut();
@@ -25,7 +24,7 @@
     type: { type: String, default: '' },
     filter: { type: Function, default: null },
     value: { type: String, default: '' }, // 搜索框文本
-    delaytimes: { type: Number, default: 300 },
+    delaytimes: { type: Number, default: 900 },
   });
 
   // 选中下拉框选项事件函数
@@ -51,15 +50,15 @@
     // 在组件挂载后，通过后端接口获取数据字段的数据
     try {
       if (props.mode !== 'group') {
-        const response = await fetchBackendData(); // 调用后端接口获取数据
+        const response = await dictStore.fetchBackendData('', props); // 调用后端接口获取数据
         // 格式化后端数据，将数据转换为适用于下拉框的格式
         options.value = response;
       } else {
-        const timestamp = (props.delaytimes * (Math.random() + Math.random() + Math.random())) / 2;
+        const timestamp = (props.delaytimes * (Math.random() + Math.random() + Math.random())) / 2; // 数据字典的多个组件示例，初始化时间需要通过此timestamp错开，否则会同时发送多个request请求，当初始化时间错开后，后续的request请求将通过缓存获取返回结果
         dictStore.setDictKey(props.type);
         setTimeout(async () => {
           const typeList = dictStore.getDictKey.join(',');
-          const response = await fetchBackendData(typeList); // 调用后端接口获取数据
+          const response = await dictStore.fetchBackendData(typeList, props); // 调用后端接口获取数据
           options.value = response; // 格式化后端数据，将数据转换为适用于下拉框的格式
         }, timestamp);
       }
@@ -67,17 +66,4 @@
       console.error('Failed to fetch data:', error);
     }
   });
-
-  // 获取后端数据
-  async function fetchBackendData(typeList: string = '') {
-    // 获取type内容
-    const typeContent = typeList != '' ? typeList : props.type;
-    // 调用后端接口获取数据的逻辑，返回数据数组
-    const response = await getDictDataMap({ dictTypeList: typeContent });
-    // 返回查询结果
-    if (Reflect.has(response, 'result') && Reflect.has(response.result, props.type)) {
-      return response.result[props.type];
-    }
-    return [];
-  }
 </script>

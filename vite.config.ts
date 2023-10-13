@@ -16,19 +16,19 @@ export default defineApplicationConfig({
     },
     server: {
       proxy: {
-        '/bpm': {
+        '/admin-api/bpm': {
           target: 'http://10.8.111.31:48083',
           changeOrigin: true,
           ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/bpm/`), '/admin-api/bpm/'),
+          rewrite: (path) => path.replace(new RegExp(`^/bpm/`), '/bpm/'),
         },
-        '/system': {
+        '/admin-api/system': {
           target: 'http://10.8.111.231:48080',
           changeOrigin: true,
           ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/system/`), '/admin-api/system/'),
+          rewrite: (path) => path.replace(new RegExp(`^/system/`), '/system/'),
         },
-        '/baseset': {
+        '/admin-api/baseset': {
           target: 'http://10.8.111.31:48085',
           changeOrigin: true,
           ws: true,

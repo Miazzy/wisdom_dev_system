@@ -3,6 +3,7 @@
   import { isHexColor } from '@/utils/color';
   import { ElTag } from 'element-plus';
   import { DictDataType, getDictTypeWflow } from '@/utils/dict';
+  import { useDictStoreWithOut } from '@/store/modules/dict';
 
   export default defineComponent({
     name: 'DictTag',
@@ -15,9 +16,11 @@
         type: [String, Number, Boolean] as PropType<string | number | boolean>,
         required: true,
       },
+      delaytimes: { type: Number, default: 900 },
     },
     setup(props) {
       const dictData = ref<DictDataType>(null);
+      const dictStore = useDictStoreWithOut();
       const getDictObj = (dictType: string, value: string) => {
         const dictOptions = getDictTypeWflow();
         let flag = false;
