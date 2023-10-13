@@ -31,6 +31,14 @@ function transformMenusToRoutes(menus) {
         } else if (menu.component == '/@/views/dev/dev.vue') {
           return import('/@/views/dev/dev.vue');
         }
+
+        // baseset/demo
+        else if (menu.component == '/@/views/hr/manage/oaleave/index.vue') {
+          return import('/@/views/hr/manage/oaleave/index.vue');
+        } else if (menu.component == '/@/views/hr/manage/oaleave/create.vue') {
+          return import('/@/views/hr/manage/oaleave/create.vue');
+        }
+
         // baseset/monitor
         else if (menu.component == '/@/views/baseset/monitor/area/areaSet.vue') {
           return import('/@/views/baseset/monitor/area/areaSet.vue');
