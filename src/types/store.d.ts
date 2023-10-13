@@ -49,4 +49,5 @@ export interface BeforeMiniState {
 export interface DictState {
   dictMap: Map<string, any>;
   isSetDict: boolean;
+  dictKey: string[];
 }

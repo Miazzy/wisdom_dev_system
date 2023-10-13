@@ -21,6 +21,9 @@ export const PROJ_CFG_KEY = 'PROJ__CFG__KEY__';
 // dict info key
 export const DICT_KEY = 'DICT__KEY__';
 
+// dictkey info key
+export const DICTKEY_KEY = 'DICTKEY__KEY__';
+
 // lock info
 export const LOCK_INFO_KEY = 'LOCK__INFO__KEY__';
 

@@ -14,8 +14,11 @@ import { isFunction } from '/@/utils/is';
 import { cloneDeep } from 'lodash-es';
 import { ContentTypeEnum, RequestEnum, ResultEnum } from '/@/enums/httpEnum';
 import { useUserStore } from '/@/store/modules/user';
-import { SystemAuthApi } from '@/api/sys/user';
+import { SystemAuthApi } from '/@/api/sys/user';
+import { DictDataApi } from '/@/api/system/dict/data';
+import { createLocalStorage } from '@/utils/cache';
 
+const ls = createLocalStorage();
 export * from './axiosTransform';
 
 /**
@@ -209,30 +212,23 @@ export class VAxios {
       conf.cancelToken = config.cancelToken;
     }
     const transform = this.getTransform();
-
     const { requestOptions } = this.options;
-
     const opt: RequestOptions = Object.assign({}, requestOptions, options);
 
-    // TODO 代理设置 /scomms-po /jw /admin-api/system/auth/login 等请求路径跳转对应代理路径 proxy setting
-    if (
-      conf.url?.startsWith('/scomms-po') ||
-      conf.url?.startsWith('/jw') ||
-      conf.url?.startsWith('/base') ||
-      conf.url?.startsWith('/admin-api/system/auth') ||
-      conf.url?.startsWith('/admin-api/system/dict-data')
-    ) {
-      opt.apiUrl = '';
-    }
     // TODO 代理设置
-    if (
-      conf.url?.startsWith('/bpm') ||
-      conf.url?.startsWith('/system/role') ||
-      conf.url?.startsWith('/system/dept') ||
-      conf.url?.startsWith('/system/post') ||
-      conf.url?.startsWith('/system/user')
-    ) {
+    if (conf.url?.startsWith('/bpm') || conf.url?.startsWith('/system')) {
       opt.apiUrl = '/admin-api';
+    }
+
+    // 检查查询数据字典
+    if (conf.url == DictDataApi.GetDictDataMap) {
+      const key = DictDataApi.GetDictDataMap + '?' + qs.stringify(config.params);
+      const cache = ls.get(key);
+      if (cache) {
+        return new Promise((resolve) => {
+          resolve(cache);
+        });
+      }
     }
 
     // TODO logout接口
@@ -248,9 +244,7 @@ export class VAxios {
       conf = beforeRequestHook(conf, opt);
     }
     conf.requestOptions = opt;
-
     conf = this.supportFormData(conf);
-
     const token = userStore.getAccessToken();
     if (conf && conf.headers && conf.headers.Authorization && token) {
       conf.headers.Authorization = '#{{TOKEN}}'.replace(/#{{TOKEN}}/g, token);
@@ -263,11 +257,15 @@ export class VAxios {
           if (transformResponseHook && isFunction(transformResponseHook)) {
             try {
               const ret = transformResponseHook(res, opt);
+              if (conf.url == opt.apiUrl + DictDataApi.GetDictDataMap) {
+                const key = DictDataApi.GetDictDataMap + '?' + qs.stringify(config.params);
+                ls.set(key, ret, 300);
+              }
               resolve(ret);
             } catch (err) {
               reject(err || new Error('request error!'));
               const logoutFlag =
-                res.config.url == SystemAuthApi.GetPermissionInfo &&
+                res.config.url == opt.apiUrl + SystemAuthApi.GetPermissionInfo &&
                 res.data.code == ResultEnum.ACCOUNT_ERROR;
               if (logoutFlag) {
                 setTimeout(() => {

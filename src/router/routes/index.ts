@@ -34,34 +34,23 @@ function transformMenusToRoutes(menus) {
         // baseset/monitor
         else if (menu.component == '/@/views/baseset/monitor/area/areaSet.vue') {
           return import('/@/views/baseset/monitor/area/areaSet.vue');
-        }
-        else if (menu.component == '/@/views/baseset/monitor/model/modelSet.vue') {
+        } else if (menu.component == '/@/views/baseset/monitor/model/modelSet.vue') {
           return import('/@/views/baseset/monitor/model/modelSet.vue');
-        }
-        else if (menu.component == '/@/views/baseset/monitor/device/deviceSet.vue') {
+        } else if (menu.component == '/@/views/baseset/monitor/device/deviceSet.vue') {
           return import('/@/views/baseset/monitor/device/deviceSet.vue');
-        }
-        else if (menu.component == '/@/views/baseset/monitor/deviceinfo/deviceInfoSet.vue') {
+        } else if (menu.component == '/@/views/baseset/monitor/deviceinfo/deviceInfoSet.vue') {
           return import('/@/views/baseset/monitor/deviceinfo/deviceInfoSet.vue');
-        }
-        else if (menu.component == '/@/views/baseset/monitor/sunrise/sunriseSet.vue') {
+        } else if (menu.component == '/@/views/baseset/monitor/sunrise/sunriseSet.vue') {
           return import('/@/views/baseset/monitor/sunrise/sunriseSet.vue');
         }
         // baseset/operation
         else if (menu.component == '/@/views/baseset/operation/powerstation/index.vue') {
           return import('/@/views/baseset/operation/powerstation/index.vue');
-        }
-        else if (menu.component == '/@/views/baseset/operation/material/material.vue') {
+        } else if (menu.component == '/@/views/baseset/operation/material/material.vue') {
           return import('/@/views/baseset/operation/material/material.vue');
-        }
-        else if (menu.component == '/@/views/baseset/operation/assessRule/assessRule.vue') {
+        } else if (menu.component == '/@/views/baseset/operation/assessRule/assessRule.vue') {
           return import('/@/views/baseset/operation/assessRule/assessRule.vue');
-        }
-        else if (menu.component == '/@/views/baseset/safeCheckSet/safeCheckSet.vue') {
-          return import('/@/views/baseset/safeCheckSet/safeCheckSet.vue');
-        }
-
-        else {
+        } else {
           return import('/@/layouts/default/index.vue');
         }
       },

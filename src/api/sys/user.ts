@@ -2,11 +2,11 @@ import { defHttp } from '/@/utils/http/axios';
 import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
 
 export enum SystemAuthApi {
-  Login = '/admin-api/system/auth/login',
-  Logout = '/admin-api/system/auth/logout',
-  RefreshToken = '/admin-api/system/auth/refresh-token',
-  ListMenus = '/admin-api/system/auth/list-menus',
-  GetPermissionInfo = '/admin-api/system/auth/get-permission-info',
+  Login = '/system/auth/login',
+  Logout = '/system/auth/logout',
+  RefreshToken = '/system/auth/refresh-token',
+  ListMenus = '/system/auth/list-menus',
+  GetPermissionInfo = '/system/auth/get-permission-info',
 }
 
 /**
