@@ -1,9 +1,16 @@
+<template>
+  <div class="search-box" style="width: calc(100% - 20px); height: calc(100% - 20px); margin: 10px">
+    <!-- 标题 -->
+    <BillTitle :options="billTitleOptions" />
+    <!-- 表单内容 -->
+    <BasicForm class="mt-10 h-120 w-200" @register="registerForm" @submit="handleSubmit" />
+  </div>
+</template>
 <script lang="ts" setup>
-  import { onMounted, unref } from 'vue';
-
+  import { onMounted, reactive, unref } from 'vue';
+  import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
   import { formSchema, getTypeObj, getTypeOption } from './oaLeave.data';
   import { BasicForm, useForm } from '@/components/Form';
-  import { PageWrapper } from '@/components/Page';
   import { createOaLeave, getOaLeave, updateOaLeave } from '@/api/hr/oaleave';
   import { useI18n } from '@/hooks/web/useI18n';
   import { useMessage } from '@/hooks/web/useMessage';
@@ -26,6 +33,29 @@
     actionColOptions: { span: 23 },
   });
 
+  const billTitleOptions = reactive<any>({});
+  billTitleOptions.title = '请假申请';
+  billTitleOptions.infoItems = [
+    {
+      key: 'billCode',
+      label: '单据编号',
+      value: 'DZSSDL-202308110001',
+      position: 'left',
+    },
+    {
+      key: 'fillinDate',
+      label: '制单日期',
+      value: '2023-08-11 13:38',
+      position: 'center',
+    },
+    {
+      key: 'createPerson',
+      label: '创建人',
+      value: '软件部.管理员',
+      position: 'right',
+    },
+  ];
+
   async function handleSubmit() {
     try {
       const values = await validate();
@@ -47,7 +77,7 @@
     if (query.id) {
       await getOaLeave(query.id)
         .then((res) => {
-          const obj: Recordable = {};
+          const obj: any = {};
           formSchema.forEach((item) => {
             obj[item.field] = res.result[item.field];
           });
@@ -70,9 +100,3 @@
     }
   });
 </script>
-
-<template>
-  <PageWrapper>
-    <BasicForm class="mt-10 h-120 w-200" @register="registerForm" @submit="handleSubmit" />
-  </PageWrapper>
-</template>
