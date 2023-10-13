@@ -139,21 +139,11 @@ export const useUserStore = defineStore({
     },
     async afterLoginAction(goHome?: boolean): Promise<GetUserInfoModel | null> {
       if (!this.getToken) return null;
-      // get user info
       const userInfo = await this.getUserInfoAction();
       const sessionTimeout = this.sessionTimeout;
       if (sessionTimeout) {
         this.setSessionTimeout(false);
       } else {
-        // const permissionStore = usePermissionStore();
-        // if (!permissionStore.isDynamicAddedRoute && false) {
-        //   const routes = await permissionStore.buildRoutesAction();
-        //   routes.forEach((route) => {
-        //     router.addRoute(route as unknown as RouteRecordRaw);
-        //   });
-        //   router.addRoute(PAGE_NOT_FOUND_ROUTE as unknown as RouteRecordRaw);
-        //   permissionStore.setDynamicAddedRoute(true);
-        // }
         goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME));
       }
       return userInfo as GetUserInfoModel;

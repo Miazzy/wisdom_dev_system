@@ -32,7 +32,7 @@ export default defineApplicationConfig({
           target: 'http://10.8.111.31:48085',
           changeOrigin: true,
           ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/admin-api/baseset/`), '/baseset/'),
+          rewrite: (path) => path.replace(new RegExp(`^/admin-api/baseset/`), '/admin-api/baseset/'),
         },
       },
     },

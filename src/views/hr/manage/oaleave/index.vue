@@ -6,7 +6,7 @@
   import { BasicTable, useTable, TableAction } from '@/components/Table';
   import { deleteOaLeave, exportOaLeave, getOaLeavePage } from '@/api/hr/oaleave';
   import { useRouter } from 'vue-router';
-  import { exportExcelFile } from '@/utils/file/download.ts';
+  import { exportExcelFile } from '@/utils/file/download';
 
   defineOptions({ name: 'OaLeave' });
 
