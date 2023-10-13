@@ -265,7 +265,7 @@ export class VAxios {
             } catch (err) {
               reject(err || new Error('request error!'));
               const logoutFlag =
-                res.config.url == SystemAuthApi.GetPermissionInfo &&
+                res.config.url == opt.apiUrl + SystemAuthApi.GetPermissionInfo &&
                 res.data.code == ResultEnum.ACCOUNT_ERROR;
               if (logoutFlag) {
                 setTimeout(() => {
