@@ -50,6 +50,8 @@ function transformMenusToRoutes(menus) {
           return import('/@/views/baseset/monitor/deviceinfo/deviceInfoSet.vue');
         } else if (menu.component == '/@/views/baseset/monitor/sunrise/sunriseSet.vue') {
           return import('/@/views/baseset/monitor/sunrise/sunriseSet.vue');
+        } else if (menu.component == '/@/views/baseset/monitor/modelinfo/modelInfo.vue') {
+          return import('/@/views/baseset/monitor/modelinfo/modelInfo.vue');
         }
         // baseset/operation
         else if (menu.component == '/@/views/baseset/operation/powerstation/index.vue') {
@@ -58,7 +60,11 @@ function transformMenusToRoutes(menus) {
           return import('/@/views/baseset/operation/material/material.vue');
         } else if (menu.component == '/@/views/baseset/operation/assessRule/assessRule.vue') {
           return import('/@/views/baseset/operation/assessRule/assessRule.vue');
-        } else {
+        } else if (menu.component == '/@/views/baseset/operation/relatedparty/relatedParty.vue') {
+          return import('/@/views/baseset/operation/relatedparty/relatedParty.vue');
+        }          
+        
+        else {
           return import('/@/layouts/default/index.vue');
         }
       },

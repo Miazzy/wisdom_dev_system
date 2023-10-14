@@ -4,6 +4,7 @@ import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userMod
 export enum SystemAuthApi {
   Login = '/system/auth/login',
   Logout = '/system/auth/logout',
+  SysLogout = '/logout',
   RefreshToken = '/system/auth/refresh-token',
   ListMenus = '/system/auth/list-menus',
   GetPermissionInfo = '/system/auth/get-permission-info',

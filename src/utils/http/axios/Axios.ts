@@ -216,7 +216,7 @@ export class VAxios {
     const opt: RequestOptions = Object.assign({}, requestOptions, options);
 
     // 检查查询数据字典
-    if (conf.url == DictDataApi.GetDictDataMap) {
+    if (conf.url === DictDataApi.GetDictDataMap) {
       const key = DictDataApi.GetDictDataMap + '?' + qs.stringify(config.params);
       const cache = ls.get(key);
       if (cache) {
@@ -225,9 +225,16 @@ export class VAxios {
         });
       }
     }
-
-    // TODO logout接口
-    if (conf.url === '/logout') {
+    if (conf.url === SystemAuthApi.GetPermissionInfo) {
+      const key = SystemAuthApi.GetPermissionInfo;
+      const cache = ls.get(key);
+      if (cache) {
+        return new Promise((resolve) => {
+          resolve(cache);
+        });
+      }
+    }
+    if (conf.url === SystemAuthApi.SysLogout) {
       return new Promise((resolve) => {
         const result = `{"userId":"","username":""}`;
         resolve(JSON.parse(result));
@@ -254,17 +261,19 @@ export class VAxios {
               const ret = transformResponseHook(res, opt);
               if (conf.url == opt.apiUrl + DictDataApi.GetDictDataMap) {
                 const key = DictDataApi.GetDictDataMap + '?' + qs.stringify(config.params);
-                ls.set(key, ret, 300);
+                ls.set(key, ret, 60 * 60 * 24 * 7);
+              }
+              if (conf.url == opt.apiUrl + SystemAuthApi.GetPermissionInfo) {
+                const key = SystemAuthApi.GetPermissionInfo;
+                ls.set(key, ret, 60 * 60 * 24 * 7);
               }
               resolve(ret);
             } catch (err) {
               reject(err || new Error('request error!'));
-              const logoutFlag =
-                res.config.url == opt.apiUrl + SystemAuthApi.GetPermissionInfo &&
-                res.data.code == ResultEnum.ACCOUNT_ERROR;
+              const logoutFlag = res.data.code == ResultEnum.ACCOUNT_ERROR;
               if (logoutFlag) {
                 setTimeout(() => {
-                  userStore.logout(true);
+                  // userStore.logout(true);
                 }, 500);
               }
             }

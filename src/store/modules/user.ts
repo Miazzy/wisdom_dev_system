@@ -17,9 +17,6 @@ import { doLogout, getUserInfo, loginApi, execRefreshToken } from '/@/api/sys/us
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
-import { usePermissionStore } from '/@/store/modules/permission';
-import { RouteRecordRaw } from 'vue-router';
-import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
 import { isArray } from '/@/utils/is';
 import { h } from 'vue';
 import { TaskExecutor } from '/@/executor/taskExecutor';
@@ -121,10 +118,10 @@ export const useUserStore = defineStore({
       try {
         const { goHome = true, ...loginParams } = params;
         const task = TaskExecutor.getNewInstance();
-        // TODO 此处估计后端API：Login接口传入登录账户参数，获取用户登录返回结果
-        const data = await loginApi(loginParams); // JSON.parse(uinfo);
+        // Login接口传入登录账户参数，获取用户登录返回结果
+        const data = await loginApi(loginParams);
         const { accessToken, refreshToken } = data || {};
-        this.setToken(accessToken as string); // save token
+        this.setToken(accessToken as string);
         this.setRefreshToken(refreshToken as string);
         task.pushTask(async () => {
           const response = await execRefreshToken(this.getRefreshToken as string);
@@ -144,7 +141,9 @@ export const useUserStore = defineStore({
       if (sessionTimeout) {
         this.setSessionTimeout(false);
       } else {
-        goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME));
+        setTimeout(async () => {
+          goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME));
+        }, 1500);
       }
       return userInfo as GetUserInfoModel;
     },
@@ -176,15 +175,20 @@ export const useUserStore = defineStore({
         try {
           await doLogout();
         } catch {
-          console.log('注销Token失败');
+          // console.log('注销Token失败');
         }
       }
       this.setToken(undefined);
       this.setSessionTimeout(false);
       this.setUserInfo(null);
-      goLogin && router.push(PageEnum.BASE_LOGIN);
+      setTimeout(() => {
+        window.sessionStorage.clear(); // 清空sessionStorage和localStorage缓存
+        window.localStorage.clear(); // 清空sessionStorage和localStorage缓存
+      }, 1000);
+      setTimeout(() => {
+        goLogin && router.push(PageEnum.BASE_LOGIN);
+      }, 300);
     },
-
     /**
      * @description: Confirm before logging out
      */
@@ -202,7 +206,6 @@ export const useUserStore = defineStore({
     },
   },
 });
-
 // Need to be used outside the setup
 export function useUserStoreWithOut() {
   return useUserStore(store);
