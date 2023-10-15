@@ -31,14 +31,12 @@ function transformMenusToRoutes(menus) {
         } else if (menu.component == '/@/views/dev/dev.vue') {
           return import('/@/views/dev/dev.vue');
         }
-
         // baseset/demo
         else if (menu.component == '/@/views/hr/manage/oaleave/index.vue') {
           return import('/@/views/hr/manage/oaleave/index.vue');
         } else if (menu.component == '/@/views/hr/manage/oaleave/create.vue') {
           return import('/@/views/hr/manage/oaleave/create.vue');
         }
-
         // baseset/monitor
         else if (menu.component == '/@/views/baseset/monitor/area/areaSet.vue') {
           return import('/@/views/baseset/monitor/area/areaSet.vue');
@@ -50,6 +48,8 @@ function transformMenusToRoutes(menus) {
           return import('/@/views/baseset/monitor/deviceinfo/deviceInfoSet.vue');
         } else if (menu.component == '/@/views/baseset/monitor/sunrise/sunriseSet.vue') {
           return import('/@/views/baseset/monitor/sunrise/sunriseSet.vue');
+        } else if (menu.component == '/@/views/baseset/monitor/modelinfo/modelInfo.vue') {
+          return import('/@/views/baseset/monitor/modelinfo/modelInfo.vue');
         }
         // baseset/operation
         else if (menu.component == '/@/views/baseset/operation/powerstation/index.vue') {
@@ -58,10 +58,8 @@ function transformMenusToRoutes(menus) {
           return import('/@/views/baseset/operation/material/material.vue');
         } else if (menu.component == '/@/views/baseset/operation/assessRule/assessRule.vue') {
           return import('/@/views/baseset/operation/assessRule/assessRule.vue');
-
         } else if (menu.component == '/@/views/baseset/operation/relatedParty/relatedParty.vue') {
           return import('/@/views/baseset/operation/relatedParty/relatedParty.vue');
-        
         } else {
           return import('/@/layouts/default/index.vue');
         }
