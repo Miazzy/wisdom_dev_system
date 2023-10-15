@@ -28,7 +28,12 @@
               />
             </span>
             <span class="search-icon" style="left: 340px">
-              <Icon icon="material-symbols:delete-outline" color="#333" size="22" @click="handleDelete"/>
+              <Icon
+                icon="material-symbols:delete-outline"
+                color="#333"
+                size="22"
+                @click="handleDelete"
+              />
             </span>
           </div>
           <div class="tree-value" :style="`height: calc(${props.height}px - 140px);`">
@@ -62,14 +67,20 @@
           <span>被选人员</span>
         </span>
         <div class="employee-content">
-          <div position="center" class="layout-content" style="height: 335px">
+          <div
+            position="center"
+            class="layout-content"
+            :style="`height: calc(${props.height}px - 140px);`"
+          >
             <div class="component-wrap">
               <template :key="index" v-for="(item, index) of allNodes">
                 <a class="component-item">
                   <span class="ui-component-text" :title="item[props.tfields.title]">
                     {{ item[props.tfields.title] }}
                   </span>
-                  <i class="icon-close"></i>
+                  <i class="icon-close">
+                    <Icon icon="typcn:delete" size="18" @click="handleDeleteNode(item, index)" />
+                  </i>
                 </a>
               </template>
             </div>
@@ -83,8 +94,9 @@
 <script lang="ts" setup>
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import Icon from '@/components/Icon/Icon.vue';
-  import { ref, defineProps, defineEmits, computed, onMounted, watch, unref } from 'vue';
+  import { ref, defineProps, defineEmits, onMounted, watch, unref } from 'vue';
   import { TreeItem } from '@/components/Tree';
+  import { message, Modal } from 'ant-design-vue';
 
   const modalVisible = ref(false);
   const treeData = ref([]);
@@ -94,6 +106,7 @@
   const treeMap = ref<any>();
   type fieldType = { key: String; title: String };
   type tIconsType = { parent: String; leaf: String };
+  type messageType = { double: String; delete: String };
 
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
@@ -113,6 +126,13 @@
         middle: 'mingcute:department-line',
         leaf: 'gridicons:multiple-users',
       } as tIconsType,
+    },
+    message: {
+      type: Object,
+      default: {
+        double: '该节点已经被选中，请不要重复勾选！',
+        delete: '请您确认是否删除所有勾选节点？',
+      } as messageType,
     },
   });
 
@@ -142,17 +162,47 @@
 
   const handleSelect = (nodeKey, event) => {
     const node = event.node;
-    const selectedTitle = node.title; // 获取选中节点的标题
     selectedNode.value = node;
   };
 
   const handleNode = () => {
-    allNodes.value.push(selectedNode.value);
-    // TODO 去除掉nodeId相同的节点
+    const snode = selectedNode.value || {};
+    const findex = allNodes.value.findIndex((x) => {
+      return (
+        x[props.tfields.key] === snode[props.tfields.key] &&
+        x[props.tfields.title] === snode[props.tfields.title]
+      );
+    });
+    if (findex < 0) {
+      // 将选中节点推入allNodes节点中
+      allNodes.value.push(selectedNode.value);
+      // 去除掉nodeId相同的节点
+      const list = allNodes.value.filter((node, index, list) => {
+        const findIndexValue = list.findIndex((x) => {
+          return (
+            x[props.tfields.key] === node[props.tfields.key] &&
+            x[props.tfields.title] === node[props.tfields.title]
+          );
+        });
+        return findIndexValue === index;
+      });
+      allNodes.value = list;
+    } else {
+      message.warning(props.message.double);
+    }
   };
 
   const handleDelete = () => {
-    allNodes.value = [];
+    Modal.confirm({
+      title: props.message.delete,
+      onOk() {
+        allNodes.value = [];
+      },
+    });
+  };
+
+  const handleDeleteNode = (item, index) => {
+    allNodes.value = allNodes.value.filter((node, tindex) => tindex !== index);
   };
 
   // 按tfields生成转换规则
@@ -175,6 +225,9 @@
             newItem[rules[key]] = item[key];
             newItem[key] = item[key];
           } else if (rules[key] == 'id') {
+            newItem[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key];
+            newItem[key] = item[key];
+          } else if (rules[key] == 'key') {
             newItem[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key];
             newItem[key] = item[key];
           }
@@ -347,6 +400,26 @@
             background-color: #ffffff;
             color: #303030;
             text-decoration: none;
+            cursor: pointer;
+            span.ui-component-text {
+              margin: 0px 8px 0px 0px;
+            }
+            i.icon-close {
+              position: absolute;
+              margin: 0px 2px 0px -5px;
+              cursor: pointer;
+              span.anticon {
+                position: relative;
+                top: 2px;
+                color: #303030;
+                &:hover {
+                  position: relative;
+                  top: 1px;
+                  color: #6f6f6f;
+                  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.1);
+                }
+              }
+            }
           }
         }
       }
