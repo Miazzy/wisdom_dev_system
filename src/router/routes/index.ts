@@ -58,6 +58,10 @@ function transformMenusToRoutes(menus) {
           return import('/@/views/baseset/operation/material/material.vue');
         } else if (menu.component == '/@/views/baseset/operation/assessRule/assessRule.vue') {
           return import('/@/views/baseset/operation/assessRule/assessRule.vue');
+
+        } else if (menu.component == '/@/views/baseset/operation/relatedParty/relatedParty.vue') {
+          return import('/@/views/baseset/operation/relatedParty/relatedParty.vue');
+        
         } else {
           return import('/@/layouts/default/index.vue');
         }
