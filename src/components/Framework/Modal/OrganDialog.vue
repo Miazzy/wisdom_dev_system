@@ -140,14 +140,16 @@
 
   const cancel = () => {
     modalVisible.value = false;
-    emit('cancel'); // 发送取消事件
     emit('update:visible', false); // 关闭弹框
+    emit('cancel'); // 发送取消事件
   };
 
   const confirm = () => {
+    const rule = props?.tfields as fieldType;
     modalVisible.value = false;
-    emit('confirm'); // 发送确定事件
+    const data = transformRespData(allNodes.value, rule);
     emit('update:visible', false); // 关闭弹框
+    emit('confirm', data); // 发送确定事件
   };
 
   const updateVisible = ($event) => {
@@ -212,6 +214,26 @@
       reversedRule[rule[key]] = key;
     }
     return reversedRule;
+  };
+
+  // 按tfields的设置转换tree的数据
+  const transformRespData = (data, rule) => {
+    const rules = reverseRule(rule);
+    return data.map((item) => {
+      const newItem = {};
+      for (const key in item) {
+        if (key in rules) {
+          if (rules[key] == 'title') {
+            newItem[rules[key]] = item[key];
+            newItem[key] = item[key];
+          } else if (rules[key] == 'key') {
+            newItem[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key];
+            newItem[key] = item[key];
+          }
+        }
+      }
+      return newItem;
+    });
   };
 
   // 按tfields的设置转换tree的数据

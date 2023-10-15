@@ -62,9 +62,12 @@
       :tfields="{ key: 'nodeId', title: 'nodeName' }"
       :width="800"
       :height="600"
+      @confirm="handleOrganConfirm"
     />
     <br />
     <span style="margin-top: 10px; margin-left: 5px; display: block;"> {{ categoryConfirm }} </span>
+    <br />
+    <span style="margin-top: 10px; margin-left: 5px; display: block;"> {{ organConfirm }} </span>
 
     <span style="float: left"> DictSelectBox </span>
     <br />
@@ -168,6 +171,7 @@
   const modalVisible = ref(false);
   const organVisible = ref(false);
   const categoryConfirm = ref('');
+  const organConfirm = ref('');
   const selectedValue = ref([]);
 
   const billTitleOptions = reactive<BillTitleOptions>({});
@@ -288,6 +292,12 @@
   const handleCategoryConfirm = (node) => {
     categoryConfirm.value = '分类Dialog确定，返回结果：' + JSON.stringify(node);
     console.info('分类Dialog确定，返回结果：' + JSON.stringify(node));
+  };
+
+  const handleOrganConfirm = (nodeList) => {
+    const message = nodeList.length > 0 ? JSON.stringify(nodeList) : '';
+    organConfirm.value = '组织人员选择Dialog确定，返回结果：' + message;
+    console.info('组织人员选择Dialog确定，返回结果：' + message);
   };
 
   const handleAgree = (flowData) => {
