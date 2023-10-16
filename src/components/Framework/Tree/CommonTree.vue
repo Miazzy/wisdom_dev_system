@@ -1,7 +1,7 @@
 <!--
  * @Description: 
  * @Date: 2023-09-22 08:46:00
- * @LastEditTime: 2023-10-11 15:36:02
+ * @LastEditTime: 2023-10-16 11:05:43
  * @FilePath: \ygwl-framework\src\components\Framework\Tree\CommonTree.vue
 -->
 <template>
@@ -9,7 +9,7 @@
     <BasicTree
       :title="title"
       :toolbar="toolbar"
-      search
+      :search="search"
       treeWrapperClassName="h-[calc(100%-35px)] overflow-auto"
       :clickRowToExpand="false"
       :treeData="treeData"
@@ -33,6 +33,7 @@
     className: { type: String },
     isShowOperationBtns: { type: Boolean, default: false },
     toolbar: { type: Boolean, default: true },
+    search: { type: Boolean, default: true },
     fieldNames: {
       type: Object,
       default: new Object(),
