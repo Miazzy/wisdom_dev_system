@@ -22,7 +22,7 @@
         </el-table-column>
         <el-table-column label="流程分类" align="center" prop="category" width="100">
           <template #default="scope">
-            <DictTag
+            <DictTags
               v-show="scope.row.category"
               :type="DICT_TYPE.BPM_MODEL_CATEGORY"
               :value="scope.row.category"
@@ -166,7 +166,7 @@
   import { ref, reactive, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
   import WfSearchBox from '/@/components/Framework/WorkFlow/WfSearchBox.vue';
-  import DictTag from '@/components/Framework/Tag/DictTag/DictTag.vue';
+  import DictTags from '@/components/Framework/Tag/DictTag/DictTag.vue';
   import Pagination from '@/components/Framework/Pagination/Pagination.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
