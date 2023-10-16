@@ -24,6 +24,9 @@ export const DICT_KEY = 'DICT__KEY__';
 // dictkey info key
 export const DICTKEY_KEY = 'DICTKEY__KEY__';
 
+// DICT_HTTP_REQUEST_MAP_KEY
+export const DICT_HTTP_REQUEST_MAP_KEY = 'DICT_HTTP_REQUEST_MAP_KEY__';
+
 // lock info
 export const LOCK_INFO_KEY = 'LOCK__INFO__KEY__';
 

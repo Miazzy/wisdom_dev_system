@@ -296,7 +296,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           withToken: true,
           retryRequest: {
             isOpenRetry: true,
-            count: 5,
+            count: 0, // 禁止HTTP请求重试机制
             waitTime: 100,
           },
         },
@@ -306,11 +306,3 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
   );
 }
 export const defHttp = createAxios();
-
-// other api url
-// export const otherHttp = createAxios({
-//   requestOptions: {
-//     apiUrl: 'xxx',
-//     urlPrefix: 'xxx',
-//   },
-// });

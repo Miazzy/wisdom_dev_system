@@ -357,7 +357,6 @@
       return node[props.tfields.title].includes(text);
     });
     xdataList.value = list;
-    debugger;
   };
 
   // 表格点击事件

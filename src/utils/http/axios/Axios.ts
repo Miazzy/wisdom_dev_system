@@ -14,17 +14,20 @@ import { isFunction } from '/@/utils/is';
 import { cloneDeep } from 'lodash-es';
 import { ContentTypeEnum, RequestEnum, ResultEnum } from '/@/enums/httpEnum';
 import { useUserStore } from '/@/store/modules/user';
+import { useDictStoreWithOut } from '@/store/modules/dict';
 import { SystemAuthApi } from '/@/api/sys/user';
 import { DictDataApi } from '/@/api/system/dict/data';
 import { createLocalStorage } from '@/utils/cache';
 
 const ls = createLocalStorage();
+const dictStore = useDictStoreWithOut();
 export * from './axiosTransform';
 
 /**
  * @description:  axios module
  */
 export class VAxios {
+  // 用于存储pending的请求的数组（处理多条相同请求）
   private axiosInstance: AxiosInstance;
   private readonly options: CreateAxiosOptions;
 
@@ -70,6 +73,39 @@ export class VAxios {
     Object.assign(this.axiosInstance.defaults.headers, headers);
   }
 
+  // 生成request的唯一key
+  generateRequestKey(config: any): string {
+    const { url = '', method = '', params = {}, data = {} } = config;
+    if (Reflect.has(params, '_t') && url.includes(DictDataApi.GetDictDataMap)) {
+      delete params['_t'];
+    }
+    return [url, method, qs.stringify(params), qs.stringify(data)].join('&');
+  }
+
+  // 将重复请求添加到pendingRequest中
+  addPendingRequest(config: any): void {
+    const map = dictStore.getRequestMap as Map<String, Object>;
+    const key = this.generateRequestKey(config);
+    if (map && !map.has(key)) {
+      config.cancelToken = new axios.CancelToken((cancel) => {
+        dictStore.setRequestMapEntry(key, cancel);
+      });
+    }
+  }
+
+  // 取消重复请求
+  removePendingRequest(config): void {
+    const map = dictStore.getRequestMap as Map<String, Object>;
+    const key = this.generateRequestKey(config);
+    if (map && map.has(key)) {
+      const cancelToken = map.get(key) as Function;
+      cancelToken(key); // 取消之前发送的请求
+      setTimeout(() => {
+        map.delete(key);
+      }, 3000);
+    }
+  }
+
   /**
    * @description: Interceptor configuration 拦截器配置
    */
@@ -96,11 +132,16 @@ export class VAxios {
       // If cancel repeat request is turned on, then cancel repeat request is prohibited
       const { requestOptions } = this.options;
       const ignoreCancelToken = requestOptions?.ignoreCancelToken ?? true;
-
       !ignoreCancelToken && axiosCanceler.addPending(config);
-
       if (requestInterceptors && isFunction(requestInterceptors)) {
         config = requestInterceptors(config, this.options);
+      }
+      // 处理重复请求
+      try {
+        this.removePendingRequest(config);
+        this.addPendingRequest(config);
+      } catch (e) {
+        // console.log(e);
       }
       return config;
     }, undefined);

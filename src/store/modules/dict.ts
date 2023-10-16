@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import type { DictState } from '@/types/store';
 import { store } from '@/store';
-import { DICT_KEY, DICTKEY_KEY } from '@/enums/cacheEnum';
+import { DICT_KEY, DICTKEY_KEY, DICT_HTTP_REQUEST_MAP_KEY } from '@/enums/cacheEnum';
 import { createLocalStorage } from '@/utils/cache';
 import { getDictDataMap } from '/@/api/system/dict/data';
 
@@ -13,6 +13,7 @@ export const useDictStore = defineStore({
     dictMap: new Map<string, any>(),
     isSetDict: false,
     dictKey: [],
+    dictHttpRequestMap: new Map<string, any>(),
   }),
   getters: {
     getDictMap(state): Recordable {
@@ -22,6 +23,12 @@ export const useDictStore = defineStore({
     },
     getIsSetDict(state): boolean {
       return state.isSetDict;
+    },
+    getRequestMap(state) {
+      if (!state.dictHttpRequestMap) {
+        return ls.get(DICT_HTTP_REQUEST_MAP_KEY);
+      }
+      return state.dictHttpRequestMap;
     },
     getDictKey(state): string[] {
       const dictKeyCache = ls.get(DICTKEY_KEY);
@@ -40,6 +47,13 @@ export const useDictStore = defineStore({
       }
       this.dictKey.push(key);
       ls.set(DICTKEY_KEY, this.dictKey, 60 * 60 * 24 * 7);
+    },
+    async setRequestMapEntry(key: string, value) {
+      if (!this.dictHttpRequestMap) {
+        this.dictHttpRequestMap = new Map<string, any>();
+      }
+      ls.set(DICT_HTTP_REQUEST_MAP_KEY, this.dictHttpRequestMap, 60 * 60 * 24 * 7);
+      this.dictHttpRequestMap.set(key, value);
     },
     async setDictMap(dictMap: Map<string, any>) {
       if (dictMap) {
