@@ -190,6 +190,11 @@ const transform: AxiosTransform = {
       //   (config as Recordable).headers['Tenant-Id'] = 1;
       //   (config as Recordable).headers['login_user_type'] = 2;
       // }
+
+      // TODO开发人员填写自己的版本号
+      if (config.url?.startsWith('/admin-api/baseset')) {
+        (config as Recordable).headers.version = '9.9.9';
+      }
     }
     return config;
   },
@@ -296,7 +301,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           withToken: true,
           retryRequest: {
             isOpenRetry: true,
-            count: 5,
+            count: 0, // 禁止HTTP请求重试机制
             waitTime: 100,
           },
         },
@@ -306,11 +311,3 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
   );
 }
 export const defHttp = createAxios();
-
-// other api url
-// export const otherHttp = createAxios({
-//   requestOptions: {
-//     apiUrl: 'xxx',
-//     urlPrefix: 'xxx',
-//   },
-// });

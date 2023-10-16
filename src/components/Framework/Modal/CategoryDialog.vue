@@ -99,7 +99,7 @@ const cancel = () => {
 const confirm = () => {
   modalVisible.value = false;
   emit('update:visible', false); // 关闭弹框
-  emit('confirm', selectedNode.value); // 发送确定事件
+  emit('confirm', unref(selectedNode)); // 发送确定事件
 };
 
 const updateVisible = ($event) => {

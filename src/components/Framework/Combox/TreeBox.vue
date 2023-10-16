@@ -211,16 +211,23 @@
     showDropdown.value = false;
   };
 
+  // 重新加载组件数据
+  const reload = () => {
+    const rule = props?.tfields as fieldType;
+    const data = unref(props.data as unknown[] as TreeItem[]);
+    const resultData = JSON.parse(JSON.stringify(data));
+    treeMap.value = transformMap(data, rule);
+    treeData.value = transformData(resultData, rule);
+  };
+
   watch(
     () => props.data,
-    (newValue) => {
-      const rule = props?.tfields as fieldType;
-      const data = unref(props.data as unknown[] as TreeItem[]);
-      const resultData = JSON.parse(JSON.stringify(data));
-      treeMap.value = transformMap(data, rule);
-      treeData.value = transformData(resultData, rule);
+    () => {
+      reload();
     },
   );
+
+  defineExpose({ reload });
 
   onMounted(() => {
     window.addEventListener('click', handleClickOutside);

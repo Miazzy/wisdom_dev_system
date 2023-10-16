@@ -16,8 +16,15 @@
         </span>
         <div class="category-content" :style="`height: calc(${props.height}px - 130px)`">
           <div class="category-search-box" style="position: relative">
-            <span class="search-title" style="">搜索</span>
-            <a-input-search class="search-input" placeholder="请输入搜索内容" enter-button />
+            <span class="search-title" style="" @click="handleSearch">搜索</span>
+            <a-input-search
+              v-model:value="searchText"
+              class="search-input"
+              placeholder="请输入搜索内容"
+              enter-button
+              @change="handleSearch"
+              @search="handleSearch"
+            />
             <span class="search-icon" style="left: 300px">
               <Icon
                 icon="mdi:arrow-up"
@@ -28,12 +35,23 @@
               />
             </span>
             <span class="search-icon" style="left: 340px">
-              <Icon icon="material-symbols:delete-outline" color="#333" size="22" @click="handleDelete"/>
+              <Icon
+                icon="material-symbols:delete-outline"
+                color="#333"
+                size="22"
+                @click="handleDelete"
+              />
             </span>
           </div>
           <div class="tree-value" :style="`height: calc(${props.height}px - 140px);`">
             <!-- 基础Tree组件 -->
-            <a-tree :tree-data="treeData" show-icon default-expand-all @select="handleSelect">
+            <a-tree
+              v-if="searchText.length <= 0"
+              :tree-data="treeData"
+              show-icon
+              default-expand-all
+              @select="handleSelect"
+            >
               <template #switcherIcon="{ switcherCls }">
                 <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
               </template>
@@ -52,6 +70,16 @@
                 />
               </template>
             </a-tree>
+
+            <a-table
+              v-if="searchText.length > 0"
+              size="small"
+              :columns="scolumns"
+              :data-source="xdataList"
+              :scroll="{ y: props.height - 220 }"
+              style="overflow-x: hidden"
+              :customRow="handleTableClick"
+            />
           </div>
         </div>
       </div>
@@ -62,14 +90,20 @@
           <span>被选人员</span>
         </span>
         <div class="employee-content">
-          <div position="center" class="layout-content" style="height: 335px">
+          <div
+            position="center"
+            class="layout-content"
+            :style="`height: calc(${props.height}px - 140px);`"
+          >
             <div class="component-wrap">
               <template :key="index" v-for="(item, index) of allNodes">
                 <a class="component-item">
                   <span class="ui-component-text" :title="item[props.tfields.title]">
                     {{ item[props.tfields.title] }}
                   </span>
-                  <i class="icon-close"></i>
+                  <i class="icon-close">
+                    <Icon icon="typcn:delete" size="18" @click="handleDeleteNode(item, index)" />
+                  </i>
                 </a>
               </template>
             </div>
@@ -83,8 +117,9 @@
 <script lang="ts" setup>
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import Icon from '@/components/Icon/Icon.vue';
-  import { ref, defineProps, defineEmits, computed, onMounted, watch, unref } from 'vue';
+  import { ref, defineProps, defineEmits, onMounted, watch, unref } from 'vue';
   import { TreeItem } from '@/components/Tree';
+  import { message, Modal } from 'ant-design-vue';
 
   const modalVisible = ref(false);
   const treeData = ref([]);
@@ -92,8 +127,11 @@
   const selectedNode = ref(null);
   const allNodes = ref<any>([]);
   const treeMap = ref<any>();
-  type fieldType = { key: String; title: String };
+  const tdataList = ref<any>([]);
+  const xdataList = ref<any>([]);
+  type fieldType = { key: String; title: String; dept: String; postion: String };
   type tIconsType = { parent: String; leaf: String };
+  type messageType = { double: String; delete: String };
 
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
@@ -104,7 +142,12 @@
     tdata: { type: Array }, // Tree数据
     tfields: {
       type: Object,
-      default: { key: 'id', title: 'title' } as fieldType,
+      default: {
+        key: 'id',
+        title: 'title',
+        dept: 'dept',
+        postion: 'postion',
+      } as fieldType,
     }, // Tree数据的对应字段解析
     ticons: {
       type: Object,
@@ -114,20 +157,35 @@
         leaf: 'gridicons:multiple-users',
       } as tIconsType,
     },
+    message: {
+      type: Object,
+      default: {
+        double: '该节点已经被选中，请不要重复勾选！',
+        delete: '请您确认是否删除所有勾选节点？',
+      } as messageType,
+    },
   });
 
   const emit = defineEmits(['update:visible', 'cancel', 'confirm']); // 定义事件
 
+  const scolumns = ref([
+    { title: '名称', dataIndex: 'title', key: 'title', fixed: 'left', minWidth: 100 },
+    { title: '部门', dataIndex: 'dept', key: 'dept', fixed: 'left', minWidth: 100 },
+    { title: '岗位', dataIndex: 'postion', key: 'postion', fixed: 'left', minWidth: 100 },
+  ]);
+
   const cancel = () => {
     modalVisible.value = false;
-    emit('cancel'); // 发送取消事件
     emit('update:visible', false); // 关闭弹框
+    emit('cancel'); // 发送取消事件
   };
 
   const confirm = () => {
+    const rule = props?.tfields as fieldType;
     modalVisible.value = false;
-    emit('confirm'); // 发送确定事件
+    const data = transformRespData(allNodes.value, rule);
     emit('update:visible', false); // 关闭弹框
+    emit('confirm', data); // 发送确定事件
   };
 
   const updateVisible = ($event) => {
@@ -142,17 +200,47 @@
 
   const handleSelect = (nodeKey, event) => {
     const node = event.node;
-    const selectedTitle = node.title; // 获取选中节点的标题
     selectedNode.value = node;
   };
 
   const handleNode = () => {
-    allNodes.value.push(selectedNode.value);
-    // TODO 去除掉nodeId相同的节点
+    const snode = selectedNode.value || {};
+    const findex = allNodes.value.findIndex((x) => {
+      return (
+        x[props.tfields.key] === snode[props.tfields.key] &&
+        x[props.tfields.title] === snode[props.tfields.title]
+      );
+    });
+    if (findex < 0) {
+      // 将选中节点推入allNodes节点中
+      allNodes.value.push(selectedNode.value);
+      // 去除掉nodeId相同的节点
+      const list = allNodes.value.filter((node, index, list) => {
+        const findIndexValue = list.findIndex((x) => {
+          return (
+            x[props.tfields.key] === node[props.tfields.key] &&
+            x[props.tfields.title] === node[props.tfields.title]
+          );
+        });
+        return findIndexValue === index;
+      });
+      allNodes.value = list;
+    } else {
+      message.warning(props.message.double);
+    }
   };
 
   const handleDelete = () => {
-    allNodes.value = [];
+    Modal.confirm({
+      title: props.message.delete,
+      onOk() {
+        allNodes.value = [];
+      },
+    });
+  };
+
+  const handleDeleteNode = (item, index) => {
+    allNodes.value = allNodes.value.filter((node, tindex) => tindex !== index);
   };
 
   // 按tfields生成转换规则
@@ -165,16 +253,80 @@
   };
 
   // 按tfields的设置转换tree的数据
+  const transformRespData = (data, rule) => {
+    const rules = reverseRule(rule);
+    return data.map((item) => {
+      const newItem = {};
+      for (const key in item) {
+        if (key in rules) {
+          if (rules[key] == 'title' || rules[key] == 'dept' || rules[key] == 'postion') {
+            newItem[rules[key]] = item[key];
+            newItem[key] = item[key];
+          } else if (rules[key] == 'key') {
+            newItem[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key];
+            newItem[key] = item[key];
+          }
+        }
+      }
+      return newItem;
+    });
+  };
+
+  // 按tfields的设置转换tree的数据
+  const transformTableData = (data, rule, flag = 'top') => {
+    // 获取字段规则
+    const rules = reverseRule(rule);
+    // 数组遍历
+    data.map((item) => {
+      const newObj = {};
+      for (const key in item) {
+        if (key in rules) {
+          if (rules[key] == 'title' || rules[key] == 'dept' || rules[key] == 'postion') {
+            newObj[rules[key]] = item[key];
+            newObj[key] = item[key];
+          } else if (rules[key] == 'id') {
+            newObj[key] = parseInt(Math.random() * 100) + '@' + item[key];
+            newObj[key] = item[key];
+          } else if (rules[key] == 'key') {
+            newObj[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key];
+            newObj[key] = item[key];
+          }
+        }
+      }
+      tdataList.value.push(newObj);
+      if (item.children && item.children.length > 0) {
+        transformTableData(item.children, rule, 'none');
+      }
+    });
+    // 顶级数组去重
+    if (flag == 'top') {
+      const list = tdataList.value.filter((node, index, list) => {
+        const findIndexValue = list.findIndex((x) => {
+          return (
+            x[props.tfields.key] === node[props.tfields.key] &&
+            x[props.tfields.title] === node[props.tfields.title]
+          );
+        });
+        return findIndexValue === index;
+      });
+      tdataList.value = list;
+    }
+  };
+
+  // 按tfields的设置转换tree的数据
   const transformData = (data, rule) => {
     const rules = reverseRule(rule);
     return data.map((item) => {
       const newItem = {};
       for (const key in item) {
         if (key in rules) {
-          if (rules[key] == 'title') {
+          if (rules[key] == 'title' || rules[key] == 'dept' || rules[key] == 'postion') {
             newItem[rules[key]] = item[key];
             newItem[key] = item[key];
           } else if (rules[key] == 'id') {
+            newItem[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key];
+            newItem[key] = item[key];
+          } else if (rules[key] == 'key') {
             newItem[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key];
             newItem[key] = item[key];
           }
@@ -199,6 +351,35 @@
     return treeMap;
   };
 
+  const handleSearch = () => {
+    const text = searchText.value;
+    const list = tdataList.value.filter((node) => {
+      return node[props.tfields.title].includes(text);
+    });
+    xdataList.value = list;
+  };
+
+  // 表格点击事件
+  const handleTableClick = (record, index) => {
+    const clickFunc = (event) => {
+      // 获取当前点击的行
+      const currentRow = event.currentTarget;
+      // 获取所有兄弟节点
+      const siblingRows = currentRow.parentElement.querySelectorAll('.ant-table-row');
+      // 移除兄弟节点中的 selected 类样式
+      siblingRows.forEach((siblingRow) => {
+        siblingRow.classList.remove('selected');
+      });
+      // 为当前行添加 selected 类样式
+      currentRow.classList.add('selected');
+      // 设置选中的节点
+      selectedNode.value = record;
+    };
+    return {
+      onclick: clickFunc,
+    };
+  };
+
   watch(
     () => props.visible,
     (newValue) => {
@@ -213,6 +394,7 @@
       const data = unref(props.tdata as unknown[] as TreeItem[]);
       treeData.value = transformData(data, rule);
       treeMap.value = transformMap(data, rule);
+      transformTableData(data, rule, 'top');
     },
   );
 
@@ -224,8 +406,8 @@
 <style lang="less" scoped>
   .dialog-content {
     display: flex; /* 使用 flex 布局 */
-    justify-content: flex-start; /* 左对齐 */
     align-items: stretch; /* 垂直方向拉伸填充 */
+    justify-content: flex-start; /* 左对齐 */
   }
 
   .category-tree {
@@ -236,11 +418,11 @@
 
     span.category-title {
       display: block;
-      text-align: left;
       width: calc(100% + 25px);
       margin-left: -17.5px;
-      border-bottom: 1px solid rgb(240, 240, 240);
       padding-bottom: 5px;
+      border-bottom: 1px solid rgb(240 240 240);
+      text-align: left;
 
       span {
         margin-left: 20px;
@@ -252,47 +434,62 @@
       margin-left: -17.5px;
 
       div.category-search-box {
+        width: 100%;
         height: 45px;
         border-bottom: 1px solid #f0f0f0;
-        width: 100%;
 
         .search-title {
           height: 45px;
-          line-height: 45px;
           margin: 0 10px 0 20px;
+          line-height: 45px;
         }
 
         .search-input {
-          height: 45px;
-          line-height: 45px;
           width: 220px;
-          margin: 5px 0 0 0;
+          height: 45px;
+          margin: 5px 0 0;
+          line-height: 45px;
         }
 
         .search-icon {
           display: block;
-          height: 35px;
-          line-height: 35px;
-          width: 36px;
-          margin: 0px 3px 0px 3px;
-          padding-top: 2px;
-          text-align: center;
-          border-radius: 4px;
           position: absolute;
           top: 4px;
+          width: 36px;
+          height: 35px;
+          margin: 0 3px;
+          padding-top: 2px;
+          border: 1px solid rgb(240 240 240);
+          border-radius: 4px;
+          line-height: 35px;
+          text-align: center;
           cursor: pointer;
-          border: 1px solid rgb(240, 240, 240);
 
           .app-iconify.anticon.rotate-left {
-            -moz-transform: rotate(90deg);
-            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+            transform: rotate(90deg);
           }
         }
       }
 
       div.tree-value {
-        margin: 10px 0px 0px 0px;
+        margin: 10px 0 0;
         overflow-y: scroll;
+        :deep(.ant-table-pagination.ant-pagination) {
+          margin: 10px 0 0;
+        }
+        :deep(.ant-table-body) {
+          height: 100vh;
+        }
+        :deep(.ant-table-body .ant-table-row.selected) {
+          background: var(--el-color-primary-light-8);
+        }
+        :deep(.ant-table-body .ant-table-row.selected td) {
+          background: var(--el-color-primary-light-8);
+        }
+        :deep(.ant-table-body) {
+          overflow-x: hidden;
+        }
       }
 
       :deep(.ant-btn .anticon) {
@@ -308,11 +505,11 @@
 
     span.employee-title {
       display: block;
-      text-align: left;
       width: calc(100% + 25px);
       margin-left: -17.5px;
-      border-bottom: 1px solid rgb(240, 240, 240);
       padding-bottom: 5px;
+      border-bottom: 1px solid rgb(240 240 240);
+      text-align: left;
 
       span {
         margin-left: 30px;
@@ -321,32 +518,56 @@
 
     div.employee-content {
       .layout-content {
+        width: 100%;
+        height: auto;
+        padding-right: 5px;
+        padding-left: 5px;
         overflow-x: hidden;
         overflow-y: auto;
-        padding-left: 5px;
-        padding-right: 5px;
-        height: auto;
-        width: 100%;
         -webkit-overflow-scrolling: touch;
 
         .component-wrap {
           width: auto;
-          float: none;
           padding: 5px;
+          float: none;
           overflow: hidden;
 
           a.component-item {
-            float: left;
-            margin: 5px 4px 0 4px;
-            white-space: nowrap;
             display: inline-block;
             height: 30px;
-            line-height: 30px;
-            padding: 0px 15px 0px 15px;
+            margin: 5px 4px 0;
+            padding: 0 15px;
+            float: left;
             border: 1px dashed #cdcdcd;
-            background-color: #ffffff;
+            background-color: #fff;
             color: #303030;
+            line-height: 30px;
             text-decoration: none;
+            white-space: nowrap;
+            cursor: pointer;
+
+            span.ui-component-text {
+              margin: 0 8px 0 0;
+            }
+
+            i.icon-close {
+              position: absolute;
+              margin: 0 2px 0 -5px;
+              cursor: pointer;
+
+              span.anticon {
+                position: relative;
+                top: 2px;
+                color: #303030;
+
+                &:hover {
+                  position: relative;
+                  top: 1px;
+                  box-shadow: 0 0 1px 0 rgb(0 0 0 / 10%);
+                  color: #6f6f6f;
+                }
+              }
+            }
           }
         }
       }

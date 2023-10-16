@@ -50,4 +50,5 @@ export interface DictState {
   dictMap: Map<string, any>;
   isSetDict: boolean;
   dictKey: string[];
+  dictHttpRequestMap: Map<string, any>;
 }
