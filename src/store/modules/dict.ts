@@ -45,7 +45,9 @@ export const useDictStore = defineStore({
       if (!this.dictKey) {
         this.dictKey = [] as string[];
       }
-      this.dictKey.push(key);
+      if (!this.dictKey.includes(key)) {
+        this.dictKey.push(key);
+      }
       ls.set(DICTKEY_KEY, this.dictKey, 60 * 60 * 24 * 7);
     },
     async setRequestMapEntry(key: string, value) {

@@ -23,9 +23,10 @@
         <el-table-column label="流程分类" align="center" prop="category" width="100">
           <template #default="scope">
             <DictTag
-              v-if="scope.row.category"
+              v-show="scope.row.category"
               :type="DICT_TYPE.BPM_MODEL_CATEGORY"
               :value="scope.row.category"
+              mode="none"
             />
           </template>
         </el-table-column>

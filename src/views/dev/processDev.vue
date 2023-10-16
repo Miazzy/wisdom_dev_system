@@ -2,13 +2,34 @@
   <div class="search-box" style="width: calc(100% - 20px); height: calc(100% - 20px); margin: 10px">
     <!-- 标题 -->
     <BillTitle :options="billTitleOptions" />
+    <br />
     <!-- 表单内容 -->
-    <BasicForm class="mt-10 h-120 w-200" @register="registerForm" @submit="handleSubmit" />
-    
+    <!-- <BasicForm class="mt-10 h-120 w-200" @register="registerForm" @submit="handleSubmit" /> -->
+
+    <div style="width: 75%; float: left; border: 1px solid #c0c0c0; padding: 5px 0px">
+      <a-form :layout="formState.layout" :model="formState" v-bind="formItemLayout">
+        <a-form-item label="Form Layout">
+          <a-radio-group v-model:value="formState.layout">
+            <a-radio-button value="horizontal">Horizontal</a-radio-button>
+            <a-radio-button value="vertical">Vertical</a-radio-button>
+            <a-radio-button value="inline">Inline</a-radio-button>
+          </a-radio-group>
+        </a-form-item>
+        <a-form-item label="Field A">
+          <a-input v-model:value="formState.fieldA" placeholder="input placeholder" />
+        </a-form-item>
+        <a-form-item label="Field B">
+          <a-input v-model:value="formState.fieldB" placeholder="input placeholder" />
+        </a-form-item>
+        <a-form-item :wrapper-col="buttonItemLayout.wrapperCol" style="display:none">
+          <a-button type="primary">Submit</a-button>
+        </a-form-item>
+      </a-form>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, reactive, unref } from 'vue';
+  import { computed, onMounted, reactive, unref, UnwrapRef } from 'vue';
   import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
   import { formSchema, getTypeObj, getTypeOption } from './oaLeave.data';
   import { BasicForm, useForm } from '@/components/Form';
@@ -24,6 +45,34 @@
   const { currentRoute } = router;
   const route = unref(currentRoute);
   const query = route.query;
+
+  interface FormState {
+    layout: 'horizontal' | 'vertical' | 'inline';
+    fieldA: string;
+    fieldB: string;
+  }
+  const formState: UnwrapRef<FormState> = reactive({
+    layout: 'horizontal',
+    fieldA: '',
+    fieldB: '',
+  });
+  const formItemLayout = computed(() => {
+    const { layout } = formState;
+    return layout === 'horizontal'
+      ? {
+          labelCol: { span: 4 },
+          wrapperCol: { span: 14 },
+        }
+      : {};
+  });
+  const buttonItemLayout = computed(() => {
+    const { layout } = formState;
+    return layout === 'horizontal'
+      ? {
+          wrapperCol: { span: 14, offset: 4 },
+        }
+      : {};
+  });
 
   const [registerForm, { setFieldsValue, resetFields, validate }] = useForm({
     labelWidth: 140,

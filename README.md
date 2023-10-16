@@ -74,6 +74,12 @@ pnpm build
 pnpm run build --mode production
 ```
 
+- 大屏
+
+```bash
+大屏：https://lanhuapp.com/link/#/invite?sid=lxiLGWza
+```
+
 **Pull Request:**
 
 1. Fork 代码!
