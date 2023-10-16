@@ -37,18 +37,8 @@
         </a-form>
       </div>
       <div class="right-panel">
-        <!-- 审批按钮 -->
-        <div class="button-content" style="">
-          <Button @click="handleSave" type="primary">保存</Button>
-          <Button @click="handleSubmit" type="primary">提交</Button>
-          <Button @click="handleCollect">收藏</Button>
-          <Button @click="handleOpenApprovalDrawer">审批</Button>
-        </div>
-
-        <!-- 流程审批抽屉组件 -->
-        <ApprovalDrawer
-          @register="approvalDrawerRegister"
-          :flowData="flowData"
+        <WfApproveBox
+          :data="flowData"
           @agree="handleAgree"
           @reject="handleReject"
           @save="handleSave"
@@ -56,6 +46,7 @@
           @transfer="handleTransfer"
           @notice="handleNotice"
           @collect="handleCollect"
+          @submit="handleSubmit"
         />
       </div>
     </div>
@@ -65,14 +56,11 @@
   import { computed, onMounted, reactive, ref, unref, UnwrapRef } from 'vue';
   import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
   import { formSchema, getTypeObj, getTypeOption } from './oaLeave.data';
-  import { BasicForm, useForm } from '@/components/Form';
-  import { useDrawer } from '/@/components/Drawer';
   import { createOaLeave, getOaLeave, updateOaLeave } from '@/api/hr/oaleave';
-  import { Button } from 'ant-design-vue';
   import { useI18n } from '@/hooks/web/useI18n';
   import { useMessage } from '@/hooks/web/useMessage';
   import { useRouter } from 'vue-router';
-  import ApprovalDrawer from '/@/components/Framework/ApprovalDrawer/ApprovalDrawer.vue';
+  import WfApproveBox from '/@/components/Framework/WorkFlow/WfApproveBox.vue';
 
   defineOptions({ name: 'LeaveCreate' });
   const { t } = useI18n();
@@ -117,18 +105,6 @@
         }
       : {};
   });
-
-  const [registerForm, { setFieldsValue, resetFields, validate }] = useForm({
-    labelWidth: 140,
-    baseColProps: { span: 24 },
-    schemas: formSchema,
-    showResetButton: false,
-    submitButtonOptions: { text: t('common.saveText') },
-    actionColOptions: { span: 23 },
-  });
-
-  const [approvalDrawerRegister, { openDrawer: openApprovalDrawer }] = useDrawer();
-
   const flowData = ref([]);
   // 获取流程节点数据
   async function queryFlowNodeList() {
@@ -136,12 +112,6 @@
       '[{"id":"fa4b117c-5395-11ee-b5c1-480fcf57f666","name":"总经理审批","claimTime":null,"createTime":"2023-09-15 15:03:31","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":null,"durationInMillis":null,"result":1,"reason":null,"definitionKey":"Activity_1ge9o3y","assigneeUser":{"id":128,"nickname":"饶勇","deptId":138,"deptName":"总经办"}},{"id":"6186a3a5-5395-11ee-b5c1-480fcf57f666","name":"财务部负责人审批","claimTime":null,"createTime":"2023-09-15 14:59:15","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 15:03:31","durationInMillis":256225,"result":2,"reason":"同意。","definitionKey":"Activity_12fthtb","assigneeUser":{"id":130,"nickname":"曾宁若","deptId":139,"deptName":"财务部"}},{"id":"63d8cdd0-5391-11ee-b5c1-480fcf57f666","name":"部门领导审批","claimTime":null,"createTime":"2023-09-15 14:30:41","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 14:59:15","durationInMillis":1714085,"result":2,"reason":"同意。","definitionKey":"Activity_0zvw3s2","assigneeUser":{"id":126,"nickname":"刘超","deptId":136,"deptName":"技术中心"}},{"id":"4b70bf0b-5390-11ee-b5c1-480fcf57f666","name":"财务部负责人审批","claimTime":null,"createTime":"2023-09-15 14:22:50","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f 666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 14:30:41","durationInMillis":470436,"result":4,"reason":"Change activity to Activity_0zvw3s2","definitionKey":"Activity_12fthtb","assigneeUser":{"id":130,"nickname":"曾宁若","deptId":139,"deptName":"财务部"}},{"id":"0e202e9c-5390-11ee-b5c1-480fcf57f666","name":"部门领导审批","claimTime":null,"createTime":"2023-09-15 14:21:07","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 14:22:50","durationInMillis":102859,"result":2,"reason":"测试打回。","definitionKey":"Activity_0zvw3s2","assigneeUser":{"id":126,"nickname":"刘超","deptId":136,"deptName":"技术中心"}}]',
     );
     flowData.value = flowNodeList;
-  }
-
-  // 打开流程审批抽屉
-  function handleOpenApprovalDrawer() {
-    openApprovalDrawer(true);
-    queryFlowNodeList();
   }
 
   const billTitleOptions = reactive<any>({});
@@ -169,15 +139,15 @@
 
   async function handleSubmit() {
     try {
-      const values = await validate();
-      const typeObj = getTypeOption(values.type);
-      values['type'] = typeObj['value'];
-      if (query.id) {
-        values.id = query.id;
-        await updateOaLeave(values);
-      } else {
-        await createOaLeave(values);
-      }
+      // const values = await validate();
+      // const typeObj = getTypeOption(values.type);
+      // values['type'] = typeObj['value'];
+      // if (query.id) {
+      //   values.id = query.id;
+      //   await updateOaLeave(values);
+      // } else {
+      //   await createOaLeave(values);
+      // }
     } finally {
       createMessage.success(t('common.saveSuccessText'));
       router.push('/hr/manage/oaleave');
@@ -195,7 +165,7 @@
           const typeObj = getTypeObj(obj.type);
 
           obj['type'] = typeObj['label'];
-          setFieldsValue(obj);
+          // setFieldsValue(obj);
         })
         .catch((err) => {
           console.log(err);
@@ -235,8 +205,9 @@
     if (query.id) {
       await getRecordable();
     } else {
-      resetFields();
+      // resetFields();
     }
+    queryFlowNodeList();
   });
 </script>
 <style lang="less" scoped>
