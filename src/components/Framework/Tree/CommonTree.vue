@@ -1,15 +1,15 @@
 <!--
  * @Description: 
  * @Date: 2023-09-22 08:46:00
- * @LastEditTime: 2023-09-28 09:09:11
+ * @LastEditTime: 2023-10-16 11:05:43
  * @FilePath: \ygwl-framework\src\components\Framework\Tree\CommonTree.vue
 -->
 <template>
   <div class="m-4 mr-0 overflow-hidden bg-white" style="border: 1px solid #d9d9d9">
     <BasicTree
       :title="title"
-      toolbar
-      search
+      :toolbar="toolbar"
+      :search="search"
       treeWrapperClassName="h-[calc(100%-35px)] overflow-auto"
       :clickRowToExpand="false"
       :treeData="treeData"
@@ -32,6 +32,8 @@
     value: { type: Array },
     className: { type: String },
     isShowOperationBtns: { type: Boolean, default: false },
+    toolbar: { type: Boolean, default: true },
+    search: { type: Boolean, default: true },
     fieldNames: {
       type: Object,
       default: new Object(),
