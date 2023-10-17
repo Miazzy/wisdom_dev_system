@@ -133,6 +133,7 @@ export const useUserStore = defineStore({
           const { accessToken } = response || {};
           this.setToken(accessToken as string);
         });
+        // TODO 登录时加载已知的数据字典
         once.pushOnceTask(async () => {
           const list = [
             DICT_TYPE.BPM_MODEL_CATEGORY,
