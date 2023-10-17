@@ -18,8 +18,11 @@ import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
 import { isArray } from '/@/utils/is';
+import { initDictMapInfo } from '/@/utils/dict';
 import { h } from 'vue';
 import { TaskExecutor } from '/@/executor/taskExecutor';
+import { OnceExecutor } from '/@/executor/onceExecutor';
+import { DICT_TYPE } from '@/utils/dict';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -117,18 +120,29 @@ export const useUserStore = defineStore({
     ): Promise<GetUserInfoModel | null> {
       try {
         const { goHome = true, ...loginParams } = params;
-        const task = TaskExecutor.getNewInstance();
+        const task = TaskExecutor.getInstance();
+        const once = OnceExecutor.getInstance();
         // Login接口传入登录账户参数，获取用户登录返回结果
         const data = await loginApi(loginParams);
         const { accessToken, refreshToken } = data || {};
         this.setToken(accessToken as string);
         this.setRefreshToken(refreshToken as string);
+        // 推入任务
         task.pushTask(async () => {
           const response = await execRefreshToken(this.getRefreshToken as string);
           const { accessToken } = response || {};
           this.setToken(accessToken as string);
         });
+        once.pushOnceTask(async () => {
+          const list = [
+            DICT_TYPE.BPM_MODEL_CATEGORY,
+            DICT_TYPE.SYSTEM_USER_SEX,
+            DICT_TYPE.INFRA_CONFIG_TYPE,
+          ];
+          initDictMapInfo(list as []);
+        });
         task.start();
+        once.start();
         return this.afterLoginAction(goHome);
       } catch (error) {
         return Promise.reject(error);

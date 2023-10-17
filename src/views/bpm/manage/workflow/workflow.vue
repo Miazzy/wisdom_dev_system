@@ -166,7 +166,7 @@
   import { ref, reactive, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
   import WfSearchBox from '/@/components/Framework/WorkFlow/WfSearchBox.vue';
-  import DictTags from '@/components/Framework/Tag/DictTag/DictTag.vue';
+  import DictTags from '@/components/Framework/Tag/DictTag/DictTags.vue';
   import Pagination from '@/components/Framework/Pagination/Pagination.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import Dialog from '@/components/Framework/Modal/Dialog.vue';

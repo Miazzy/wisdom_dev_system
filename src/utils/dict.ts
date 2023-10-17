@@ -2,6 +2,10 @@
  * 数据字典工具类
  */
 import { useDictStoreWithOut } from '@/store/modules/dict';
+import { createLocalStorage } from '@/utils/cache';
+import { DICT_DATA__KEY } from '@/enums/cacheEnum';
+
+const ls = createLocalStorage();
 
 export type InfoType = 'success' | 'info' | 'warning' | 'danger';
 
@@ -110,18 +114,16 @@ export function getDictDatas(dictType: string) {
 }
 
 export function getDictOpts(dictType: string) {
-  /**
-   * 这里原来是转换类型  转换类型后反而显示不出来正确的Tag
-   * 实际类型转换交给下面的getDictOptions来处理
-   *
-   * bugfix:
-   * dictOption.push({
-          ...dict,
-          value: parseInt(dict.value + '')
-        })
-     原来的这种写法是造成页面卡死的原因
-   */
   return getDictDatas(dictType);
+}
+
+export async function initDictMapInfo(dictList: []) {
+  const key = dictList.join(',');
+  const map = await dictStore.fetchBackendData(key, { type: '' });
+  Object.keys(map).forEach((key) => {
+    const value = map[key];
+    ls.set(DICT_DATA__KEY + key, value, 60 * 60 * 24 * 7);
+  });
 }
 
 export function getDictOptions(dictType: string, valueType?: 'string' | 'number' | 'boolean') {

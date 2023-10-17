@@ -71,18 +71,19 @@
 
     <span style="float: left"> DictSelectBox </span>
     <br />
-    <DictSelectBox
-      v-model:value="selectedValue"
-      :multiple="`multiple`"
-      :type="`nation`"
-      :width="220"
-      @change="handleDictSelectBoxChange"
-    />
 
     <DictSelectBox
       v-model:value="selectedValue"
       :multiple="`multiple`"
-      :type="`uiElementStatus`"
+      :type="DICT_TYPE.BPM_MODEL_CATEGORY"
+      :width="220"
+      @change="handleDictSelectBoxChange"
+    />
+
+    <DictSelectBox
+      v-model:value="selectedValue"
+      :multiple="`multiple`"
+      :type="DICT_TYPE.SYSTEM_USER_SEX"
       :width="220"
       style="margin-left: 5px"
       @change="handleDictSelectBoxChange"
@@ -90,23 +91,7 @@
 
     <DictSelectBox
       v-model:value="selectedValue"
-      :type="`orgAdminKind`"
-      :width="220"
-      style="margin-left: 5px"
-      @change="handleDictSelectBoxChange"
-    />
-
-    <DictSelectBox
-      v-model:value="selectedValue"
-      :type="`taskKind`"
-      :width="220"
-      style="margin-left: 5px"
-      @change="handleDictSelectBoxChange"
-    />
-
-    <DictSelectBox
-      v-model:value="selectedValue"
-      :type="`dataSourceKind`"
+      :type="DICT_TYPE.INFRA_CONFIG_TYPE"
       :width="220"
       style="margin-left: 5px"
       @change="handleDictSelectBoxChange"
@@ -143,17 +128,18 @@
   import CommonTree from '@/components/Framework/Tree/CommonTree.vue';
   import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';
   import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
-  import { BillTitleOptions } from '/@/components/Framework/BillTitle/types';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { TreeItem } from '/@/components/Tree';
   import { useDrawer } from '/@/components/Drawer';
   import ApprovalDrawer from '/@/components/Framework/ApprovalDrawer/ApprovalDrawer.vue';
-  import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import CategoryDialog from '/@/components/Framework/Modal/CategoryDialog.vue';
   import OrganDialog from '@/components/Framework/Modal/OrganDialog.vue';
   import XButton from '@/components/Framework/XButton/XButton.vue';
   import XTextButton from '@/components/Framework/XButton/XTextButton.vue';
   import type { Dayjs } from 'dayjs';
+  import { DICT_TYPE } from '@/utils/dict';
+  import { BillTitleOptions } from '/@/components/Framework/BillTitle/types';
+  import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import dayjs from 'dayjs';
 
   type RangeValue = [Dayjs, Dayjs];

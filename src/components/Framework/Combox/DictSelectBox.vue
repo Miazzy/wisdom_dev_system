@@ -14,6 +14,10 @@
   import type { SelectProps } from 'ant-design-vue';
   import { ref, onMounted, defineProps, defineEmits } from 'vue';
   import { useDictStoreWithOut } from '@/store/modules/dict';
+  import { createLocalStorage } from '@/utils/cache';
+  import { DICT_DATA__KEY } from '@/enums/cacheEnum';
+
+  const ls = createLocalStorage();
 
   const dictStore = useDictStoreWithOut();
   const selectedValue = ref<string | string[] | undefined>('');
@@ -51,21 +55,36 @@
   onMounted(async () => {
     // 在组件挂载后，通过后端接口获取数据字段的数据
     try {
+      const { type } = props;
       if (props.multiple == 'multiple') {
         selectedValue.value = [];
       }
-      if (props.mode !== 'group') {
-        const response = await dictStore.fetchBackendData('', props); // 调用后端接口获取数据
-        // 格式化后端数据，将数据转换为适用于下拉框的格式
-        options.value = response;
+      let cache = ls.get(DICT_DATA__KEY + type);
+      if (!cache) {
+        if (props.mode !== 'group') {
+          // 调用后端接口获取数据
+          const response = await dictStore.fetchBackendData('', props);
+          // 格式化后端数据，将数据转换为适用于下拉框的格式
+          options.value = response;
+        } else {
+          // 数据字典的多个组件示例，初始化时间需要通过此timestamp错开，否则会同时发送多个request请求，当初始化时间错开后，后续的request请求将通过缓存获取返回结果
+          const timestamp = (props.delaytimes * (Math.random() + Math.random() + Math.random())) / 2;
+          dictStore.setDictKey(props.type);
+          setTimeout(async () => {
+            const typeList = dictStore.getDictKey.join(',');
+            cache = ls.get(DICT_DATA__KEY + type);
+            if (!cache) {
+              // 调用后端接口获取数据
+              const response = await dictStore.fetchBackendData(typeList, props);
+              // 格式化后端数据，将数据转换为适用于下拉框的格式
+              options.value = response;
+            } else {
+              options.value = cache;
+            }
+          }, timestamp);
+        }
       } else {
-        const timestamp = (props.delaytimes * (Math.random() + Math.random() + Math.random())) / 2; // 数据字典的多个组件示例，初始化时间需要通过此timestamp错开，否则会同时发送多个request请求，当初始化时间错开后，后续的request请求将通过缓存获取返回结果
-        dictStore.setDictKey(props.type);
-        setTimeout(async () => {
-          const typeList = dictStore.getDictKey.join(',');
-          const response = await dictStore.fetchBackendData(typeList, props); // 调用后端接口获取数据
-          options.value = response; // 格式化后端数据，将数据转换为适用于下拉框的格式
-        }, timestamp);
+        options.value = cache;
       }
     } catch (error) {
       console.error('Failed to fetch data:', error);

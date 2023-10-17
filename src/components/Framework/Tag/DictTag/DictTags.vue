@@ -1,14 +1,14 @@
 <template>
-  <a-tag :color="props.color" :value="dictData.value">{{ dictData.label }}</a-tag>
+  <a-tag :color="props.color" :value="dictData?.value">{{ dictData?.label }}</a-tag>
 </template>
 <script lang="ts" setup>
   import { onMounted, watch, ref } from 'vue';
-  import { DictDataType } from '@/utils/dict';
   import { useDictStoreWithOut } from '@/store/modules/dict';
   import { createLocalStorage } from '@/utils/cache';
+  import { DICT_DATA__KEY } from '@/enums/cacheEnum';
 
   const ls = createLocalStorage();
-  const dictData = ref<DictDataType>();
+  const dictData = ref<any>();
   const dictStore = useDictStoreWithOut();
 
   const props = defineProps({
@@ -21,7 +21,7 @@
   });
 
   const getDictData = async (type: string, value: string | number | boolean) => {
-    const cache = ls.get(type);
+    let cache = ls.get(DICT_DATA__KEY + type);
     if (!cache) {
       if (props.mode !== 'group') {
         const response = await dictStore.fetchBackendData('', { type });
@@ -33,10 +33,16 @@
         dictStore.setDictKey(props.type as string);
         setTimeout(async () => {
           const typeList = dictStore.getDictKey.join(',');
-          const response = await dictStore.fetchBackendData(typeList, props); // 调用后端接口获取数据
-          const node = response.find((item) => item.value == value);
-          dictData.value = node;
-          ls.set(type, response, 60 * 60 * 24);
+          cache = ls.get(DICT_DATA__KEY + type);
+          if (!cache) {
+            const response = await dictStore.fetchBackendData(typeList, props); // 调用后端接口获取数据
+            const node = response.find((item) => item.value == value);
+            dictData.value = node;
+            ls.set(DICT_DATA__KEY + type, response, 60 * 60 * 24);
+          } else {
+            const node = cache.find((item) => item.value == value);
+            dictData.value = node;
+          }
         }, timestamp);
       }
     } else {
@@ -47,14 +53,18 @@
 
   watch(
     () => props.type,
-    (newValue) => {
+    () => {
       const type = props.type as string;
       const value = props.value as string | number | boolean;
       getDictData(type, value);
     },
   );
 
-  onMounted(() => {});
+  onMounted(() => {
+    const type = props.type as string;
+    const value = props.value as string | number | boolean;
+    getDictData(type, value);
+  });
 </script>
 <style lang="less" scoped>
   .workflow-approve-box {

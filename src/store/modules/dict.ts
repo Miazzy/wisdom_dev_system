@@ -4,6 +4,7 @@ import { store } from '@/store';
 import { DICT_KEY, DICTKEY_KEY, DICT_HTTP_REQUEST_MAP_KEY } from '@/enums/cacheEnum';
 import { createLocalStorage } from '@/utils/cache';
 import { getDictDataMap } from '/@/api/system/dict/data';
+import { DICT_DATA__KEY } from '@/enums/cacheEnum';
 
 const ls = createLocalStorage();
 
@@ -69,8 +70,17 @@ export const useDictStore = defineStore({
       const typeContent = typeList != '' ? typeList : props.type;
       // 调用后端接口获取数据的逻辑，返回数据数组
       const response = await getDictDataMap({ dictTypeList: typeContent });
+      // 将返回结果放入缓存中
+      if (Reflect.has(response, 'result')) {
+        Object.keys(response.result).forEach((key) => {
+          const value = response.result[key];
+          ls.set(DICT_DATA__KEY + key, value, 60 * 60 * 24 * 7);
+        });
+      }
       // 返回查询结果
-      if (Reflect.has(response, 'result') && Reflect.has(response.result, props.type)) {
+      if (Reflect.has(response, 'result') && Reflect.has(props, 'type') && props.type == '') {
+        return response.result;
+      } else if (Reflect.has(response, 'result') && Reflect.has(response.result, props.type)) {
         return response.result[props.type];
       }
       return [];

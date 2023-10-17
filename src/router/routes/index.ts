@@ -29,7 +29,7 @@ function transformMenusToRoutes(menus) {
         } else if (menu.component == '/@/views/bpm/manage/workflow/processEditor.vue') {
           return import('/@/views/bpm/manage/workflow/processEditor.vue');
         } else if (menu.component == '/@/views/dev/dev.vue') {
-          return import('/@/views/dev/processDev.vue');
+          return import('/@/views/dev/dev.vue');
         }
         // baseset/demo
         else if (menu.component == '/@/views/hr/manage/oaleave/index.vue') {
