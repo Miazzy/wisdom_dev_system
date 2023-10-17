@@ -88,6 +88,7 @@
     "codemirror": "^5.65.14",
     "cropperjs": "^1.5.13",
     "crypto-js": "^4.1.1",
+    "d3": "^7.8.5",
     "dayjs": "^1.11.9",
     "diagram-js": "12.3.0",
     "echarts": "^5.4.3",
