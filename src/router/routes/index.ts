@@ -37,6 +37,16 @@ function transformMenusToRoutes(menus) {
         } else if (menu.component == '/@/views/hr/manage/oaleave/create.vue') {
           return import('/@/views/hr/manage/oaleave/create.vue');
         }
+
+        // bpm/processInstance、todo、done
+        else if (menu.component == '/@/views/bpm/manage/processInstance/index.vue') {
+          return import('/@/views/bpm/manage/processInstance/index.vue');
+        } else if (menu.component == '/@/views/bpm/manage/task/todo/index.vue') {
+          return import('/@/views/bpm/manage/task/todo/index.vue');
+        } else if (menu.component == '/@/views/bpm/manage/task/done/index.vue') {
+          return import('/@/views/bpm/manage/task/done/index.vue');
+        }
+
         // baseset/monitor
         else if (menu.component == '/@/views/baseset/monitor/area/areaSet.vue') {
           return import('/@/views/baseset/monitor/area/areaSet.vue');
