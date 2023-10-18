@@ -1,116 +1,128 @@
 <template>
-  <div ref="chart"></div>
+  <div class="chart-content">
+    <svg :width="width" :height="height">
+      <g class="x-axis" />
+      <g class="y-axis" />
+
+      <!-- 绘制柱状图 -->
+      <g class="bar-chart">
+        <rect
+          v-for="(bar, index) in barData"
+          :key="index"
+          :x="xScale(index)"
+          :y="height - yScale(bar.barValue)"
+          :width="barWidth"
+          :height="yScale(bar.barValue)"
+          :fill="barGradients[index % barGradients.length]"
+          @mouseover="showBarInfo(bar, $event)"
+          @mouseleave="hideBarInfo"
+        />
+      </g>
+
+      <!-- 绘制折线图 -->
+      <g class="line-chart">
+        <path class="line" :d="lineGenerator(lineData)" :stroke="lineColors[0]" fill="none" />
+      </g>
+    </svg>
+    <!-- 显示柱状图柱子信息 -->
+    <div v-if="showingBarInfo" class="bar-info" :style="barInfoStyle">
+      {{ barInfo }}
+    </div>
+  </div>
 </template>
 
-<script setup>
-  import { ref, onMounted, toRefs, defineProps } from 'vue';
+<script lang="ts" setup>
+  import { ref, onMounted, onUnmounted, toRefs, defineProps } from 'vue';
   import * as d3 from 'd3';
 
   const props = defineProps({
-    data: Array, // 柱状图和折线图数据
-    width: Number, // 图表宽度
-    height: Number, // 图表高度
-    barColors: Array, // 柱状图颜色渐变配置
-    lineColors: Array, // 折线图颜色配置
+    data: Array,
+    width: Number,
+    height: Number,
+    barColors: Array,
+    lineColors: Array,
+    barWidth: Number,
   });
 
-  const { data, width, height, barColors, lineColors } = toRefs(props);
-  const chart = ref(null);
+  const showingBarInfo = ref(false);
+  const barInfo = ref('');
+  const barInfoStyle = ref({ left: '0px', top: '0px' });
 
+  const xScale = d3.scaleBand().domain(d3.range(props.data.length)).range([0, props.width]);
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, d3.max(props.data, (d) => d.barValue)])
+    .range([0, props.height]);
+  const lineGenerator = d3
+    .line()
+    .x((d, i) => xScale(i) + xScale.bandwidth() / 2)
+    .y((d) => props.height - yScale(d.lineValue));
+
+  const barData = props.data;
+  const lineData = props.data;
+
+  const showBarInfo = (bar, event) => {
+    showingBarInfo.value = true;
+    barInfo.value = `Value: ${bar.barValue}`;
+    barInfoStyle.value = {
+      left: `${event.clientX - 220}px`,
+      top: `${props.height - event.clientY}px`,
+    };
+  };
+
+  const hideBarInfo = () => {
+    showingBarInfo.value = false;
+  };
+
+  const barGradients = ref([]);
+
+  // 添加 x 轴（在底部显示）
   onMounted(() => {
-    createCombinedChart(
-      chart.value,
-      data.value,
-      width.value,
-      height.value,
-      barColors.value,
-      lineColors.value,
-    );
+    const xAxis = d3.axisBottom(xScale);
+    // d3.select('.x-axis').call(xAxis);
   });
 
-  function createCombinedChart(container, data, width, height, barColors, lineColors) {
-    // 创建SVG容器
-    const svg = d3.select(container).append('svg').attr('width', width).attr('height', height);
+  // 添加 y 轴（在左侧显示）
+  onMounted(() => {
+    const yAxis = d3.axisLeft(yScale);
+    d3.select('.y-axis').call(yAxis);
+  });
 
-    // 创建Y轴比例尺（柱状图）
-    const yScale = d3
-      .scaleLinear()
-      .domain([0, d3.max(data, (d) => d.value)])
-      .range([height, 0]);
+  // 创建柱状图的颜色渐变
+  onMounted(() => {
+    barGradients.value = props.barColors.map((color, index) => {
+      const gradientId = `barGradient-${index}`;
+      createGradient(gradientId, color);
+      return `url(#${gradientId})`;
+    });
+  });
 
-    // 创建X轴比例尺（柱状图）
-    const xScale = d3
-      .scaleBand()
-      .domain(data.map((d) => d.label))
-      .range([0, width])
-      .padding(0.1);
-
-    // 绘制柱状图
-    svg
-      .selectAll('rect')
-      .data(data)
-      .enter()
-      .append('rect')
-      .attr('x', (d) => xScale(d.label))
-      .attr('y', (d) => yScale(d.value))
-      .attr('width', xScale.bandwidth())
-      .attr('height', (d) => height - yScale(d.value))
-      .attr('fill', (d, i) => {
-        // 使用颜色渐变
-        const gradientId = `barGradient-${i}`;
-        createGradient(svg, gradientId, barColors[i]);
-        return `url(#${gradientId})`;
-      });
-
-    // 创建折线图的X轴和Y轴比例尺
-    const xScaleLine = d3
-      .scaleBand()
-      .domain(data.map((d) => d.label))
-      .range([0, width]);
-    const yScaleLine = d3
-      .scaleLinear()
-      .domain([0, d3.max(data, (d) => d.value * 2)])
-      .range([height, 0]);
-
-    // 创建折线生成器
-    const lineGenerator = d3
-      .line()
-      .x((d) => xScaleLine(d.label) + xScaleLine.bandwidth() / 2)
-      .y((d) => yScaleLine(d.value));
-
-    // 绘制折线图
-    svg
-      .append('path')
-      .datum(data)
-      .attr('d', lineGenerator)
-      .attr('fill', 'none')
-      .attr('stroke', lineColors[0])
-      .attr('stroke-width', 2);
-
-    // 添加X轴（柱状图和折线图共用）
-    svg.append('g').attr('transform', `translate(0, ${height})`).call(d3.axisBottom(xScale));
-
-    // 添加Y轴（柱状图）
-    svg.append('g').call(d3.axisLeft(yScale));
-  }
-
-  // 创建颜色渐变
-  function createGradient(svg, id, colors) {
+  function createGradient(id, color) {
+    const svg = d3.select('svg');
     const gradient = svg
       .append('defs')
       .append('linearGradient')
       .attr('id', id)
       .attr('x1', '0%')
       .attr('y1', '0%')
-      .attr('x2', '100%')
-      .attr('y2', '0%');
-    gradient
-      .append('stop')
-      .attr('offset', '0%')
-      .attr('style', `stop-color:${colors[0]}; stop-opacity:1`);
-    gradient
-      .append('stop')
-      .attr('offset', '100%')
-      .attr('style', `stop-color:${colors[1]}; stop-opacity:1`);
+      .attr('x2', '0%')
+      .attr('y2', '100%');
+
+    gradient.append('stop').attr('offset', '0%').attr('stop-color', color);
+    gradient.append('stop').attr('offset', '100%').attr('stop-color', '#fff');
   }
 </script>
+
+<style scoped>
+.chart-content {
+  position: relative;
+  .bar-info {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+}
+</style>
