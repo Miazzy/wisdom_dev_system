@@ -16,6 +16,7 @@ export enum DICT_TYPE {
   COMMON_STATUS = 'common_status',
   SYSTEM_TENANT_PACKAGE_ID = 'system_tenant_package_id',
   TERMINAL = 'terminal', // 终端
+  CERTIFICATE = 'certificate',
 
   // ========== SYSTEM 模块 ==========
   SYSTEM_USER_SEX = 'system_user_sex',
@@ -45,6 +46,7 @@ export enum DICT_TYPE {
   INFRA_CODEGEN_FRONT_TYPE = 'infra_codegen_front_type',
   INFRA_CODEGEN_SCENE = 'infra_codegen_scene',
   INFRA_FILE_STORAGE = 'infra_file_storage',
+
 
   // ========== BPM 模块 ==========
   BPM_MODEL_CATEGORY = 'bpm_model_category',

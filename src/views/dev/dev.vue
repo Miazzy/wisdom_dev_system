@@ -65,9 +65,9 @@
       @confirm="handleOrganConfirm"
     />
     <br />
-    <span style="margin-top: 10px; margin-left: 5px; display: block"> {{ categoryConfirm }} </span>
+    <span style=" display: block;margin-top: 10px; margin-left: 5px"> {{ categoryConfirm }} </span>
     <br />
-    <span style="margin-top: 10px; margin-left: 5px; display: block"> {{ organConfirm }} </span>
+    <span style=" display: block;margin-top: 10px; margin-left: 5px"> {{ organConfirm }} </span>
 
     <span style="float: left"> DictSelectBox </span>
     <br />
@@ -96,6 +96,8 @@
       style="margin-left: 5px"
       @change="handleDictSelectBoxChange"
     />
+
+    <DictSelectBox v-model:value="selectedValue" :type="DICT_TYPE.CERTIFICATE" />
 
     <XButton preIcon="ep:folder-opened" title="打开文件" />
     <XTextButton preIcon="ep:folder-opened" title="打开文件" />
@@ -126,6 +128,14 @@
       :font-color="fontColor"
       :bubble-color="bubbleColor"
     />
+
+    <!-- <BarChart
+      :data="chartData"
+      :width="600"
+      :height="400"
+      :barColors="['#FF5733', '#FFD700']"
+      :lineColors="['#3366FF']"
+    /> -->
   </div>
 </template>
 <script lang="ts" setup>
@@ -148,6 +158,7 @@
   import type { Dayjs } from 'dayjs';
   import { DICT_TYPE } from '@/utils/dict';
   import BubbleChart from '/@/components/Framework/Chart/BubbleChart.vue';
+  import BarChart from '/@/components/Framework/Chart/BarChart.vue';
   // import { BillTitleOptions } from '/@/components/Framework/BillTitle/types';
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import dayjs from 'dayjs';
@@ -219,13 +230,13 @@
   const searchTableText = ref('');
 
   const chartData = [
-    { name: '江苏', value: 12, color: 'red' },
-    { name: '山东', value: 11, color: 'green' },
-    { name: '吉林', value: 10, color: 'yellow' },
-    { name: '浙江', value: 9, color: 'blue' },
-    { name: '湖北', value: 8, color: 'skyblue' },
-    { name: '黑龙江', value: 7, color: 'purple' },
-    { name: '天津', value: 7, color: 'purple' },
+    { name: '江苏', label: '江苏', value: 12, color: 'red' },
+    { name: '山东', label: '山东', value: 11, color: 'green' },
+    { name: '吉林', label: '吉林', value: 10, color: 'yellow' },
+    { name: '浙江', label: '浙江', value: 9, color: 'blue' },
+    { name: '湖北', label: 'A', value: 8, color: 'skyblue' },
+    { name: '黑龙江', label: 'A', value: 7, color: 'purple' },
+    { name: '天津', label: 'A', value: 7, color: 'purple' },
   ];
   const fontSize = ref('18px');
   const fontColor = 'white';
