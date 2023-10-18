@@ -139,6 +139,8 @@
     />
 
     <DonutChart :data="donutData" width="300" height="200" radius="100" />
+
+    <NtgaleChart />
   </div>
 </template>
 <script lang="ts" setup>
@@ -163,6 +165,7 @@
   import BubbleChart from '/@/components/Framework/Chart/BubbleChart.vue';
   import BarChart from '/@/components/Framework/Chart/BarChart.vue';
   import DonutChart from '/@/components/Framework/Chart/DonutChart.vue';
+  import NtgaleChart from '/@/components/Framework/Chart/NtgaleChart.vue';
   // import { BillTitleOptions } from '/@/components/Framework/BillTitle/types';
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import dayjs from 'dayjs';
