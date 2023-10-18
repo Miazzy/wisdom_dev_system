@@ -182,5 +182,3 @@
     text-decoration: underline;
   }
 </style>
-
-function computed(arg0: () => unknown) { throw new Error('Function not implemented.'); }
