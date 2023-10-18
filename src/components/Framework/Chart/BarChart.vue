@@ -114,15 +114,15 @@
 </script>
 
 <style scoped>
-.chart-content {
-  position: relative;
-  .bar-info {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 4px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  .chart-content {
+    position: relative;
+    .bar-info {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
   }
-}
 </style>
