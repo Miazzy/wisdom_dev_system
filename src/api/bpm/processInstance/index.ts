@@ -30,7 +30,7 @@ export enum BpmProInstanceApi {
 
 export const getMyProcessInstancePage = async (params) => {
   const requestParams = { url: BpmProInstanceApi.MyProcessInstancePage, params };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
 export const createProcessInstance = async (data) => {
