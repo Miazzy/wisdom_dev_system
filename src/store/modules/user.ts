@@ -133,7 +133,7 @@ export const useUserStore = defineStore({
           const { accessToken } = response || {};
           this.setToken(accessToken as string);
         });
-        // DICT_LOADING 登录时加载已知的数据字典
+        // DICT_LOADING 登录时加载已知的数据字典 加载数据字典集合
         once.pushOnceTask(async () => {
           const list = [
             DICT_TYPE.BPM_MODEL_CATEGORY,
