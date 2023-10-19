@@ -10,7 +10,9 @@
       :value="treeData"
       class="w-1/4"
       :isShowOperationBtns="false"
-      :canEdit="true" :canAdd="true" :canDelete="false"
+      :canEdit="true"
+      :canAdd="true"
+      :canDelete="false"
       :fieldNames="{ key: 'nodeId', title: 'nodeName' }"
       @edit="handleTreeEdit"
       @add="handleTreeAdd"
@@ -152,6 +154,8 @@
       width="600"
       height="400"
     />
+
+    <EchartPillarChart :data="pchartData" />
     <!-- <NtgaleChart /> -->
 
     <!-- <ChinaMapChart /> -->
@@ -180,6 +184,7 @@
   import BarChart from '/@/components/Framework/Chart/BarChart.vue';
   import DonutChart from '/@/components/Framework/Chart/DonutChart.vue';
   import EchartBarChart from '../../components/Framework/Chart/EchartBarChart.vue';
+  import EchartPillarChart from '../../components/Framework/Chart/EchartPillarChart.vue';
   import ThreeDDonutChart from '../../components/Framework/Chart/ThreeDDonutChart.vue';
   import NtgaleChart from '/@/components/Framework/Chart/NtgaleChart.vue';
   import ThreeDPieChart from '/@/components/Framework/Chart/ThreeDPieChart.vue';
@@ -304,6 +309,11 @@
       { name: 'Series C', data: [15, 10, 8, 12, 7] },
       { name: 'Series D', data: [20, 14, 12, 18, 8] },
     ],
+  });
+
+  const pchartData = ref({
+    mData: [10, 22, 39, 14, 22, 15, 20],
+    mName: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
   });
 
   const chartColors = ref(['#3c8dbc', '#00a65a', '#f39c12', '#d81b60']);

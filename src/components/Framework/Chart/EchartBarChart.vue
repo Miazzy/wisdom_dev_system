@@ -35,23 +35,67 @@
   // 创建柱状图和折线图
   onMounted(() => {
     createChart();
+    setupBarShape();
   });
+
+  // 查询初始化信息函数
+  const setupBarShape = async () => {
+    // 绘制正侧面
+    const positiveShape = echarts.graphic.extendShape({
+      shape: {
+        x: 0,
+        y: 0,
+      },
+      buildPath: function (ctx, shape) {
+        const xAxisPoint = shape.xAxisPoint;
+        ctx.moveTo(shape.x + 10.7, shape.y); //右上
+        ctx.lineTo(shape.x - 10.7, shape.y); //左上
+        ctx.lineTo(xAxisPoint[0] - 10.7, xAxisPoint[1]); //左下
+        ctx.lineTo(xAxisPoint[0] + 10.7, xAxisPoint[1]); //右下
+        ctx.closePath();
+      },
+    });
+
+    // 绘制右侧面
+    const rightShape = echarts.graphic.extendShape({
+      shape: {
+        x: 0,
+        y: 0,
+      },
+      buildPath: function (ctx, shape) {
+        const xAxisPoint = shape.xAxisPoint;
+        ctx.moveTo(shape.x + 12.55, shape.y - 7.7); // 右上
+        ctx.lineTo(shape.x + 10.7, shape.y);
+        ctx.lineTo(xAxisPoint[0] + 10.7, xAxisPoint[1]);
+        ctx.lineTo(xAxisPoint[0] + 12.55, xAxisPoint[1] - 7.7); //右下
+        ctx.closePath();
+      },
+    });
+
+    // 绘制顶部
+    const topShape = echarts.graphic.extendShape({
+      shape: {
+        x: 0,
+        y: 0,
+      },
+      buildPath: function (ctx, shape) {
+        ctx.moveTo(shape.x + 10.7, shape.y); //右下
+        ctx.lineTo(shape.x + 13.05, shape.y - 7.9); //右上
+        ctx.lineTo(shape.x - 8.9, shape.y - 7.9); //左上
+        ctx.lineTo(shape.x - 10.7, shape.y); //左下
+        ctx.closePath();
+      },
+    });
+
+    // 注册三个面图形
+    echarts.graphic.registerShape('positiveShape', positiveShape);
+    echarts.graphic.registerShape('rightShape', rightShape);
+    echarts.graphic.registerShape('topShape', topShape);
+  };
 
   // 创建 ECharts 图表
   function createChart() {
     chart.value = echarts.init(document.querySelector('.echarts-container'));
-    // chart.value.setOption({
-    //   grid3D: {
-    //     boxWidth: 20, // 设置 3D 坐标系宽度
-    //     boxDepth: 10, // 设置 3D 坐标系深度
-    //     viewControl: {
-    //       autoRotate: false, // 自动旋转视角
-    //     },
-    //   },
-    //   xAxis3D: {}, // 3D x 轴配置
-    //   yAxis3D: {}, // 3D y 轴配置
-    //   zAxis3D: {},
-    // });
     updateChart();
   }
 
@@ -60,20 +104,6 @@
     if (!chart.value) {
       return;
     }
-
-    // 构建柱状图数据
-    // const barSeries = data.value.barData.map((series, i) => ({
-    //   type: 'bar',
-    //   name: legendData.value[i],
-    //   data: series.data,
-    //   itemStyle: {
-    //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-    //       { offset: 0, color: colors.value[i] },
-    //       { offset: 1, color: `${colors.value[i]}50` },
-    //     ]),
-    //   },
-    // }));
-
     const barSeries = data.value.barData.map((series, i) => ({
       type: 'bar', // 使用 3D 柱状图
       name: legendData.value[i],
@@ -85,28 +115,13 @@
           { offset: 1, color: `${colors.value[i]}50` },
         ]),
       },
-      // },
-      // type: 'pictorialBar',
-      // symbol: 'rect', // 图元的形状，可根据需要调整
-      // symbolSize: [30, 10], // 图元的大小，[宽度, 高度]
-      // symbolOffset: [0, 0], // 图元的偏移，可根据需要调整
-      // data: series.data,
-      // name: legendData.value[i],
-      // itemStyle: {
-      //   color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-      //     { offset: 0, color: colors.value[i] },
-      //     { offset: 1, color: `${colors.value[i]}50` },
-      //   ]),
-      // },
     }));
-
     // 构建折线图数据
     const lineSeries = data.value.lineData.map((series, i) => ({
       type: 'line',
       name: legendData.value[i],
       data: series.data,
     }));
-
     // 创建 ECharts 配置
     const options = {
       legend: {
