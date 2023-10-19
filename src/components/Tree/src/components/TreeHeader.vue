@@ -10,9 +10,9 @@
       v-if="search || toolbar"
       >
         <Space v-if="toolbar&&isShowOperationBtns" :size="0">
-          <Button size="small" @click="handleTreeAdd" type="text"><Icon icon="ion:add" /></Button>
-          <Button size="small" @click="handleTreeEdit" type="text"><Icon icon="fluent:edit-16-regular" /></Button>
-          <Button size="small" @click="handleTreeDelete" type="text"><Icon icon="ant-design:delete-outlined" /></Button>
+          <Button v-if="canAdd" size="small" @click="handleTreeAdd" type="text"><Icon icon="ion:add" /></Button>
+          <Button v-if="canEdit" size="small" @click="handleTreeEdit" type="text"><Icon icon="fluent:edit-16-regular" /></Button>
+          <Button v-if="canDelete" size="small" @click="handleTreeDelete" type="text"><Icon icon="ant-design:delete-outlined" /></Button>
           <Button size="small" @click="handleTreeRefresh" type="text"><Icon icon="ion:refresh" /></Button>
         </Space>
         <Dropdown @click.prevent v-if="toolbar">
@@ -93,7 +93,10 @@
     isShowOperationBtns: {
       type: Boolean,
       default: false,
-    }
+    },
+    canEdit: { type: Boolean, default: true },
+    canAdd: { type: Boolean, default: true },
+    canDelete: { type: Boolean, default: true },
   } as const);
   const emit = defineEmits(['strictly-change', 'search']);
 
@@ -122,25 +125,39 @@
       },
     ];
 
-    const operationBtnList = isShowOperationBtns?[]:[
-      {
-        label: t('component.tree.add'), 
-        value: ToolbarEnum.ADD,
-      },
-      { 
-        label: t('component.tree.edit'), 
-        value: ToolbarEnum.EDIT 
-      },
-      {
-        label: t('component.tree.delete'),
-        value: ToolbarEnum.DELETE,
-      },
-      {
-        label: t('component.tree.refresh'),
-        value: ToolbarEnum.REFRESH,
-        divider: isShowOperationBtns,
+    const operationBtnList = [];
+    if(!isShowOperationBtns) {
+      if(props.canEdit) {
+        operationBtnList.push({ label: t('component.tree.edit'), value: ToolbarEnum.EDIT });
       }
-    ];
+      if(props.canAdd) {
+        operationBtnList.push({ label: t('component.tree.add'), value: ToolbarEnum.ADD });
+      }
+      if(props.canDelete) {
+        operationBtnList.push({ label: t('component.tree.delete'), value: ToolbarEnum.DELETE });
+      }
+      operationBtnList.push({ label: t('component.tree.refresh'), value: ToolbarEnum.REFRESH });
+    }
+
+    // const operationBtnList = isShowOperationBtns?[]:[
+    //   {
+    //     label: t('component.tree.add'), 
+    //     value: ToolbarEnum.ADD,
+    //   },
+    //   { 
+    //     label: t('component.tree.edit'), 
+    //     value: ToolbarEnum.EDIT 
+    //   },
+    //   {
+    //     label: t('component.tree.delete'),
+    //     value: ToolbarEnum.DELETE,
+    //   },
+    //   {
+    //     label: t('component.tree.refresh'),
+    //     value: ToolbarEnum.REFRESH,
+    //     divider: isShowOperationBtns,
+    //   }
+    // ];
 
     return checkable
       ? [

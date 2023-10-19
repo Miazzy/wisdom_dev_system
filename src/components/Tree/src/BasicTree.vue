@@ -416,7 +416,7 @@
       expose(instance);
 
       return () => {
-        const { title, helpMessage, toolbar, search, checkable, isShowOperationBtns } = props;
+        const { title, helpMessage, toolbar, search, checkable, isShowOperationBtns, canEdit, canAdd, canDelete } = props;
         const showTitle = title || toolbar || search || slots.headerTitle || isShowOperationBtns;
         const scrollStyle: CSSProperties = { height: 'calc(100% - 38px)' };
         return (
@@ -429,6 +429,9 @@
                 title={title}
                 search={search}
                 toolbar={toolbar}
+                canAdd={canAdd}
+                canEdit={canEdit}
+                canDelete={canDelete}
                 helpMessage={helpMessage}
                 onStrictlyChange={onStrictlyChange}
                 onSearch={handleSearch}

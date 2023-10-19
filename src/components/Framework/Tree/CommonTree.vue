@@ -1,7 +1,7 @@
 <!--
  * @Description: 
  * @Date: 2023-09-22 08:46:00
- * @LastEditTime: 2023-10-16 11:05:43
+ * @LastEditTime: 2023-10-19 09:49:54
  * @FilePath: \ygwl-framework\src\components\Framework\Tree\CommonTree.vue
 -->
 <template>
@@ -10,6 +10,7 @@
       :title="title"
       :toolbar="toolbar"
       :search="search"
+      :canEdit="canEdit" :canAdd="canAdd" :canDelete="canDelete"
       treeWrapperClassName="h-[calc(100%-35px)] overflow-auto"
       :clickRowToExpand="false"
       :treeData="treeData"
@@ -28,16 +29,19 @@
 
   const treeData = ref<TreeItem[]>([]);
   const props = defineProps({
-    title: { type: String },
-    value: { type: Array },
-    className: { type: String },
-    isShowOperationBtns: { type: Boolean, default: false },
-    toolbar: { type: Boolean, default: true },
-    search: { type: Boolean, default: true },
+    title: { type: String }, // 树标题
+    value: { type: Array }, // 树的数据
+    className: { type: String }, // 组件的样式class名
+    isShowOperationBtns: { type: Boolean, default: false }, // 是否在头部显示新增、编辑、删除、刷新的按钮
+    toolbar: { type: Boolean, default: true }, // 是否需要头部工具栏
+    search: { type: Boolean, default: true }, // 是否需要搜索栏
+    canEdit: { type: Boolean, default: true }, // 能否编辑操作
+    canAdd: { type: Boolean, default: true }, // 能否新增操作
+    canDelete: { type: Boolean, default: true }, // 能否删除操作
     fieldNames: {
       type: Object,
       default: new Object(),
-    },
+    }, // 配置树的key和title取值字段名，例如{ key: 'nodeId', title: 'nodeName' }
   });
   const emit = defineEmits(['select', 'edit', 'add', 'delete', 'refresh']);
 
