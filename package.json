@@ -117,6 +117,7 @@
     "vue-json-pretty": "^2.2.4",
     "vue-router": "^4.2.4",
     "vue-types": "^5.1.1",
+    "vue3-seamless-scroll": "^2.0.1",
     "vuedraggable": "^4.1.0",
     "vxe-table": "^4.5.1",
     "vxe-table-plugin-export-xlsx": "^3.0.5",

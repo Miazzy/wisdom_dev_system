@@ -19,12 +19,12 @@ export enum BpmTaskApi {
 
 export const getTodoTaskPage = async (params) => {
   const requestParams = { url: BpmTaskApi.GetTodoTaskPage, params };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
 export const getDoneTaskPage = async (params) => {
   const requestParams = { url: BpmTaskApi.GetDoneTaskPage, params };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
 export const completeTask = async (data) => {

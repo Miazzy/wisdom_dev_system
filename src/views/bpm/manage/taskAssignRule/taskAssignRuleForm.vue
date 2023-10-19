@@ -68,9 +68,9 @@
         <el-select v-model="formData.userIds" clearable multiple style="width: 100%">
           <el-option
             v-for="item in userOptions"
-            :key="parseInt(item.id)"
-            :label="item.nickname"
-            :value="parseInt(item.id)"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
           />
         </el-select>
       </el-form-item>
