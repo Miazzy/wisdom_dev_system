@@ -140,7 +140,12 @@
 
     <DonutChart :data="donutData" width="300" height="200" radius="100" />
 
-    <NtgaleChart />
+    <!-- <ThreeDDonutChart :data="donutData" width="300" height="200" radius="100" /> -->
+
+    <ThreeDPieChart :data="tchartData" :width="400" :height="400" />
+    <!-- <NtgaleChart /> -->
+
+    <!-- <ChinaMapChart /> -->
   </div>
 </template>
 <script lang="ts" setup>
@@ -165,7 +170,10 @@
   import BubbleChart from '/@/components/Framework/Chart/BubbleChart.vue';
   import BarChart from '/@/components/Framework/Chart/BarChart.vue';
   import DonutChart from '/@/components/Framework/Chart/DonutChart.vue';
+  import ThreeDDonutChart from '../../components/Framework/Chart/ThreeDDonutChart.vue';
   import NtgaleChart from '/@/components/Framework/Chart/NtgaleChart.vue';
+  import ThreeDPieChart from '/@/components/Framework/Chart/ThreeDPieChart.vue';
+  // import ChinaMapChart from '/@/components/Framework/Chart/ChinaMapChart.vue';
   // import { BillTitleOptions } from '/@/components/Framework/BillTitle/types';
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import dayjs from 'dayjs';
@@ -254,6 +262,23 @@
     { label: 'Category A', value: 30 },
     { label: 'Category B', value: 50 },
     { label: 'Category C', value: 20 },
+  ];
+  const tchartData = [
+    {
+      label: 'Category 1',
+      value: 30,
+      color: 'red',
+    },
+    {
+      label: 'Category 2',
+      value: 25,
+      color: 'blue',
+    },
+    {
+      label: 'Category 3',
+      value: 45,
+      color: 'green',
+    },
   ];
   const fontSize = ref('18px');
   const fontColor = 'white';
