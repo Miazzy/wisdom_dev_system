@@ -139,7 +139,10 @@ export const treeProps = buildProps({
     default: false,
   },
   treeWrapperClassName: String,
-  isShowOperationBtns: Boolean
+  isShowOperationBtns: Boolean,
+  canEdit: Boolean,
+  canAdd: Boolean,
+  canDelete: Boolean
 });
 
 export type TreeProps = ExtractPropTypes<typeof treeProps>;
