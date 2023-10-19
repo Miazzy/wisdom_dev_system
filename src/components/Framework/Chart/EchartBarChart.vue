@@ -113,12 +113,36 @@
         data: legendData.value,
       },
       tooltip: {
-        trigger: 'axis', // 设置触发方式
-        axisPointer: {
-          type: 'shadow', // 阴影显示
+        trigger: 'axis',
+        align: 'left',
+        textStyle: {
+          color: 'white', //设置文字颜色
         },
+        extraCssText: '100px;',
+        backgroundColor: 'rgba(2, 175, 252, 0.5)',
+        borderColor: 'transparent',
+        appendToBody: true,
         formatter: function (params) {
-          return `${params[0].name}:<br>${params[0].seriesName}: ${params[0].value}<br>${params[1].seriesName}: ${params[1].value}`;
+          return '<br/>' + params[0].value + '<br/>';
+        },
+        position: function (point, params, dom, rect, size) {
+          var x = 0; // x坐标位置
+          var y = 0; // y坐标位置
+          var pointX = point[0];
+          var pointY = point[1];
+          var boxWidth = size.contentSize[0];
+          var boxHeight = size.contentSize[1];
+          if (boxWidth > pointX) {
+            x = pointX + 10;
+          } else {
+            x = pointX - boxWidth - 10;
+          }
+          if (boxHeight > pointY) {
+            y = 5;
+          } else {
+            y = pointY - boxHeight;
+          }
+          return [x, y];
         },
       },
       xAxis: {
