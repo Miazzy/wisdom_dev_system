@@ -143,6 +143,14 @@
     <!-- <ThreeDDonutChart :data="donutData" width="300" height="200" radius="100" /> -->
 
     <ThreeDPieChart :data="tchartData" :width="400" :height="400" />
+
+    <EchartBarChart
+      :data="echartData"
+      :colors="chartColors"
+      :legendData="chartLegend"
+      width="600"
+      height="400"
+    />
     <!-- <NtgaleChart /> -->
 
     <!-- <ChinaMapChart /> -->
@@ -170,6 +178,7 @@
   import BubbleChart from '/@/components/Framework/Chart/BubbleChart.vue';
   import BarChart from '/@/components/Framework/Chart/BarChart.vue';
   import DonutChart from '/@/components/Framework/Chart/DonutChart.vue';
+  import EchartBarChart from '../../components/Framework/Chart/EchartBarChart.vue';
   import ThreeDDonutChart from '../../components/Framework/Chart/ThreeDDonutChart.vue';
   import NtgaleChart from '/@/components/Framework/Chart/NtgaleChart.vue';
   import ThreeDPieChart from '/@/components/Framework/Chart/ThreeDPieChart.vue';
@@ -283,6 +292,21 @@
   const fontSize = ref('18px');
   const fontColor = 'white';
   const bubbleColor = 'red';
+
+  const echartData = ref({
+    categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5'],
+    barData: [
+      { name: 'Series A', data: [30, 20, 15, 25, 10] },
+      { name: 'Series B', data: [25, 15, 10, 20, 5] },
+    ],
+    lineData: [
+      { name: 'Series C', data: [15, 10, 8, 12, 7] },
+      { name: 'Series D', data: [20, 14, 12, 18, 8] },
+    ],
+  });
+
+  const chartColors = ref(['#3c8dbc', '#00a65a', '#f39c12', '#d81b60']);
+  const chartLegend = ref(['Series A', 'Series B', 'Series C', 'Series D']);
 
   // 查询左侧电站树数据
   async function queryDeptTreeList() {
