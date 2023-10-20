@@ -2,7 +2,6 @@ import { assign, forEach } from 'min-dash';
 import type { DescItem } from '@/components/Description';
 import type { BasicColumn, FormSchema } from '@/components/Table';
 import { useRender } from '@/components/Table';
-import { DICT_TYPE, getDictOptions } from '@/utils/dict';
 
 const oaLeaveTypeOptions = [
   {
@@ -67,8 +66,8 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '状态',
-    dataIndex: 'result',
-    width: 180,
+    dataIndex: 'status',
+    width: 100,
     customRender: ({ text }) => {
       return getInstanceResult(text)['label'];
       //return useRender.renderDict(text, DICT_TYPE.BPM_PROCESS_INSTANCE_RESULT);
@@ -77,7 +76,7 @@ export const columns: BasicColumn[] = [
   {
     title: '开始时间',
     dataIndex: 'startTime',
-    width: 180,
+    width: 120,
     customRender: ({ text }) => {
       return useRender.renderDate(text);
     },
@@ -85,7 +84,7 @@ export const columns: BasicColumn[] = [
   {
     title: '结束时间',
     dataIndex: 'endTime',
-    width: 180,
+    width: 120,
     customRender: ({ text }) => {
       return useRender.renderDate(text);
     },
@@ -93,7 +92,7 @@ export const columns: BasicColumn[] = [
   {
     title: '请假类型',
     dataIndex: 'type',
-    width: 180,
+    width: 150,
     customRender: ({ text }) => {
       return getTypeObj(text)['label'];
       //return useRender.renderDict(text, DICT_TYPE.BPM_OA_LEAVE_TYPE);
@@ -106,8 +105,8 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '申请时间',
-    dataIndex: 'createTime',
-    width: 180,
+    dataIndex: 'fillinDate',
+    width: 120,
     customRender: ({ text }) => {
       return useRender.renderDate(text);
     },
