@@ -111,12 +111,12 @@ function queryBaseHomeRoute() {
   return PageEnum.BASE_HOME;
 }
 
-// 假设后端传递的菜单数据存储在一个名为menus的数组中
-const backendMenus = queryUserMenus();
-// 获取转换后的菜单路由
-const dynamicRoutes = transformMenusToRoutes(backendMenus);
 // 暴露动态路由
-export const asyncRoutes = [PAGE_NOT_FOUND_ROUTE, ...dynamicRoutes];
+export const asyncRoutes = () => {
+  const backendMenus = queryUserMenus(); // 假设后端传递的菜单数据存储在一个名为menus的数组中
+  const dynamicRoutes = transformMenusToRoutes(backendMenus); // 获取转换后的菜单路由
+  return [PAGE_NOT_FOUND_ROUTE, ...dynamicRoutes];
+};
 
 // 根路由
 export const RootRoute: AppRouteRecordRaw = {

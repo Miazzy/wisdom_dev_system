@@ -83,9 +83,9 @@ export const useUserStore = defineStore({
       this.token = info ? info : ''; // for null or undefined value
       setAuthCache(TOKEN_KEY, info);
     },
-    setMenuList(list: []) {
+    async setMenuList(list: []) {
       this.menuList = list;
-      setAuthCache(MENU_LIST_KEY, list);
+      await setAuthCache(MENU_LIST_KEY, list);
     },
     setRefreshToken(info: string | undefined) {
       this.rtoken = info ? info : ''; // for null or undefined value
@@ -158,8 +158,8 @@ export const useUserStore = defineStore({
         this.setSessionTimeout(false);
       } else {
         setTimeout(async () => {
-          goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME));
-        }, 1500);
+          goHome && (await router.push(userInfo?.homePath || PageEnum.BASE_HOME));
+        }, 1000);
       }
       return userInfo as GetUserInfoModel;
     },
