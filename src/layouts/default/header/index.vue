@@ -34,22 +34,18 @@
     <!-- action  -->
     <div :class="`${prefixCls}-action`">
       <AppSearch :class="`${prefixCls}-action__item `" v-if="getShowSearch" />
-
       <ErrorAction v-if="getUseErrorHandle" :class="`${prefixCls}-action__item error-action`" />
-
       <Notify v-if="getShowNotice" :class="`${prefixCls}-action__item notify-item`" />
-
       <FullScreen v-if="getShowFullScreen" :class="`${prefixCls}-action__item fullscreen-item`" />
-
-      <AppLocalePicker
-        v-if="getShowLocalePicker"
-        :reload="true"
-        :showText="false"
-        :class="`${prefixCls}-action__item`"
-      />
-
+      <!-- 前端，#12950，前端框架，取消中英文切换按钮
+        <AppLocalePicker
+          v-if="getShowLocalePicker"
+          :reload="true"
+          :showText="false"
+          :class="`${prefixCls}-action__item`"
+        />
+      -->
       <UserDropDown :theme="getHeaderTheme" />
-
       <SettingDrawer v-if="getShowSetting" :class="`${prefixCls}-action__item`" />
     </div>
   </Header>
