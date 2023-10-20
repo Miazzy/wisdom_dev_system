@@ -121,11 +121,12 @@ export const routerTransitionOptions = [
 });
 
 export const menuTypeList = [
-  {
-    title: t('layout.setting.menuTypeSidebar'),
-    mode: MenuModeEnum.INLINE,
-    type: MenuTypeEnum.SIDEBAR,
-  },
+  // TODO 导航栏模式 先禁用左侧菜单模式 顶部菜单模式 左侧菜单混合模式
+  // {
+  //   title: t('layout.setting.menuTypeSidebar'),
+  //   mode: MenuModeEnum.INLINE,
+  //   type: MenuTypeEnum.SIDEBAR,
+  // },
   {
     title: t('layout.setting.menuTypeMix'),
     mode: MenuModeEnum.INLINE,
@@ -136,11 +137,11 @@ export const menuTypeList = [
   //   mode: MenuModeEnum.HORIZONTAL,
   //   type: MenuTypeEnum.TOP_MENU,
   // },
-  {
-    title: t('layout.setting.menuTypeMixSidebar'),
-    mode: MenuModeEnum.INLINE,
-    type: MenuTypeEnum.MIX_SIDEBAR,
-  },
+  // {
+  //   title: t('layout.setting.menuTypeMixSidebar'),
+  //   mode: MenuModeEnum.INLINE,
+  //   type: MenuTypeEnum.MIX_SIDEBAR,
+  // },
 ];
 
 export const mixSidebarTriggerOptions = [
