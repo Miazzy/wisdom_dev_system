@@ -1,119 +1,74 @@
 <template>
-  <div class="process-box">
-    <!-- 标题 -->
-    <BillTitle :options="billTitleOptions" />
-    <!-- 表单内容 -->
-    <div class="content">
-      <div class="left-panel">
-        <a-form :layout="formState.layout" :model="formState" v-bind="formItemLayout">
-          <a-form-item label="Form Layout">
-            <a-radio-group v-model:value="formState.layout">
-              <a-radio-button value="horizontal">Horizontal</a-radio-button>
-              <a-radio-button value="vertical">Vertical</a-radio-button>
-              <a-radio-button value="inline">Inline</a-radio-button>
-            </a-radio-group>
-          </a-form-item>
-          <a-form-item label="Field A">
-            <a-input v-model:value="formState.fieldA" placeholder="input placeholder" />
-          </a-form-item>
-          <a-form-item label="Field B">
-            <a-input v-model:value="formState.fieldB" placeholder="input placeholder" />
-          </a-form-item>
-          <a-form-item label="Field C">
-            <a-input v-model:value="formState.fieldC" placeholder="input placeholder" />
-          </a-form-item>
-          <a-form-item label="Field D">
-            <a-input v-model:value="formState.fieldD" placeholder="input placeholder" />
-          </a-form-item>
-          <a-form-item label="Field E">
-            <a-input v-model:value="formState.fieldE" placeholder="input placeholder" />
-          </a-form-item>
-          <a-form-item label="Field F">
-            <a-input v-model:value="formState.fieldF" placeholder="input placeholder" />
-          </a-form-item>
-          <a-form-item :wrapper-col="buttonItemLayout.wrapperCol" style="display: none">
-            <a-button type="primary">Submit</a-button>
-          </a-form-item>
-        </a-form>
+  <div class="load">
+    <a-spin :spinning="formState.spinning" tip="Loading...">
+      <div class="process-box">
+        <!-- 标题 -->
+        <BillTitle :options="billTitleOptions" />
+        <!-- 表单内容 -->
+        <div class="content">
+          <div class="left-panel">
+            <a-card title="基本信息">
+              <a-form
+                :label-col="labelCol"
+                :wrapper-col="wrapperCol"
+                ref="formRef"
+                :model="formState"
+                :rules="rules"
+              >
+                <a-form-item label="请假类型" name="type">
+                  <a-select v-model:value="formState.type" placeholder="请选择请假类型">
+                    <a-select-option value="1">病假</a-select-option>
+                    <a-select-option value="2">事假</a-select-option>
+                    <a-select-option value="3">婚假</a-select-option>
+                  </a-select>
+                </a-form-item>
+
+                <a-form-item label="开始时间" name="startTime">
+                  <a-date-picker
+                    v-model:value="formState.startTime"
+                    :show-time="{ format: 'HH:mm' }"
+                    format="YYYY-MM-DD HH:mm"
+                    placeholder="请选择"
+                  />
+                </a-form-item>
+                <a-form-item label="结束时间" name="endTime">
+                  <a-date-picker
+                    v-model:value="formState.endTime"
+                    :show-time="{ format: 'HH:mm' }"
+                    format="YYYY-MM-DD HH:mm"
+                    placeholder="请选择"
+                  />
+                </a-form-item>
+                <a-form-item label="请假事由" name="reason">
+                  <a-textarea v-model:value="formState.reason" />
+                </a-form-item>
+              </a-form>
+            </a-card>
+          </div>
+          <div class="right-panel">
+            <WfApproveBox @save="onSave" @submit="onSubmit" />
+          </div>
+        </div>
       </div>
-      <div class="right-panel">
-        <WfApproveBox
-          :data="flowData"
-          @agree="handleAgree"
-          @reject="handleReject"
-          @save="handleSave"
-          @end="handleEnd"
-          @transfer="handleTransfer"
-          @notice="handleNotice"
-          @collect="handleCollect"
-          @submit="handleSubmit"
-        />
-      </div>
-    </div>
+    </a-spin>
   </div>
 </template>
 <script lang="ts" setup>
-  import { computed, onMounted, reactive, ref, unref, UnwrapRef } from 'vue';
-  import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
-  import { formSchema, getTypeObj, getTypeOption } from './oaLeave.data';
-  import { createOaLeave, getOaLeave, updateOaLeave } from '@/api/hr/oaleave';
-  import { useI18n } from '@/hooks/web/useI18n';
-  import { useMessage } from '@/hooks/web/useMessage';
+  import { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
+  import { Moment } from 'moment';
+  import { reactive, ref, toRaw, UnwrapRef } from 'vue';
+  import { message } from 'ant-design-vue';
   import { useRouter } from 'vue-router';
+
+  import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
   import WfApproveBox from '/@/components/Framework/WorkFlow/WfApproveBox.vue';
+  import { createOaLeave } from '@/api/hr/oaleave';
 
-  defineOptions({ name: 'LeaveCreate' });
-  const { t } = useI18n();
-  const { createMessage } = useMessage();
+  defineOptions({ name: 'OALeaveCreate' });
+
   const router = useRouter();
-  const { currentRoute } = router;
-  const route = unref(currentRoute);
-  const query = route.query;
-
-  interface FormState {
-    layout: 'horizontal' | 'vertical' | 'inline';
-    fieldA: string;
-    fieldB: string;
-    fieldC: string;
-    fieldD: string;
-    fieldE: string;
-    fieldF: string;
-  }
-  const formState: UnwrapRef<FormState> = reactive({
-    layout: 'horizontal',
-    fieldA: '',
-    fieldB: '',
-    fieldC: '',
-    fieldD: '',
-    fieldE: '',
-    fieldF: '',
-  });
-  const formItemLayout = computed(() => {
-    const { layout } = formState;
-    return layout === 'horizontal'
-      ? {
-          labelCol: { span: 4 },
-          wrapperCol: { span: 14 },
-        }
-      : {};
-  });
-  const buttonItemLayout = computed(() => {
-    const { layout } = formState;
-    return layout === 'horizontal'
-      ? {
-          wrapperCol: { span: 14, offset: 4 },
-        }
-      : {};
-  });
-  const flowData = ref([]);
-  // 获取流程节点数据
-  async function queryFlowNodeList() {
-    const flowNodeList = JSON.parse(
-      '[{"id":"fa4b117c-5395-11ee-b5c1-480fcf57f666","name":"总经理审批","claimTime":null,"createTime":"2023-09-15 15:03:31","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":null,"durationInMillis":null,"result":1,"reason":null,"definitionKey":"Activity_1ge9o3y","assigneeUser":{"id":128,"nickname":"饶勇","deptId":138,"deptName":"总经办"}},{"id":"6186a3a5-5395-11ee-b5c1-480fcf57f666","name":"财务部负责人审批","claimTime":null,"createTime":"2023-09-15 14:59:15","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 15:03:31","durationInMillis":256225,"result":2,"reason":"同意。","definitionKey":"Activity_12fthtb","assigneeUser":{"id":130,"nickname":"曾宁若","deptId":139,"deptName":"财务部"}},{"id":"63d8cdd0-5391-11ee-b5c1-480fcf57f666","name":"部门领导审批","claimTime":null,"createTime":"2023-09-15 14:30:41","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 14:59:15","durationInMillis":1714085,"result":2,"reason":"同意。","definitionKey":"Activity_0zvw3s2","assigneeUser":{"id":126,"nickname":"刘超","deptId":136,"deptName":"技术中心"}},{"id":"4b70bf0b-5390-11ee-b5c1-480fcf57f666","name":"财务部负责人审批","claimTime":null,"createTime":"2023-09-15 14:22:50","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f 666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 14:30:41","durationInMillis":470436,"result":4,"reason":"Change activity to Activity_0zvw3s2","definitionKey":"Activity_12fthtb","assigneeUser":{"id":130,"nickname":"曾宁若","deptId":139,"deptName":"财务部"}},{"id":"0e202e9c-5390-11ee-b5c1-480fcf57f666","name":"部门领导审批","claimTime":null,"createTime":"2023-09-15 14:21:07","suspensionState":null,"processInstance":{"id":"0e1ab04c-5390-11ee-b5c1-480fcf57f666","name":"业务报销","startUserId":129,"startUserNickname":"宋彪","processDefinitionId":"BMProc:1:c38d2a4b-4886-11ee-8c22-480fcf57f666"},"endTime":"2023-09-15 14:22:50","durationInMillis":102859,"result":2,"reason":"测试打回。","definitionKey":"Activity_0zvw3s2","assigneeUser":{"id":126,"nickname":"刘超","deptId":136,"deptName":"技术中心"}}]',
-    );
-    flowData.value = flowNodeList;
-  }
-
+  const labelCol = { span: 2 };
+  const wrapperCol = { span: 12 };
   const billTitleOptions = reactive<any>({});
   billTitleOptions.title = '请假申请';
   billTitleOptions.infoItems = [
@@ -137,79 +92,80 @@
     },
   ];
 
-  async function handleSubmit() {
-    try {
-      // const values = await validate();
-      // const typeObj = getTypeOption(values.type);
-      // values['type'] = typeObj['value'];
-      // if (query.id) {
-      //   values.id = query.id;
-      //   await updateOaLeave(values);
-      // } else {
-      //   await createOaLeave(values);
-      // }
-    } finally {
-      createMessage.success(t('common.saveSuccessText'));
-      router.push('/hr/manage/oaleave');
-    }
+  interface FormState {
+    type: string | undefined;
+    startTime: Moment | undefined;
+    endTime: Moment | undefined;
+    reason: string | undefined;
+    spinning: boolean;
   }
 
-  const getRecordable = async () => {
-    if (query.id) {
-      await getOaLeave(query.id)
-        .then((res) => {
-          const obj: any = {};
-          formSchema.forEach((item) => {
-            obj[item.field] = res.result[item.field];
-          });
-          const typeObj = getTypeObj(obj.type);
-
-          obj['type'] = typeObj['label'];
-          // setFieldsValue(obj);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
-
-  const handleAgree = (flowData) => {
-    console.log('同意', flowData);
-  };
-
-  const handleReject = (flowData) => {
-    console.log('驳回', flowData);
-  };
-
-  const handleSave = (flowData) => {
-    console.log('保存', flowData);
-  };
-
-  const handleEnd = (flowData) => {
-    console.log('终止', flowData);
-  };
-
-  const handleTransfer = (flowData) => {
-    console.log('转办', flowData);
-  };
-
-  const handleNotice = (flowData) => {
-    console.log('知会', flowData);
-  };
-
-  const handleCollect = (flowData) => {
-    console.log('收藏', flowData);
-  };
-
-  onMounted(async () => {
-    if (query.id) {
-      await getRecordable();
-    } else {
-      // resetFields();
-    }
-    // 页面加载时查询流程节点
-    queryFlowNodeList();
+  const formRef = ref();
+  const formState: UnwrapRef<FormState> = reactive({
+    type: '',
+    startTime: undefined,
+    endTime: undefined,
+    reason: '',
+    spinning: false,
   });
+  const rules = {
+    type: [{ required: true, message: '请选择请假类型', trigger: 'change' }],
+    startTime: [{ required: true, message: '请选择开始时间', trigger: 'change', type: 'object' }],
+    endTime: [{ required: true, message: '请选择结束时间', trigger: 'change', type: 'object' }],
+    reason: [{ required: true, message: '请输入请假事由', trigger: 'blur' }],
+  };
+
+  const onSave = () => {
+    doSave(0);
+  };
+
+  const onSubmit = () => {
+    formRef.value
+      .validate()
+      .then(() => {
+        const formData = toRaw(formState);
+        console.log('values', formData);
+        const isCompare = compareDate(formData.endTime, formData.startTime);
+        if (!isCompare) {
+          warning('请确认开始时间和结束时间。');
+          return;
+        }
+        doSave(1);
+      })
+      .catch((error: ValidateErrorEntity<FormState>) => {
+        console.log('onSubmit=》error', error);
+      });
+  };
+
+  const doSave = async (status) => {
+    formState.spinning = true;
+    try {
+      status = status || 0;
+      const formData = toRaw(formState);
+      formData['status'] = status;
+      await createOaLeave(formData);
+      success(status == 1 ? '提交成功。' : '保存成功');
+      router.push('/hr/manage/oaleave');
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      formState.spinning = false;
+    }
+  };
+
+  const compareDate = (d1, d2) => {
+    let date1 = new Date(Date.parse(d1));
+    let date2 = new Date(Date.parse(d2));
+    return date1 > date2;
+  };
+
+  const warning = (content) => {
+    message.warning(content);
+  };
+
+  const success = (content) => {
+    message.success(content);
+  };
 </script>
 <style lang="less" scoped>
   .process-box {

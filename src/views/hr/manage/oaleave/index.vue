@@ -4,7 +4,8 @@
   import { useMessage } from '@/hooks/web/useMessage';
   import { IconEnum } from '@/enums/appEnum';
   import { BasicTable, useTable, TableAction } from '@/components/Table';
-  import { deleteOaLeave, exportOaLeave, getOaLeavePage } from '@/api/hr/oaleave';
+  import { exportOaLeave, getOaLeavePage } from '@/api/hr/oaleave';
+  import { cancelProcessInstance } from '@/api/bpm/processInstance';
   import { useRouter } from 'vue-router';
   import { exportExcelFile } from '@/utils/file/download';
 
@@ -29,14 +30,6 @@
     },
   });
 
-  function handleCreate() {
-    router.push(`/hr/manage/OALeaveCreate`);
-  }
-
-  function handleEdit(record: any) {
-    router.push(`/hr/manage/OALeaveCreate?id=${record.id}`);
-  }
-
   async function handleExport() {
     createConfirm({
       title: t('common.exportTitle'),
@@ -51,18 +44,43 @@
     });
   }
 
-  async function handleDelete(record: any) {
-    await deleteOaLeave(record.id);
+  /** 添加操作 */
+  function handleCreate() {
+    router.push(`/hr/manage/OALeaveCreate`);
+  }
+
+  /** 详情操作 */
+  function handleDetail(record: any) {
+    router.push(`/hr/manage/OALeaveDetail?id=${record.id}`);
+  }
+
+  /** 取消请假操作 */
+  async function cancelLeave(row) {
+    // // 二次确认
+    // const { value } = await ElMessageBox.prompt('请输入取消原因', '取消流程', {
+    //   confirmButtonText: t('common.ok'),
+    //   cancelButtonText: t('common.cancel'),
+    //   inputPattern: /^[\s\S]*.*\S[\s\S]*$/, // 判断非空，且非空格
+    //   inputErrorMessage: '取消原因不能为空',
+    // })
+    const value = '';
+    // 发起取消
+    await cancelProcessInstance(row.id, value);
     createMessage.success(t('common.delSuccessText'));
     reload();
+  }
+
+  /** 审批进度 */
+  function handleProcessDetail(record: any) {
+    router.push(`/hr/manage/BpmProcessInstanceDetail?id=${record.id}`);
   }
 </script>
 <template>
   <div>
     <BasicTable @register="registerTable">
       <template #toolbar>
-        <a-button type="primary" :preIcon="IconEnum.ADD" @click="handleCreate">
-          {{ t('common.action.create') }}
+        <a-button type="primary" :pre-icon="IconEnum.ADD" @click="handleCreate">
+          发起请假
         </a-button>
         <a-button type="warning" :preIcon="IconEnum.EXPORT" @click="handleExport">
           {{ t('common.action.export') }}
@@ -73,19 +91,23 @@
           <TableAction
             :actions="[
               {
-                icon: IconEnum.EDIT,
-                label: t('common.action.edit'),
-                onClick: handleEdit.bind(null, record),
+                icon: IconEnum.SEARCH,
+                label: '详情',
+                onClick: handleDetail.bind(null, record),
+              },
+              {
+                icon: IconEnum.LOG,
+                label: '进度',
+                onClick: handleProcessDetail.bind(null, record),
               },
               {
                 icon: IconEnum.DELETE,
                 danger: true,
-                label: t('common.delText'),
-                popConfirm: {
-                  title: t('common.message.delMessage'),
-                  placement: 'left',
-                  confirm: handleDelete.bind(null, record),
+                label: '取消',
+                ifShow: () => {
+                  return record.status === 1;
                 },
+                onClick: cancelLeave.bind(null, record),
               },
             ]"
           />
