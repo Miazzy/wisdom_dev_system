@@ -66,12 +66,22 @@ function transformMenusToRoutes(menus) {
         // baseset/operation
         else if (menu.component == '/@/views/baseset/operation/powerstation/index.vue') {
           return import('/@/views/baseset/operation/powerstation/index.vue');
+        } else if (menu.component == '/@/views/baseset/operation/safecheck/safeCheckSet.vue') {
+          return import('/@/views/baseset/operation/safecheck/safeCheckSet.vue');
         } else if (menu.component == '/@/views/baseset/operation/material/material.vue') {
           return import('/@/views/baseset/operation/material/material.vue');
+        } else if (menu.component == '/@/views/baseset/operation/warehouse/warehouse.vue') {
+          return import('/@/views/baseset/operation/warehouse/warehouse.vue');
         } else if (menu.component == '/@/views/baseset/operation/assessRule/assessRule.vue') {
           return import('/@/views/baseset/operation/assessRule/assessRule.vue');
         } else if (menu.component == '/@/views/baseset/operation/relatedParty/relatedParty.vue') {
           return import('/@/views/baseset/operation/relatedParty/relatedParty.vue');
+        } else if (menu.component == '/@/views/baseset/operation/settlement/index.vue') {
+          return import('/@/views/baseset/operation/settlement/index.vue');
+        } else if (
+          menu.component == '/@/views/baseset/operation/personnelqualifications/index.vue'
+        ) {
+          return import('/@/views/baseset/operation/personnelqualifications/index.vue');
         } else {
           return import('/@/layouts/default/index.vue');
         }
