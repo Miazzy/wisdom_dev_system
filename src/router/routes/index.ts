@@ -36,6 +36,8 @@ function transformMenusToRoutes(menus) {
           return import('/@/views/hr/manage/oaleave/index.vue');
         } else if (menu.component == '/@/views/hr/manage/oaleave/create.vue') {
           return import('/@/views/hr/manage/oaleave/create.vue');
+        } else if (menu.component == '/@/views/hr/manage/oaleave/detail.vue') {
+          return import('/@/views/hr/manage/oaleave/detail.vue');
         }
 
         // bpm/processInstance、todo、done

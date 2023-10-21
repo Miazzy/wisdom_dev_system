@@ -71,26 +71,6 @@
   const wrapperCol = { span: 12 };
   const billTitleOptions = reactive<any>({});
   billTitleOptions.title = '请假申请';
-  billTitleOptions.infoItems = [
-    {
-      key: 'billCode',
-      label: '单据编号',
-      value: 'DZSSDL-202308110001',
-      position: 'left',
-    },
-    {
-      key: 'fillinDate',
-      label: '制单日期',
-      value: '2023-08-11 13:38',
-      position: 'center',
-    },
-    {
-      key: 'createPerson',
-      label: '创建人',
-      value: '软件部.管理员',
-      position: 'right',
-    },
-  ];
 
   interface FormState {
     type: string | undefined;
@@ -124,7 +104,6 @@
       .validate()
       .then(() => {
         const formData = toRaw(formState);
-        console.log('values', formData);
         const isCompare = compareDate(formData.endTime, formData.startTime);
         if (!isCompare) {
           warning('请确认开始时间和结束时间。');

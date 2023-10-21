@@ -196,6 +196,9 @@ const transform: AxiosTransform = {
       if (config.url?.startsWith('/admin-api/baseset')) {
         (config as Recordable).headers.version = '9.9.9';
       }
+      // if (config.url?.startsWith('/admin-api/system')) {
+      //   (config as Recordable).headers.version = '9.9.9';
+      // }
     }
     return config;
   },
