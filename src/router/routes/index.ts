@@ -70,9 +70,9 @@ function transformMenusToRoutes(menus) {
           return import('/@/views/baseset/operation/safecheck/safeCheckSet.vue');
         } else if (menu.component == '/@/views/baseset/operation/material/material.vue') {
           return import('/@/views/baseset/operation/material/material.vue');
-        } else if (menu.component == '/@/views/baseset/operation/warehouse/warehouse.vue') {
+        } /*else if (menu.component == '/@/views/baseset/operation/warehouse/warehouse.vue') {
           return import('/@/views/baseset/operation/warehouse/warehouse.vue');
-        } else if (menu.component == '/@/views/baseset/operation/assessRule/assessRule.vue') {
+        }*/ else if (menu.component == '/@/views/baseset/operation/assessRule/assessRule.vue') {
           return import('/@/views/baseset/operation/assessRule/assessRule.vue');
         } else if (menu.component == '/@/views/baseset/operation/relatedParty/relatedParty.vue') {
           return import('/@/views/baseset/operation/relatedParty/relatedParty.vue');
