@@ -2,8 +2,8 @@
   <div class="workflow-approve-box">
     <!-- 审批按钮 -->
     <div class="button-content" style="">
-      <Button @click="handleSave" type="primary">保存</Button>
-      <Button @click="handleSubmit" type="primary">提交</Button>
+      <Button @click="handleSave" v-if="processStatus == 0" type="primary">保存</Button>
+      <Button @click="handleSubmit" v-if="processStatus == 0" type="primary">提交</Button>
       <Button @click="handleCollect">收藏</Button>
       <Button @click="handleOpenApprovalDrawer">审批</Button>
     </div>
@@ -25,6 +25,7 @@
   import { onMounted, watch, reactive, ref } from 'vue';
   import { useDrawer } from '/@/components/Drawer';
   import { Button } from 'ant-design-vue';
+  import { propTypes } from '@/utils/propTypes';
   import ApprovalDrawer from '/@/components/Framework/ApprovalDrawer/ApprovalDrawer.vue';
 
   const emit = defineEmits([
@@ -40,6 +41,7 @@
 
   const props = defineProps({
     data: { type: Array },
+    processStatus: propTypes.number.def(undefined),
   });
 
   const [approvalDrawerRegister, { openDrawer: openApprovalDrawer }] = useDrawer();

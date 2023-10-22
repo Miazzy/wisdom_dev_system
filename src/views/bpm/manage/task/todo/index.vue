@@ -29,12 +29,13 @@
 
   /** 处理审批按钮 */
   const handleAudit = (row) => {
-    router.push({
-      name: 'BpmProcessInstanceDetail',
-      query: {
-        id: row.processInstance.id,
-      },
-    });
+    // router.push({
+    //   name: 'BpmProcessInstanceDetail',
+    //   query: {
+    //     id: row.processInstance.id,
+    //   },
+    // });
+    router.push(`/hr/manage/OALeaveDetail?processInstanceId=${row.processInstance.id}`);
   };
 </script>
 <template>

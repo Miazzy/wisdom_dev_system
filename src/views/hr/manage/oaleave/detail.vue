@@ -24,7 +24,18 @@
         </a-card>
       </div>
       <div class="right-panel">
-        <!-- <WfApproveBox /> -->
+        <WfApproveBox
+          :data="formState.flowData"
+          @agree="handleAgree"
+          @reject="handleReject"
+          @save="handleSave"
+          @end="handleEnd"
+          @transfer="handleTransfer"
+          @notice="handleNotice"
+          @collect="handleCollect"
+          @submit="handleSubmit"
+          :processStatus="formState.processStatus"
+        />
       </div>
     </div>
   </div>
@@ -35,9 +46,11 @@
   import { Moment } from 'moment';
 
   import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
-  // import WfApproveBox from '/@/components/Framework/WorkFlow/WfApproveBox.vue';
+  import WfApproveBox from '/@/components/Framework/WorkFlow/WfApproveBox.vue';
   import { getOaLeave } from '@/api/hr/oaleave';
   import { getTypeObj } from './oaLeave.data';
+  import * as ProcessInstanceApi from '@/api/bpm/processInstance';
+  import * as TaskApi from '@/api/bpm/task';
 
   defineOptions({ name: 'OALeaveDetail' });
 
@@ -49,51 +62,67 @@
   billTitleOptions.infoItems = [];
 
   interface FormState {
+    id: string | undefined;
     type: string | undefined;
     startTime: Moment | undefined;
     endTime: Moment | undefined;
     reason: string | undefined;
+    processStatus: number | undefined;
+    flowData: object[];
   }
 
   const initialFormState = {
+    id: '',
     type: '',
     startTime: undefined,
     endTime: undefined,
     reason: '',
+    processStatus: 0,
+    flowData: [],
   };
 
   let formState = ref<FormState>(initialFormState);
 
-  async function getInfo() {
-    const queryId = query.id as unknown as string; // 从 URL 传递过来的 id 编号
-    const res = await getOaLeave(queryId);
-    formState.value = res;
-    const formData = toRaw(formState);
-    console.log('values', formData);
+  const processInstanceId = query.processInstanceId as unknown as string;
 
-    billTitleOptions.infoItems.push({
-      key: 'billCode',
-      label: '单据编号',
-      value: res.billCode,
-      position: 'left',
+  async function getInfo() {
+    getOaLeave(formState.value.id).then((res) => {
+      formState.value = res;
+      const formData = toRaw(formState);
+      console.log('values', formData);
+
+      billTitleOptions.infoItems.push({
+        key: 'billCode',
+        label: '单据编号',
+        value: res.billCode,
+        position: 'left',
+      });
+      billTitleOptions.infoItems.push({
+        key: 'fillinDate',
+        label: '制单日期',
+        value: res.fillinDate,
+        position: 'center',
+      });
+      billTitleOptions.infoItems.push({
+        key: 'createPerson',
+        label: '创建人',
+        value: res.deptName + '.' + res.personMemberName,
+        position: 'right',
+      });
     });
-    billTitleOptions.infoItems.push({
-      key: 'fillinDate',
-      label: '制单日期',
-      value: res.fillinDate,
-      position: 'center',
-    });
-    billTitleOptions.infoItems.push({
-      key: 'createPerson',
-      label: '创建人',
-      value: res.deptName + '.' + res.personMemberName,
-      position: 'right',
+    TaskApi.getTaskListByProcessInstanceId(processInstanceId).then((res) => {
+      formState.value.flowData = res;
     });
   }
 
   /** 初始化 */
   onMounted(async () => {
-    await getInfo();
+    const processInstance = await ProcessInstanceApi.getProcessInstance(processInstanceId);
+    formState.value.id = processInstance.businessKey;
+
+    setTimeout(async () => {
+      await getInfo();
+    }, 10);
   });
 </script>
 <style lang="less" scoped>

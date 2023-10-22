@@ -168,28 +168,48 @@
     <div class="flow-item" v-for="(item, index) in innerFlowData" :key="item.id">
       <div class="flow-item-left">
         <div class="circle-out">
-          <div class="circle-inner-text blue">{{item.assigneeUser.nickname.slice(-1)}}</div>
-          <div v-if="item.result&&item.result!==1" class="status-icon green">
+          <div class="circle-inner-text blue">{{ item.assigneeUser.name }}</div>
+          <div v-if="item.result && item.result !== 1" class="status-icon green">
             <Icon class="fit-status-icon" icon="ant-design:check-outlined" color="#fff" size="8" />
           </div>
-          <div v-if="item.result&&item.result===1" class="status-icon blue">
+          <div v-if="item.result && item.result === 1" class="status-icon blue">
             <Icon class="fit-status-icon" icon="ic:round-edit" color="#fff" size="8" />
           </div>
         </div>
-        <div class="flow-vertical-line" v-if="index < flowData.length - 1" :class="item.result===1?'dashed':'solid'"></div>
+        <div
+          class="flow-vertical-line"
+          v-if="index < flowData.length - 1"
+          :class="item.result === 1 ? 'dashed' : 'solid'"
+        ></div>
       </div>
       <div class="flow-item-right">
         <div class="flow-row-1">
-          <span class="node-name-text">{{item.name}}</span>
-          <span class="node-time-text">{{item.createTime}}</span>
+          <span class="node-name-text">{{ item.name }}</span>
+          <span class="node-time-text">{{ item.createTime }}</span>
         </div>
         <div class="flow-row-2">
-          <span class="person-text">{{item.assigneeUser.deptName+'－'+item.assigneeUser.nickname}}</span>
-          <span v-if="item.result&&resultObj[item.result]" class="flow-status-text" :style="{color: resultObj[item.result].color}">({{resultObj[item.result].text}})</span>
+          <span class="person-text">{{
+            item.assigneeUser.deptName + '－' + item.assigneeUser.name
+          }}</span>
+          <span
+            v-if="item.result && resultObj[item.result]"
+            class="flow-status-text"
+            :style="{ color: resultObj[item.result].color }"
+            >({{ resultObj[item.result].text }})</span
+          >
         </div>
         <div class="flow-row-3">
-          <div v-if="item.reason&&!editAuthority(item)" class="comment-text">{{item.reason}}</div>
-          <Textarea v-if="item.result===1&&editAuthority(item)" class="fit-comment-textarea" v-model:value="item.reason" placeholder="回复意见" :auto-size="{ minRows: 5 }" :bordered="false" />
+          <div v-if="item.reason && !editAuthority(item)" class="comment-text">{{
+            item.reason
+          }}</div>
+          <Textarea
+            v-if="item.result === 1 && editAuthority(item)"
+            class="fit-comment-textarea"
+            v-model:value="item.reason"
+            placeholder="回复意见"
+            :auto-size="{ minRows: 5 }"
+            :bordered="false"
+          />
         </div>
       </div>
     </div>
@@ -209,45 +229,45 @@
   const resultObj = reactive({
     '1': {
       text: '处理中',
-      color: '#1890FF'
+      color: '#1890FF',
     },
     '2': {
       text: '通过',
-      color: '#25C28A'
+      color: '#25C28A',
     },
     '3': {
       text: '不通过',
-      color: '#FF4D4F'
+      color: '#FF4D4F',
     },
     '4': {
       text: '已取消',
-      color: '#8C8C8C'
+      color: '#8C8C8C',
     },
     '5': {
       text: '退回/驳回',
-      color: '#FF4D4F'
-    }
+      color: '#FF4D4F',
+    },
   });
 
   const innerFlowData = ref([]);
   function handleFlowData(data) {
     // 流程数据是倒序的
     let arr = [];
-    data?.forEach(item => {
+    data?.forEach((item) => {
       arr.unshift(item);
     });
     innerFlowData.value = arr;
-  };
+  }
 
   const userId = 128;
   // TODO 编辑权限
   const editAuthority = (item) => {
-    return item.assigneeUser.id === userId
-  }
+    return item.assigneeUser.id === userId;
+  };
 
   defineExpose({
-    innerFlowData
-  })
+    innerFlowData,
+  });
 
   watch(
     () => props.flowData,
@@ -284,7 +304,7 @@
 
           .circle-inner-text {
             width: 28px;
-            height: 28px;           
+            height: 28px;
             border-radius: 50%;
             font-size: 15px;
             line-height: 26px;
@@ -324,7 +344,7 @@
             }
 
             &.blue {
-              background-color: #1890FF;
+              background-color: #1890ff;
             }
 
             :deep(.fit-status-icon.anticon) {
@@ -380,11 +400,11 @@
           font-size: 13px;
 
           &.blue {
-            color: #1890FF;
+            color: #1890ff;
           }
 
           &.green {
-            color: #25C28A;
+            color: #25c28a;
           }
         }
 
@@ -398,7 +418,7 @@
           margin: 4px 0 7px;
           padding: 7px 8px;
           border-radius: 2px;
-          background-color: #F7F7F7;
+          background-color: #f7f7f7;
           font-size: 13px;
 
           &::placeholder {

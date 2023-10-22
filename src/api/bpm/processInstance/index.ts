@@ -38,13 +38,13 @@ export const createProcessInstance = async (data) => {
   return defHttp.post<any>(requestParams, {});
 };
 
-export const cancelProcessInstance = async (id: number, reason: string) => {
+export const cancelProcessInstance = async (id: string, reason: string) => {
   const data = { id, reason };
   const requestParams = { url: BpmProInstanceApi.CancelProcessInstance, data };
   return defHttp.delete<any>(requestParams, {});
 };
 
-export const getProcessInstance = async (id: number) => {
+export const getProcessInstance = async (id: string) => {
   const requestParams = { url: BpmProInstanceApi.GetProcessInstance + id };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
