@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <Header />
+    <Header :title="title" />
     <div class="content">
       <LeftContent />
       <MiddleContent />
@@ -10,10 +10,14 @@
 </template>
 
 <script lang="ts" setup>
+  import { ref } from 'vue';
   import Header from '/@/views/da/header/Header.vue';
   import LeftContent from '/@/views/da/operation/LeftContent.vue';
   import MiddleContent from '/@/views/da/operation/MiddleContent.vue';
   import RightContent from '/@/views/da/operation/RightContent.vue';
+
+  const title = ref('运维驾驶舱');
+
 </script>
 
 <style lang="less" scoped>
@@ -28,3 +32,7 @@
     display: flex;
   }
 </style>
+
+function ref(arg0: string) {
+  throw new Error('Function not implemented.');
+}

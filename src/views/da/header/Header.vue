@@ -1,8 +1,8 @@
 <template>
   <div class="header">
-    <div class="title">大屏标题</div>
+    <div class="title"> {{ props.title }} </div>
     <div class="info">
-      <span class="time">12:00</span>
+      <span class="time"> {{ props.date }} </span>
       <span class="weather">晴天</span>
       <button class="settings">设置</button>
     </div>
@@ -10,7 +10,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, defineProps, defineEmits } from 'vue';
+  import { ref, onMounted, defineProps, watch } from 'vue';
+
+  const searchRealText = ref('');
+  const searchTableText = ref('');
+
+  const props = defineProps({
+    title: { type: String, default: '' }, // 列定义
+    date: { type: String, default: '2023-10-01 10:00' }, // 表格数据
+  });
 
 </script>
 
@@ -22,6 +30,7 @@ import { ref, onMounted, defineProps, defineEmits } from 'vue';
     padding: 10px;
     background-color: #333;
     color: white;
+    height: 80px;
 
     .title {
       font-size: 24px;

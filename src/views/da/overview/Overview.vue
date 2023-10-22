@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <Header />
+    <Header :title="title" />
     <div class="content">
       <LeftContent />
       <MiddleContent />
@@ -10,10 +10,13 @@
 </template>
 
 <script lang="ts" setup>
+  import { ref } from 'vue';
   import Header from '/@/views/da/header/Header.vue';
   import LeftContent from '/@/views/da/overview/LeftContent.vue';
   import MiddleContent from '/@/views/da/overview/MiddleContent.vue';
   import RightContent from '/@/views/da/overview/RightContent.vue';
+
+  const title = ref('总览驾驶舱');
 </script>
 
 <style lang="less" scoped>
