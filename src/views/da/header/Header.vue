@@ -9,7 +9,8 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
+import { ref, onMounted, defineProps, defineEmits } from 'vue';
 
 </script>
 

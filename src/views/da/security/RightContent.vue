@@ -6,11 +6,11 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .right-content {
     flex: 1;
     background-color: #ddd;

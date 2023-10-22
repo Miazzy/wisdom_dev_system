@@ -16,7 +16,7 @@
   import RightContent from '/@/views/da/property/RightContent.vue';
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .dashboard {
     width: 100%;
     height: 100%;
