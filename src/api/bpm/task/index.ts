@@ -54,7 +54,7 @@ export const updateTaskAssignee = async (data) => {
 
 export const getTaskListByProcessInstanceId = async (processInstanceId) => {
   const requestParams = { url: BpmTaskApi.GetTaskListByProcessInstanceId + processInstanceId };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
 // 导出任务
