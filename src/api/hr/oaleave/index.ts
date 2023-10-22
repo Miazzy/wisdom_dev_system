@@ -6,8 +6,8 @@ export function getOaLeavePage(params) {
 }
 
 // 查询OA 请假申请详情
-export function getOaLeave(id: number) {
-  return defHttp.get({ url: '/baseset/oa-leave/get?id=' + id });
+export function getOaLeave(id: string) {
+  return defHttp.get({ url: '/baseset/oa-leave/get?id=' + id }, { isOnlyResult: true });
 }
 
 // 新增OA 请假申请
@@ -21,7 +21,7 @@ export function updateOaLeave(data) {
 }
 
 // 删除OA 请假申请
-export function deleteOaLeave(id: number) {
+export function deleteOaLeave(id: string) {
   return defHttp.delete({ url: '/baseset/oa-leave/delete?id=' + id });
 }
 
