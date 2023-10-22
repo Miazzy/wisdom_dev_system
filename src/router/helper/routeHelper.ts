@@ -16,6 +16,12 @@ LayoutMap.set('IFRAME', IFRAME);
 
 let dynamicViewsModules: Record<string, () => Promise<Recordable>>;
 
+// 动态加载单个页面组件
+export function asyncImportComponent(path: string) {
+  dynamicViewsModules = dynamicViewsModules || import.meta.glob('../../views/**/*.{vue,tsx}');
+  return dynamicImport(dynamicViewsModules, path as string);
+}
+
 // Dynamic introduction
 function asyncImportRoute(routes: AppRouteRecordRaw[] | undefined) {
   dynamicViewsModules = dynamicViewsModules || import.meta.glob('../../views/**/*.{vue,tsx}');
@@ -47,11 +53,12 @@ function dynamicImport(
   const keys = Object.keys(dynamicViewsModules);
   const matchKeys = keys.filter((key) => {
     const k = key.replace('../../views', '');
+    const tcomponent = component.replace('/@/views', '');
     const startFlag = component.startsWith('/');
     const endFlag = component.endsWith('.vue') || component.endsWith('.tsx');
     const startIndex = startFlag ? 0 : 1;
     const lastIndex = endFlag ? k.length : k.lastIndexOf('.');
-    return k.substring(startIndex, lastIndex) === component;
+    return k.substring(startIndex, lastIndex) === tcomponent;
   });
   if (matchKeys?.length === 1) {
     const matchKey = matchKeys[0];
