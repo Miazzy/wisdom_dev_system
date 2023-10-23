@@ -11,6 +11,7 @@
     <ApprovalDrawer
       @register="approvalDrawerRegister"
       :flowData="approveDataList"
+      :processInstanceId="processInstanceId"
       @agree="handleAgree"
       @reject="handleReject"
       @save="handleSave"
@@ -22,11 +23,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, watch, reactive, ref } from 'vue';
+  import { watch, toRaw, ref } from 'vue';
+  import { message, Button } from 'ant-design-vue';
   import { useDrawer } from '/@/components/Drawer';
-  import { Button } from 'ant-design-vue';
   import { propTypes } from '@/utils/propTypes';
   import ApprovalDrawer from '/@/components/Framework/ApprovalDrawer/ApprovalDrawer.vue';
+  import * as TaskApi from '@/api/bpm/task';
 
   const emit = defineEmits([
     'agree',
@@ -40,24 +42,44 @@
   ]);
 
   const props = defineProps({
-    data: { type: Array },
+    processInstanceId: propTypes.string.def(''),
     processStatus: propTypes.number.def(undefined),
   });
 
   const [approvalDrawerRegister, { openDrawer: openApprovalDrawer }] = useDrawer();
   const approveDataList = ref([]);
+  const processInstanceId = ref(null);
 
   // 打开流程审批抽屉
   function handleOpenApprovalDrawer() {
     openApprovalDrawer(true);
   }
 
-  const handleAgree = (flowData) => {
-    emit('agree', flowData);
+  const handleAgree = async (flowData) => {
+    // emit('agree', flowData);
+    const curflowData = toRaw(flowData);
+    const curflowobj = toRaw(curflowData[0]);
+    await TaskApi.approveTask({ id: curflowobj.id, reason: curflowobj.reason });
+    message.success('操作成功。');
+    getTaskListByProcessInstanceId();
   };
 
-  const handleReject = (flowData) => {
-    emit('reject', flowData);
+  const getTaskListByProcessInstanceId = async () => {
+    const data = await TaskApi.getTaskListByProcessInstanceId(processInstanceId.value);
+    if (!data) {
+      message.error('查询不到流程信息！');
+      return;
+    }
+    approveDataList.value = data;
+  };
+
+  const handleReject = async (flowData) => {
+    // emit('reject', flowData);
+    const curflowData = toRaw(flowData);
+    const curflowobj = toRaw(curflowData[0]);
+    await TaskApi.rejectTask({ id: curflowobj.id, reason: curflowobj.reason });
+    message.success('操作成功。');
+    getTaskListByProcessInstanceId();
   };
 
   const handleSave = (flowData) => {
@@ -85,15 +107,15 @@
   };
 
   watch(
-    () => props.data,
+    () => props.processInstanceId,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (newValue) => {
-      approveDataList.value = props.data as never[];
+      processInstanceId.value = props.processInstanceId;
+      if (processInstanceId.value.length != 0) {
+        getTaskListByProcessInstanceId();
+      }
     },
   );
-
-  onMounted(() => {
-    approveDataList.value = props.data as never[];
-  });
 </script>
 <style lang="less" scoped>
   .workflow-approve-box {

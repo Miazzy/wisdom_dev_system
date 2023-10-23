@@ -25,9 +25,7 @@
       </div>
       <div class="right-panel">
         <WfApproveBox
-          :data="formState.flowData"
-          @agree="handleAgree"
-          @reject="handleReject"
+          :processInstanceId="processInstanceId"
           @save="handleSave"
           @end="handleEnd"
           @transfer="handleTransfer"
@@ -61,6 +59,8 @@
   billTitleOptions.title = '请假申请';
   billTitleOptions.infoItems = [];
 
+  const processInstanceId = ref([]);
+
   interface FormState {
     id: string | undefined;
     type: string | undefined;
@@ -68,7 +68,6 @@
     endTime: Moment | undefined;
     reason: string | undefined;
     processStatus: number | undefined;
-    flowData: object[];
   }
 
   const initialFormState = {
@@ -78,14 +77,11 @@
     endTime: undefined,
     reason: '',
     processStatus: 0,
-    flowData: [],
   };
 
   let formState = ref<FormState>(initialFormState);
 
-  const processInstanceId = query.processInstanceId as unknown as string;
-
-  async function getInfo() {
+  const getInfo = async () => {
     getOaLeave(formState.value.id).then((res) => {
       formState.value = res;
       const formData = toRaw(formState);
@@ -110,14 +106,12 @@
         position: 'right',
       });
     });
-    TaskApi.getTaskListByProcessInstanceId(processInstanceId).then((res) => {
-      formState.value.flowData = res;
-    });
-  }
+  };
 
   /** 初始化 */
   onMounted(async () => {
-    const processInstance = await ProcessInstanceApi.getProcessInstance(processInstanceId);
+    processInstanceId.value = query.processInstanceId as unknown as string;
+    const processInstance = await ProcessInstanceApi.getProcessInstance(processInstanceId.value);
     formState.value.id = processInstance.businessKey;
 
     setTimeout(async () => {
