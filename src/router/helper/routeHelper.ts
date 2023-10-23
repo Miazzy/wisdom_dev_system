@@ -17,6 +17,11 @@ LayoutMap.set('IFRAME', IFRAME);
 let dynamicViewsModules: Record<string, () => Promise<Recordable>>;
 
 // 动态加载单个页面组件
+export function checkImportComponent(path: string, component) {
+  dynamicViewsModules = dynamicViewsModules || import.meta.glob('../../views/**/*.{vue,tsx}');
+  return component == path && checkDynamicImport(dynamicViewsModules, path as string);
+}
+
 export function asyncImportComponent(path: string) {
   dynamicViewsModules = dynamicViewsModules || import.meta.glob('../../views/**/*.{vue,tsx}');
   return dynamicImport(dynamicViewsModules, path as string);
@@ -46,6 +51,34 @@ function asyncImportRoute(routes: AppRouteRecordRaw[] | undefined) {
   });
 }
 
+function checkDynamicImport(
+  dynamicViewsModules: Record<string, () => Promise<Recordable>>,
+  component: string,
+) {
+  const keys = Object.keys(dynamicViewsModules);
+  const matchKeys = keys.filter((key) => {
+    const k = key.replace('../../views', '');
+    const tcomponent = component.replace('/@/views', '');
+    const startFlag = component.startsWith('/');
+    const endFlag = component.endsWith('.vue') || component.endsWith('.tsx');
+    const startIndex = startFlag ? 0 : 1;
+    const lastIndex = endFlag ? k.length : k.lastIndexOf('.');
+    const kpath = k.substring(startIndex, lastIndex);
+    if (kpath == tcomponent || tcomponent.includes(kpath) || kpath.includes(tcomponent)) {
+      console.info('kpath:', kpath);
+      console.info('tcomponent:', tcomponent);
+    }
+    return kpath == tcomponent || tcomponent.includes(kpath) || kpath.includes(tcomponent);
+  });
+  if (matchKeys?.length === 1) {
+    return true;
+  } else if (matchKeys?.length > 1) {
+    return false;
+  } else {
+    return false;
+  }
+}
+
 function dynamicImport(
   dynamicViewsModules: Record<string, () => Promise<Recordable>>,
   component: string,
@@ -58,15 +91,18 @@ function dynamicImport(
     const endFlag = component.endsWith('.vue') || component.endsWith('.tsx');
     const startIndex = startFlag ? 0 : 1;
     const lastIndex = endFlag ? k.length : k.lastIndexOf('.');
-    return k.substring(startIndex, lastIndex) === tcomponent;
+    const kpath = k.substring(startIndex, lastIndex);
+    if (kpath == tcomponent || tcomponent.includes(kpath) || kpath.includes(tcomponent)) {
+      console.info('kpath:', kpath);
+      console.info('tcomponent:', tcomponent);
+    }
+    return kpath == tcomponent || tcomponent.includes(kpath) || kpath.includes(tcomponent);
   });
   if (matchKeys?.length === 1) {
     const matchKey = matchKeys[0];
     return dynamicViewsModules[matchKey];
   } else if (matchKeys?.length > 1) {
-    warn(
-      'Please do not create `.vue` and `.TSX` files with the same file name in the same hierarchical directory under the views folder. This will cause dynamic introduction failure',
-    );
+    warn('Please do not create `.vue` and `.TSX` files with the same file name.');
     return;
   } else {
     warn('在src/views/下找不到`' + component + '.vue` 或 `' + component + '.tsx`, 请自行创建!');
