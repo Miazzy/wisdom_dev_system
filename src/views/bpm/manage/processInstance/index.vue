@@ -32,12 +32,13 @@
 
   /** 查看详情 */
   const handleDetail = (row) => {
-    router.push({
-      name: 'BpmProcessInstanceDetail',
-      query: {
-        id: row.id,
-      },
-    });
+    // router.push({
+    //   name: 'BpmProcessInstanceDetail',
+    //   query: {
+    //     id: row.id,
+    //   },
+    // });
+    router.push(`${row.bpmProcessDefinitionRespVO.formCustomViewPath}?processInstanceId=${row.id}`);
   };
 
   /** 取消按钮操作 */
