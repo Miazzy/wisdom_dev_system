@@ -170,7 +170,7 @@ export const getDictTypeWflow = () => {
 // 获取表单类型数据字典
 export const getBpmModelFormType = () => {
   const type = JSON.parse(
-    `[{"dictType": "bpm_model_form_type","value": "10","label": "流程表单","colorType": "","cssClass": ""},{"dictType": "bpm_model_form_type","value": "20","label": "业务表单","colorType": "","cssClass": ""}]`,
+    `[{"dictType": "bpm_model_form_type","value": 10,"label": "流程表单","colorType": "","cssClass": ""},{"dictType": "bpm_model_form_type","value": 20,"label": "业务表单","colorType": "","cssClass": ""}]`,
   );
   return type;
 };

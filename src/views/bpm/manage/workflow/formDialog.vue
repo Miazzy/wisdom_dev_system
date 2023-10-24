@@ -3,8 +3,8 @@
     :visible="dialogVisible"
     @update:visible="updateVisible"
     :title="dialogTitle"
-    :width="800"
-    :height="500"
+    :width="880"
+    :height="600"
     :overflowY="'scroll'"
     @confirm="confirm"
     @cancel="cancel"
@@ -71,7 +71,7 @@
             </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-if="formData.formType === 10" label="流程表单" prop="formId">
+        <el-form-item v-if="formData.formType == 10" label="流程表单" prop="formId">
           <el-select v-model="formData.formId" clearable style="width: 100%">
             <el-option
               v-for="form in formList"
@@ -82,7 +82,7 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          v-if="formData.formType === 20"
+          v-if="formData.formType == 20"
           label="表单提交路由"
           prop="formCustomCreatePath"
         >
