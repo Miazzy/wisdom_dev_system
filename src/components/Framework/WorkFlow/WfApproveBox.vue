@@ -114,12 +114,15 @@
     },
   );
 
-  onMounted(async () => {
-    processInstanceId.value = props.processInstanceId;
-    if (processInstanceId.value.length != 0) {
-      getTaskListByProcessInstanceId();
-    }
-  });
+  watch(
+    () => props.processInstanceId,
+    (newValue) => {
+      processInstanceId.value = props.processInstanceId;
+      if (processInstanceId.value.length != 0) {
+        getTaskListByProcessInstanceId();
+      }
+    },
+  );
 </script>
 <style lang="less" scoped>
   .workflow-approve-box {
