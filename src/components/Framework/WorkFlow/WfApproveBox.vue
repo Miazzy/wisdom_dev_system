@@ -23,6 +23,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+  import { assign, forEach } from 'min-dash';
   import { watch, toRaw, ref, onMounted } from 'vue';
   import { message, Button } from 'ant-design-vue';
   import { useDrawer } from '/@/components/Drawer';
@@ -58,8 +59,7 @@
 
   const handleAgree = async (flowData) => {
     // emit('agree', flowData);
-    const curflowData = toRaw(flowData);
-    const curflowobj = toRaw(curflowData[0]);
+    const curflowobj = getuntreated(toRaw(flowData));
     await TaskApi.approveTask({ id: curflowobj.id, reason: curflowobj.reason });
     message.success('操作成功。');
     getTaskListByProcessInstanceId();
@@ -74,10 +74,21 @@
     approveDataList.value = data;
   };
 
+  //获取未处理任务节点
+  function getuntreated(flowData) {
+    const obj = {};
+    forEach(flowData, function (def) {
+      var flow = toRaw(def);
+      if (flow.result === 1) {
+        assign(obj, flow);
+      }
+    });
+    return obj;
+  }
+
   const handleReject = async (flowData) => {
     // emit('reject', flowData);
-    const curflowData = toRaw(flowData);
-    const curflowobj = toRaw(curflowData[0]);
+    const curflowobj = getuntreated(toRaw(flowData));
     await TaskApi.rejectTask({ id: curflowobj.id, reason: curflowobj.reason });
     message.success('操作成功。');
     getTaskListByProcessInstanceId();
