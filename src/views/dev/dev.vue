@@ -114,6 +114,24 @@
 
     <DictSelectBox v-model:value="selectedSValue" :type="DICT_TYPE.CERTIFICATE" />
 
+    <br /><br />
+
+    <DictRadioGroup
+      v-model:value="radioGroupValue"
+      :type="DICT_TYPE.BPM_MODEL_CATEGORY"
+      rtype="radio"
+    />
+    <DictRadioGroup
+      v-model:value="radioGroupValue"
+      :type="DICT_TYPE.SYSTEM_USER_SEX"
+      rtype="vertical"
+    />
+    <DictRadioGroup
+      v-model:value="radioGroupValue"
+      :type="DICT_TYPE.INFRA_CONFIG_TYPE"
+      rtype="button"
+    />
+
     <XButton preIcon="ep:folder-opened" title="打开文件" />
     <XTextButton preIcon="ep:folder-opened" title="打开文件" />
 
@@ -181,6 +199,7 @@
   import TreeBox from '@/components/Framework/Combox/TreeBox.vue';
   import CommonTree from '@/components/Framework/Tree/CommonTree.vue';
   import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';
+  import DictRadioGroup from '@/components/Framework/Radio/DictRadioGroup.vue';
   import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { TreeItem } from '/@/components/Tree';
@@ -225,6 +244,7 @@
   const organConfirm = ref('');
   const selectedValue = ref([]);
   const selectedSValue = ref('');
+  const radioGroupValue = ref('');
 
   const billTitleOptions = reactive<any>({});
   billTitleOptions.title = '电站填报';
@@ -454,6 +474,14 @@
     queryDeptTreeList();
     selectedValue.value = ['1', '2'] as never[];
     selectedSValue.value = '1';
+    radioGroupValue.value = '1';
+
+    setTimeout(() => {
+      selectedValue.value = [];
+      selectedSValue.value = '';
+      radioGroupValue.value = '';
+    }, 5000);
+
     const date = DateTools.format(new Date(), 'YYYY-MM-DD');
   });
 </script>
