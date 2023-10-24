@@ -80,7 +80,7 @@
 <script lang="ts">
   import type { Menu } from '/@/router/types';
   import type { CSSProperties } from 'vue';
-  import { computed, defineComponent, onMounted, ref, unref, watch } from 'vue';
+  import { nextTick, computed, defineComponent, onMounted, ref, unref, watch } from 'vue';
   import type { RouteLocationNormalized } from 'vue-router';
   import { ScrollContainer } from '/@/components/Container';
   import { SimpleMenu, SimpleMenuTag } from '/@/components/SimpleMenu';
@@ -98,6 +98,7 @@
   import { getChildrenMenus, getCurrentParentPath, getShallowMenus } from '/@/router/menus';
   import { listenerRouteChange } from '/@/logics/mitt/routeChange';
   import LayoutTrigger from '../trigger/index.vue';
+  import { useRouter } from 'vue-router';
 
   export default defineComponent({
     name: 'LayoutMixSider',
@@ -138,6 +139,7 @@
         getCollapsed,
       } = useMenuSetting();
 
+      const router = useRouter();
       const { title } = useGlobSetting();
       const permissionStore = usePermissionStore();
 
@@ -279,7 +281,13 @@
       }
 
       function handleMenuClick(path: string) {
-        go(path);
+        nextTick(() => {
+          try {
+            router.push(path);
+          } catch {
+            go(path);
+          }
+        });
       }
 
       function handleClickOutside() {

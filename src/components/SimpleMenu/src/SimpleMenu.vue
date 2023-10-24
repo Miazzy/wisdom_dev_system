@@ -138,9 +138,7 @@
           const flag = await beforeClickFn(key);
           if (!flag) return;
         }
-
         emit('menuClick', key);
-
         isClickGo.value = true;
         setOpenKeys(key);
         menuState.activeName = key;

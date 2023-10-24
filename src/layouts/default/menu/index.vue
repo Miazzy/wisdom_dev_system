@@ -1,7 +1,6 @@
 <script lang="tsx">
   import type { PropType, CSSProperties } from 'vue';
-
-  import { computed, defineComponent, unref, toRef } from 'vue';
+  import { nextTick, computed, defineComponent, unref, toRef } from 'vue';
   import { BasicMenu } from '/@/components/Menu';
   import { SimpleMenu } from '/@/components/SimpleMenu';
   import { AppLogo } from '/@/components/Application';
@@ -19,6 +18,7 @@
   import { useRootSetting } from '/@/hooks/setting/useRootSetting';
   import { useAppInject } from '/@/hooks/web/useAppInject';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import { useRouter } from 'vue-router';
 
   export default defineComponent({
     name: 'LayoutMenu',
@@ -39,7 +39,7 @@
     },
     setup(props) {
       const go = useGo();
-
+      const router = useRouter();
       const {
         getMenuMode,
         getMenuType,
@@ -105,13 +105,19 @@
           onMenuClick: handleMenuClick,
         };
       });
+
       /**
        * click menu
        * @param menu
        */
-
       function handleMenuClick(path: string) {
-        go(path);
+        nextTick(() => {
+          try {
+            router.push(path);
+          } catch {
+            go(path);
+          }
+        });
       }
 
       /**
