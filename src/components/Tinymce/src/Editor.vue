@@ -106,7 +106,7 @@
     },
     showImageUpload: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   };
 
@@ -152,7 +152,7 @@
           selector: `#${unref(tinymceId)}`,
           height,
           toolbar,
-          menubar: 'file edit insert view format table',
+          menubar: '',
           plugins,
           language_url: publicPath + 'resource/tinymce/langs/' + langName.value + '.js',
           language: langName.value,
@@ -330,11 +330,23 @@
   });
 </script>
 
-<style lang="less" scoped></style>
-
+<style lang="less" scoped>
+  .vben-tinymce-container {
+    :deep(.tox .tox-statusbar) {
+      align-items: center;
+      border-top: 0px solid #ccc;
+      color: #ffffff;
+      display: flex;
+      flex: 0 0 auto;
+      height: 0px;
+      overflow: hidden;
+      position: relative;
+      text-transform: uppercase;
+    }
+  }
+</style>
 <style lang="less">
   @prefix-cls: ~'@{namespace}-tinymce-container';
-
   .@{prefix-cls} {
     position: relative;
     line-height: normal;

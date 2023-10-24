@@ -1,8 +1,20 @@
 <template>
   <!-- 搜索工作栏 -->
-  <div class="search-box" style="width: calc(100% - 20px); height: calc(100% - 20px); margin: 10px">
+  <div
+    class="search-box"
+    style="width: calc(100% - 20px); height: calc(100% - 20px); margin: 10px; background: #fefefe"
+  >
     <!-- 标题 -->
     <BillTitle :options="billTitleOptions" />
+
+    <div style="margin: 10px 0px 0px 40px">
+      <Tinymce
+        v-model="richTextValue"
+        :width="`calc(100% - 80px)`"
+        :height="600"
+        @change="handleRichTextChange"
+      />
+    </div>
 
     <CommonTree
       :title="`电站树`"
@@ -93,14 +105,14 @@
     />
 
     <DictSelectBox
-      v-model:value="selectedValue"
+      v-model:value="selectedSValue"
       :type="DICT_TYPE.INFRA_CONFIG_TYPE"
       :width="220"
       style="margin-left: 5px"
       @change="handleDictSelectBoxChange"
     />
 
-    <DictSelectBox v-model:value="selectedValue" :type="DICT_TYPE.CERTIFICATE" />
+    <DictSelectBox v-model:value="selectedSValue" :type="DICT_TYPE.CERTIFICATE" />
 
     <XButton preIcon="ep:folder-opened" title="打开文件" />
     <XTextButton preIcon="ep:folder-opened" title="打开文件" />
@@ -192,6 +204,8 @@
   // import { BillTitleOptions } from '/@/components/Framework/BillTitle/types';
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import dayjs from 'dayjs';
+  import { DateTools } from '/@/utils/dateUtil';
+  import { Tinymce } from '/@/components/Tinymce/index';
 
   type RangeValue = [Dayjs, Dayjs];
 
@@ -210,6 +224,7 @@
   const categoryConfirm = ref('');
   const organConfirm = ref('');
   const selectedValue = ref([]);
+  const selectedSValue = ref('');
 
   const billTitleOptions = reactive<any>({});
   billTitleOptions.title = '电站填报';
@@ -328,6 +343,14 @@
     const list = result.result as unknown as TreeItem[];
     treeData.value = list;
   }
+
+  // 设置富文本框数据绑定对象
+  const richTextValue = ref('');
+  // 处理富文本输入框change事件
+  function handleRichTextChange(value) {
+    // TODO 监听富文本框change事件
+  }
+
   // 左侧树状菜单选中事件
   function handleSelect(node) {
     // TODO node：被选中的节点，element：相关事件对象
@@ -429,6 +452,9 @@
   /** 初始化 **/
   onMounted(() => {
     queryDeptTreeList();
+    selectedValue.value = ['1', '2'] as never[];
+    selectedSValue.value = '1';
+    const date = DateTools.format(new Date(), 'YYYY-MM-DD');
   });
 </script>
 <style scoped>
