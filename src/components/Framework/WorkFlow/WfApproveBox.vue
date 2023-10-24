@@ -114,6 +114,7 @@
       if (processInstanceId.value.length != 0) {
         getTaskListByProcessInstanceId();
       }
+      processStatus.value = props.processStatus;
     },
   );
 </script>
