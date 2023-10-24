@@ -70,10 +70,14 @@
       const userStore = useUserStore();
 
       const truncateName = (name, maxLength = 10) => {
-        if (name.length <= maxLength) {
-          return name;
+        if (name != null && typeof name != 'undefined') {
+          if (typeof name == 'string' && name.length <= maxLength) {
+            return name;
+          } else {
+            return name.slice(0, maxLength) + '...';
+          }
         } else {
-          return name.slice(0, maxLength) + '...';
+          return '';
         }
       };
 
