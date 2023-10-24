@@ -12,7 +12,7 @@
 </template>
 <script lang="ts" setup>
   import type { SelectProps } from 'ant-design-vue';
-  import { ref, onMounted, defineProps, defineEmits } from 'vue';
+  import { ref, onMounted, defineProps, defineEmits, watch } from 'vue';
   import { useDictStoreWithOut } from '@/store/modules/dict';
   import { createLocalStorage } from '@/utils/cache';
   import { DICT_DATA__KEY } from '@/enums/cacheEnum';
@@ -39,6 +39,15 @@
     emit('change', value, node, options.value);
   };
 
+  // 设置value
+  const setupValue = () => {
+    if (props.multiple == 'multiple') {
+      selectedValue.value = props.value as string[];
+    } else {
+      selectedValue.value = props.value as string;
+    }
+  };
+
   // 选项过滤函数
   const filterOption = (input: string, option: any) => {
     if (props.filter == null) {
@@ -50,6 +59,13 @@
 
   // 定义emits
   const emit = defineEmits(['update:value', 'change']);
+
+  watch(
+    () => props.value,
+    () => {
+      setupValue();
+    },
+  );
 
   // 启动加载
   onMounted(async () => {
@@ -66,6 +82,7 @@
           const response = await dictStore.fetchBackendData('', props);
           // 格式化后端数据，将数据转换为适用于下拉框的格式
           options.value = response;
+          setupValue();
         } else {
           // 数据字典的多个组件示例，初始化时间需要通过此timestamp错开，否则会同时发送多个request请求，当初始化时间错开后，后续的request请求将通过缓存获取返回结果
           const timestamp = (props.delaytimes * (Math.random() + Math.random() + Math.random())) / 2;
@@ -81,10 +98,12 @@
             } else {
               options.value = cache;
             }
+            setupValue();
           }, timestamp);
         }
       } else {
         options.value = cache;
+        setupValue();
       }
     } catch (error) {
       console.error('Failed to fetch data:', error);
