@@ -4,8 +4,8 @@
     <div class="button-content" style="">
       <Button @click="handleSave" v-if="processStatus == 0" type="primary">保存</Button>
       <Button @click="handleSubmit" v-if="processStatus == 0" type="primary">提交</Button>
-      <Button @click="handleCollect">收藏</Button>
-      <Button @click="handleOpenApprovalDrawer">审批</Button>
+      <Button @click="handleCollect" v-if="processStatus != 0">收藏</Button>
+      <Button @click="handleOpenApprovalDrawer" v-if="processStatus != 0">审批</Button>
     </div>
     <!-- 流程审批抽屉组件 -->
     <ApprovalDrawer
