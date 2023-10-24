@@ -32,7 +32,7 @@
           @notice="handleNotice"
           @collect="handleCollect"
           @submit="handleSubmit"
-          :processStatus="formState.processStatus"
+          :processStatus="processStatus"
         />
       </div>
     </div>
@@ -48,7 +48,6 @@
   import { getOaLeave } from '@/api/hr/oaleave';
   import { getTypeObj } from './oaLeave.data';
   import * as ProcessInstanceApi from '@/api/bpm/processInstance';
-  import * as TaskApi from '@/api/bpm/task';
 
   defineOptions({ name: 'OALeaveDetail' });
 
@@ -60,6 +59,7 @@
   billTitleOptions.infoItems = [];
 
   const processInstanceId = ref([]);
+  const processStatus = ref(0);
 
   interface FormState {
     id: string | undefined;
@@ -67,7 +67,6 @@
     startTime: Moment | undefined;
     endTime: Moment | undefined;
     reason: string | undefined;
-    processStatus: number | undefined;
   }
 
   const initialFormState = {
@@ -76,7 +75,6 @@
     startTime: undefined,
     endTime: undefined,
     reason: '',
-    processStatus: 0,
   };
 
   let formState = ref<FormState>(initialFormState);
@@ -84,8 +82,7 @@
   const getInfo = async () => {
     getOaLeave(formState.value.id).then((res) => {
       formState.value = res;
-      const formData = toRaw(formState);
-      console.log('values', formData);
+      processStatus.value = res.status;
 
       billTitleOptions.infoItems.push({
         key: 'billCode',

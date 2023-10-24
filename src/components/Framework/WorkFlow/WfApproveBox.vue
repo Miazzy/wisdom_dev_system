@@ -23,7 +23,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { watch, toRaw, ref } from 'vue';
+  import { watch, toRaw, ref, onMounted } from 'vue';
   import { message, Button } from 'ant-design-vue';
   import { useDrawer } from '/@/components/Drawer';
   import { propTypes } from '@/utils/propTypes';
@@ -49,6 +49,7 @@
   const [approvalDrawerRegister, { openDrawer: openApprovalDrawer }] = useDrawer();
   const approveDataList = ref([]);
   const processInstanceId = ref(null);
+  const processStatus = ref(0);
 
   // 打开流程审批抽屉
   function handleOpenApprovalDrawer() {
@@ -107,14 +108,19 @@
   };
 
   watch(
+    () => props.processStatus,
+    (newValue) => {
+      processStatus.value = props.processStatus;
+    },
+  );
+
+  watch(
     () => props.processInstanceId,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (newValue) => {
       processInstanceId.value = props.processInstanceId;
       if (processInstanceId.value.length != 0) {
         getTaskListByProcessInstanceId();
       }
-      processStatus.value = props.processStatus;
     },
   );
 </script>
