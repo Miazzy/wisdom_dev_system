@@ -49,20 +49,14 @@ const transformMenuItem = (menu, routes) => {
         } else if (checkImportComponent('/@/views/dev/dev.vue', menu.component)) {
           return import('/@/views/da/overview/Overview.vue');
         }
-    
         // baseset/demo
         else if (checkImportComponent('/@/views/hr/manage/oaleave/index.vue', menu.component)) {
           return import('/@/views/hr/manage/oaleave/index.vue');
-        } else if (
-          checkImportComponent('/@/views/hr/manage/oaleave/create.vue', menu.component)
-        ) {
+        } else if (checkImportComponent('/@/views/hr/manage/oaleave/create.vue', menu.component)) {
           return import('/@/views/hr/manage/oaleave/create.vue');
-        } else if (
-          checkImportComponent('/@/views/hr/manage/oaleave/detail.vue', menu.component)
-        ) {
+        } else if (checkImportComponent('/@/views/hr/manage/oaleave/detail.vue', menu.component)) {
           return import('/@/views/hr/manage/oaleave/detail.vue');
         }
-    
         // bpm/processInstance、todo、done
         else if (
           checkImportComponent('/@/views/bpm/manage/processInstance/index.vue', menu.component)
@@ -77,7 +71,6 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/bpm/manage/task/done/index.vue');
         }
-    
         // baseset/monitor
         else if (
           checkImportComponent('/@/views/baseset/monitor/area/areaSet.vue', menu.component)
@@ -107,13 +100,9 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/baseset/monitor/modelinfo/modelInfo.vue');
         }
-    
         // baseset/operation
         else if (
-          checkImportComponent(
-            '/@/views/baseset/operation/powerstation/index.vue',
-            menu.component,
-          )
+          checkImportComponent('/@/views/baseset/operation/powerstation/index.vue', menu.component)
         ) {
           return import('/@/views/baseset/operation/powerstation/index.vue');
         } else if (
@@ -127,10 +116,10 @@ const transformMenuItem = (menu, routes) => {
           checkImportComponent('/@/views/baseset/operation/material/material.vue', menu.component)
         ) {
           return import('/@/views/baseset/operation/material/material.vue');
-          // } else if (
-          //   checkImportComponent('/@/views/baseset/operation/warehouse/warehouse.vue', menu.component)
-          // ) {
-          //   return import('/@/views/baseset/operation/warehouse/warehouse.vue');
+        } else if (
+          checkImportComponent('/@/views/baseset/operation/warehouse/warehouse.vue', menu.component)
+        ) {
+          return import('/@/views/baseset/operation/warehouse/warehouse.vue');
         } else if (
           checkImportComponent(
             '/@/views/baseset/operation/assessRule/assessRule.vue',

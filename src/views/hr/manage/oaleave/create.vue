@@ -46,7 +46,7 @@
             </a-card>
           </div>
           <div class="right-panel">
-            <WfApproveBox @save="onSave" @submit="onSubmit" />
+            <WfApproveBox @save="onSave" @submit="onSubmit" :processStatus="processStatus" />
           </div>
         </div>
       </div>
@@ -71,6 +71,8 @@
   const wrapperCol = { span: 12 };
   const billTitleOptions = reactive<any>({});
   billTitleOptions.title = '请假申请';
+
+  const processStatus = ref([0]);
 
   interface FormState {
     type: string | undefined;

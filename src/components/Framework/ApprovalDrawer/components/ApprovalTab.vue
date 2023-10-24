@@ -217,11 +217,14 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, computed, reactive, onMounted, watch } from 'vue';
+  import { ref, toRaw, reactive, onMounted, watch } from 'vue';
   import { Textarea } from 'ant-design-vue';
   import Icon from '@/components/Icon/Icon.vue';
+  import { useUserStore } from '/@/store/modules/user';
 
   const comment = ref<string>('');
+
+  const userStore = useUserStore();
 
   const props = defineProps({
     flowData: { type: Array },
@@ -259,10 +262,10 @@
     innerFlowData.value = arr;
   }
 
-  const userId = 128;
   // TODO 编辑权限
   const editAuthority = (item) => {
-    return item.assigneeUser.id === userId;
+    const getUserInfo = toRaw(userStore.getUserInfo);
+    return item.assigneeUser.id === getUserInfo.userId;
   };
 
   defineExpose({
