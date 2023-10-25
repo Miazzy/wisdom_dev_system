@@ -123,11 +123,11 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/baseset/operation/warehouse/warehouse.vue');
         } else if (
           checkImportComponent(
-            '/@/views/baseset/operation/assessRule/assessRule.vue',
+            '/@/views/baseset/operation/assessrule/assessRule.vue',
             menu.component,
           )
         ) {
-          return import('/@/views/baseset/operation/assessRule/assessRule.vue');
+          return import('/@/views/baseset/operation/assessrule/assessRule.vue');
         } else if (
           checkImportComponent(
             '/@/views/baseset/operation/relatedparty/relatedParty.vue',
