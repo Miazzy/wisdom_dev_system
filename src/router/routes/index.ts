@@ -147,6 +147,10 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/baseset/operation/personnelqualifications/index.vue');
         } else if (
+          checkImportComponent('/@/views/po/ticket/operationticket/index.vue', menu.component)
+        ) {
+          return import('/@/views/po/ticket/operationticket/index.vue');
+        } else if (
           checkImportComponent('/@/views/po/ticket/operationticket/create.vue', menu.component)
         ) {
           return import('/@/views/po/ticket/operationticket/create.vue');
