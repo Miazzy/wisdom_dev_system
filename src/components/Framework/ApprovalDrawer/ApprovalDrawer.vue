@@ -1,27 +1,19 @@
 <!--
  * @Description: 
  * @Date: 2023-09-14 14:31:30
- * @LastEditTime: 2023-09-21 09:06:01
+ * @LastEditTime: 2023-10-25 16:29:31
  * @FilePath: \ygwl-framework\src\components\Framework\ApprovalDrawer\ApprovalDrawer.vue
 -->
 <template>
-  <BasicDrawer
-    class="test"
-    v-bind="$attrs"
-    :isDetail="true"
-    width="33.33%"
-    :headerStyle="{ display: 'none' }"
-    :drawerStyle="{ boxShadow: '0px 1px 3px 0px #E9E9E9', borderTop: '1px solid #F0F0F0' }"
-    showFooter
-    footerHeight="64"
-  >
+  <BasicDrawer class="test" v-bind="$attrs" :isDetail="true" width="33.33%" :headerStyle="{ display: 'none' }" :drawerStyle="{ boxShadow: '0px 1px 3px 0px #E9E9E9', borderTop: '1px solid #F0F0F0' }"
+    showFooter footerHeight="64">
     <div>
       <Tabs class="fit-approval-tab" v-model:activeKey="activeKey">
         <TabPane key="1" tab="流程审批">
-          <ApprovalTab ref="approvalTabRef" :flowData="flowData" />
+          <ApprovalTab ref="approvalTabRef" :flowData="currentNodeData" type="approval" />
         </TabPane>
         <TabPane key="2" tab="流程轨迹" force-render>
-          <div>流程轨迹</div>
+          <ApprovalTab ref="trackTabRef" :flowData="flowData" type="track" />
         </TabPane>
         <TabPane key="3" tab="关联业务">
           <div>关联业务</div>
@@ -29,9 +21,7 @@
       </Tabs>
     </div>
     <template #footer>
-      <Button class="fit-footer-btn" type="primary" v-if="isHandle == 1" @click="handleAgree"
-        >同意</Button
-      >
+      <Button class="fit-footer-btn" type="primary" v-if="isHandle == 1" @click="handleAgree">同意</Button>
       <Button class="fit-footer-btn" v-if="isHandle == 1" @click="handleReject">驳回</Button>
       <Button class="fit-footer-btn" v-if="isHandle == 1" @click="handleSave">保存</Button>
       <Dropdown>
@@ -52,7 +42,7 @@
   </BasicDrawer>
 </template>
 <script lang="ts" setup>
-  import { watch, ref } from 'vue';
+  import { watch, ref, toRaw } from 'vue';
   import { Tabs, TabPane, Button, Dropdown, Menu, MenuItem, message } from 'ant-design-vue';
   import type { MenuProps } from 'ant-design-vue';
   import { propTypes } from '@/utils/propTypes';
@@ -61,13 +51,36 @@
   import { BasicDrawer } from '/@/components/Drawer';
   import ApprovalTab from '/@/components/Framework/ApprovalDrawer/components/ApprovalTab.vue';
   import * as ProcessInstanceApi from '@/api/bpm/processInstance';
+  import { useUserStore } from '/@/store/modules/user';
 
   const props = defineProps({
     flowData: { type: Array },
     processInstanceId: propTypes.string.def(''),
   });
 
-  const approvalTabRef = ref();
+  const userStore = useUserStore();
+  // 编辑权限
+  const editAuthority = (item) => {
+    const getUserInfo = toRaw(userStore.getUserInfo);
+    return item.assigneeUser.id === getUserInfo.userId;
+  };
+
+  // 当前节点数据
+  const currentNodeData = ref([]);
+  watch(
+    () => props.flowData,
+    (newValue) => {
+      const newArr = [];
+      newValue?.forEach((item) => {
+        if (item.result === 1 && editAuthority(item)) {
+          newArr.push(item);
+        }
+      });
+      currentNodeData.value = newArr;
+    },
+  );
+
+  const trackTabRef = ref();
 
   const processInstanceId = ref(null);
   //默认当前流程未处理（1 未处理、2 已处理）
@@ -80,7 +93,7 @@
   // 更多
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     const { key } = e;
-    const { innerFlowData } = approvalTabRef.value;
+    const { innerFlowData } = trackTabRef.value;
     switch (key) {
       case '1':
         // 终止
@@ -105,20 +118,18 @@
   function handleAgree() {
     const { innerFlowData } = approvalTabRef.value;
     emit('agree', innerFlowData);
-    setTimeout(() => {
-      getProcessInstance();
-    }, 1000);
+    isHandle.value = 2;
   }
 
   // 驳回
   function handleReject() {
-    const { innerFlowData } = approvalTabRef.value;
+    const { innerFlowData } = trackTabRef.value;
     emit('reject', innerFlowData);
   }
 
   // 保存
   function handleSave() {
-    const { innerFlowData } = approvalTabRef.value;
+    const { innerFlowData } = trackTabRef.value;
     emit('save', innerFlowData);
   }
 

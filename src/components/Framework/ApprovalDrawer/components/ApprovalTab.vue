@@ -168,7 +168,7 @@
     <div class="flow-item" v-for="(item, index) in innerFlowData" :key="item.id">
       <div class="flow-item-left">
         <div class="circle-out">
-          <div class="circle-inner-text blue">{{ item.assigneeUser.name }}</div>
+          <div class="circle-inner-text blue">{{ item.assigneeUser.name? item.assigneeUser.name.slice(-1): ''}}</div>
           <div v-if="item.result && item.result !== 1" class="status-icon green">
             <Icon class="fit-status-icon" icon="ant-design:check-outlined" color="#fff" size="8" />
           </div>
@@ -202,14 +202,7 @@
           <div v-if="item.reason && !editAuthority(item)" class="comment-text">{{
             item.reason
           }}</div>
-          <Textarea
-            v-if="item.result === 1 && editAuthority(item)"
-            class="fit-comment-textarea"
-            v-model:value="item.reason"
-            placeholder="回复意见"
-            :auto-size="{ minRows: 5 }"
-            :bordered="false"
-          />
+          <Textarea v-if="props.type==='approval'&&item.result === 1 && editAuthority(item)" class="fit-comment-textarea" v-model:value="item.reason" placeholder="回复意见" :auto-size="{ minRows: 5 }" :bordered="false" />
         </div>
       </div>
     </div>
