@@ -131,7 +131,7 @@ const setting: ProjectConfig = {
     // Whether to show the refresh button
     showRedo: true,
     // Whether to show the collapse button
-    showFold: true,
+    showFold: false, // 隐藏Tab页面折叠栏
   },
 
   // Transition Setting
