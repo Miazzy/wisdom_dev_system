@@ -1,37 +1,39 @@
 <template>
-  <ContentWrap>
-    <el-table v-loading="loading" :data="list">
-      <el-table-column label="任务名" align="center" prop="taskDefinitionName" />
-      <el-table-column label="任务标识" align="center" prop="taskDefinitionKey" />
-      <el-table-column label="规则类型" align="center" prop="type">
-        <template #default="scope">
-          <dict-tag :type="DICT_TYPE.BPM_TASK_ASSIGN_RULE_TYPE" :value="scope.row.type" />
-        </template>
-      </el-table-column>
-      <el-table-column label="规则范围" align="center" prop="options">
-        <template #default="scope">
-          <el-tag class="mr-5px" :key="option" v-for="option in scope.row.options">
-            {{ getAssignRuleOptionName(scope.row.type, option) }}
-          </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column v-if="queryParams.modelId" label="操作" align="center">
-        <template #default="scope">
-          <el-button
-            link
-            type="primary"
-            @click="openForm(scope.row)"
-            v-hasPermi="['bpm:task-assign-rule:update']"
-          >
-            修改
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-  </ContentWrap>
+  <div>
+    <ContentWrap>
+      <el-table v-loading="loading" :data="list">
+        <el-table-column label="任务名" align="center" prop="taskDefinitionName" />
+        <el-table-column label="任务标识" align="center" prop="taskDefinitionKey" />
+        <el-table-column label="规则类型" align="center" prop="type">
+          <template #default="scope">
+            <dict-tag :type="DICT_TYPE.BPM_TASK_ASSIGN_RULE_TYPE" :value="scope.row.type" />
+          </template>
+        </el-table-column>
+        <el-table-column label="规则范围" align="center" prop="options">
+          <template #default="scope">
+            <el-tag class="mr-5px" :key="option" v-for="option in scope.row.options">
+              {{ getAssignRuleOptionName(scope.row.type, option) }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column v-if="queryParams.modelId" label="操作" align="center">
+          <template #default="scope">
+            <el-button
+              link
+              type="primary"
+              @click="openForm(scope.row)"
+              v-hasPermi="['bpm:task-assign-rule:update']"
+            >
+              修改
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </ContentWrap>
 
-  <!-- 添加/修改弹窗 -->
-  <TaskAssignRuleForm ref="formRef" @success="getList" />
+    <!-- 添加/修改弹窗 -->
+    <TaskAssignRuleForm ref="formRef" @success="getList" />
+  </div>
 </template>
 <script lang="ts" setup>
   import { DICT_TYPE, getIntDictOptions } from '@/utils/dict';

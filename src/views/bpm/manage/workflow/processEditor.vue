@@ -1,27 +1,29 @@
 <template>
-  <ContentWrap>
-    <!-- 流程设计器，负责绘制流程等 -->
-    <MyProcessDesigner
-      key="designer"
-      v-if="xmlString !== undefined"
-      v-model="xmlString"
-      :value="xmlString"
-      v-bind="controlForm"
-      keyboard
-      ref="processDesigner"
-      @init-finished="initModeler"
-      :additionalModel="controlForm.additionalModel"
-      @save="save"
-    />
-    <!-- 流程属性器，负责编辑每个流程节点的属性 -->
-    <MyProcessPenal
-      key="penal"
-      :bpmnModeler="modeler"
-      :prefix="controlForm.prefix"
-      class="process-panel"
-      :model="model"
-    />
-  </ContentWrap>
+  <div>
+    <ContentWrap>
+      <!-- 流程设计器，负责绘制流程等 -->
+      <MyProcessDesigner
+        key="designer"
+        v-if="xmlString !== undefined"
+        v-model="xmlString"
+        :value="xmlString"
+        v-bind="controlForm"
+        keyboard
+        ref="processDesigner"
+        @init-finished="initModeler"
+        :additionalModel="controlForm.additionalModel"
+        @save="save"
+      />
+      <!-- 流程属性器，负责编辑每个流程节点的属性 -->
+      <MyProcessPenal
+        key="penal"
+        :bpmnModeler="modeler"
+        :prefix="controlForm.prefix"
+        class="process-panel"
+        :model="model"
+      />
+    </ContentWrap>
+  </div>
 </template>
 
 <script lang="ts" setup>
