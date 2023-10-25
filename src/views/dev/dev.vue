@@ -84,7 +84,7 @@
     <br />
     <span style="display: block; margin-top: 10px; margin-left: 5px"> {{ organConfirm }} </span>
 
-    <span style="float: left"> DictSelectBox </span>
+    <span style="float: left"> DictSelectBox {{ username + `${JSON.stringify(userInfo)}` }} </span>
     <br />
 
     <DictSelectBox
@@ -226,12 +226,17 @@
   import dayjs from 'dayjs';
   import { DateTools } from '/@/utils/dateUtil';
   import { Tinymce } from '/@/components/Tinymce/index';
+  import { useUserStore } from '/@/store/modules/user';
 
   type RangeValue = [Dayjs, Dayjs];
 
   defineOptions({ name: 'WorkFlow' });
   const message = useMessage(); // 消息弹窗
   const { push } = useRouter(); // 路由
+  const userStore = useUserStore();
+
+  const userInfo = userStore.getUserInfo;
+  const username = userInfo?.username;
 
   const { closeCurrentPage } = useTabs();
 
