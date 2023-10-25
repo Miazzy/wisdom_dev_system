@@ -54,5 +54,5 @@ export const getFormPage = async (params) => {
 // 获得动态表单的精简列表
 export const getSimpleFormList = async () => {
   const requestParams = { url: BpmFormApi.GetSimpleFormList };
-  return defHttp.get<any>(requestParams, {});
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };

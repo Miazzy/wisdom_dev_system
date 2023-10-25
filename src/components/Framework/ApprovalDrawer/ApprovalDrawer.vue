@@ -105,6 +105,9 @@
   function handleAgree() {
     const { innerFlowData } = approvalTabRef.value;
     emit('agree', innerFlowData);
+    setTimeout(() => {
+      getProcessInstance();
+    }, 1000);
   }
 
   // 驳回
