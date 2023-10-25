@@ -195,6 +195,7 @@
   import { ref, reactive, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
   import { Button } from 'ant-design-vue';
+  import { useTabs } from '/@/hooks/web/useTabs';
   import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
   import TreeBox from '@/components/Framework/Combox/TreeBox.vue';
   import CommonTree from '@/components/Framework/Tree/CommonTree.vue';
@@ -231,6 +232,8 @@
   defineOptions({ name: 'WorkFlow' });
   const message = useMessage(); // 消息弹窗
   const { push } = useRouter(); // 路由
+
+  const { closeCurrentPage } = useTabs();
 
   const loading = ref(true); // 列表的加载中
   const total = ref(0); // 列表的总页数
@@ -401,6 +404,9 @@
 
   // 打开流程审批抽屉
   function handleOpenApprovalDrawer() {
+    setTimeout(() => {
+      closeCurrentPage();
+    }, 100);
     openApprovalDrawer(true);
     queryFlowNodeList();
   }

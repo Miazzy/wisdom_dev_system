@@ -6,7 +6,7 @@ import { unref } from 'vue';
 import { useMultipleTabStore } from '/@/store/modules/multipleTab';
 import { useAppStore } from '/@/store/modules/app';
 
-enum TableActionEnum {
+export enum TableActionEnum {
   REFRESH,
   CLOSE_ALL,
   CLOSE_LEFT,
@@ -97,6 +97,7 @@ export function useTabs(_router?: Router) {
     closeOther: () => handleTabAction(TableActionEnum.CLOSE_OTHER),
     closeCurrent: () => handleTabAction(TableActionEnum.CLOSE_CURRENT),
     close: (tab?: RouteLocationNormalized) => handleTabAction(TableActionEnum.CLOSE, tab),
+    closeCurrentPage: (tab?: RouteLocationNormalized) => handleTabAction(TableActionEnum.CLOSE, tab),
     setTitle: (title: string, tab?: RouteLocationNormalized) => updateTabTitle(title, tab),
     updatePath: (fullPath: string, tab?: RouteLocationNormalized) => updateTabPath(fullPath, tab),
   };
