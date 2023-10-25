@@ -113,8 +113,12 @@
       });
 
       function handleChange(activeKey: any) {
-        activeKeyRef.value = activeKey;
-        go(activeKey, false);
+        try {
+          activeKeyRef.value = activeKey;
+          router.push(activeKey);
+        } catch {
+          go(activeKey);
+        }
       }
 
       // Close the current tab

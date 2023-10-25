@@ -129,19 +129,23 @@
       }
 
       async function handleSelect(key: string) {
-        if (isUrl(key)) {
-          openWindow(key);
-          return;
+        try {
+          if (isUrl(key)) {
+            openWindow(key);
+            return;
+          }
+          const { beforeClickFn } = props;
+          if (beforeClickFn && isFunction(beforeClickFn)) {
+            const flag = await beforeClickFn(key);
+            if (!flag) return;
+          }
+          isClickGo.value = true;
+          setOpenKeys(key);
+          menuState.activeName = key;
+          emit('menuClick', key);
+        } catch {
+          //
         }
-        const { beforeClickFn } = props;
-        if (beforeClickFn && isFunction(beforeClickFn)) {
-          const flag = await beforeClickFn(key);
-          if (!flag) return;
-        }
-        emit('menuClick', key);
-        isClickGo.value = true;
-        setOpenKeys(key);
-        menuState.activeName = key;
       }
 
       return {

@@ -20,7 +20,7 @@
   const ls = createLocalStorage();
 
   const dictStore = useDictStoreWithOut();
-  const selectedValue = ref<string | string[] | undefined>('');
+  const selectedValue = ref<any>();
   const options = ref<SelectProps['options']>([]);
 
   const props = defineProps({
@@ -72,7 +72,7 @@
     // 在组件挂载后，通过后端接口获取数据字段的数据
     try {
       const { type } = props;
-      if (props.multiple == 'multiple') {
+      if (props.multiple == 'multiple' || props.multiple == 'tags') {
         selectedValue.value = [];
       }
       let cache = ls.get(DICT_DATA__KEY + type);
