@@ -111,7 +111,7 @@ export function useTabDropdown(tabContentProps: TabContentProps, getIsTabs: Comp
     const { event } = menu;
     switch (event) {
       case MenuEventEnum.REFRESH_PAGE:
-        // refresh page
+        // refresh page  重新加载
         refreshPage();
         break;
       // Close current

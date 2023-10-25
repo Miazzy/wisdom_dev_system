@@ -286,6 +286,10 @@
             router.push(path);
           } catch {
             go(path);
+          } finally {
+            // setTimeout(() => {
+            //   document.location.reload();
+            // }, 300);
           }
         });
       }
