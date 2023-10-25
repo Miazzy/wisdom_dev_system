@@ -1,7 +1,7 @@
 import type { RouteLocationRaw, Router } from 'vue-router';
 
 import { PageEnum } from '/@/enums/pageEnum';
-import { unref } from 'vue';
+import { nextTick, unref } from 'vue';
 
 import { useRouter } from 'vue-router';
 import { REDIRECT_NAME } from '/@/router/constant';
@@ -31,7 +31,7 @@ export function useGo(_router?: Router) {
  * @description: redo current page
  */
 export const useRedo = (_router?: Router) => {
-  const { replace, currentRoute } = _router || useRouter();
+  const { replace, currentRoute, push } = _router || useRouter();
   const { query, params = {}, name, fullPath } = unref(currentRoute.value);
   function redo(): Promise<boolean> {
     return new Promise((resolve) => {
@@ -47,7 +47,12 @@ export const useRedo = (_router?: Router) => {
         params['_redirect_type'] = 'path';
         params['path'] = fullPath;
       }
-      replace({ name: REDIRECT_NAME, params, query }).then(() => resolve(true));
+      push({ name: REDIRECT_NAME, params, query }).then(() => {
+        nextTick(() => {
+          document.location.reload();
+        });
+        return resolve(true);
+      });
     });
   }
   return redo;

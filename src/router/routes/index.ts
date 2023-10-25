@@ -130,11 +130,11 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/baseset/operation/assessRule/assessRule.vue');
         } else if (
           checkImportComponent(
-            '/@/views/baseset/operation/relatedParty/relatedParty.vue',
+            '/@/views/baseset/operation/relatedparty/relatedParty.vue',
             menu.component,
           )
         ) {
-          return import('/@/views/baseset/operation/relatedParty/relatedParty.vue');
+          return import('/@/views/baseset/operation/relatedparty/relatedParty.vue');
         } else if (
           checkImportComponent('/@/views/baseset/operation/settlement/index.vue', menu.component)
         ) {

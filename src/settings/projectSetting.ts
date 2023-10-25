@@ -121,7 +121,7 @@ const setting: ProjectConfig = {
 
   // Multi-label
   multiTabsSetting: {
-    cache: false,
+    cache: true,
     // Turn on
     show: true,
     // Is it possible to drag and drop sorting tabs
@@ -131,14 +131,13 @@ const setting: ProjectConfig = {
     // Whether to show the refresh button
     showRedo: true,
     // Whether to show the collapse button
-    showFold: true,
+    showFold: false, // 隐藏Tab页面折叠栏
   },
 
   // Transition Setting
   transitionSetting: {
-    //  Whether to open the page switching animation
-    // The disabled state will also disable pageLoading
-    enable: true,
+    // The disabled state will also disable pageLoading 禁用路由动画
+    enable: false,
 
     // Route basic switching animation
     basicTransition: RouterTransitionEnum.FADE_SIDE,
