@@ -48,9 +48,9 @@ export const useRedo = (_router?: Router) => {
         params['path'] = fullPath;
       }
       push({ name: REDIRECT_NAME, params, query }).then(() => {
-        nextTick(() => {
-          document.location.reload();
-        });
+        // nextTick(() => {
+        //   document.location.reload(); // 页签刷新 开启强制刷新 开启页签强制刷新
+        // });
         return resolve(true);
       });
     });
