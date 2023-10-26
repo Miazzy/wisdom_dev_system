@@ -221,6 +221,7 @@
 
   const props = defineProps({
     flowData: { type: Array },
+    type: { type: String }, // approval:审批，track:轨迹
   });
   const resultObj = reactive({
     '1': {
@@ -248,11 +249,15 @@
   const innerFlowData = ref([]);
   function handleFlowData(data) {
     // 流程数据是倒序的
-    let arr = [];
-    data?.forEach((item) => {
-      arr.unshift(item);
-    });
-    innerFlowData.value = arr;
+    if (props.type === 'track') {
+      let arr = [];
+      data?.forEach((item) => {
+        arr.unshift(item);
+      });
+      innerFlowData.value = arr;
+    } else if (props.type === 'approval') {
+      innerFlowData.value = data;
+    }
   }
 
   // TODO 编辑权限
