@@ -1,7 +1,7 @@
 <!--
  * @Description: 
  * @Date: 2023-09-14 14:31:30
- * @LastEditTime: 2023-10-25 16:29:31
+ * @LastEditTime: 2023-10-26 15:43:20
  * @FilePath: \ygwl-framework\src\components\Framework\ApprovalDrawer\ApprovalDrawer.vue
 -->
 <template>
@@ -81,6 +81,7 @@
   );
 
   const trackTabRef = ref();
+  const approvalTabRef = ref();
 
   const processInstanceId = ref(null);
   //默认当前流程未处理（1 未处理、2 已处理）
@@ -116,7 +117,7 @@
 
   // 同意
   function handleAgree() {
-    const { innerFlowData } = approvalTabRef.value;
+    const { innerFlowData } = trackTabRef.value;
     emit('agree', innerFlowData);
     isHandle.value = 2;
   }
