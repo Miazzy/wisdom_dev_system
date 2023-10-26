@@ -7,7 +7,14 @@
     <!-- 标题 -->
     <BillTitle :options="billTitleOptions" />
 
-    <EchartChinaMap :title="`行政区域图`" :data="chinaRegionData" :width="800" :height="600" />
+    <EchartChinaMap
+      :title="`行政区域图`"
+      :data="chinaRegionData"
+      :width="800"
+      :height="600"
+      :zoom="1.5"
+      :offset="150"
+    />
 
     <div style="margin: 10px 0px 0px 40px">
       <Tinymce

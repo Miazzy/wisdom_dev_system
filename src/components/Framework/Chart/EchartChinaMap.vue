@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, onMounted, watch } from 'vue';
+  import { ref, onMounted } from 'vue';
   import * as echarts from 'echarts';
   import 'echarts/extension/bmap/bmap';
   import { getChinaJsonData } from '@/api/echarts/map';
@@ -19,6 +19,12 @@
     title: { type: String, default: '中国行政区域图' },
     width: { type: Number, default: 600 },
     height: { type: Number, default: 500 },
+    zoom: { type: Number, default: 1.0 },
+    offset: { type: Number, default: 100 },
+    colors: {
+      type: Array,
+      default: ['#7DABCC', '#5280BD', '#2765AE', '#004B9F', '#00418A', '#003775'] as any[],
+    },
   });
 
   const option = ref({});
@@ -29,7 +35,7 @@
   });
 
   //将data数据进入方法，取需要的参数； 用于气泡显示
-  const convertData = function (data , geoCoordMap) {
+  const convertData = function (data, geoCoordMap) {
     var res: any[] = [];
     data.forEach((item) => {
       // 获取当前省份的经纬度坐标
@@ -67,7 +73,7 @@
     option.value = {
       geo: {
         show: true,
-        top: '10%',
+        top: props.offset,
         map: 'china',
         label: {
           normal: {
@@ -81,13 +87,14 @@
         roam: true,
         itemStyle: {
           normal: {
-            areaColor: '#116bda',
+            areaColor: 'blue',
             borderColor: '#fff',
           },
           emphasis: {
-            areaColor: '#113cda',
+            areaColor: 'blue',
           },
         },
+        zoom: props.zoom,
       },
       title: {
         text: props.title,
@@ -108,7 +115,7 @@
         min: 0,
         max: 5000,
         inRange: {
-          color: ['#7DABCC', '#5280BD', '#2765AE', '#004B9F', '#00418A', '#003775'],
+          color: props.colors,
         },
         calculable: false,
         show: false,
@@ -137,6 +144,7 @@
           rippleEffect: {
             brushType: 'stroke',
           },
+          zoom: props.zoom,
           hoverAnimation: true, // 是否显示鼠标悬浮动画
           label: {
             // 静态显示时的样式
@@ -180,6 +188,7 @@
           zlevel: 3,
         },
         {
+          top: props.offset,
           name: '中国地图',
           type: 'map',
           mapType: 'china',
@@ -189,6 +198,7 @@
               show: true,
             },
           },
+          zoom: props.zoom,
           data: props.data as any[],
         },
       ],
