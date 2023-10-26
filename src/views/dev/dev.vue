@@ -9,8 +9,6 @@
 
     <EchartChinaMap :title="`行政区域图`" :data="chinaRegionData" :width="800" :height="600" />
 
-    <!-- <EchartMapChart :data="emapData" /> -->
-
     <div style="margin: 10px 0px 0px 40px">
       <Tinymce
         v-model="richTextValue"
@@ -218,7 +216,6 @@
   import BubbleChart from '/@/components/Framework/Chart/BubbleChart.vue';
   import BarChart from '/@/components/Framework/Chart/BarChart.vue';
   import DonutChart from '/@/components/Framework/Chart/DonutChart.vue';
-  import EchartMapChart from '../../components/Framework/Chart/EchartMapChart.vue';
   import EchartChinaMap from '../../components/Framework/Chart/EchartChinaMap.vue';
   import EchartBarChart from '../../components/Framework/Chart/EchartBarChart.vue';
   import EchartPillarChart from '../../components/Framework/Chart/EchartPillarChart.vue';
