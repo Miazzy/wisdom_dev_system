@@ -12,7 +12,7 @@
   import 'echarts/extension/bmap/bmap';
   import { getChinaJsonData } from '@/api/echarts/map';
 
-  // 定义属性
+  // 定义属性，包括新的点位数据属性
   const props = defineProps({
     mapID: { type: String, default: 'echarts-emap-china-container' },
     data: { type: Array, default: [] as any },
@@ -21,19 +21,74 @@
     height: { type: Number, default: 500 },
   });
 
-  // 创建柱状图和折线图
+  const option = ref({});
+
+  // 创建地图并绘制点位
   onMounted(() => {
     createChart();
   });
+
+  //将data数据进入方法，取需要的参数； 用于气泡显示
+  const convertData = function (data , geoCoordMap) {
+    var res: any[] = [];
+    data.forEach((item) => {
+      // 获取当前省份的经纬度坐标
+      let geoCoord = geoCoordMap[item.name];
+      if (geoCoord) {
+        const name = item.name;
+        const value = geoCoord.concat(item.value);
+        const element = { name, value };
+        res.push(element as any);
+      }
+    });
+    return res;
+  };
 
   // 创建 ECharts 图表
   const createChart = async () => {
     const chartDom = document.getElementById(props.mapID);
     const myChart = echarts.init(chartDom);
-    let option;
+    const geoCoordMap = {};
     const chinaJsonData = await getChinaJsonData();
     echarts.registerMap('china', chinaJsonData, {});
-    option = {
+
+    const mapFeatures = chinaJsonData.features;
+    // 遍历获取每个地区的经纬度
+    mapFeatures.forEach(function (v, i) {
+      // 获取当前地区名
+      let name = v.properties.name;
+      if (name) {
+        // 获取当前地区的经纬度
+        geoCoordMap[name] = v.properties.center;
+      }
+    });
+
+    const sdData = convertData(props.data, geoCoordMap);
+    option.value = {
+      geo: {
+        show: true,
+        top: '10%',
+        map: 'china',
+        label: {
+          normal: {
+            show: false,
+          },
+          emphasis: {
+            show: false,
+            color: '#fff',
+          },
+        },
+        roam: true,
+        itemStyle: {
+          normal: {
+            areaColor: '#116bda',
+            borderColor: '#fff',
+          },
+          emphasis: {
+            areaColor: '#113cda',
+          },
+        },
+      },
       title: {
         text: props.title,
         left: 'right',
@@ -42,19 +97,88 @@
         trigger: 'item',
         showDelay: 0,
         transitionDuration: 0.2,
+        formatter: function (params) {
+          const value = params?.data?.value?.length > 2 ? '数据：' + params.data.value[2] : '';
+          return '行政区域：' + params.name + '<br />' + value;
+        },
       },
       visualMap: {
         bottom: 50,
         right: 30,
         min: 0,
-        max: 1000000,
+        max: 5000,
         inRange: {
-          color: ['#4575b4', '#74add1', '#abd9e9'],
+          color: ['#7DABCC', '#5280BD', '#2765AE', '#004B9F', '#00418A', '#003775'],
         },
         calculable: false,
         show: false,
       },
       series: [
+        {
+          name: 'china', // 自定义名称
+          type: 'effectScatter', // scatter  effectScatter
+          coordinateSystem: 'geo', // 设置坐标系类型
+          data: sdData, // 设置散点位置和数据
+          symbolSize: function (val) {
+            let value = val[2];
+            if (value == 0) {
+              return 0;
+            } else if (value < 500) {
+              return 10;
+            } else if (value < 1000) {
+              return 12.5;
+            } else if (value < 1500) {
+              return 15;
+            } else {
+              return 20;
+            }
+          },
+          showEffectOn: 'render',
+          rippleEffect: {
+            brushType: 'stroke',
+          },
+          hoverAnimation: true, // 是否显示鼠标悬浮动画
+          label: {
+            // 静态显示时的样式
+            normal: {
+              show: true, // 显示地区名称
+              formatter: function (data) {
+                const value = data.value[2];
+                if (value == 0) {
+                  return '';
+                } else {
+                  return value;
+                }
+              },
+              position: 'bottom', // 显示位置
+            },
+          },
+          itemStyle: {
+            normal: {
+              color: function (res) {
+                let value = res.value[2];
+                if (value < 500) {
+                  return '#ff3859';
+                } else if (value < 1000) {
+                  return '#4ed7fa';
+                } else if (value < 1500) {
+                  return '#fac531';
+                } else {
+                  return '#01ff5b';
+                }
+              },
+              shadowBlur: 10,
+            },
+            // 鼠标悬浮上去的样式
+            emphasis: {
+              color: '#4ed7fa',
+              formatter: function (data) {
+                return data.value[2];
+              },
+            },
+          },
+          zlevel: 3,
+        },
         {
           name: '中国地图',
           type: 'map',
@@ -69,8 +193,8 @@
         },
       ],
     };
-    myChart.setOption(option);
-    option && myChart.setOption(option);
+
+    myChart.setOption(option.value);
   };
 </script>
 

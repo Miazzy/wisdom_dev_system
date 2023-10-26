@@ -7,7 +7,7 @@
     <!-- 标题 -->
     <BillTitle :options="billTitleOptions" />
 
-    <EchartChinaMap title="行政区域图" :data="chinaRegionData" />
+    <EchartChinaMap :title="`行政区域图`" :data="chinaRegionData" :width="800" :height="600" />
 
     <!-- <EchartMapChart :data="emapData" /> -->
 
@@ -377,40 +377,40 @@
 
   const chinaRegionData = ref([]);
   chinaRegionData.value = [
-    { name: '四川省', value: 102202 },
-    { name: '云南省', value: 522023 },
-    { name: '河南省', value: 502023 },
-    { name: '河北省', value: 322023 },
-    { name: '山西省', value: 222023 },
-    { name: '黑龙江省', value: 322023 },
-    { name: '吉林省', value: 322023 },
-    { name: '辽宁省', value: 322023 },
-    { name: '江苏省', value: 322023 },
-    { name: '浙江省', value: 102202 },
-    { name: '安徽省', value: 522023 },
-    { name: '福建省', value: 502023 },
-    { name: '江西省', value: 322023 },
-    { name: '山东省', value: 222023 },
-    { name: '湖北省', value: 322023 },
-    { name: '湖南省', value: 322023 },
-    { name: '广东省', value: 322023 },
-    { name: '海南省', value: 322023 },
-    { name: '贵州省', value: 102202 },
-    { name: '陕西省', value: 522023 },
-    { name: '甘肃省', value: 502023 },
-    { name: '青海省', value: 322023 },
-    { name: '台湾省', value: 222023 },
-    { name: '内蒙古自治区', value: 322023 },
-    { name: '广西壮族自治区', value: 322023 },
-    { name: '西藏自治区', value: 322023 },
-    { name: '宁夏回族自治区', value: 322023 },
-    { name: '新疆维吾尔自治区', value: 102202 },
-    { name: '北京市', value: 522023 },
-    { name: '天津市', value: 502023 },
-    { name: '上海市', value: 322023 },
-    { name: '重庆市', value: 222023 },
-    { name: '香港特别行政区', value: 322023 },
-    { name: '澳门特别行政区', value: 322023 },
+    { name: '四川省', value: 102 },
+    { name: '云南省', value: 522 },
+    { name: '河南省', value: 1023 },
+    { name: '河北省', value: 3023 },
+    { name: '山西省', value: 2023 },
+    { name: '黑龙江省', value: 1523 },
+    { name: '吉林省', value: 2932 },
+    { name: '辽宁省', value: 0 },
+    { name: '江苏省', value: 0 },
+    { name: '浙江省', value: 0 },
+    { name: '安徽省', value: 0 },
+    { name: '福建省', value: 0 },
+    { name: '江西省', value: 0 },
+    { name: '山东省', value: 0 },
+    { name: '湖北省', value: 0 },
+    { name: '湖南省', value: 0 },
+    { name: '广东省', value: 0 },
+    { name: '海南省', value: 0 },
+    { name: '贵州省', value: 0 },
+    { name: '陕西省', value: 0 },
+    { name: '甘肃省', value: 0 },
+    { name: '青海省', value: 0 },
+    { name: '台湾省', value: 0 },
+    { name: '内蒙古自治区', value: 0 },
+    { name: '广西壮族自治区', value: 0 },
+    { name: '西藏自治区', value: 0 },
+    { name: '宁夏回族自治区', value: 0 },
+    { name: '新疆维吾尔自治区', value: 0 },
+    { name: '北京市', value: 0 },
+    { name: '天津市', value: 0 },
+    { name: '上海市', value: 0 },
+    { name: '重庆市', value: 0 },
+    { name: '香港特别行政区', value: 0 },
+    { name: '澳门特别行政区', value: 0 },
   ];
 
   // 查询左侧电站树数据
