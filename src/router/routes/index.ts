@@ -146,30 +146,30 @@ const transformMenuItem = (menu, routes) => {
           )
         ) {
           return import('/@/views/baseset/operation/personnelqualifications/index.vue');
-        // } else if (
-        //   checkImportComponent('/@/views/po/ticket/operationticket/index.vue', menu.component)
-        // ) {
-        //   return import('/@/views/po/ticket/operationticket/index.vue');
-        // } else if (
-        //   checkImportComponent('/@/views/po/ticket/operationticket/create.vue', menu.component)
-        // ) {
-        //   return import('/@/views/po/ticket/operationticket/create.vue');
-        // } else if (
-        //   checkImportComponent('/@/views/po/ticket/firstworkticket/index.vue', menu.component)
-        // ) {
-        //   return import('/@/views/po/ticket/firstworkticket/index.vue');
-        // } else if (
-        //   checkImportComponent('/@/views/po/ticket/firstworkticket/create.vue', menu.component)
-        // ) {
-        //   return import('/@/views/po/ticket/firstworkticket/create.vue');
-        // } else if (
-        //   checkImportComponent('/@/views/po/ticket/secondworkticket/index.vue', menu.component)
-        // ) {
-        //   return import('/@/views/po/ticket/secondworkticket/index.vue');
-        // } else if (
-        //   checkImportComponent('/@/views/po/ticket/secondworkticket/create.vue', menu.component)
-        // ) {
-        //   return import('/@/views/po/ticket/secondworkticket/create.vue');
+        } else if (
+          checkImportComponent('/@/views/po/ticket/operationticket/index.vue', menu.component)
+        ) {
+          return import('/@/views/po/ticket/operationticket/index.vue');
+        } else if (
+          checkImportComponent('/@/views/po/ticket/operationticket/create.vue', menu.component)
+        ) {
+          return import('/@/views/po/ticket/operationticket/create.vue');
+        } else if (
+          checkImportComponent('/@/views/po/ticket/firstworkticket/index.vue', menu.component)
+        ) {
+          return import('/@/views/po/ticket/firstworkticket/index.vue');
+        } else if (
+          checkImportComponent('/@/views/po/ticket/firstworkticket/create.vue', menu.component)
+        ) {
+          return import('/@/views/po/ticket/firstworkticket/create.vue');
+        } else if (
+          checkImportComponent('/@/views/po/ticket/secondworkticket/index.vue', menu.component)
+        ) {
+          return import('/@/views/po/ticket/secondworkticket/index.vue');
+        } else if (
+          checkImportComponent('/@/views/po/ticket/secondworkticket/create.vue', menu.component)
+        ) {
+          return import('/@/views/po/ticket/secondworkticket/create.vue');
         } else {
           return asyncImportComponent(menu.component);
         }
