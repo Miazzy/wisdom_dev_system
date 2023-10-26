@@ -7,6 +7,10 @@
     <!-- 标题 -->
     <BillTitle :options="billTitleOptions" />
 
+    <EchartChinaMap title="行政区域图" :data="chinaRegionData" />
+
+    <!-- <EchartMapChart :data="emapData" /> -->
+
     <div style="margin: 10px 0px 0px 40px">
       <Tinymce
         v-model="richTextValue"
@@ -174,8 +178,7 @@
     <DonutChart :data="donutData" width="300" height="200" radius="100" />
 
     <!-- <ThreeDDonutChart :data="donutData" width="300" height="200" radius="100" /> -->
-
-    <ThreeDPieChart :data="tchartData" :width="400" :height="400" />
+    <!-- <ThreeDPieChart :data="tchartData" :width="400" :height="400" /> -->
 
     <EchartBarChart
       :data="echartData"
@@ -215,15 +218,17 @@
   import BubbleChart from '/@/components/Framework/Chart/BubbleChart.vue';
   import BarChart from '/@/components/Framework/Chart/BarChart.vue';
   import DonutChart from '/@/components/Framework/Chart/DonutChart.vue';
+  import EchartMapChart from '../../components/Framework/Chart/EchartMapChart.vue';
+  import EchartChinaMap from '../../components/Framework/Chart/EchartChinaMap.vue';
   import EchartBarChart from '../../components/Framework/Chart/EchartBarChart.vue';
   import EchartPillarChart from '../../components/Framework/Chart/EchartPillarChart.vue';
-  import ThreeDDonutChart from '../../components/Framework/Chart/ThreeDDonutChart.vue';
-  import NtgaleChart from '/@/components/Framework/Chart/NtgaleChart.vue';
-  import ThreeDPieChart from '/@/components/Framework/Chart/ThreeDPieChart.vue';
+  // import ThreeDDonutChart from '../../components/Framework/Chart/ThreeDDonutChart.vue';
+  // import NtgaleChart from '/@/components/Framework/Chart/NtgaleChart.vue';
+  // import ThreeDPieChart from '/@/components/Framework/Chart/ThreeDPieChart.vue';
   // import ChinaMapChart from '/@/components/Framework/Chart/ChinaMapChart.vue';
   // import { BillTitleOptions } from '/@/components/Framework/BillTitle/types';
-  import Dialog from '@/components/Framework/Modal/Dialog.vue';
-  import dayjs from 'dayjs';
+  // import Dialog from '@/components/Framework/Modal/Dialog.vue';
+  // import dayjs from 'dayjs';
   import { DateTools } from '/@/utils/dateUtil';
   import { Tinymce } from '/@/components/Tinymce/index';
   import { useUserStore } from '/@/store/modules/user';
@@ -338,6 +343,14 @@
       color: 'green',
     },
   ];
+  const emapData = [
+    { name: '衢州', value: 177 },
+    { name: '廊坊', value: 193 },
+    { name: '菏泽', value: 194 },
+    { name: '合肥', value: 229 },
+    { name: '武汉', value: 273 },
+    { name: '大庆', value: 279 },
+  ];
   const fontSize = ref('18px');
   const fontColor = 'white';
   const bubbleColor = 'red';
@@ -361,6 +374,44 @@
 
   const chartColors = ref(['#3c8dbc', '#00a65a', '#f39c12', '#d81b60']);
   const chartLegend = ref(['Series A', 'Series B', 'Series C', 'Series D']);
+
+  const chinaRegionData = ref([]);
+  chinaRegionData.value = [
+    { name: '四川省', value: 102202 },
+    { name: '云南省', value: 522023 },
+    { name: '河南省', value: 502023 },
+    { name: '河北省', value: 322023 },
+    { name: '山西省', value: 222023 },
+    { name: '黑龙江省', value: 322023 },
+    { name: '吉林省', value: 322023 },
+    { name: '辽宁省', value: 322023 },
+    { name: '江苏省', value: 322023 },
+    { name: '浙江省', value: 102202 },
+    { name: '安徽省', value: 522023 },
+    { name: '福建省', value: 502023 },
+    { name: '江西省', value: 322023 },
+    { name: '山东省', value: 222023 },
+    { name: '湖北省', value: 322023 },
+    { name: '湖南省', value: 322023 },
+    { name: '广东省', value: 322023 },
+    { name: '海南省', value: 322023 },
+    { name: '贵州省', value: 102202 },
+    { name: '陕西省', value: 522023 },
+    { name: '甘肃省', value: 502023 },
+    { name: '青海省', value: 322023 },
+    { name: '台湾省', value: 222023 },
+    { name: '内蒙古自治区', value: 322023 },
+    { name: '广西壮族自治区', value: 322023 },
+    { name: '西藏自治区', value: 322023 },
+    { name: '宁夏回族自治区', value: 322023 },
+    { name: '新疆维吾尔自治区', value: 102202 },
+    { name: '北京市', value: 522023 },
+    { name: '天津市', value: 502023 },
+    { name: '上海市', value: 322023 },
+    { name: '重庆市', value: 222023 },
+    { name: '香港特别行政区', value: 322023 },
+    { name: '澳门特别行政区', value: 322023 },
+  ];
 
   // 查询左侧电站树数据
   async function queryDeptTreeList() {

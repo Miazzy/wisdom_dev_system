@@ -81,6 +81,7 @@
     "@zxcvbn-ts/core": "^3.0.3",
     "ant-design-vue": "^3.2.20",
     "axios": "^1.4.0",
+    "bmap": "link:echarts/extension/bmap/bmap",
     "bpmn-js": "8.9.0",
     "bpmn-js-properties-panel": "0.46.0",
     "bpmn-js-token-simulation": "0.10.0",
