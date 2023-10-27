@@ -1,11 +1,11 @@
 <!--
  * @Description: 
  * @Date: 2023-09-22 08:46:00
- * @LastEditTime: 2023-10-19 09:49:54
+ * @LastEditTime: 2023-10-27 15:16:57
  * @FilePath: \ygwl-framework\src\components\Framework\Tree\CommonTree.vue
 -->
 <template>
-  <div class="m-4 mr-0 overflow-hidden bg-white" style="border: 1px solid #d9d9d9">
+  <div class="m-4 mr-0 overflow-hidden bg-white" :class="$attrs.class" style="border: 1px solid #d9d9d9">
     <BasicTree
       :title="title"
       :toolbar="toolbar"
@@ -19,6 +19,8 @@
       :isShowOperationBtns="isShowOperationBtns"
       ref="basicTreeRef"
       class="fit-basic-tree"
+      :checkable="checkable"
+      @check="handleCheck"
     />
   </div>
 </template>
@@ -38,6 +40,7 @@
     canEdit: { type: Boolean, default: true }, // 能否编辑操作
     canAdd: { type: Boolean, default: true }, // 能否新增操作
     canDelete: { type: Boolean, default: true }, // 能否删除操作
+    checkable: { type: Boolean, default: false }, // 树节点前是否有复选框
     fieldNames: {
       type: Object,
       default: new Object(),
@@ -56,10 +59,16 @@
     return tree;
   }
 
+  // 选择
   function handleSelect(keys) {
     selectedNode.value = keys[0];
-    const node = getTree().getSelectedNode(selectedNode.value);
+    const node = getTree().getSelectedNode(selectedNode.value);  
     emit('select', node);
+  }
+
+  // 复选框勾选
+  function handleCheck(keys,e) {
+    emit('check', e.checkedNodes);
   }
 
   // 编辑
