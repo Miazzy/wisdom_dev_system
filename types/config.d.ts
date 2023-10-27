@@ -147,6 +147,8 @@ export interface GlobConfig {
   urlPrefix?: string;
   // Project abbreviation
   shortName: string;
+  // Ohter properties
+  chinaMapDataUrl?: string;
 }
 export interface GlobEnvConfig {
   // Site title
@@ -157,6 +159,8 @@ export interface GlobEnvConfig {
   VITE_GLOB_API_URL_PREFIX?: string;
   // Upload url
   VITE_GLOB_UPLOAD_URL?: string;
+  // China map data
+  VITE_ECHARTS_CHINA_MAP_ALL_DATA?: string;
 }
 
 export interface ApiAttrs {
