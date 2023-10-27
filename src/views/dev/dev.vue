@@ -193,10 +193,9 @@
       height="400"
     />
 
+    <EchartLineBarChart :colors="chartColors" width="600" height="400" />
     <EchartPillarChart :data="pchartData" />
     <!-- <NtgaleChart /> -->
-
-    <!-- <ChinaMapChart /> -->
   </div>
 </template>
 <script lang="ts" setup>
@@ -226,10 +225,10 @@
   import EchartChinaMap from '../../components/Framework/Chart/EchartChinaMap.vue';
   import EchartBarChart from '../../components/Framework/Chart/EchartBarChart.vue';
   import EchartPillarChart from '../../components/Framework/Chart/EchartPillarChart.vue';
+  import EchartLineBarChart from '../../components/Framework/Chart/EchartLineBarChart.vue';
   // import ThreeDDonutChart from '../../components/Framework/Chart/ThreeDDonutChart.vue';
   // import NtgaleChart from '/@/components/Framework/Chart/NtgaleChart.vue';
   // import ThreeDPieChart from '/@/components/Framework/Chart/ThreeDPieChart.vue';
-  // import ChinaMapChart from '/@/components/Framework/Chart/ChinaMapChart.vue';
   // import { BillTitleOptions } from '/@/components/Framework/BillTitle/types';
   // import Dialog from '@/components/Framework/Modal/Dialog.vue';
   // import dayjs from 'dayjs';
@@ -372,8 +371,11 @@
   });
 
   const pchartData = ref({
-    mData: [10, 22, 39, 14, 22, 15, 20],
+    lData: [25, 28, 39, 14, 22, 14, 33],
+    mData: [15, 22, 39, 14, 31, 15, 20],
+    sData: [13, 20, 10, 34, 15, 30, 11],
     mName: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+    units: ['单位', '单位'],
   });
 
   const chartColors = ref(['#3c8dbc', '#00a65a', '#f39c12', '#d81b60']);

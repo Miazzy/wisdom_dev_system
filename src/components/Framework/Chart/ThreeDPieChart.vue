@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { onMounted, ref, toRefs, nextTick, watch, defineProps } from 'vue';
+  import { onMounted, ref, nextTick, defineProps } from 'vue';
   import * as THREE from 'three';
 
   const props = defineProps({
