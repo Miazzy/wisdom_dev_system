@@ -38,7 +38,7 @@ src/views/dashboard
 # 运维管理 使用单独的git仓库 需配置忽略目录
 src/views/operation        
 # 生产基地 使用单独的git仓库 需配置忽略目录
-src/views/prodMonitoring
+src/views/monitor
 # 基础设置 使用单独的git仓库 需配置忽略目录
 src/views/baseset
 # 流程引擎

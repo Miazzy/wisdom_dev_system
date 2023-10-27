@@ -147,6 +147,15 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/baseset/operation/personnelqualifications/index.vue');
         } else if (
+          checkImportComponent(
+            '/@/views/baseset/operation/linelossrate/lineLossRateSet.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/baseset/operation/linelossrate/lineLossRateSet.vue');
+        }
+        // po
+        else if (
           checkImportComponent('/@/views/po/ticket/operationticket/index.vue', menu.component)
         ) {
           return import('/@/views/po/ticket/operationticket/index.vue');

@@ -59,7 +59,6 @@
 <script setup>
   import { ref, onMounted, defineProps, computed } from 'vue';
   import * as d3 from 'd3';
-  // import * as d33d from 'd3-3d';
 
   const props = defineProps({
     data: Array,

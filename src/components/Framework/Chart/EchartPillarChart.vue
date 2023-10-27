@@ -12,15 +12,14 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted, watch, toRefs, onUnmounted } from 'vue';
+  import { ref, onMounted, watch, onUnmounted } from 'vue';
   import * as echarts from 'echarts';
-  import 'echarts-gl'; // 引入 ECharts 的 3D 图表库
 
   // 定义属性
   const props = defineProps({
     data: { type: Array },
-    width: { type: Number, default: 400 },
-    height: { type: Number, default: 240 },
+    width: { type: Number, default: 600 },
+    height: { type: Number, default: 300 },
     colors: { type: Array },
     name: { type: Array },
     legendData: { type: Array },
@@ -28,6 +27,8 @@
 
   const mData = ref([]);
   const mName = ref([]);
+  const lData = ref([]);
+  const sData = ref([]);
   const pillarOption = ref({
     backgroundColor: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
       {
@@ -109,29 +110,36 @@
       borderColor: 'transparent',
       appendToBody: true,
       formatter: function (params) {
-        return params[0].value + '单位';
+        const units = props.data.units;
+        return (
+          '柱状图：' +
+          params[0].value +
+          `${units[0]}` +
+          '<br />' +
+          '折线图1：' +
+          params[2].value +
+          `${units[1]}` +
+          '<br />' +
+          '折线图2：' +
+          params[3].value +
+          `${units[1]}`
+        );
       },
       position: function (point, params, dom, rect, size) {
         var x = 0; // x坐标位置
         var y = 0; // y坐标位置
-        // 当前鼠标位置
         var pointX = point[0];
         var pointY = point[1];
-        // 提示框大小
         var boxWidth = size.contentSize[0];
         var boxHeight = size.contentSize[1];
-        // boxWidth > pointX 说明鼠标左边放不下提示框
         if (boxWidth > pointX) {
           x = pointX + 10;
         } else {
-          // 左边放的下
           x = pointX - boxWidth - 10;
         }
-        // boxHeight > pointY 说明鼠标上边放不下提示框
         if (boxHeight > pointY) {
           y = 5;
         } else {
-          // 上边放得下
           y = pointY - boxHeight;
         }
         return [x, y];
@@ -282,6 +290,36 @@
           color: '#FFD200',
         },
       },
+      {
+        // 新增的折线图配置
+        data: [],
+        type: 'line',
+        lineStyle: {
+          width: 2, // 折线宽度
+          color: 'rgba(2, 175, 252, 1)',
+        },
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            { offset: 0, color: 'rgba(2, 175, 252, 0.30)' },
+            { offset: 1, color: 'rgba(2, 175, 252, 0.1)' },
+          ]),
+        },
+      },
+      {
+        // 新增的折线图配置
+        data: [],
+        type: 'line',
+        lineStyle: {
+          width: 2, // 折线宽度
+          color: 'rgba(55, 75, 252, 1)',
+        },
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            { offset: 0, color: 'rgba(55, 75, 252, 0.30)' },
+            { offset: 1, color: 'rgba(55, 75, 252, 0.10)' },
+          ]),
+        },
+      },
     ],
     grid: {
       containLabel: true,
@@ -353,14 +391,18 @@
     const myChart = echarts.init(chartDom);
 
     // 获取统计数据
+    sData.value = props.data.sData;
     mData.value = props.data.mData;
     mName.value = props.data.mName;
+    lData.value = props.data.lData;
 
     // 设置统计数据
     try {
       pillarOption.value.xAxis.data = mName.value;
       pillarOption.value.series[0].data = mData.value;
       pillarOption.value.series[1].data = mData.value;
+      pillarOption.value.series[2].data = lData.value;
+      pillarOption.value.series[3].data = sData.value;
       myChart.setOption(pillarOption.value, true);
     } catch (error) {
       console.error(error);
@@ -378,7 +420,7 @@
     transform: scaleX(0.85);
     transform-origin: left;
     z-index: 10000;
-    background: rgba(30, 30, 30, 0.15);
+    background: rgba(30, 30, 30, 0.02);
     text-align: center;
   }
 </style>

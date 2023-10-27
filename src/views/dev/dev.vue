@@ -7,9 +7,14 @@
     <!-- 标题 -->
     <BillTitle :options="billTitleOptions" />
 
-    <EchartChinaMap title="行政区域图" :data="chinaRegionData" />
-
-    <!-- <EchartMapChart :data="emapData" /> -->
+    <EchartChinaMap
+      :title="`行政区域图`"
+      :data="chinaRegionData"
+      :width="800"
+      :height="600"
+      :zoom="1.5"
+      :offset="150"
+    />
 
     <div style="margin: 10px 0px 0px 40px">
       <Tinymce
@@ -188,10 +193,9 @@
       height="400"
     />
 
+    <EchartLineBarChart :colors="chartColors" width="600" height="400" />
     <EchartPillarChart :data="pchartData" />
     <!-- <NtgaleChart /> -->
-
-    <!-- <ChinaMapChart /> -->
   </div>
 </template>
 <script lang="ts" setup>
@@ -218,14 +222,13 @@
   import BubbleChart from '/@/components/Framework/Chart/BubbleChart.vue';
   import BarChart from '/@/components/Framework/Chart/BarChart.vue';
   import DonutChart from '/@/components/Framework/Chart/DonutChart.vue';
-  import EchartMapChart from '../../components/Framework/Chart/EchartMapChart.vue';
   import EchartChinaMap from '../../components/Framework/Chart/EchartChinaMap.vue';
   import EchartBarChart from '../../components/Framework/Chart/EchartBarChart.vue';
   import EchartPillarChart from '../../components/Framework/Chart/EchartPillarChart.vue';
+  import EchartLineBarChart from '../../components/Framework/Chart/EchartLineBarChart.vue';
   // import ThreeDDonutChart from '../../components/Framework/Chart/ThreeDDonutChart.vue';
   // import NtgaleChart from '/@/components/Framework/Chart/NtgaleChart.vue';
   // import ThreeDPieChart from '/@/components/Framework/Chart/ThreeDPieChart.vue';
-  // import ChinaMapChart from '/@/components/Framework/Chart/ChinaMapChart.vue';
   // import { BillTitleOptions } from '/@/components/Framework/BillTitle/types';
   // import Dialog from '@/components/Framework/Modal/Dialog.vue';
   // import dayjs from 'dayjs';
@@ -368,8 +371,11 @@
   });
 
   const pchartData = ref({
-    mData: [10, 22, 39, 14, 22, 15, 20],
+    lData: [25, 28, 39, 14, 22, 14, 33],
+    mData: [15, 22, 39, 14, 31, 15, 20],
+    sData: [13, 20, 10, 34, 15, 30, 11],
     mName: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+    units: ['单位', '单位'],
   });
 
   const chartColors = ref(['#3c8dbc', '#00a65a', '#f39c12', '#d81b60']);
@@ -377,40 +383,40 @@
 
   const chinaRegionData = ref([]);
   chinaRegionData.value = [
-    { name: '四川省', value: 102202 },
-    { name: '云南省', value: 522023 },
-    { name: '河南省', value: 502023 },
-    { name: '河北省', value: 322023 },
-    { name: '山西省', value: 222023 },
-    { name: '黑龙江省', value: 322023 },
-    { name: '吉林省', value: 322023 },
-    { name: '辽宁省', value: 322023 },
-    { name: '江苏省', value: 322023 },
-    { name: '浙江省', value: 102202 },
-    { name: '安徽省', value: 522023 },
-    { name: '福建省', value: 502023 },
-    { name: '江西省', value: 322023 },
-    { name: '山东省', value: 222023 },
-    { name: '湖北省', value: 322023 },
-    { name: '湖南省', value: 322023 },
-    { name: '广东省', value: 322023 },
-    { name: '海南省', value: 322023 },
-    { name: '贵州省', value: 102202 },
-    { name: '陕西省', value: 522023 },
-    { name: '甘肃省', value: 502023 },
-    { name: '青海省', value: 322023 },
-    { name: '台湾省', value: 222023 },
-    { name: '内蒙古自治区', value: 322023 },
-    { name: '广西壮族自治区', value: 322023 },
-    { name: '西藏自治区', value: 322023 },
-    { name: '宁夏回族自治区', value: 322023 },
-    { name: '新疆维吾尔自治区', value: 102202 },
-    { name: '北京市', value: 522023 },
-    { name: '天津市', value: 502023 },
-    { name: '上海市', value: 322023 },
-    { name: '重庆市', value: 222023 },
-    { name: '香港特别行政区', value: 322023 },
-    { name: '澳门特别行政区', value: 322023 },
+    { name: '四川省', value: 102 },
+    { name: '云南省', value: 522 },
+    { name: '河南省', value: 1023 },
+    { name: '河北省', value: 3023 },
+    { name: '山西省', value: 2023 },
+    { name: '黑龙江省', value: 1523 },
+    { name: '吉林省', value: 2932 },
+    { name: '辽宁省', value: 0 },
+    { name: '江苏省', value: 0 },
+    { name: '浙江省', value: 0 },
+    { name: '安徽省', value: 0 },
+    { name: '福建省', value: 0 },
+    { name: '江西省', value: 0 },
+    { name: '山东省', value: 0 },
+    { name: '湖北省', value: 0 },
+    { name: '湖南省', value: 0 },
+    { name: '广东省', value: 0 },
+    { name: '海南省', value: 0 },
+    { name: '贵州省', value: 0 },
+    { name: '陕西省', value: 0 },
+    { name: '甘肃省', value: 0 },
+    { name: '青海省', value: 0 },
+    { name: '台湾省', value: 0 },
+    { name: '内蒙古自治区', value: 0 },
+    { name: '广西壮族自治区', value: 0 },
+    { name: '西藏自治区', value: 0 },
+    { name: '宁夏回族自治区', value: 0 },
+    { name: '新疆维吾尔自治区', value: 0 },
+    { name: '北京市', value: 0 },
+    { name: '天津市', value: 0 },
+    { name: '上海市', value: 0 },
+    { name: '重庆市', value: 0 },
+    { name: '香港特别行政区', value: 0 },
+    { name: '澳门特别行政区', value: 0 },
   ];
 
   // 查询左侧电站树数据
