@@ -15,7 +15,7 @@
       :isHandle="isHandle"
       @agree="handleAgree"
       @reject="handleReject"
-      @save="handleSave"
+      @save="handleFlowSave"
       @end="handleEnd"
       @transfer="handleTransfer"
       @notice="handleNotice"
@@ -97,8 +97,14 @@
     getTaskListByProcessInstanceId();
   };
 
-  const handleSave = (flowData) => {
-    emit('save', flowData);
+  // 流程审批保存
+  const handleFlowSave = (flowData) => {
+    emit('flowSave', flowData);
+  };
+
+  // 业务的保存
+  const handleSave = () => {
+    emit('save');
   };
 
   const handleEnd = (flowData) => {
