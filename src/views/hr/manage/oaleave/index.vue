@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+  import { ElMessageBox } from 'element-plus';
   import { columns, searchFormSchema } from './oaLeave.data';
   import { useI18n } from '@/hooks/web/useI18n';
   import { useMessage } from '@/hooks/web/useMessage';
@@ -49,30 +50,23 @@
     router.push(`/hr/manage/OALeaveCreate`);
   }
 
-  /** 详情操作 */
-  function handleDetail(record: any) {
-    router.push(`/hr/manage/OALeaveDetail?id=${record.id}`);
-  }
-
   /** 取消请假操作 */
   async function cancelLeave(row) {
-    // // 二次确认
-    // const { value } = await ElMessageBox.prompt('请输入取消原因', '取消流程', {
-    //   confirmButtonText: t('common.ok'),
-    //   cancelButtonText: t('common.cancel'),
-    //   inputPattern: /^[\s\S]*.*\S[\s\S]*$/, // 判断非空，且非空格
-    //   inputErrorMessage: '取消原因不能为空',
-    // })
-    const value = '';
+    const { value } = await ElMessageBox.prompt('请输入取消原因', '取消流程', {
+      confirmButtonText: t('common.ok'),
+      cancelButtonText: t('common.cancel'),
+      inputPattern: /^[\s\S]*.*\S[\s\S]*$/, // 判断非空，且非空格
+      inputErrorMessage: '取消原因不能为空',
+    });
     // 发起取消
-    await cancelProcessInstance(row.id, value);
+    await cancelProcessInstance(row.processInstanceId, value);
     createMessage.success(t('common.delSuccessText'));
     reload();
   }
 
   /** 审批进度 */
   function handleProcessDetail(record: any) {
-    router.push(`/hr/manage/BpmProcessInstanceDetail?id=${record.id}`);
+    router.push(`/hr/manage/OALeaveDetail?processInstanceId=${record.processInstanceId}`);
   }
 </script>
 <template>
@@ -91,11 +85,6 @@
           <TableAction
             :actions="[
               {
-                icon: IconEnum.SEARCH,
-                label: '详情',
-                onClick: handleDetail.bind(null, record),
-              },
-              {
                 icon: IconEnum.LOG,
                 label: '进度',
                 onClick: handleProcessDetail.bind(null, record),
@@ -105,7 +94,7 @@
                 danger: true,
                 label: '取消',
                 ifShow: () => {
-                  return record.status === 1;
+                  return record.status <= 1;
                 },
                 onClick: cancelLeave.bind(null, record),
               },

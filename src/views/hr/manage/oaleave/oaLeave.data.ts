@@ -30,6 +30,13 @@ const oaLeaveTypeOptions = [
 const bpmProcessInstanceResult = [
   {
     dictType: 'bpm_process_instance_result',
+    value: '0',
+    label: '草稿',
+    colorType: 'primary',
+    cssClass: '',
+  },
+  {
+    dictType: 'bpm_process_instance_result',
     value: '1',
     label: '处理中',
     colorType: 'primary',
