@@ -1,7 +1,7 @@
 <!--
  * @Description: 
  * @Date: 2023-09-14 14:31:30
- * @LastEditTime: 2023-10-28 13:13:59
+ * @LastEditTime: 2023-10-28 14:50:34
  * @FilePath: \ygwl-framework\src\components\Framework\ApprovalDrawer\ApprovalDrawer.vue
 -->
 <template>
@@ -23,7 +23,7 @@
     <template #footer>
       <Button class="fit-footer-btn" type="primary" v-if="props.isHandle == 1" @click="handleAgree">同意</Button>
       <Button class="fit-footer-btn" v-if="props.isHandle == 1" @click="handleReject">驳回</Button>
-      <Button class="fit-footer-btn" v-if="props.isHandle == 1" @click="handleSave">保存</Button>
+      <Button class="fit-footer-btn" v-if="props.isHandle == 1" @click="handleFlowSave">保存</Button>
       <Dropdown>
         <template #overlay>
           <Menu @click="handleMenuClick">
@@ -127,31 +127,10 @@
   }
 
   // 保存
-  function handleSave() {
+  function handleFlowSave() {
     const { innerFlowData } = trackTabRef.value;
     emit('save', innerFlowData);
   }
-
-  // const getProcessInstance = async () => {
-  //   const data = await ProcessInstanceApi.getProcessInstance(processInstanceId.value);
-  //   if (!data) {
-  //     message.error('查询不到流程信息！');
-  //     return;
-  //   }
-  //   // isHandle.value = data['status'];
-  //   console.log('流程信息', data);
-  // };
-
-  // watch(
-  //   () => props.processInstanceId,
-  //   (newValue) => {
-  //     processInstanceId.value = props.processInstanceId;
-  //     if (processInstanceId.value.length != 0) {
-  //       getProcessInstance();
-  //     }
-  //   },
-  // );
-
 
 </script>
 <style lang="less">
