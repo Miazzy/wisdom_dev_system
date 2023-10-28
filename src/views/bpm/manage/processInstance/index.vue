@@ -65,7 +65,7 @@
           <TableAction
             :actions="[
               {
-                icon: IconEnum.EDIT,
+                icon: IconEnum.VIEW,
                 label: '详情',
                 onClick: handleDetail.bind(null, record),
               },
@@ -73,6 +73,9 @@
                 icon: IconEnum.DELETE,
                 danger: true,
                 label: '取消',
+                ifShow: () => {
+                  return record.result === 1;
+                },
                 popConfirm: {
                   title: t('common.message.delMessage'),
                   placement: 'left',

@@ -29,16 +29,6 @@
 
   /** 查看详情 */
   const handleDetail = (row) => {
-    router.push({
-      name: 'BpmProcessInstanceDetail',
-      query: {
-        id: row.id,
-      },
-    });
-  };
-
-  /** 处理审批按钮 */
-  const handleAudit = (row) => {
     router.push(
       `${row.bpmProcessDefinitionRespVO.formCustomViewPath}?processInstanceId=${row.processInstance.id}`,
     );
@@ -52,14 +42,9 @@
           <TableAction
             :actions="[
               {
-                icon: IconEnum.EDIT,
+                icon: IconEnum.VIEW,
                 label: '详情',
                 onClick: handleDetail.bind(null, record),
-              },
-              {
-                icon: IconEnum.EDIT,
-                label: '流程',
-                onClick: handleAudit.bind(null, record),
               },
             ]"
           />

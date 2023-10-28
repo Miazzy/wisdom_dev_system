@@ -16,37 +16,50 @@
                 :rules="rules"
               >
                 <a-form-item label="请假类型" name="type">
-                  <a-select v-model:value="formState.type" placeholder="请选择请假类型">
-                    <a-select-option value="1">病假</a-select-option>
+                  <a-select
+                    v-model:value="formState.type"
+                    allowClear
+                    :options="typeData"
+                    placeholder="请选择请假类型"
+                    :disabled="formState.status != 0"
+                  >
+                    <!-- <a-select-option value="1">病假</a-select-option>
                     <a-select-option value="2">事假</a-select-option>
-                    <a-select-option value="3">婚假</a-select-option>
+                    <a-select-option value="3">婚假</a-select-option> -->
                   </a-select>
                 </a-form-item>
 
                 <a-form-item label="开始时间" name="startTime">
                   <a-date-picker
                     v-model:value="formState.startTime"
-                    :show-time="{ format: 'HH:mm' }"
-                    format="YYYY-MM-DD HH:mm"
+                    :show-time="{ format: 'HH:mm:mm' }"
+                    valueFormat="YYYY-MM-DD HH:mm:mm"
                     placeholder="请选择"
+                    :disabled="formState.status != 0"
                   />
                 </a-form-item>
                 <a-form-item label="结束时间" name="endTime">
                   <a-date-picker
                     v-model:value="formState.endTime"
-                    :show-time="{ format: 'HH:mm' }"
-                    format="YYYY-MM-DD HH:mm"
+                    :show-time="{ format: 'HH:mm:mm' }"
+                    valueFormat="YYYY-MM-DD HH:mm:mm"
                     placeholder="请选择"
+                    :disabled="formState.status != 0"
                   />
                 </a-form-item>
                 <a-form-item label="请假事由" name="reason">
-                  <a-textarea v-model:value="formState.reason" />
+                  <a-textarea v-model:value="formState.reason" :disabled="formState.status != 0" />
                 </a-form-item>
               </a-form>
             </a-card>
           </div>
           <div class="right-panel">
-            <WfApproveBox @save="onSave" @submit="onSubmit" :processStatus="processStatus" />
+            <WfApproveBox
+              @save="onSave"
+              @submit="onSubmit"
+              :processStatus="formState.status"
+              :processInstanceId="processInstanceId"
+            />
           </div>
         </div>
       </div>
@@ -56,44 +69,51 @@
 <script lang="ts" setup>
   import { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
   import { Moment } from 'moment';
-  import { reactive, ref, toRaw, UnwrapRef } from 'vue';
+  import { reactive, ref, toRaw, UnwrapRef, onMounted } from 'vue';
   import { message } from 'ant-design-vue';
-  import { useRouter } from 'vue-router';
+  import { useRouter, useRoute } from 'vue-router';
 
   import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
   import WfApproveBox from '/@/components/Framework/WorkFlow/WfApproveBox.vue';
-  import { createOaLeave } from '@/api/hr/oaleave';
+  import { createOaLeave, getOaLeave } from '@/api/hr/oaleave';
+  import * as ProcessInstanceApi from '@/api/bpm/processInstance';
 
   defineOptions({ name: 'OALeaveCreate' });
 
   const router = useRouter();
+  const { query } = useRoute();
   const labelCol = { span: 2 };
   const wrapperCol = { span: 12 };
   const billTitleOptions = reactive<any>({});
   billTitleOptions.title = '请假申请';
+  billTitleOptions.infoItems = [];
 
-  const processStatus = ref([0]);
+  const typeData: any = ref([]);
+  const processInstanceId = ref(null);
 
   interface FormState {
     type: string | undefined;
     startTime: Moment | undefined;
     endTime: Moment | undefined;
     reason: string | undefined;
+    status: number | 0;
     spinning: boolean;
   }
 
   const formRef = ref();
   const formState: UnwrapRef<FormState> = reactive({
+    id: '',
     type: '',
     startTime: undefined,
     endTime: undefined,
     reason: '',
+    status: 0,
     spinning: false,
   });
   const rules = {
     type: [{ required: true, message: '请选择请假类型', trigger: 'change' }],
-    startTime: [{ required: true, message: '请选择开始时间', trigger: 'change', type: 'object' }],
-    endTime: [{ required: true, message: '请选择结束时间', trigger: 'change', type: 'object' }],
+    startTime: [{ required: true, message: '请选择开始时间', trigger: 'change' }],
+    endTime: [{ required: true, message: '请选择结束时间', trigger: 'change' }],
     reason: [{ required: true, message: '请输入请假事由', trigger: 'blur' }],
   };
 
@@ -121,9 +141,9 @@
   const doSave = async (status) => {
     formState.spinning = true;
     try {
-      status = status || 0;
       const formData = toRaw(formState);
       formData['status'] = status;
+      console.log('formData', formData);
       await createOaLeave(formData);
       success(status == 1 ? '提交成功。' : '保存成功');
       router.push('/hr/manage/oaleave');
@@ -133,6 +153,52 @@
       formState.spinning = false;
     }
   };
+
+  const getInfo = async () => {
+    getOaLeave(formState.id).then((res) => {
+      formState.type = res['type'] + '';
+      formState.startTime = res['startTime'];
+      formState.endTime = res['endTime'];
+      formState.reason = res['reason'];
+      formState.status = res.status;
+
+      if (formState.status > 0) {
+        billTitleOptions.infoItems.push({
+          key: 'billCode',
+          label: '单据编号',
+          value: res.billCode,
+          position: 'left',
+        });
+        billTitleOptions.infoItems.push({
+          key: 'fillinDate',
+          label: '制单日期',
+          value: res.fillinDate,
+          position: 'center',
+        });
+        billTitleOptions.infoItems.push({
+          key: 'createPerson',
+          label: '创建人',
+          value: res.deptName + '.' + res.personMemberName,
+          position: 'right',
+        });
+      }
+    });
+  };
+
+  /** 初始化 */
+  onMounted(async () => {
+    typeData.value.push({ label: '病假', value: '1' });
+    typeData.value.push({ label: '事假', value: '2' });
+    typeData.value.push({ label: '婚假', value: '3' });
+
+    if (query.processInstanceId) {
+      processInstanceId.value = query.processInstanceId as unknown as string;
+      ProcessInstanceApi.getProcessInstance(processInstanceId.value).then((res) => {
+        formState.id = res.businessKey;
+        getInfo();
+      });
+    }
+  });
 
   const compareDate = (d1, d2) => {
     let date1 = new Date(Date.parse(d1));
