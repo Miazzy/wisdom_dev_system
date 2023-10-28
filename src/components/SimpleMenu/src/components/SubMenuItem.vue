@@ -17,7 +17,7 @@
     </template>
 
     <Popover
-      placement="right"
+      placement="rightTop"
       :overlayClassName="`${prefixCls}-menu-popover`"
       v-else
       :visible="getIsOpend"
