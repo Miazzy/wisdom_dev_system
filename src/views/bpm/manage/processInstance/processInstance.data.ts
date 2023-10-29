@@ -30,6 +30,20 @@ const bpmProcessInstanceResult = [
     colorType: 'info',
     cssClass: '',
   },
+  {
+    dictType: 'bpm_process_instance_result',
+    value: '5',
+    label: '已终止',
+    colorType: 'info',
+    cssClass: '',
+  },
+  {
+    dictType: 'bpm_process_instance_result',
+    value: '6',
+    label: '退回/驳回',
+    colorType: 'info',
+    cssClass: '',
+  },
 ];
 
 const bpmModelCategory = [

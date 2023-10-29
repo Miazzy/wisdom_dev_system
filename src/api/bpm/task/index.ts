@@ -15,6 +15,7 @@ export enum BpmTaskApi {
   UpdateTaskAssignee = '/bpm/task/update-assignee',
   GetTaskListByProcessInstanceId = '/bpm/task/list-by-process-instance-id?processInstanceId=',
   ExportTask = '/bpm/task/export',
+  AddCcTo = '/bpm/task/addCcTo',
 }
 
 export const getTodoTaskPage = async (params) => {
@@ -61,4 +62,10 @@ export const getTaskListByProcessInstanceId = async (processInstanceId) => {
 export const exportTask = async (params) => {
   const requestParams = { url: BpmTaskApi.ExportTask, params };
   return defHttp.download<any>(requestParams, {});
+};
+
+//抄送任务
+export const addCcTo = async (data) => {
+  const requestParams = { url: BpmTaskApi.AddCcTo, data };
+  return defHttp.put<any>(requestParams, {});
 };
