@@ -30,11 +30,19 @@
 
     <!-- 一排数据 -->
     <div class="bottom-section">
+      <div class="element"> 
+        <Indicator :title="`电站规模(座)`" :value="30.2" :subtitle="`同比`" :percent="12.3" />
+      </div>
+      <div class="element">
+        <Indicator :title="`并网容量(MW)`" :value="30332.2423" :subtitle="`同比`" :percent="33.3" />
+      </div>
       <div class="element"> </div>
-      <div class="element"> </div>
-      <div class="element"> </div>
-      <div class="element"> </div>
-      <div class="element"> </div>
+      <div class="element">
+        <Indicator :title="`待处理隐患(项)`" :value="152" :subtitle="`处理率`" :percent="42.3" color="green" />
+      </div>
+      <div class="element">
+        <Indicator :title="`故障告警(台)`" :value="153" :subtitle="`处理时长`" :percent="`12.2h`" color="green" />
+      </div>
     </div>
   </div>
 </template>
@@ -121,13 +129,12 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap; /* 使数字自动换行 */
-
+    margin: 0px 15px;
     div.element {
-      flex: 19.5%;
+      flex: 18.5%;
       background-color: #eee;
       padding: 0px;
       height: 150px;
-      border-right: 1px solid #c0c0c0;
     }
   }
 
