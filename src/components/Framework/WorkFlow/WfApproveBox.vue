@@ -33,6 +33,7 @@
   import ApprovalDrawer from '/@/components/Framework/ApprovalDrawer/ApprovalDrawer.vue';
   import * as TaskApi from '@/api/bpm/task';
   import * as ProcessInstanceApi from '@/api/bpm/processInstance';
+  import { useUserStore } from '/@/store/modules/user';
 
   const emit = defineEmits([
     'agree',
@@ -44,6 +45,9 @@
     'collect',
     'submit',
   ]);
+
+  const userStore = useUserStore();
+  const getUserInfo = toRaw(userStore.getUserInfo);
 
   const props = defineProps({
     processInstanceId: propTypes.string.def(''),
@@ -74,6 +78,10 @@
     if (!data) {
       message.error('查询不到流程信息！');
       return;
+    }
+    const myTask = getMyTask(data);
+    if (Object.keys(myTask).length === 0) {
+      isHandle.value = 0;
     }
     approveDataList.value = data;
   };
@@ -142,6 +150,17 @@
     }
     isHandle.value = data['status'];
   };
+
+  //获取未处理任务节点
+  function getMyTask(flowData) {
+    const obj = {};
+    flowData.forEach((item) => {
+      if (item.assigneeUser.id === getUserInfo.userId) {
+        assign(obj, item);
+      }
+    });
+    return obj;
+  }
 
   watch(
     () => props.processStatus,
