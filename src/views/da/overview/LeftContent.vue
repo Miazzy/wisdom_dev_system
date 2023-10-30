@@ -86,8 +86,9 @@
 <style lang="less" scoped>
   .left-content {
     flex: 40;
+    width: 45%;
     background-color: #eee;
-    padding: 20px;
+    padding: 0px;
     flex-shrink: 0; 
   }
 
@@ -110,6 +111,7 @@
 
   .middel-section {
     margin-top: -80px;
+    margin-left: -80px;
   }
 
   .number {

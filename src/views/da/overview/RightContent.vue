@@ -2,8 +2,7 @@
   <div class="right-content">
     <div class="layout">
       <div class="top-section">
-        <EchartPillarChart :data="pchartData" :width="400" :height="280" />
-        <!-- <EchartLineBarChart :colors="chartColors" :width="400" :height="280" /> -->
+        <EchartPillarChart :data="pchartData" :width="400" />
       </div>
       <div class="middle-section">
         <EchartLineBarChart :colors="chartColors" :width="400" :height="280" />
@@ -55,6 +54,7 @@
 <style lang="less" scoped>
   .right-content {
     flex: 30;
+    width: 30%;
     flex-shrink: 0;
     padding: 0;
     background-color: #ccc;

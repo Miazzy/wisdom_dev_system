@@ -26,9 +26,10 @@
 <style lang="less" scoped>
   .middle-content {
     flex: 30;
+    width: 30%;
     background-color: #ccc;
     padding: 0px;
-    flex-shrink: 0; 
+    flex-shrink: 0;
 
     .layout {
       display: flex;
