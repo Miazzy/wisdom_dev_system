@@ -6,7 +6,8 @@
         <el-table-column label="任务标识" align="center" prop="taskDefinitionKey" />
         <el-table-column label="规则类型" align="center" prop="type">
           <template #default="scope">
-            <dict-tag :type="DICT_TYPE.BPM_TASK_ASSIGN_RULE_TYPE" :value="scope.row.type" />
+            <!-- <dict-tag :type="DICT_TYPE.BPM_TASK_ASSIGN_RULE_TYPE" :value="scope.row.type" /> -->
+            {{ getAssignRuleType(scope.row.type) }}
           </template>
         </el-table-column>
         <el-table-column label="规则范围" align="center" prop="options">
@@ -78,6 +79,17 @@
     }
   };
 
+  /** 翻译规则类型 */
+  const getAssignRuleType = (option) => {
+    const bpmTaskAssignRuleType = getIntDictOptions(DICT_TYPE.BPM_TASK_ASSIGN_RULE_TYPE);
+    for (const ruleType of bpmTaskAssignRuleType) {
+      if (ruleType.value === option) {
+        return ruleType.label;
+      }
+    }
+    return '';
+  };
+
   /** 翻译规则范围 */
   const getAssignRuleOptionName = (type, option) => {
     if (type === 10) {
@@ -101,7 +113,7 @@
     } else if (type === 30 || type === 31 || type === 32) {
       for (const userOption of userOptions.value) {
         if (userOption.id === option) {
-          return userOption.nickname;
+          return userOption.name;
         }
       }
     } else if (type === 40) {
@@ -129,7 +141,6 @@
 
   /** 初始化 */
   onMounted(async () => {
-    await getList();
     // 获得角色列表
     roleOptions.value = await RoleApi.getSimpleRoleList();
     // 获得部门列表
@@ -140,5 +151,7 @@
     userOptions.value = await UserApi.getSimpleUserList();
     // 获得用户组列表
     userGroupOptions.value = await UserGroupApi.getSimpleUserGroupList();
+
+    await getList();
   });
 </script>
