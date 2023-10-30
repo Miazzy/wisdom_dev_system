@@ -59,10 +59,12 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import Icon from '@/components/Icon/Icon.vue';
+  import { useUserStore } from '/@/store/modules/user';
 
   defineOptions({ name: 'ImportDialog' });
 
   const message = useMessage(); // 消息弹窗
+  const userStore = useUserStore();
 
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
@@ -103,8 +105,7 @@
     }
     // 提交请求
     uploadHeaders.value = {
-      Authorization: 'Bearer test1',
-      'tenant-id': 1,
+      Authorization: 'Bearer ' + userStore.getToken,
     };
     formLoading.value = true;
     uploadRef.value!.submit();

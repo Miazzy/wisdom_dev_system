@@ -1,7 +1,7 @@
 <!--
  * @Description: 
  * @Date: 2023-09-14 14:31:30
- * @LastEditTime: 2023-10-28 13:13:59
+ * @LastEditTime: 2023-10-28 14:50:34
  * @FilePath: \ygwl-framework\src\components\Framework\ApprovalDrawer\ApprovalDrawer.vue
 -->
 <template>
@@ -45,7 +45,7 @@
         >同意</Button
       >
       <Button class="fit-footer-btn" v-if="props.isHandle == 1" @click="handleReject">驳回</Button>
-      <!-- <Button class="fit-footer-btn" v-if="props.isHandle == 1" @click="handleSave">保存</Button> -->
+<Button class="fit-footer-btn" v-if="props.isHandle == 1" @click="handleFlowSave">保存</Button>
       <Dropdown>
         <template #overlay>
           <Menu @click="handleMenuClick">
@@ -163,7 +163,7 @@
   }
 
   // 保存
-  function handleSave() {
+  function handleFlowSave() {
     const { innerFlowData } = trackTabRef.value;
     emit('save', innerFlowData);
   }
@@ -268,17 +268,10 @@
   function getMyTask(flowData) {
     const obj = {};
     flowData.forEach((item) => {
-      console.log('item', item);
       if (item.assigneeUser.id === getUserInfo.userId) {
         assign(obj, item);
       }
     });
-    // forEach(flowData, function (def) {
-    //   var flow = toRaw(def);
-    //   if (flow.result === === getUserInfo.userId) {
-    //     assign(obj, flow);
-    //   }
-    // });
     return obj;
   }
 
