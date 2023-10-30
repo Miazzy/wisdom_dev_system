@@ -26,6 +26,7 @@ export enum BpmProInstanceApi {
   CreateProcessInstance = '/bpm/process-instance/create',
   CancelProcessInstance = '/bpm/process-instance/cancel',
   GetProcessInstance = '/bpm/process-instance/get?id=',
+  AbortProcessInstance = '/bpm/process-instance/abort?id=',
 }
 
 export const getMyProcessInstancePage = async (params) => {
@@ -47,4 +48,10 @@ export const cancelProcessInstance = async (id: string, reason: string) => {
 export const getProcessInstance = async (id: string) => {
   const requestParams = { url: BpmProInstanceApi.GetProcessInstance + id };
   return defHttp.get<any>(requestParams, { isOnlyResult: true });
+};
+
+//终止流程实例
+export const abortProcessInstance = async (data) => {
+  const requestParams = { url: BpmProInstanceApi.AbortProcessInstance, data };
+  return defHttp.post<any>(requestParams, {});
 };

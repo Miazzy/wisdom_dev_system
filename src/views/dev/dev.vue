@@ -171,6 +171,15 @@
       :bubble-color="bubbleColor"
     />
 
+    <BarChart
+      :data="barData"
+      :width="500"
+      :height="300"
+      :barColors="['#2D93AD', '#F56D0E', '#B0DEA7']"
+      :lineColors="['#FF6384', '#3366FF']"
+      :barWidth="50"
+    />
+
     <DonutChart :data="donutData" width="300" height="200" radius="100" />
 
     <!-- <ThreeDDonutChart :data="donutData" width="300" height="200" radius="100" /> -->
@@ -186,7 +195,6 @@
 
     <EchartLineBarChart :colors="chartColors" width="600" height="400" />
     <EchartPillarChart :data="pchartData" />
-    <EchartStackBarChart :data="echartData" :colors="chartColors" />
     <!-- <NtgaleChart /> -->
   </div>
 </template>
@@ -218,7 +226,6 @@
   import EchartBarChart from '../../components/Framework/Chart/EchartBarChart.vue';
   import EchartPillarChart from '../../components/Framework/Chart/EchartPillarChart.vue';
   import EchartLineBarChart from '../../components/Framework/Chart/EchartLineBarChart.vue';
-  import EchartStackBarChart from '../../components/Framework/Chart/EchartStackBarChart.vue';
   // import ThreeDDonutChart from '../../components/Framework/Chart/ThreeDDonutChart.vue';
   // import NtgaleChart from '/@/components/Framework/Chart/NtgaleChart.vue';
   // import ThreeDPieChart from '/@/components/Framework/Chart/ThreeDPieChart.vue';
@@ -356,7 +363,6 @@
     barData: [
       { name: 'Series A', data: [30, 20, 15, 25, 10] },
       { name: 'Series B', data: [25, 15, 10, 20, 5] },
-      { name: 'Series C', data: [25, 15, 10, 20, 5] },
     ],
     lineData: [
       { name: 'Series C', data: [15, 10, 8, 12, 7] },

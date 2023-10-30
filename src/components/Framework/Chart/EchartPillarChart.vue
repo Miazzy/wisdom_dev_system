@@ -12,7 +12,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted, onUnmounted } from 'vue';
+  import { ref, onMounted, watch, onUnmounted } from 'vue';
   import * as echarts from 'echarts';
 
   // 定义属性

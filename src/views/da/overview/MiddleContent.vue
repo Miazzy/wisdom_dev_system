@@ -1,26 +1,13 @@
 <template>
   <div class="middle-content">
-    <div class="layout">
-      <div class="top-section"> 
-        <!-- <DonutChart :data="donutData" width="300" height="200" radius="100" style="margin-top:40px;margin-left:-30px;"/> -->
-      </div>
-      <div class="middle-section"> </div>
-      <div class="bottom-section">
-        <DonutChart :data="donutData" width="300" height="200" radius="100" />
-      </div>
-    </div>
+    <!-- Middle content goes here -->
+    <h2>中间内容</h2>
+    <!-- Add your content and components here -->
   </div>
 </template>
 
 <script lang="ts" setup>
-  import DonutChart from '/@/components/Framework/Chart/DonutChart.vue';
-  import NtgaleChart from '/@/components/Framework/Chart/NtgaleChart.vue';
 
-  const donutData = [
-    { label: 'Category A', value: 30 },
-    { label: 'Category B', value: 50 },
-    { label: 'Category C', value: 20 },
-  ];
 </script>
 
 <style lang="less" scoped>
