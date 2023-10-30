@@ -179,7 +179,24 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/po/ticket/secondworkticket/create.vue');
         }
-        
+
+        // da 驾驶舱
+        else if (checkImportComponent('/@/views/da/overview/Overview.vue', menu.component)) {
+          return import('/@/views/da/overview/Overview.vue');
+        } else if (checkImportComponent('/@/views/da/operation/Operation.vue', menu.component)) {
+          return import('/@/views/da/operation/Operation.vue');
+        } else if (
+          checkImportComponent('/@/views/da/composition/Composition.vue', menu.component)
+        ) {
+          return import('/@/views/da/composition/Composition.vue');
+        } else if (checkImportComponent('/@/views//da/power/Power.vue', menu.component)) {
+          return import('/@/views//da/power/Power.vue');
+        } else if (checkImportComponent('/@/views/da/property/Property.vue', menu.component)) {
+          return import('/@/views/da/property/Property.vue');
+        } else if (checkImportComponent('/@/views/da/security/Security.vue', menu.component)) {
+          return import('/@/views/da/security/Security.vue');
+        }
+
         // monitor/PVArea
         else if (checkImportComponent('/@/views/monitor/PVArea/subareaOverview/subareaOverview.vue', menu.component)) {
           return import('/@/views/monitor/PVArea/subareaOverview/subareaOverview.vue');

@@ -29,11 +29,12 @@
     </div>
 
     <!-- 一排数据 -->
-    <div class="bottom-data">
-      <span class="data-label">数据1:</span>
-      <span class="data-value">9876</span>
-      <span class="data-label">数据2:</span>
-      <span class="data-value">5432</span>
+    <div class="bottom-section">
+      <div class="element"> </div>
+      <div class="element"> </div>
+      <div class="element"> </div>
+      <div class="element"> </div>
+      <div class="element"> </div>
     </div>
   </div>
 </template>
@@ -42,6 +43,7 @@
   import { ref } from 'vue';
   import EchartChinaMap from '/@/components/Framework/Chart/EchartChinaMap.vue';
   import NumberDisplay from "/@/components/Framework/Chart/NumberDisplay.vue";
+  import Indicator from "/@/components/Framework/Chart/Indicator.vue";
 
   // 定义你的数据和属性
   const chinaRegionData = ref([]);
@@ -114,6 +116,21 @@
     margin-left: -80px;
   }
 
+  .bottom-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* 使数字自动换行 */
+
+    div.element {
+      flex: 19.5%;
+      background-color: #eee;
+      padding: 0px;
+      height: 150px;
+      border-right: 1px solid #c0c0c0;
+    }
+  }
+
   .number {
     display: inline-block;
     margin-right: 20px;
@@ -123,8 +140,4 @@
     font-weight: bold;
   }
 
-  .data-label {
-    font-weight: bold;
-    margin-right: 10px;
-  }
 </style>
