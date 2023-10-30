@@ -7,6 +7,7 @@
     :height="props.height"
     @cancel="cancel"
     @confirm="confirm"
+    @close="close"
   >
     <div class="dialog-content" :style="`height: calc(${props.height}px - 90px)`">
       <!-- 左侧分类树 -->
@@ -166,7 +167,7 @@
     },
   });
 
-  const emit = defineEmits(['update:visible', 'cancel', 'confirm']); // 定义事件
+  const emit = defineEmits(['update:visible', 'cancel', 'confirm', 'close']); // 定义事件
 
   const scolumns = ref([
     { title: '名称', dataIndex: 'title', key: 'title', fixed: 'left', minWidth: 100 },
@@ -175,17 +176,23 @@
   ]);
 
   const cancel = () => {
-    modalVisible.value = false;
-    emit('update:visible', false); // 关闭弹框
+    // modalVisible.value = false;
+    // emit('update:visible', false); // 关闭弹框
     emit('cancel'); // 发送取消事件
   };
 
   const confirm = () => {
     const rule = props?.tfields as fieldType;
-    modalVisible.value = false;
+    // modalVisible.value = false;
     const data = transformRespData(allNodes.value, rule);
-    emit('update:visible', false); // 关闭弹框
+    // emit('update:visible', false); // 关闭弹框
     emit('confirm', data); // 发送确定事件
+  };
+
+  const close = () => {
+    const rule = props?.tfields as fieldType;
+    const data = transformRespData(allNodes.value, rule);
+    emit('close', data); // 发送确定事件
   };
 
   const updateVisible = ($event) => {

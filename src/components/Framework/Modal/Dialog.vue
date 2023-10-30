@@ -43,10 +43,11 @@
     overflowX: { type: String, default: 'hidden' },
   });
 
-  const emit = defineEmits(['update:visible', 'cancel', 'confirm']); // 定义事件
+  const emit = defineEmits(['update:visible', 'cancel', 'confirm', 'close']); // 定义事件
 
   const closeModal = () => {
     emit('update:visible', false); // 关闭弹框
+    emit('close');
   };
 
   const cancel = () => {
