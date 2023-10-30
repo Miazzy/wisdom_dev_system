@@ -29,5 +29,6 @@
   .content {
     flex: 1;
     display: flex;
+    flex-shrink: 0; 
   }
 </style>

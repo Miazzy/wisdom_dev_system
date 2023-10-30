@@ -6,7 +6,7 @@
   ></div>
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted, watch, toRefs } from 'vue';
+  import { onMounted } from 'vue';
   import * as echarts from 'echarts';
 
   // 定义属性

@@ -34,6 +34,10 @@
 
     .title {
       font-size: 24px;
+      font-family: Microsoft YaHei;
+      font-weight: 400;
+      color: #FFFFFF;
+      line-height: 16px;
     }
 
     .info {
