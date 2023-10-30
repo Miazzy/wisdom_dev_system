@@ -29,7 +29,6 @@
     const data1 = props.data.barData[1].data;
     const data2 = props.data.barData[2].data;
     const lineData = props.data.lineData[0].data;
-    debugger;
     option = {
       tooltip: {
         trigger: 'axis',
