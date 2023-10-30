@@ -28,13 +28,12 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: #333;
     color: white;
     height: 80px;
 
     .title {
       font-size: 24px;
-      font-family: Microsoft YaHei;
+      font-family: 'Microsoft YaHei', '微软雅黑';
       font-weight: 400;
       color: #FFFFFF;
       line-height: 16px;

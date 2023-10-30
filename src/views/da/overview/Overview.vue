@@ -1,10 +1,12 @@
 <template>
-  <div class="dashboard">
-    <Header :title="title" />
-    <div class="content">
-      <LeftContent />
-      <MiddleContent />
-      <RightContent />
+  <div class="layout">
+    <div class="dashboard">
+      <Header :title="title" />
+      <div class="content">
+        <LeftContent />
+        <MiddleContent />
+        <RightContent />
+      </div>
     </div>
   </div>
 </template>
@@ -20,15 +22,22 @@
 </script>
 
 <style lang="less" scoped>
-  .dashboard {
+  .layout {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-  .content {
-    flex: 1;
-    display: flex;
-    flex-shrink: 0;
+    background: url('../../../assets/images/background1.png') no-repeat center/cover;
+
+    .dashboard {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .content {
+        flex: 1;
+        display: flex;
+        flex-shrink: 0;
+      }
+    }
   }
 </style>

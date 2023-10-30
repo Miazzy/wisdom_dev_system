@@ -97,15 +97,14 @@
   .left-content {
     flex: 40;
     width: 45%;
-    background-color: #eee;
     padding: 0px;
     flex-shrink: 0; 
+    border-left: 0px solid #000;
   }
 
   .top-section {
     margin-bottom: 20px;
     height: 150px;
-    border-bottom: 0px solid #fefefe;
 
     display: flex;
     justify-content: center;
@@ -114,7 +113,6 @@
 
     div.element {
       flex: 50%;
-      background-color: #eee;
       padding: 0px;
     }
   }
@@ -132,7 +130,6 @@
     margin: 0px 15px;
     div.element {
       flex: 18.5%;
-      background-color: #eee;
       padding: 0px;
       height: 150px;
     }

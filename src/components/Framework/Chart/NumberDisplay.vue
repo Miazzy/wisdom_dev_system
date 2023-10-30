@@ -7,12 +7,12 @@
         v-for="(digit, index) in digitArray"
         :key="index"
         :style="{
-          backgroundColor: digit == '.' ? '' : `${props.bcolor}80`,
           fontSize: props.vsize,
           color: digit == '.' ? '' : props.vcolor,
         }"
       >
-        {{ digit }}
+        <span>{{ digit }}</span>
+        <div class="mask" > </div>
       </div>
     </div>
   </div>
@@ -50,11 +50,15 @@
 <style scoped>
   .number-display {
     text-align: left;
+    margin-left: 15px;
   }
 
   .title {
-    font-weight: bold;
+    font-weight: 300;
     text-align: left;
+    font-size: 12px;
+    color: #32AFFF;
+    font-family: 'Microsoft YaHei', '微软雅黑';
   }
 
   .number-container {
@@ -64,18 +68,33 @@
   }
 
   .number {
-    background-color: rgba(0, 0, 0, 0.1); /* 设置数字背景色 */
-    padding: 1px 10px 1px 10px; /* 根据需要调整内边距 */
+    position: relative;
+    padding: 1px 2px 1px 2px; /* 根据需要调整内边距 */
     border-radius: 5px; /* 可以根据需要调整圆角 */
-    border: 0.001rem solid #0606fd;
+    border: 0.001rem solid #0606fd50;
     margin: 5px 3px 0px 0px; /* 根据需要调整数字之间的间距 */
     text-align: center;
     font-weight: 600;
     transform: scaleY(1.15);
+    height: 42px;
+    width: 30px;
+    text-align: center;
     line-height: 1.35; /* 调整行高以增加数字的高度 */
+
+    .mask {
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      position: absolute;
+      border-radius: 5px; /* 可以根据需要调整圆角 */
+      background: #01B4F150; /* 设置数字背景色 */
+      border: 0.001rem solid #0606fd50;
+      opacity: 0.35;
+    }
   }
   .number-dot {
-    padding: 1px 5px; /* 根据需要调整内边距 */
+    padding: 1px 2px; /* 根据需要调整内边距 */
     border-radius: 5px; /* 可以根据需要调整圆角 */
     margin: 0px 3px 0px 0px; /* 根据需要调整数字之间的间距 */
     text-align: center;

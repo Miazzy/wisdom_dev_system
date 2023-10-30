@@ -27,7 +27,6 @@
   .middle-content {
     flex: 30;
     width: 30%;
-    background-color: #ccc;
     padding: 0px;
     flex-shrink: 0;
 
@@ -39,17 +38,17 @@
 
       .top-section {
         flex: 10; /* 上部分高度占比，可以根据需要调整 */
-        background-color: #f0f0f0;
+        height: 33%;
       }
 
       .middle-section {
         flex: 10; /* 中间部分高度占比，可以根据需要调整 */
-        background-color: #f3f3f3;
+        height: 33%;
       }
 
       .bottom-section {
         flex: 10; /* 下部分高度占比，可以根据需要调整 */
-        background-color: #f0f0f0;
+        height: 33%;
       }
     }
   }
