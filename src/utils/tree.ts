@@ -396,3 +396,14 @@ export const treeToString = (tree: any[], nodeId) => {
   }
   return str;
 };
+
+/**
+ * 重新加载Tree数据
+ */
+export const reloadTreeData = (data, timestamp = 300) => {
+  const tdataList = data.value;
+  data.value = [];
+  setTimeout(() => {
+    data.value = tdataList;
+  }, timestamp);
+};

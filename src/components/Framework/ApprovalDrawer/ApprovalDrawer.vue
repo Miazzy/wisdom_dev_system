@@ -82,6 +82,7 @@
   import * as ProcessInstanceApi from '@/api/bpm/processInstance';
   import * as TaskApi from '@/api/bpm/task';
   import * as OrgApi from '@/api/sys/org';
+  import { reloadTreeData } from '@/utils/tree';
 
   const props = defineProps({
     flowData: { type: Array },
@@ -210,6 +211,8 @@
     const { innerFlowData } = trackTabRef.value;
     console.log('innerFlowData', innerFlowData);
     organVisible.value = true;
+    // 重新加载TreeData
+    reloadTreeData(treeData, 100);
   }
 
   // 查询左侧电站树数据

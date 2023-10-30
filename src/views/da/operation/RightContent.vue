@@ -12,8 +12,9 @@
 
 <style lang="less" scoped>
   .right-content {
-    flex: 1;
-    background-color: #ddd;
-    padding: 20px;
+    flex: 33;
+    width: 33%;
+    padding: 0px;
+    flex-shrink: 0;
   }
 </style>
