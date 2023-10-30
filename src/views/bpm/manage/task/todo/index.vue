@@ -42,7 +42,7 @@
           <TableAction
             :actions="[
               {
-                icon: IconEnum.EDIT,
+                icon: IconEnum.VIEW,
                 label: '审批进度',
                 onClick: handleAudit.bind(null, record),
               },

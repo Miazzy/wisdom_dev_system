@@ -12,9 +12,10 @@
       @register="approvalDrawerRegister"
       :flowData="approveDataList"
       :processInstanceId="processInstanceId"
+      :isHandle="isHandle"
       @agree="handleAgree"
       @reject="handleReject"
-      @save="handleSave"
+      @save="handleFlowSave"
       @end="handleEnd"
       @transfer="handleTransfer"
       @notice="handleNotice"
@@ -30,6 +31,7 @@
   import { propTypes } from '@/utils/propTypes';
   import ApprovalDrawer from '/@/components/Framework/ApprovalDrawer/ApprovalDrawer.vue';
   import * as TaskApi from '@/api/bpm/task';
+  import * as ProcessInstanceApi from '@/api/bpm/processInstance';
 
   const emit = defineEmits([
     'agree',
@@ -62,6 +64,7 @@
     const curflowobj = getuntreated(toRaw(flowData));
     await TaskApi.approveTask({ id: curflowobj.id, reason: curflowobj.reason });
     message.success('操作成功。');
+    isHandle.value = 2;
     getTaskListByProcessInstanceId();
   };
 
@@ -94,8 +97,14 @@
     getTaskListByProcessInstanceId();
   };
 
-  const handleSave = (flowData) => {
-    emit('save', flowData);
+  // 流程审批保存
+  const handleFlowSave = (flowData) => {
+    emit('flowSave', flowData);
+  };
+
+  // 业务的保存
+  const handleSave = () => {
+    emit('save');
   };
 
   const handleEnd = (flowData) => {
@@ -118,6 +127,16 @@
     emit('submit', flowData);
   };
 
+  const isHandle = ref(1);
+  const getProcessInstance = async () => {
+    const data = await ProcessInstanceApi.getProcessInstance(processInstanceId.value);
+    if (!data) {
+      message.error('查询不到流程信息！');
+      return;
+    }
+    isHandle.value = data['status'];
+  };
+
   watch(
     () => props.processStatus,
     (newValue) => {
@@ -131,6 +150,7 @@
       processInstanceId.value = props.processInstanceId;
       if (processInstanceId.value.length != 0) {
         getTaskListByProcessInstanceId();
+        getProcessInstance();
       }
     },
   );
@@ -139,8 +159,9 @@
   .workflow-approve-box {
     .button-content {
       margin: 16px 0 0 16px;
+
       .ant-btn {
-        margin: 0px 10px 0px 0px;
+        margin: 0 10px 0 0;
       }
     }
   }

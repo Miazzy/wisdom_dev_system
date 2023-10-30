@@ -1,7 +1,7 @@
 <!--
  * @Description: 
  * @Date: 2023-09-14 14:31:30
- * @LastEditTime: 2023-10-26 15:43:20
+ * @LastEditTime: 2023-10-28 14:50:34
  * @FilePath: \ygwl-framework\src\components\Framework\ApprovalDrawer\ApprovalDrawer.vue
 -->
 <template>
@@ -21,14 +21,14 @@
       </Tabs>
     </div>
     <template #footer>
-      <Button class="fit-footer-btn" type="primary" v-if="isHandle == 1" @click="handleAgree">同意</Button>
-      <Button class="fit-footer-btn" v-if="isHandle == 1" @click="handleReject">驳回</Button>
-      <Button class="fit-footer-btn" v-if="isHandle == 1" @click="handleSave">保存</Button>
+      <Button class="fit-footer-btn" type="primary" v-if="props.isHandle == 1" @click="handleAgree">同意</Button>
+      <Button class="fit-footer-btn" v-if="props.isHandle == 1" @click="handleReject">驳回</Button>
+      <Button class="fit-footer-btn" v-if="props.isHandle == 1" @click="handleFlowSave">保存</Button>
       <Dropdown>
         <template #overlay>
           <Menu @click="handleMenuClick">
-            <MenuItem v-if="isHandle == 1" key="1">终止</MenuItem>
-            <MenuItem v-if="isHandle == 1" key="2">转办</MenuItem>
+            <MenuItem v-if="props.isHandle == 1" key="1">终止</MenuItem>
+            <MenuItem v-if="props.isHandle == 1" key="2">转办</MenuItem>
             <MenuItem key="3">知会</MenuItem>
             <MenuItem key="4">收藏任务</MenuItem>
           </Menu>
@@ -42,7 +42,7 @@
   </BasicDrawer>
 </template>
 <script lang="ts" setup>
-  import { watch, ref, toRaw } from 'vue';
+  import { watch, ref, toRaw, onMounted } from 'vue';
   import { Tabs, TabPane, Button, Dropdown, Menu, MenuItem, message } from 'ant-design-vue';
   import type { MenuProps } from 'ant-design-vue';
   import { propTypes } from '@/utils/propTypes';
@@ -56,6 +56,7 @@
   const props = defineProps({
     flowData: { type: Array },
     processInstanceId: propTypes.string.def(''),
+    isHandle: { type: Number, default: 1} //当前流程是否处理默认当前流程未处理（1 未处理、2 已处理）
   });
 
   const userStore = useUserStore();
@@ -84,8 +85,6 @@
   const approvalTabRef = ref();
 
   const processInstanceId = ref(null);
-  //默认当前流程未处理（1 未处理、2 已处理）
-  const isHandle = ref(1);
 
   const activeKey = ref('1');
 
@@ -119,7 +118,6 @@
   function handleAgree() {
     const { innerFlowData } = trackTabRef.value;
     emit('agree', innerFlowData);
-    isHandle.value = 2;
   }
 
   // 驳回
@@ -129,29 +127,11 @@
   }
 
   // 保存
-  function handleSave() {
+  function handleFlowSave() {
     const { innerFlowData } = trackTabRef.value;
     emit('save', innerFlowData);
   }
 
-  const getProcessInstance = async () => {
-    const data = await ProcessInstanceApi.getProcessInstance(processInstanceId.value);
-    if (!data) {
-      message.error('查询不到流程信息！');
-      return;
-    }
-    isHandle.value = data['status'];
-  };
-
-  watch(
-    () => props.processInstanceId,
-    (newValue) => {
-      processInstanceId.value = props.processInstanceId;
-      if (processInstanceId.value.length != 0) {
-        getProcessInstance();
-      }
-    },
-  );
 </script>
 <style lang="less">
   .vben-basic-drawer-footer {
