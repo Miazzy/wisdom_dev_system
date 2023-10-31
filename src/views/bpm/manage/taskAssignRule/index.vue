@@ -136,7 +136,14 @@
   /** 添加/修改操作 */
   const formRef = ref();
   const openForm = (row: TaskAssignRuleApi.TaskAssignVO) => {
-    formRef.value.open(queryParams.modelId, row);
+    const options = {
+      role: roleOptions.value,
+      dept: deptOptions.value,
+      post: postOptions.value,
+      user: userOptions.value,
+      userGroup: userGroupOptions.value,
+    };
+    formRef.value.open(queryParams.modelId, row, options);
   };
 
   /** 初始化 */
@@ -151,7 +158,6 @@
     userOptions.value = await UserApi.getSimpleUserList();
     // 获得用户组列表
     userGroupOptions.value = await UserGroupApi.getSimpleUserGroupList();
-
     await getList();
   });
 </script>

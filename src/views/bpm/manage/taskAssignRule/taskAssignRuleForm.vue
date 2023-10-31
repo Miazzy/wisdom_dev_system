@@ -163,9 +163,9 @@
   const taskAssignScriptDictDatas = getIntDictOptions(DICT_TYPE.BPM_TASK_ASSIGN_SCRIPT);
 
   /** 打开弹窗 */
-  const open = async (modelId: string, row: TaskAssignRuleApi.TaskAssignVO) => {
+  const open = async (modelId: string, row: TaskAssignRuleApi.TaskAssignVO, options) => {
     modalVisible.value = true;
-    emit('update:visible', true); // 关闭弹框
+    emit('update:visible', true);
     // 1. 先重置表单
     resetForm();
     // 2. 再设置表单
@@ -180,6 +180,19 @@
       userGroupIds: [],
       scripts: [],
     };
+
+    // 获得角色列表
+    roleOptions.value = options.role; // await RoleApi.getSimpleRoleList();
+    // 获得部门列表
+    deptOptions.value = options.dept; // await DeptApi.getSimpleDeptList();
+    deptTreeOptions.value = handleTree(deptOptions.value, 'id');
+    // 获得岗位列表
+    postOptions.value = options.post; // await PostApi.getSimplePostList();
+    // 获得用户列表
+    userOptions.value = options.user; // await UserApi.getSimpleUserList();
+    // 获得用户组列表
+    userGroupOptions.value = options.userGroup; // await UserGroupApi.getSimpleUserGroupList();
+
     // 将 options 赋值到对应的 roleIds 等选项
     if (row.type === 10) {
       formData.value.roleIds.push(...row.options);
@@ -194,20 +207,6 @@
     } else if (row.type === 50) {
       formData.value.scripts.push(...row.options);
     }
-    // 打开弹窗
-    dialogVisible.value = true;
-
-    // 获得角色列表
-    roleOptions.value = await RoleApi.getSimpleRoleList();
-    // 获得部门列表
-    deptOptions.value = await DeptApi.getSimpleDeptList();
-    deptTreeOptions.value = handleTree(deptOptions.value, 'id');
-    // 获得岗位列表
-    postOptions.value = await PostApi.getSimplePostList();
-    // 获得用户列表
-    userOptions.value = await UserApi.getSimpleUserList();
-    // 获得用户组列表
-    userGroupOptions.value = await UserGroupApi.getSimpleUserGroupList();
   };
 
   /** 提交表单 */
@@ -254,7 +253,6 @@
         await TaskAssignRuleApi.updateTaskAssignRule(data);
         message.success(t('common.updateSuccess'));
       }
-      dialogVisible.value = false;
       // 发送操作成功的事件
       emit('success');
     } finally {
