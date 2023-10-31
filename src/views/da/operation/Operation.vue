@@ -26,7 +26,7 @@
   .layout {
     width: 100%;
     height: 100%;
-    background: url('../../../assets/images/background1.png') no-repeat center/cover;
+    background: url('../../../assets/images/background3.png') no-repeat center/cover;
 
     .dashboard {
       width: 100%;
