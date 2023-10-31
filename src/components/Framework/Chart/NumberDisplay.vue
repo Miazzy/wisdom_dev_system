@@ -28,13 +28,13 @@
     () => props.value,
     (newValue) => {
       // 当数字值改变时，将其拆分成个位数字
-      digitArray.value = String(newValue).split('').map(String);
+      digitArray.value = String(newValue).split('').map(String) as never[];
     },
   );
 
   onMounted(() => {
     // 当数字值改变时，将其拆分成个位数字
-    digitArray.value = String(props.value).split('').map(String);
+    digitArray.value = String(props.value).split('').map(String) as never[];
   });
 
   const props = defineProps({
