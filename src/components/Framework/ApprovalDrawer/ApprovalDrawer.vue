@@ -14,6 +14,7 @@
     :drawerStyle="{ boxShadow: '0px 1px 3px 0px #E9E9E9', borderTop: '1px solid #F0F0F0' }"
     showFooter
     footerHeight="64"
+    @visible-change="handleChange"
   >
     <OrganDialog
       :title="`组织人员Dialog`"
@@ -290,7 +291,7 @@
   };
 
   //获取未处理任务节点
-  function getMyTask(flowData) {
+  const getMyTask = (flowData) => {
     const obj = {};
     flowData.forEach((item) => {
       if (item.assigneeUser.id === getUserInfo.userId) {
@@ -298,7 +299,14 @@
       }
     });
     return obj;
-  }
+  };
+
+  // 当drawer组件弹开时
+  const handleChange = () => {
+    setTimeout(() => {
+      window.scrollTo({ top: 0 });
+    }, 0);
+  };
 
   /** 初始化 **/
   onMounted(() => {
