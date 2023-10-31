@@ -181,20 +181,20 @@ const transformMenuItem = (menu, routes) => {
         }
 
         // da 驾驶舱
-        else if (checkImportComponent('/@/views/da/overview/Overview.vue', menu.component)) {
-          return import('/@/views/da/overview/Overview.vue');
-        } else if (checkImportComponent('/@/views/da/operation/Operation.vue', menu.component)) {
-          return import('/@/views/da/operation/Operation.vue');
+        else if (checkImportComponent('/@/views/da/cockpit/overview/Overview.vue', menu.component)) {
+          return import('/@/views/da/cockpit/overview/Overview.vue');
+        } else if (checkImportComponent('/@/views/da/cockpit/operation/Operation.vue', menu.component)) {
+          return import('/@/views/da/cockpit/operation/Operation.vue');
         } else if (
-          checkImportComponent('/@/views/da/composition/Composition.vue', menu.component)
+          checkImportComponent('/@/views/da/cockpit/composition/Composition.vue', menu.component)
         ) {
-          return import('/@/views/da/composition/Composition.vue');
-        } else if (checkImportComponent('/@/views//da/power/Power.vue', menu.component)) {
-          return import('/@/views//da/power/Power.vue');
-        } else if (checkImportComponent('/@/views/da/property/Property.vue', menu.component)) {
-          return import('/@/views/da/property/Property.vue');
-        } else if (checkImportComponent('/@/views/da/security/Security.vue', menu.component)) {
-          return import('/@/views/da/security/Security.vue');
+          return import('/@/views/da/cockpit/composition/Composition.vue');
+        } else if (checkImportComponent('/@/views/cockpit/da/power/Power.vue', menu.component)) {
+          return import('/@/views/da/cockpit/power/Power.vue');
+        } else if (checkImportComponent('/@/views/da/cockpit/property/Property.vue', menu.component)) {
+          return import('/@/views/da/cockpit/property/Property.vue');
+        } else if (checkImportComponent('/@/views/da/cockpit/security/Security.vue', menu.component)) {
+          return import('/@/views/da/cockpit/security/Security.vue');
         }
 
         // monitor/PVArea

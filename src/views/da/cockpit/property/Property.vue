@@ -13,12 +13,12 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
-  import Header from '/@/views/da/header/Header.vue';
-  import LeftContent from '/@/views/da/composition/LeftContent.vue';
-  import MiddleContent from '/@/views/da/composition/MiddleContent.vue';
-  import RightContent from '/@/views/da/composition/RightContent.vue';
+  import Header from '/@/views/da/cockpit/header/Header.vue';
+  import LeftContent from '/@/views/da/cockpit/property/LeftContent.vue';
+  import MiddleContent from '/@/views/da/cockpit/property/MiddleContent.vue';
+  import RightContent from '/@/views/da/cockpit/property/RightContent.vue';
 
-  const title = ref('综合驾驶舱');
+  const title = ref('资产驾驶舱');
 </script>
 
 <style lang="less" scoped>

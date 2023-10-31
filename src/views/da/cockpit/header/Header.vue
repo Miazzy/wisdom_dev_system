@@ -12,9 +12,6 @@
 <script lang="ts" setup>
   import { ref, onMounted, defineProps, watch } from 'vue';
 
-  const searchRealText = ref('');
-  const searchTableText = ref('');
-
   const props = defineProps({
     title: { type: String, default: '' }, // 列定义
     date: { type: String, default: '2023-10-01 10:00' }, // 表格数据

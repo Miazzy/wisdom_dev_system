@@ -13,7 +13,6 @@
 <style lang="less" scoped>
   .left-content {
     flex: 1;
-    background-color: #eee;
     padding: 20px;
   }
 </style>
