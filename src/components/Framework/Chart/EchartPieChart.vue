@@ -6,12 +6,12 @@
   ></div>
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted, watch, toRefs } from 'vue';
+  import { onMounted } from 'vue';
   import * as echarts from 'echarts';
 
   // 定义属性
   const props = defineProps({
-    data: Array,
+    data: { type: Array, default: [] as any[] },
     width: { type: Number, default: 600 },
     height: { type: Number, default: 300 },
     colors: { type: Array, default: [] as any[] },
