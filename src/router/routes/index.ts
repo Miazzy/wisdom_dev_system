@@ -153,7 +153,7 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/baseset/operation/linelossrate/lineLossRateSet.vue');
         }
-        // po
+        // po/ticket
         else if (
           checkImportComponent('/@/views/po/ticket/operationticket/index.vue', menu.component)
         ) {
@@ -179,8 +179,25 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/po/ticket/secondworkticket/create.vue');
         }
-
-        // da 驾驶舱
+        // po/safety
+        else if (menu.component == '/@/views/po/safety/safechecktemplate/index.vue') {
+          return import('/@/views/po/safety/safechecktemplate/index.vue');
+        } else if (menu.component == '/@/views/po/safety/safechecktemplate/createOrUpdate.vue') {
+          return import('/@/views/po/safety/safechecktemplate/createOrUpdate.vue');
+        } else if (menu.component == '/@/views/po/safety/safecheckissue/index.vue') {
+          return import('/@/views/po/safety/safecheckissue/index.vue');
+        } else if (menu.component == '/@/views/po/safety/safecheckissue/createOrUpdate.vue') {
+          return import('/@/views/po/safety/safecheckissue/createOrUpdate.vue');
+        } else if (menu.component.startsWith('/@/views/po/safety/safecheckexecution/index.vue')) {
+          return import('/@/views/po/safety/safecheckexecution/index.vue');
+        } else if (menu.component == '/@/views/po/safety/safecheckexecution/createOrUpdate.vue') {
+          return import('/@/views/po/safety/safecheckexecution/createOrUpdate.vue');
+        } else if (menu.component == '/@/views/po/safety/vehicleexecution/index.vue') {
+          return import('/@/views/po/safety/vehicleexecution/index.vue');
+        } else if (menu.component == '/@/views/po/safety/vehicleexecution/createOrUpdate.vue') {
+          return import('/@/views/po/safety/vehicleexecution/createOrUpdate.vue');
+        }
+        // da 决策分析/管理驾驶舱
         else if (checkImportComponent('/@/views/da/cockpit/overview/Overview.vue', menu.component)) {
           return import('/@/views/da/cockpit/overview/Overview.vue');
         } else if (checkImportComponent('/@/views/da/cockpit/operation/Operation.vue', menu.component)) {
@@ -196,48 +213,94 @@ const transformMenuItem = (menu, routes) => {
         } else if (checkImportComponent('/@/views/da/cockpit/security/Security.vue', menu.component)) {
           return import('/@/views/da/cockpit/security/Security.vue');
         }
-
         // monitor/PVArea
-        else if (checkImportComponent('/@/views/monitor/PVArea/subareaOverview/subareaOverview.vue', menu.component)) {
+        else if (
+          checkImportComponent(
+            '/@/views/monitor/PVArea/subareaOverview/subareaOverview.vue',
+            menu.component,
+          )
+        ) {
           return import('/@/views/monitor/PVArea/subareaOverview/subareaOverview.vue');
-        } else if (checkImportComponent('/@/views/monitor/PVArea/inverterOverview/inverterOverview.vue', menu.component)) {
+        } else if (
+          checkImportComponent(
+            '/@/views/monitor/PVArea/inverterOverview/inverterOverview.vue',
+            menu.component,
+          )
+        ) {
           return import('/@/views/monitor/PVArea/inverterOverview/inverterOverview.vue');
-        } else if (checkImportComponent('/@/views/monitor/PVArea/boxTransformerSubstationOverview/boxTransformerSubstationOverview.vue', menu.component)) {
-          return import('/@/views/monitor/PVArea/boxTransformerSubstationOverview/boxTransformerSubstationOverview.vue');
-        } else if (checkImportComponent('/@/views/monitor/PVArea/groupSeriesOverview/groupSeriesOverview.vue', menu.component)) {
+        } else if (
+          checkImportComponent(
+            '/@/views/monitor/PVArea/boxTransformerSubstationOverview/boxTransformerSubstationOverview.vue',
+            menu.component,
+          )
+        ) {
+          return import(
+            '/@/views/monitor/PVArea/boxTransformerSubstationOverview/boxTransformerSubstationOverview.vue'
+          );
+        } else if (
+          checkImportComponent(
+            '/@/views/monitor/PVArea/groupSeriesOverview/groupSeriesOverview.vue',
+            menu.component,
+          )
+        ) {
           return import('/@/views/monitor/PVArea/groupSeriesOverview/groupSeriesOverview.vue');
         }
-
         // monitor/boosterStation
-        else if (checkImportComponent('/@/views/monitor/boosterStation/boosterStationOverview/boosterStationOverview.vue', menu.component)) {
-          return import('/@/views/monitor/boosterStation/boosterStationOverview/boosterStationOverview.vue');
+        else if (
+          checkImportComponent(
+            '/@/views/monitor/boosterStation/boosterStationOverview/boosterStationOverview.vue',
+            menu.component,
+          )
+        ) {
+          return import(
+            '/@/views/monitor/boosterStation/boosterStationOverview/boosterStationOverview.vue'
+          );
         }
-
         // monitor/energyStorage
-        else if (checkImportComponent('/@/views/monitor/energyStorage/energyStorageMonitor.vue', menu.component)) {
+        else if (
+          checkImportComponent(
+            '/@/views/monitor/energyStorage/energyStorageMonitor.vue',
+            menu.component,
+          )
+        ) {
           return import('/@/views/monitor/energyStorage/energyStorageMonitor.vue');
         }
-
         // monitor/realTimeAnalysis
-        else if (checkImportComponent('/@/views/monitor/realTimeAnalysis/areaRealTimeAnalysis.vue', menu.component)) {
+        else if (
+          checkImportComponent(
+            '/@/views/monitor/realTimeAnalysis/areaRealTimeAnalysis.vue',
+            menu.component,
+          )
+        ) {
           return import('/@/views/monitor/realTimeAnalysis/areaRealTimeAnalysis.vue');
-        }
-        else if (checkImportComponent('/@/views/monitor/realTimeAnalysis/inverterRealTimeAnalysis.vue', menu.component)) {
+        } else if (
+          checkImportComponent(
+            '/@/views/monitor/realTimeAnalysis/inverterRealTimeAnalysis.vue',
+            menu.component,
+          )
+        ) {
           return import('/@/views/monitor/realTimeAnalysis/inverterRealTimeAnalysis.vue');
-        }
-        else if (checkImportComponent('/@/views/monitor/realTimeAnalysis/dispersionRatioRealTimeAnalysis.vue', menu.component)) {
+        } else if (
+          checkImportComponent(
+            '/@/views/monitor/realTimeAnalysis/dispersionRatioRealTimeAnalysis.vue',
+            menu.component,
+          )
+        ) {
           return import('/@/views/monitor/realTimeAnalysis/dispersionRatioRealTimeAnalysis.vue');
-        }
-        else if (checkImportComponent('/@/views/monitor/realTimeAnalysis/groupSeriesRealTimeAnalysis.vue', menu.component)) {
+        } else if (
+          checkImportComponent(
+            '/@/views/monitor/realTimeAnalysis/groupSeriesRealTimeAnalysis.vue',
+            menu.component,
+          )
+        ) {
           return import('/@/views/monitor/realTimeAnalysis/groupSeriesRealTimeAnalysis.vue');
         }
-
         // monitor/faultWarning
-        else if (checkImportComponent('/@/views/monitor/faultWarning/faultWarning.vue', menu.component)) {
+        else if (
+          checkImportComponent('/@/views/monitor/faultWarning/faultWarning.vue', menu.component)
+        ) {
           return import('/@/views/monitor/faultWarning/faultWarning.vue');
-        }
-
-        else {
+        } else {
           return asyncImportComponent(menu.component);
         }
       } catch (e) {
