@@ -5,7 +5,13 @@
     :width="props.width"
     :height="props.height"
   >
-    <el-form ref="formRef" :model="formData" :rules="formRules" label-width="80px">
+    <el-form
+      class="task-assign-rule-form"
+      ref="formRef"
+      :model="formData"
+      :rules="formRules"
+      label-width="80px"
+    >
       <el-form-item label="任务名称" prop="taskDefinitionName">
         <el-input v-model="formData.taskDefinitionName" disabled placeholder="请输入流标标识" />
       </el-form-item>
@@ -65,14 +71,16 @@
         prop="userIds"
         span="24"
       >
-        <el-select v-model="formData.userIds" clearable multiple style="width: 100%">
-          <el-option
-            v-for="item in userOptions"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          />
-        </el-select>
+        <a-select
+          v-model:value="formData.userIds"
+          mode="multiple"
+          show-search
+          placeholder="请选择用户"
+          style="width: 100%"
+          :fieldNames="{ label: 'name', value: 'id', options: 'options' }"
+          :options="userOptions"
+          :filter-option="filterOption"
+        />
       </el-form-item>
       <el-form-item v-if="formData.type === 40" label="指定用户组" prop="userGroupIds">
         <el-select v-model="formData.userGroupIds" clearable multiple style="width: 100%">
@@ -266,6 +274,10 @@
     formRef.value?.resetFields();
   };
 
+  const filterOption = (input: string, option: any) => {
+    return option.name.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+  };
+
   watch(
     () => props.visible,
     (newValue) => {
@@ -282,3 +294,10 @@
 
   defineExpose({ open, resetForm, submitForm }); // 提供 open 方法，用于打开弹窗
 </script>
+<style lang="less" scoped>
+  .task-assign-rule-form {
+    :deep(.ant-select-selection-placeholder) {
+      text-align: left;
+    }
+  }
+</style>
