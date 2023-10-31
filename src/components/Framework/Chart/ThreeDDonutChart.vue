@@ -56,7 +56,7 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
   import { ref, onMounted, defineProps, computed } from 'vue';
   import * as d3 from 'd3';
 

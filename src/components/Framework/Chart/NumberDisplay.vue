@@ -1,5 +1,5 @@
 <template>
-  <div class="number-display" >
+  <div class="number-display">
     <div class="title" :style="{ fontSize: props.tsize }">{{ props.title }}</div>
     <div class="number-container">
       <div
@@ -12,13 +12,13 @@
         }"
       >
         <span>{{ digit }}</span>
-        <div class="mask" > </div>
+        <div class="mask"> </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
   import { onMounted, ref, watch } from 'vue';
 
   // 将数字拆分成个位数字的数组
@@ -49,57 +49,57 @@
 
 <style scoped>
   .number-display {
-    text-align: left;
     margin-left: 15px;
+    text-align: left;
   }
 
   .title {
+    color: #32afff;
+    font-family: 'Microsoft YaHei', '微软雅黑';
+    font-size: 12px;
     font-weight: 300;
     text-align: left;
-    font-size: 12px;
-    color: #32AFFF;
-    font-family: 'Microsoft YaHei', '微软雅黑';
   }
 
   .number-container {
     display: flex;
-    justify-content: left;
     align-items: center;
+    justify-content: left;
   }
 
   .number {
     position: relative;
-    padding: 1px 2px 1px 2px; /* 根据需要调整内边距 */
-    border-radius: 5px; /* 可以根据需要调整圆角 */
-    border: 0.001rem solid #0606fd50;
-    margin: 5px 3px 0px 0px; /* 根据需要调整数字之间的间距 */
-    text-align: center;
-    font-weight: 600;
-    transform: scaleY(1.15);
-    height: 42px;
     width: 30px;
-    text-align: center;
+    height: 42px;
+    margin: 5px 3px 0 0; /* 根据需要调整数字之间的间距 */
+    padding: 1px 2px; /* 根据需要调整内边距 */
+    transform: scaleY(1.15);
+    border: 0.001rem solid #0606fd50;
+    border-radius: 5px; /* 可以根据需要调整圆角 */
+    font-weight: 600;
     line-height: 1.35; /* 调整行高以增加数字的高度 */
+    text-align: center;
 
     .mask {
-      width: 100%;
-      height: 100%;
+      position: absolute;
       top: 0;
       left: 0;
-      position: absolute;
-      border-radius: 5px; /* 可以根据需要调整圆角 */
-      background: #01B4F150; /* 设置数字背景色 */
+      width: 100%;
+      height: 100%;
       border: 0.001rem solid #0606fd50;
+      border-radius: 5px; /* 可以根据需要调整圆角 */
       opacity: 0.35;
+      background: #01b4f150; /* 设置数字背景色 */
     }
   }
+
   .number-dot {
+    margin: 0 3px 0 0; /* 根据需要调整数字之间的间距 */
     padding: 1px 2px; /* 根据需要调整内边距 */
     border-radius: 5px; /* 可以根据需要调整圆角 */
-    margin: 0px 3px 0px 0px; /* 根据需要调整数字之间的间距 */
-    text-align: center;
-    color: #07A6FF;
+    color: #07a6ff;
     font-weight: 600;
     line-height: 1; /* 调整行高以增加数字的高度 */
+    text-align: center;
   }
 </style>
