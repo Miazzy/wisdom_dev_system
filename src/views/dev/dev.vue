@@ -180,7 +180,8 @@
       :barWidth="50"
     />
 
-    <DonutChart :data="donutData" width="300" height="200" radius="100" />
+    <DonutChart :data="donutData" :width="300" :height="200" :radius="100" />
+    <EchartPieChart :data="pieData" :width="400" :height="400" :colors="pieColors" :show-label="true"/>
 
     <!-- <ThreeDDonutChart :data="donutData" width="300" height="200" radius="100" /> -->
     <!-- <ThreeDPieChart :data="tchartData" :width="400" :height="400" /> -->
@@ -222,6 +223,7 @@
   import BubbleChart from '/@/components/Framework/Chart/BubbleChart.vue';
   import BarChart from '/@/components/Framework/Chart/BarChart.vue';
   import DonutChart from '/@/components/Framework/Chart/DonutChart.vue';
+  import EchartPieChart from '/@/components/Framework/Chart/EchartPieChart.vue';
   import EchartChinaMap from '../../components/Framework/Chart/EchartChinaMap.vue';
   import EchartBarChart from '../../components/Framework/Chart/EchartBarChart.vue';
   import EchartPillarChart from '../../components/Framework/Chart/EchartPillarChart.vue';
@@ -378,8 +380,18 @@
     units: ['单位', '单位'],
   });
 
+  const pieData = ref([
+    { name: '圣彼得堡来客', value: 5.6 },
+    { name: '陀思妥耶夫斯基全集', value: 1 },
+    { name: '史记精注全译（全6册）', value: 0.8 },
+    { name: '加德纳艺术通史', value: 0.5 },
+    { name: '表象与本质', value: 0.5 },
+    { name: '其它', value: 3.8 },
+  ]);
+
   const chartColors = ref(['#3c8dbc', '#00a65a', '#f39c12', '#d81b60']);
   const chartLegend = ref(['Series A', 'Series B', 'Series C', 'Series D']);
+  const pieColors = ref(['red', 'green', 'blue', 'yellow', 'skyblue', 'purple']);
 
   const chinaRegionData = ref([]);
   chinaRegionData.value = [
