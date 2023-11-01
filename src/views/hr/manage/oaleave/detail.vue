@@ -22,11 +22,7 @@
                     :options="typeData"
                     placeholder="请选择请假类型"
                     :disabled="formState.status != 0"
-                  >
-                    <!-- <a-select-option value="1">病假</a-select-option>
-                    <a-select-option value="2">事假</a-select-option>
-                    <a-select-option value="3">婚假</a-select-option> -->
-                  </a-select>
+                  />
                 </a-form-item>
 
                 <a-form-item label="开始时间" name="startTime">
@@ -52,6 +48,32 @@
                 </a-form-item>
               </a-form>
             </a-card>
+            <a-card title="附件信息">
+              <div class="clearfix">
+                <a-upload
+                  :multiple="true"
+                  :file-list="fileList"
+                  :before-upload="beforeUpload"
+                  :showUploadList="{ showRemoveIcon: formState.status === 0 }"
+                  @remove="handleRemove"
+                >
+                  <a-button v-if="formState.status === 0">
+                    <upload-outlined />
+                    Select File
+                  </a-button>
+                </a-upload>
+                <a-button
+                  type="primary"
+                  v-if="formState.status === 0"
+                  :disabled="isNeedUpload"
+                  :loading="uploading"
+                  style="margin-top: 16px"
+                  @click="handleUpload"
+                >
+                  {{ uploading ? 'Uploading' : 'Start Upload' }}
+                </a-button>
+              </div>
+            </a-card>
           </div>
           <div class="right-panel">
             <WfApproveBox
@@ -70,7 +92,7 @@
   import { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
   import { Moment } from 'moment';
   import { reactive, ref, toRaw, UnwrapRef, onMounted } from 'vue';
-  import { message } from 'ant-design-vue';
+  import { message, Modal, UploadProps } from 'ant-design-vue';
   import { useRouter, useRoute } from 'vue-router';
 
   import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
@@ -78,10 +100,15 @@
   import { createOaLeave, getOaLeave } from '@/api/hr/oaleave';
   import * as ProcessInstanceApi from '@/api/bpm/processInstance';
 
+  import * as FileApi from '@/api/infra/file';
+  import { useUserStore } from '/@/store/modules/user';
+
   defineOptions({ name: 'OALeaveCreate' });
 
   const router = useRouter();
   const { query } = useRoute();
+  const userStore = useUserStore();
+
   const labelCol = { span: 2 };
   const wrapperCol = { span: 12 };
   const billTitleOptions = reactive<any>({});
@@ -92,12 +119,14 @@
   const processInstanceId = ref(null);
 
   interface FormState {
+    id: string | undefined;
     type: string | undefined;
     startTime: Moment | undefined;
     endTime: Moment | undefined;
     reason: string | undefined;
     status: number | 0;
     spinning: boolean;
+    bizFileId: string | undefined;
   }
 
   const formRef = ref();
@@ -109,12 +138,127 @@
     reason: '',
     status: 0,
     spinning: false,
+    bizFileId: '',
   });
   const rules = {
     type: [{ required: true, message: '请选择请假类型', trigger: 'change' }],
     startTime: [{ required: true, message: '请选择开始时间', trigger: 'change' }],
     endTime: [{ required: true, message: '请选择结束时间', trigger: 'change' }],
     reason: [{ required: true, message: '请输入请假事由', trigger: 'blur' }],
+  };
+
+  const uploadHeaders = ref(); // 上传 Header 头
+  uploadHeaders.value = {
+    Authorization: 'Bearer ' + userStore.getToken,
+  };
+  const fileList = ref<UploadProps['fileList']>([]);
+  const uploading = ref<boolean>(false);
+  const isNeedUpload = ref<boolean>(true);
+
+  const isNeedUploadFile = () => {
+    const isExits = fileList.value.some((ele) => !ele.hasOwnProperty('id'));
+    isNeedUpload.value = !isExits;
+  };
+
+  const handleRemove: UploadProps['onRemove'] = (file) => {
+    console.log('file', file);
+    Modal.confirm({
+      title: '确认操作',
+      content: '请确认是否删除此流程数据项？',
+      onOk() {
+        if (!file.id) {
+          const index = fileList.value.indexOf(file);
+          const newFileList = fileList.value.slice();
+          newFileList.splice(index, 1);
+          fileList.value = newFileList;
+          isNeedUploadFile();
+        } else {
+          FileApi.deleteFile(file.id).then(() => {
+            const index = fileList.value.indexOf(file);
+            const newFileList = fileList.value.slice();
+            newFileList.splice(index, 1);
+            fileList.value = newFileList;
+            isNeedUploadFile();
+          });
+        }
+      },
+    });
+    return false;
+  };
+
+  const beforeUpload: UploadProps['beforeUpload'] = (file) => {
+    // 1、控制文件数量
+    if (fileList.value.length + 1 > 5) {
+      message.warning('超过文件上传数量限制。');
+      return false;
+    }
+    // 2、控制上传的文件大小
+    if (file.size > 1073741824) {
+      message.warning('文件大小超过最大限度1G。');
+      return false;
+    }
+    // 3、控制上传文件不能为空
+    if (file.size === 0) {
+      message.warning('所选信息中存在空文件或目录，请重新选择。');
+      return false;
+    }
+    // 4、控制已上传文件不重复
+    for (let i = 0; i < fileList.value.length; i++) {
+      const item = fileList.value[i];
+      if (item.name === file.name) {
+        message.warning('不允许重复上传。');
+        return false;
+      }
+    }
+    // 5、控制上传文件的类型 arr是上传类型的白名单
+    const type = file.name.slice(file.name.lastIndexOf('.') + 1).toLowerCase();
+    const arr = ['.jpg', '.png', '.jpeg', '.docx', '.xlsx', '.txt', '.pdf', '.zip'];
+    if (!arr.includes('.' + type)) {
+      message.warning(`不支持以 .${type} 扩展类型的文件或图片上传。`);
+      return false;
+    }
+    fileList.value = [...fileList.value, file];
+    isNeedUploadFile();
+    return false;
+  };
+
+  const handleUpload = () => {
+    const formData = new FormData();
+    formData.append('application', 'baseset'); //附件上传必须携带参数：应用
+    formData.append('module', 'oaleave'); //附件上传必须携带参数：模块
+    formData.append('bizId', formState.bizFileId); //附件上传必须携带参数：业务ID
+
+    if (!formState.bizFileId) {
+      message.warning(`bizFileId为空。`);
+      return false;
+    }
+
+    fileList.value.forEach((file: UploadProps['fileList'][number]) => {
+      if (!file.id) {
+        formData.append('files', file as any);
+      }
+    });
+    uploading.value = true;
+
+    FileApi.uploadFile(formData)
+      .then(() => {
+        fileList.value = [];
+        uploading.value = false;
+        getFiles(formState.bizFileId);
+        isNeedUploadFile();
+        message.success('操作成功。');
+      })
+      .catch(() => {
+        uploading.value = false;
+        isNeedUploadFile();
+        message.error('操作失败。');
+      });
+  };
+
+  const getFiles = async (bizFileId) => {
+    FileApi.getFiles({ bizId: bizFileId }).then((res) => {
+      fileList.value = res;
+    });
   };
 
   const onSave = () => {
@@ -161,6 +305,8 @@
       formState.endTime = res['endTime'];
       formState.reason = res['reason'];
       formState.status = res.status;
+      formState.bizFileId = res.bizFileId;
+      getFiles(res.bizFileId);
 
       if (formState.status > 0) {
         billTitleOptions.infoItems.push({
