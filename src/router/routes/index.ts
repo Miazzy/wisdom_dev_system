@@ -389,9 +389,20 @@ export const LoginRoute: AppRouteRecordRaw = {
   },
 };
 
+// 总览驾驶舱路由
+export const CockpitOverviewRoute: AppRouteRecordRaw = {
+  path: '/cockpit/overview',
+  name: 'CockpitOverview',
+  component: () => import('/@/views/da/cockpit/overview/Overview.vue'),
+  meta: {
+    title: t('routes.basic.cockpit.overview'),
+  },
+};
+
 // 暴露基础路由
 export const basicRoutes = [
   LoginRoute,
+  CockpitOverviewRoute,
   RootRoute,
   ...mainOutRoutes,
   REDIRECT_ROUTE,

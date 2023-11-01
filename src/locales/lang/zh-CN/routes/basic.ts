@@ -1,5 +1,8 @@
 export default {
   login: '登录',
+  cockpit: {
+    overview: '总览驾驶舱',
+  },
   errorLogList: '错误日志列表',
   base: '系统设置',
 

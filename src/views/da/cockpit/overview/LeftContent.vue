@@ -1,18 +1,19 @@
 <template>
   <div class="left-content">
     <div class="top-section">
-      <!-- 第一排数字 -->
-      <div class="element">
-        <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" bcolor="#01B4F1" />
-      </div>
-      <div class="element">
-        <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" bcolor="#01B4F1" />
-      </div>
-      <div class="element">
-        <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" bcolor="#01B4F1" />
-      </div>
-      <div class="element">
-        <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" bcolor="#01B4F1" />
+      <div class="content" style="">
+        <div class="element">
+          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" bcolor="#01B4F1" />
+        </div>
+        <div class="element">
+          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" bcolor="#01B4F1" />
+        </div>
+        <div class="element">
+          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" bcolor="#01B4F1" />
+        </div>
+        <div class="element">
+          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" bcolor="#01B4F1" />
+        </div>
       </div>
     </div>
 
@@ -107,16 +108,19 @@
     border-left: 0 solid #000;
 
     .top-section {
-      display: flex;
-      flex-wrap: wrap; /* 使数字自动换行 */
-      align-items: center;
-      justify-content: center;
       height: 150px;
       margin-bottom: 20px;
-  
-      div.element {
-        flex: 50%;
-        padding: 0;
+      .content {
+        display: flex;
+        flex-wrap: wrap; /* 使数字自动换行 */
+        align-items: center;
+        justify-content: center;
+        margin: 0px 20px;
+
+        div.element {
+          flex: 45%;
+          padding: 0;
+        }
       }
     }
 

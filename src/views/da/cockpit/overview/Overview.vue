@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <div class="dashboard">
-      <Header :title="title" />
+      <CockpitHeader :title="title" />
       <div class="content">
         <LeftContent />
         <MiddleContent />
@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
-  import Header from '/@/views/da/cockpit/header/Header.vue';
+  import CockpitHeader from "/@/components/Framework/Chart/CockpitHeader.vue";
   import LeftContent from '/@/views/da/cockpit/overview/LeftContent.vue';
   import MiddleContent from '/@/views/da/cockpit/overview/MiddleContent.vue';
   import RightContent from '/@/views/da/cockpit/overview/RightContent.vue';
@@ -34,6 +34,7 @@
       flex-direction: column;
 
       .content {
+        margin-top: 20px;
         flex: 1;
         display: flex;
         flex-shrink: 0;
