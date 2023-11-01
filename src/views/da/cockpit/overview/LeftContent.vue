@@ -31,17 +31,22 @@
     <!-- 一排数据 -->
     <div class="bottom-section">
       <div class="element"> 
-        <Indicator :title="`电站规模(座)`" :value="30.2" :subtitle="`同比`" :percent="12.3" />
+        <Indicator class="indicator-margin" :title="`电站规模(座)`" :value="30.2" :subtitle="`同比`" :percent="12.3" />
       </div>
       <div class="element">
-        <Indicator :title="`并网容量(MW)`" :value="30332.2423" :subtitle="`同比`" :percent="33.3" />
-      </div>
-      <div class="element"> </div>
-      <div class="element">
-        <Indicator :title="`待处理隐患(项)`" :value="152" :subtitle="`处理率`" :percent="42.3" color="green" />
+        <Indicator class="indicator-margin" :title="`并网容量(MW)`" :value="30332.2423" :subtitle="`同比`" :percent="33.3" />
       </div>
       <div class="element">
-        <Indicator :title="`故障告警(台)`" :value="153" :subtitle="`处理时长`" :percent="`12.2h`" color="green" />
+        <div class="security-box">
+          <div class="value-text">2652</div>
+          <div class="title-text">安全运行(天)</div>
+        </div>
+      </div>
+      <div class="element">
+        <Indicator class="indicator-margin" :title="`待处理隐患(项)`" :value="152" :subtitle="`处理率`" :percent="42.3" color="green" />
+      </div>
+      <div class="element">
+        <Indicator class="indicator-margin" :title="`故障告警(台)`" :value="153" :subtitle="`处理时长`" :percent="`12.2h`" color="green" />
       </div>
     </div>
   </div>
@@ -96,23 +101,22 @@
 <style lang="less" scoped>
   .left-content {
     flex: 40;
+    flex-shrink: 0;
     width: 45%;
-    padding: 0px;
-    flex-shrink: 0; 
-    border-left: 0px solid #000;
+    padding: 0; 
+    border-left: 0 solid #000;
 
     .top-section {
-      margin-bottom: 20px;
-      height: 150px;
-  
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-wrap: wrap; /* 使数字自动换行 */
+      align-items: center;
+      justify-content: center;
+      height: 150px;
+      margin-bottom: 20px;
   
       div.element {
         flex: 50%;
-        padding: 0px;
+        padding: 0;
       }
     }
 
@@ -123,14 +127,40 @@
   
     .bottom-section {
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-wrap: wrap; /* 使数字自动换行 */
-      margin: 0px 15px;
+      align-items: center;
+      justify-content: center;
+      margin: 0 15px;
+
       div.element {
         flex: 18.5%;
-        padding: 0px;
         height: 150px;
+        padding: 0;
+      }
+
+      .indicator-margin {
+        margin-top: 60px;
+      }
+    }
+
+    .security-box {
+      width: 138px;
+      height: 146px;
+      padding-top: 35px;
+      background: url('../../../../assets/images/security.png') no-repeat center/contain;
+      line-height: 1;
+      text-align: center;
+
+      .value-text {
+        margin-bottom: 6px;
+        color: #fff;
+        font-size: 26px;
+        font-weight: 600;
+      }
+
+      .title-text {
+        color: #07A5FD;
+        font-size: 14px;
       }
     }
   }

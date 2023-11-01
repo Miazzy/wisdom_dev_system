@@ -1,47 +1,55 @@
 <template>
-  <div id="NtgaleChart" ref="chart" style="width:500px; height: 400px;"></div>
+  <div :id="props.id" ref="chart" :style="`width: ${props.width}px; height: ${props.height}px;`"></div>
 </template>
 
 <script lang="ts" setup>
   import * as echarts from 'echarts';
   import { onMounted } from 'vue';
+import { string } from 'vue-types';
+
+  const props = defineProps({
+    width: { type: Number, default: 600 },
+    height: { type: Number, default: 300 },
+    data: Array,
+    id: { type: String },
+    showLabel: { type: Boolean, default: false }, // 是否显示饼图图形旁边的文字标签
+    roseType: { type: [String, Boolean], default: 'area' }, // 是否展示成南丁格尔图，通过半径区分数据大小 radius/area
+  })
 
   onMounted(() => {
-    const chartDom = document.getElementById('NtgaleChart');
+    const chartDom = document.getElementById(props.id);
     const myChart = echarts.init(chartDom);
     const option = {
       legend: {
         show: false,
       },
-      toolbox: {
-        show: true,
-        feature: {
-          mark: { show: false },
-          dataView: { show: false, readOnly: false },
-          restore: { show: false },
-          saveAsImage: { show: false },
-        },
-      },
+      // toolbox: {
+      //   show: true,
+      //   feature: {
+      //     mark: { show: false },
+      //     dataView: { show: false, readOnly: false },
+      //     restore: { show: false },
+      //     saveAsImage: { show: false },
+      //   },
+      // },
       series: [
         {
           name: 'Nightingale Chart',
           type: 'pie',
           radius: [30, 100],
           center: ['50%', '50%'],
-          roseType: 'area',
+          roseType: props.roseType,
           itemStyle: {
             borderRadius: 0,
           },
-          data: [
-            { value: 40, name: 'rose 1' },
-            { value: 38, name: 'rose 2' },
-            { value: 32, name: 'rose 3' },
-            { value: 30, name: 'rose 4' },
-            { value: 28, name: 'rose 5' },
-            { value: 26, name: 'rose 6' },
-            { value: 22, name: 'rose 7' },
-            { value: 18, name: 'rose 8' },
-          ],
+          data: props.data,
+          label: {
+            show: props.showLabel,
+            formatter: '{b}: {c}%',
+            overflow: 'break',
+            textBorderType: 'none',
+            color: '#BAC3C4'
+          },
         },
       ],
     };
