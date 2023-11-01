@@ -197,10 +197,26 @@ const transformMenuItem = (menu, routes) => {
         } else if (menu.component == '/@/views/po/safety/vehicleexecution/createOrUpdate.vue') {
           return import('/@/views/po/safety/vehicleexecution/createOrUpdate.vue');
         }
-        // da 决策分析/管理驾驶舱
-        else if (checkImportComponent('/@/views/da/cockpit/overview/Overview.vue', menu.component)) {
+        // po/integrated
+        else if (menu.component == '/@/views/po/integrated/personcertificate/index.vue') {
+          return import('/@/views/po/integrated/personcertificate/index.vue');
+        } else if (menu.component == '/@/views/po/integrated/infoarchive/index.vue') {
+          return import('/@/views/po/integrated/infoarchive/index.vue');
+        } else if (menu.component == '/@/views/po/integrated/infoarchive/infoarchiveCreate.vue') {
+          return import('/@/views/po/integrated/infoarchive/infoarchiveCreate.vue');
+        } else if (menu.component == '/@/views/po/integrated/training/index.vue') {
+          return import('/@/views/po/integrated/training/index.vue');
+        } else if (menu.component == '/@/views/po/integrated/training/trainingCreate.vue') {
+          return import('/@/views/po/integrated/training/trainingCreate.vue');
+        }
+        // da/cockpit
+        else if (
+          checkImportComponent('/@/views/da/cockpit/overview/Overview.vue', menu.component)
+        ) {
           return import('/@/views/da/cockpit/overview/Overview.vue');
-        } else if (checkImportComponent('/@/views/da/cockpit/operation/Operation.vue', menu.component)) {
+        } else if (
+          checkImportComponent('/@/views/da/cockpit/operation/Operation.vue', menu.component)
+        ) {
           return import('/@/views/da/cockpit/operation/Operation.vue');
         } else if (
           checkImportComponent('/@/views/da/cockpit/composition/Composition.vue', menu.component)
@@ -208,9 +224,13 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/da/cockpit/composition/Composition.vue');
         } else if (checkImportComponent('/@/views/cockpit/da/power/Power.vue', menu.component)) {
           return import('/@/views/da/cockpit/power/Power.vue');
-        } else if (checkImportComponent('/@/views/da/cockpit/property/Property.vue', menu.component)) {
+        } else if (
+          checkImportComponent('/@/views/da/cockpit/property/Property.vue', menu.component)
+        ) {
           return import('/@/views/da/cockpit/property/Property.vue');
-        } else if (checkImportComponent('/@/views/da/cockpit/security/Security.vue', menu.component)) {
+        } else if (
+          checkImportComponent('/@/views/da/cockpit/security/Security.vue', menu.component)
+        ) {
           return import('/@/views/da/cockpit/security/Security.vue');
         }
         // monitor/PVArea
