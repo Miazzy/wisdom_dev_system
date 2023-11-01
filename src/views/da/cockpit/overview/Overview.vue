@@ -25,6 +25,8 @@
   .layout {
     width: 100%;
     height: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
     background: url('../../../../assets/images/background3.png') no-repeat center/cover;
 
     .dashboard {

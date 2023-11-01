@@ -1,19 +1,43 @@
 <template>
   <div class="middle-content">
     <div class="layout">
-      <div class="top-section"> 
-        <!-- <DonutChart :data="donutData" width="300" height="200" radius="100" style="margin-top:40px;margin-left:-30px;"/> -->
-        <!-- 运维统计 -->
+      <div class="top-section" style="height: calc(33vh - 30px)">
+        <SubtitleBar :subtitle="`运维统计`">
+          <DictSelectBox
+            :type="DICT_TYPE.BPM_MODEL_CATEGORY"
+            :width="100"
+            style="margin-right: 90px"
+          />
+        </SubtitleBar>
         <IndicatorGroup class="indicator-group-layout" :data="omData" />
-        <NtgaleChart id="omChart" :width="400" :height="200" :data="NtgaleData" showLabel />
+        <div style="transform: scale(0.7)">
+          <NtgaleChart id="omChart" :width="400" :height="200" :data="NtgaleData" showLabel />
+        </div>
       </div>
-      <div class="middle-section">
-        <!-- 安全运行 -->
+      <div class="middle-section" style="height: calc(33vh - 30px)">
+        <SubtitleBar :subtitle="`安全运行`" >
+          <DictSelectBox
+            :type="DICT_TYPE.BPM_MODEL_CATEGORY"
+            :width="100"
+            style="margin-right: 90px"
+          />
+        </SubtitleBar>
         <IndicatorGroup class="indicator-group-layout" :data="securityData" />
-        <NtgaleChart id="securityChart" :data="securityPieData" roseType="radius" />
+        <div style="width: 400px; margin-top: 5px; margin-left: 125px">
+          <WaterLevelChart :data="50" :width="150" />
+        </div>
       </div>
-      <div class="bottom-section">
-        <!-- <DonutChart :data="donutData" width="300" height="200" radius="100" /> -->
+      <div class="bottom-section" style="height: calc(33vh - 30px)">
+        <SubtitleBar :subtitle="`运维人员`" >
+          <DictSelectBox
+            :type="DICT_TYPE.BPM_MODEL_CATEGORY"
+            :width="100"
+            style="margin-right: 90px"
+          />
+        </SubtitleBar>
+        <div style="width: 100%; margin-top: -10px">
+          <DonutChart :data="donutData" width="300" height="200" radius="100" />
+        </div>
       </div>
     </div>
   </div>
@@ -22,21 +46,25 @@
 <script lang="ts" setup>
   import DonutChart from '/@/components/Framework/Chart/DonutChart.vue';
   import NtgaleChart from '/@/components/Framework/Chart/NtgaleChart.vue';
-  import IndicatorGroup from "/@/components/Framework/Chart/IndicatorGroup.vue";
+  import SubtitleBar from '/@/components/Framework/Chart/SubtitleBar.vue';
+  import IndicatorGroup from '/@/components/Framework/Chart/IndicatorGroup.vue';
+  import WaterLevelChart from '/@/components/Framework/Chart/WaterLevelChart.vue';
+  import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';
+  import { DICT_TYPE } from '@/utils/dict';
 
   // 运维统计
   const omData = [
     {
       value: 219,
-      label: '累计工单(笔)'
+      label: '累计工单(笔)',
     },
     {
       value: 8,
-      label: '未闭环工单(笔)'
+      label: '未闭环工单(笔)',
     },
     {
       value: 96.34,
-      label: '闭环率(%)'
+      label: '闭环率(%)',
     },
   ];
   const NtgaleData = [
@@ -53,15 +81,15 @@
   const securityData = [
     {
       value: 736,
-      label: '应签订(人)'
+      label: '应签订(人)',
     },
     {
       value: 728,
-      label: '已签订(人)'
+      label: '已签订(人)',
     },
     {
       value: 98.45,
-      label: '签订率(%)'
+      label: '签订率(%)',
     },
   ];
   const securityPieData = [
@@ -87,7 +115,7 @@
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
-      height: 100%; /* 100% 窗口高度，可以根据需要调整 */ 
+      height: 100%; /* 100% 窗口高度，可以根据需要调整 */
 
       .top-section {
         flex: 10; /* 上部分高度占比，可以根据需要调整 */
@@ -103,12 +131,25 @@
         flex: 10; /* 下部分高度占比，可以根据需要调整 */
         height: 33%;
       }
+      :deep(.ant-select:not(.ant-select-customize-input) .ant-select-selector) {
+        background-color: transparent;
+        border: 1px solid #07a6ff70;
+        border-radius: 0px;
+        height: 26px !important;
+      }
+      :deep(.ant-select-single .ant-select-selector .ant-select-selection-placeholder) {
+        height: 26px;
+        line-height: 26px;
+      }
+      :deep(.ant-select-arrow) {
+        color: rgba(255, 255, 255, 0.5);
+      }
     }
 
     .indicator-group-layout {
       width: 400px;
-      margin-bottom: 30px;
-      padding: 0 50px;
+      margin-bottom: 0px;
+      padding: 0 20px;
     }
   }
 </style>

@@ -45,23 +45,17 @@
       yAxis: [
         {
           type: 'value',
-          name: 'Precipitation',
+          name: '',
           min: 20,
           max: 80,
-          interval: 20,
-          axisLabel: {
-            formatter: '{value} ml',
-          },
+          interval: 10,
         },
         {
           type: 'value',
-          name: 'Temperature',
+          name: '',
           min: 10,
           max: 40,
-          interval: 10,
-          axisLabel: {
-            formatter: '{value} °C',
-          },
+          interval: 5,
         },
       ],
       series: [

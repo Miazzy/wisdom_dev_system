@@ -43,7 +43,8 @@
       if (geoCoord) {
         const name = item.name;
         const value = geoCoord.concat(item.value);
-        const element = { name, value };
+        const color = item.color;
+        const element = { name, value, color };
         res.push(element as any);
       }
     });
@@ -84,14 +85,16 @@
             color: '#fff',
           },
         },
-        roam: true,
+        roam: false,
         itemStyle: {
           normal: {
-            areaColor: 'blue',
-            borderColor: '#fff',
+            color: (res) => res.data.color, // 使用color属性来设置颜色
+            shadowBlur: 10,
           },
+          // 鼠标悬浮上去的样式
           emphasis: {
-            areaColor: 'blue',
+            color: '#4ed7fa',
+            formatter: (data) => data.value[2],
           },
         },
         zoom: props.zoom,
@@ -163,26 +166,15 @@
           },
           itemStyle: {
             normal: {
-              color: function (res) {
-                let value = res.value[2];
-                if (value < 500) {
-                  return '#ff3859';
-                } else if (value < 1000) {
-                  return '#4ed7fa';
-                } else if (value < 1500) {
-                  return '#fac531';
-                } else {
-                  return '#01ff5b';
-                }
+              color: (res) => {
+                return res.data.color;
               },
               shadowBlur: 10,
             },
             // 鼠标悬浮上去的样式
             emphasis: {
               color: '#4ed7fa',
-              formatter: function (data) {
-                return data.value[2];
-              },
+              formatter: (data) => data.value[2],
             },
           },
           zlevel: 3,
@@ -192,7 +184,7 @@
           name: '中国地图',
           type: 'map',
           mapType: 'china',
-          roam: true,
+          roam: false,
           emphasis: {
             label: {
               show: true,
