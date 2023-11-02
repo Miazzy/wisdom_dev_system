@@ -209,6 +209,36 @@ const transformMenuItem = (menu, routes) => {
         } else if (menu.component == '/@/views/po/integrated/training/trainingCreate.vue') {
           return import('/@/views/po/integrated/training/trainingCreate.vue');
         }
+        // po/elec
+        else if (
+          checkImportComponent(
+            '/@/views/po/elec/settlementelec/settlementElectricity.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/po/elec/settlementelec/settlementElectricity.vue');
+        } else if (
+          checkImportComponent(
+            '/@/views/po/elec/settlementelec/settlemenElecModal.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/po/elec/settlementelec/settlemenElecModal.vue');
+        } else if (
+          checkImportComponent(
+            '/@/views/po/elec/plannedelectricity/plannedElectricity.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/po/elec/plannedelectricity/plannedElectricity.vue');
+        } else if (
+          checkImportComponent(
+            '/@/views/po/elec/plannedelectricity/plannedElecModal.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/po/elec/plannedelectricity/plannedElecModal.vue');
+        }
         // da/cockpit
         else if (
           checkImportComponent('/@/views/da/cockpit/overview/Overview.vue', menu.component)
