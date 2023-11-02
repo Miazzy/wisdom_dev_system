@@ -99,7 +99,6 @@
     .scroll-container {
       display: flex;
       flex-direction: column;
-      scrollbar-width: none;
 
       .row {
         display: flex;
