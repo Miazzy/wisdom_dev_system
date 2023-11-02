@@ -50,12 +50,15 @@
       .data(nodes)
       .enter()
       .append('circle')
-      .attr('r', (d) => d.r * 0.97)
+      .attr('r', (d) => d.r * 0.90)
       .attr('cx', (d) => d.x * 1.0)
       .attr('cy', (d) => d.y * 1.0)
-      .attr('fill', '#303030')
-      .style('stroke', (d) => d.data.color || fontColor)
-      .style('stroke-width', '3px');
+      .attr('fill', (d) => {
+        const color = d.data.color;
+        return d3.color(color).copy({ opacity: 0.075 });
+      })
+      .style('stroke', (d) => d.data.color)
+      .style('stroke-width', '2px');
 
     svg
       .selectAll('text')
