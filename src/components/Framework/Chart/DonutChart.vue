@@ -10,16 +10,11 @@
         <!-- 绘制饼状图 -->
         <g :transform="'translate(' + radius + ',' + radius + ')'">
           <g v-for="(arc, index) in arcs" :key="index" class="arc">
-            <path
-              :d="arc.path"
-              :fill="arc.data.color"
-              @mouseover="showDataItem(arc.data, $event)"
-              @mouseleave="hideDataItem"
-            />
+            <path :d="arc.path" :fill="arc.data.color" />
           </g>
         </g>
         <text
-          style="font-size: 28px; dy: 5px;"
+          style="font-size: 28px; dy: 5px"
           :x="(width * 0.75) / 2 - 14"
           :y="(height * 0.75) / 2 + 19"
           text-anchor="middle"
@@ -60,89 +55,64 @@
         />
       </svg>
     </div>
-    <div class="data-list" style="margin-left: -40px">
-      <div
-        v-for="(group, groupIndex) in dataGroups"
-        :key="groupIndex"
-        class="data-group"
-      >
-        <div
-          v-for="(item, itemIndex) in group"
-          :key="itemIndex"
-          class="data-item"
-        >
-          <div class="data-color" :style="'background-color: ' + item.color"></div>
-          <div class="data-label">{{ item.label }}</div>
-          <div class="data-value">{{ item.value }}{{ `(人数)` }}</div>
-        </div>
-      </div>
+    <div class="data-list" style="margin: 15px 0px 0px -5px">
+      <DonutIndicatorGroup :data="props.data" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, defineProps, computed } from 'vue';
-import * as d3 from 'd3';
+  import { ref, onMounted, defineProps, computed } from 'vue';
+  import * as d3 from 'd3';
+  import DonutIndicatorGroup from './DonutIndicatorGroup.vue';
 
-const props = defineProps({
-  data: Array,
-  width: Number,
-  height: Number,
-  radius: Number,
-  sliceGap: {
-    type: Number,
-    default: 0.08, // 默认间距值，可以根据需要进行调整
-  },
-});
+  const props = defineProps({
+    data: Array,
+    width: Number,
+    height: Number,
+    radius: Number,
+    sliceGap: {
+      type: Number,
+      default: 0.08, // 默认间距值，可以根据需要进行调整
+    },
+  });
 
-const radius = props.radius;
-const arcs = ref([]);
-const showingDataItem = ref(null);
+  const radius = props.radius;
+  const arcs = ref([]);
 
-// 创建饼状图布局
-const pie = d3
-  .pie()
-  .value((d) => d.value)
-  .padAngle(props.sliceGap); // 调整扇形之间的间隔
+  // 创建饼状图布局
+  const pie = d3
+    .pie()
+    .value((d) => d.value)
+    .padAngle(props.sliceGap); // 调整扇形之间的间隔
 
-// 颜色比例尺
-const colorScale = d3.scaleOrdinal().range(d3.schemeCategory10);
+  // 颜色比例尺函数
+  const colorScale = d3.scaleOrdinal().range(d3.schemeCategory10);
 
-// 为每个数据项分配颜色
-props.data.forEach((d, i) => (d.color = colorScale(i)));
+  // 为每个数据项分配颜色
+  props.data.forEach((d, i) => { 
+    d.color = d.color ? d.color : colorScale(i);
+    d.title = d.label;
+  });
 
-// 生成饼状图的路径
-const arcGenerator = d3
-  .arc()
-  .innerRadius(radius - 30)
-  .outerRadius(radius - 10);
+  // 生成饼状图的路径
+  const arcGenerator = d3
+    .arc()
+    .innerRadius(radius - 30)
+    .outerRadius(radius - 8);
 
-// 生成饼状图数据
-onMounted(() => {
-  arcs.value = pie(props.data).map((arc) => ({
-    data: arc.data,
-    path: arcGenerator(arc),
-  }));
-});
+  // 生成饼状图数据
+  onMounted(() => {
+    arcs.value = pie(props.data).map((arc) => ({
+      data: arc.data,
+      path: arcGenerator(arc),
+    }));
+  });
 
-// 计算 viewBox 属性以保持饼状图居中
-const viewBox = ref(`0 0 ${2 * radius} ${2 * radius}`);
-const totalValue = computed(() => props.data.reduce((acc, curr) => acc + curr.value, 0));
+  // 计算 viewBox 属性以保持饼状图居中
+  const viewBox = ref(`0 0 ${2 * radius} ${2 * radius}`);
+  const totalValue = computed(() => props.data.reduce((acc, curr) => acc + curr.value, 0));
 
-// 显示数据项信息
-const showDataItem = (data, event) => {
-  showingDataItem.value = data;
-  const dataItem = document.querySelector('.data-item');
-  const itemHeight = dataItem.clientHeight;
-  showingDataItem.value.top = `${event.clientY - itemHeight / 2}px`;
-  showingDataItem.value.left = `${event.clientX + 10}px`;
-};
-
-// 隐藏数据项信息
-const hideDataItem = () => {
-  showingDataItem.value = null;
-};
-// 分组数据，每组包
 </script>
 
 <style scoped>
@@ -161,7 +131,7 @@ const hideDataItem = () => {
   }
 
   .data-list {
-    width: 40%;
+    width: 60%;
   }
 
   .data-item {

@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="middle-section">
-        <SubtitleBar :subtitle="`运维统计`">
+        <SubtitleBar :subtitle="`计划完成`">
           <DictSelectBox
             :type="DICT_TYPE.BPM_MODEL_CATEGORY"
             :width="100"
@@ -27,7 +27,7 @@
         <EchartLineBarChart :colors="chartColors" :width="400" :height="200" />
       </div>
       <div class="bottom-section">
-        <SubtitleBar :subtitle="`运维统计`" />
+        <SubtitleBar :subtitle="`电站分布`" />
         <BubbleChart
           :data="chartData"
           :width="240"

@@ -92,15 +92,15 @@
       label: '签订率(%)',
     },
   ];
-  const securityPieData = [
-    { value: 8, name: '未签订' },
-    { value: 728, name: '已签订' },
-  ];
 
   const donutData = [
-    { label: 'Category A', value: 30 },
-    { label: 'Category B', value: 50 },
-    { label: 'Category C', value: 20 },
+    { label: '20岁以下', value: 33 },
+    { label: '20岁至30岁', value: 51 },
+    { label: '30岁至40岁', value: 27 },
+    { label: '40岁至50岁', value: 33 },
+    { label: '50岁至60岁', value: 55 },
+    { label: '60岁至70岁', value: 22 },
+    { label: '70岁以上', value: 22 },
   ];
 </script>
 
