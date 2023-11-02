@@ -66,38 +66,36 @@
 
 <style lang="less" scoped>
   .modal-mask {
+    display: flex;
     position: fixed;
+    z-index: 1000;
     top: 0;
     left: 0;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    background-color: rgb(0 0 0 / 50%);
   }
 
   .modal-container {
-    background-color: #fff;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    max-width: 80%;
     width: 400px;
+    max-width: 80%;    
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
     text-align: center;
   }
 
-  .modal-header {
-    height: 45px;
-    line-height: 45px;
-    padding: 0px 5px 0px 10px;
-    border-bottom: 1px solid #ebebeb;
+  .modal-header {    
     position: relative;
+    height: 45px;
+    padding: 0 5px 0 10px;
+    line-height: 45px;
 
     span {
       position: absolute;
+      top: 0;
       left: 20px;
-      top: 0px;
     }
   }
 
@@ -107,14 +105,13 @@
   }
 
   .modal-body {
-    padding: 0px 10px 10px 10px;
+    padding: 0 10px 10px;
   }
 
   .modal-footer {
-    line-height: 35px;
     height: 35px;
     padding: 12px;
-    border-top: 1px solid #ebebeb;
+    line-height: 35px;    
     text-align: right;
 
     .footer-button {
@@ -123,16 +120,17 @@
       right: 5px;
 
       button {
-        margin: 1px 0px 1px 10px;
-        line-height: 32px;
-        height: 35px;
         width: 60px;
+        height: 35px;
+        margin: 1px 0 1px 10px;
         border: 1px solid #f0f0f0;
         border-radius: 4px;
         background: #f0f0f0;
+        line-height: 32px;
+
         &:hover {
-          cursor: pointer;
           background: #e9e9e9;
+          cursor: pointer;
         }
       }
     }
@@ -149,17 +147,12 @@
   button.modal-close {
     width: 30px;
     height: 30px;
-    line-height: 30px;
     margin-left: 10px;
-    padding: 0px 10px;
+    padding: 0 10px;
     border: none;
-    cursor: pointer;
     border-radius: 4px;
     background-color: transparent;
-    color: #999;
-
-    &:hover {
-      background-color: #f0f0f0;
-    }
+    line-height: 30px;
+    cursor: pointer;
   }
 </style>

@@ -37,17 +37,26 @@
   .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
     border: none;
   }
+
+  .ant-checkbox-inner {
+    border: 1px solid rgb(255 255 255 / 16%);
+  }
+
+  .ant-tabs {
+    color: #fff;
+  }
 }
 
 .theme1 {
   .ant-layout {
-    background: url('../assets/images/background1.png') no-repeat center/100% 100%;
+    background: url('../assets/images/background4.png') no-repeat center/100% 100%;
   }
 
   .vben-layout-header--dark {
+    border-bottom-width: 1px;
     border-bottom-color: rgb(255 255 255 / 16%);
-    border-left-color: rgb(15 67 155 / 20%);
-    background-color: rgb(15 67 155 / 20%) !important;
+    border-left-color: rgb(10 36 74 / 70%);
+    background-color: rgb(10 36 74 / 70%) !important;
 
     .vben-layout-header-logo{
       background: url('../assets/images/my-logo-dark.png') no-repeat 24px 6px/104px auto;
@@ -94,8 +103,8 @@
 
   .vben-multiple-tabs {
     border-bottom: none;
-    background-color: rgb(15 67 155 / 20%);
-    box-shadow: 0 0 5px 0 rgb(255 255 255 / 10%);
+    background-color: rgb(10 36 74 / 70%);
+    box-shadow: 0 0 5px 0 rgb(12 6 14 / 10%);
 
     .ant-tabs.ant-tabs-card .ant-tabs-nav {
       background-color: transparent;
@@ -134,15 +143,15 @@
 
   .vben-multiple-tabs-content__extra-quick, .vben-multiple-tabs-content__extra-redo, .vben-multiple-tabs-content__extra-fold {
     border-left-color:rgb(255 255 255 / 16%);
-    color: rgb(255 255 255 / 60%);
+    color: #8C8C8C;
 
     &:hover {
-      color: rgb(255 255 255 / 60%);
+      color: #8C8C8C;
     }
   }
   
   .vben-layout-sideBar.ant-layout-sider-dark {
-    background-color: rgb(15 67 155 / 20%);
+    background-color: rgb(10 36 74 / 70%);
 
     .ant-layout-sider-trigger {
       color: #B8BDC2;
@@ -159,7 +168,7 @@
     }
 
     .vben-simple-menu__children {
-      background-color: rgb(0 0 0 / 50%);
+      background-color: rgb(5 22 41 / 70%);
     }
 
     .vben-menu-item-active:not(.vben-menu-submenu) {
@@ -198,109 +207,164 @@
   //   background-color: #069DFD;
   // }
 
-  .home-page {
-    .real-time-title {
-      .title-text {
-        color: #fff;  
-      }
+  // .home-page {
+  //   .real-time-title {
+  //     .title-text {
+  //       color: #fff;  
+  //     }
   
-      .time-text {
-        color: rgb(255 254 254 / 50%);
-      }
-    }
+  //     .time-text {
+  //       color: rgb(255 254 254 / 50%);
+  //     }
+  //   }
 
-    .real-time-content {
-      .real-time-item {
-        background-color: rgb(15 67 155 / 20%);
-        box-shadow: 0 0 5px 0 rgb(13 5 16 / 10%);
+  //   .real-time-content {
+  //     .real-time-item {
+  //       background-color: rgb(15 67 155 / 20%);
+  //       box-shadow: 0 0 5px 0 rgb(13 5 16 / 10%);
 
-        .real-time-item-title {
-          color: rgb(255 255 255 / 59%);
-        }
+  //       .real-time-item-title {
+  //         color: rgb(255 255 255 / 59%);
+  //       }
 
-        .real-time-value {
-          color: #fff;
-        }
+  //       .real-time-value {
+  //         color: #fff;
+  //       }
 
-        .trend-box {
-          .ratio-name-text {
-            color: rgb(255 255 255 / 40%);
-          }
-        }
-      }
-    }
+  //       .trend-box {
+  //         .ratio-name-text {
+  //           color: rgb(255 255 255 / 40%);
+  //         }
+  //       }
+  //     }
+  //   }
 
-    .chart-row {
-      .chart-item {
-        background-color: rgb(15 67 155 / 20%);
-        box-shadow: 0 0 5px 0 rgb(13 5 16 / 10%);
+  //   .chart-row {
+  //     .chart-item {
+  //       background-color: rgb(15 67 155 / 20%);
+  //       box-shadow: 0 0 5px 0 rgb(13 5 16 / 10%);
 
-        .chart-item-title {
-          .left {
-            color: #fff;
+  //       .chart-item-title {
+  //         .left {
+  //           color: #fff;
 
-            .title-icon {
-              background-color: #1890ff;
-            }
-          }
+  //           .title-icon {
+  //             background-color: #1890ff;
+  //           }
+  //         }
 
-          .right {
-            .radio-group-style.ant-radio-group-small {
-              .ant-radio-button-wrapper {
-                border-color: rgb(217 217 217 / 20%);
-                color: rgb(255 255 255 / 80%);
+  //         .right {
+  //           .radio-group-style.ant-radio-group-small {
+  //             .ant-radio-button-wrapper {
+  //               border-color: rgb(217 217 217 / 20%);
+  //               color: rgb(255 255 255 / 80%);
 
-                &:not(:first-child){
-                  border-left: none;
+  //               &:not(:first-child){
+  //                 border-left: none;
 
-                  &::before {
-                    background-color: rgb(217 217 217 / 20%);
-                  }
-                }
+  //                 &::before {
+  //                   background-color: rgb(217 217 217 / 20%);
+  //                 }
+  //               }
 
-                &:hover {
-                  color: rgb(24 144 255 / 80%); 
-                }
-              }
+  //               &:hover {
+  //                 color: rgb(24 144 255 / 80%); 
+  //               }
+  //             }
 
-              .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-                border-color: rgb(24 144 255 / 26%);
-                color: rgb(24 144 255 / 80%);
+  //             .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  //               border-color: rgb(24 144 255 / 26%);
+  //               color: rgb(24 144 255 / 80%);
 
-                &::before {
-                  background-color: rgb(24 144 255 / 26%);
-                }
-              }
+  //               &::before {
+  //                 background-color: rgb(24 144 255 / 26%);
+  //               }
+  //             }
 
               
-            }
+  //           }
 
-            .more-text {
-              color: rgb(255 255 255 / 40%);
-            }
-          }
-        }
+  //           .more-text {
+  //             color: rgb(255 255 255 / 40%);
+  //           }
+  //         }
+  //       }
 
-        .chart-item-content { 
-            .loss-power-title {
-              color: rgb(255 255 255 / 50%);
-            }
+  //       .chart-item-content { 
+  //           .loss-power-title {
+  //             color: rgb(255 255 255 / 50%);
+  //           }
 
-            .loss-power-value {
-              color: #fff;
-            }
+  //           .loss-power-value {
+  //             color: #fff;
+  //           }
 
-            .loss-power-legend-item { 
-              .legend-label {
-                color: rgb(255 255 255 / 50%);
-              }
+  //           .loss-power-legend-item { 
+  //             .legend-label {
+  //               color: rgb(255 255 255 / 50%);
+  //             }
 
-              .legend-value {
-                color: rgb(255 255 255 / 90%);
-              }
-            }
-        }
-      }
+  //             .legend-value {
+  //               color: rgb(255 255 255 / 90%);
+  //             }
+  //           }
+  //       }
+  //     }
+  //   }
+  // }
+
+  // ant-checkbox
+  .ant-checkbox-checked .ant-checkbox-inner {
+    border-color: #1890ff;
+    background-color: #1890ff;
+  }
+
+  .ant-checkbox-checked::after {
+    border-color: #1890ff;
+  }
+
+  .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+  .ant-checkbox:hover .ant-checkbox-inner,
+  .ant-checkbox-input:focus+.ant-checkbox-inner {
+    border-color: #1890ff;
+  }
+
+  .ant-checkbox-wrapper {
+    color: rgb(255 255 255 / 60%);
+  }
+
+  // ant-tab
+  .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #1890ff;
+  }
+
+  .ant-tabs-ink-bar {
+    background: #1890ff;
+  }
+
+  .ant-tabs-top > .ant-tabs-nav::before {
+    border-bottom-color: rgb(234 234 234 / 16%);
+  }
+
+  // framework-modal
+  .modal-container {
+    background-color: #032748;
+  }
+
+  .modal-header {
+    border-bottom: 1px solid rgb(217 217 217 / 16%);
+    color: #fff;
+  }
+
+  .modal-footer {
+    border-top: 1px solid rgb(217 217 217 / 16%);
+  }
+
+  button.modal-close {
+    color: rgb(255 255 255 / 60%);
+
+    &:hover {
+      background-color: rgb(255 255 255 / 16%);
     }
   }
 }
