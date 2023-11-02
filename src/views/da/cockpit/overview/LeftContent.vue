@@ -3,21 +3,27 @@
     <div class="top-section">
       <div class="content" style="">
         <div class="element">
-          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" bcolor="#01B4F1" />
+          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" />
         </div>
         <div class="element">
-          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" bcolor="#01B4F1" />
+          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" />
         </div>
         <div class="element">
-          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" bcolor="#01B4F1" />
+          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" />
         </div>
         <div class="element">
-          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" bcolor="#01B4F1" />
+          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" />
         </div>
       </div>
     </div>
 
-    <div class="middel-section">
+    <div class="middel-section" style="position: relative">
+      <ImageIndicator
+        :title="`湖北天门通力光伏电站`"
+        :power="3302.31"
+        :realPower="3921.32"
+        style="position: absolute; top: 60px; left: 150px; width: 390px"
+      />
       <!-- EchartChinaMap 组件 -->
       <EchartChinaMap
         :title="``"
@@ -31,11 +37,23 @@
 
     <!-- 一排数据 -->
     <div class="bottom-section">
-      <div class="element"> 
-        <Indicator class="indicator-margin" :title="`电站规模(座)`" :value="30.2" :subtitle="`同比`" :percent="12.3" />
+      <div class="element">
+        <Indicator
+          class="indicator-margin"
+          :title="`电站规模(座)`"
+          :value="30.2"
+          :subtitle="`同比`"
+          :percent="12.3"
+        />
       </div>
       <div class="element">
-        <Indicator class="indicator-margin" :title="`并网容量(MW)`" :value="30332.2423" :subtitle="`同比`" :percent="33.3" />
+        <Indicator
+          class="indicator-margin"
+          :title="`并网容量(MW)`"
+          :value="30332.2423"
+          :subtitle="`同比`"
+          :percent="33.3"
+        />
       </div>
       <div class="element">
         <div class="security-box">
@@ -44,10 +62,24 @@
         </div>
       </div>
       <div class="element">
-        <Indicator class="indicator-margin" :title="`待处理隐患(项)`" :value="152" :subtitle="`处理率`" :percent="42.3" color="green" />
+        <Indicator
+          class="indicator-margin"
+          :title="`待处理隐患(项)`"
+          :value="152"
+          :subtitle="`处理率`"
+          :percent="42.3"
+          color="green"
+        />
       </div>
       <div class="element">
-        <Indicator class="indicator-margin" :title="`故障告警(台)`" :value="153" :subtitle="`处理时长`" :percent="`12.2h`" color="green" />
+        <Indicator
+          class="indicator-margin"
+          :title="`故障告警(台)`"
+          :value="153"
+          :subtitle="`处理时长`"
+          :percent="`12.2h`"
+          color="green"
+        />
       </div>
     </div>
   </div>
@@ -56,8 +88,9 @@
 <script lang="ts" setup>
   import { ref } from 'vue';
   import EchartChinaMap from '/@/components/Framework/Chart/EchartChinaMap.vue';
-  import NumberDisplay from "/@/components/Framework/Chart/NumberDisplay.vue";
-  import Indicator from "/@/components/Framework/Chart/Indicator.vue";
+  import ImageIndicator from '/@/components/Framework/Chart/ImageIndicator.vue';
+  import NumberDisplay from '/@/components/Framework/Chart/NumberDisplay.vue';
+  import Indicator from '/@/components/Framework/Chart/Indicator.vue';
 
   // 定义你的数据和属性
   const chinaRegionData = ref([]);
@@ -105,7 +138,7 @@
     flex: 40;
     flex-shrink: 0;
     width: 45%;
-    padding: 0; 
+    padding: 0;
     border-left: 0 solid #000;
 
     .top-section {
@@ -129,7 +162,7 @@
       margin-top: -80px;
       margin-left: -80px;
     }
-  
+
     .bottom-section {
       display: flex;
       flex-wrap: wrap; /* 使数字自动换行 */
@@ -164,7 +197,7 @@
       }
 
       .title-text {
-        color: #07A5FD;
+        color: #07a5fd;
         font-size: 14px;
       }
     }
