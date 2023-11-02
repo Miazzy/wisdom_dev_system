@@ -1,9 +1,13 @@
 <template>
-  <div ref="chart"></div>
+  <div class="bubble-chart" style="position:relative;">
+    <div ref="chart"></div>
+    <BubbleDataGrid :data="props.data" :style="`position:absolute; top: 0px; left: ${width + 5}px;`"/>
+  </div>
 </template>
 
 <script lang="ts" setup>
   import { ref, onMounted, onUnmounted, toRefs, defineProps } from 'vue';
+  import BubbleDataGrid from '/@/components/Framework/Chart/BubbleDataGrid.vue';
   import * as d3 from 'd3';
 
   const props = defineProps({

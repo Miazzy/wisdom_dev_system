@@ -79,16 +79,16 @@
   const chartColors = ref(['#3c8dbc', '#00a65a', '#f39c12', '#d81b60']);
 
   const chartData = [
-    { name: '江苏', label: '江苏', value: 12, size: 18, color: 'red' },
-    { name: '山东', label: '山东', value: 11, size: 15, color: 'green' },
-    { name: '吉林', label: '吉林', value: 10, size: 14, color: 'yellow' },
-    { name: '浙江', label: '浙江', value: 9, size: 14, color: 'blue' },
-    { name: '湖北', label: '湖北', value: 8, size: 14, color: 'skyblue' },
-    { name: '黑龙江', label: '黑龙江', value: 7, size: 13, color: 'purple' },
-    { name: '湖南', label: '湖南', value: 7, size: 13, color: 'purple' },
-    { name: '河北', label: '河北', value: 6, size: 12, color: 'skyblue' },
-    { name: '陕西', label: '陕西', value: 5, size: 10, color: 'yellow' },
-    { name: '山西', label: '山西', value: 3, size: 10, color: '#9023a0' },
+    { name: '江苏', label: '江苏', value: 12, size: 18, color: 'red', unit: '座' },
+    { name: '山东', label: '山东', value: 11, size: 15, color: 'green', unit: '座' },
+    { name: '吉林', label: '吉林', value: 10, size: 14, color: 'yellow', unit: '座' },
+    { name: '浙江', label: '浙江', value: 9, size: 14, color: 'blue', unit: '座' },
+    { name: '湖北', label: '湖北', value: 8, size: 14, color: 'skyblue', unit: '座' },
+    { name: '黑龙江', label: '黑龙江', value: 7, size: 13, color: 'purple', unit: '座' },
+    { name: '湖南', label: '湖南', value: 7, size: 13, color: 'purple', unit: '座' },
+    { name: '河北', label: '河北', value: 6, size: 12, color: 'skyblue', unit: '座' },
+    { name: '陕西', label: '陕西', value: 5, size: 10, color: 'yellow', unit: '座' },
+    { name: '山西', label: '山西', value: 3, size: 10, color: '#9023a0', unit: '座' },
   ];
 
   const fontSize = ref('18px');
