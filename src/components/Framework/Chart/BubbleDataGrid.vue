@@ -76,7 +76,6 @@
           scrollInterval.value = setInterval(updateScroll, 150);
         }, 300);
       }
-      console.info('scroll height:', scrollHeight.value, ' tableHeight:', tableHeight);
     }
 
     scrollInterval.value = setInterval(updateScroll, 100); // Adjust the interval as needed
