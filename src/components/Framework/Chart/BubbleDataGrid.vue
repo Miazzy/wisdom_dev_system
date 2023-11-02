@@ -56,8 +56,9 @@
   const container = ref(null);
 
   const scrollHeight = ref(0);
-  const scrollStep = 0.5; // Adjust the scroll step as needed
-  const scrollInterval = ref(null);
+  const scrollStep = 0.5;
+  const scrollInterval = ref(0);
+  const timestamp = 150;
 
   onMounted(() => {
     const containerEl = container.value as any;
@@ -73,17 +74,15 @@
         scrollContainer.style.transform = `translateY(-${scrollHeight.value}px)`;
         clearInterval(scrollInterval.value);
         setTimeout(() => {
-          scrollInterval.value = setInterval(updateScroll, 150);
-        }, 300);
+          scrollInterval.value = setInterval(updateScroll, timestamp) as unknown as number;
+        }, timestamp);
       }
     }
+    scrollInterval.value = setInterval(updateScroll, timestamp) as unknown as number;
+  });
 
-    scrollInterval.value = setInterval(updateScroll, 100); // Adjust the interval as needed
-
-    // Clear the interval when the component is unmounted
-    onUnmounted(() => {
-      clearInterval(scrollInterval);
-    });
+  onUnmounted(() => {
+    clearInterval(scrollInterval.value);
   });
 </script>
 

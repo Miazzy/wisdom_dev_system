@@ -43,7 +43,7 @@
     tsize: { type: String, default: '14px' },
     vsize: { type: String, default: '20px' },
     vcolor: { type: String, default: '#f0f0f0' },
-    bcolor: { type: String },
+    bcolor: { type: String, default: '#01B4F1' },
   });
 </script>
 
