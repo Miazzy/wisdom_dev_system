@@ -8,7 +8,7 @@
         <div class="element">
           <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" />
         </div>
-        <div class="element">
+        <div class="element" style="margin-top: 15px;">
           <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" />
         </div>
         <div class="element">
@@ -17,12 +17,12 @@
       </div>
     </div>
 
-    <div class="middel-section" style="position: relative">
+    <div class="middel-section" style="position: relative; height: 605px">
       <ImageIndicator
         :title="`湖北天门通力光伏电站`"
         :power="3302.31"
         :realPower="3921.32"
-        style="position: absolute; top: 60px; left: 150px; width: 390px"
+        style="position: absolute; top: 88px; left: 150px; width: 390px"
       />
       <!-- EchartChinaMap 组件 -->
       <EchartChinaMap
@@ -32,6 +32,7 @@
         :height="600"
         :zoom="1.35"
         :offset="150"
+        style="position: absolute; top: 60px"
       />
     </div>
 
