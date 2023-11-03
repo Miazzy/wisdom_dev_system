@@ -3,10 +3,23 @@
     <div class="title-container">
       <div class="title" :style="{ fontSize: props.tsize }">{{ props.title }}</div>
       <div v-show="props?.subtitle" class="subtitle">
-        <span v-show="props?.subtitle?.mtext" >{{ props.subtitle.mtext }}</span>
-        <span v-show="props?.subtitle?.mvalue" >{{ props.subtitle.mvalue }}</span>
-        <span v-show="props?.subtitle?.stext" >{{ props.subtitle.stext }}</span>
-        <span v-show="props?.subtitle?.svalue" >{{ props.subtitle.svalue }}</span>
+        <span v-show="props?.subtitle?.mtext">{{ props.subtitle.mtext }}</span>
+        <span
+          v-show="props?.subtitle?.mvalue"
+          class="arrow"
+          :class="props?.subtitle?.mvalue?.startsWith('-') ? 'arrow-negative' : 'arrow-positive'"
+        >
+          {{ props.subtitle.mvalue }}
+        </span>
+        <span v-show="props?.subtitle?.stext" style="margin-left: 10px">{{
+          props.subtitle.stext
+        }}</span>
+        <span
+          v-show="props?.subtitle?.svalue"
+          class="arrow"
+          :class="props?.subtitle?.svalue?.startsWith('-') ? 'arrow-negative' : 'arrow-positive'"
+          >{{ props.subtitle.svalue }}</span
+        >
       </div>
     </div>
     <div class="number-container">
@@ -54,7 +67,7 @@
   });
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .number-display {
     margin-left: 15px;
     text-align: left;
@@ -75,6 +88,7 @@
   }
 
   .subtitle {
+    transform: scale(0.80);
     color: #32afff;
     font-size: 12px;
   }
@@ -119,5 +133,25 @@
     font-weight: 600;
     line-height: 1; /* 调整行高以增加数字的高度 */
     text-align: center;
+  }
+
+  .arrow {
+    color: #32afff;
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+  .arrow-positive {
+    color: #FF4F38;
+  }
+  .arrow-negative {
+    color: #00BA24;
+  }
+  .arrow-positive::before {
+    content: '▲';
+    color: #FF4F38;
+  }
+  .arrow-negative::before {
+    content: '▼';
+    color: #00BA24;
   }
 </style>

@@ -12,8 +12,8 @@
 
 <style lang="less" scoped>
   .middle-content {
-    flex: 33;
-    width: 33%;
+    flex: 31;
+    width: 31%;
     padding: 0px;
     flex-shrink: 0; 
   }
