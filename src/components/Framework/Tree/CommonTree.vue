@@ -1,7 +1,7 @@
 <!--
- * @Description: 
+ * @Description: commonTree组件
  * @Date: 2023-09-22 08:46:00
- * @LastEditTime: 2023-10-27 15:16:57
+ * @LastEditTime: 2023-11-03 13:12:58
  * @FilePath: \ygwl-framework\src\components\Framework\Tree\CommonTree.vue
 -->
 <template>
@@ -11,7 +11,7 @@
       :toolbar="toolbar"
       :search="search"
       :canEdit="canEdit" :canAdd="canAdd" :canDelete="canDelete"
-      treeWrapperClassName="h-[calc(100%-35px)] overflow-auto"
+      :treeWrapperClassName="`${treeWrapperHeightClass} overflow-auto`"
       :clickRowToExpand="false"
       :treeData="treeData"
       :fieldNames="fieldNames"
@@ -21,11 +21,19 @@
       class="fit-basic-tree"
       :checkable="checkable"
       @check="handleCheck"
-    />
+    >
+      <template #title="nodeItem">
+        <a-tooltip v-if="nodeItem[fieldNames.title || 'title'].length>9">
+          <template #title>{{ nodeItem[fieldNames.title || 'title'] }}</template>
+            <span class="common-tree-node-text">{{ nodeItem[fieldNames.title || 'title'] }}</span>
+        </a-tooltip>
+        <template v-else>{{ nodeItem[fieldNames.title || 'title'] }}</template>
+      </template>
+    </BasicTree>
   </div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, ref, watch, provide, unref } from 'vue';
+  import { onMounted, ref, watch, provide, unref, computed } from 'vue';
   import { BasicTree, TreeItem, TreeActionType } from '/@/components/Tree';
   import { type Nullable } from '@vben/types';
 
@@ -106,6 +114,11 @@
     },
   );
 
+  // 计算tree高度
+  const treeWrapperHeightClass = computed(()=>{
+    return props.search?'h-[calc(100%-68px)]' : 'h-[calc(100%-36px)]';
+  });
+
   onMounted(() => {
     treeData.value = props.value as unknown as TreeItem[];
   });
@@ -115,6 +128,12 @@
     :deep(.ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected) {
       background: none;
       color: #2a7dc9;
+    }
+
+    .common-tree-node-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 </style>
