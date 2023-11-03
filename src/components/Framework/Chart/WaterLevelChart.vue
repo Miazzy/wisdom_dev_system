@@ -1,9 +1,25 @@
 <template>
-  <div
-    id="water-level-chart"
-    class="water-level-chart"
-    :style="`width: ${props.width}px; height: ${props.height}px;`"
-  ></div>
+  <div class="chart-container" style="position: relative">
+    <div
+      id="water-level-chart"
+      class="water-level-chart"
+      :style="`width: ${props.width}px; height: ${props.height}px;`"
+    >
+    </div>
+    <div
+      class="circle-layout"
+      :style="`top: ${props.circle.top}px; left:  ${props.circle.left}px;`"
+    >
+      <div
+        class="circle-1"
+        :style="`width: ${props.circle.width}px; height: ${props.circle.height}px;`"
+      ></div>
+      <div
+        class="circle-0"
+        :style="`width: ${props.circle.width}px; height: ${props.circle.height}px;`"
+      ></div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -25,6 +41,7 @@
       type: String,
       default: '200',
     },
+    circle: { type: Object },
   });
 
   const updateChart = () => {
@@ -87,5 +104,24 @@
   });
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+  .chart-container {
+    .circle-layout {
+      position: absolute;
+      .circle-0 {
+        position: absolute;
+        width: 102px;
+        height: 102px;
+        border-radius: 50%;
+        background: linear-gradient(90deg, #ffffff25 0%, transparent 50%, #ffffff25 100%);
+      }
+      .circle-1 {
+        position: absolute;
+        width: 102px;
+        height: 102px;
+        border-radius: 50%;
+        background: linear-gradient(0deg, #ffffff25 0%, transparent 50%, #ffffff25 100%);
+      }
+    }
+  }
 </style>

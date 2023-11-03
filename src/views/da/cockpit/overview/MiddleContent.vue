@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="middle-section" style="height: calc(33vh - 30px)">
-        <SubtitleBar :subtitle="`安全运行`" >
+        <SubtitleBar :subtitle="`安全运行`">
           <DictSelectBox
             :type="DICT_TYPE.BPM_MODEL_CATEGORY"
             :width="100"
@@ -24,11 +24,11 @@
         </SubtitleBar>
         <IndicatorGroup class="indicator-group-layout" :data="securityData" />
         <div style="width: 400px; margin-top: 5px; margin-left: 125px">
-          <WaterLevelChart :data="50" :width="150" />
+          <WaterLevelChart :data="50" :width="150" :circle="{ top: 49, left: 24, width: 102, height: 102 }" />
         </div>
       </div>
       <div class="bottom-section" style="height: calc(33vh - 30px)">
-        <SubtitleBar :subtitle="`运维人员`" >
+        <SubtitleBar :subtitle="`运维人员`">
           <DictSelectBox
             :type="DICT_TYPE.BPM_MODEL_CATEGORY"
             :width="100"

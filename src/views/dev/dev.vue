@@ -181,7 +181,13 @@
     />
 
     <DonutChart :data="donutData" :width="300" :height="200" :radius="100" />
-    <EchartPieChart :data="pieData" :width="400" :height="400" :colors="pieColors" :show-label="true"/>
+    <EchartPieChart
+      :data="pieData"
+      :width="400"
+      :height="400"
+      :colors="pieColors"
+      :show-label="true"
+    />
 
     <!-- <ThreeDDonutChart :data="donutData" width="300" height="200" radius="100" /> -->
     <!-- <ThreeDPieChart :data="tchartData" :width="400" :height="400" /> -->
@@ -196,6 +202,7 @@
 
     <EchartLineBarChart :colors="chartColors" width="600" height="400" />
     <EchartPillarChart :data="pchartData" />
+
     <!-- <NtgaleChart /> -->
   </div>
 </template>
