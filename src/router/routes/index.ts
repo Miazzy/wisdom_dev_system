@@ -443,10 +443,65 @@ export const CockpitOverviewRoute: AppRouteRecordRaw = {
   },
 };
 
+// 运维驾驶舱路由
+export const CockpitOperationRoute: AppRouteRecordRaw = {
+  path: '/cockpit/operation',
+  name: 'CockpitOperation',
+  component: () => import('/@/views/da/cockpit/operation/Operation.vue'),
+  meta: {
+    title: t('routes.basic.cockpit.operation'),
+  },
+};
+
+// 资产驾驶舱路由
+export const CockpitPropertyRoute: AppRouteRecordRaw = {
+  path: '/cockpit/property',
+  name: 'CockpitProperty',
+  component: () => import('/@/views/da/cockpit/operation/Property.vue'),
+  meta: {
+    title: t('routes.basic.cockpit.property'),
+  },
+};
+
+// 安全驾驶舱路由
+export const CockpitSecurityRoute: AppRouteRecordRaw = {
+  path: '/cockpit/security',
+  name: 'CockpitSecurity',
+  component: () => import('/@/views/da/cockpit/operation/Security.vue'),
+  meta: {
+    title: t('routes.basic.cockpit.security'),
+  },
+};
+
+// 综合驾驶舱路由
+export const CockpitCompositionRoute: AppRouteRecordRaw = {
+  path: '/cockpit/composition',
+  name: 'CockpitComposition',
+  component: () => import('/@/views/da/cockpit/operation/Composition.vue'),
+  meta: {
+    title: t('routes.basic.cockpit.composition'),
+  },
+};
+
+// 安全驾驶舱路由
+export const CockpitPowerRoute: AppRouteRecordRaw = {
+  path: '/cockpit/power',
+  name: 'CockpitPower',
+  component: () => import('/@/views/da/cockpit/operation/Power.vue'),
+  meta: {
+    title: t('routes.basic.cockpit.power'),
+  },
+};
+
 // 暴露基础路由
 export const basicRoutes = [
   LoginRoute,
   CockpitOverviewRoute,
+  CockpitOperationRoute,
+  CockpitPropertyRoute,
+  CockpitSecurityRoute,
+  CockpitCompositionRoute,
+  CockpitPowerRoute,
   RootRoute,
   ...mainOutRoutes,
   REDIRECT_ROUTE,

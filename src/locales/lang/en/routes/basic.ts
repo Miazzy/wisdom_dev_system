@@ -1,5 +1,13 @@
 export default {
   login: 'Login',
+  cockpit: {
+    overview: 'Overview',
+    operation: 'Operation',
+    property: 'property',
+    security: 'security',
+    composition: 'composition',
+    power: 'power',
+  },
   errorLogList: 'Error log list',
   base: 'System settings',
 

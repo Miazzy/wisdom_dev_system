@@ -2,6 +2,11 @@ export default {
   login: '登录',
   cockpit: {
     overview: '总览驾驶舱',
+    operation: '运维驾驶舱',
+    property: '资产驾驶舱',
+    security: '安全驾驶舱',
+    composition: '综合驾驶舱',
+    power: '电量驾驶舱',
   },
   errorLogList: '错误日志列表',
   base: '系统设置',

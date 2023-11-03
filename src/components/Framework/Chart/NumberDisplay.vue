@@ -1,6 +1,14 @@
 <template>
   <div class="number-display">
-    <div class="title" :style="{ fontSize: props.tsize }">{{ props.title }}</div>
+    <div class="title-container">
+      <div class="title" :style="{ fontSize: props.tsize }">{{ props.title }}</div>
+      <div v-show="props?.subtitle" class="subtitle">
+        <span v-show="props?.subtitle?.mtext" >{{ props.subtitle.mtext }}</span>
+        <span v-show="props?.subtitle?.mvalue" >{{ props.subtitle.mvalue }}</span>
+        <span v-show="props?.subtitle?.stext" >{{ props.subtitle.stext }}</span>
+        <span v-show="props?.subtitle?.svalue" >{{ props.subtitle.svalue }}</span>
+      </div>
+    </div>
     <div class="number-container">
       <div
         :class="`${digit == '.' ? 'number-dot' : 'number'}`"
@@ -26,19 +34,18 @@
 
   watch(
     () => props.value,
-    (newValue) => {
-      // 当数字值改变时，将其拆分成个位数字
-      digitArray.value = String(newValue).split('').map(String) as never[];
+    () => {
+      digitArray.value = String(props.value).split('').map(String) as never[];
     },
   );
 
   onMounted(() => {
-    // 当数字值改变时，将其拆分成个位数字
     digitArray.value = String(props.value).split('').map(String) as never[];
   });
 
   const props = defineProps({
-    title: { type: String },
+    title: { type: String, default: '' },
+    subtitle: { type: Object, default: {} as Object },
     value: { type: Number, default: 0 },
     tsize: { type: String, default: '14px' },
     vsize: { type: String, default: '20px' },
@@ -53,12 +60,23 @@
     text-align: left;
   }
 
+  .title-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .title {
     color: #32afff;
     font-family: 'Microsoft YaHei', '微软雅黑';
     font-size: 12px;
     font-weight: 300;
     text-align: left;
+  }
+
+  .subtitle {
+    color: #32afff;
+    font-size: 12px;
   }
 
   .number-container {
