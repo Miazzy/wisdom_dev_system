@@ -53,6 +53,7 @@
       billTitleOption.bottomLine = newValue?.bottomLine || billTitleOption?.bottomLine || DEF_BOTTOM_LINE;
       billTitleOption.infoItems = newValue?.infoItems || billTitleOption?.infoItems;
     },
+    { deep: true }
   );
 
   onMounted(() => {
