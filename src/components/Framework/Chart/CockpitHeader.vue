@@ -5,8 +5,12 @@
       <span class="time">
         <DigitalClock />
       </span>
-      <span class="weather">晴天</span>
-      <button class="settings">设置</button>
+      <span class="weather">
+        <WeatherDisplay />
+      </span>
+      <button class="settings">
+        <Icon icon="arcticons:settings" color="#32afff" size="28" style="cursor: pointer"/>
+      </button>
     </div>
   </div>
 </template>
@@ -14,6 +18,8 @@
 <script lang="ts" setup>
   import { ref, onMounted, defineProps, watch } from 'vue';
   import DigitalClock from '/@/components/Framework/Chart/DigitalClock.vue';
+  import WeatherDisplay from '/@/components/Framework/Chart/WeatherDisplay.vue';
+  import Icon from '@/components/Icon/Icon.vue';
 
   const props = defineProps({
     title: { type: String, default: '' }, // 列定义
@@ -54,6 +60,8 @@
       .weather,
       .settings {
         margin-left: 20px;
+        background: transparent;
+        cursor: pointer;
       }
     }
   }
