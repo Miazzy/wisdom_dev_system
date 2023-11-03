@@ -1,19 +1,19 @@
 <template>
   <div class="weather-display" style="width: 200px; margin-left: 10px; margin-right: -20px;">
     <div class="weather-icon" style="">
-      <Icon icon="arcticons:quickweather" color="#32afff" size="34" style="position: absolute; top: -18px; right: 0px;"/>
+      <Icon class="icon" icon="arcticons:quickweather" color="#32afff" size="34" />
     </div>
     <div class="weather-info" style="width: 165px">
       <div class="temperature-range">
-        <span>{{ min }}</span>
+        <span>{{ props.min }}</span>
         <span class="unit">℃</span>
         <span style="margin: 0 10px">~</span>
-        <span>{{ max }}</span>
+        <span>{{ props.max }}</span>
         <span class="unit">℃</span>
       </div>
       <div class="weather-description" style="width: 100%">
-        <div class="weather-text">{{ weatherText }}</div>
-        <div class="air-quality">{{ airQuality }}</div>
+        <div class="weather-text">{{ props.weatherText }}</div>
+        <div class="air-quality">{{ props.airQuality }}</div>
       </div>
     </div>
   </div>
@@ -23,10 +23,12 @@
   import { ref } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
 
-  const min = ref('28');
-  const max = ref('37');
-  const weatherText = ref('晴转多云');
-  const airQuality = ref('PM 2.5');
+  const props = defineProps({
+    min: { type: [String, Number], default: '28' },
+    max: { type: [String, Number], default: '37' },
+    weatherText: { type: [String, Number], default: '晴转多云' },
+    airQuality: { type: [String, Number], default: 'PM 2.5' },
+  });
 </script>
 
 <style lang="less" scoped>
@@ -38,6 +40,12 @@
       font-size: 48px;
       margin-right: 10px;
       width: 35px;position: relative;
+
+      .icon {
+        position: absolute;
+        top: -18px;
+        right: 0px;
+      }
     }
     .weather-info {
       /* 右侧天气信息的样式 */
