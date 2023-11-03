@@ -71,6 +71,10 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/bpm/manage/task/done/index.vue');
         }
+        //sys/code-build-rule
+        else if (checkImportComponent('/@/views/sys/codeBuildRule/index.vue', menu.component)) {
+          return import('/@/views/sys/codeBuildRule/index.vue');
+        }
         // baseset/monitor
         else if (
           checkImportComponent('/@/views/baseset/monitor/area/areaSet.vue', menu.component)
