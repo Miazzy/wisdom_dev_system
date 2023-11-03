@@ -131,7 +131,7 @@
           data: data.value[2], // 使用传入的数据
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: `${colors.value[2]}50` },
+              { offset: 0, color: `${colors.value[2]}30` },
               { offset: 1, color: `${colors.value[2]}10` },
             ]),
           },
@@ -152,7 +152,7 @@
           data: data.value[3], // 使用传入的数据
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: `${colors.value[3]}50` },
+              { offset: 0, color: `${colors.value[3]}30` },
               { offset: 1, color: `${colors.value[3]}10` },
             ]),
           },
