@@ -214,7 +214,17 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/po/integrated/training/trainingCreate.vue');
         }
         // po/elec
-        else if (
+        else if (menu.component == '/@/views/po/elec/produce/index.vue') {
+          return import('/@/views/po/elec/produce/index.vue');
+        } else if (menu.component == '/@/views/po/elec/produce/dayReportCreate.vue') {
+          return import('/@/views/po/elec/produce/dayReportCreate.vue');
+        } else if (menu.component == '/@/views/po/elec/produce/weekReportCreate.vue') {
+          return import('/@/views/po/elec/produce/weekReportCreate.vue');
+        } else if (menu.component == '/@/views/po/elec/produce/monthReportCreate.vue') {
+          return import('/@/views/po/elec/produce/monthReportCreate.vue');
+        } else if (menu.component == '/@/views/po/elec/produce/yearReportCreate.vue') {
+          return import('/@/views/po/elec/produce/yearReportCreate.vue');
+        } else if (
           checkImportComponent(
             '/@/views/po/elec/settlementelec/settlementElectricity.vue',
             menu.component,
