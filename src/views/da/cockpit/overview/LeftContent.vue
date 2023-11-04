@@ -176,7 +176,6 @@
         height: 150px;
         padding: 0;
       }
-
       .indicator-margin {
         margin-top: 60px;
       }
