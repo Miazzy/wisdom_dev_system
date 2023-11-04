@@ -69,7 +69,7 @@
           :data="securityData"
           style="width: 84%; margin: 30px 0 0 30px"
         />
-        <div style="width: 135%; height: 400px; margin: 30px 0 0 -30px">
+        <div style="width: 135%; height: 400px; margin: 52px 0 0 -30px">
           <div style="margin: 0px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
             <EchartLineBarChart
               :data="lbarChartData"
@@ -169,6 +169,7 @@
       padding: 0px;
       width: calc(100% - 15px);
       margin-left: 15px;
+      margin-top: 0px;
       height: 60%;
 
       display: flex;

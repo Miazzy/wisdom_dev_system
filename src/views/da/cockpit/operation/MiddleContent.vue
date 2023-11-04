@@ -1,20 +1,39 @@
 <template>
   <div class="middle-content">
-    <!-- Middle content goes here -->
-    <h2>中间内容</h2>
-    <!-- Add your content and components here -->
+    <div class="content-top">
+
+    </div>
+    <div class="content-middle">
+
+    </div>
+    <div class="content-bottom">
+
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-
 </script>
 
 <style lang="less" scoped>
   .middle-content {
-    flex: 31;
-    width: 31%;
-    padding: 0px;
-    flex-shrink: 0; 
+    display: flex;
+    flex: 34%;
+    width: 34%;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .content-top,
+  .content-middle,
+  .content-bottom {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: top;
+    text-align: top;
+    border: 1px solid #ccc;
+    padding: 10px;
   }
 </style>

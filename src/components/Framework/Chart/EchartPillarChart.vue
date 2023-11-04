@@ -6,7 +6,7 @@
 <template>
   <div :style="`width:${width}px; height:${height}px;`">
     <div
-      id="chart-pillar-container"
+      :id="`chart-pillar-container${random}`"
       :style="`width:${props.width}px; height:${props.height}px;`"
     ></div>
   </div>
@@ -15,6 +15,7 @@
   import { ref, onMounted, watch, onUnmounted } from 'vue';
   import * as echarts from 'echarts';
 
+  const random = parseInt(Math.random() * 1000);
   // 定义属性
   const props = defineProps({
     data: { type: Array },
@@ -387,7 +388,7 @@
 
   // 获取发电统计数据
   const setupData = async () => {
-    const chartDom = document.getElementById('chart-pillar-container');
+    const chartDom = document.getElementById('chart-pillar-container' + random);
     const myChart = echarts.init(chartDom);
 
     // 获取统计数据
