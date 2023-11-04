@@ -14,6 +14,7 @@
     data: { type: Array },
     width: { type: Number, default: 600 },
     height: { type: Number, default: 300 },
+    yAxis: { type: Object, default: { min: 0, max: 100, interval: 20 } as Object },
     colors: { type: Array },
     name: { type: Array },
     category: { type: Array },
@@ -84,9 +85,9 @@
         {
           type: 'value',
           name: '',
-          min: 10,
-          max: 80,
-          interval: 10,
+          min: props.yAxis.min,
+          max: props.yAxis.max,
+          interval: props.yAxis.interval,
           axisLabel: {  // 设置 y 轴刻度文本样式
             color: 'rgba(170, 221, 255, .8)', // 设置文本颜色
             fontSize: 14, // 设置字体大小
