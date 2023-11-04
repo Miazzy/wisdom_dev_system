@@ -1,7 +1,6 @@
 <template>
   <div class="left-content">
     <div class="top-section">
-      <!-- 第一排数字 -->
       <div class="element">
         <NumberDisplay
           title="巡检统计(次)"
@@ -53,27 +52,29 @@
         />
       </div>
       <div class="element"></div>
+      <div class="element"></div>
+      <div class="element"></div>
     </div>
     <div class="bottom-section">
       <div class="title-content">
-        <SubtitleBar :subtitle="`运维统计`" style="margin: 0px 0px 0px 10px">
+        <SubtitleBar :subtitle="`两票统计`" style="margin: 0px 0px 0px 10px">
           <DictSelectBox
             :type="DICT_TYPE.BPM_MODEL_CATEGORY"
             :width="100"
-            style="margin-right: 90px"
+            style="margin-right: 30px"
           />
         </SubtitleBar>
         <IndicatorGroup
           class="indicator-group-layout"
           :data="securityData"
-          style="width: 73%; margin-left: 30px"
+          style="width: 84%; margin: 30px 0 0 30px"
         />
-        <div style="width: 100%; height: 350px">
-          <div style="margin: -30px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
+        <div style="width: 135%; height: 400px; margin: 30px 0 0 -30px">
+          <div style="margin: 0px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
             <EchartLineBarChart
               :data="lbarChartData"
               :colors="chartColors"
-              :width="620"
+              :width="730"
               :height="400"
               :category="pchartData.mName"
               ybgcolor="#01B7D730"
@@ -150,7 +151,7 @@
       width: calc(100% - 15px);
       margin-top: 25px;
       margin-left: 15px;
-      height: 35%;
+      height: 40%;
 
       display: flex;
       justify-content: center;
@@ -168,7 +169,7 @@
       padding: 0px;
       width: calc(100% - 15px);
       margin-left: 15px;
-      height: 65%;
+      height: 60%;
 
       display: flex;
       justify-content: center;
