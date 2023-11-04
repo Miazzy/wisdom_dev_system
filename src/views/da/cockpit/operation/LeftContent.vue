@@ -54,7 +54,7 @@
       </div>
       <div class="element"></div>
     </div>
-    <div class="bottom-section" style="margin-top: -150px;">
+    <div class="bottom-section">
       <div class="title-content">
         <SubtitleBar :subtitle="`运维统计`" style="margin: 0px 0px 0px 10px">
           <DictSelectBox
@@ -148,12 +148,13 @@
       border: 0px solid #ccc;
       padding: 0px;
       width: calc(100% - 15px);
+      margin-top: 25px;
       margin-left: 15px;
       height: 35%;
 
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: top;
       flex-wrap: wrap; /* 使数字自动换行 */
 
       div.element {
@@ -165,12 +166,13 @@
     .bottom-section {
       border: 0px solid #ccc;
       padding: 0px;
-      width: 100%;
+      width: calc(100% - 15px);
+      margin-left: 15px;
       height: 65%;
 
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: top;
       flex-wrap: wrap; /* 使数字自动换行 */
 
       .title-content {
