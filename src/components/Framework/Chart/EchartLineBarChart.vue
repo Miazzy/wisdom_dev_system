@@ -1,6 +1,6 @@
 <template>
   <div
-    id="echarts-linebar-container"
+    :id="`echarts-linebar-container${random}`"
     class="echarts-linebar-container"
     :style="`width: ${props.width}px; height: ${props.height}px;`"
   ></div>
@@ -21,12 +21,14 @@
     ybgcolor: { type: String },
   });
 
+  const random = parseInt(Math.random() * 10000000);
+
   // 解构 props
   const { data, colors, category, ybgcolor } = toRefs(props);
 
   // 创建图表
   const createChart = () => {
-    var chartDom = document.getElementById('echarts-linebar-container');
+    var chartDom = document.getElementById('echarts-linebar-container' + random);
     var myChart = echarts.init(chartDom);
     var option;
 

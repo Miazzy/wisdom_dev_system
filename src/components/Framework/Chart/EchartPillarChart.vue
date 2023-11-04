@@ -15,7 +15,7 @@
   import { ref, onMounted, watch, onUnmounted } from 'vue';
   import * as echarts from 'echarts';
 
-  const random = parseInt(Math.random() * 1000);
+  const random = parseInt(Math.random() * 10000000);
   // 定义属性
   const props = defineProps({
     data: { type: Array },
