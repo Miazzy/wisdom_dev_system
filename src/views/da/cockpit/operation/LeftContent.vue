@@ -105,16 +105,16 @@
   // 安全运行
   const securityData = [
     {
-      value: 7233.23,
-      label: '上网电量(万kwh)',
+      value: 10,
+      label: '电气一票(张)',
     },
     {
-      value: 15332.23,
-      label: '计划电量(万kwh)',
+      value: 153,
+      label: '电气二票(张)',
     },
     {
-      value: 98.45,
-      label: '完成率(%)',
+      value: 31,
+      label: '操作票(张)',
     },
   ];
 
