@@ -136,7 +136,7 @@
 
 <style lang="less" scoped>
   .left-content {
-    flex: 40;
+    flex: 45;
     flex-shrink: 0;
     width: 45%;
     padding: 0;

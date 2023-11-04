@@ -6,7 +6,7 @@
           <DictSelectBox
             :type="DICT_TYPE.BPM_MODEL_CATEGORY"
             :width="100"
-            style="margin-right: 90px"
+            style="margin-right: 40px"
           />
         </SubtitleBar>
         <IndicatorGroup class="indicator-group-layout" :data="omData" />
@@ -19,7 +19,7 @@
           <DictSelectBox
             :type="DICT_TYPE.BPM_MODEL_CATEGORY"
             :width="100"
-            style="margin-right: 90px"
+            style="margin-right: 40px"
           />
         </SubtitleBar>
         <IndicatorGroup class="indicator-group-layout" :data="securityData" />
@@ -32,7 +32,7 @@
           <DictSelectBox
             :type="DICT_TYPE.BPM_MODEL_CATEGORY"
             :width="100"
-            style="margin-right: 90px"
+            style="margin-right: 40px"
           />
         </SubtitleBar>
         <div style="width: 100%; margin-top: -10px">
@@ -106,9 +106,9 @@
 
 <style lang="less" scoped>
   .middle-content {
-    flex: 30;
+    flex: 28;
     flex-shrink: 0;
-    width: 30%;
+    width: 28%;
     padding: 0;
     .layout {
       display: flex;

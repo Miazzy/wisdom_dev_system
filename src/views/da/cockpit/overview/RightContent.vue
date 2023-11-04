@@ -1,17 +1,17 @@
 <template>
-  <div class="right-content">
+  <div class="right-content" style="margin-right: 0px">
     <div class="layout">
       <div class="top-section">
         <SubtitleBar :subtitle="`运维统计`">
           <DictSelectBox
             :type="DICT_TYPE.BPM_MODEL_CATEGORY"
             :width="100"
-            style="margin-right: 65px"
+            style="margin-right: 20px"
           />
         </SubtitleBar>
         <div style="width: 100%">
           <div style="margin: -30px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
-            <EchartPillarChart :data="pchartData" :width="680" />
+            <EchartPillarChart :data="pchartData" :width="600" />
           </div>
         </div>
       </div>
@@ -20,7 +20,7 @@
           <DictSelectBox
             :type="DICT_TYPE.BPM_MODEL_CATEGORY"
             :width="100"
-            style="margin-right: 65px"
+            style="margin-right: 20px"
           />
         </SubtitleBar>
         <IndicatorGroup
@@ -119,8 +119,8 @@
 </script>
 <style lang="less" scoped>
   .right-content {
-    flex: 30;
-    width: 30%;
+    flex: 28;
+    width: 28%;
     flex-shrink: 0;
     padding: 0;
 
