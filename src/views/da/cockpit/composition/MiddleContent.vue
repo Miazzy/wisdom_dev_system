@@ -28,15 +28,8 @@
           style="width: 64%; margin: 30px 0 0 17%"
         />
         <div style="width: 135%; height: 200px; margin: -50px 0 0 -30px">
-          <div style="margin: 0px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
-            <EchartLineBarChart
-              :data="lbarChartData"
-              :colors="chartColors"
-              :width="720"
-              :height="300"
-              :category="pchartData.mName"
-              ybgcolor="#01B7D730"
-            />
+          <div style="margin: 0px 0 0 30px; transform: scale(0.85) translate(-60px, 0px)">
+            <EchartPillarChart :data="pchartData" :width="680" :height="300"/>
           </div>
         </div>
       </div>
@@ -54,9 +47,16 @@
         :data="lurkingData"
         style="width: 60%; margin: 0 15% 0 20%"
       />
-      <div style="width: 100%; height: 185px; margin: -1px 0 0 0">
-        <div style="margin: -40px 0 0 20px; transform: scale(0.85) translate(-60px, 0px)">
-          <EchartPillarChart :data="pchartData" :width="680" :height="300"/>
+      <div style="width: 135%; height: 185px; margin: -1px 0 0 0">
+        <div style="margin: -15px 0 0 -40px; transform: scale(0.85) translate(-60px, 0px)">
+          <EchartLineBarChart
+            :data="lbarChartData"
+            :colors="chartColors"
+            :width="735"
+            :height="300"
+            :category="pchartData.mName"
+            ybgcolor="#01B7D730"
+          />
         </div>
       </div>
     </div>
