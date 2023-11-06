@@ -212,6 +212,12 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/po/integrated/training/index.vue');
         } else if (menu.component == '/@/views/po/integrated/training/trainingCreate.vue') {
           return import('/@/views/po/integrated/training/trainingCreate.vue');
+        } else if (menu.component == '/@/views/po/integrated/training/trainingCreate.vue') {
+          return import('/@/views/po/integrated/training/trainingCreate.vue');
+        } else if (
+          menu.component == '/@/views/po/integrated/personcertificate/certificateDrawer.vue'
+        ) {
+          return import('/@/views/po/integrated/personcertificate/certificateDrawer.vue');
         }
         // po/elec
         else if (menu.component == '/@/views/po/elec/produce/index.vue') {
