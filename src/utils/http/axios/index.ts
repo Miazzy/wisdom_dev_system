@@ -34,6 +34,10 @@ const transform: AxiosTransform = {
   transformResponseHook: (res: AxiosResponse<Result>, options: RequestOptions) => {
     const { t } = useI18n();
     const { isTransformResponse, isReturnNativeResponse } = options;
+    // 二进制数据则直接返回
+    if (res.request.responseType === 'blob' || res.request.responseType === 'arraybuffer') {
+      return res;
+    }
     // 是否返回原生响应头 比如：需要获取响应头时使用该属性
     if (isReturnNativeResponse) {
       return res;
@@ -188,11 +192,6 @@ const transform: AxiosTransform = {
         : token;
 
       // 代理设置
-      // if (config.url?.startsWith('/admin-api/bpm')) {
-      //   (config as Recordable).headers.Authorization = 'Bearer test1';
-      //   (config as Recordable).headers['Tenant-Id'] = 1;
-      //   (config as Recordable).headers['login_user_type'] = 2;
-      // }
 
       // 开发人员填写自己的版本号
       if (config.url?.startsWith('/admin-api/baseset')) {
