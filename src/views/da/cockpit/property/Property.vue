@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
-  import CockpitHeader from "/@/components/Framework/Chart/CockpitHeader.vue";
+  import CockpitHeader from '/@/components/Framework/Chart/CockpitHeader.vue';
   import LeftContent from '/@/views/da/cockpit/property/LeftContent.vue';
   import MiddleContent from '/@/views/da/cockpit/property/MiddleContent.vue';
   import RightContent from '/@/views/da/cockpit/property/RightContent.vue';

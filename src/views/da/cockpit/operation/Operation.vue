@@ -13,13 +13,12 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
-  import CockpitHeader from "/@/components/Framework/Chart/CockpitHeader.vue";
+  import CockpitHeader from '/@/components/Framework/Chart/CockpitHeader.vue';
   import LeftContent from '/@/views/da/cockpit/operation/LeftContent.vue';
   import MiddleContent from '/@/views/da/cockpit/operation/MiddleContent.vue';
   import RightContent from '/@/views/da/cockpit/operation/RightContent.vue';
 
   const title = ref('运维驾驶舱');
-
 </script>
 
 <style lang="less" scoped>

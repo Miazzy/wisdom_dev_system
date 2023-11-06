@@ -85,12 +85,14 @@
     font-size: 12px;
     font-weight: 300;
     text-align: left;
+    white-space: nowrap;
   }
 
   .subtitle {
     transform: scale(0.80);
     color: #32afff;
     font-size: 12px;
+    white-space: nowrap;
   }
 
   .number-container {

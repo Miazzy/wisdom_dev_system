@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
-  import CockpitHeader from "/@/components/Framework/Chart/CockpitHeader.vue";
+  import CockpitHeader from '/@/components/Framework/Chart/CockpitHeader.vue';
   import LeftContent from '/@/views/da/cockpit/security/LeftContent.vue';
   import MiddleContent from '/@/views/da/cockpit/security/MiddleContent.vue';
   import RightContent from '/@/views/da/cockpit/security/RightContent.vue';
@@ -25,6 +25,8 @@
   .layout {
     width: 100%;
     height: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
     background: url('../../../../assets/images/background3.png') no-repeat center/cover;
 
     .dashboard {
