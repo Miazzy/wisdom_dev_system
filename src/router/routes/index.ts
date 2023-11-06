@@ -463,7 +463,7 @@ export const CockpitOperationRoute: AppRouteRecordRaw = {
 export const CockpitPropertyRoute: AppRouteRecordRaw = {
   path: '/cockpit/property',
   name: 'CockpitProperty',
-  component: () => import('/@/views/da/cockpit/operation/Property.vue'),
+  component: () => import('/@/views/da/cockpit/property/Property.vue'),
   meta: {
     title: t('routes.basic.cockpit.property'),
   },
@@ -473,7 +473,7 @@ export const CockpitPropertyRoute: AppRouteRecordRaw = {
 export const CockpitSecurityRoute: AppRouteRecordRaw = {
   path: '/cockpit/security',
   name: 'CockpitSecurity',
-  component: () => import('/@/views/da/cockpit/operation/Security.vue'),
+  component: () => import('/@/views/da/cockpit/security/Security.vue'),
   meta: {
     title: t('routes.basic.cockpit.security'),
   },
@@ -483,7 +483,7 @@ export const CockpitSecurityRoute: AppRouteRecordRaw = {
 export const CockpitCompositionRoute: AppRouteRecordRaw = {
   path: '/cockpit/composition',
   name: 'CockpitComposition',
-  component: () => import('/@/views/da/cockpit/operation/Composition.vue'),
+  component: () => import('/@/views/da/cockpit/composition/Composition.vue'),
   meta: {
     title: t('routes.basic.cockpit.composition'),
   },
@@ -493,7 +493,7 @@ export const CockpitCompositionRoute: AppRouteRecordRaw = {
 export const CockpitPowerRoute: AppRouteRecordRaw = {
   path: '/cockpit/power',
   name: 'CockpitPower',
-  component: () => import('/@/views/da/cockpit/operation/Power.vue'),
+  component: () => import('/@/views/da/cockpit/power/Power.vue'),
   meta: {
     title: t('routes.basic.cockpit.power'),
   },
