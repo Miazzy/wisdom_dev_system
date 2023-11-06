@@ -1,22 +1,9 @@
 <template>
   <div class="right-content">
     <div class="content-top">
-      <SubtitleBar :subtitle="`合同统计`">
-        <DictSelectBox
-          :type="DICT_TYPE.BPM_MODEL_CATEGORY"
-          :width="100"
-          style="margin-right: 10px"
-        />
-      </SubtitleBar>
-      <IndicatorGroup
-        class="indicator-group-layout"
-        :data="workData"
-        style="width: 60%; margin: 0 15% 0 20%"
-      />
-      <div style="width: 100%; height: 185px;">
-        <div style="margin: -40px 0 0 20px; transform: scale(0.85) translate(-60px, 0px)">
-          <EchartPillarChart :data="pchartData" :width="620" :height="260"/>
-        </div>
+      <SubtitleBar :subtitle="`合同统计`" />
+      <div class="donut-chart-layout" style="">
+        <DonutChart class="chart" :data="donutData" width="300" height="200" radius="100" />
       </div>
     </div>
     <div class="content-middle">
@@ -32,9 +19,9 @@
         :data="securityData"
         style="width: 80%; margin-left: 10%"
       />
-      <div style="width: 100%; height: 185px;">
+      <div style="width: 100%; height: 185px">
         <div style="margin: -40px 0 0 20px; transform: scale(0.85) translate(-60px, 0px)">
-          <EchartPillarChart :data="pchartData" :width="620" :height="260"/>
+          <EchartPillarChart :data="pchartData" :width="620" :height="260" />
         </div>
       </div>
     </div>
@@ -51,9 +38,9 @@
         :data="lurkingData"
         style="width: 60%; margin: 0 15% 0 20%"
       />
-      <div style="width: 100%; height: 185px;">
+      <div style="width: 100%; height: 185px">
         <div style="margin: -40px 0 0 20px; transform: scale(0.85) translate(-60px, 0px)">
-          <EchartPillarChart :data="pchartData" :width="620" :height="260"/>
+          <EchartPillarChart :data="pchartData" :width="620" :height="260" />
         </div>
       </div>
     </div>
@@ -62,6 +49,7 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
+  import DonutChart from '/@/components/Framework/Chart/DonutChart.vue';
   import SubtitleBar from '/@/components/Framework/Chart/SubtitleBar.vue';
   import EchartPillarChart from '/@/components/Framework/Chart/EchartPillarChart.vue';
   import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';
@@ -75,17 +63,6 @@
     mName: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
     units: ['单位', '单位'],
   });
-
-  const workData = [
-    {
-      value: 72,
-      label: '未闭环(笔)',
-    },
-    {
-      value: 15.32,
-      label: '闭环率(%)',
-    },
-  ];
 
   const securityData = [
     {
@@ -112,6 +89,15 @@
       label: '处理率(%)',
     },
   ];
+
+  const donutData = [
+    { label: '20岁以下', value: 33 },
+    { label: '20岁至30岁', value: 51 },
+    { label: '30岁至40岁', value: 27 },
+    { label: '40岁至50岁', value: 33 },
+    { label: '50岁至60岁', value: 55 },
+    { label: '60岁至100岁', value: 15 },
+  ];
 </script>
 
 <style lang="less" scoped>
@@ -133,6 +119,19 @@
       text-align: top;
       border: 0px solid #ccc;
       padding: 10px;
+    }
+
+    .donut-chart-layout {
+      position: relative;
+      width: 100%;
+      margin: 0 0 0 25px;
+
+      .chart {
+        position: absolute;
+        top: 15px;
+        left: 10px;
+        transform: scale(1.05);
+      }
     }
 
     :deep(.ant-select:not(.ant-select-customize-input) .ant-select-selector) {
