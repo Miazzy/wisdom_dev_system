@@ -27,9 +27,5 @@ export function deleteOaLeave(id: string) {
 
 // 导出OA 请假申请 Excel
 export function exportOaLeave(params) {
-  return defHttp.download(
-    { url: '/baseset/oa-leave/export-excel', params },
-    { isReturnNativeResponse: true },
-    'OA 请假申请.xls',
-  );
+  return defHttp.download({ url: '/baseset/oa-leave/export-excel', params }, 'OA 请假申请.xls');
 }
