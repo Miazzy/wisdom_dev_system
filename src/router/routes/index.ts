@@ -111,6 +111,13 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/baseset/operation/powerstation/index.vue');
         } else if (
           checkImportComponent(
+            '/@/views/baseset/operation/powerstation/stationDrawer.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/baseset/operation/powerstation/stationDrawer.vue');
+        } else if (
+          checkImportComponent(
             '/@/views/baseset/operation/safecheck/safeCheckSet.vue',
             menu.component,
           )
@@ -210,8 +217,6 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/po/integrated/infoarchive/infoarchiveCreate.vue');
         } else if (menu.component == '/@/views/po/integrated/training/index.vue') {
           return import('/@/views/po/integrated/training/index.vue');
-        } else if (menu.component == '/@/views/po/integrated/training/trainingCreate.vue') {
-          return import('/@/views/po/integrated/training/trainingCreate.vue');
         } else if (menu.component == '/@/views/po/integrated/training/trainingCreate.vue') {
           return import('/@/views/po/integrated/training/trainingCreate.vue');
         } else if (
