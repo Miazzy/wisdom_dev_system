@@ -29,12 +29,17 @@
         />
         <div style="width: 135%; height: 240px; margin: -70px 0 0 -30px">
           <div style="margin: 0px 0 0 30px; transform: scale(0.85) translate(-60px, 0px)">
-            <EchartPillarChart :data="pchartData" :width="680" :height="330" />
+            <EchartPillarChart
+              :data="pchartData"
+              :colors="pchartData.colors"
+              :width="680"
+              :height="330"
+            />
           </div>
         </div>
       </div>
     </div>
-    <div class="content-bottom" style="margin-top:5px;">
+    <div class="content-bottom" style="margin-top: 5px">
       <SubtitleBar :subtitle="`考核评价`">
         <DictSelectBox
           :type="DICT_TYPE.BPM_MODEL_CATEGORY"
@@ -72,10 +77,15 @@
   import IndicatorGroup from '/@/components/Framework/Chart/IndicatorGroup.vue';
   import { DICT_TYPE } from '@/utils/dict';
 
+  const chartColors = ref([['#1C5C99', '#4CAFF9'], ['#105D3A', '#55CFD0'], '#f39c12', '#d81b60']);
+
   const pchartData = ref({
-    mData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
+    barData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
+    lData: [25, 28, 39, 14, 22, 14, 33, 39, 14, 22, 14, 33],
+    sData: [13, 20, 10, 34, 15, 30, 11, 10, 34, 15, 30, 11],
     mName: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-    units: ['单位', '单位'],
+    units: ['单位', '单位', '单位'],
+    colors: [['#078C5D', '#68E4B8'], '#60C0C0', '#60A0A0'],
   });
 
   const stackData = ref({
@@ -128,8 +138,6 @@
       label: '综合(分)',
     },
   ];
-
-  const chartColors = ref([['#1C5C99', '#4CAFF9'], ['#105D3A', '#55CFD0'], '#f39c12', '#d81b60']);
 </script>
 
 <style lang="less" scoped>

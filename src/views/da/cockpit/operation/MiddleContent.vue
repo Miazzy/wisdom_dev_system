@@ -1,7 +1,7 @@
 <template>
   <div class="middle-content">
     <div class="content-top">
-      <div class="element" style="margin-top: 22px;">
+      <div class="element" style="margin-top: 22px">
         <NumberDisplay
           title="巡检统计(次)"
           :subtitle="subtitle"
@@ -30,10 +30,10 @@
         <div style="width: 135%; height: 200px; margin: -50px 0 0 -30px">
           <div style="margin: 0px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
             <EchartLineBarChart
-              :data="lbarChartData"
-              :colors="chartColors"
+              :data="barchartData.data"
+              :colors="barchartData.colors"
               :width="720"
-              :height="300"
+              :height="340"
               :category="pchartData.mName"
               ybgcolor="#01B7D730"
             />
@@ -55,8 +55,13 @@
         style="width: 60%; margin: 0 15% 0 20%"
       />
       <div style="width: 100%; height: 185px; margin: -1px 0 0 0">
-        <div style="margin: -40px 0 0 20px; transform: scale(0.85) translate(-60px, 0px)">
-          <EchartPillarChart :data="pchartData" :width="680" :height="300"/>
+        <div style="margin: -55px 0 0 20px; transform: scale(0.85) translate(-60px, 0px)">
+          <EchartPillarChart
+            :data="pchartData"
+            :colors="pchartData.colors"
+            :width="680"
+            :height="340"
+          />
         </div>
       </div>
     </div>
@@ -74,11 +79,12 @@
   import { DICT_TYPE } from '@/utils/dict';
 
   const pchartData = ref({
+    barData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
     lData: [25, 28, 39, 14, 22, 14, 33, 39, 14, 22, 14, 33],
-    mData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
     sData: [13, 20, 10, 34, 15, 30, 11, 10, 34, 15, 30, 11],
     mName: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-    units: ['单位', '单位'],
+    units: ['单位', '单位', '单位'],
+    colors: [['#078C5D', '#68E4B8'], '#60C0C0', '#60A0A0'],
   });
 
   const subtitle = ref({
@@ -125,14 +131,14 @@
     },
   ];
 
-  const lbarChartData = [
-    [50.0, 34.9, 74.0, 44.2, 55.6, 76.7, 35.6, 62.2, 32.6, 20.0, 62.4, 32.3],
-    [32.6, 53.9, 39.0, 56.4, 48.7, 50.7, 75.6, 31.2, 48.7, 39.8, 62.0, 52.3],
-    [32.0, 39.2, 13.3, 24.5, 32.3, 15.2, 20.3, 23.4, 23.0, 16.5, 12.0, 26.2],
-    [12.0, 29.2, 33.3, 29.5, 35.3, 10.2, 28.3, 33.4, 13.0, 15.5, 14.0, 26.2],
-  ];
-
-  const chartColors = ref([['#1C5C99', '#4CAFF9'], ['#105D3A', '#55CFD0'], '#f39c12', '#d81b60']);
+  const barchartData = {
+    data: [
+      [50.0, 34.9, 74.0, 44.2, 55.6, 76.7, 35.6, 62.2, 32.6, 20.0, 62.4, 32.3],
+      [32.6, 53.9, 39.0, 56.4, 48.7, 50.7, 75.6, 31.2, 48.7, 39.8, 62.0, 52.3],
+      [32.0, 39.2, 13.3, 24.5, 32.3, 15.2, 20.3, 23.4, 23.0, 16.5, 12.0, 26.2],
+    ],
+    colors: [['#488FF6', '#60D1F3'], ['#078C5D', '#68E4B8'], '#f39c12', '#d81b60'],
+  };
 </script>
 
 <style lang="less" scoped>
@@ -160,7 +166,7 @@
       justify-content: center;
       align-items: top;
       flex-wrap: wrap; /* 使数字自动换行 */
-      height: 25%;
+      height: 20.5%;
 
       div.element {
         flex: 49.5%;

@@ -19,12 +19,7 @@
         :data="securityData"
         style="width: 80%; margin-left: 10%"
       />
-      <!-- <div style="width: 100%; height: 185px">
-        <div style="margin: -40px 0 0 20px; transform: scale(0.85) translate(-60px, 0px)">
-          <EchartPillarChart :data="pchartData" :width="620" :height="260" />
-        </div>
-      </div> -->
-      <div style="width: 100%; height: 185px;">
+      <div style="width: 100%; height: 185px">
         <div style="margin: -40px 0 0 -15px; transform: scale(0.85) translate(-60px, 0px)">
           <EchartLineBarChart
             :data="lbarChartData"
@@ -52,7 +47,12 @@
       />
       <div style="width: 100%; height: 185px">
         <div style="margin: -40px 0 0 20px; transform: scale(0.85) translate(-60px, 0px)">
-          <EchartPillarChart :data="pchartData" :width="620" :height="260" />
+          <EchartPillarChart
+            :data="pchartData"
+            :colors="pchartData.colors"
+            :width="620"
+            :height="260"
+          />
         </div>
       </div>
     </div>
@@ -70,9 +70,10 @@
   import { DICT_TYPE } from '@/utils/dict';
 
   const pchartData = ref({
-    mData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
+    barData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
     mName: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-    units: ['单位', '单位'],
+    units: ['单位', '单位', '单位'],
+    colors: [['#488FF6', '#60D1F3'], '#4080E0', '#60A0A0'],
   });
 
   const securityData = [

@@ -1,7 +1,7 @@
 <template>
   <div class="middle-content">
     <div class="content-top">
-      <div class="element" style="margin-top: 22px;">
+      <div class="element" style="margin-top: 22px">
         <NumberDisplay
           title="安全培训(次)"
           :subtitle="subtitle"
@@ -56,7 +56,12 @@
       />
       <div style="width: 100%; height: 185px; margin: -1px 0 0 0">
         <div style="margin: -40px 0 0 20px; transform: scale(0.85) translate(-60px, 0px)">
-          <EchartPillarChart :data="pchartData" :width="680" :height="300"/>
+          <EchartPillarChart
+            :data="pchartData"
+            :colors="pchartData.colors"
+            :width="680"
+            :height="300"
+          />
         </div>
       </div>
     </div>
@@ -75,10 +80,11 @@
 
   const pchartData = ref({
     lData: [25, 28, 39, 14, 22, 14, 33, 39, 14, 22, 14, 33],
-    mData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
+    barData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
     sData: [13, 20, 10, 34, 15, 30, 11, 10, 34, 15, 30, 11],
     mName: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-    units: ['单位', '单位'],
+    units: ['单位', '单位', '单位'],
+    colors: [['#078C5D', '#68E4B8'], '#60C0C0', '#60A0A0'],
   });
 
   const subtitle = ref({

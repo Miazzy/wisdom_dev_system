@@ -12,7 +12,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted, watch, onUnmounted } from 'vue';
+  import { ref, onMounted, onUnmounted } from 'vue';
   import * as echarts from 'echarts';
 
   const random = parseInt(Math.random() * 10000000);
@@ -21,12 +21,12 @@
     data: { type: Array },
     width: { type: Number, default: 600 },
     height: { type: Number, default: 300 },
-    colors: { type: Array },
+    colors: { type: Array, default: [['#078C5D', '#68E4B8'], '#02AFFC', '374BFC'] as any[] },
     name: { type: Array },
     legendData: { type: Array },
   });
 
-  const mData = ref([]);
+  const barData = ref([]);
   const mName = ref([]);
   const lData = ref([]);
   const sData = ref([]);
@@ -112,19 +112,14 @@
       appendToBody: true,
       formatter: function (params) {
         const units = props.data.units;
-        return (
-          '柱状图：' +
-          params[0].value +
-          `${units[0]}` +
-          '<br />' +
-          '折线图1：' +
-          params[2].value +
-          `${units[1]}` +
-          '<br />' +
-          '折线图2：' +
-          params[3].value +
-          `${units[1]}`
-        );
+        const first = params?.length > 0 ? `柱状图：${params[0].value} ${units[0]}` : '';
+        try {
+          const second = params?.length > 2 ? `<br /> 折线图1：${params[2].value} ${units[1]}` : '';
+          const third = params?.length > 3 ? `<br /> 折线图2：${params[3].value} ${units[2]}` : '';
+          return first + second + third;
+        } catch (e) {
+          return first;
+        }
       },
       position: function (point, params, dom, rect, size) {
         var x = 0; // x坐标位置
@@ -153,7 +148,7 @@
         showBackground: true,
         backgroundStyle: {
           width: '100%',
-          color: 'rgba(2, 175, 252, 0.14)',
+          color: `${props.colors[0][0]}15`,
         },
         renderItem: function (params, api) {
           const location = api.coord([api.value(0), api.value(1)]);
@@ -170,10 +165,10 @@
                 },
                 backgroundStyle: {
                   width: '100%',
-                  color: 'rgba(2, 175, 252, 0.14)',
+                  color: `${props.colors[0][0]}15`,
                 },
                 style: {
-                  fill: 'rgba(2, 175, 252, 0.95)',
+                  fill: `${props.colors[0][0]}95`,
                 },
               },
               {
@@ -185,7 +180,7 @@
                   xAxisPoint: api.coord([api.value(0), 0]),
                 },
                 style: {
-                  fill: 'rgba(1, 188, 224, .4)',
+                  fill: `${props.colors[0][0]}40`,
                 },
               },
               {
@@ -198,7 +193,7 @@
                   xAxisPoint: api.coord([api.value(0), 0]),
                 },
                 style: {
-                  fill: 'rgba(1, 181, 216, .7)',
+                  fill: `${props.colors[0][0]}70`,
                 },
               },
             ],
@@ -215,8 +210,8 @@
                   0,
                   0,
                   [
-                    { offset: 0, color: '#00F8FE' },
-                    { offset: 1, color: '#008BFC' },
+                    { offset: 0, color: props.colors[0][1] },
+                    { offset: 1, color: props.colors[0][0] },
                   ],
                   false,
                 ),
@@ -229,11 +224,11 @@
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
               offset: 0,
-              color: '#00F8FE',
+              color: props.colors[0][1],
             },
             {
               offset: 1,
-              color: '#008BFC',
+              color: props.colors[0][0],
             },
           ]),
         },
@@ -245,7 +240,7 @@
         barWidth: 19.15,
         backgroundStyle: {
           width: '100%',
-          color: 'rgba(2, 175, 252, 0.08)',
+          color: `${props.colors[0][0]}10`,
         },
         itemStyle: {
           normal: {
@@ -258,8 +253,8 @@
                   0,
                   0,
                   [
-                    { offset: 0, color: '#008BFC' },
-                    { offset: 1, color: '#00F8FE' },
+                    { offset: 0, color: props.colors[0][0] },
+                    { offset: 1, color: props.colors[0][1] },
                   ],
                   false,
                 ),
@@ -272,11 +267,11 @@
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
               offset: 0,
-              color: '#008BFC',
+              color: props.colors[0][0],
             },
             {
               offset: 1,
-              color: '#00F8FE',
+              color: props.colors[0][1],
             },
           ]),
         },
@@ -297,12 +292,12 @@
         type: 'line',
         lineStyle: {
           width: 2, // 折线宽度
-          color: 'rgba(2, 175, 252, 1)',
+          color: props.colors[1],
         },
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: 'rgba(2, 175, 252, 0.30)' },
-            { offset: 1, color: 'rgba(2, 175, 252, 0.1)' },
+            { offset: 0, color: `${props.colors[1]}30` },
+            { offset: 1, color: `${props.colors[1]}10` },
           ]),
         },
       },
@@ -312,12 +307,12 @@
         type: 'line',
         lineStyle: {
           width: 2, // 折线宽度
-          color: 'rgba(55, 75, 252, 1)',
+          color: props.colors[2],
         },
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: 'rgba(55, 75, 252, 0.30)' },
-            { offset: 1, color: 'rgba(55, 75, 252, 0.10)' },
+            { offset: 0, color: `${props.colors[2]}30` },
+            { offset: 1, color: `${props.colors[2]}10` },
           ]),
         },
       },
@@ -393,15 +388,15 @@
 
     // 获取统计数据
     sData.value = props.data.sData;
-    mData.value = props.data.mData;
+    barData.value = props.data.barData;
     mName.value = props.data.mName;
     lData.value = props.data.lData;
 
     // 设置统计数据
     try {
       pillarOption.value.xAxis.data = mName.value;
-      pillarOption.value.series[0].data = mData.value;
-      pillarOption.value.series[1].data = mData.value;
+      pillarOption.value.series[0].data = barData.value;
+      pillarOption.value.series[1].data = barData.value;
       pillarOption.value.series[2].data = lData.value;
       pillarOption.value.series[3].data = sData.value;
       myChart.setOption(pillarOption.value, true);

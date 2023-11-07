@@ -13,9 +13,14 @@
         :data="workData"
         style="width: 60%; margin: 0 15% 0 20%"
       />
-      <div style="width: 100%; height: 185px;">
+      <div style="width: 100%; height: 185px">
         <div style="margin: -40px 0 0 20px; transform: scale(0.85) translate(-60px, 0px)">
-          <EchartPillarChart :data="pchartData" :width="620" :height="260"/>
+          <EchartPillarChart
+            :data="pchartTopData"
+            :colors="pchartTopData.colors"
+            :width="620"
+            :height="260"
+          />
         </div>
       </div>
     </div>
@@ -32,9 +37,14 @@
         :data="securityData"
         style="width: 80%; margin-left: 10%"
       />
-      <div style="width: 100%; height: 185px;">
+      <div style="width: 100%; height: 185px">
         <div style="margin: -40px 0 0 20px; transform: scale(0.85) translate(-60px, 0px)">
-          <EchartPillarChart :data="pchartData" :width="620" :height="260"/>
+          <EchartPillarChart
+            :data="pchartMiddleData"
+            :colors="pchartMiddleData.colors"
+            :width="620"
+            :height="260"
+          />
         </div>
       </div>
     </div>
@@ -51,9 +61,14 @@
         :data="lurkingData"
         style="width: 60%; margin: 0 15% 0 20%"
       />
-      <div style="width: 100%; height: 185px;">
+      <div style="width: 100%; height: 185px">
         <div style="margin: -40px 0 0 20px; transform: scale(0.85) translate(-60px, 0px)">
-          <EchartPillarChart :data="pchartData" :width="620" :height="260"/>
+          <EchartPillarChart
+            :data="pchartBottomData"
+            :colors="pchartBottomData.colors"
+            :width="620"
+            :height="260"
+          />
         </div>
       </div>
     </div>
@@ -68,12 +83,27 @@
   import IndicatorGroup from '/@/components/Framework/Chart/IndicatorGroup.vue';
   import { DICT_TYPE } from '@/utils/dict';
 
-  const pchartData = ref({
-    lData: [25, 28, 39, 14, 22, 14, 33, 39, 14, 22, 14, 33],
-    mData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
+  const pchartTopData = ref({
+    barData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
     sData: [13, 20, 10, 34, 15, 30, 11, 10, 34, 15, 30, 11],
     mName: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-    units: ['单位', '单位'],
+    units: ['单位', '单位', '单位'],
+    colors: [['#078C5D', '#68E4B8'], '#60C0C0', '#60A0A0'],
+  });
+
+  const pchartMiddleData = ref({
+    barData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
+    mName: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+    units: ['单位', '单位', '单位'],
+    colors: [['#488FF6', '#60D1F3'], '#60C0C0', '#60A0A0'],
+  });
+
+  const pchartBottomData = ref({
+    barData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
+    sData: [13, 20, 10, 34, 15, 30, 11, 10, 34, 15, 30, 11],
+    mName: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+    units: ['单位', '单位', '单位'],
+    colors: [['#488FF6', '#60D1F3'], '#60C0C0', '#60A0A0'],
   });
 
   const workData = [
