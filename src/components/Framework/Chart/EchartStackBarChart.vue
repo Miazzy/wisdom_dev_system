@@ -17,6 +17,7 @@
     colors: Array,
     barWidth: { type: Number, default: 25 },
     lineColor: { type: String, default: '#fe039a' },
+    ybgcolor: { type: String },
   });
 
   // 创建图表
@@ -25,10 +26,10 @@
     var myChart = echarts.init(chartDom);
     var option;
     const categories = props.data.categories;
-    const data0 = props.data.barData[0].data;
-    const data1 = props.data.barData[1].data;
-    const data2 = props.data.barData[2].data;
-    const lineData = props.data.lineData[0].data;
+    const data0 = props.data.barData[0];
+    const data1 = props.data.barData[1];
+    const data2 = props.data.barData[2];
+    const lineData = props.data.lineData[0];
     option = {
       tooltip: {
         trigger: 'axis',
@@ -45,21 +46,78 @@
       xAxis: [
         {
           type: 'category',
-          data: categories,
+          data: props.data.categories,
+          nameTextStyle: {
+            color: '#888888', //  字体颜色
+            fontSize: 26, //  字体大小
+            fontWeight: 'bolder',
+            padding: [10, -800, 66, 0], //标题位置调整 上 右 下 左
+          },
+          splitLine: {
+            show: false, //网格线
+          },
+          axisTick: {
+            show: false, //是否展示刻度线
+            inside: false, //刻度线朝内还是朝外
+          },
+          axisLine: {
+            show: ' ', //是否显示坐标轴轴线
+            onZero: ' ', //X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度
+            onZeroAxisIndex: '12', //当有双轴时，可以用这个属性手动指定，在哪个轴的 0 刻度上
+            symbol: ['none', 'none'], //轴线两边的箭头
+            symbolSize: [10, 10], //轴线两边的箭头的大小，第一个数字表示宽度（垂直坐标轴方向），第二个数字表示高度（平行坐标轴方向）
+            lineStyle: {
+              color: 'rgba(170, 221, 255, .8)', //坐标轴线线的颜色
+              width: '0.2', //坐标轴线线宽
+            },
+          },
         },
       ],
       yAxis: [
         {
           type: 'value',
+          splitLine: {
+            show: true, //网格线
+            lineStyle: {
+              color: 'rgba(170, 221, 255, .8)', //坐标轴线线的颜色
+              width: '0.1', //坐标轴线线宽
+            },
+          },
+          axisLine: {
+            show: ' ', //是否显示坐标轴轴线
+            onZero: ' ', //X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度
+            onZeroAxisIndex: '12', //当有双轴时，可以用这个属性手动指定，在哪个轴的 0 刻度上
+            symbol: ['none', 'none'], //轴线两边的箭头
+            symbolSize: [10, 10], //轴线两边的箭头的大小，第一个数字表示宽度（垂直坐标轴方向），第二个数字表示高度（平行坐标轴方向）
+            lineStyle: {
+              color: 'rgba(170, 221, 255, .8)', //坐标轴线线的颜色
+              width: '0.2', //坐标轴线线宽
+            },
+          },
         },
         {
           type: 'value',
-          name: 'Xemp',
-          min: 0,
-          max: 40,
-          interval: 10,
-          axisLabel: {
-            formatter: '{value} °C',
+          nameTextStyle: {
+            color: 'transparent', //  字体颜色
+            fontSize: 26, //  字体大小
+            fontWeight: 'bolder',
+            padding: [10, -800, 66, 0], //标题位置调整 上 右 下 左
+          },
+          splitLine: {
+            show: false, //网格线
+            lineStyle: {
+              color: 'rgba(170, 221, 255, .8)', //坐标轴线线的颜色
+              width: '0.1', //坐标轴线线宽
+            },
+          },
+          axisTick: {
+            show: false, //是否展示刻度线
+            inside: false, //刻度线朝内还是朝外
+          },
+          axisLine: {
+            lineStyle: {
+              color: 'transparent',
+            },
           },
         },
       ],

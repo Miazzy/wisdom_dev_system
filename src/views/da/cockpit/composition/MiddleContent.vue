@@ -1,7 +1,7 @@
 <template>
   <div class="middle-content">
     <div class="content-top">
-      <div class="element" style="margin-top: 22px;">
+      <div class="element" style="margin-top: 22px">
         <NumberDisplay
           title="培训统计(次)"
           :subtitle="subtitle"
@@ -27,14 +27,14 @@
           :data="securityData"
           style="width: 64%; margin: 30px 0 0 17%"
         />
-        <div style="width: 135%; height: 200px; margin: -50px 0 0 -30px">
+        <div style="width: 135%; height: 240px; margin: -70px 0 0 -30px">
           <div style="margin: 0px 0 0 30px; transform: scale(0.85) translate(-60px, 0px)">
-            <EchartPillarChart :data="pchartData" :width="680" :height="300"/>
+            <EchartPillarChart :data="pchartData" :width="680" :height="330" />
           </div>
         </div>
       </div>
     </div>
-    <div class="content-bottom">
+    <div class="content-bottom" style="margin-top:5px;">
       <SubtitleBar :subtitle="`考核评价`">
         <DictSelectBox
           :type="DICT_TYPE.BPM_MODEL_CATEGORY"
@@ -45,17 +45,16 @@
       <IndicatorGroup
         class="indicator-group-layout"
         :data="lurkingData"
-        style="width: 60%; margin: 0 15% 0 20%"
+        style="width: 80%; margin: 15px 7.5% 0 10%"
       />
       <div style="width: 135%; height: 185px; margin: -1px 0 0 0">
-        <div style="margin: -15px 0 0 -40px; transform: scale(0.85) translate(-60px, 0px)">
-          <EchartLineBarChart
-            :data="lbarChartData"
+        <div style="margin: -30px 0 0 -20px; transform: scale(0.85) translate(-60px, 0px)">
+          <EchartStackBarChart
+            :data="stackData"
             :colors="chartColors"
-            :width="735"
-            :height="300"
-            :category="pchartData.mName"
             ybgcolor="#01B7D730"
+            :width="695"
+            :height="285"
           />
         </div>
       </div>
@@ -69,7 +68,7 @@
   import SubtitleBar from '/@/components/Framework/Chart/SubtitleBar.vue';
   import EchartPillarChart from '/@/components/Framework/Chart/EchartPillarChart.vue';
   import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';
-  import EchartLineBarChart from '/@/components/Framework/Chart/EchartLineBarChart.vue';
+  import EchartStackBarChart from '/@/components/Framework/Chart/EchartStackBarChart.vue';
   import IndicatorGroup from '/@/components/Framework/Chart/IndicatorGroup.vue';
   import { DICT_TYPE } from '@/utils/dict';
 
@@ -81,6 +80,16 @@
     units: ['单位', '单位'],
   });
 
+  const stackData = ref({
+    categories: pchartData.value.mName,
+    barData: [
+      [25, 28, 39, 14, 22, 14, 33, 39, 14, 22, 14, 33],
+      [15, 22, 39, 14, 31, 15, 20, 31, 11, 31, 15, 20],
+      [13, 20, 10, 34, 15, 30, 11, 10, 34, 15, 30, 11],
+    ],
+    lineData: [[33, 26, 13, 34, 14, 31, 19, 15, 33, 15, 31, 14]],
+  });
+
   const subtitle = ref({
     mtext: '同比',
     mvalue: '1.6%',
@@ -88,48 +97,38 @@
     svalue: '-3.6%',
   });
 
-  const workData = [
-    {
-      value: 72,
-      label: '未闭环(笔)',
-    },
-    {
-      value: 15.32,
-      label: '闭环率(%)',
-    },
-  ];
-
   const securityData = [
     {
       value: 93,
-      label: '未巡检(次)',
+      label: '保险即将到期(辆)',
     },
     {
       value: 33,
-      label: '异常(项)',
+      label: '即将年检(辆)',
     },
     {
       value: 98.45,
-      label: '巡检率(%)',
+      label: '安全检测(次)',
     },
   ];
 
   const lurkingData = [
     {
-      value: 35,
-      label: '待处理(项)',
+      value: 95,
+      label: '电量(分)',
     },
     {
-      value: 59.23,
-      label: '处理率(%)',
+      value: 75.23,
+      label: '安全(分)',
     },
-  ];
-
-  const lbarChartData = [
-    [50.0, 34.9, 74.0, 44.2, 55.6, 76.7, 35.6, 62.2, 32.6, 20.0, 62.4, 32.3],
-    [32.6, 53.9, 39.0, 56.4, 48.7, 50.7, 75.6, 31.2, 48.7, 39.8, 62.0, 52.3],
-    [32.0, 39.2, 13.3, 24.5, 32.3, 15.2, 20.3, 23.4, 23.0, 16.5, 12.0, 26.2],
-    [12.0, 29.2, 33.3, 29.5, 35.3, 10.2, 28.3, 33.4, 13.0, 15.5, 14.0, 26.2],
+    {
+      value: 72.23,
+      label: '运维(分)',
+    },
+    {
+      value: 68.23,
+      label: '综合(分)',
+    },
   ];
 
   const chartColors = ref([['#1C5C99', '#4CAFF9'], ['#105D3A', '#55CFD0'], '#f39c12', '#d81b60']);
@@ -160,7 +159,7 @@
       justify-content: center;
       align-items: top;
       flex-wrap: wrap; /* 使数字自动换行 */
-      height: 25%;
+      height: 20.5%;
 
       div.element {
         flex: 49.5%;
