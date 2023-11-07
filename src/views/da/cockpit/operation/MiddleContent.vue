@@ -30,7 +30,7 @@
         <div style="width: 135%; height: 200px; margin: -50px 0 0 -30px">
           <div style="margin: 0px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
             <EchartLineBarChart
-              :data="barchartData.data"
+              :data="barchartData"
               :colors="barchartData.colors"
               :width="720"
               :height="340"
@@ -96,16 +96,6 @@
     svalue: '-3.6%',
   });
 
-  const workData = [
-    {
-      value: 72,
-      label: '未闭环(笔)',
-    },
-    {
-      value: 15.32,
-      label: '闭环率(%)',
-    },
-  ];
 
   const securityData = [
     {
@@ -134,12 +124,18 @@
   ];
 
   const barchartData = {
-    data: [
+    barData: [
       [50.0, 34.9, 74.0, 44.2, 55.6, 76.7, 35.6, 62.2, 32.6, 20.0, 62.4, 32.3],
       [32.6, 53.9, 39.0, 56.4, 48.7, 50.7, 75.6, 31.2, 48.7, 39.8, 62.0, 52.3],
-      [32.0, 39.2, 13.3, 24.5, 32.3, 15.2, 20.3, 23.4, 23.0, 16.5, 12.0, 26.2],
     ],
-    colors: [['#488FF6', '#60D1F3'], ['#078C5D', '#68E4B8'], '#f39c12', '#d81b60'],
+    lineData: [[32.0, 39.2, 13.3, 24.5, 32.3, 15.2, 20.3, 23.4, 23.0, 16.5, 12.0, 26.2]],
+    colors: [
+      ['#488FF6', '#60D1F3'],
+      ['#078C5D', '#68E4B8'],
+      ['#E59837', '#FAE895'],
+      '#f39c12',
+      '#f39c12',
+    ],
   };
 </script>
 
