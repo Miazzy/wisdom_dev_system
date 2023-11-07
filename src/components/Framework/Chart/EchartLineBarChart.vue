@@ -32,6 +32,12 @@
     var myChart = echarts.init(chartDom);
     var option;
 
+    const barData0 = data.value.barData && data.value.barData.length > 0 ? data.value.barData[0] : [];
+    const barData1 = data.value.barData && data.value.barData.length > 1 ? data.value.barData[1] : [];
+    const barData2 = data.value.barData && data.value.barData.length > 2 ? data.value.barData[2] : [];
+    const lineData0 = data.value.lineData && data.value.lineData.length > 0 ? data.value.lineData[0] : [];
+    const lineData1 = data.value.lineData && data.value.lineData.length > 1 ? data.value.lineData[1] : [];
+
     option = {
       tooltip: {
         trigger: 'axis',
@@ -127,14 +133,14 @@
       ],
       series: [
         {
-          name: 'Evaporation',
+          name: 'barchart0',
           type: 'bar',
           tooltip: {
             valueFormatter: function (value) {
               return value;
             },
           },
-          data: data.value[0], // 使用传入的数据
+          data: barData0, // 使用传入的数据
           shading: 'lambert',
           itemStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -144,14 +150,14 @@
           },
         },
         {
-          name: 'Precipitation',
+          name: 'barchart1',
           type: 'bar',
           tooltip: {
             valueFormatter: function (value) {
               return value;
             },
           },
-          data: data.value[1], // 使用传入的数据
+          data: barData1, // 使用传入的数据
           shading: 'lambert',
           itemStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -161,28 +167,24 @@
           },
         },
         {
-          name: 'Temperature',
-          type: 'line',
-          yAxisIndex: 1,
+          name: 'barchart2',
+          type: 'bar',
           tooltip: {
             valueFormatter: function (value) {
               return value;
             },
           },
-          lineStyle: {
-            width: 2,
-            color: colors.value[2],
-          },
-          data: data.value[2], // 使用传入的数据
-          areaStyle: {
+          data: barData2, // 使用传入的数据
+          shading: 'lambert',
+          itemStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: `${colors.value[2]}30` },
-              { offset: 1, color: `${colors.value[2]}10` },
+              { offset: 0, color: colors.value[2][1] },
+              { offset: 1, color: `${colors.value[2][0]}` },
             ]),
           },
         },
         {
-          name: 'Xemp',
+          name: 'linechart0',
           type: 'line',
           yAxisIndex: 1,
           tooltip: {
@@ -194,11 +196,32 @@
             width: 2,
             color: colors.value[3],
           },
-          data: data.value[3], // 使用传入的数据
+          data: lineData0, // 使用传入的数据
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               { offset: 0, color: `${colors.value[3]}30` },
               { offset: 1, color: `${colors.value[3]}10` },
+            ]),
+          },
+        },
+        {
+          name: 'linechart1',
+          type: 'line',
+          yAxisIndex: 1,
+          tooltip: {
+            valueFormatter: function (value) {
+              return value;
+            },
+          },
+          lineStyle: {
+            width: 2,
+            color: colors.value[4],
+          },
+          data: lineData1, // 使用传入的数据
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: `${colors.value[4]}30` },
+              { offset: 1, color: `${colors.value[4]}10` },
             ]),
           },
         },
