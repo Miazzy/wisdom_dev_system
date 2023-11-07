@@ -40,8 +40,8 @@
       <div style="width: 100%; height: 185px">
         <div style="margin: -40px 0 0 -20px; transform: scale(0.85) translate(-60px, 0px)">
           <EchartLineBarChart
-            :data="lbarChartData"
-            :colors="secondColors"
+            :data="barchartData"
+            :colors="barchartData.colors"
             :width="680"
             :height="280"
             :category="pchartData.categories"
@@ -66,8 +66,8 @@
       <div style="width: 100%; height: 185px">
         <div style="margin: -35px 0 0 -20px; transform: scale(0.85) translate(-60px, 0px)">
           <EchartLineBarChart
-            :data="lbarChartData"
-            :colors="secondColors"
+            :data="sbarchartData"
+            :colors="sbarchartData.colors"
             :width="680"
             :height="288"
             :category="pchartData.categories"
@@ -142,12 +142,33 @@
     },
   ];
 
-  const lbarChartData = [
-    [50.0, 34.9, 74.0, 44.2, 55.6, 76.7, 35.6, 62.2, 32.6, 20.0, 62.4, 32.3],
-    [32.6, 53.9, 39.0, 56.4, 48.7, 50.7, 75.6, 31.2, 48.7, 39.8, 62.0, 52.3],
-  ];
+  const barchartData = {
+    barData: [
+      [50.0, 34.9, 74.0, 44.2, 55.6, 76.7, 35.6, 62.2, 32.6, 20.0, 62.4, 32.3],
+      [32.6, 53.9, 39.0, 56.4, 48.7, 50.7, 75.6, 31.2, 48.7, 39.8, 62.0, 52.3],
+    ],
+    colors: [
+      ['#488FF6', '#60D1F3'],
+      ['#078C5D', '#68E4B8'],
+      ['#E59837', '#FAE895'],
+      '#f39c12',
+      '#f39c12',
+    ],
+  };
 
-  const secondColors = ref([['#488FF6', '#60D1F3'], ['#078C5D', '#68E4B8'], '#f39c12', '#d81b60']);
+  const sbarchartData = {
+    barData: [
+      [50.0, 34.9, 74.0, 44.2, 55.6, 76.7, 35.6, 62.2, 32.6, 20.0, 62.4, 32.3],
+      [32.6, 53.9, 39.0, 56.4, 48.7, 50.7, 75.6, 31.2, 48.7, 39.8, 62.0, 52.3],
+    ],
+    colors: [
+      ['#488FF6', '#60D1F3'],
+      ['#078C5D', '#68E4B8'],
+      ['#E59837', '#FAE895'],
+      '#f39c12',
+      '#f39c12',
+    ],
+  };
 </script>
 
 <style lang="less" scoped>
