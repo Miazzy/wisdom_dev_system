@@ -27,9 +27,8 @@
   });
 
   const barData = ref([]);
-  const mName = ref([]);
-  const lData = ref([]);
-  const sData = ref([]);
+  const categories = ref([]);
+  const lineData = ref([]);
   const pillarOption = ref({
     backgroundColor: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
       {
@@ -387,18 +386,17 @@
     const myChart = echarts.init(chartDom);
 
     // 获取统计数据
-    sData.value = props.data.sData;
     barData.value = props.data.barData;
-    mName.value = props.data.mName;
-    lData.value = props.data.lData;
+    categories.value = props.data.categories;
+    lineData.value = props.data.lineData;
 
     // 设置统计数据
     try {
-      pillarOption.value.xAxis.data = mName.value;
+      pillarOption.value.xAxis.data = categories.value;
       pillarOption.value.series[0].data = barData.value;
       pillarOption.value.series[1].data = barData.value;
-      pillarOption.value.series[2].data = lData.value;
-      pillarOption.value.series[3].data = sData.value;
+      pillarOption.value.series[2].data = lineData.value?.length > 0 ? lineData.value[0] : [];
+      pillarOption.value.series[3].data = lineData.value?.length > 1 ? lineData.value[1] : [];
       myChart.setOption(pillarOption.value, true);
     } catch (error) {
       console.error(error);
