@@ -3,16 +3,16 @@
     <div class="top-section">
       <div class="content" style="">
         <div class="element">
-          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" />
+          <NumberDisplay title="今日发电量(万kWh)" :value="226.45" tsize="12px" vsize="28px" />
         </div>
         <div class="element">
-          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" />
+          <NumberDisplay title="今日发电量(万kWh)" :value="413.45" tsize="12px" vsize="28px" />
         </div>
         <div class="element" style="margin-top: 15px;">
-          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" />
+          <NumberDisplay title="今日发电量(万kWh)" :value="633.45" tsize="12px" vsize="28px" />
         </div>
         <div class="element">
-          <NumberDisplay title="今日发电量(万kWh)" :value="523.45" tsize="12px" vsize="28px" />
+          <NumberDisplay title="今日发电量(万kWh)" :value="103.45" tsize="12px" vsize="28px" />
         </div>
       </div>
     </div>
