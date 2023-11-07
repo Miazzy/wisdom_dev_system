@@ -26,9 +26,11 @@
     var myChart = echarts.init(chartDom);
     var option;
     const categories = props.data.categories;
+    const barNames = props.data.barNames;
     const data0 = props.data.barData[0];
     const data1 = props.data.barData[1];
     const data2 = props.data.barData[2];
+    const data3 = props.data.barData[3];
     const lineData = props.data.lineData[0];
     option = {
       tooltip: {
@@ -46,10 +48,10 @@
       xAxis: [
         {
           type: 'category',
-          data: props.data.categories,
+          data: categories,
           nameTextStyle: {
             color: '#888888', //  字体颜色
-            fontSize: 26, //  字体大小
+            fontSize: 22, //  字体大小
             fontWeight: 'bolder',
             padding: [10, -800, 66, 0], //标题位置调整 上 右 下 左
           },
@@ -123,7 +125,7 @@
       ],
       series: [
         {
-          name: 'Email',
+          name: barNames[0],
           type: 'bar',
           stack: 'Ad',
           emphasis: {
@@ -133,7 +135,7 @@
           barWidth: props.barWidth, // 设置柱子的宽度，可以根据需要调整
         },
         {
-          name: 'Union Ads',
+          name: barNames[1],
           type: 'bar',
           stack: 'Ad',
           emphasis: {
@@ -143,7 +145,7 @@
           barWidth: props.barWidth, // 设置柱子的宽度，可以根据需要调整
         },
         {
-          name: 'Video Ads',
+          name: barNames[2],
           type: 'bar',
           stack: 'Ad',
           emphasis: {
@@ -153,7 +155,17 @@
           barWidth: props.barWidth, // 设置柱子的宽度，可以根据需要调整
         },
         {
-          name: 'Xemp',
+          name: barNames[3],
+          type: 'bar',
+          stack: 'Ad',
+          emphasis: {
+            focus: 'series',
+          },
+          data: data3,
+          barWidth: props.barWidth, // 设置柱子的宽度，可以根据需要调整
+        },
+        {
+          name: props.data.lineNames[0],
           type: 'line',
           yAxisIndex: 1,
           lineStyle: {

@@ -91,13 +91,16 @@
   });
 
   const stackData = ref({
-    categories: pchartData.value.mName,
+    categories: pchartData.value.categories,
     barData: [
       [25, 28, 39, 14, 22, 14, 33, 39, 14, 22, 14, 33],
       [15, 22, 39, 14, 31, 15, 20, 31, 11, 31, 15, 20],
       [13, 20, 10, 34, 15, 30, 11, 10, 34, 15, 30, 11],
+      [33, 26, 13, 34, 14, 31, 19, 15, 33, 15, 31, 14],
     ],
-    lineData: [[33, 26, 13, 34, 14, 31, 19, 15, 33, 15, 31, 14]],
+    lineData: [[33, 26, 13, 34, 14, 31, 19, 15, 33, 15, 31, 14]], // 不设置或者设置为空数组即不显示
+    barNames: ['chartOne', 'chartTwo', 'chartThree', 'chartFour'],
+    lineNames: ['lineChart'],
   });
 
   const subtitle = ref({
