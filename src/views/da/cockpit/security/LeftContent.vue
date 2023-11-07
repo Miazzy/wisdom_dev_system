@@ -70,12 +70,12 @@
           style="width: 84%; margin: 30px 0 0 30px"
         />
         <div style="width: 135%; height: 400px; margin: 52px 0 0 -30px">
-          <div style="margin: 0px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
+          <div style="margin: -47.5px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
             <EchartLineBarChart
               :data="lbarChartData"
               :colors="chartColors"
-              :width="730"
-              :height="400"
+              :width="735"
+              :height="450"
               :category="pchartData.mName"
               ybgcolor="#01B7D730"
             />
@@ -122,10 +122,9 @@
     [50.0, 34.9, 74.0, 44.2, 55.6, 76.7, 35.6, 62.2, 32.6, 20.0, 62.4, 32.3],
     [32.6, 53.9, 39.0, 56.4, 48.7, 50.7, 75.6, 31.2, 48.7, 39.8, 62.0, 52.3],
     [32.0, 39.2, 13.3, 24.5, 32.3, 15.2, 20.3, 23.4, 23.0, 16.5, 12.0, 26.2],
-    [12.0, 29.2, 33.3, 29.5, 35.3, 10.2, 28.3, 33.4, 13.0, 15.5, 14.0, 26.2],
   ];
 
-  const chartColors = ref([['#1C5C99', '#4CAFF9'], ['#105D3A', '#55CFD0'], '#f39c12', '#d81b60']);
+  const chartColors = ref([['#488FF6', '#60D1F3'], ['#078C5D', '#68E4B8'], '#f39c12', '#d81b60']);
 
   const pchartData = ref({
     lData: [25, 28, 39, 14, 22, 14, 33, 39, 14, 22, 14, 33],
