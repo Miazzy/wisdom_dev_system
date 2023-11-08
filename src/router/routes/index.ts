@@ -207,6 +207,10 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/po/safety/vehicleexecution/index.vue');
         } else if (menu.component == '/@/views/po/safety/vehicleexecution/createOrUpdate.vue') {
           return import('/@/views/po/safety/vehicleexecution/createOrUpdate.vue');
+        } else if (menu.component == '/@/views/po/safety/safetyfiles/index.vue') {
+          return import('/@/views/po/safety/safetyfiles/index.vue');
+        } else if (menu.component == '/@/views/po/safety/safetyfiles/SafetyFilesModal.vue') {
+          return import('/@/views/po/safety/safetyfiles/SafetyFilesModal.vue');
         }
         // po/integrated
         else if (menu.component == '/@/views/po/integrated/personcertificate/index.vue') {
@@ -223,6 +227,10 @@ const transformMenuItem = (menu, routes) => {
           menu.component == '/@/views/po/integrated/personcertificate/certificateDrawer.vue'
         ) {
           return import('/@/views/po/integrated/personcertificate/certificateDrawer.vue');
+        } else if (
+          menu.component == '/@/views/po/integrated/assessmentevaluation/evaluationindex/index.vue'
+        ) {
+          return import('/@/views/po/integrated/assessmentevaluation/evaluationindex/index.vue');
         }
         // po/elec
         else if (menu.component == '/@/views/po/elec/produce/index.vue') {
