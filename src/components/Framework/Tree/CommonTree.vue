@@ -1,7 +1,7 @@
 <!--
  * @Description: commonTree组件
  * @Date: 2023-09-22 08:46:00
- * @LastEditTime: 2023-11-03 13:12:58
+ * @LastEditTime: 2023-11-09 11:05:05
  * @FilePath: \ygwl-framework\src\components\Framework\Tree\CommonTree.vue
 -->
 <template>
@@ -67,6 +67,11 @@
     return tree;
   }
 
+  // 获取选中树节点
+  function getSelectedTreeNode() {
+    return getTree().getSelectedNode(selectedNode.value)
+  }
+
   // 选择
   function handleSelect(keys) {
     selectedNode.value = keys[0];
@@ -122,6 +127,8 @@
   onMounted(() => {
     treeData.value = props.value as unknown as TreeItem[];
   });
+
+  defineExpose({getSelectedTreeNode});
 </script>
 <style lang="less" scoped>
   .fit-basic-tree {
