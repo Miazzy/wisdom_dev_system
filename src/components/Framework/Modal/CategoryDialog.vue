@@ -13,11 +13,11 @@
             <!-- 基础Tree组件 -->
             <a-tree :tree-data="treeData" show-icon default-expand-all @select="handleSelect">
               <template #switcherIcon="{ switcherCls }">
-                <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
+                <Icon :icon="props.ticons.parent" size="14" :class="switcherCls" />
               </template>
               <template #icon="{ key, isLeaf }">
-                <Icon v-if="isLeaf && !isTopNode(key)" :icon="props.ticons.leaf" color="#333" size="14" />
-                <Icon v-if="!isLeaf && !isTopNode(key)" :icon="props.ticons.middle" color="#333" size="14" />
+                <Icon v-if="isLeaf && !isTopNode(key)" :icon="props.ticons.leaf" size="14" />
+                <Icon v-if="!isLeaf && !isTopNode(key)" :icon="props.ticons.middle" size="14" />
               </template>
             </a-tree>
           </div>
@@ -38,13 +38,13 @@
               <a-input v-model:value="searchText" placeholder="请输入搜索关键字..." />
             </div>
             <div class="search-button">
-              <a-button size="middle" preIcon="ant-design:search" type="primary" style="width: 80px; border-radius: 4px;"
+              <a-button size="middle" preIcon="ant-design:search" type="primary" style="width: 80px;"
                 @click="handleSearch">搜索</a-button>
             </div>
           </div>
           <div id="combo-dialog-table" class="table-content">
             <a-table size="small" :columns="props.gcolumns" :data-source="filterGdata" :scroll="{ y: theight }"
-              :customRow="handleTableClick">
+              :customRow="handleTableClick" :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : null)" bordered>
             </a-table>
           </div>
         </div>
@@ -249,8 +249,7 @@ onMounted(() => {
 
 .category-tree {
   flex: 3;
-  padding: 10px;
-  border-right: 1px solid #ebebeb;
+  padding: 10px; 
 
   /* 右侧加上分割线 */
   text-align: left;
@@ -262,7 +261,6 @@ onMounted(() => {
     margin-bottom: 0;
     margin-left: -20px;
     padding-bottom: 5px;
-    border-bottom: 1px solid #f0f0f0;
 
     span.title-value {
       margin: 0 0 0 20px;
@@ -271,7 +269,7 @@ onMounted(() => {
 
   div.tree-content {
     .tree-value {
-      margin: 10px 0px 0px 0px;
+      margin: 10px 0 0;
       overflow-y: scroll;
     }
   }
@@ -287,7 +285,6 @@ onMounted(() => {
     margin-bottom: 0;
     margin-left: -10px;
     padding-bottom: 5px;
-    border-bottom: 1px solid #f0f0f0;
 
     span.title-value {
       margin: 0 0 0 15px;
@@ -309,7 +306,6 @@ onMounted(() => {
 
       /* 左对齐，左侧占据1/4 */
       height: 50px;
-      border-bottom: 1px solid #fafafa;
 
       div.search-key {
         flex: 2;
@@ -340,14 +336,6 @@ onMounted(() => {
 
       :deep(.ant-table-body) {
         height: 100vh;
-      }
-
-      :deep(.ant-table-body .ant-table-row.selected) {
-        background: var(--el-color-primary-light-8);
-      }
-
-      :deep(.ant-table-body .ant-table-row.selected td) {
-        background: var(--el-color-primary-light-8);
       }
     }
   }

@@ -18,8 +18,8 @@
         <!-- 底部按钮插槽：可以包含“取消”、“确定”按钮 -->
         <div class="footer-button" style="">
           <slot name="footer">
-            <button @click="cancel">取消</button>
-            <button @click="confirm">确定</button>
+            <a-button @click="cancel">取消</a-button>
+            <a-button type="primary" @click="confirm">确定</a-button>
           </slot>
         </div>
       </div>
@@ -120,18 +120,18 @@
       right: 5px;
 
       button {
-        width: 60px;
-        height: 35px;
+        // width: 60px;
+        // height: 35px;
         margin: 1px 0 1px 10px;
-        border: 1px solid #f0f0f0;
-        border-radius: 4px;
-        background: #f0f0f0;
-        line-height: 32px;
+        // border: 1px solid #f0f0f0;
+        // border-radius: 4px;
+        // background: #f0f0f0;
+        // line-height: 32px;
 
-        &:hover {
-          background: #e9e9e9;
-          cursor: pointer;
-        }
+        // &:hover {
+        //   background: #e9e9e9;
+        //   cursor: pointer;
+        // }
       }
     }
   }
