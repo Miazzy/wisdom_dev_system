@@ -276,6 +276,12 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/po/elec/plannedelectricity/plannedElecModal.vue');
         }
+        // po/workorder
+        else if (checkImportComponent('/@/views/po/workorder/index.vue', menu.component)) {
+          return import('/@/views/po/workorder/index.vue');
+        } else if (checkImportComponent('/@/views/po/workorder/create.vue', menu.component)) {
+          return import('/@/views/po/workorder/create.vue');
+        }
         // da/cockpit
         else if (
           checkImportComponent('/@/views/da/cockpit/overview/Overview.vue', menu.component)
