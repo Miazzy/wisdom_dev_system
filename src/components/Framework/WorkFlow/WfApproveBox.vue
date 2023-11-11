@@ -2,10 +2,12 @@
   <div class="workflow-approve-box">
     <!-- 审批按钮 -->
     <div class="button-content" style="">
-      <Button @click="handleSave" v-if="processStatus == 0" type="primary">保存</Button>
-      <Button @click="handleSubmit" v-if="processStatus == 0" type="primary">提交</Button>
-      <!-- <Button @click="handleCollect" v-if="processStatus != 0">收藏</Button> -->
-      <Button @click="handleOpenApprovalDrawer" v-if="processStatus != 0">审批</Button>
+      <!-- <template v-if="processStatus||processStatus === 0"> -->
+        <Button @click="handleSave" v-if="processStatus == 0" type="primary">保存</Button>
+        <Button @click="handleSubmit" v-if="processStatus == 0" type="primary">提交</Button>
+        <!-- <Button @click="handleCollect" v-if="processStatus != 0">收藏</Button> -->
+        <Button @click="handleOpenApprovalDrawer" v-if="processStatus != 0">审批</Button>
+      <!-- </template> -->
     </div>
     <!-- 流程审批抽屉组件 -->
     <ApprovalDrawer
@@ -13,6 +15,7 @@
       :flowData="approveDataList"
       :processInstanceId="processInstanceId"
       :isHandle="isHandle"
+      :mode="props.mode" :businessStatus="props.businessStatus"
       @agree="handleAgree"
       @reject="handleReject"
       @save="handleFlowSave"
@@ -21,12 +24,13 @@
       @notice="handleNotice"
       @collect="handleCollect"
       @onReload="onReload"
+      @before="handleBefore"
     />
   </div>
 </template>
 <script lang="ts" setup>
   import { assign, forEach } from 'min-dash';
-  import { watch, toRaw, ref, onMounted } from 'vue';
+  import { watch, toRaw, ref, onMounted, unref } from 'vue';
   import { message, Button } from 'ant-design-vue';
   import { useDrawer } from '/@/components/Drawer';
   import { propTypes } from '@/utils/propTypes';
@@ -34,6 +38,8 @@
   import * as TaskApi from '@/api/bpm/task';
   import * as ProcessInstanceApi from '@/api/bpm/processInstance';
   import { useUserStore } from '/@/store/modules/user';
+  import { useTabs } from '/@/hooks/web/useTabs';
+  import type { PropType } from 'vue';
 
   const emit = defineEmits([
     'agree',
@@ -44,6 +50,7 @@
     'notice',
     'collect',
     'submit',
+    'before'
   ]);
 
   const userStore = useUserStore();
@@ -52,12 +59,14 @@
   const props = defineProps({
     processInstanceId: propTypes.string.def(''),
     processStatus: propTypes.number.def(undefined),
+    mode: { type: String as PropType<Modes>, default: 'default'},
+    businessStatus: { type: String }
   });
 
   const [approvalDrawerRegister, { openDrawer: openApprovalDrawer }] = useDrawer();
   const approveDataList = ref([]);
   const processInstanceId = ref(null);
-  const processStatus = ref(0);
+  const processStatus = ref();
 
   // 打开流程审批抽屉
   function handleOpenApprovalDrawer() {
@@ -70,7 +79,7 @@
     await TaskApi.approveTask({ id: curflowobj.id, reason: curflowobj.reason });
     message.success('操作成功。');
     isHandle.value = 2;
-    getTaskListByProcessInstanceId();
+    getTaskListByProcessInstanceId(); 
   };
 
   const getTaskListByProcessInstanceId = async () => {
@@ -176,6 +185,30 @@
       if (processInstanceId.value.length != 0) {
         getTaskListByProcessInstanceId();
         getProcessInstance();
+      }
+    },
+  );
+
+  const curFlowData = ref([]);
+  // 流程同意/驳回/终止前
+  const handleBefore = (flowData, beforeOperationType) => {
+    curFlowData.value = unref(flowData);
+    emit('before', flowData, beforeOperationType);
+  };
+
+  watch(
+    () => props.businessStatus,
+    async (newValue) => {
+      const curflowobj = getuntreated(unref(curFlowData));
+      if(newValue==='agree') { 
+        await TaskApi.approveTask({ id: curflowobj.id, reason: curflowobj.reason });
+        message.success('操作成功。');
+        isHandle.value = 2;
+        getTaskListByProcessInstanceId();
+      } else if(newValue==='reject') {
+        await TaskApi.rejectTask({ id: curflowobj.id, reason: curflowobj.reason });
+        message.success('操作成功。');
+        getTaskListByProcessInstanceId();
       }
     },
   );

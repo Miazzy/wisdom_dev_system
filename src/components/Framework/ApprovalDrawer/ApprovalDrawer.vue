@@ -1,7 +1,7 @@
 <!--
  * @Description: 
  * @Date: 2023-09-14 14:31:30
- * @LastEditTime: 2023-10-28 14:50:34
+ * @LastEditTime: 2023-11-11 15:23:51
  * @FilePath: \ygwl-framework\src\components\Framework\ApprovalDrawer\ApprovalDrawer.vue
 -->
 <template>
@@ -84,11 +84,16 @@
   import * as TaskApi from '@/api/bpm/task';
   import * as OrgApi from '@/api/sys/org';
   import { reloadTreeData } from '@/utils/tree';
+  import type { PropType } from 'vue';
+
+  type Modes = 'default' | 'before'; // default: 默认不需要在流程同意、驳回、终止等之前，业务有保存或提交数据；before: 需要在流程同意、驳回、终止等之前，业务保存或提交数据
 
   const props = defineProps({
     flowData: { type: Array },
     processInstanceId: propTypes.string.def(''),
     isHandle: { type: Number, default: 1 }, //当前流程是否处理默认当前流程未处理（1 未处理、2 已处理）
+    mode: { type: String as PropType<Modes>, default: 'default'},
+    businessStatus: { type: String }
   });
 
   const organVisible = ref(false);
@@ -126,7 +131,7 @@
 
   const activeKey = ref('1');
 
-  const emit = defineEmits(['agree', 'reject', 'save', 'end', 'transfer', 'notice', 'collect']);
+  const emit = defineEmits(['agree', 'reject', 'save', 'end', 'transfer', 'notice', 'collect', 'before']);
 
   // 更多
   const handleMenuClick: MenuProps['onClick'] = (e) => {
@@ -158,20 +163,28 @@
   // 同意
   function handleAgree() {
     const { innerFlowData } = trackTabRef.value;
-    emit('agree', innerFlowData);
+    if(props.mode==='default') {
+      emit('agree', innerFlowData);
+    } else if(props.mode==='before') {
+      emit('before', innerFlowData, 'beforeAgree');
+    }
   }
 
   // 驳回
   function handleReject() {
     const { innerFlowData } = trackTabRef.value;
-    emit('reject', innerFlowData);
+    if(props.mode==='default') {
+      emit('reject', innerFlowData);
+    } else if(props.mode==='before') {
+      emit('before', innerFlowData, 'beforeReject');
+    }
   }
 
   // 保存
-  function handleFlowSave() {
-    const { innerFlowData } = trackTabRef.value;
-    emit('save', innerFlowData);
-  }
+  // function handleFlowSave() {
+  //   const { innerFlowData } = trackTabRef.value;
+  //   emit('save', innerFlowData);
+  // }
 
   function abortFlow() {
     const { innerFlowData } = trackTabRef.value;
@@ -196,15 +209,38 @@
       icon: () => createVNode(ExclamationCircleOutlined),
       content: () => createVNode('div', { style: 'color:red;' }, '确定要终止当前任务吗？'),
       onOk() {
+        // ProcessInstanceApi.abortProcessInstance(params).then(() => {
+        //   processOperation.value = 0;
+        //   emit('onReload');
+        //   message.success('操作成功。');
+        // });
+        if(props.mode==='default') {
+          emit('end', innerFlowData);
+          ProcessInstanceApi.abortProcessInstance(params).then(() => {
+            processOperation.value = 0;
+            emit('onReload');
+            message.success('操作成功。');
+          });
+        } else if(props.mode==='before') {
+          emit('before', innerFlowData, 'beforeEnd');
+        }
+      },
+      class: 'test',
+    });
+  }
+
+  watch(
+    () => props.businessStatus,
+    (newValue) => {
+      if(newValue==='end') {
         ProcessInstanceApi.abortProcessInstance(params).then(() => {
           processOperation.value = 0;
           emit('onReload');
           message.success('操作成功。');
         });
-      },
-      class: 'test',
-    });
-  }
+      }
+    },
+  );
 
   // 处理流程操作
   function handleProcessOperation(operation) {
