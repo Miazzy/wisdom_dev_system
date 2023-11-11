@@ -9,6 +9,7 @@
     </div>
     <!-- 流程审批抽屉组件 -->
     <ApprovalDrawer
+      @before="handleBefore"
       @register="approvalDrawerRegister"
       :flowData="approveDataList"
       :processInstanceId="processInstanceId"
@@ -36,6 +37,7 @@
   import { useUserStore } from '/@/store/modules/user';
 
   const emit = defineEmits([
+    'flowSave',
     'agree',
     'reject',
     'save',
@@ -44,6 +46,7 @@
     'notice',
     'collect',
     'submit',
+    'before',
   ]);
 
   const userStore = useUserStore();
@@ -131,6 +134,10 @@
 
   const handleNotice = (flowData) => {
     emit('notice', flowData);
+  };
+
+  const handleBefore = (opStatus, flowData) => {
+    emit('before', opStatus, flowData);
   };
 
   const handleCollect = (flowData) => {

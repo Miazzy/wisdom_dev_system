@@ -6,12 +6,12 @@
     <div class="info-container">
       <div class="title">{{ props.title }}</div>
       <div class="data-container">
-        <div class="data-row" style="width:55%">
+        <div class="data-row" style="width: 55%">
           <span class="data-label">{{ props.text }}:</span>
           <span class="data-value">{{ props.power }}</span>
           <span class="data-unit">{{ props.unit }}</span>
         </div>
-        <div class="data-row" style="width:45%">
+        <div class="data-row" style="width: 45%">
           <span class="data-label">{{ props.subText }}:</span>
           <span class="data-value">{{ props.realPower }}</span>
           <span class="data-unit">{{ props.subUnit }}</span>
@@ -37,9 +37,9 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    border: 1px solid #1890FF30;
+    border: 1px solid #1890ff30;
     border-radius: 5px;
-    background: #1890FF25;
+    background: #1890ff25;
     z-index: 10000;
 
     .image-container {
@@ -56,26 +56,25 @@
     .info-container {
       flex: 1;
       margin-left: 10px;
-  
+
       .title {
         font-size: 16px;
         font-family: Microsoft YaHei;
         font-weight: 400;
-        color: #FFFFFF;
+        color: #ffffff;
         margin-bottom: 5px;
       }
       .data-container {
         display: flex;
         .data-row {
           font-family: Microsoft YaHei;
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 12px;
           .data-label {
-
           }
           .data-value {
             min-width: 30px;
-            color: #1890FF;
+            color: #1890ff;
             text-align: right;
           }
         }

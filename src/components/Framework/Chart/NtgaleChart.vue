@@ -5,7 +5,6 @@
 <script lang="ts" setup>
   import * as echarts from 'echarts';
   import { onMounted } from 'vue';
-import { string } from 'vue-types';
 
   const props = defineProps({
     width: { type: Number, default: 600 },
@@ -23,15 +22,6 @@ import { string } from 'vue-types';
       legend: {
         show: false,
       },
-      // toolbox: {
-      //   show: true,
-      //   feature: {
-      //     mark: { show: false },
-      //     dataView: { show: false, readOnly: false },
-      //     restore: { show: false },
-      //     saveAsImage: { show: false },
-      //   },
-      // },
       series: [
         {
           name: 'Nightingale Chart',
