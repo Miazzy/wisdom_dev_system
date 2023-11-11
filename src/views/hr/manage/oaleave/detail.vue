@@ -369,7 +369,7 @@
     .content {
       background: #fefefe;
       .left-panel {
-        width: 77.5%;
+        width: 83.5%;
         float: left;
         background: #fefefe;
         border: 1px solid #f0f0f0;
@@ -378,7 +378,7 @@
         height: calc(100vh - 200px);
       }
       .right-panel {
-        width: 22.25%;
+        width: 16.25%;
         float: right;
         background: #fefefe;
         border: 1px solid #f0f0f0;
