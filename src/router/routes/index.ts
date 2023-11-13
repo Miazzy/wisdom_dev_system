@@ -215,6 +215,10 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/po/safety/emergencydrill/index.vue');
         } else if (menu.component == '/@/views/po/safety/emergencydrill/emergencyDrillModal.vue') {
           return import('/@/views/po/safety/emergencydrill/emergencyDrillModal.vue');
+        } else if (menu.component == '/@/views/po/safety/safetyaccident/index.vue') {
+          return import('/@/views/po/safety/safetyaccident/index.vue');
+        } else if (menu.component == '/@/views/po/safety/safetyaccident/safetyAccidentModal.vue') {
+          return import('/@/views/po/safety/safetyaccident/safetyAccidentModal.vue');
         }
         // po/integrated
         else if (menu.component == '/@/views/po/integrated/personcertificate/index.vue') {
