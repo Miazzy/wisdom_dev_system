@@ -1,7 +1,7 @@
 <!--
  * @Description: 
  * @Date: 2023-09-14 14:31:30
- * @LastEditTime: 2023-11-13 10:49:02
+ * @LastEditTime: 2023-11-13 14:32:14
  * @FilePath: \ygwl-framework\src\components\Framework\ApprovalDrawer\ApprovalDrawer.vue
 -->
 <template>
@@ -93,7 +93,7 @@
     processInstanceId: propTypes.string.def(''),
     isHandle: { type: Number, default: 1 }, //当前流程是否处理默认当前流程未处理（1 未处理、2 已处理）
     mode: { type: String as PropType<Modes>, default: 'default'},
-    businessStatus: { type: String }
+    businessStatus: { type: String, default: '' }
   });
 
   const organVisible = ref(false);

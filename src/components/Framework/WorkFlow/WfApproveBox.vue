@@ -58,7 +58,7 @@
     processInstanceId: propTypes.string.def(''),
     processStatus: propTypes.number.def(undefined),
     mode: { type: String as PropType<Modes>, default: 'default'},
-    businessStatus: { type: String }
+    businessStatus: { type: String, default: '' }
   });
 
   const [approvalDrawerRegister, { openDrawer: openApprovalDrawer }] = useDrawer();
