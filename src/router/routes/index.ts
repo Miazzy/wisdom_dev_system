@@ -232,9 +232,26 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/po/integrated/personcertificate/certificateDrawer.vue');
         } else if (
-          menu.component == '/@/views/po/integrated/assessmentevaluation/evaluationindex/index.vue'
+          menu.component == '/@/views/po/integrated/assessmentevaluation/index/index.vue'
         ) {
-          return import('/@/views/po/integrated/assessmentevaluation/evaluationindex/index.vue');
+          return import('/@/views/po/integrated/assessmentevaluation/index/index.vue');
+        } else if (
+          menu.component == '/@/views/po/integrated/assessmentevaluation/template/index.vue'
+        ) {
+          return import('/@/views/po/integrated/assessmentevaluation/template/index.vue');
+        } else if (
+          menu.component ==
+          '/@/views/po/integrated/assessmentevaluation/template/templateCreate.vue'
+        ) {
+          return import('/@/views/po/integrated/assessmentevaluation/template/templateCreate.vue');
+        } else if (
+          menu.component == '/@/views/po/integrated/assessmentevaluation/daily/index.vue'
+        ) {
+          return import('/@/views/po/integrated/assessmentevaluation/daily/index.vue');
+        } else if (
+          menu.component == '/@/views/po/integrated/assessmentevaluation/daily/create.vue'
+        ) {
+          return import('/@/views/po/integrated/assessmentevaluation/daily/create.vue');
         }
         // po/elec
         else if (menu.component == '/@/views/po/elec/produce/index.vue') {
