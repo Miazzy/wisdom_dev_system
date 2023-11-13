@@ -2,12 +2,10 @@
   <div class="workflow-approve-box">
     <!-- 审批按钮 -->
     <div class="button-content" style="">
-      <!-- <template v-if="processStatus||processStatus === 0"> -->
-        <Button @click="handleSave" v-if="processStatus == 0" type="primary">保存</Button>
-        <Button @click="handleSubmit" v-if="processStatus == 0" type="primary">提交</Button>
-        <!-- <Button @click="handleCollect" v-if="processStatus != 0">收藏</Button> -->
-        <Button @click="handleOpenApprovalDrawer" v-if="processStatus != 0">审批</Button>
-      <!-- </template> -->
+      <Button @click="handleSave" v-if="processStatus == 0" type="primary">保存</Button>
+      <Button @click="handleSubmit" v-if="processStatus == 0" type="primary">提交</Button>
+      <!-- <Button @click="handleCollect" v-if="processStatus != 0">收藏</Button> -->
+      <Button @click="handleOpenApprovalDrawer" v-if="processStatus&&processStatus != 0">审批</Button>
     </div>
     <!-- 流程审批抽屉组件 -->
     <ApprovalDrawer
@@ -174,6 +172,7 @@
   watch(
     () => props.processStatus,
     (newValue) => {
+      console.log('processStatus', newValue);
       processStatus.value = props.processStatus;
     },
   );
