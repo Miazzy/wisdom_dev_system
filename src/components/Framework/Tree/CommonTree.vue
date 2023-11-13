@@ -1,7 +1,7 @@
 <!--
  * @Description: commonTree组件
  * @Date: 2023-09-22 08:46:00
- * @LastEditTime: 2023-11-09 11:05:05
+ * @LastEditTime: 2023-11-13 11:12:36
  * @FilePath: \ygwl-framework\src\components\Framework\Tree\CommonTree.vue
 -->
 <template>
@@ -121,7 +121,7 @@
 
   // 计算tree高度
   const treeWrapperHeightClass = computed(()=>{
-    return props.search?'h-[calc(100%-68px)]' : 'h-[calc(100%-36px)]';
+    return props.search?'h-[calc(100vh-120px-68px)]' : 'h-[calc(100vh-120px-36px)]';
   });
 
   onMounted(() => {
