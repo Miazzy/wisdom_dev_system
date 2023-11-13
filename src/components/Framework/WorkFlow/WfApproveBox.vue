@@ -71,6 +71,9 @@
     openApprovalDrawer(true);
   }
 
+   // 关闭当前页签
+  const { closeCurrentPage } = useTabs();
+
   const handleAgree = async (flowData) => {
     // emit('agree', flowData);
     const curflowobj = getuntreated(toRaw(flowData));
@@ -78,6 +81,7 @@
     message.success('操作成功。');
     isHandle.value = 2;
     getTaskListByProcessInstanceId(); 
+    closeCurrentPage();
   };
 
   const getTaskListByProcessInstanceId = async () => {
@@ -111,6 +115,7 @@
     await TaskApi.rejectTask({ id: curflowobj.id, reason: curflowobj.reason });
     message.success('操作成功。');
     getTaskListByProcessInstanceId();
+    closeCurrentPage();
   };
 
   // 流程审批保存
@@ -188,26 +193,27 @@
     },
   );
 
-  const curFlowData = ref([]);
+  const currentNode = {};
   // 流程同意/驳回/终止前
-  const handleBefore = (flowData, beforeOperationType) => {
-    curFlowData.value = unref(flowData);
-    emit('before', flowData, beforeOperationType);
+  const handleBefore = (currentNodeData, beforeOperationType) => {
+    assign(currentNode, currentNodeData);
+    emit('before', currentNode, beforeOperationType);
   };
 
   watch(
     () => props.businessStatus,
     async (newValue) => {
-      const curflowobj = getuntreated(unref(curFlowData));
       if(newValue==='agree') { 
-        await TaskApi.approveTask({ id: curflowobj.id, reason: curflowobj.reason });
+        await TaskApi.approveTask({ id: currentNode.id, reason: currentNode.reason });
         message.success('操作成功。');
         isHandle.value = 2;
         getTaskListByProcessInstanceId();
+        closeCurrentPage();
       } else if(newValue==='reject') {
-        await TaskApi.rejectTask({ id: curflowobj.id, reason: curflowobj.reason });
+        await TaskApi.rejectTask({ id: currentNode.id, reason: currentNode.reason });
         message.success('操作成功。');
         getTaskListByProcessInstanceId();
+        closeCurrentPage();
       }
     },
   );

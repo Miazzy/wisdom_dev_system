@@ -1,7 +1,7 @@
 <!--
  * @Description: 
  * @Date: 2023-09-14 14:31:30
- * @LastEditTime: 2023-11-13 14:32:14
+ * @LastEditTime: 2023-11-13 16:11:49
  * @FilePath: \ygwl-framework\src\components\Framework\ApprovalDrawer\ApprovalDrawer.vue
 -->
 <template>
@@ -166,7 +166,7 @@
     if(props.mode==='default') {
       emit('agree', innerFlowData);
     } else if(props.mode==='before') {
-      emit('before', innerFlowData, 'beforeAgree');
+      emit('before', currentNodeData.value[0], 'beforeAgree');
     }
   }
 
@@ -176,7 +176,7 @@
     if(props.mode==='default') {
       emit('reject', innerFlowData);
     } else if(props.mode==='before') {
-      emit('before', innerFlowData, 'beforeReject');
+      emit('before', currentNodeData.value[0], 'beforeReject');
     }
   }
 
@@ -222,7 +222,7 @@
             message.success('操作成功。');
           });
         } else if(props.mode==='before') {
-          emit('before', innerFlowData, 'beforeEnd');
+          emit('before', currentNodeData.value[0], 'beforeEnd');
         }
       },
       class: 'test',
