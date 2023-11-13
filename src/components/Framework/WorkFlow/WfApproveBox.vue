@@ -172,9 +172,9 @@
   watch(
     () => props.processStatus,
     (newValue) => {
-      console.log('processStatus', newValue);
       processStatus.value = props.processStatus;
     },
+    { immediate: true }
   );
 
   watch(
