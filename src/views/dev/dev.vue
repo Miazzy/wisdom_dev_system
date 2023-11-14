@@ -162,37 +162,37 @@
       @collect="handleCollect"
     />
 
-    <BubbleChart
+    <!-- <BubbleChart
       :data="chartData"
       :width="300"
       :height="300"
       :font-size="fontSize"
       :font-color="fontColor"
       :bubble-color="bubbleColor"
-    />
+    /> -->
 
-    <BarChart
+    <!-- <BarChart
       :data="barData"
       :width="500"
       :height="300"
       :barColors="['#2D93AD', '#F56D0E', '#B0DEA7']"
       :lineColors="['#FF6384', '#3366FF']"
       :barWidth="50"
-    />
+    /> -->
 
-    <DonutChart :data="donutData" :width="300" :height="200" :radius="100" />
+    <!-- <DonutChart :data="donutData" :width="300" :height="200" :radius="100" />
     <EchartPieChart
       :data="pieData"
       :width="400"
       :height="400"
       :colors="pieColors"
       :show-label="true"
-    />
+    /> -->
 
     <!-- <ThreeDDonutChart :data="donutData" width="300" height="200" radius="100" /> -->
     <!-- <ThreeDPieChart :data="tchartData" :width="400" :height="400" /> -->
 
-    <EchartBarChart
+    <!-- <EchartBarChart
       :data="echartData"
       :colors="chartColors"
       :legendData="chartLegend"
@@ -201,7 +201,7 @@
     />
 
     <EchartLineBarChart :colors="chartColors" width="600" height="400" />
-    <EchartPillarChart :data="pchartData" />
+    <EchartPillarChart :data="pchartData" /> -->
 
     <!-- <NtgaleChart /> -->
   </div>
@@ -316,8 +316,8 @@
   ]);
 
   const treeData = ref<TreeItem[]>([]); // 左侧电站树数据
-  const searchTreeText = ref('');
-  const searchTableText = ref('');
+  const searchTreeText = ref('吉林通榆');
+  const searchTableText = ref('2020-06');
 
   const chartData = [
     { name: '江苏', label: '江苏', value: 12, color: 'red' },

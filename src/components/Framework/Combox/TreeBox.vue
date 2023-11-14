@@ -227,9 +227,17 @@
     },
   );
 
+  watch(
+    () => props.searchText,
+    (newValue) => {
+      realText.value = props.searchText;
+    },
+  );
+
   defineExpose({ reload });
 
   onMounted(() => {
+    realText.value = props.searchText;
     window.addEventListener('click', handleClickOutside);
   });
 

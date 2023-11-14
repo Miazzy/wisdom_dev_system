@@ -162,8 +162,16 @@ import { default } from '../../Bpm/src/translations';
     },
   );
 
+  watch(
+    () => props.searchText,
+    (newValue) => {
+      searchRealText.value = props.searchText;
+    },
+  );
+
   onMounted(() => {
     reloadData();
+    searchRealText.value = props.searchText;
     window.addEventListener('click', handleClickOutside);
   });
 
