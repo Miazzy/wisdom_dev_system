@@ -16,12 +16,6 @@ export default defineApplicationConfig({
     },
     server: {
       proxy: {
-        // '/admin-api/': {
-        //   target: 'http://10.8.111.231:48080',
-        //   changeOrigin: true,
-        //   ws: true,
-        //   rewrite: (path) => path.replace(new RegExp(`^/admin-api/`), '/admin-api/'),
-        // },
         '/admin-api/': {
           target: 'http://10.8.111.203:48080',
           changeOrigin: true,

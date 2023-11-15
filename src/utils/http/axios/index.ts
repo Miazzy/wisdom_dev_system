@@ -195,7 +195,7 @@ const transform: AxiosTransform = {
 
       // 开发人员填写自己的版本号
       if (config.url?.startsWith('/admin-api/baseset')) {
-        (config as Recordable).headers.version = '2.2.6';
+        (config as Recordable).headers.version = '1.0.0';
       }
       // if (config.url?.startsWith('/admin-api/system')) {
       //   (config as Recordable).headers.version = '9.9.9';
