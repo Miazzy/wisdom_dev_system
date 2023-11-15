@@ -105,6 +105,7 @@ export type ComponentType =
   | 'MonthPicker'
   | 'RangePicker'
   | 'WeekPicker'
+  | 'YearPicker'
   | 'TimePicker'
   | 'TimeRangePicker'
   | 'Switch'
@@ -115,4 +116,10 @@ export type ComponentType =
   | 'Slider'
   | 'Rate'
   | 'Divider'
-  | 'ApiTransfer';
+  | 'ApiTransfer'
+  | 'SearchBox'
+  | 'TreeBox'
+  | 'DictSelectBox'
+  | 'DictRadioGroup'
+  | 'CategoryDialog'
+  | 'OrganDialog';
