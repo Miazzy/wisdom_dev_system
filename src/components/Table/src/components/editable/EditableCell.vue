@@ -54,6 +54,17 @@
 
       const getComponent = computed(() => props.column?.editComponent || 'Input');
 
+      const componentName = unref(getComponent);
+      const customCompNames = [
+        'SearchBox',
+        'TreeBox',
+        'DictSelectBox',
+        'DictRadioGroup',
+        'CategoryDialog',
+        'OrganDialog',
+      ];
+      const isCustomComp = computed(() => customCompNames.includes(props.column?.editComponent));
+
       const getRule = computed(() => props.column?.editRule);
 
       const getRuleVisible = computed(() => {
@@ -395,6 +406,8 @@
         handleEnter,
         handleSubmitClick,
         spinning,
+        isCustomComp,
+        componentName,
       };
     },
     render() {
@@ -406,14 +419,33 @@
             onClick={this.handleEdit}
           >
             <div class="cell-content" title={this.column.ellipsis ? this.getValues ?? '' : ''}>
-              {this.column.editRender
+              {!this.isCustomComp && (this.column.editRender
                 ? this.column.editRender({
                     text: this.value,
                     record: this.record as Recordable,
                     column: this.column,
                     index: this.index,
                   })
-                : this.getValues ?? '\u00A0'}
+                : this.getValues ?? '\u00A0')}
+              {this.isCustomComp && (
+                <div class={`${this.prefixCls}__wrapper`} v-click-outside={this.onClickOutside}>
+                  <CellComponent
+                    {...this.getComponentProps}
+                    component={this.getComponent}
+                    style={this.getWrapperStyle}
+                    popoverVisible={this.getRuleVisible}
+                    rule={this.getRule}
+                    value={this.value}
+                    vmode="view"
+                    ruleMessage={this.ruleMessage}
+                    class={this.getWrapperClass}
+                    ref="elRef"
+                    onChange={this.handleChange}
+                    onOptionsChange={this.handleOptionsChange}
+                    onPressEnter={this.handleEnter}
+                  />
+                </div>
+              )}
             </div>
             {!this.column.editRow && <FormOutlined class={`${this.prefixCls}__normal-icon`} />}
           </div>

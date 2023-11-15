@@ -28,4 +28,14 @@ export const createLocalStorage = (options: Options = {}) => {
   return createStorage(localStorage, { ...options, timeout: DEFAULT_CACHE_TIME });
 };
 
+export const setCustomCompOptions = (key, options) => {
+  const ls = createLocalStorage();
+  ls.set('CUSTOM_COMP_OPTIONS_' + key, { ...options, timeout: DEFAULT_CACHE_TIME });
+};
+
+export const getCustomCompOptions = (key) => {
+  const ls = createLocalStorage();
+  return ls.get('CUSTOM_COMP_OPTIONS_' + key);
+};
+
 export default WebStorage;

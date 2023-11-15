@@ -1,5 +1,10 @@
 <template>
-  <a-radio-group v-model:value="radioValue" name="radioGroup" @change="change">
+  <a-radio-group
+    v-if="props.vmode == 'edit'"
+    v-model:value="radioValue"
+    name="radioGroup"
+    @change="change"
+  >
     <template v-if="props.rtype != 'button'">
       <a-radio
         :style="props.rtype == 'vertical' ? verticalStyle : ''"
@@ -23,6 +28,7 @@
       </a-radio-button>
     </template>
   </a-radio-group>
+  <span v-if="props.vmode == 'view'">{{ findOption(props.value) }}</span>
 </template>
 <script lang="ts" setup>
   import type { SelectProps } from 'ant-design-vue';
@@ -38,6 +44,7 @@
   const radioValue = ref('');
 
   const props = defineProps({
+    vmode: { type: String, default: 'edit' },
     mode: { type: String, default: 'group' }, // 如果mode为group模式，则统一加载数据
     type: { type: String, default: '' },
     value: { type: String, default: null },
@@ -60,6 +67,13 @@
   const change = () => {
     emit('update:value', radioValue.value);
     emit('change', radioValue.value);
+  };
+
+  const findOption = (value) => {
+    const item = options.value.find((item) => {
+      return item.value == value;
+    });
+    return item ? item?.label : '';
   };
 
   // 定义emits

@@ -44,7 +44,7 @@
       <span style="float: left"> SearchBox </span>
       <!-- search box -->
       <SearchBox
-        v-model:searchText="searchTableText"
+        v-model:value="searchTableText"
         :columns="searchBoxColumns"
         :data="searchBoxData"
         :vfield="'date'"

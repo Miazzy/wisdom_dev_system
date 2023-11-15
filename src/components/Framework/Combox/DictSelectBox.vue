@@ -1,5 +1,6 @@
 <template>
   <a-select
+    v-if="props.vmode == 'edit'"
     v-model:value="selectedValue"
     show-search
     :mode="props.multiple"
@@ -9,6 +10,7 @@
     :filter-option="filterOption"
     @change="handleChange"
   />
+  <span v-if="props.vmode == 'view'">{{ findOption(props.value) }}</span>
 </template>
 <script lang="ts" setup>
   import type { SelectProps } from 'ant-design-vue';
@@ -24,6 +26,7 @@
   const options = ref<SelectProps['options']>([]);
 
   const props = defineProps({
+    vmode: { type: String, default: 'edit' },
     mode: { type: String, default: 'group' }, // 如果mode为group模式，则统一加载数据
     width: { type: Number, default: 220 },
     type: { type: String, default: '' },
@@ -57,6 +60,13 @@
     }
   };
 
+  const findOption = (value) => {
+    const item = options.value.find((item) => {
+      return item.value == value;
+    });
+    return item ? item?.label : '';
+  };
+
   // 定义emits
   const emit = defineEmits(['update:value', 'change']);
 
@@ -85,7 +95,8 @@
           setupValue();
         } else {
           // 数据字典的多个组件示例，初始化时间需要通过此timestamp错开，否则会同时发送多个request请求，当初始化时间错开后，后续的request请求将通过缓存获取返回结果
-          const timestamp = (props.delaytimes * (Math.random() + Math.random() + Math.random())) / 2;
+          const timestamp =
+            (props.delaytimes * (Math.random() + Math.random() + Math.random())) / 2;
           dictStore.setDictKey(props.type);
           setTimeout(async () => {
             const typeList = dictStore.getDictKey.join(',');
@@ -95,14 +106,17 @@
               const response = await dictStore.fetchBackendData(typeList, props);
               // 格式化后端数据，将数据转换为适用于下拉框的格式
               options.value = response;
+              debugger;
             } else {
               options.value = cache;
+              debugger;
             }
             setupValue();
           }, timestamp);
         }
       } else {
         options.value = cache;
+        debugger;
         setupValue();
       }
     } catch (error) {

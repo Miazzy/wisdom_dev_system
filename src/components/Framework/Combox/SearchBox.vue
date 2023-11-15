@@ -1,4 +1,3 @@
-import { default } from '../../Bpm/src/translations';
 <template>
   <div class="search-box" ref="searchBox">
     <!-- 输入框区域 -->
@@ -20,7 +19,7 @@ import { default } from '../../Bpm/src/translations';
       </div>
       <div class="search-table">
         <a-table
-          :columns="columns"
+          :columns="tcolumns"
           :data-source="tableData"
           size="small"
           :pagination="props.pagination"
@@ -36,6 +35,7 @@ import { default } from '../../Bpm/src/translations';
 
 <script lang="ts" setup>
   import { ref, onMounted, onUnmounted, defineProps, defineEmits, unref, watch } from 'vue';
+  import { getCustomCompOptions } from '@/utils/cache';
 
   const showDropdown = ref(false);
   const searchRealText = ref('');
@@ -46,10 +46,11 @@ import { default } from '../../Bpm/src/translations';
   const theight = ref(260);
 
   const props = defineProps({
+    opkey: { type: String, default: null },
     columns: Array, // 列定义
     data: Array, // 表格数据
     twidth: { type: String, default: '100%' },
-    searchText: { type: String, default: '' }, // 搜索框文本
+    value: { type: String, default: '' }, // 搜索框文本
     tfields: {
       type: Object,
       default: { key: 'id' }, // table必须含有key字段，此处是只将数组对象的那个字段转化为key字段
@@ -58,7 +59,11 @@ import { default } from '../../Bpm/src/translations';
     pagination: { type: Boolean, default: false },
   });
 
-  const emit = defineEmits(['update:searchText', 'select']); // 允许双向绑定searchText
+  const tcolumns = ref([]);
+  const tvfield = ref('');
+  const tdata = ref([]);
+
+  const emit = defineEmits(['update:value', 'select']); // 允许双向绑定value
 
   const searchData = () => {
     loading.value = true;
@@ -66,7 +71,7 @@ import { default } from '../../Bpm/src/translations';
     emit('searchData', searchTableText.value); // 向父组件传递搜索文本的更新
     setTimeout(() => {
       const rule = props?.tfields;
-      const data = unref(props.data as unknown[]);
+      const data = unref(tdata.value as unknown[]);
       const resultData = JSON.parse(JSON.stringify(data));
       const result = findNodes(resultData, searchTableText.value);
       tableData.value = transformData(result, rule);
@@ -138,8 +143,8 @@ import { default } from '../../Bpm/src/translations';
   const handleClick = (record, index) => {
     const clickFunc = (event) => {
       console.log(record, index);
-      searchRealText.value = record[props.vfield];
-      emit('update:searchText', record[props.vfield]);
+      searchRealText.value = record[tvfield.value];
+      emit('update:value', record[tvfield.value]);
       emit('select', { record, index }, event);
       showDropdown.value = false;
     };
@@ -150,7 +155,7 @@ import { default } from '../../Bpm/src/translations';
 
   const reloadData = () => {
     const rule = props?.tfields;
-    const data = unref(props.data as unknown[]);
+    const data = unref(tdata.value as unknown[]);
     const resultData = JSON.parse(JSON.stringify(data));
     tableData.value = transformData(resultData, rule);
   };
@@ -163,15 +168,25 @@ import { default } from '../../Bpm/src/translations';
   );
 
   watch(
-    () => props.searchText,
+    () => props.value,
     (newValue) => {
-      searchRealText.value = props.searchText;
+      searchRealText.value = props.value;
     },
   );
 
   onMounted(() => {
+    if (props.opkey != null || props.opkey != '') {
+      const options = getCustomCompOptions(props.opkey);
+      tcolumns.value = options.columns;
+      tvfield.value = options.vfield;
+      tdata.value = options.data;
+    } else {
+      tcolumns.value = props.columns as never[];
+      tvfield.value = props.vfield;
+      tdata.value = props.data as never[];
+    }
     reloadData();
-    searchRealText.value = props.searchText;
+    searchRealText.value = props.value;
     window.addEventListener('click', handleClickOutside);
   });
 
@@ -188,6 +203,7 @@ import { default } from '../../Bpm/src/translations';
   .search-content {
     margin-top: 5px;
     position: relative;
+    z-index: 100000 !important;  // 设置一个较大的值
 
     &:deep(.ant-table-wrapper) {
       z-index: 10000 !important;
