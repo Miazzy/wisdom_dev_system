@@ -164,6 +164,16 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/baseset/operation/linelossrate/lineLossRateSet.vue');
         }
+
+        // po/equipment
+        else if (menu.component == '/@/views/po/equipment/index.vue') {
+          return import('/@/views/po/equipment/index.vue');
+        } else if (menu.component == '/@/views/po/equipment/create.vue') {
+          return import('/@/views/po/equipment/create.vue');
+        } else if (menu.component == '/@/views/po/equipment/detail.vue') {
+          return import('/@/views/po/equipment/detail.vue');
+        }
+
         // po/ticket
         else if (
           checkImportComponent('/@/views/po/ticket/operationticket/index.vue', menu.component)
