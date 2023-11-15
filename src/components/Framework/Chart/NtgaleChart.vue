@@ -13,7 +13,7 @@
     id: { type: String },
     showLabel: { type: Boolean, default: false }, // 是否显示饼图图形旁边的文字标签
     roseType: { type: [String, Boolean], default: 'area' }, // 是否展示成南丁格尔图，通过半径区分数据大小 radius/area
-  })
+  });
 
   onMounted(() => {
     const chartDom = document.getElementById(props.id);
