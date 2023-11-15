@@ -53,6 +53,7 @@
       const { prefixCls } = useDesign('editable-cell');
 
       const getComponent = computed(() => props.column?.editComponent || 'Input');
+
       const getRule = computed(() => props.column?.editRule);
 
       const getRuleVisible = computed(() => {
@@ -417,7 +418,7 @@
             {!this.column.editRow && <FormOutlined class={`${this.prefixCls}__normal-icon`} />}
           </div>
           {this.isEdit && (
-            <Spin spinning={this.spinning}>
+            <Spin spinning={this.spinning} >
               <div class={`${this.prefixCls}__wrapper`} v-click-outside={this.onClickOutside}>
                 <CellComponent
                   {...this.getComponentProps}
