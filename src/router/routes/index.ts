@@ -219,6 +219,17 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/po/safety/safetyaccident/index.vue');
         } else if (menu.component == '/@/views/po/safety/safetyaccident/safetyAccidentModal.vue') {
           return import('/@/views/po/safety/safetyaccident/safetyAccidentModal.vue');
+        } else if (
+          checkImportComponent('/@/views/po/safety/safetyrespagreement/index.vue', menu.component)
+        ) {
+          return import('/@/views/po/safety/safetyrespagreement/index.vue');
+        } else if (
+          checkImportComponent(
+            '/@/views/po/safety/safetyrespagreement/safetyRespAgreementModal.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/po/safety/safetyrespagreement/safetyRespAgreementModal.vue');
         }
         // po/integrated
         else if (menu.component == '/@/views/po/integrated/personcertificate/index.vue') {
