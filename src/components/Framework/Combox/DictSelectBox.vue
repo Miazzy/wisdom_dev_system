@@ -106,17 +106,14 @@
               const response = await dictStore.fetchBackendData(typeList, props);
               // 格式化后端数据，将数据转换为适用于下拉框的格式
               options.value = response;
-              debugger;
             } else {
               options.value = cache;
-              debugger;
             }
             setupValue();
           }, timestamp);
         }
       } else {
         options.value = cache;
-        debugger;
         setupValue();
       }
     } catch (error) {
