@@ -158,6 +158,7 @@
 
   const handleClickOutside = (event) => {
     if (searchBox.value && !searchBox.value.contains(event.target)) {
+      clearData();
       showDropdown.value = false;
     }
   };
