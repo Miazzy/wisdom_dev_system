@@ -301,19 +301,7 @@
     { title: '期间', dataIndex: 'date', key: 'date', minWidth: 150 },
   ]);
 
-  const searchBoxData = ref([
-    { typeName: '财务部类型-吉林通榆', year: '2020', month: '06', date: '2020-06' },
-    { typeName: '市场部类型-吉林通榆', year: '2020', month: '07', date: '2020-07' },
-    { typeName: '华南分部类型-江苏如东', year: '2020', month: '08', date: '2020-08' },
-    { typeName: '西北分部类型-吉林通榆', year: '2020', month: '09', date: '2020-09' },
-    { typeName: '华东分部类型-吉林通榆', year: '2020', month: '10', date: '2020-10' },
-    { typeName: '商务部类型-江苏如东', year: '2020', month: '11', date: '2020-11' },
-    { typeName: '研发部类型', year: '2020', month: '12', date: '2020-12' },
-    { typeName: '财务部类型', year: '2021', month: '01', date: '2021-01' },
-    { typeName: '研发部类型', year: '2021', month: '02', date: '2021-02' },
-    { typeName: '财务部类型', year: '2021', month: '03', date: '2021-03' },
-    { typeName: '市场部类型', year: '2021', month: '04', date: '2021-04' },
-  ]);
+  const searchBoxData = ref([]);
 
   const treeData = ref<TreeItem[]>([]); // 左侧电站树数据
   const searchTreeText = ref('吉林通榆');
@@ -568,6 +556,20 @@
       selectedSValue.value = '';
       radioGroupValue.value = '';
     }, 5000);
+
+    searchBoxData.value = [
+      { typeName: '财务部类型-吉林通榆', year: '2020', month: '06', date: '2020-06' },
+      { typeName: '市场部类型-吉林通榆', year: '2020', month: '07', date: '2020-07' },
+      { typeName: '华南分部类型-江苏如东', year: '2020', month: '08', date: '2020-08' },
+      { typeName: '西北分部类型-吉林通榆', year: '2020', month: '09', date: '2020-09' },
+      { typeName: '华东分部类型-吉林通榆', year: '2020', month: '10', date: '2020-10' },
+      { typeName: '商务部类型-江苏如东', year: '2020', month: '11', date: '2020-11' },
+      { typeName: '研发部类型', year: '2020', month: '12', date: '2020-12' },
+      { typeName: '财务部类型', year: '2021', month: '01', date: '2021-01' },
+      { typeName: '研发部类型', year: '2021', month: '02', date: '2021-02' },
+      { typeName: '财务部类型', year: '2021', month: '03', date: '2021-03' },
+      { typeName: '市场部类型', year: '2021', month: '04', date: '2021-04' },
+    ];
 
     const date = DateTools.format(new Date(), 'YYYY-MM-DD');
   });

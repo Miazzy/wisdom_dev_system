@@ -1,17 +1,13 @@
 <template>
   <div class="search-box" ref="searchBox">
-    <a-dropdown v-if="props.vmode == 'edit'" :trigger="['click']" @click="handleButtonClick">
+    <a-dropdown v-if="props.vmode == 'edit' && !props.disabled" :trigger="['click']">
       <!-- 输入框区域 -->
-      <a-input
-        v-model:value="searchRealText"
-        class="search-text"
-        @click="toggleDropdown($event)"
-        placeholder=""
-      />
+      <a-input v-model:value="searchRealText" class="search-text" @click="toggleDropdown($event)" />
       <template #overlay>
         <a-menu>
           <!-- 下拉表格弹框区域 -->
           <div
+            @click.stop
             v-show="showDropdown"
             class="search-content"
             :style="`width: ${twidth}; display: ${showDropdown ? 'block' : 'none'}`"
@@ -19,7 +15,7 @@
             <!-- 输入框、搜索按钮和关闭按钮区域 -->
             <div class="search-panel">
               <div class="search-popup-subcontent">
-                <input class="search-input" v-model="searchTableText" placeholder="" />
+                <input class="search-input" v-model="search.text" />
                 <button class="close-button" @click="clearData">清除</button>
                 <button class="search-button" @click="searchData">搜索</button>
               </div>
@@ -40,20 +36,31 @@
         </a-menu>
       </template>
     </a-dropdown>
-    <span v-if="props.vmode == 'view'">{{ props.value }}</span>
+    <span v-else-if="props.vmode == 'view'">{{ props.value }}</span>
+    <span v-else><a-input :value="props.value" class="search-text" :disabled="true" /></span>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { ref, onMounted, onUnmounted, defineProps, defineEmits, unref, watch } from 'vue';
+  import {
+    ref,
+    onMounted,
+    onUnmounted,
+    defineProps,
+    defineEmits,
+    unref,
+    watch,
+    reactive,
+    nextTick,
+  } from 'vue';
   import { getCustomCompOptions } from '@/utils/cache';
 
   const showDropdown = ref(false);
   const searchRealText = ref('');
-  const searchTableText = ref('');
+  const search = reactive({ text: '' });
   const searchBox = ref<any>(null);
   const loading = ref(false);
-  const tableData = ref([]);
+  const tableData = reactive([]);
   const theight = ref(260);
 
   const props = defineProps({
@@ -67,6 +74,7 @@
       type: Object,
       default: { key: 'id' }, // table必须含有key字段，此处是只将数组对象的那个字段转化为key字段
     },
+    disabled: { type: Boolean, default: false },
     vfield: { type: String, default: '' },
     pagination: { type: Boolean, default: false },
   });
@@ -79,16 +87,15 @@
 
   const searchData = () => {
     loading.value = true;
-    tableData.value = [];
-    emit('searchData', searchTableText.value); // 向父组件传递搜索文本的更新
-    setTimeout(() => {
-      const rule = props?.tfields;
-      const data = unref(tdata.value as unknown[]);
-      const resultData = JSON.parse(JSON.stringify(data));
-      const result = findNodes(resultData, searchTableText.value);
-      tableData.value = transformData(result, rule);
-      loading.value = false;
-    }, 500);
+    tableData.splice(0, tableData.length);
+    emit('searchData', search.text); // 向父组件传递搜索文本的更新
+    const rule = props?.tfields;
+    const data = unref(tdata.value as unknown[]);
+    const resultData = JSON.parse(JSON.stringify(data));
+    const result = findNodes(resultData, search.text);
+    const tempList = transformData(result, rule) as never[];
+    tableData.push(...tempList);
+    loading.value = false;
   };
 
   const toggleDropdown = (event) => {
@@ -97,8 +104,11 @@
   };
 
   const clearData = () => {
-    searchTableText.value = '';
+    search.text = '';
     searchData();
+    nextTick(() => {
+      document.querySelector('input.search-input').value = '';
+    });
   };
 
   // 按tfields生成转换规则
@@ -152,10 +162,6 @@
     }
   };
 
-  const handleButtonClick = (e: Event) => {
-    showDropdown.value = true;
-  };
-
   const handleClick = (record, index) => {
     const clickFunc = (event) => {
       console.log(record, index);
@@ -170,6 +176,7 @@
   };
 
   const reloadData = () => {
+    tableData.splice(0, tableData.length);
     if (props.opkey != null && props.opkey != '') {
       const options = getCustomCompOptions(props.opkey);
       tcolumns.value = options.columns;
@@ -183,7 +190,8 @@
     const rule = props?.tfields;
     const data = unref(tdata.value as unknown[]);
     const resultData = JSON.parse(JSON.stringify(data));
-    tableData.value = transformData(resultData, rule);
+    const tempList = transformData(resultData, rule) as never[];
+    tableData.push(...tempList);
   };
 
   watch(
