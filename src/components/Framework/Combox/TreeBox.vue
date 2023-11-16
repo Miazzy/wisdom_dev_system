@@ -1,57 +1,69 @@
 <template>
   <div class="tree-box" ref="treeBox">
-    <!-- 输入框区域 -->
-    <a-input
-      v-model:value="realText"
-      class="tree-text"
-      @click="toggleDropdown($event)"
-      placeholder=""
-    />
-    <!-- 下拉表格弹框区域 -->
-    <div v-show="showDropdown" class="tree-content" :style="`width: ${twidth}; z-index:10000;`">
-      <!-- 输入框、搜索按钮和关闭按钮区域 -->
-      <div class="search-panel">
-        <div class="search-popup-subcontent">
-          <input class="search-input" v-model="searchTreeText" placeholder="" />
-          <button class="close-button" @click="clearData">清除</button>
-          <button class="search-button" @click="searchData">搜索</button>
-        </div>
-      </div>
-      <!-- 基础Tree组件 -->
-      <div class="tree-compoment" :style="`max-height: ${theight}px; overflow-y: hidden;`">
-        <a-tree
-          :tree-data="treeData"
-          show-icon
-          default-expand-all
-          @select="handleSelect"
-          :height="theight"
-        >
-          <template #switcherIcon="{ switcherCls }">
-            <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
-          </template>
-          <template #icon="{ key, isLeaf }">
-            <Icon
-              v-if="isLeaf && !isTopNode(key)"
-              :icon="props.ticons.leaf"
-              color="#333"
-              size="14"
-            />
-            <Icon
-              v-if="!isLeaf && !isTopNode(key)"
-              :icon="props.ticons.middle"
-              color="#333"
-              size="14"
-            />
-          </template>
-        </a-tree>
-      </div>
-    </div>
+    <a-dropdown v-if="props.vmode == 'edit'" :trigger="['click']" @click="handleButtonClick">
+      <!-- 输入框区域 -->
+      <a-input
+        v-model:value="realText"
+        class="tree-text"
+        @click="toggleDropdown($event)"
+        placeholder=""
+      />
+      <template #overlay>
+        <a-menu>
+          <!-- 下拉表格弹框区域 -->
+          <div
+            v-show="showDropdown"
+            class="tree-content"
+            :style="`width: ${twidth}; display: ${showDropdown ? 'block' : 'none'}; z-index:10000;`"
+          >
+            <!-- 输入框、搜索按钮和关闭按钮区域 -->
+            <div class="search-panel">
+              <div class="search-popup-subcontent">
+                <input class="search-input" v-model="searchTreeText" placeholder="" />
+                <button class="close-button" @click="clearData">清除</button>
+                <button class="search-button" @click="searchData">搜索</button>
+              </div>
+            </div>
+            <!-- 基础Tree组件 -->
+            <div class="tree-compoment" :style="`max-height: ${theight}px; overflow-y: hidden;`">
+              <a-tree
+                :tree-data="treeData"
+                show-icon
+                default-expand-all
+                @select="handleSelect"
+                :height="theight"
+              >
+                <template #switcherIcon="{ switcherCls }">
+                  <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
+                </template>
+                <template #icon="{ key, isLeaf }">
+                  <Icon
+                    v-if="isLeaf && !isTopNode(key)"
+                    :icon="props.ticons.leaf"
+                    color="#333"
+                    size="14"
+                  />
+                  <Icon
+                    v-if="!isLeaf && !isTopNode(key)"
+                    :icon="props.ticons.middle"
+                    color="#333"
+                    size="14"
+                  />
+                </template>
+              </a-tree>
+            </div>
+          </div>
+        </a-menu>
+      </template>
+    </a-dropdown>
+    <span v-if="props.vmode == 'view'">{{ props.value }}</span>
   </div>
 </template>
 
 <script lang="ts" setup>
   import { ref, onMounted, onUnmounted, defineProps, defineEmits, watch, unref } from 'vue';
   import { TreeItem } from '../../Tree';
+  import { getCustomCompOptions } from '@/utils/cache';
   import Icon from '@/components/Icon/Icon.vue';
 
   const showDropdown = ref(false);
@@ -65,11 +77,13 @@
   type tIconsType = { parent: String; leaf: String };
 
   const props = defineProps({
+    vmode: { type: String, default: 'edit' },
+    opkey: { type: String, default: null },
     columns: Array, // 列定义
     data: { type: Array }, // 表格数据
     twidth: { type: String, default: '100%' },
     theight: { type: Number, default: 240 },
-    searchText: String, // 搜索框文本
+    value: String, // 搜索框文本
     className: { type: String },
     ticons: {
       type: Object,
@@ -88,15 +102,18 @@
     },
   });
 
-  const emit = defineEmits(['update:searchText', 'searchData', 'clearData', 'select']); // 允许双向绑定searchText
+  const newTfields = ref({});
+  const tdata = ref([]);
+
+  const emit = defineEmits(['update:value', 'searchData', 'clearData', 'select']); // 允许双向绑定value
 
   const searchData = () => {
     loading.value = true;
     const text = searchTreeText.value;
     emit('searchData', searchTreeText.value); // 向父组件传递搜索文本的更新
     setTimeout(() => {
-      const rule = props?.tfields as fieldType;
-      const data = unref(props.data as unknown[] as TreeItem[]);
+      const rule = newTfields.value as fieldType;
+      const data = unref(tdata.value as unknown[] as TreeItem[]);
       const resultData = JSON.parse(JSON.stringify(data));
       const result = findNodes(resultData, text);
       treeData.value = transformData(result, rule);
@@ -114,8 +131,8 @@
     loading.value = true;
     emit('clearData', searchTreeText.value); // 向父组件传递搜索文本的更新
     setTimeout(() => {
-      const rule = props?.tfields as fieldType;
-      const data = unref(props.data as unknown[] as TreeItem[]);
+      const rule = newTfields.value as fieldType;
+      const data = unref(tdata.value as unknown[] as TreeItem[]);
       const resultData = JSON.parse(JSON.stringify(data));
       treeData.value = transformData(resultData, rule);
     }, 100);
@@ -126,6 +143,10 @@
     if (treeBox.value && !treeBox.value.contains(event.target)) {
       showDropdown.value = false;
     }
+  };
+
+  const handleButtonClick = (e: Event) => {
+    showDropdown.value = true;
   };
 
   // 按tfields生成转换规则
@@ -206,15 +227,15 @@
   // 树节点选中事件
   const handleSelect = (node, event) => {
     realText.value = event.node.title;
-    emit('update:searchText', event.node.title);
+    emit('update:value', event.node.title);
     emit('select', event.node, event);
     showDropdown.value = false;
   };
 
   // 重新加载组件数据
   const reload = () => {
-    const rule = props?.tfields as fieldType;
-    const data = unref(props.data as unknown[] as TreeItem[]);
+    const rule = newTfields.value as fieldType;
+    const data = unref(tdata.value as unknown[] as TreeItem[]);
     const resultData = JSON.parse(JSON.stringify(data));
     treeMap.value = transformMap(data, rule);
     treeData.value = transformData(resultData, rule);
@@ -228,16 +249,25 @@
   );
 
   watch(
-    () => props.searchText,
+    () => props.value,
     (newValue) => {
-      realText.value = props.searchText;
+      realText.value = props.value;
     },
   );
 
   defineExpose({ reload });
 
   onMounted(() => {
-    realText.value = props.searchText;
+    realText.value = props.value;
+    if (props.opkey != null && props.opkey != '') {
+      const options = getCustomCompOptions(props.opkey);
+      newTfields.value = options?.newTfields;
+      tdata.value = options?.data;
+    } else {
+      newTfields.value = props?.tfields;
+      tdata.value = props?.data as never[];
+    }
+    reload();
     window.addEventListener('click', handleClickOutside);
   });
 
@@ -254,6 +284,9 @@
   .tree-content {
     position: relative;
     margin-top: 5px;
+    height: 100%;
+    border: 1px solid #f0f0f0;
+    z-index: 10000 !important;
 
     &:deep(.ant-tree) {
       z-index: 10000 !important;

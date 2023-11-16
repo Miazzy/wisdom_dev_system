@@ -50,13 +50,13 @@
         :vfield="'date'"
         :pagination="false"
         twidth="500px"
-        @select="tableBoxSelect"
         style="width: 220px; height: 60px"
+        @select="tableBoxSelect"
       />
       <span style="float: left"> TreeBox </span>
       <!-- tree box -->
       <TreeBox
-        v-model:searchText="searchTreeText"
+        v-model:value="searchTreeText"
         :tfields="{ key: 'nodeId', title: 'nodeName' }"
         :data="treeData"
         @select="treeBoxSelect"

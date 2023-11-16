@@ -1,35 +1,46 @@
 <template>
   <div class="search-box" ref="searchBox">
-    <!-- 输入框区域 -->
-    <a-input
-      v-model:value="searchRealText"
-      class="search-text"
-      @click="toggleDropdown($event)"
-      placeholder=""
-    />
-    <!-- 下拉表格弹框区域 -->
-    <div v-show="showDropdown" class="search-content" :style="`width: ${twidth}`">
-      <!-- 输入框、搜索按钮和关闭按钮区域 -->
-      <div class="search-panel">
-        <div class="search-popup-subcontent">
-          <input class="search-input" v-model="searchTableText" placeholder="" />
-          <button class="close-button" @click="clearData">清除</button>
-          <button class="search-button" @click="searchData">搜索</button>
-        </div>
-      </div>
-      <div class="search-table">
-        <a-table
-          :columns="tcolumns"
-          :data-source="tableData"
-          size="small"
-          :pagination="props.pagination"
-          :loading="loading"
-          :bordered="true"
-          :scroll="{ y: theight }"
-          :customRow="handleClick"
-        />
-      </div>
-    </div>
+    <a-dropdown v-if="props.vmode == 'edit'" :trigger="['click']" @click="handleButtonClick">
+      <!-- 输入框区域 -->
+      <a-input
+        v-model:value="searchRealText"
+        class="search-text"
+        @click="toggleDropdown($event)"
+        placeholder=""
+      />
+      <template #overlay>
+        <a-menu>
+          <!-- 下拉表格弹框区域 -->
+          <div
+            v-show="showDropdown"
+            class="search-content"
+            :style="`width: ${twidth}; display: ${showDropdown ? 'block' : 'none'}`"
+          >
+            <!-- 输入框、搜索按钮和关闭按钮区域 -->
+            <div class="search-panel">
+              <div class="search-popup-subcontent">
+                <input class="search-input" v-model="searchTableText" placeholder="" />
+                <button class="close-button" @click="clearData">清除</button>
+                <button class="search-button" @click="searchData">搜索</button>
+              </div>
+            </div>
+            <div class="search-table">
+              <a-table
+                :columns="tcolumns"
+                :data-source="tableData"
+                size="small"
+                :pagination="props.pagination"
+                :loading="loading"
+                :bordered="true"
+                :scroll="{ y: theight }"
+                :customRow="handleClick"
+              />
+            </div>
+          </div>
+        </a-menu>
+      </template>
+    </a-dropdown>
+    <span v-if="props.vmode == 'view'">{{ props.value }}</span>
   </div>
 </template>
 
@@ -46,6 +57,7 @@
   const theight = ref(260);
 
   const props = defineProps({
+    vmode: { type: String, default: 'edit' },
     opkey: { type: String, default: null },
     columns: Array, // 列定义
     data: Array, // 表格数据
@@ -63,7 +75,7 @@
   const tvfield = ref('');
   const tdata = ref([]);
 
-  const emit = defineEmits(['update:value', 'select']); // 允许双向绑定value
+  const emit = defineEmits(['update:value', 'searchData', 'clearData', 'select']); // 允许双向绑定value
 
   const searchData = () => {
     loading.value = true;
@@ -140,6 +152,10 @@
     }
   };
 
+  const handleButtonClick = (e: Event) => {
+    showDropdown.value = true;
+  };
+
   const handleClick = (record, index) => {
     const clickFunc = (event) => {
       console.log(record, index);
@@ -175,7 +191,7 @@
   );
 
   onMounted(() => {
-    if (props.opkey != null || props.opkey != '') {
+    if (props.opkey != null && props.opkey != '') {
       const options = getCustomCompOptions(props.opkey);
       tcolumns.value = options.columns;
       tvfield.value = options.vfield;
@@ -203,6 +219,8 @@
   .search-content {
     margin-top: 5px;
     position: relative;
+    height: 100%;
+    border: 1px solid #f0f0f0;
     z-index: 100000 !important; // 设置一个较大的值
 
     &:deep(.ant-table-wrapper) {
