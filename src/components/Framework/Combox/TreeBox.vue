@@ -14,7 +14,7 @@
           <div
             v-show="showDropdown"
             class="tree-content"
-            :style="`width: ${twidth}; display: ${showDropdown ? 'block' : 'none'}; z-index:10000;`"
+            :style="`width: ${twidth}; display: ${showDropdown ? 'block' : 'none'};`"
           >
             <!-- 输入框、搜索按钮和关闭按钮区域 -->
             <div class="search-panel">
