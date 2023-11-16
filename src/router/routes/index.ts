@@ -241,6 +241,16 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/po/safety/safetyrespagreement/safetyRespAgreementModal.vue');
         }
+        // po/powercutplan
+        else if (
+          checkImportComponent('/@/views/po/powercutplan/powerCutPlan.vue', menu.component)
+        ) {
+          return import('/@/views/po/powercutplan/powerCutPlan.vue');
+        } else if (
+          checkImportComponent('/@/views/po/powercutplan/powerCutPlanModal.vue', menu.component)
+        ) {
+          return import('/@/views/po/powercutplan/powerCutPlanModal.vue');
+        }
         // po/integrated
         else if (menu.component == '/@/views/po/integrated/personcertificate/index.vue') {
           return import('/@/views/po/integrated/personcertificate/index.vue');
