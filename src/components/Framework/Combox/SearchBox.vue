@@ -170,6 +170,16 @@
   };
 
   const reloadData = () => {
+    if (props.opkey != null && props.opkey != '') {
+      const options = getCustomCompOptions(props.opkey);
+      tcolumns.value = options.columns;
+      tvfield.value = options.vfield;
+      tdata.value = options.data;
+    } else {
+      tcolumns.value = props.columns as never[];
+      tvfield.value = props.vfield;
+      tdata.value = props.data as never[];
+    }
     const rule = props?.tfields;
     const data = unref(tdata.value as unknown[]);
     const resultData = JSON.parse(JSON.stringify(data));
@@ -191,16 +201,6 @@
   );
 
   onMounted(() => {
-    if (props.opkey != null && props.opkey != '') {
-      const options = getCustomCompOptions(props.opkey);
-      tcolumns.value = options.columns;
-      tvfield.value = options.vfield;
-      tdata.value = options.data;
-    } else {
-      tcolumns.value = props.columns as never[];
-      tvfield.value = props.vfield;
-      tdata.value = props.data as never[];
-    }
     reloadData();
     searchRealText.value = props.value;
     window.addEventListener('click', handleClickOutside);
