@@ -5,7 +5,7 @@
     show-search
     :mode="props.multiple"
     placeholder="请选择数据..."
-    :style="`width: ${props.width}px`"
+    :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}`"
     :options="options"
     :filter-option="filterOption"
     @change="handleChange"
@@ -28,7 +28,7 @@
   const props = defineProps({
     vmode: { type: String, default: 'edit' },
     mode: { type: String, default: 'group' }, // 如果mode为group模式，则统一加载数据
-    width: { type: Number, default: 220 },
+    width: { type: [Number, String], default: '100%' },
     type: { type: String, default: '' },
     filter: { type: Function, default: null },
     value: { type: [String, Array], default: null }, // 搜索框文本
