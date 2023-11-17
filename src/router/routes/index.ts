@@ -347,7 +347,7 @@ const transformMenuItem = (menu, routes) => {
           checkImportComponent('/@/views/da/cockpit/composition/Composition.vue', menu.component)
         ) {
           return import('/@/views/da/cockpit/composition/Composition.vue');
-        } else if (checkImportComponent('/@/views/cockpit/da/power/Power.vue', menu.component)) {
+        } else if (checkImportComponent('/@/views/da/cockpit/power/Power.vue', menu.component)) {
           return import('/@/views/da/cockpit/power/Power.vue');
         } else if (
           checkImportComponent('/@/views/da/cockpit/property/Property.vue', menu.component)
