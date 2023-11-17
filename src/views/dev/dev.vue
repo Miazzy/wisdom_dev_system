@@ -17,7 +17,7 @@
       :offset="150"
     /> -->
 
-    <div style="margin: 10px 0px 0px 40px">
+    <div style="margin: 10px 0 0 40px">
       <Tinymce
         v-model="richTextValue"
         :width="`calc(100% - 80px)`"
@@ -60,6 +60,7 @@
         v-model:value="searchTreeText"
         :tfields="{ key: 'nodeId', title: 'nodeName' }"
         :data="treeData"
+        :expand-all="false"
         @select="treeBoxSelect"
         style="width: 220px; height: 60px"
         twidth="400px"
@@ -102,6 +103,7 @@
       :multiple="`multiple`"
       :type="DICT_TYPE.BPM_MODEL_CATEGORY"
       :width="220"
+      :disabled="true"
       @change="handleDictSelectBoxChange"
     />
 

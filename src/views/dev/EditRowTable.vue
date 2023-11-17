@@ -85,6 +85,18 @@
           },
           width: 150,
         },
+        {
+          title: '输入框校验',
+          dataIndex: 'name3',
+          editRow: true,
+          align: 'left',
+          editComponent: 'TreeBox',
+          editComponentProps: {
+            opkey: 'TreeBox123',
+            twidth: '500px',
+          },
+          width: 150,
+        },
       ],
     },
   ];
