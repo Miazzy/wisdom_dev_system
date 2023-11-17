@@ -170,6 +170,9 @@
 
   // 按tfields的设置转换tree的数据
   const transformData = (data, rule) => {
+    if (data == null || typeof data == 'undefined' || data.length === 0) {
+      return [];
+    }
     const rules = reverseRule(rule);
     return data.map((item) => {
       const newItem = {};

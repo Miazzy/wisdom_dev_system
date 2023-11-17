@@ -1,6 +1,10 @@
 <template>
   <div class="search-box" ref="searchBox">
-    <a-dropdown v-if="props.vmode == 'edit' && !props.disabled" :trigger="['click']" v-model:visible="showDropdown">
+    <a-dropdown
+      v-if="props.vmode == 'edit' && !props.disabled"
+      :trigger="['click']"
+      v-model:visible="showDropdown"
+    >
       <!-- 输入框区域 -->
       <a-input v-model:value="searchRealText" class="search-text" @click="toggleDropdown($event)" />
       <template #overlay>
@@ -10,7 +14,9 @@
             @click.stop
             v-show="showDropdown"
             class="search-content"
-            :style="`width: ${twidths || props.twidth}; display: ${showDropdown ? 'block' : 'none'}`"
+            :style="`width: ${twidths || props.twidth}; display: ${
+              showDropdown ? 'block' : 'none'
+            }`"
           >
             <!-- 输入框、搜索按钮和关闭按钮区域 -->
             <div class="search-panel">
@@ -127,6 +133,9 @@
 
   // 按tfields的设置转换table的数据
   const transformData = (data, rule) => {
+    if (data == null || typeof data == 'undefined' || data.length === 0) {
+      return [];
+    }
     const rules = reverseRule(rule);
     return data.map((item) => {
       const newItem = {};
