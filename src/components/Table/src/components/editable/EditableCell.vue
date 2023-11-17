@@ -52,20 +52,21 @@
 
       const { prefixCls } = useDesign('editable-cell');
 
-      const getComponent = computed(() => props.column?.editComponent || 'Input');
+      const getComponent = computed(() => props?.column?.editComponent || 'Input');
 
       const componentName = unref(getComponent);
       const customCompNames = [
         'SearchBox',
         'TreeBox',
+        'TreeSelectBox',
         'DictSelectBox',
         'DictRadioGroup',
         'CategoryDialog',
         'OrganDialog',
       ];
-      const isCustomComp = computed(() => customCompNames.includes(props.column?.editComponent));
+      const isCustomComp = computed(() => customCompNames.includes(props?.column?.editComponent));
 
-      const getRule = computed(() => props.column?.editRule);
+      const getRule = computed(() => props?.column?.editRule);
 
       const getRuleVisible = computed(() => {
         return unref(ruleMessage) && unref(ruleVisible);
@@ -210,11 +211,13 @@
         const onChange = unref(getComponentProps)?.onChangeTemp;
         if (onChange && isFunction(onChange)) onChange(...arguments);
 
-        table.emit?.('edit-change', {
-          column: props.column,
-          value: unref(currentValueRef),
-          record: toRaw(props.record),
-        });
+        if (table.emit && isFunction(table.emit)) {
+          table.emit?.('edit-change', {
+            column: props.column,
+            value: unref(currentValueRef),
+            record: toRaw(props.record),
+          });
+        }
         handleSubmitRule();
       }
 
@@ -251,48 +254,54 @@
           const isPass = await handleSubmitRule();
           if (!isPass) return false;
         }
+        try {
+          const { column, index, record } = props;
+          if (!record) return false;
+          const { key, dataIndex } = column;
+          const value = unref(currentValueRef);
+          if (!key && !dataIndex) return;
 
-        const { column, index, record } = props;
-        if (!record) return false;
-        const { key, dataIndex } = column;
-        const value = unref(currentValueRef);
-        if (!key && !dataIndex) return;
+          const dataKey = (dataIndex || key) as string;
 
-        const dataKey = (dataIndex || key) as string;
+          if (!record.editable) {
+            const { getBindValues } = table;
 
-        if (!record.editable) {
-          const { getBindValues } = table;
+            const { beforeEditSubmit, columns } = unref(getBindValues);
 
-          const { beforeEditSubmit, columns } = unref(getBindValues);
-
-          if (beforeEditSubmit && isFunction(beforeEditSubmit)) {
-            spinning.value = true;
-            const keys: string[] = columns
-              .map((_column) => _column.dataIndex)
-              .filter((field) => !!field) as string[];
-            let result: any = true;
-            try {
-              result = await beforeEditSubmit({
-                record: pick(record, keys),
-                index,
-                key: dataKey as string,
-                value,
-              });
-            } catch (e) {
-              result = false;
-            } finally {
-              spinning.value = false;
-            }
-            if (result === false) {
-              return;
+            if (beforeEditSubmit && isFunction(beforeEditSubmit)) {
+              spinning.value = true;
+              const keys: string[] = columns
+                .map((_column) => _column.dataIndex)
+                .filter((field) => !!field) as string[];
+              let result: any = true;
+              try {
+                result = await beforeEditSubmit({
+                  record: pick(record, keys),
+                  index,
+                  key: dataKey as string,
+                  value,
+                });
+              } catch (e) {
+                result = false;
+              } finally {
+                spinning.value = false;
+              }
+              if (result === false) {
+                return;
+              }
             }
           }
-        }
 
-        set(record, dataKey, value);
-        //const record = await table.updateTableData(index, dataKey, value);
-        needEmit && table.emit?.('edit-end', { record, index, key: dataKey, value });
-        isEdit.value = false;
+          set(record, dataKey, value);
+          //const record = await table.updateTableData(index, dataKey, value);
+          if (table.emit && isFunction(table.emit)) {
+            needEmit && table.emit?.('edit-end', { record, index, key: dataKey, value });
+          }
+        } catch {
+          //
+        } finally {
+          isEdit.value = false;
+        }
       }
 
       async function handleEnter() {
@@ -311,12 +320,15 @@
         currentValueRef.value = defaultValueRef.value;
         const { column, index, record } = props;
         const { key, dataIndex } = column;
-        table.emit?.('edit-cancel', {
-          record,
-          index,
-          key: dataIndex || key,
-          value: unref(currentValueRef),
-        });
+
+        if (table.emit && isFunction(table.emit)) {
+          table.emit?.('edit-cancel', {
+            record,
+            index,
+            key: dataIndex || key,
+            value: unref(currentValueRef),
+          });
+        }
       }
 
       function onClickOutside() {
@@ -377,7 +389,9 @@
             if (!props.record?.onValid?.()) return;
             const submitFns = props.record?.submitCbs || [];
             submitFns.forEach((fn) => fn(false, false));
-            table.emit?.('edit-row-end');
+            if (table.emit && isFunction(table.emit)) {
+              table.emit?.('edit-row-end');
+            }
             return true;
           }
         };
@@ -413,13 +427,14 @@
     render() {
       return (
         <div class={this.prefixCls}>
+          {!this.isEdit && (
           <div
             v-show={!this.isEdit}
             class={{ [`${this.prefixCls}__normal`]: true, 'ellipsis-cell': this.column.ellipsis }}
-            onClick={this.handleEdit}
+            // onClick={this.handleEdit}
           >
             <div class="cell-content" title={this.column.ellipsis ? this.getValues ?? '' : ''}>
-              {!this.isCustomComp && (this.column.editRender
+              {!this.isCustomComp && (this.column?.editRender
                 ? this.column.editRender({
                     text: this.value,
                     record: this.record as Recordable,
@@ -448,7 +463,7 @@
               )}
             </div>
             {!this.column.editRow && <FormOutlined class={`${this.prefixCls}__normal-icon`} />}
-          </div>
+          </div>)}
           {this.isEdit && (
             <Spin spinning={this.spinning} >
               <div class={`${this.prefixCls}__wrapper`} v-click-outside={this.onClickOutside}>

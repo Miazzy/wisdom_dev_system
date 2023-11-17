@@ -1,9 +1,10 @@
 <template>
   <a-select
-    v-if="props.vmode == 'edit'"
+    v-if="props.vmode == 'edit' || props.disabled"
     v-model:value="selectedValue"
     show-search
     :mode="props.multiple"
+    :disabled="props.disabled"
     placeholder="请选择数据..."
     :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}`"
     :options="options"
@@ -27,6 +28,7 @@
 
   const props = defineProps({
     vmode: { type: String, default: 'edit' },
+    disabled: { type: Boolean, default: false },
     mode: { type: String, default: 'group' }, // 如果mode为group模式，则统一加载数据
     width: { type: [Number, String], default: '100%' },
     type: { type: String, default: '' },
@@ -64,7 +66,7 @@
     const item = options.value.find((item) => {
       return item.value == value;
     });
-    return item ? item?.label : '';
+    return item ? item?.label : value;
   };
 
   // 定义emits
