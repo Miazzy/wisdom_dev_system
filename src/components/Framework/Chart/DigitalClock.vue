@@ -2,15 +2,15 @@
   <div class="time-display">
     <div class="clock">
       <div class="hour">
-        <span v-for="digit in currentTime.hours.split('')" :key="digit">{{ digit }}</span>
+        <span v-for="{digit, index} in currentTime.hours.split('')" :key="index">{{ digit }}</span>
       </div>
       <span class="colon">:</span>
       <div class="minute">
-        <span v-for="digit in currentTime.minutes.split('')" :key="digit">{{ digit }}</span>
+        <span v-for="{digit, index} in currentTime.minutes.split('')" :key="index">{{ digit }}</span>
       </div>
       <span class="colon">:</span>
       <div class="second">
-        <span v-for="digit in currentTime.seconds.split('')" :key="digit">{{ digit }}</span>
+        <span v-for="{digit, index} in currentTime.seconds.split('')" :key="index">{{ digit }}</span>
       </div>
     </div>
 
@@ -57,31 +57,34 @@
     .clock {
       display: flex;
       justify-content: center;
-      font-family: 'Digital';
+      color: #32AFFF;
+      font-family: Digital;
       font-size: 24px;
       font-weight: 600;
       letter-spacing: 4px;
-      color: #32AFFF;
+
       div {
-        width: 28px;
         display: flex;
         justify-content: center;
+        width: 28px;
+
         span {
           flex: 50%;
         }
       }
 
       .colon {
+        margin: 2px 5px 0;
         font-size: 20px;
-        margin: 2px 5px 0px 5px;
       }
     }
 
     .date {
       margin-top: -6px;
+
       .normal-font {
-        font-size: 14px;
         font-family: 'Microsoft YaHei';
+        font-size: 14px;
       }
     }
   }

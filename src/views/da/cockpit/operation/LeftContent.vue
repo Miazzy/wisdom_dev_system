@@ -57,7 +57,7 @@
     </div>
     <div class="bottom-section">
       <div class="title-content">
-        <SubtitleBar :subtitle="`两票统计`" style="margin: 0px 0px 0px 10px">
+        <SubtitleBar :subtitle="`两票统计`" style="margin: 0 0 0 10px">
           <DictSelectBox
             :type="DICT_TYPE.BPM_MODEL_CATEGORY"
             :width="100"
@@ -67,17 +67,18 @@
         <IndicatorGroup
           class="indicator-group-layout"
           :data="securityData"
-          style="width: 84%; margin: 30px 0 0 30px"
+          style="width: 84%;margin-top: 10px; margin-left: 30px;"
         />
-        <div style="width: 135%; height: 400px; margin: 52px 0 0 -30px">
-          <div style="margin: 0px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
+        <div style="width: 135%; height: 380px;">
+          <div style="transform: scale(0.85);transform-origin: 0 0;">
             <EchartLineBarChart
               :data="barchartData"
               :colors="barchartData.colors"
               :width="730"
-              :height="400"
+              :height="478"
               :category="pchartData.mName"
               ybgcolor="#01B7D730"
+              :name="bchartSeriesName"
             />
           </div>
         </div>
@@ -133,6 +134,7 @@
       '#f39c12',
     ],
   };
+  const bchartSeriesName = [['柱1','柱2', '柱3']];
 
   const pchartData = ref({
     barData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
@@ -150,42 +152,40 @@
 <style lang="less" scoped>
   .left-content {
     flex: 35;
-    width: 35%;
-    padding: 0px;
     flex-shrink: 0;
-    border-left: 0px solid #000;
+    width: 35%;
+    padding: 0;
+    border-left: 0 solid #000;
 
     .top-section {
-      border: 0px solid #ccc;
-      padding: 0px;
+      display: flex;
+      flex-wrap: wrap; /* 使数字自动换行 */
+      align-items: top;
+      justify-content: center;
       width: calc(100% - 15px);
+      height: 40%;
       margin-top: 25px;
       margin-left: 15px;
-      height: 40%;
-
-      display: flex;
-      justify-content: center;
-      align-items: top;
-      flex-wrap: wrap; /* 使数字自动换行 */
+      padding: 0;
+      border: 0 solid #ccc;
 
       div.element {
         flex: 49.5%;
-        padding: 0px;
+        padding: 0;
       }
     }
 
     .bottom-section {
-      border: 0px solid #ccc;
-      padding: 0px;
-      width: calc(100% - 15px);
-      margin-left: 15px;
-      margin-top: 0px;
-      height: 60%;
-
       display: flex;
-      justify-content: center;
-      align-items: top;
       flex-wrap: wrap; /* 使数字自动换行 */
+      align-items: top;
+      justify-content: center;
+      width: calc(100% - 15px);
+      height: 60%;
+      margin-top: 0;
+      margin-left: 15px;
+      padding: 0;
+      border: 0 solid #ccc;
 
       .title-content {
         width: 100%;
@@ -194,17 +194,19 @@
     }
 
     :deep(.ant-select:not(.ant-select-customize-input) .ant-select-selector) {
-      background-color: transparent;
-      border: 1px solid #07a6ff70;
-      border-radius: 0px;
       height: 26px !important;
+      border: 1px solid #07a6ff70;
+      border-radius: 0;
+      background-color: transparent;
     }
+
     :deep(.ant-select-single .ant-select-selector .ant-select-selection-placeholder) {
       height: 26px;
       line-height: 26px;
     }
+
     :deep(.ant-select-arrow) {
-      color: rgba(255, 255, 255, 0.5);
+      color: rgb(255 255 255 / 50%);
     }
   }
 </style>

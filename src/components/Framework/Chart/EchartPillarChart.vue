@@ -5,10 +5,7 @@
 -->
 <template>
   <div :style="`width:${width}px; height:${height}px;`">
-    <div
-      :id="`chart-pillar-container${random}`"
-      :style="`width:${props.width}px; height:${props.height}px;`"
-    ></div>
+    <div :id="`chart-pillar-container${random}`" :style="`width:${props.width}px; height:${props.height}px;`"></div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -21,10 +18,22 @@
     data: { type: Array },
     width: { type: Number, default: 600 },
     height: { type: Number, default: 300 },
-    colors: { type: Array, default: [['#078C5D', '#68E4B8'], '#02AFFC', '374BFC'] as any[] },
-    name: { type: Array },
+    colors: {
+      type: Array,
+      default: [
+        ['#488FF6', '#60D1F3'],
+        ['#E59837', '#FAE895'],
+        ['#078C5D', '#68E4B8'],
+      ] as any[],
+    },
+    name: { type: Array, default: [] },
     legendData: { type: Array },
   });
+
+  // 设置柱和折线的颜色
+  const barColor = props.colors?.[0]?.length === 2 ? props.colors[0] : ['#488FF6', '#60D1F3'];
+  const lineColor1 = props.colors?.[1]?.length === 2 ? props.colors[1] : ['#E59837', '#FAE895'];
+  const lineColor2 = props.colors?.[2]?.length === 2 ? props.colors[2] : ['#078C5D', '#68E4B8'];
 
   const barData = ref([]);
   const categories = ref([]);
@@ -106,7 +115,7 @@
         color: 'white', //设置文字颜色
       },
       extraCssText: '100px;',
-      backgroundColor: 'rgba(2, 175, 252, 0.5)',
+      backgroundColor: `${barColor[0]}32`,
       borderColor: 'transparent',
       appendToBody: true,
       formatter: function (params) {
@@ -145,9 +154,21 @@
         data: [],
         type: 'custom',
         showBackground: true,
+        name: props.name.length ? props.name[0] : null,
+        color: new echarts.graphic.LinearGradient(
+          0,
+          1,
+          0,
+          0,
+          [
+            { offset: 0, color: barColor[0] },
+            { offset: 1, color: barColor[1] },
+          ],
+          false,
+        ),
         backgroundStyle: {
           width: '100%',
-          color: `${props.colors[0][0]}15`,
+          color: `${barColor[0]}15`,
         },
         renderItem: function (params, api) {
           const location = api.coord([api.value(0), api.value(1)]);
@@ -164,10 +185,10 @@
                 },
                 backgroundStyle: {
                   width: '100%',
-                  color: `${props.colors[0][0]}15`,
+                  color: `${barColor[0]}15`,
                 },
                 style: {
-                  fill: `${props.colors[0][0]}95`,
+                  fill: `${barColor[0]}95`,
                 },
               },
               {
@@ -179,7 +200,7 @@
                   xAxisPoint: api.coord([api.value(0), 0]),
                 },
                 style: {
-                  fill: `${props.colors[0][0]}40`,
+                  fill: `${barColor[0]}40`,
                 },
               },
               {
@@ -192,42 +213,40 @@
                   xAxisPoint: api.coord([api.value(0), 0]),
                 },
                 style: {
-                  fill: `${props.colors[0][0]}70`,
+                  fill: `${barColor[0]}70`,
                 },
               },
             ],
           };
         },
         itemStyle: {
-          normal: {
-            // 每根柱子颜色设置
-            color: function (params) {
-              const colorList = [
-                new echarts.graphic.LinearGradient(
-                  0,
-                  1,
-                  0,
-                  0,
-                  [
-                    { offset: 0, color: props.colors[0][1] },
-                    { offset: 1, color: props.colors[0][0] },
-                  ],
-                  false,
-                ),
-              ];
-              return colorList[0];
-            },
+          // 每根柱子颜色设置
+          color: function (params) {
+            const colorList = [
+              new echarts.graphic.LinearGradient(
+                0,
+                1,
+                0,
+                0,
+                [
+                  { offset: 0, color: barColor[1] },
+                  { offset: 1, color: barColor[0] },
+                ],
+                false,
+              ),
+            ];
+            return colorList[0];
           },
         },
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
               offset: 0,
-              color: props.colors[0][1],
+              color: barColor[1],
             },
             {
               offset: 1,
-              color: props.colors[0][0],
+              color: barColor[0],
             },
           ]),
         },
@@ -239,38 +258,36 @@
         barWidth: 19.15,
         backgroundStyle: {
           width: '100%',
-          color: `${props.colors[0][0]}10`,
+          color: `${barColor[0]}10`,
         },
         itemStyle: {
-          normal: {
-            // 每根柱子颜色设置
-            color: function (params) {
-              const colorList = [
-                new echarts.graphic.LinearGradient(
-                  0,
-                  1,
-                  0,
-                  0,
-                  [
-                    { offset: 0, color: props.colors[0][0] },
-                    { offset: 1, color: props.colors[0][1] },
-                  ],
-                  false,
-                ),
-              ];
-              return colorList[0];
-            },
+          // 每根柱子颜色设置
+          color: function (params) {
+            const colorList = [
+              new echarts.graphic.LinearGradient(
+                0,
+                1,
+                0,
+                0,
+                [
+                  { offset: 0, color: barColor[0] },
+                  { offset: 1, color: barColor[1] },
+                ],
+                false,
+              ),
+            ];
+            return colorList[0];
           },
         },
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
               offset: 0,
-              color: props.colors[0][0],
+              color: barColor[0],
             },
             {
               offset: 1,
-              color: props.colors[0][1],
+              color: barColor[1],
             },
           ]),
         },
@@ -289,14 +306,36 @@
         // 新增的折线图配置
         data: [],
         type: 'line',
+        name: props.name.length ? props.name[1] : null,
+        color: new echarts.graphic.LinearGradient(
+          0,
+          1,
+          0,
+          0,
+          [
+            { offset: 0, color: lineColor1[0] },
+            { offset: 1, color: lineColor1[1] },
+          ],
+          false,
+        ),
         lineStyle: {
           width: 2, // 折线宽度
-          color: props.colors[1],
+          color: new echarts.graphic.LinearGradient(
+            0,
+            1,
+            0,
+            0,
+            [
+              { offset: 0, color: lineColor1[0] },
+              { offset: 1, color: lineColor1[1] },
+            ],
+            false,
+          ),
         },
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: `${props.colors[1]}30` },
-            { offset: 1, color: `${props.colors[1]}10` },
+            { offset: 0, color: `${lineColor1[0]}30` },
+            { offset: 1, color: `${lineColor1[1]}10` },
           ]),
         },
       },
@@ -304,14 +343,36 @@
         // 新增的折线图配置
         data: [],
         type: 'line',
+        name: props.name.length ? props.name[2] : null,
+        color: new echarts.graphic.LinearGradient(
+          0,
+          1,
+          0,
+          0,
+          [
+            { offset: 0, color: lineColor2[0] },
+            { offset: 1, color: lineColor2[1] },
+          ],
+          false,
+        ),
         lineStyle: {
           width: 2, // 折线宽度
-          color: props.colors[2],
+          color: new echarts.graphic.LinearGradient(
+            0,
+            1,
+            0,
+            0,
+            [
+              { offset: 0, color: lineColor2[0] },
+              { offset: 1, color: lineColor2[1] },
+            ],
+            false,
+          ),
         },
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: `${props.colors[2]}30` },
-            { offset: 1, color: `${props.colors[2]}10` },
+            { offset: 0, color: `${lineColor2[0]}30` },
+            { offset: 1, color: `${lineColor2[1]}10` },
           ]),
         },
       },
@@ -320,8 +381,19 @@
       containLabel: true,
       top: '30%',
       left: '1%',
-      right: '7%',
+      right: '1%',
       bottom: '6%',
+    },
+    legend: {
+      show: true,
+      x: 'right',
+      y: '10%',
+      textStyle: {
+        color: 'rgba(255, 255, 255, 0.6)',
+      },
+      itemWidth: 14,
+      itemHeight: 10,
+      // icon: 'rect'
     },
   });
 
@@ -411,10 +483,10 @@
 </script>
 <style lang="less" scoped>
   #chart-pillar-container {
+    z-index: 10000;
     transform: scaleX(0.85);
     transform-origin: left;
-    z-index: 10000;
-    background: rgba(30, 30, 30, 0.02);
+    background: rgb(30 30 30 / 2%);
     text-align: center;
   }
 </style>

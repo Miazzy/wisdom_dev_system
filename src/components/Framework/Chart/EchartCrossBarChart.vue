@@ -46,16 +46,16 @@
       },
       legend: {
         x: 'right',
-        y: 'top',
+        y: '10%',
         textStyle: {
-          fontSize: 13,
-          color: '#e0e0e0',
+          color: 'rgba(255, 255, 255, 0.6)',
         },
-        padding: [35, 80, 0, 0],
+        itemWidth: 14,
+        itemHeight: 10
       },
       grid: {
-        left: '3%',
-        right: '4%',
+        left: '1%',
+        right: '6%',
         bottom: '3%',
         containLabel: true,
       },

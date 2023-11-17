@@ -3,7 +3,7 @@
     <div class="icon" :style="'background-color: ' + props.color"></div>
     <div class="info">
       <div class="title">{{ props.title }}</div>
-      <div class="value">{{ values }}</div>
+      <div v-if="props.showValue" class="value">{{ values }}</div>
     </div>
   </div>
 </template>
@@ -15,12 +15,15 @@
     color: { type: String, default: 'red' },
     title: { type: String, default: '' },
     value: { type: Number, default: 0 },
+    showValue: { type: Boolean, default: true}
   });
 
   const values = ref('');
 
   onMounted(() => {
-    values.value = props.value.toFixed(2) + '%';
+    if(props.showValue) {
+      values.value = props.value.toFixed(2) + '%';
+    }   
   });
 </script>
 
@@ -31,13 +34,14 @@
   }
 
   .icon {
+    flex-shrink: 0;
     width: 10px;
     height: 10px;
-    border-radius: 50%;
-    border: 1px solid #45A2E930;
-    margin-right: 10px;
-    vertical-align: top;
     margin-top: -20px;
+    margin-right: 10px;
+    border: 1px solid #45A2E930;
+    border-radius: 50%;
+    vertical-align: top;
   }
 
   .info {
@@ -48,18 +52,18 @@
 
   .title {
     width: 100%;
-    font-family: Microsoft YaHei;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgb(255 255 255 / 60%);
+    font-family: "Microsoft YaHei";
     font-size: 12px;
+    font-weight: 400;
   }
 
   .value {
     width: 100%;
     height: 12px;
+    color: #FFF;
+    font-family: "Microsoft YaHei";
     font-size: 14px;
-    font-family: Microsoft YaHei;
     font-weight: 400;
-    color: #FFFFFF;
   }
 </style>

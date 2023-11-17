@@ -15,7 +15,7 @@
     </div>
     <div class="content-middle">
       <div class="title-content">
-        <SubtitleBar :subtitle="`安全检查`" style="margin: 0px 0px 0px 10px">
+        <SubtitleBar :subtitle="`安全检查`" style="margin: 0 0 0 10px">
           <DictSelectBox
             :type="DICT_TYPE.BPM_MODEL_CATEGORY"
             :width="100"
@@ -25,17 +25,18 @@
         <IndicatorGroup
           class="indicator-group-layout"
           :data="securityData"
-          style="width: 64%; margin: 30px 0 0 17%"
+          style="width: 64%; margin: 8px 0 0 17%"
         />
-        <div style="width: 135%; height: 200px; margin: -50px 0 0 -30px">
-          <div style="margin: 0px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
+        <div style="width: 135%; height: 200px;">
+          <div style="margin-top: -20px;transform: scale(0.85);transform-origin: 0 0;">
             <EchartLineBarChart
               :data="barchartData"
               :colors="barchartData.colors"
               :width="720"
-              :height="300"
+              :height="328"
               :category="pchartData.categories"
               ybgcolor="#01B7D730"
+              :name="barChartSeriesName"
             />
           </div>
         </div>
@@ -54,15 +55,16 @@
         :data="lurkingData"
         style="width: 60%; margin: 0 15% 0 20%"
       />
-      <div style="width: 100%; height: 185px; margin: -1px 0 0 0">
-        <div style="margin: -40px 0 0 -17.5px; transform: scale(0.85) translate(-60px, 0px)">
+      <div style="width: 100%; height: 185px;">
+        <div style="margin-top: -20px; transform: scale(0.85);transform-origin: 0 0;">
           <EchartLineBarChart
             :data="sbarchartData"
             :colors="sbarchartData.colors"
             :width="720"
-            :height="330"
+            :height="328"
             :category="pchartData.categories"
             ybgcolor="#01B7D730"
+            :name="sbarChartSeriesName"
           />
         </div>
       </div>
@@ -146,6 +148,7 @@
       '#f39c12',
     ],
   };
+  const barChartSeriesName = [['检查次数', '发现隐患']];
 
   const sbarchartData = {
     barData: [
@@ -161,52 +164,56 @@
       '#f39c12',
     ],
   };
+  const sbarChartSeriesName = [['未签订', '签订'], ['签订率']];
 </script>
 
 <style lang="less" scoped>
   .middle-content {
     display: flex;
     flex: 34%;
-    width: 34%;
     flex-direction: column;
+    width: 34%;
     height: 100%;
 
     .content-middle,
     .content-bottom {
-      flex: 1;
       display: flex;
+      flex: 1;
       flex-direction: column;
-      justify-content: top;
       align-items: top;
+      justify-content: top;
+      padding: 0 10px;
+      border: 0 solid #ccc;
       text-align: top;
-      border: 0px solid #ccc;
-      padding: 10px;
     }
 
     .content-top {
       display: flex;
-      justify-content: center;
-      align-items: top;
       flex-wrap: wrap; /* 使数字自动换行 */
-      height: 25%;
+      align-items: top;
+      justify-content: center;
+      height: 20.5%;
 
       div.element {
         flex: 49.5%;
-        padding: 0px;
+        padding: 0;
       }
     }
+
     :deep(.ant-select:not(.ant-select-customize-input) .ant-select-selector) {
-      background-color: transparent;
-      border: 1px solid #07a6ff70;
-      border-radius: 0px;
       height: 26px !important;
+      border: 1px solid #07a6ff70;
+      border-radius: 0;
+      background-color: transparent;
     }
+
     :deep(.ant-select-single .ant-select-selector .ant-select-selection-placeholder) {
       height: 26px;
       line-height: 26px;
     }
+
     :deep(.ant-select-arrow) {
-      color: rgba(255, 255, 255, 0.5);
+      color: rgb(255 255 255 / 50%);
     }
   }
 </style>

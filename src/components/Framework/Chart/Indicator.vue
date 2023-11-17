@@ -46,7 +46,7 @@
   });
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .indicator {
     display: flex;
     flex-direction: column;

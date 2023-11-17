@@ -20,14 +20,15 @@
         style="width: 80%; margin-left: 10%"
       />
       <div style="width: 100%; height: 185px">
-        <div style="margin: -40px 0 0 -15px; transform: scale(0.85) translate(-60px, 0px)">
+        <div style="margin-top: -12px;transform: scale(0.85);transform-origin: 0 0;">
           <EchartLineBarChart
             :data="barchartData"
             :colors="barchartData.colors"
-            :width="680"
-            :height="310"
+            :width="660"
+            :height="250"
             :category="pchartData.categories"
             ybgcolor="#01B7D730"
+            :name="bchartSeriesName"
           />
         </div>
       </div>
@@ -43,15 +44,16 @@
       <IndicatorGroup
         class="indicator-group-layout"
         :data="lurkingData"
-        style="width: 60%; margin: 0 15% 0 20%"
+        style="width: 40%;margin: 0 auto;"
       />
       <div style="width: 100%; height: 185px">
-        <div style="margin: -40px 0 0 20px; transform: scale(0.85) translate(-60px, 0px)">
+        <div style="margin-top: -12px;transform: scale(0.85);transform-origin: 0 0;">
           <EchartPillarChart
             :data="pchartData"
             :colors="pchartData.colors"
-            :width="620"
-            :height="260"
+            :width="660"
+            :height="250"
+            :name="pchartSeriesName"
           />
         </div>
       </div>
@@ -86,32 +88,35 @@
       '12月',
     ],
     units: ['单位', '单位', '单位'],
-    colors: [['#488FF6', '#60D1F3'], '#4080E0', '#60A0A0'],
+    colors: [['#488FF6', '#60D1F3'],
+        ['#E59837', '#FAE895'],
+        ['#078C5D', '#68E4B8']],
   });
+  const pchartSeriesName = ['培训次数'];
 
   const securityData = [
     {
-      value: 93.23,
-      label: '考核分摊(万元)',
+      value: 93,
+      label: '超期完成(项)',
     },
     {
-      value: 32.23,
-      label: '补偿返还(万元)',
+      value: 32,
+      label: '未完成(项)',
     },
     {
       value: 98.45,
-      label: '分摊率(%)',
+      label: '完成率(%)',
     },
   ];
 
   const lurkingData = [
     {
       value: 35,
-      label: '待处理(项)',
+      label: '培训次数(次)',
     },
     {
-      value: 59.23,
-      label: '处理率(%)',
+      value: 599,
+      label: '参与人数(人)',
     },
   ];
 
@@ -138,27 +143,28 @@
       '#f39c12',
     ],
   };
+  const bchartSeriesName = [['超期完成', '未完成'], ['等效小时数']];
 </script>
 
 <style lang="less" scoped>
   .right-content {
     display: flex;
     flex: 31%;
-    width: 31%;
     flex-direction: column;
+    width: 31%;
     height: 100%;
 
     .content-top,
     .content-middle,
     .content-bottom {
-      flex: 1;
       display: flex;
+      flex: 1;
       flex-direction: column;
-      justify-content: top;
       align-items: top;
+      justify-content: top;
+      padding: 0 10px;
+      border: 0 solid #ccc;
       text-align: top;
-      border: 0px solid #ccc;
-      padding: 10px;
     }
 
     .donut-chart-layout {
@@ -175,17 +181,19 @@
     }
 
     :deep(.ant-select:not(.ant-select-customize-input) .ant-select-selector) {
-      background-color: transparent;
-      border: 1px solid #07a6ff70;
-      border-radius: 0px;
       height: 26px !important;
+      border: 1px solid #07a6ff70;
+      border-radius: 0;
+      background-color: transparent;
     }
+
     :deep(.ant-select-single .ant-select-selector .ant-select-selection-placeholder) {
       height: 26px;
       line-height: 26px;
     }
+
     :deep(.ant-select-arrow) {
-      color: rgba(255, 255, 255, 0.5);
+      color: rgb(255 255 255 / 50%);
     }
   }
 </style>

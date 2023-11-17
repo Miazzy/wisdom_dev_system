@@ -42,16 +42,7 @@
 <script lang="ts" setup>
   import { onMounted, ref, watch } from 'vue';
 
-  const props = defineProps({
-    title: { type: String, default: '' },
-    subtitle: { type: Object, default: {} as Object },
-    value: { type: Number, default: 0 },
-    tsize: { type: String, default: '14px' },
-    vsize: { type: String, default: '20px' },
-    vcolor: { type: String, default: '#f0f0f0' },
-    bcolor: { type: String, default: '#01B4F1' },
-  });
-
+  // 将数字拆分成个位数字的数组
   const digitArray = ref([]);
 
   watch(
@@ -63,6 +54,16 @@
 
   onMounted(() => {
     digitArray.value = String(props.value).split('').map(String) as never[];
+  });
+
+  const props = defineProps({
+    title: { type: String, default: '' },
+    subtitle: { type: Object, default: {} as Object },
+    value: { type: Number, default: 0 },
+    tsize: { type: String, default: '14px' },
+    vsize: { type: String, default: '20px' },
+    vcolor: { type: String, default: '#f0f0f0' },
+    bcolor: { type: String, default: '#01B4F1' },
   });
 </script>
 
@@ -107,7 +108,7 @@
     margin: 5px 3px 0 0; /* 根据需要调整数字之间的间距 */
     padding: 1px 2px; /* 根据需要调整内边距 */
     transform: scaleY(1.15);
-    border: 0.001rem solid #0606fd50;
+    border: 0.001rem solid #01b5f140;
     border-radius: 5px; /* 可以根据需要调整圆角 */
     font-weight: 600;
     line-height: 1.35; /* 调整行高以增加数字的高度 */
@@ -137,20 +138,24 @@
   }
 
   .arrow {
-    color: #32afff;
-    margin-left: 4px;
     margin-right: 4px;
+    margin-left: 4px;
+    color: #32afff;
   }
+
   .arrow-positive {
     color: #FF4F38;
   }
+
   .arrow-negative {
     color: #00BA24;
   }
+
   .arrow-positive::before {
     content: '▲';
     color: #FF4F38;
   }
+
   .arrow-negative::before {
     content: '▼';
     color: #00BA24;

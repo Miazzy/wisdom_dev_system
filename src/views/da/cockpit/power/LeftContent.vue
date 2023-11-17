@@ -41,45 +41,51 @@
           bcolor="#01B4F1"
         />
       </div>
-      <div class="element process" style="height: 140px"> </div>
+      <div class="element process" style="height: 140px;padding-right: 30px;">
+        <IndicatorCard :data="indicatorCardData1" />
+        <IndicatorCard :data="indicatorCardData2" />
+        <IndicatorCard :data="indicatorCardData3" />
+      </div>
     </div>
     <div class="middel-section">
       <div class="title-content">
-        <SubtitleBar :subtitle="`电站能效排行`" style="margin: 0px 0px 0px 10px">
+        <SubtitleBar :subtitle="`电站能效排行`" style="margin: 0 0 0 10px">
           <DictSelectBox
             :type="DICT_TYPE.BPM_MODEL_CATEGORY"
             :width="100"
             style="margin-right: 30px"
           />
         </SubtitleBar>
-        <div style="width: 135%; height: auto; margin: -75px 0 0 0px">
-          <div style="margin: 0px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
+        <div style="width: 100%; height: auto; margin: -44px 0 0">
+          <div style="margin: 0; transform: scale(0.85) translate(-60px, 0)">
             <EchartPillarChart
               :data="pchartData"
               :colors="pchartData.colors"
               :width="760"
-              :height="330"
+              :height="220"
+              :name="pchartName"
             />
           </div>
         </div>
       </div>
     </div>
-    <div class="bottom-section" style="margin-top: -10px">
+    <div class="bottom-section">
       <div class="title-content">
-        <SubtitleBar :subtitle="`电站电量排行`" style="margin: 0px 0px 0px 10px">
+        <SubtitleBar :subtitle="`电站电量排行`" style="margin: 0 0 0 10px">
           <DictSelectBox
             :type="DICT_TYPE.BPM_MODEL_CATEGORY"
             :width="100"
             style="margin-right: 30px"
           />
         </SubtitleBar>
-        <div style="width: 135%; height: auto; margin: -75px 0 0 0px">
-          <div style="margin: -47.5px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
+        <div style="width: 100%; height: auto; margin: -44px 0 0">
+          <div style="margin: 0; transform: scale(0.85) translate(-60px, 0)">
             <EchartPillarChart
               :data="spchartData"
               :colors="spchartData.colors"
               :width="760"
-              :height="330"
+              :height="220"
+              :name="spchartName"
             />
           </div>
         </div>
@@ -92,7 +98,7 @@
   import { ref } from 'vue';
   import NumberDisplay from '/@/components/Framework/Chart/NumberDisplay.vue';
   import SubtitleBar from '/@/components/Framework/Chart/SubtitleBar.vue';
-  import IndicatorGroup from '/@/components/Framework/Chart/IndicatorGroup.vue';
+  import IndicatorCard from '/@/components/Framework/Chart/IndicatorCard.vue';
   import EchartPillarChart from '/@/components/Framework/Chart/EchartPillarChart.vue';
   import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';
   import EchartLineBarChart from '/@/components/Framework/Chart/EchartLineBarChart.vue';
@@ -103,6 +109,28 @@
     mvalue: '1.6%',
     stext: '环比',
     svalue: '-3.6%',
+  });
+
+  const indicatorCardData1 = ref({
+    label: '综合厂用电率(%)',
+    value: 1.36,
+    lPercent: '1.6',
+    rPercent: -1.6,
+    iconName: 'factoryIcon'
+  });
+  const indicatorCardData2 = ref({
+    label: '系统效率(%)',
+    value: 80.45,
+    lPercent: '1.6',
+    rPercent: -1.6,
+    iconName: 'efficiencyIcon'
+  });
+  const indicatorCardData3 = ref({
+    label: '计划完成(%)',
+    value: 95.56,
+    lPercent: '1.6',
+    rPercent: -1.6,
+    iconName: 'planIcon'
   });
 
   // 安全运行
@@ -121,21 +149,7 @@
     },
   ];
 
-  const barchartData = {
-    barData: [
-      [50.0, 34.9, 74.0, 44.2, 55.6, 76.7, 35.6, 62.2, 32.6, 20.0, 62.4, 32.3],
-      [32.6, 53.9, 39.0, 56.4, 48.7, 50.7, 75.6, 31.2, 48.7, 39.8, 62.0, 52.3],
-    ],
-    lineData: [[32.0, 39.2, 13.3, 24.5, 32.3, 15.2, 20.3, 23.4, 23.0, 16.5, 12.0, 26.2]],
-    colors: [
-      ['#488FF6', '#60D1F3'],
-      ['#078C5D', '#68E4B8'],
-      ['#E59837', '#FAE895'],
-      '#f39c12',
-      '#f39c12',
-    ],
-  };
-
+  // 电站能效排行
   const pchartData = ref({
     barData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
     lineData: [
@@ -157,9 +171,11 @@
       '12月',
     ],
     units: ['单位', '单位', '单位'],
-    colors: [['#488FF6', '#60D1F3'], '#60C0C0', '#60A0A0'],
+    colors: [['#488FF6', '#60D1F3'], ['#E59837', '#FAE895'], ['#078C5D', '#68E4B8']],
   });
+  const pchartName = ['等效小时数', '同比', '环比'];
 
+  // 电站电量排行
   const spchartData = ref({
     barData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
     lineData: [
@@ -181,50 +197,56 @@
       '12月',
     ],
     units: ['单位', '单位', '单位'],
-    colors: [['#078C5D', '#68E4B8'], '#60C0C0', '#60A0A0'],
-  });
+    colors: [['#078C5D', '#68E4B8'], ['#E59837', '#FAE895'], ['#078C5D', '#68E4B8']],
+  });  
+  const spchartName = ['上网电量', '同比', '环比'];
 </script>
 
 <style lang="less" scoped>
   .left-content {
     flex: 40;
-    width: 40%;
-    padding: 0px;
     flex-shrink: 0;
-    border-left: 0px solid #000;
+    width: 40%;
+    padding: 0;
+    border-left: 0 solid #000;
 
     .top-section {
-      border: 0px solid #ccc;
-      padding: 0px;
+      display: flex;
+      flex-wrap: wrap; /* 使数字自动换行 */
+      align-items: top;
+      justify-content: center;
       width: calc(100% - 15px);
+      height: calc(22% + 140px);
       margin-top: 25px;
       margin-left: 15px;
-      height: calc(22% + 140px);
-
-      display: flex;
-      justify-content: center;
-      align-items: top;
-      flex-wrap: wrap; /* 使数字自动换行 */
+      padding: 0;
+      border: 0 solid #ccc;
 
       div.element {
         flex: 49.5%;
-        padding: 0px;
+        padding: 0;
+      }
+
+      .process {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 9px;
       }
     }
 
     .middel-section,
     .bottom-section {
-      border: 0px solid #ccc;
-      padding: 0px;
-      width: calc(100% - 15px);
-      margin-left: 15px;
-      margin-top: 0px;
-      height: calc(39% - 75px);
-
       display: flex;
-      justify-content: center;
-      align-items: top;
       flex-wrap: wrap; /* 使数字自动换行 */
+      align-items: top;
+      justify-content: center;
+      width: calc(100% - 15px);
+      height: calc(39% - 75px);
+      margin-top: 0;
+      margin-left: 15px;
+      padding: 0;
+      border: 0 solid #ccc;
 
       .title-content {
         width: 100%;
@@ -233,17 +255,19 @@
     }
 
     :deep(.ant-select:not(.ant-select-customize-input) .ant-select-selector) {
-      background-color: transparent;
-      border: 1px solid #07a6ff70;
-      border-radius: 0px;
       height: 26px !important;
+      border: 1px solid #07a6ff70;
+      border-radius: 0;
+      background-color: transparent;
     }
+
     :deep(.ant-select-single .ant-select-selector .ant-select-selection-placeholder) {
       height: 26px;
       line-height: 26px;
     }
+
     :deep(.ant-select-arrow) {
-      color: rgba(255, 255, 255, 0.5);
+      color: rgb(255 255 255 / 50%);
     }
   }
 </style>

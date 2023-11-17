@@ -15,29 +15,26 @@
     </div>
     <div class="content-middle">
       <div class="title-content">
-        <SubtitleBar :subtitle="`损失分布`" style="margin: 0px 0px 0px 0px" />
-        <div style="width: 135%; height: 200px; margin: -15px 0 0 -45px">
-          <div style="margin: 0px 0 0 0; transform: scale(0.70) translate(-60px, 0px)">
-            <NtgaleChart id="omChart" :width="600" :height="205" :data="NtgaleData" showLabel />
+        <SubtitleBar :subtitle="`损失分布`" />
+        <div style="height: 200px;">
+          <div style="transform: scale(0.8);transform-origin: 0 0;">
+            <NtgaleChart id="omChart" :width="600" :height="200" :data="NtgaleData" showLabel />
           </div>
         </div>
       </div>
     </div>
-    <div class="content-smiddle" style="margin-top: -20px;">
-      <div class="title-content">
-        <SubtitleBar :subtitle="`损失排行`" style="margin: 0px 0px 0px 10px" />
-        <div style="width: 135%; height: 200px; margin: -50px 0 0 -30px">
-          <div style="margin: 0px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
+    <div class="content-smiddle">
+        <SubtitleBar :subtitle="`损失排行`" style="margin: 0 0 0 10px" />
+        <div style="height: 185px;">
+          <div style="transform: scale(0.85);transform-origin: 20% 0;">
             <EchartStackBarChart
               :data="stackData"
               :colors="stackData.colors"
-              ybgcolor="#01B7D730"
               :width="620"
-              :height="275"
+              :height="220"
             />
           </div>
         </div>
-      </div>
     </div>
     <div class="content-bottom">
       <SubtitleBar :subtitle="`电量趋势（近12个月）`">
@@ -47,13 +44,13 @@
           style="margin-right: 10px"
         />
       </SubtitleBar>
-      <div style="width: 100%; height: 185px; margin: -1px 0 0 0">
-        <div style="margin: -60px 0 0 -45.5px; transform: scale(0.85) translate(-60px, 0px)">
+      <div style="height: 185px;">
+        <div style="transform: scale(0.85); transform-origin: 20% 0;">
           <EchartLineBarChart
             :data="barchartData"
             :colors="barchartData.colors"
-            :width="660"
-            :height="310"
+            :width="620"
+            :height="220"
             :category="pchartData.categories"
             ybgcolor="#01B7D730"
           />
@@ -101,32 +98,7 @@
     svalue: '-3.6%',
   });
 
-  const securityData = [
-    {
-      value: 93,
-      label: '检查次数(次)',
-    },
-    {
-      value: 33,
-      label: '发现隐患(项)',
-    },
-  ];
-
-  const lurkingData = [
-    {
-      value: 35,
-      label: '应签订(人)',
-    },
-    {
-      value: 59.23,
-      label: '未签订(人)',
-    },
-    {
-      value: 59.23,
-      label: '签订率(%)',
-    },
-  ];
-
+  // 电量趋势
   const barchartData = {
     lineData: [[50.0, 34.9, 74.0, 44.2, 55.6, 76.7, 35.6, 62.2, 32.6, 20.0, 62.4, 32.3]],
     colors: [
@@ -138,6 +110,7 @@
     ],
   };
 
+  // 损失排行
   const stackData = ref({
     categories: pchartData.value.categories,
     barData: [
@@ -146,12 +119,13 @@
       [13, 20, 10, 34, 15, 30, 11, 10, 34, 15, 30, 11],
       [33, 26, 13, 34, 14, 31, 19, 15, 33, 15, 31, 14],
     ],
-    colors: [['#1C5C99', '#4CAFF9'], ['#105D3A', '#55CFD0'], '#f39c12', '#d81b60'],
+    colors: [['#488FF6', '#60D1F3', '#8FD0F4', '#68E4B8'], ['#E59837', '#FAE895']],
     lineData: [[33, 26, 13, 34, 14, 31, 19, 15, 33, 15, 31, 14]], // 不设置或者设置为空数组即不显示
     barNames: ['chartOne', 'chartTwo', 'chartThree', 'chartFour'],
     lineNames: ['lineChart'],
   });
 
+  // 损失分布
   const NtgaleData = [
     { value: 40, name: '抢修工单' },
     { value: 38, name: '预试工单' },
@@ -167,57 +141,61 @@
   .middle-content {
     display: flex;
     flex: 30%;
-    width: 30%;
     flex-direction: column;
+    width: 30%;
     height: 100%;
 
     .content-middle,
     .content-bottom {
-      flex: 1;
       display: flex;
+      // flex: 1;
       flex-direction: column;
-      justify-content: top;
       align-items: top;
+      justify-content: top;
+      padding: 0 10px;
+      border: 0 solid #ccc;
       text-align: top;
-      border: 0px solid #ccc;
-      padding: 10px;
     }
 
     .content-top {
       display: flex;
-      justify-content: center;
-      align-items: top;
       flex-wrap: wrap; /* 使数字自动换行 */
+      align-items: top;
+      justify-content: center;
       height: 18%;
 
       div.element {
         flex: 49.5%;
-        padding: 0px;
+        padding: 0;
       }
     }
 
     .content-smiddle {
       height: 28%;
     }
+
     .content-middle {
-      height: 28%;
+      height: 24%;
     }
+
     .content-bottom {
-      height: 28%;
+      height: 25%;
     }
 
     :deep(.ant-select:not(.ant-select-customize-input) .ant-select-selector) {
-      background-color: transparent;
-      border: 1px solid #07a6ff70;
-      border-radius: 0px;
       height: 26px !important;
+      border: 1px solid #07a6ff70;
+      border-radius: 0;
+      background-color: transparent;
     }
+
     :deep(.ant-select-single .ant-select-selector .ant-select-selection-placeholder) {
       height: 26px;
       line-height: 26px;
     }
+
     :deep(.ant-select-arrow) {
-      color: rgba(255, 255, 255, 0.5);
+      color: rgb(255 255 255 / 50%);
     }
   }
 </style>

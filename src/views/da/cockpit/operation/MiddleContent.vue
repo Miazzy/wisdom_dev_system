@@ -15,27 +15,28 @@
     </div>
     <div class="content-middle">
       <div class="title-content">
-        <SubtitleBar :subtitle="`巡检统计`" style="margin: 0px 0px 0px 10px">
+        <SubtitleBar :subtitle="`巡检统计`" style="margin: 0 0 0 10px">
           <DictSelectBox
             :type="DICT_TYPE.BPM_MODEL_CATEGORY"
             :width="100"
-            style="margin-right: 10px"
+            style="margin-right: 10px;"
           />
         </SubtitleBar>
         <IndicatorGroup
           class="indicator-group-layout"
           :data="securityData"
-          style="width: 64%; margin: 30px 0 0 17%"
+          style="width: 64%; margin: 8px 0 0 17%;"
         />
-        <div style="width: 135%; height: 200px; margin: -50px 0 0 -30px">
-          <div style="margin: 0px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
+        <div style="width: 135%; height: 200px;">
+          <div style="margin-top: -20px;transform: scale(0.85);transform-origin: 0 0;">
             <EchartLineBarChart
               :data="barchartData"
               :colors="barchartData.colors"
               :width="720"
-              :height="340"
+              :height="328"
               :category="pchartData.mName"
               ybgcolor="#01B7D730"
+              :name="barChartSeriesName"
             />
           </div>
         </div>
@@ -54,13 +55,14 @@
         :data="lurkingData"
         style="width: 60%; margin: 0 15% 0 20%"
       />
-      <div style="width: 100%; height: 185px; margin: -1px 0 0 0">
-        <div style="margin: -55px 0 0 20px; transform: scale(0.85) translate(-60px, 0px)">
+      <div style="width: 100%; height: 185px;">
+        <div style="margin-top: -20px; transform: scale(0.85);transform-origin: 0 0;">
           <EchartPillarChart
             :data="pchartData"
             :colors="pchartData.colors"
-            :width="680"
-            :height="340"
+            :width="720"
+            :height="328"
+            :name="pChartSeriesName"
           />
         </div>
       </div>
@@ -81,13 +83,13 @@
   const pchartData = ref({
     barData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
     lineData: [
-      [25, 28, 39, 14, 22, 14, 33, 39, 14, 22, 14, 33],
-      [13, 20, 10, 34, 15, 30, 11, 10, 34, 15, 30, 11],
+      [25, 28, 39, 14, 22, 14, 33, 39, 14, 22, 14, 33]
     ],
     categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
     units: ['单位', '单位', '单位'],
-    colors: [['#078C5D', '#68E4B8'], '#60C0C0', '#60A0A0'],
+    colors: [['#078C5D', '#68E4B8'], ['#E59837', '#FAE895'], ['#078C5D', '#68E4B8']],
   });
+  const pChartSeriesName = ['未消缺', '消缺率'];
 
   const subtitle = ref({
     mtext: '同比',
@@ -137,52 +139,56 @@
       '#f39c12',
     ],
   };
+  const barChartSeriesName = [['未巡检', '异常'], ['巡检率']];
 </script>
 
 <style lang="less" scoped>
   .middle-content {
     display: flex;
     flex: 34%;
-    width: 34%;
     flex-direction: column;
+    width: 34%;
     height: 100%;
 
     .content-middle,
     .content-bottom {
-      flex: 1;
       display: flex;
+      flex: 1;
       flex-direction: column;
-      justify-content: top;
       align-items: top;
+      justify-content: top;
+      padding: 0 10px;
+      border: 0 solid #ccc;
       text-align: top;
-      border: 0px solid #ccc;
-      padding: 10px;
     }
 
     .content-top {
       display: flex;
-      justify-content: center;
-      align-items: top;
       flex-wrap: wrap; /* 使数字自动换行 */
+      align-items: top;
+      justify-content: center;
       height: 20.5%;
 
       div.element {
         flex: 49.5%;
-        padding: 0px;
+        padding: 0;
       }
     }
+
     :deep(.ant-select:not(.ant-select-customize-input) .ant-select-selector) {
-      background-color: transparent;
-      border: 1px solid #07a6ff70;
-      border-radius: 0px;
       height: 26px !important;
+      border: 1px solid #07a6ff70;
+      border-radius: 0;
+      background-color: transparent;
     }
+
     :deep(.ant-select-single .ant-select-selector .ant-select-selection-placeholder) {
       height: 26px;
       line-height: 26px;
     }
+
     :deep(.ant-select-arrow) {
-      color: rgba(255, 255, 255, 0.5);
+      color: rgb(255 255 255 / 50%);
     }
   }
 </style>

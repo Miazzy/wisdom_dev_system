@@ -24,7 +24,7 @@
   const random = parseInt(Math.random() * 10000000);
 
   // 解构 props
-  const { data, colors, category, ybgcolor } = toRefs(props);
+  const { data, colors, category, ybgcolor, name } = toRefs(props);
 
   // 创建图表
   const createChart = () => {
@@ -37,6 +37,11 @@
     const barData2 = data.value.barData && data.value.barData.length > 2 ? data.value.barData[2] : [];
     const lineData0 = data.value.lineData && data.value.lineData.length > 0 ? data.value.lineData[0] : [];
     const lineData1 = data.value.lineData && data.value.lineData.length > 1 ? data.value.lineData[1] : [];
+    const barName0 = name.value?.length > 0 && name.value[0][0] ? name.value[0][0] : '';
+    const barName1 = name.value?.length > 0 && name.value[0][1] ? name.value[0][1] : '';
+    const barName2 = name.value?.length > 0 && name.value[0][2] ? name.value[0][2] : '';
+    const lineName0 = name.value?.length > 1 && name.value[1][0] ? name.value[1][0] : '';
+    const lineName1 = name.value?.length > 1 && name.value[1][1] ? name.value[1][1] : '';
 
     option = {
       tooltip: {
@@ -133,7 +138,7 @@
       ],
       series: [
         {
-          name: 'barchart0',
+          name: barName0,
           type: 'bar',
           tooltip: {
             valueFormatter: function (value) {
@@ -150,7 +155,7 @@
           },
         },
         {
-          name: 'barchart1',
+          name: barName1,
           type: 'bar',
           tooltip: {
             valueFormatter: function (value) {
@@ -167,7 +172,7 @@
           },
         },
         {
-          name: 'barchart2',
+          name: barName2,
           type: 'bar',
           tooltip: {
             valueFormatter: function (value) {
@@ -184,9 +189,10 @@
           },
         },
         {
-          name: 'linechart0',
+          name: lineName0,
           type: 'line',
           yAxisIndex: 1,
+          color: colors.value[3],
           tooltip: {
             valueFormatter: function (value) {
               return value;
@@ -205,9 +211,10 @@
           },
         },
         {
-          name: 'linechart1',
+          name: lineName1,
           type: 'line',
           yAxisIndex: 1,
+          color: colors.value[4],
           tooltip: {
             valueFormatter: function (value) {
               return value;
@@ -226,6 +233,23 @@
           },
         },
       ],
+      grid: {
+        containLabel: true,
+        top: '30%',
+        left: '1%',
+        right: '1%',
+        bottom: '6%',
+      },
+      legend: {
+        show: true,
+        x: 'right',
+        y: '10%',
+        textStyle: {
+          color: 'rgba(255, 255, 255, 0.6)'
+        },
+        itemWidth: 14,
+        itemHeight: 10
+      }
     };
 
     option && myChart.setOption(option);

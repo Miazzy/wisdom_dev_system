@@ -1,8 +1,13 @@
 <template>
-  <div class="right-content" style="margin-right: 0px">
+  <div class="right-content" style="margin-right: 0">
     <div class="layout">
       <div class="top-section">
-        <SubtitleBar :subtitle="`运维统计`">
+        <SubtitleBar :subtitle="`发电统计`">
+          <DictSelectBox
+            :type="DICT_TYPE.BPM_MODEL_CATEGORY"
+            :width="100"
+            style="margin-right: 20px"
+          />
           <DictSelectBox
             :type="DICT_TYPE.BPM_MODEL_CATEGORY"
             :width="100"
@@ -10,8 +15,8 @@
           />
         </SubtitleBar>
         <div style="width: 100%">
-          <div style="margin: -30px 0 0 0; transform: scale(0.85) translate(-60px, 0px)">
-            <EchartPillarChart :data="pchartData" :colors="pchartData.colors" :width="600" />
+          <div style="margin: -30px 0 0; transform: scale(0.85); transform-origin: 0 0;">
+            <EchartPillarChart :data="pchartData" :colors="pchartData.colors" :width="600" :name="pchartName" />
           </div>
         </div>
       </div>
@@ -28,13 +33,13 @@
           :data="securityData"
           style="width: 73%; margin-left: 30px"
         />
-        <div style="width: 100%; height: 250px;">
-          <div style="margin: -30px 0 0 -30px; transform: scale(0.85) translate(-60px, 0px)">
+        <div style="width: 100%; height: 220px;">
+          <div style="margin-top: -30px; transform: scale(0.85);transform-origin: 0 0;">
             <EchartLineBarChart
               :data="barchartData"
               :colors="barchartData.colors"
-              :width="620"
-              :height="300"
+              :width="600"
+              :height="258"
               :category="pchartData.categories"
               ybgcolor="#01B7D730"
             />
@@ -67,13 +72,15 @@
   import IndicatorGroup from '/@/components/Framework/Chart/IndicatorGroup.vue';
   import { DICT_TYPE } from '@/utils/dict';
 
+  // 发电统计
   const pchartData = ref({
-    lineData: [[25, 28, 39, 14, 22, 14, 33, 39, 14, 22, 14, 33]],
+    lineData: [[25, 28, 39, 14, 22, 14, 33, 39, 14, 22, 14, 33], [29, 20, 35, 19, 27, 10, 38, 30, 17, 26, 19, 36]],
     barData: [15, 22, 39, 14, 31, 15, 20, 39, 14, 31, 15, 20],
     categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
     units: ['单位', '单位', '单位'],
-    colors: [['#488FF6', '#60D1F3'], '#60C0C0', '#60A0A0'],
+    colors: [['#488FF6', '#60D1F3'], ['#E59837', '#FAE895'], ['#078C5D', '#68E4B8']],
   });
+  const pchartName = ['柱1', '折线1', '折线2'];
 
   // 安全运行
   const securityData = [
@@ -126,8 +133,8 @@
 <style lang="less" scoped>
   .right-content {
     flex: 28;
-    width: 28%;
     flex-shrink: 0;
+    width: 28%;
     padding: 0;
 
     .layout {
@@ -151,17 +158,19 @@
       }
 
       :deep(.ant-select:not(.ant-select-customize-input) .ant-select-selector) {
-        background-color: transparent;
-        border: 1px solid #07a6ff70;
-        border-radius: 0px;
         height: 26px !important;
+        border: 1px solid #07a6ff70;
+        border-radius: 0;
+        background-color: transparent;
       }
+
       :deep(.ant-select-single .ant-select-selector .ant-select-selection-placeholder) {
         height: 26px;
         line-height: 26px;
       }
+
       :deep(.ant-select-arrow) {
-        color: rgba(255, 255, 255, 0.5);
+        color: rgb(255 255 255 / 50%);
       }
     }
   }

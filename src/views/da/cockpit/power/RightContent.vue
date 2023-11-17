@@ -14,14 +14,15 @@
         style="width: 80%; margin: 0 7.5% 0 10%"
       />
       <div style="width: 100%; height: 185px">
-        <div style="margin: -40px 0 0 -20px; transform: scale(0.85) translate(-60px, 0px)">
+        <div style="margin-top: -12px;transform: scale(0.85);transform-origin: 0 0;">
           <EchartLineBarChart
             :data="fbarchartData"
             :colors="fbarchartData.colors"
-            :width="680"
-            :height="288"
+            :width="660"
+            :height="250"
             :category="fbarchartData.categories"
             ybgcolor="#01B7D730"
+            :name="fbarchartSeriesName"
           />
         </div>
       </div>
@@ -40,13 +41,13 @@
         style="width: 62%; margin-left: 20%"
       />
       <div style="width: 100%; height: 185px">
-        <div style="margin: -40px 0 0 -20px; transform: scale(0.85) translate(-60px, 0px)">
+        <div style="margin-top: -12px;transform: scale(0.85);transform-origin: 0 0;">
           <EchartCrossBarChart
             :data="barchartData"
             :colors="barchartData.colors"
             :names="barchartData.names"
-            :width="680"
-            :height="280"
+            :width="660"
+            :height="250"
             :category="barchartData.categories"
             ybgcolor="#01B7D730"
           />
@@ -67,14 +68,15 @@
         style="width: 62%; margin: 0 15% 0 20%"
       />
       <div style="width: 100%; height: 185px">
-        <div style="margin: -35px 0 0 -20px; transform: scale(0.85) translate(-60px, 0px)">
+        <div style="margin-top: -12px; transform: scale(0.85);transform-origin: 0 0;">
           <EchartLineBarChart
             :data="sbarchartData"
             :colors="sbarchartData.colors"
-            :width="680"
-            :height="288"
+            :width="660"
+            :height="250"
             :category="fbarchartData.categories"
             ybgcolor="#01B7D730"
+            :name="sbarchartSeriesName"
           />
         </div>
       </div>
@@ -128,6 +130,7 @@
     },
   ];
 
+  // 厂用电
   const barchartData = {
     barData: [
       [50.0, 34.9, 74.0, 44.2, 55.6, 76.7, 35.6, 62.2, 33.2, 20.0],
@@ -138,11 +141,11 @@
     categories: ['电站1', '电站2', '电站3', '电站4', '电站5', '电站6', '电站7', '电站8', '电站9', '电站10'],
   };
 
+  // 计划完成
   const fbarchartData = {
     barData: [
       [50.0, 34.9, 74.0, 44.2, 55.6, 76.7, 35.6, 62.2, 32.6, 20.0, 62.4, 32.3],
       [32.6, 53.9, 39.0, 56.4, 48.7, 50.7, 75.6, 31.2, 48.7, 39.8, 62.0, 52.3],
-      [50.0, 34.9, 74.0, 44.2, 55.6, 76.7, 35.6, 62.2, 32.6, 20.0, 62.4, 32.3],
     ],
     lineData: [[32.0, 39.2, 13.3, 24.5, 32.3, 15.2, 20.3, 23.4, 23.0, 16.5, 12.0, 26.2]],
     colors: [
@@ -167,7 +170,9 @@
       '12月',
     ],
   };
+  const fbarchartSeriesName = [['上网电量', '计划电量'], ['完成率']];
 
+  // 储能电量
   const sbarchartData = {
     barData: [
       [50.0, 34.9, 74.0, 44.2, 55.6, 76.7, 35.6, 62.2, 32.6, 20.0, 62.4, 32.3],
@@ -196,41 +201,44 @@
       '12月',
     ],
   };
+  const sbarchartSeriesName = [['充电电量', '放电电量'], ['指标']];
 </script>
 
 <style lang="less" scoped>
   .right-content {
     display: flex;
     flex: 30%;
-    width: 30%;
     flex-direction: column;
+    width: 30%;
     height: 100%;
 
     .content-top,
     .content-middle,
     .content-bottom {
-      flex: 1;
       display: flex;
+      flex: 1;
       flex-direction: column;
-      justify-content: top;
-      align-items: top;
-      text-align: top;
-      border: 0px solid #ccc;
-      padding: 10px;
+      // align-items: top;
+      // justify-content: top;
+      padding: 0 10px;
+      // border: 0 solid #ccc;
+      // text-align: top;
     }
 
     :deep(.ant-select:not(.ant-select-customize-input) .ant-select-selector) {
-      background-color: transparent;
-      border: 1px solid #07a6ff70;
-      border-radius: 0px;
       height: 26px !important;
+      border: 1px solid #07a6ff70;
+      border-radius: 0;
+      background-color: transparent;
     }
+
     :deep(.ant-select-single .ant-select-selector .ant-select-selection-placeholder) {
       height: 26px;
       line-height: 26px;
     }
+
     :deep(.ant-select-arrow) {
-      color: rgba(255, 255, 255, 0.5);
+      color: rgb(255 255 255 / 50%);
     }
   }
 </style>

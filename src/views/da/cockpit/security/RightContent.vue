@@ -11,15 +11,16 @@
       <IndicatorGroup
         class="indicator-group-layout"
         :data="workData"
-        style="width: 60%; margin: 0 15% 0 20%"
+        style="width: 40%;margin: 0 auto;"
       />
       <div style="width: 100%; height: 185px">
-        <div style="margin: -40px 0 0 20px; transform: scale(0.85) translate(-60px, 0px)">
+        <div style="margin-top: -12px;transform: scale(0.85);transform-origin: 0 0;">
           <EchartPillarChart
             :data="pchartData"
             :colors="pchartData.colors"
-            :width="620"
-            :height="260"
+            :width="660"
+            :height="250"
+            :name="pchartTopSeriesName"
           />
         </div>
       </div>
@@ -35,17 +36,18 @@
       <IndicatorGroup
         class="indicator-group-layout"
         :data="securityData"
-        style="width: 80%; margin-left: 10%"
+        style="width: 40%;margin: 0 auto;"
       />
       <div style="width: 100%; height: 185px">
-        <div style="margin: -40px 0 0 -20px; transform: scale(0.85) translate(-60px, 0px)">
+        <div style="margin-top: -12px;transform: scale(0.85);transform-origin: 0 0;">
           <EchartLineBarChart
             :data="barchartData"
             :colors="barchartData.colors"
-            :width="680"
-            :height="280"
+            :width="660"
+            :height="250"
             :category="pchartData.categories"
             ybgcolor="#01B7D730"
+            :name="bchartSeriesName"
           />
         </div>
       </div>
@@ -61,17 +63,18 @@
       <IndicatorGroup
         class="indicator-group-layout"
         :data="lurkingData"
-        style="width: 60%; margin: 0 15% 0 20%"
+        style="width: 40%;margin: 0 auto;"
       />
       <div style="width: 100%; height: 185px">
-        <div style="margin: -35px 0 0 -20px; transform: scale(0.85) translate(-60px, 0px)">
+        <div style="margin-top: -12px;transform: scale(0.85);transform-origin: 0 0;">
           <EchartLineBarChart
             :data="sbarchartData"
             :colors="sbarchartData.colors"
-            :width="680"
-            :height="288"
+            :width="660"
+            :height="250"
             :category="pchartData.categories"
             ybgcolor="#01B7D730"
+            :name="sbchartSeriesName"
           />
         </div>
       </div>
@@ -108,6 +111,7 @@
     units: ['单位', '单位', '单位'],
     colors: [['#488FF6', '#60D1F3'], '#4080E0', '#60A0A0'],
   });
+  const pchartTopSeriesName = ['待处理', '处理率'];
 
   const workData = [
     {
@@ -155,6 +159,7 @@
       '#f39c12',
     ],
   };
+  const bchartSeriesName = [['培训次数', '参与人数']];
 
   const sbarchartData = {
     barData: [
@@ -169,41 +174,44 @@
       '#f39c12',
     ],
   };
+  const sbchartSeriesName = [['应急预案', '应急演练']];
 </script>
 
 <style lang="less" scoped>
   .right-content {
     display: flex;
     flex: 31%;
-    width: 31%;
     flex-direction: column;
+    width: 31%;
     height: 100%;
 
     .content-top,
     .content-middle,
     .content-bottom {
-      flex: 1;
       display: flex;
+      flex: 1;
       flex-direction: column;
-      justify-content: top;
       align-items: top;
+      justify-content: top;
+      padding: 0 10px;
+      border: 0 solid #ccc;
       text-align: top;
-      border: 0px solid #ccc;
-      padding: 10px;
     }
 
     :deep(.ant-select:not(.ant-select-customize-input) .ant-select-selector) {
-      background-color: transparent;
-      border: 1px solid #07a6ff70;
-      border-radius: 0px;
       height: 26px !important;
+      border: 1px solid #07a6ff70;
+      border-radius: 0;
+      background-color: transparent;
     }
+
     :deep(.ant-select-single .ant-select-selector .ant-select-selection-placeholder) {
       height: 26px;
       line-height: 26px;
     }
+
     :deep(.ant-select-arrow) {
-      color: rgba(255, 255, 255, 0.5);
+      color: rgb(255 255 255 / 50%);
     }
   }
 </style>
