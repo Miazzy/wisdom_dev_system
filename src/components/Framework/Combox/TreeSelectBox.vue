@@ -10,8 +10,8 @@
     :disabled="props.disabled"
     :tree-default-expand-all="treeDefaultExpandAll"
     :multiple="props.multiple"
-    :tree-data="props.treeData"
-    :field-names="props.fieldNames"
+    :tree-data="treeData"
+    :field-names="newTfields"
     :tree-node-filter-prop="props.treeNodeFilterProp"
     :treeLine="props.treeLine"
     :tree-checkable="props.treeCheckable"
@@ -24,21 +24,23 @@
   <span v-if="props.vmode == 'view'">{{ findOption(props.value) }}</span>
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted, defineProps, defineEmits, watch } from 'vue';
+  import { ref, onMounted, defineProps, defineEmits, watch, unref, reactive } from 'vue';
+  import { getCustomCompOptions } from '@/utils/cache';
 
   const selectedValue = ref<any>();
   const props = defineProps({
     vmode: { type: String, default: 'edit' },
+    opkey: { type: String, default: null },
     disabled: { type: Boolean, default: false },
     width: { type: [Number, String], default: '100%' },
     type: { type: String, default: '' },
     treeCheckable: { type: Boolean, default: false },
     treeDefaultExpandAll: { type: Boolean, default: true },
     value: { type: [String, Array], default: null },
-    treeData: { type: Array, default: [] },
+    data: { type: Array, default: [] },
     multiple: { type: [String, Boolean], default: false },
-    treeLine: { type: [Boolean, Object], default: false },
-    fieldNames: {
+    treeLine: { type: [Boolean, Object], default: true && { showLeafIcon: true } },
+    tfields: {
       type: Object,
       default: {
         children: 'children',
@@ -50,23 +52,27 @@
     treeNodeFilterProp: { type: String, default: 'label' },
   });
 
+  const newTfields = ref({});
+  const tdata = ref([]);
+  const treeData = reactive([]);
+
   // 定义emits
   const emit = defineEmits(['update:value', 'change', 'select', 'search', 'expand']);
 
   const findOption = (value) => {
-    const item = props.treeData.find((element) => {
+    const item = props.data.find((element) => {
       const elem = element as Object;
       if (Reflect.has(elem, 'value')) {
         return Reflect.get(elem, 'value') === value;
-      } else if (Reflect.has(elem, props.fieldNames.value)) {
-        return Reflect.get(elem, props.fieldNames.value) === value;
-      } else if (Reflect.has(elem, props.fieldNames.label)) {
-        return Reflect.get(elem, props.fieldNames.label) === value;
+      } else if (Reflect.has(elem, props.tfields.value)) {
+        return Reflect.get(elem, props.tfields.value) === value;
+      } else if (Reflect.has(elem, props.tfields.label)) {
+        return Reflect.get(elem, props.tfields.label) === value;
       } else {
         return false;
       }
     });
-    return item ? Reflect.get(item, props.fieldNames.label) : value;
+    return item ? Reflect.get(item, props.tfields.label) : value;
   };
 
   const handleChange = (value, label, extra) => {
@@ -85,16 +91,34 @@
     emit('expand', expandedKeys);
   };
 
+  const reloadData = () => {
+    let options = null;
+    if (props.opkey != null && props.opkey != '') {
+      options = getCustomCompOptions(props.opkey);
+      newTfields.value = options?.tfields;
+      tdata.value = unref(options?.data);
+    } else {
+      newTfields.value = props?.tfields;
+      tdata.value = props?.data as never[];
+    }
+    treeData.splice(0, treeData.length);
+    treeData.push(...tdata.value);
+  };
+
   watch(
     () => props.value,
     () => {},
   );
 
   watch(
-    () => props.treeData,
-    () => {},
+    () => props.data,
+    () => {
+      reloadData();
+    },
   );
 
   // 启动加载
-  onMounted(async () => {});
+  onMounted(async () => {
+    reloadData();
+  });
 </script>

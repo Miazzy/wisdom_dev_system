@@ -21,6 +21,7 @@
   } from '/@/components/Table';
   import { DICT_TYPE } from '@/utils/dict';
   import { cloneDeep } from 'lodash-es';
+  import type { TreeSelectProps } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { setCustomCompOptions } from '@/utils/cache';
 
@@ -55,7 +56,7 @@
           title: '输入框',
           dataIndex: 'name',
           editRow: true,
-          editComponent: 'DictSelectBox', // DictRadioGroup
+          editComponent: 'DictSelectBox',
           editComponentProps: {
             type: DICT_TYPE.CERTIFICATE,
           },
@@ -63,9 +64,9 @@
         },
         {
           title: '默认输入状态',
-          dataIndex: 'name7',
+          dataIndex: 'name1',
           editRow: true,
-          editComponent: 'SearchBox', // SearchBox
+          editComponent: 'SearchBox',
           editComponentProps: {
             opkey: 'SearchBox123',
             twidth: '500px',
@@ -74,18 +75,18 @@
         },
         {
           title: '输入框校验',
-          dataIndex: 'name1',
+          dataIndex: 'name2',
           editRow: true,
           align: 'left',
-          editComponent: 'TreeBox', // SearchBox
+          editComponent: 'TreeSelectBox',
           editComponentProps: {
-            opkey: 'TreeBox123',
+            opkey: 'TreeSelectBox123',
             twidth: '500px',
           },
           width: 150,
-        }
+        },
       ],
-    }
+    },
   ];
   export default defineComponent({
     components: { BasicTable, TableAction },
@@ -104,7 +105,6 @@
         titleHelpMessage: [
           '本例中修改[数字输入框]这一列时，同一行的[远程下拉]列的当前编辑数据也会同步发生改变',
         ],
-        // api: demoListApi,
         columns: columns,
         showIndexColumn: false,
         showTableSetting: true,
@@ -113,7 +113,6 @@
           width: 160,
           title: 'Action',
           dataIndex: 'action',
-          // slots: { customRender: 'action' },
         },
         dataSource: tableData,
       });
@@ -129,8 +128,6 @@
       }
 
       async function handleSave(record: EditRecordRow) {
-        // 校验
-        debugger;
         msg.loading({ content: '正在保存...', duration: 0, key: 'saving' });
         const valid = await record.onValid?.();
         if (valid) {
@@ -203,8 +200,13 @@
         data: treeData.value,
         tfields: { key: 'nodeId', title: 'nodeName' },
       };
+      const treeSelectOptions = {
+        data: treeData.value,
+        tfields: { value: 'nodeId', label: 'nodeName', children: 'children' },
+      };
       setCustomCompOptions('SearchBox123', options);
       setCustomCompOptions('TreeBox123', treeOptions);
+      setCustomCompOptions('TreeSelectBox123', treeSelectOptions);
 
       return {
         registerTable,
