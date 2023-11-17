@@ -47,7 +47,6 @@
   const { label, value, lPercent, rPercent, iconName } = toRefs(props.data);
 
   const formatPercent = (value) => {
-    console.log(value);
     if (typeof value == 'number') {
       return `${value.toFixed(2)}%`;
     } else {
