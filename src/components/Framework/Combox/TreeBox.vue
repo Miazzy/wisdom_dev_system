@@ -29,7 +29,7 @@
               <a-tree
                 :tree-data="treeData"
                 show-icon
-                default-expand-all
+                :default-expand-all="props.expandAll"
                 @select="handleSelect"
                 :height="theight"
               >
@@ -97,6 +97,7 @@
     disabled: { type: Boolean, default: false },
     value: { type: String, default: '' }, // 搜索框文本
     className: { type: String },
+    expandAll: { type: Boolean, default: false },
     ticons: {
       type: Object,
       default: {
