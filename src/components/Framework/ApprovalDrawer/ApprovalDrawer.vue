@@ -5,32 +5,14 @@
  * @FilePath: \ygwl-framework\src\components\Framework\ApprovalDrawer\ApprovalDrawer.vue
 -->
 <template>
-  <BasicDrawer
-    class="test"
-    v-bind="$attrs"
-    :isDetail="true"
-    width="33.33%"
-    :headerStyle="{ display: 'none' }"
-    :drawerStyle="{ boxShadow: '0px 1px 3px 0px #E9E9E9', borderTop: '1px solid #F0F0F0' }"
-    showFooter
-    footerHeight="64"
-    @visible-change="handleChange"
-  >
-    <OrganDialog
-      :title="`组织人员Dialog`"
-      :visible="organVisible"
-      @update:visible="organVisible = $event"
-      :tdata="treeData"
-      :tfields="{ key: 'id', title: 'name' }"
-      :width="800"
-      :height="600"
-      @cancel="cancelOrganDialog"
-      @confirm="handleOrganConfirm"
-    />
+  <BasicDrawer class="test" v-bind="$attrs" :isDetail="true" width="33.33%" :headerStyle="{ display: 'none' }" :drawerStyle="{ boxShadow: '0px 1px 3px 0px #E9E9E9', borderTop: '1px solid #F0F0F0' }"
+    :showFooter="currentNodeData[0]&&editAuthority(currentNodeData[0])" footerHeight="64" @visible-change="handleChange">
+    <OrganDialog :title="`组织人员Dialog`" :visible="organVisible" @update:visible="organVisible = $event" :tdata="treeData" :tfields="{ key: 'id', title: 'name' }" :width="800" :height="600"
+      @cancel="cancelOrganDialog" @confirm="handleOrganConfirm" />
 
     <div>
       <Tabs class="fit-approval-tab" v-model:activeKey="activeKey">
-        <TabPane key="1" tab="流程审批">
+        <TabPane v-if="currentNodeData[0]&&editAuthority(currentNodeData[0])" key="1" tab="流程审批">
           <ApprovalTab ref="approvalTabRef" :flowData="currentNodeData" type="approval" />
         </TabPane>
         <TabPane key="2" tab="流程轨迹" force-render>
@@ -41,10 +23,8 @@
         </TabPane>
       </Tabs>
     </div>
-    <template #footer>
-      <Button class="fit-footer-btn" type="primary" v-if="props.isHandle == 1" @click="handleAgree"
-        >同意</Button
-      >
+    <template v-if="currentNodeData[0]&&editAuthority(currentNodeData[0])" #footer>
+      <Button class="fit-footer-btn" type="primary" v-if="props.isHandle == 1" @click="handleAgree">同意</Button>
       <Button class="fit-footer-btn" v-if="props.isHandle == 1" @click="handleReject">驳回</Button>
       <!-- <Button class="fit-footer-btn" v-if="props.isHandle == 1" @click="handleFlowSave"
         >保存</Button
@@ -92,8 +72,8 @@
     flowData: { type: Array },
     processInstanceId: propTypes.string.def(''),
     isHandle: { type: Number, default: 1 }, //当前流程是否处理默认当前流程未处理（1 未处理、2 已处理）
-    mode: { type: String as PropType<Modes>, default: 'default'},
-    businessStatus: { type: String, default: '' }
+    mode: { type: String as PropType<Modes>, default: 'default' },
+    businessStatus: { type: String, default: '' },
   });
 
   const organVisible = ref(false);
@@ -121,6 +101,11 @@
         }
       });
       currentNodeData.value = newArr;
+      if (currentNodeData.value[0] && editAuthority(currentNodeData.value[0])) {
+        activeKey.value = '1';
+      } else {
+        activeKey.value = '2';
+      }
     },
   );
 
@@ -131,7 +116,16 @@
 
   const activeKey = ref('1');
 
-  const emit = defineEmits(['agree', 'reject', 'save', 'end', 'transfer', 'notice', 'collect', 'before']);
+  const emit = defineEmits([
+    'agree',
+    'reject',
+    'save',
+    'end',
+    'transfer',
+    'notice',
+    'collect',
+    'before',
+  ]);
 
   // 更多
   const handleMenuClick: MenuProps['onClick'] = (e) => {
@@ -163,9 +157,9 @@
   // 同意
   function handleAgree() {
     const { innerFlowData } = trackTabRef.value;
-    if(props.mode==='default') {
+    if (props.mode === 'default') {
       emit('agree', innerFlowData);
-    } else if(props.mode==='before') {
+    } else if (props.mode === 'before') {
       emit('before', currentNodeData.value[0], 'beforeAgree');
     }
   }
@@ -173,9 +167,9 @@
   // 驳回
   function handleReject() {
     const { innerFlowData } = trackTabRef.value;
-    if(props.mode==='default') {
+    if (props.mode === 'default') {
       emit('reject', innerFlowData);
-    } else if(props.mode==='before') {
+    } else if (props.mode === 'before') {
       emit('before', currentNodeData.value[0], 'beforeReject');
     }
   }
@@ -214,14 +208,14 @@
         //   emit('onReload');
         //   message.success('操作成功。');
         // });
-        if(props.mode==='default') {
+        if (props.mode === 'default') {
           emit('end', innerFlowData);
           ProcessInstanceApi.abortProcessInstance(params).then(() => {
             processOperation.value = 0;
             emit('onReload');
             message.success('操作成功。');
           });
-        } else if(props.mode==='before') {
+        } else if (props.mode === 'before') {
           emit('before', currentNodeData.value[0], 'beforeEnd');
         }
       },
@@ -232,7 +226,7 @@
   watch(
     () => props.businessStatus,
     (newValue) => {
-      if(newValue==='end') {
+      if (newValue === 'end') {
         ProcessInstanceApi.abortProcessInstance(params).then(() => {
           processOperation.value = 0;
           emit('onReload');
