@@ -1,6 +1,6 @@
 <template>
   <div class="search-box" ref="searchBox">
-    <a-dropdown v-if="props.vmode == 'edit' && !props.disabled" :trigger="['click']">
+    <a-dropdown v-if="props.vmode == 'edit' && !props.disabled" :trigger="['click']" v-model:visible="showDropdown">
       <!-- 输入框区域 -->
       <a-input v-model:value="searchRealText" class="search-text" @click="toggleDropdown($event)" />
       <template #overlay>
@@ -83,12 +83,11 @@
   const tvfield = ref('');
   const tdata = ref([]);
 
-  const emit = defineEmits(['update:value', 'searchData', 'clearData', 'select']); // 允许双向绑定value
+  const emit = defineEmits(['update:value', 'select', 'change']); // 允许双向绑定value
 
   const searchData = () => {
     loading.value = true;
     tableData.splice(0, tableData.length);
-    emit('searchData', search.text); // 向父组件传递搜索文本的更新
     const rule = props?.tfields;
     const data = unref(tdata.value as unknown[]);
     const resultData = JSON.parse(JSON.stringify(data));
@@ -107,7 +106,11 @@
     search.text = '';
     searchData();
     nextTick(() => {
-      document.querySelector('input.search-input').value = '';
+      try {
+        document.querySelector('input.search-input').value = '';
+      } catch (e) {
+        //
+      }
     });
   };
 
@@ -169,6 +172,7 @@
       searchRealText.value = record[tvfield.value];
       emit('update:value', record[tvfield.value]);
       emit('select', { record, index }, event);
+      emit('change', record[tvfield.value], { record, index }, event);
       showDropdown.value = false;
     };
     return {
@@ -212,12 +216,9 @@
   onMounted(() => {
     reloadData();
     searchRealText.value = props.value;
-    window.addEventListener('click', handleClickOutside);
   });
 
-  onUnmounted(() => {
-    window.removeEventListener('click', handleClickOutside);
-  });
+  onUnmounted(() => {});
 </script>
 
 <style lang="less" scoped>
@@ -229,7 +230,7 @@
     margin-top: 5px;
     position: relative;
     height: 100%;
-    border: 1px solid #f0f0f0;
+    border: 0px solid #f0f0f0;
     z-index: 100000 !important; // 设置一个较大的值
 
     &:deep(.ant-table-wrapper) {
@@ -243,7 +244,7 @@
     .search-panel {
       position: absolute;
       background: #fefefe;
-      border-bottom: 0px solid #cecece;
+      border-bottom: 1px solid #f0f0f0;
       width: 100%;
       z-index: 1000 !important;
       .search-popup-subcontent {

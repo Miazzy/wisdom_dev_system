@@ -7,6 +7,7 @@
     <!-- 标题 -->
     <BillTitle :options="billTitleOptions" />
 
+    <!-- 
     <EchartChinaMap
       :title="`行政区域图`"
       :data="chinaRegionData"
@@ -14,7 +15,7 @@
       :height="600"
       :zoom="1.5"
       :offset="150"
-    />
+    /> -->
 
     <div style="margin: 10px 0px 0px 40px">
       <Tinymce
@@ -213,6 +214,7 @@
   import { useTabs } from '/@/hooks/web/useTabs';
   import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
   import TreeBox from '@/components/Framework/Combox/TreeBox.vue';
+  import TreeSelectBox from '@/components/Framework/Combox/TreeSelectBox.vue';
   import CommonTree from '@/components/Framework/Tree/CommonTree.vue';
   import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';
   import DictRadioGroup from '@/components/Framework/Radio/DictRadioGroup.vue';
@@ -227,14 +229,14 @@
   import XTextButton from '@/components/Framework/XButton/XTextButton.vue';
   import type { Dayjs } from 'dayjs';
   import { DICT_TYPE } from '@/utils/dict';
-  import BubbleChart from '/@/components/Framework/Chart/BubbleChart.vue';
-  import BarChart from '/@/components/Framework/Chart/BarChart.vue';
-  import DonutChart from '/@/components/Framework/Chart/DonutChart.vue';
-  import EchartPieChart from '/@/components/Framework/Chart/EchartPieChart.vue';
-  import EchartChinaMap from '../../components/Framework/Chart/EchartChinaMap.vue';
-  import EchartBarChart from '../../components/Framework/Chart/EchartBarChart.vue';
-  import EchartPillarChart from '../../components/Framework/Chart/EchartPillarChart.vue';
-  import EchartLineBarChart from '../../components/Framework/Chart/EchartLineBarChart.vue';
+  // import BubbleChart from '/@/components/Framework/Chart/BubbleChart.vue';
+  // import DonutChart from '/@/components/Framework/Chart/DonutChart.vue';
+  // import EchartPieChart from '/@/components/Framework/Chart/EchartPieChart.vue';
+  // import EchartChinaMap from '../../components/Framework/Chart/EchartChinaMap.vue';
+  // import EchartBarChart from '../../components/Framework/Chart/EchartBarChart.vue';
+  // import EchartPillarChart from '../../components/Framework/Chart/EchartPillarChart.vue';
+  // import EchartLineBarChart from '../../components/Framework/Chart/EchartLineBarChart.vue';
+  // import BarChart from '/@/components/Framework/Chart/BarChart.vue';
   // import ThreeDDonutChart from '../../components/Framework/Chart/ThreeDDonutChart.vue';
   // import NtgaleChart from '/@/components/Framework/Chart/NtgaleChart.vue';
   // import ThreeDPieChart from '/@/components/Framework/Chart/ThreeDPieChart.vue';

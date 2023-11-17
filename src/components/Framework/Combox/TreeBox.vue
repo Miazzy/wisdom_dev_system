@@ -1,31 +1,31 @@
 <template>
   <div class="tree-box" ref="treeBox">
-    <a-dropdown v-if="props.vmode == 'edit'" :trigger="['click']" @click="handleButtonClick">
+    <a-dropdown
+      v-if="props.vmode == 'edit' && !props.disabled"
+      :trigger="['click']"
+      v-model:visible="showDropdown"
+    >
       <!-- 输入框区域 -->
-      <a-input
-        v-model:value="realText"
-        class="tree-text"
-        @click="toggleDropdown($event)"
-        placeholder=""
-      />
+      <a-input v-model:value="searchRealText" class="tree-text" @click="toggleDropdown($event)" />
       <template #overlay>
         <a-menu>
           <!-- 下拉表格弹框区域 -->
           <div
+            @click.stop
             v-show="showDropdown"
             class="tree-content"
-            :style="`width: ${twidth}; display: ${showDropdown ? 'block' : 'none'};`"
+            :style="`width: ${twidth}; display: ${showDropdown ? 'block' : 'none'}`"
           >
             <!-- 输入框、搜索按钮和关闭按钮区域 -->
             <div class="search-panel">
               <div class="search-popup-subcontent">
-                <input class="search-input" v-model="searchTreeText" placeholder="" />
+                <input class="search-input" v-model="search.text" />
                 <button class="close-button" @click="clearData">清除</button>
                 <button class="search-button" @click="searchData">搜索</button>
               </div>
             </div>
             <!-- 基础Tree组件 -->
-            <div class="tree-compoment" :style="`max-height: ${theight}px; overflow-y: hidden;`">
+            <div class="tree-compoment" :style="`max-height: ${theight}px;`">
               <a-tree
                 :tree-data="treeData"
                 show-icon
@@ -56,22 +56,33 @@
         </a-menu>
       </template>
     </a-dropdown>
-    <span v-if="props.vmode == 'view'">{{ props.value }}</span>
+    <span v-else-if="props.vmode == 'view'">{{ props.value }}</span>
+    <span v-else><a-input :value="props.value" class="search-text" :disabled="true" /></span>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { ref, onMounted, onUnmounted, defineProps, defineEmits, watch, unref } from 'vue';
+  import {
+    ref,
+    onMounted,
+    onUnmounted,
+    defineProps,
+    defineEmits,
+    watch,
+    unref,
+    nextTick,
+    reactive,
+  } from 'vue';
   import { TreeItem } from '../../Tree';
   import { getCustomCompOptions } from '@/utils/cache';
   import Icon from '@/components/Icon/Icon.vue';
 
   const showDropdown = ref(false);
-  const realText = ref<string>('');
-  const searchTreeText = ref('');
+  const searchRealText = ref<string>('');
+  const search = reactive({ text: '' });
   const treeBox = ref<any>(null);
   const loading = ref(false);
-  const treeData = ref([]);
+  const treeData = reactive([]);
   const treeMap = ref<any>();
   type fieldType = { key: String; title: String };
   type tIconsType = { parent: String; leaf: String };
@@ -83,7 +94,8 @@
     data: { type: Array }, // 表格数据
     twidth: { type: String, default: '100%' },
     theight: { type: Number, default: 240 },
-    value: String, // 搜索框文本
+    disabled: { type: Boolean, default: false },
+    value: { type: String, default: '' }, // 搜索框文本
     className: { type: String },
     ticons: {
       type: Object,
@@ -105,19 +117,20 @@
   const newTfields = ref({});
   const tdata = ref([]);
 
-  const emit = defineEmits(['update:value', 'searchData', 'clearData', 'select']); // 允许双向绑定value
+  const emit = defineEmits(['update:value', 'select', 'change']); // 允许双向绑定value
 
   const searchData = () => {
     loading.value = true;
-    const text = searchTreeText.value;
-    emit('searchData', searchTreeText.value); // 向父组件传递搜索文本的更新
-    setTimeout(() => {
+    const text = search.text;
+    nextTick(() => {
+      treeData.splice(0, treeData.length);
       const rule = newTfields.value as fieldType;
       const data = unref(tdata.value as unknown[] as TreeItem[]);
       const resultData = JSON.parse(JSON.stringify(data));
       const result = findNodes(resultData, text);
-      treeData.value = transformData(result, rule);
-    }, 100);
+      const tempList = transformData(result, rule) as never[];
+      treeData.push(...tempList);
+    });
   };
 
   const toggleDropdown = (event) => {
@@ -127,26 +140,23 @@
 
   // 清空
   const clearData = () => {
-    searchTreeText.value = '';
-    loading.value = true;
-    emit('clearData', searchTreeText.value); // 向父组件传递搜索文本的更新
-    setTimeout(() => {
-      const rule = newTfields.value as fieldType;
-      const data = unref(tdata.value as unknown[] as TreeItem[]);
-      const resultData = JSON.parse(JSON.stringify(data));
-      treeData.value = transformData(resultData, rule);
-    }, 100);
+    search.text = '';
+    searchData();
+    nextTick(() => {
+      try {
+        document.querySelector('input.search-input').value = '';
+      } catch (e) {
+        //
+      }
+    });
   };
 
   // 点击组件外的区域，关闭弹框
   const handleClickOutside = (event) => {
     if (treeBox.value && !treeBox.value.contains(event.target)) {
+      clearData();
       showDropdown.value = false;
     }
-  };
-
-  const handleButtonClick = (e: Event) => {
-    showDropdown.value = true;
   };
 
   // 按tfields生成转换规则
@@ -185,9 +195,6 @@
 
   // 查找节点
   const findNodes = (data, searchValue) => {
-    if (searchValue == '' || searchValue == null || typeof searchValue == 'undefined') {
-      return data;
-    }
     const result = [];
     // 递归函数
     function recursiveSearch(node) {
@@ -202,43 +209,78 @@
         }
       }
     }
-    // 开始遍历
-    for (const item of data) {
-      recursiveSearch(item);
+    try {
+      if (searchValue == '' || searchValue == null || typeof searchValue == 'undefined') {
+        return data;
+      }
+      // 开始遍历
+      for (const item of data) {
+        recursiveSearch(item);
+      }
+      return result;
+    } catch {
+      //
     }
-    return result;
   };
 
   // 判断是否为顶层节点
   const isTopNode = (key) => {
-    return !!treeMap.value.get(key);
+    try {
+      return !!treeMap.value.get(key);
+    } catch {
+      return false;
+    }
   };
 
   // 将数据节点转换为Map
   const transformMap = (data, rule) => {
-    const treeMap = new Map();
-    data.forEach((item) => {
-      const key = item[rule['key']];
-      treeMap.set(key, item);
-    });
-    return treeMap;
+    try {
+      const treeMap = new Map();
+      data.forEach((item) => {
+        const key = item[rule['key']];
+        treeMap.set(key, item);
+      });
+      return treeMap;
+    } catch {
+      //
+    }
   };
 
   // 树节点选中事件
   const handleSelect = (node, event) => {
-    realText.value = event.node.title;
-    emit('update:value', event.node.title);
-    emit('select', event.node, event);
-    showDropdown.value = false;
+    try {
+      searchRealText.value = event.node.title;
+      emit('update:value', event.node.title);
+      emit('select', event.node, event);
+      emit('change', event.node.title, event.node, event);
+      showDropdown.value = false;
+    } catch {
+      //
+    }
   };
 
   // 重新加载组件数据
   const reload = () => {
-    const rule = newTfields.value as fieldType;
-    const data = unref(tdata.value as unknown[] as TreeItem[]);
-    const resultData = JSON.parse(JSON.stringify(data));
-    treeMap.value = transformMap(data, rule);
-    treeData.value = transformData(resultData, rule);
+    try {
+      let options = null;
+      if (props.opkey != null && props.opkey != '') {
+        options = getCustomCompOptions(props.opkey);
+        newTfields.value = options?.tfields;
+        tdata.value = unref(options?.data);
+      } else {
+        newTfields.value = props?.tfields;
+        tdata.value = props?.data as never[];
+      }
+      treeData.splice(0, treeData.length);
+      const rule = newTfields.value as fieldType;
+      const data = unref(tdata.value as unknown[] as TreeItem[]);
+      const resultData = JSON.parse(JSON.stringify(data));
+      treeMap.value = transformMap(data, rule);
+      const tempList = transformData(resultData, rule) as never[];
+      treeData.push(...tempList);
+    } catch {
+      //
+    }
   };
 
   watch(
@@ -251,29 +293,26 @@
   watch(
     () => props.value,
     (newValue) => {
-      realText.value = props.value;
+      try {
+        searchRealText.value = props.value;
+      } catch {
+        //
+      }
     },
   );
 
-  defineExpose({ reload });
+  // defineExpose({ reload });
 
   onMounted(() => {
-    realText.value = props.value;
-    if (props.opkey != null && props.opkey != '') {
-      const options = getCustomCompOptions(props.opkey);
-      newTfields.value = options?.newTfields;
-      tdata.value = options?.data;
-    } else {
-      newTfields.value = props?.tfields;
-      tdata.value = props?.data as never[];
+    try {
+      reload();
+      searchRealText.value = props.value;
+    } catch {
+      //
     }
-    reload();
-    window.addEventListener('click', handleClickOutside);
   });
 
-  onUnmounted(() => {
-    window.removeEventListener('click', handleClickOutside);
-  });
+  onUnmounted(() => {});
 </script>
 
 <style scoped>
@@ -285,7 +324,7 @@
     position: relative;
     margin-top: 5px;
     height: 100%;
-    border: 1px solid #f0f0f0;
+    border: 0px solid #f0f0f0;
     z-index: 10000 !important;
 
     &:deep(.ant-tree) {
@@ -303,7 +342,9 @@
 
   .search-panel {
     position: relative;
-    border-bottom: 0 solid #cecece;
+    border-left: 1px solid #f0f0f0;
+    border-right: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
     background: #fefefe;
 
     .search-popup-subcontent {
