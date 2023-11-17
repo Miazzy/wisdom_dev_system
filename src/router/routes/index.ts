@@ -251,6 +251,16 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/po/powercutplan/powerCutPlanModal.vue');
         }
+        // po/assess
+        else if (checkImportComponent('/@/views/po/assess/template/index.vue', menu.component)) {
+          return import('/@/views/po/assess/template/index.vue');
+        } else if (checkImportComponent('/@/views/po/assess/template/create.vue', menu.component)) {
+          return import('/@/views/po/assess/template/create.vue');
+        } else if (checkImportComponent('/@/views/po/assess/filling/index.vue', menu.component)) {
+          return import('/@/views/po/assess/filling/index.vue');
+        } else if (checkImportComponent('/@/views/po/assess/filling/create.vue', menu.component)) {
+          return import('/@/views/po/assess/filling/create.vue');
+        }
         // po/integrated
         else if (menu.component == '/@/views/po/integrated/personcertificate/index.vue') {
           return import('/@/views/po/integrated/personcertificate/index.vue');
@@ -287,6 +297,14 @@ const transformMenuItem = (menu, routes) => {
           menu.component == '/@/views/po/integrated/assessmentevaluation/daily/create.vue'
         ) {
           return import('/@/views/po/integrated/assessmentevaluation/daily/create.vue');
+        } else if (
+          checkImportComponent('/@/views/po/integrated/contract/index.vue', menu.component)
+        ) {
+          return import('/@/views/po/integrated/contract/index.vue');
+        } else if (
+          checkImportComponent('/@/views/po/integrated/contract/contractModal.vue', menu.component)
+        ) {
+          return import('/@/views/po/integrated/contract/contractModal.vue');
         }
         // po/elec
         else if (menu.component == '/@/views/po/elec/produce/index.vue') {
