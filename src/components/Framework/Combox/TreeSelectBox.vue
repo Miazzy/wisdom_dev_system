@@ -60,19 +60,35 @@
   const emit = defineEmits(['update:value', 'change', 'select', 'search', 'expand']);
 
   const findOption = (value) => {
-    const item = props.data.find((element) => {
-      const elem = element as Object;
-      if (Reflect.has(elem, 'value')) {
-        return Reflect.get(elem, 'value') === value;
-      } else if (Reflect.has(elem, props.tfields.value)) {
-        return Reflect.get(elem, props.tfields.value) === value;
-      } else if (Reflect.has(elem, props.tfields.label)) {
-        return Reflect.get(elem, props.tfields.label) === value;
-      } else {
-        return false;
+    const item = findNodeByValue(treeData, value);
+    return item ? Reflect.get(item, newTfields.value.label) : value;
+  };
+
+  const isNodeEqual = (elem, value, tfields) => {
+    if (Reflect.has(elem, tfields.value)) {
+      return Reflect.get(elem, tfields.value) === value;
+    } else if (Reflect.has(elem, tfields.label)) {
+      return Reflect.get(elem, tfields.label) === value;
+    } else {
+      return false;
+    }
+  };
+
+  const findNodeByValue = (tree: Array<any>, value: string): any => {
+    if (tree == null || typeof tree == 'undefined') {
+      return null;
+    }
+    for (let i = 0; i < tree.length; i++) {
+      const element = tree[i];
+      if (isNodeEqual(element, value, newTfields.value)) {
+        return element;
       }
-    });
-    return item ? Reflect.get(item, props.tfields.label) : value;
+      const result = findNodeByValue(element.children, value);
+      if (result) {
+        return result;
+      }
+    }
+    return null;
   };
 
   const handleChange = (value, label, extra) => {
@@ -107,7 +123,9 @@
 
   watch(
     () => props.value,
-    () => {},
+    () => {
+      selectedValue.value = props?.value;
+    },
   );
 
   watch(
@@ -119,6 +137,7 @@
 
   // 启动加载
   onMounted(async () => {
+    selectedValue.value = props?.value;
     reloadData();
   });
 </script>
