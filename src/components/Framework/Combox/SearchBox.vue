@@ -10,7 +10,7 @@
             @click.stop
             v-show="showDropdown"
             class="search-content"
-            :style="`width: ${twidth}; display: ${showDropdown ? 'block' : 'none'}`"
+            :style="`width: ${twidths || props.twidth}; display: ${showDropdown ? 'block' : 'none'}`"
           >
             <!-- 输入框、搜索按钮和关闭按钮区域 -->
             <div class="search-panel">
@@ -25,7 +25,7 @@
                 :columns="tcolumns"
                 :data-source="tableData"
                 size="small"
-                :pagination="props.pagination"
+                :pagination="tpagination"
                 :loading="loading"
                 :bordered="true"
                 :scroll="{ y: theight }"
@@ -82,6 +82,8 @@
   const tcolumns = ref([]);
   const tvfield = ref('');
   const tdata = ref([]);
+  const tpagination = ref(false);
+  const twidths = ref('100%');
 
   const emit = defineEmits(['update:value', 'select', 'change']); // 允许双向绑定value
 
@@ -187,10 +189,14 @@
       tcolumns.value = options.columns;
       tvfield.value = options.vfield;
       tdata.value = options.data;
+      tpagination.value = options.pagination;
+      twidths.value = options.twidth;
     } else {
       tcolumns.value = props.columns as never[];
       tvfield.value = props.vfield;
       tdata.value = props.data as never[];
+      tpagination.value = props.pagination;
+      twidths.value = props.twidth;
     }
     const rule = props?.tfields;
     const data = unref(tdata.value as unknown[]);

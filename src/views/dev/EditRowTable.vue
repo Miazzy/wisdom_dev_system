@@ -194,6 +194,7 @@
       const options = {
         columns: searchBoxColumns,
         data: searchBoxData,
+        pagination: true,
         vfield: 'date',
       };
       const treeOptions = {

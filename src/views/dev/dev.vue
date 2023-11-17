@@ -49,7 +49,7 @@
         :columns="searchBoxColumns"
         :data="searchBoxData"
         :vfield="'date'"
-        :pagination="false"
+        :pagination="true"
         twidth="500px"
         style="width: 220px; height: 60px"
         @select="tableBoxSelect"
