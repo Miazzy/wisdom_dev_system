@@ -28,6 +28,7 @@ export type ComponentType =
   | 'TimeRangePicker'
   | 'SearchBox'
   | 'TreeBox'
+  | 'SelectBox'
   | 'TreeSelectBox'
   | 'DictSelectBox'
   | 'DictRadioGroup'

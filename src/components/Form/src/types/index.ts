@@ -119,6 +119,7 @@ export type ComponentType =
   | 'ApiTransfer'
   | 'SearchBox'
   | 'TreeBox'
+  | 'SelectBox'
   | 'TreeSelectBox'
   | 'DictSelectBox'
   | 'DictRadioGroup'

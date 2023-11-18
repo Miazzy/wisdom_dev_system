@@ -51,7 +51,7 @@
         :vfield="'date'"
         :pagination="true"
         twidth="500px"
-        style="width: 220px; height: 60px"
+        style="width: 220px"
         @select="tableBoxSelect"
       />
       <span style="float: left"> TreeBox </span>
@@ -62,8 +62,19 @@
         :data="treeData"
         :expand-all="false"
         @select="treeBoxSelect"
-        style="width: 220px; height: 60px"
+        style="width: 220px"
         twidth="400px"
+      />
+      <span style="float: left"> SelectBox </span>
+      <SelectBox
+        v-model:value="searchSelectText"
+        :tfields="{ label: 'llll', value: 'vvv' }"
+        :data="[
+          { vvv: '01', llll: 'Lucy01' },
+          { vvv: '02', llll: 'Lucy02' },
+        ]"
+        @change="handleSelectBox"
+        twidth="220px"
       />
     </div>
 
@@ -216,6 +227,7 @@
   import { useTabs } from '/@/hooks/web/useTabs';
   import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
   import TreeBox from '@/components/Framework/Combox/TreeBox.vue';
+  import SelectBox from '@/components/Framework/Combox/SelectBox.vue';
   import TreeSelectBox from '@/components/Framework/Combox/TreeSelectBox.vue';
   import CommonTree from '@/components/Framework/Tree/CommonTree.vue';
   import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';
@@ -274,6 +286,7 @@
   const selectedValue = ref([]);
   const selectedSValue = ref('');
   const radioGroupValue = ref('');
+  const searchSelectText = ref('');
 
   const billTitleOptions = reactive<any>({});
   billTitleOptions.title = '电站填报';
@@ -454,6 +467,10 @@
   // 编辑树的回调
   function handleTreeEdit(node) {
     console.log('handleTreeEdit', node);
+  }
+  // 获取节点
+  function handleSelectBox(node) {
+    searchSelectText.value;
   }
   // 新增树节点的的回调
   function handleTreeAdd(node) {

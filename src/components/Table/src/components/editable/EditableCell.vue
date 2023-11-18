@@ -58,6 +58,7 @@
       const customCompNames = [
         'SearchBox',
         'TreeBox',
+        'SelectBox',
         'TreeSelectBox',
         'DictSelectBox',
         'DictRadioGroup',

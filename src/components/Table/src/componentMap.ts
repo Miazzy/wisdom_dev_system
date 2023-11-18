@@ -19,6 +19,7 @@ import {
 
 import { ApiSelect, ApiTreeSelect, RadioButtonGroup, ApiRadioGroup } from '/@/components/Form';
 import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
+import SelectBox from '@/components/Framework/Combox/SelectBox.vue';
 import TreeBox from '@/components/Framework/Combox/TreeBox.vue';
 import TreeSelectBox from '@/components/Framework/Combox/TreeSelectBox.vue';
 import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';
@@ -60,6 +61,7 @@ componentMap.set('TimeRangePicker', TimePicker.TimeRangePicker);
 
 componentMap.set('SearchBox', SearchBox);
 componentMap.set('TreeBox', TreeBox);
+componentMap.set('SelectBox', SelectBox);
 componentMap.set('TreeSelectBox', TreeSelectBox);
 componentMap.set('DictSelectBox', DictSelectBox);
 componentMap.set('DictRadioGroup', DictRadioGroup);

@@ -97,9 +97,26 @@
           },
           width: 150,
         },
+        {
+          title: '输入框校验',
+          dataIndex: 'name4',
+          editRow: true,
+          align: 'left',
+          editComponent: 'SelectBox',
+          editComponentProps: {
+            data: [
+              { vvv: '01', llll: 'Lucy01' },
+              { vvv: '02', llll: 'Lucy02' },
+            ],
+            twidth: '500px',
+            tfields: { label: 'llll', value: 'vvv' },
+          },
+          width: 150,
+        },
       ],
     },
   ];
+
   export default defineComponent({
     components: { BasicTable, TableAction },
     setup() {

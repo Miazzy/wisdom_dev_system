@@ -32,6 +32,7 @@ import { CountdownInput } from '/@/components/CountDown';
 
 import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
 import TreeBox from '@/components/Framework/Combox/TreeBox.vue';
+import SelectBox from '@/components/Framework/Combox/SelectBox.vue';
 import TreeSelectBox from '@/components/Framework/Combox/TreeSelectBox.vue';
 import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';
 import DictRadioGroup from '@/components/Framework/Radio/DictRadioGroup.vue';
@@ -81,6 +82,7 @@ componentMap.set('Divider', Divider);
 
 componentMap.set('SearchBox', SearchBox);
 componentMap.set('TreeBox', TreeBox);
+componentMap.set('SelectBox', SelectBox);
 componentMap.set('TreeSelectBox', TreeSelectBox);
 componentMap.set('DictSelectBox', DictSelectBox);
 componentMap.set('DictRadioGroup', DictRadioGroup);
