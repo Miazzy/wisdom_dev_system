@@ -70,12 +70,13 @@
     defineEmits,
     watch,
     unref,
-    nextTick,
     reactive,
+    withDirectives,
   } from 'vue';
   import { TreeItem } from '../../Tree';
   import { getCustomCompOptions } from '@/utils/cache';
   import Icon from '@/components/Icon/Icon.vue';
+  import clickOutside from '/@/directives/clickOutside';
 
   const showDropdown = ref(false);
   const searchRealText = ref<string>('');
@@ -121,9 +122,9 @@
   const emit = defineEmits(['update:value', 'select', 'change']); // 允许双向绑定value
 
   const searchData = () => {
-    loading.value = true;
-    const text = search.text;
-    nextTick(() => {
+    try {
+      loading.value = true;
+      const text = search.text;
       treeData.splice(0, treeData.length);
       const rule = newTfields.value as fieldType;
       const data = unref(tdata.value as unknown[] as TreeItem[]);
@@ -131,40 +132,61 @@
       const result = findNodes(resultData, text);
       const tempList = transformData(result, rule) as never[];
       treeData.push(...tempList);
-    });
+    } catch (error) {
+      //
+    }
   };
 
   const toggleDropdown = (event) => {
-    event.stopPropagation(); // 阻止事件冒泡
-    showDropdown.value = true;
+    try {
+      event.stopPropagation(); // 阻止事件冒泡
+      showDropdown.value = true;
+    } catch (error) {
+      //
+    }
   };
 
   // 清空
   const clearData = () => {
-    search.text = '';
-    searchData();
-    nextTick(() => {
-      try {
-        document.querySelector('input.search-input').value = '';
-      } catch (e) {
-        //
-      }
-    });
+    try {
+      search.text = '';
+      searchData();
+      clearInput('input.search-input');
+    } catch (error) {
+      //
+    }
+  };
+
+  // 清空输入
+  const clearInput = (selector = 'input.search-input') => {
+    try {
+      document.querySelector(selector).value = '';
+    } catch (e) {
+      //
+    }
   };
 
   // 点击组件外的区域，关闭弹框
   const handleClickOutside = (event) => {
-    if (treeBox.value && !treeBox.value.contains(event.target)) {
-      clearData();
-      showDropdown.value = false;
+    try {
+      if (treeBox.value && !treeBox.value.contains(event.target)) {
+        clearData();
+        showDropdown.value = false;
+      }
+    } catch (error) {
+      //
     }
   };
 
   // 按tfields生成转换规则
   const reverseRule = (rule) => {
     const reversedRule = {};
-    for (const key in rule) {
-      reversedRule[rule[key]] = key;
+    try {
+      for (const key in rule) {
+        reversedRule[rule[key]] = key;
+      }
+    } catch (error) {
+      //
     }
     return reversedRule;
   };
@@ -174,34 +196,36 @@
     if (data == null || typeof data == 'undefined' || data.length === 0) {
       return [];
     }
-    const rules = reverseRule(rule);
-    return data.map((item) => {
-      const newItem = {};
-      for (const key in item) {
-        if (key in rules) {
-          if (rules[key] == 'title') {
-            newItem[rules[key]] = item[key];
-            newItem[key] = item[key];
-          } else if (rules[key] == 'id') {
-            newItem[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key].slice(0, 5);
+    try {
+      const rules = reverseRule(rule);
+      return data.map((item) => {
+        const newItem = {};
+        for (const key in item) {
+          if (key in rules) {
+            if (rules[key] == 'title') {
+              newItem[rules[key]] = item[key];
+              newItem[key] = item[key];
+            } else if (rules[key] == 'id') {
+              newItem[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key].slice(0, 5);
+              newItem[key] = item[key];
+            }
+          } else {
             newItem[key] = item[key];
           }
-        } else {
-          newItem[key] = item[key];
         }
-      }
-      if (item.children && item.children.length > 0) {
-        newItem.children = transformData(item.children, rule);
-      }
-      return newItem;
-    });
+        if (item.children && item.children.length > 0) {
+          newItem.children = transformData(item.children, rule);
+        }
+        return newItem;
+      });
+    } catch (error) {
+      //
+    }
   };
 
-  // 查找节点
-  const findNodes = (data, searchValue) => {
-    const result = [];
-    // 递归函数
-    function recursiveSearch(node) {
+  // 递归函数
+  const recursiveSearch = (node, result, searchValue) => {
+    try {
       const temp = JSON.parse(JSON.stringify(node));
       delete temp.children;
       if (JSON.stringify(temp).includes(searchValue)) {
@@ -209,17 +233,24 @@
       }
       if (node.children && node.children.length > 0) {
         for (const child of node.children) {
-          recursiveSearch(child);
+          recursiveSearch(child, result, searchValue);
         }
       }
+    } catch (error) {
+      //
     }
+  };
+
+  // 查找节点
+  const findNodes = (data, searchValue) => {
+    const result = [];
     try {
       if (searchValue == '' || searchValue == null || typeof searchValue == 'undefined') {
         return data;
       }
       // 开始遍历
       for (const item of data) {
-        recursiveSearch(item);
+        recursiveSearch(item, result, searchValue);
       }
       return result;
     } catch {
@@ -305,12 +336,13 @@
     },
   );
 
-  // defineExpose({ reload });
+  defineExpose({ reload });
 
   onMounted(() => {
     try {
       reload();
       searchRealText.value = props.value;
+      withDirectives(treeBox, [[clickOutside, handleClickOutside]]); // 注册 clickOutside 指令
     } catch {
       //
     }

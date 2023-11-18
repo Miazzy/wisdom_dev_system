@@ -60,16 +60,24 @@
   const emit = defineEmits(['update:value', 'change', 'select', 'search', 'expand']);
 
   const findOption = (value) => {
-    const item = findNodeByValue(treeData, value);
-    return item ? Reflect.get(item, newTfields.value.label) : value;
+    try {
+      const item = findNodeByValue(treeData, value);
+      return item ? Reflect.get(item, newTfields.value.label) : value;
+    } catch (error) {
+      return value;
+    }
   };
 
   const isNodeEqual = (elem, value, tfields) => {
-    if (Reflect.has(elem, tfields.value)) {
-      return Reflect.get(elem, tfields.value) === value;
-    } else if (Reflect.has(elem, tfields.label)) {
-      return Reflect.get(elem, tfields.label) === value;
-    } else {
+    try {
+      if (Reflect.has(elem, tfields.value)) {
+        return Reflect.get(elem, tfields.value) === value;
+      } else if (Reflect.has(elem, tfields.label)) {
+        return Reflect.get(elem, tfields.label) === value;
+      } else {
+        return false;
+      }
+    } catch {
       return false;
     }
   };
@@ -78,15 +86,19 @@
     if (tree == null || typeof tree == 'undefined') {
       return null;
     }
-    for (let i = 0; i < tree.length; i++) {
-      const element = tree[i];
-      if (isNodeEqual(element, value, newTfields.value)) {
-        return element;
+    try {
+      for (let i = 0; i < tree.length; i++) {
+        const element = tree[i];
+        if (isNodeEqual(element, value, newTfields.value)) {
+          return element;
+        }
+        const result = findNodeByValue(element.children, value);
+        if (result) {
+          return result;
+        }
       }
-      const result = findNodeByValue(element.children, value);
-      if (result) {
-        return result;
-      }
+    } catch (error) {
+      return null;
     }
     return null;
   };
@@ -108,23 +120,31 @@
   };
 
   const reloadData = () => {
-    let options = null;
-    if (props.opkey != null && props.opkey != '') {
-      options = getCustomCompOptions(props.opkey);
-      newTfields.value = options?.tfields;
-      tdata.value = unref(options?.data);
-    } else {
-      newTfields.value = props?.tfields;
-      tdata.value = props?.data as never[];
+    try {
+      let options = null;
+      if (props.opkey != null && props.opkey != '') {
+        options = getCustomCompOptions(props.opkey);
+        newTfields.value = options?.tfields;
+        tdata.value = unref(options?.data);
+      } else {
+        newTfields.value = props?.tfields;
+        tdata.value = props?.data as never[];
+      }
+      treeData.splice(0, treeData.length);
+      treeData.push(...tdata.value);
+    } catch (error) {
+      //
     }
-    treeData.splice(0, treeData.length);
-    treeData.push(...tdata.value);
   };
 
   watch(
     () => props.value,
     () => {
-      selectedValue.value = props?.value;
+      try {
+        selectedValue.value = props?.value;
+      } catch (error) {
+        //
+      }
     },
   );
 
@@ -137,7 +157,11 @@
 
   // 启动加载
   onMounted(async () => {
-    selectedValue.value = props?.value;
-    reloadData();
+    try {
+      selectedValue.value = props?.value;
+      reloadData();
+    } catch (error) {
+      //
+    }
   });
 </script>

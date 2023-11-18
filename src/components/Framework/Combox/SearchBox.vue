@@ -4,6 +4,7 @@
       v-if="props.vmode == 'edit' && !props.disabled"
       :trigger="['click']"
       v-model:visible="showDropdown"
+      @visibleChange="handleClickOutside"
     >
       <!-- 输入框区域 -->
       <a-input v-model:value="searchRealText" class="search-text" @click="toggleDropdown($event)" />
@@ -57,9 +58,10 @@
     unref,
     watch,
     reactive,
-    nextTick,
+    withDirectives,
   } from 'vue';
   import { getCustomCompOptions } from '@/utils/cache';
+  import clickOutside from '/@/directives/clickOutside';
 
   const showDropdown = ref(false);
   const searchRealText = ref('');
@@ -94,39 +96,58 @@
   const emit = defineEmits(['update:value', 'select', 'change']); // 允许双向绑定value
 
   const searchData = () => {
-    loading.value = true;
-    tableData.splice(0, tableData.length);
-    const rule = props?.tfields;
-    const data = unref(tdata.value as unknown[]);
-    const resultData = JSON.parse(JSON.stringify(data));
-    const result = findNodes(resultData, search.text);
-    const tempList = transformData(result, rule) as never[];
-    tableData.push(...tempList);
-    loading.value = false;
+    try {
+      loading.value = true;
+      tableData.splice(0, tableData.length);
+      const rule = props?.tfields;
+      const data = unref(tdata.value as unknown[]);
+      const resultData = JSON.parse(JSON.stringify(data));
+      const result = findNodes(resultData, search.text);
+      const tempList = transformData(result, rule) as never[];
+      tableData.push(...tempList);
+      loading.value = false;
+    } catch (error) {
+      //
+    }
   };
 
   const toggleDropdown = (event) => {
-    event.stopPropagation(); // 阻止事件冒泡
-    showDropdown.value = true;
+    try {
+      event.stopPropagation(); // 阻止事件冒泡
+      showDropdown.value = true;
+    } catch (error) {
+      //
+    }
   };
 
   const clearData = () => {
-    search.text = '';
-    searchData();
-    nextTick(() => {
-      try {
-        document.querySelector('input.search-input').value = '';
-      } catch (e) {
-        //
-      }
-    });
+    try {
+      search.text = '';
+      searchData();
+      clearInput('input.search-input');
+    } catch (error) {
+      //
+    }
+  };
+
+  // 清空输入
+  const clearInput = (selector = 'input.search-input') => {
+    try {
+      document.querySelector(selector).value = '';
+    } catch (e) {
+      //
+    }
   };
 
   // 按tfields生成转换规则
   const reverseRule = (rule) => {
     const reversedRule = {};
-    for (const key in rule) {
-      reversedRule[rule[key]] = key;
+    try {
+      for (const key in rule) {
+        reversedRule[rule[key]] = key;
+      }
+    } catch (error) {
+      //
     }
     return reversedRule;
   };
@@ -136,18 +157,34 @@
     if (data == null || typeof data == 'undefined' || data.length === 0) {
       return [];
     }
-    const rules = reverseRule(rule);
-    return data.map((item) => {
-      const newItem = {};
-      for (const key in item) {
-        if (key in rules) {
-          newItem[rules[key]] = item[key];
-        } else {
-          newItem[key] = item[key];
+    try {
+      const rules = reverseRule(rule);
+      return data.map((item) => {
+        const newItem = {};
+        for (const key in item) {
+          if (key in rules) {
+            newItem[rules[key]] = item[key];
+          } else {
+            newItem[key] = item[key];
+          }
         }
+        return newItem;
+      });
+    } catch (error) {
+      return [];
+    }
+  };
+
+  // 递归函数
+  const recursiveSearch = (node, result, searchValue) => {
+    try {
+      const temp = JSON.parse(JSON.stringify(node));
+      if (JSON.stringify(temp).includes(searchValue)) {
+        result.push(temp);
       }
-      return newItem;
-    });
+    } catch (error) {
+      //
+    }
   };
 
   // 查找节点
@@ -156,35 +193,43 @@
       return data;
     }
     const result = [];
-    // 递归函数
-    function recursiveSearch(node) {
-      const temp = JSON.parse(JSON.stringify(node));
-      if (JSON.stringify(temp).includes(searchValue)) {
-        result.push(temp);
+    try {
+      // 开始遍历
+      for (const item of data) {
+        recursiveSearch(item, result, searchValue);
       }
-    }
-    // 开始遍历
-    for (const item of data) {
-      recursiveSearch(item);
+    } catch (error) {
+      //
     }
     return result;
   };
 
   const handleClickOutside = (event) => {
-    if (searchBox.value && !searchBox.value.contains(event.target)) {
+    try {
       clearData();
-      showDropdown.value = false;
+      reloadData();
+      if (typeof event == 'boolean') {
+        return;
+      }
+      if (searchBox.value && !searchBox.value.contains(event.target)) {
+        showDropdown.value = false;
+      }
+    } catch (error) {
+      //
     }
   };
 
   const handleClick = (record, index) => {
     const clickFunc = (event) => {
-      console.log(record, index);
-      searchRealText.value = record[tvfield.value];
-      emit('update:value', record[tvfield.value]);
-      emit('select', { record, index }, event);
-      emit('change', record[tvfield.value], { record, index }, event);
-      showDropdown.value = false;
+      try {
+        searchRealText.value = record[tvfield.value];
+        emit('update:value', record[tvfield.value]);
+        emit('select', { record, index }, event);
+        emit('change', record[tvfield.value], { record, index }, event);
+        showDropdown.value = false;
+      } catch (error) {
+        //
+      }
     };
     return {
       onclick: clickFunc,
@@ -192,26 +237,30 @@
   };
 
   const reloadData = () => {
-    tableData.splice(0, tableData.length);
-    if (props.opkey != null && props.opkey != '') {
-      const options = getCustomCompOptions(props.opkey);
-      tcolumns.value = options.columns;
-      tvfield.value = options.vfield;
-      tdata.value = options.data;
-      tpagination.value = options.pagination;
-      twidths.value = options.twidth;
-    } else {
-      tcolumns.value = props.columns as never[];
-      tvfield.value = props.vfield;
-      tdata.value = props.data as never[];
-      tpagination.value = props.pagination;
-      twidths.value = props.twidth;
+    try {
+      tableData.splice(0, tableData.length);
+      if (props.opkey != null && props.opkey != '') {
+        const options = getCustomCompOptions(props.opkey);
+        tcolumns.value = options.columns;
+        tvfield.value = options.vfield;
+        tdata.value = options.data;
+        tpagination.value = options.pagination;
+        twidths.value = options.twidth;
+      } else {
+        tcolumns.value = props.columns as never[];
+        tvfield.value = props.vfield;
+        tdata.value = props.data as never[];
+        tpagination.value = props.pagination;
+        twidths.value = props.twidth;
+      }
+      const rule = props?.tfields;
+      const data = unref(tdata.value as unknown[]);
+      const resultData = JSON.parse(JSON.stringify(data));
+      const tempList = transformData(resultData, rule) as never[];
+      tableData.push(...tempList);
+    } catch (error) {
+      //
     }
-    const rule = props?.tfields;
-    const data = unref(tdata.value as unknown[]);
-    const resultData = JSON.parse(JSON.stringify(data));
-    const tempList = transformData(resultData, rule) as never[];
-    tableData.push(...tempList);
   };
 
   watch(
@@ -224,13 +273,22 @@
   watch(
     () => props.value,
     (newValue) => {
-      searchRealText.value = props.value;
+      try {
+        searchRealText.value = props.value;
+      } catch (error) {
+        //
+      }
     },
   );
 
   onMounted(() => {
-    reloadData();
-    searchRealText.value = props.value;
+    try {
+      reloadData();
+      searchRealText.value = props.value;
+      withDirectives(searchBox, [[clickOutside, handleClickOutside]]); // 注册 clickOutside 指令
+    } catch (error) {
+      //
+    }
   });
 
   onUnmounted(() => {});
