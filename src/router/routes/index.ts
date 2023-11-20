@@ -352,6 +352,20 @@ const transformMenuItem = (menu, routes) => {
         } else if (checkImportComponent('/@/views/po/workorder/create.vue', menu.component)) {
           return import('/@/views/po/workorder/create.vue');
         }
+        // po/fault/hidden/supervision
+        else if (checkImportComponent('/@/views/po/danger/index.vue', menu.component)) {
+          return import('/@/views/po/danger/index.vue');
+        } else if (checkImportComponent('/@/views/po/danger/create.vue', menu.component)) {
+          return import('/@/views/po/danger/create.vue');
+        } else if (checkImportComponent('/@/views/po/fault/index.vue', menu.component)) {
+          return import('/@/views/po/fault/index.vue');
+        } else if (checkImportComponent('/@/views/po/fault/create.vue', menu.component)) {
+          return import('/@/views/po/fault/create.vue');
+        } else if (checkImportComponent('/@/views/po/supervision/index.vue', menu.component)) {
+          return import('/@/views/po/supervision/index.vue');
+        } else if (checkImportComponent('/@/views/po/supervision/create.vue', menu.component)) {
+          return import('/@/views/po/supervision/create.vue');
+        }
         // da/cockpit
         else if (
           checkImportComponent('/@/views/da/cockpit/overview/Overview.vue', menu.component)
@@ -463,6 +477,24 @@ const transformMenuItem = (menu, routes) => {
           checkImportComponent('/@/views/monitor/faultWarning/faultWarning.vue', menu.component)
         ) {
           return import('/@/views/monitor/faultWarning/faultWarning.vue');
+        }
+        // bi/elec
+        else if (checkImportComponent('/@/views/bi/elec/gridCapacity/index.vue', menu.component)) {
+          return import('/@/views/bi/elec/gridCapacity/index.vue');
+        } else if (checkImportComponent('/@/views/bi/elec/gridRecord/index.vue', menu.component)) {
+          return import('/@/views/bi/elec/gridRecord/index.vue');
+        } else if (
+          checkImportComponent('/@/views/bi/elec/environmental/index.vue', menu.component)
+        ) {
+          return import('/@/views/bi/elec/environmental/index.vue');
+        } else if (checkImportComponent('/@/views/bi/elec/lossDetail/index.vue', menu.component)) {
+          return import('/@/views/bi/elec/lossDetail/index.vue');
+        } else if (checkImportComponent('/@/views/bi/elec/lossPower/index.vue', menu.component)) {
+          return import('/@/views/bi/elec/lossPower/index.vue');
+        } else if (checkImportComponent('/@/views/bi/elec/planned/index.vue', menu.component)) {
+          return import('/@/views/bi/elec/planned/index.vue');
+        } else if (checkImportComponent('/@/views/bi/elec/settlement/index.vue', menu.component)) {
+          return import('/@/views/bi/elec/settlement/index.vue');
         } else {
           return asyncImportComponent(menu.component);
         }
