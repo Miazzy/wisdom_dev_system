@@ -352,6 +352,20 @@ const transformMenuItem = (menu, routes) => {
         } else if (checkImportComponent('/@/views/po/workorder/create.vue', menu.component)) {
           return import('/@/views/po/workorder/create.vue');
         }
+        // po/fault/hidden/supervision
+        else if (checkImportComponent('/@/views/po/danger/index.vue', menu.component)) {
+          return import('/@/views/po/danger/index.vue');
+        } else if (checkImportComponent('/@/views/po/danger/create.vue', menu.component)) {
+          return import('/@/views/po/danger/create.vue');
+        } else if (checkImportComponent('/@/views/po/fault/index.vue', menu.component)) {
+          return import('/@/views/po/fault/index.vue');
+        } else if (checkImportComponent('/@/views/po/fault/create.vue', menu.component)) {
+          return import('/@/views/po/fault/create.vue');
+        } else if (checkImportComponent('/@/views/po/supervision/index.vue', menu.component)) {
+          return import('/@/views/po/supervision/index.vue');
+        } else if (checkImportComponent('/@/views/po/supervision/create.vue', menu.component)) {
+          return import('/@/views/po/supervision/create.vue');
+        }
         // da/cockpit
         else if (
           checkImportComponent('/@/views/da/cockpit/overview/Overview.vue', menu.component)
