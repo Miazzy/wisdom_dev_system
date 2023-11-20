@@ -28,16 +28,33 @@
               </div>
             </div>
             <div class="search-table">
-              <a-table
-                :columns="tcolumns"
-                :data-source="tableData"
-                size="small"
-                :pagination="tpagination"
-                :loading="loading"
-                :bordered="true"
-                :scroll="{ y: theight }"
-                :customRow="handleClick"
-              />
+              <template v-if="multiple">
+                <a-table
+                  :rowKey="handleRowKey"
+                  :row-selection="rowSelection"
+                  :columns="tcolumns"
+                  :data-source="tableData"
+                  size="small"
+                  :pagination="tpagination"
+                  :loading="loading"
+                  :bordered="true"
+                  :scroll="{ y: theight }"
+                  :customRow="handleClick"
+                />
+              </template>
+              <template v-else>
+                <a-table
+                  :rowKey="handleRowKey"
+                  :columns="tcolumns"
+                  :data-source="tableData"
+                  size="small"
+                  :pagination="tpagination"
+                  :loading="loading"
+                  :bordered="true"
+                  :scroll="{ y: theight }"
+                  :customRow="handleClick"
+                />
+              </template>
             </div>
           </div>
         </a-menu>
@@ -62,6 +79,7 @@
   } from 'vue';
   import { getCustomCompOptions } from '@/utils/cache';
   import clickOutside from '/@/directives/clickOutside';
+  import type { TableProps } from 'ant-design-vue';
 
   const showDropdown = ref(false);
   const searchRealText = ref('');
@@ -74,6 +92,7 @@
   const props = defineProps({
     vmode: { type: String, default: 'edit' },
     opkey: { type: String, default: null },
+    multiple: { type: Boolean, default: false },
     columns: Array, // 列定义
     data: Array, // 表格数据
     twidth: { type: String, default: '100%' },
@@ -94,7 +113,6 @@
   const twidths = ref('100%');
 
   const emit = defineEmits(['update:value', 'select', 'change']); // 允许双向绑定value
-
   const searchData = () => {
     try {
       loading.value = true;
@@ -136,6 +154,31 @@
       document.querySelector(selector).value = '';
     } catch (e) {
       //
+    }
+  };
+
+  const rowSelection: TableProps['rowSelection'] = {
+    onChange: (keys: any[], selectedRows: any[]) => {
+      const records = keys.join(',');
+      searchRealText.value = records;
+      emit('update:value', records);
+      emit('select', { records, keys, selectedRows });
+      emit('change', records, { records, keys, selectedRows });
+    },
+    getCheckboxProps: (record: any) => ({
+      disabled: record.name === 'Disabled User', // Column configuration not to be checked
+      name: record.name,
+    }),
+  };
+
+  // 处理RowKey
+  const handleRowKey = (record) => {
+    if (Reflect.has(record, tvfield.value)) {
+      return record[tvfield.value];
+    } else if (Reflect.has(record, props.tfields.key)) {
+      return record[props.tfields.key];
+    } else {
+      return JSON.stringify(record);
     }
   };
 
@@ -222,10 +265,12 @@
   const handleClick = (record, index) => {
     const clickFunc = (event) => {
       try {
-        searchRealText.value = record[tvfield.value];
-        emit('update:value', record[tvfield.value]);
-        emit('select', { record, index }, event);
-        emit('change', record[tvfield.value], { record, index }, event);
+        if (!props.multiple) {
+          searchRealText.value = record[tvfield.value];
+          emit('update:value', record[tvfield.value]);
+          emit('select', { record, index }, event);
+          emit('change', record[tvfield.value], { record, index }, event);
+        }
         showDropdown.value = false;
       } catch (error) {
         //
@@ -300,11 +345,11 @@
   }
 
   .search-content {
-    margin-top: 5px;
     position: relative;
-    height: 100%;
-    border: 0px solid #f0f0f0;
     z-index: 100000 !important; // 设置一个较大的值
+    height: 100%;
+    margin-top: 5px;
+    border: 0 solid #f0f0f0;
 
     &:deep(.ant-table-wrapper) {
       z-index: 10000 !important;
@@ -316,36 +361,40 @@
 
     .search-panel {
       position: absolute;
-      background: #fefefe;
-      border-bottom: 1px solid #f0f0f0;
-      width: 100%;
       z-index: 1000 !important;
+      width: 100%;
+      border-bottom: 1px solid #f0f0f0;
+      background: #fefefe;
+
       .search-popup-subcontent {
-        margin: 0px 5px 1px 5px;
+        margin: 0 5px 1px;
+
         & input.search-text {
+          z-index: 1000 !important;
           width: 100%;
           padding: 5px;
-          z-index: 1000 !important;
         }
       }
+
       .search-button {
-        color: #cecece;
-        background: #fefefe;
         position: absolute;
         top: 5px;
         right: 0;
+        background: #fefefe;
+        color: #cecece;
 
         &:hover {
           color: #c0c0c0;
           cursor: pointer;
         }
       }
+
       .close-button {
-        color: #cecece;
-        background: #fefefe;
         position: absolute;
         top: 5px;
         right: 40px;
+        background: #fefefe;
+        color: #cecece;
 
         &:hover {
           color: #c0c0c0;
@@ -356,31 +405,32 @@
 
     .search-table {
       position: absolute;
-      background: #fefefe;
-      border-bottom: 0px solid #cecece;
-      width: 100%;
       z-index: 1000 !important;
       top: 36px;
+      width: 100%;
       border-top: 1px solid #f0f0f0;
+      border-bottom: 0 solid #cecece;
+      background: #fefefe;
 
       .ant-table-wrapper {
         border-top: 1px solid #e9e9e9;
         border-right: 1px solid #e9e9e9;
-        border-left: 1px solid #e9e9e9;
         border-bottom: 1px solid #e9e9e9;
+        border-left: 1px solid #e9e9e9;
       }
     }
   }
 
   input.search-input {
     width: 100%;
-    line-height: 35px;
     height: 35px;
+    line-height: 35px;
+
     &:focus {
-      outline: none;
-      border: 0px solid #fefefe;
+      border: 0 solid #fefefe;
       border-bottom: 1px solid #3793f5;
-      border-radius: 0px;
+      border-radius: 0;
+      outline: none;
     }
   }
 </style>

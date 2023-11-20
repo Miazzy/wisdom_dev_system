@@ -70,6 +70,7 @@
           editComponentProps: {
             opkey: 'SearchBox123',
             twidth: '500px',
+            multiple: false,
           },
           width: 150,
         },
@@ -193,13 +194,25 @@
       });
 
       function handleEdit(record: EditRecordRow) {
-        currentEditKeyRef.value = record.key;
-        record.onEdit?.(true);
+        try {
+          if (Reflect.has(currentEditKeyRef, 'value')) {
+            currentEditKeyRef.value = record.key;
+            record.onEdit?.(true);
+          }
+        } catch (error) {
+          //
+        }
       }
 
       function handleCancel(record: EditRecordRow) {
-        currentEditKeyRef.value = '';
-        record.onEdit?.(false, false);
+        try {
+          if (Reflect.has(currentEditKeyRef, 'value')) {
+            currentEditKeyRef.value = '';
+            record.onEdit?.(false, false);
+          }
+        } catch (error) {
+          //
+        }
       }
 
       async function handleSave(record: EditRecordRow) {
