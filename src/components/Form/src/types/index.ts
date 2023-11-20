@@ -120,6 +120,7 @@ export type ComponentType =
   | 'SearchBox'
   | 'TreeBox'
   | 'SelectBox'
+  | 'CascaderBox'
   | 'TreeSelectBox'
   | 'DictSelectBox'
   | 'DictRadioGroup'

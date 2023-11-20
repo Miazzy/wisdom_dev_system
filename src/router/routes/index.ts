@@ -47,7 +47,7 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/bpm/manage/workflow/processEditor.vue');
         } else if (checkImportComponent('/@/views/dev/dev.vue', menu.component)) {
-          return import('/@/views/dev/dev.vue');
+          return import('/@/views/dev/EditRowTable.vue');
         }
         // baseset/demo
         else if (checkImportComponent('/@/views/hr/manage/oaleave/index.vue', menu.component)) {

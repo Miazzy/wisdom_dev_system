@@ -32,11 +32,12 @@
                 :default-expand-all="props.expandAll"
                 @select="handleSelect"
                 :height="theight"
+                :show-line="props.treeLine"
               >
-                <template #switcherIcon="{ switcherCls }">
+                <template v-if="!props.treeLine" #switcherIcon="{ switcherCls }">
                   <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
                 </template>
-                <template #icon="{ key, isLeaf }">
+                <template v-if="!props.treeLine" #icon="{ key, isLeaf }">
                   <Icon
                     v-if="isLeaf && !isTopNode(key)"
                     :icon="props.ticons.leaf"
@@ -99,6 +100,7 @@
     value: { type: String, default: '' }, // 搜索框文本
     className: { type: String },
     expandAll: { type: Boolean, default: false },
+    treeLine: { type: [Boolean, Object], default: true && { showLeafIcon: true } },
     ticons: {
       type: Object,
       default: {
@@ -358,10 +360,10 @@
 
   .tree-content {
     position: relative;
-    margin-top: 5px;
-    height: 100%;
-    border: 0px solid #f0f0f0;
     z-index: 10000 !important;
+    height: 100%;
+    margin-top: 5px;
+    border: 0 solid #f0f0f0;
 
     &:deep(.ant-tree) {
       z-index: 10000 !important;
@@ -378,9 +380,9 @@
 
   .search-panel {
     position: relative;
-    border-left: 1px solid #f0f0f0;
     border-right: 1px solid #f0f0f0;
     border-bottom: 1px solid #f0f0f0;
+    border-left: 1px solid #f0f0f0;
     background: #fefefe;
 
     .search-popup-subcontent {
