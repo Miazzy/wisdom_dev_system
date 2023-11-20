@@ -118,7 +118,6 @@
           title: '输入框校验',
           dataIndex: 'name5',
           editRow: true,
-          align: 'left',
           editComponent: 'CascaderBox',
           editComponentProps: {
             data: [
