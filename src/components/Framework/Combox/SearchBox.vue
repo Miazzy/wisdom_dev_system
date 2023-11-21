@@ -102,6 +102,7 @@
       default: { key: 'id' }, // table必须含有key字段，此处是只将数组对象的那个字段转化为key字段
     },
     disabled: { type: Boolean, default: false },
+    api: { type: [String, Function], default: null },
     vfield: { type: String, default: '' },
     pagination: { type: Boolean, default: false },
   });
@@ -113,6 +114,8 @@
   const twidths = ref('100%');
 
   const emit = defineEmits(['update:value', 'select', 'change']); // 允许双向绑定value
+
+  // 查询数据函数
   const searchData = () => {
     try {
       loading.value = true;
@@ -129,6 +132,7 @@
     }
   };
 
+  // 下拉内容隐藏函数
   const toggleDropdown = (event) => {
     try {
       event.stopPropagation(); // 阻止事件冒泡
@@ -157,6 +161,7 @@
     }
   };
 
+  // 选中函数
   const rowSelection: TableProps['rowSelection'] = {
     onChange: (keys: any[], selectedRows: any[]) => {
       const records = keys.join(',');
@@ -281,7 +286,7 @@
     };
   };
 
-  const reloadData = () => {
+  const reloadData = async () => {
     try {
       tableData.splice(0, tableData.length);
       if (props.opkey != null && props.opkey != '') {
@@ -297,6 +302,10 @@
         tdata.value = props.data as never[];
         tpagination.value = props.pagination;
         twidths.value = props.twidth;
+      }
+      if (props.api != null && typeof props.api == 'function') {
+        const list = await props.api();
+        const tdata.value = list;
       }
       const rule = props?.tfields;
       const data = unref(tdata.value as unknown[]);
@@ -326,9 +335,9 @@
     },
   );
 
-  onMounted(() => {
+  onMounted(async () => {
     try {
-      reloadData();
+      await reloadData();
       searchRealText.value = props.value;
       withDirectives(searchBox, [[clickOutside, handleClickOutside]]); // 注册 clickOutside 指令
     } catch (error) {
