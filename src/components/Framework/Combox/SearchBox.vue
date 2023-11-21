@@ -305,7 +305,7 @@
       }
       if (props.api != null && typeof props.api == 'function') {
         const list = await props.api();
-        const tdata.value = list;
+        tdata.value = list;
       }
       const rule = props?.tfields;
       const data = unref(tdata.value as unknown[]);
