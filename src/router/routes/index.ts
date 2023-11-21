@@ -305,6 +305,17 @@ const transformMenuItem = (menu, routes) => {
           checkImportComponent('/@/views/po/integrated/contract/contractModal.vue', menu.component)
         ) {
           return import('/@/views/po/integrated/contract/contractModal.vue');
+        } else if (
+          checkImportComponent('/@/views/po/integrated/knowledge/knowledge.vue', menu.component)
+        ) {
+          return import('/@/views/po/integrated/knowledge/knowledge.vue');
+        } else if (
+          checkImportComponent(
+            '/@/views/po/integrated/knowledge/knowledgeDrawer.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/po/integrated/knowledge/knowledgeDrawer.vue');
         }
         // po/elec
         else if (menu.component == '/@/views/po/elec/produce/index.vue') {
