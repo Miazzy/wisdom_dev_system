@@ -174,6 +174,13 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/po/equipment/detail.vue');
         }
 
+        // po/equipment/warehousing
+        else if (menu.component == '/@/views/po/equipment/warehousing/index.vue') {
+          return import('/@/views/po/equipment/warehousing/index.vue');
+        } else if (menu.component == '/@/views/po/equipment/warehousing/create.vue') {
+          return import('/@/views/po/equipment/warehousing/create.vue');
+        }
+
         // po/ticket
         else if (
           checkImportComponent('/@/views/po/ticket/operationticket/index.vue', menu.component)
