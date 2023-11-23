@@ -533,6 +533,12 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/bi/elec/planned/index.vue');
         } else if (checkImportComponent('/@/views/bi/elec/settlement/index.vue', menu.component)) {
           return import('/@/views/bi/elec/settlement/index.vue');
+        }
+        // bi/safety
+        else if (checkImportComponent('/@/views/bi/safety/check/index.vue', menu.component)) {
+          return import('/@/views/bi/safety/check/index.vue');
+        } else if (checkImportComponent('/@/views/bi/safety/agreement/index.vue', menu.component)) {
+          return import('/@/views/bi/safety/agreement/index.vue');
         } else {
           return asyncImportComponent(menu.component);
         }
