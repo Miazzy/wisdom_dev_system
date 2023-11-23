@@ -174,6 +174,13 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/po/equipment/detail.vue');
         }
 
+        // po/equipment/warehousing
+        else if (menu.component == '/@/views/po/equipment/warehousing/index.vue') {
+          return import('/@/views/po/equipment/warehousing/index.vue');
+        } else if (menu.component == '/@/views/po/equipment/warehousing/create.vue') {
+          return import('/@/views/po/equipment/warehousing/create.vue');
+        }
+
         // po/ticket
         else if (
           checkImportComponent('/@/views/po/ticket/operationticket/index.vue', menu.component)
@@ -316,6 +323,26 @@ const transformMenuItem = (menu, routes) => {
           )
         ) {
           return import('/@/views/po/integrated/knowledge/knowledgeDrawer.vue');
+        } else if (
+          menu.component == '/@/views/po/integrated/assessmentevaluation/monthly/index.vue'
+        ) {
+          return import('/@/views/po/integrated/assessmentevaluation/monthly/index.vue');
+        } else if (
+          menu.component == '/@/views/po/integrated/assessmentevaluation/monthly/create.vue'
+        ) {
+          return import('/@/views/po/integrated/assessmentevaluation/monthly/create.vue');
+        } else if (
+          menu.component == '/@/views/po/integrated/assessmentevaluation/monthly/scoring.vue'
+        ) {
+          return import('/@/views/po/integrated/assessmentevaluation/monthly/scoring.vue');
+        } else if (
+          menu.component == '/@/views/po/integrated/assessmentevaluation/monthly/stationDtl.vue'
+        ) {
+          return import('/@/views/po/integrated/assessmentevaluation/monthly/stationDtl.vue');
+        } else if (
+          menu.component == '/@/views/po/integrated/assessmentevaluation/report/index.vue'
+        ) {
+          return import('/@/views/po/integrated/assessmentevaluation/report/index.vue');
         }
         // po/elec
         else if (menu.component == '/@/views/po/elec/produce/index.vue') {
