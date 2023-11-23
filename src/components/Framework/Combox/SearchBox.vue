@@ -52,6 +52,7 @@
                   :loading="loading"
                   :bordered="true"
                   :scroll="{ y: theight }"
+                  @change="handleChange"
                   :customRow="handleClick"
                 />
               </template>
@@ -80,6 +81,7 @@
   import { getCustomCompOptions } from '@/utils/cache';
   import clickOutside from '/@/directives/clickOutside';
   import type { TableProps } from 'ant-design-vue';
+  import { defHttp } from '/@/utils/http/axios';
 
   const showDropdown = ref(false);
   const searchRealText = ref('');
@@ -115,18 +117,45 @@
 
   const emit = defineEmits(['update:value', 'select', 'change']); // 允许双向绑定value
 
+  // 获取api请求结果
+  const getApiFunc = async (url, params = {}) => {
+    const requestParams = { url: url, params };
+    return defHttp.get<any>(requestParams, { isOnlyResult: true });
+  };
+
   // 查询数据函数
-  const searchData = () => {
+  const searchData = async () => {
     try {
-      loading.value = true;
+      // loading.value = true;
       tableData.splice(0, tableData.length);
-      const rule = props?.tfields;
-      const data = unref(tdata.value as unknown[]);
-      const resultData = JSON.parse(JSON.stringify(data));
-      const result = findNodes(resultData, search.text);
-      const tempList = transformData(result, rule) as never[];
-      tableData.push(...tempList);
-      loading.value = false;
+      if (props.api != null && typeof props.api === 'string') {
+        // 如果 api 是字符串，则说明是 URL
+        const url = props.api;
+        const result = await getApiFunc(url);
+        let data = [];
+        if (result?.data && Array.isArray(result?.data)) {
+          data = result?.data;
+        } else if (result?.list && Array.isArray(result?.list)) {
+          data = result?.list;
+        }
+        const rule = props?.tfields;
+        const transformedData = transformData(data, rule) as never[];
+        tableData.push(...transformedData);
+      } else if (props.api != null && typeof props.api === 'function') {
+        // 如果 api 是函数，则调用函数获取数据
+        const list = await props.api();
+        const rule = props?.tfields;
+        const transformedData = transformData(list, rule) as never[];
+        tableData.push(...transformedData);
+      } else {
+        const rule = props?.tfields;
+        const data = unref(tdata.value as unknown[]);
+        const resultData = JSON.parse(JSON.stringify(data));
+        const result = findNodes(resultData, search.text);
+        const tempList = transformData(result, rule) as never[];
+        tableData.push(...tempList);
+      }
+      // loading.value = false;
     } catch (error) {
       //
     }
@@ -267,6 +296,7 @@
     }
   };
 
+  // 表格点击函数
   const handleClick = (record, index) => {
     const clickFunc = (event) => {
       try {
@@ -286,6 +316,11 @@
     };
   };
 
+  const handleChange = (pagination, filters, sorter, options) => {
+    debugger;
+  };
+
+  // 重新加载数据函数
   const reloadData = async () => {
     try {
       tableData.splice(0, tableData.length);
@@ -306,6 +341,13 @@
       if (props.api != null && typeof props.api == 'function') {
         const list = await props.api();
         tdata.value = list;
+      } else if (props.api != null && typeof props.api === 'string') {
+        const result = await getApiFunc(props.api);
+        if (result?.data && Array.isArray(result?.data)) {
+          tdata.value = result?.data;
+        } else if (result?.list && Array.isArray(result?.list)) {
+          tdata.value = result?.list;
+        }
       }
       const rule = props?.tfields;
       const data = unref(tdata.value as unknown[]);
@@ -337,6 +379,7 @@
 
   onMounted(async () => {
     try {
+      debugger;
       await reloadData();
       searchRealText.value = props.value;
       withDirectives(searchBox, [[clickOutside, handleClickOutside]]); // 注册 clickOutside 指令

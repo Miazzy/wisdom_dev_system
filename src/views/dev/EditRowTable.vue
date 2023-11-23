@@ -33,17 +33,31 @@
     { title: '期间', dataIndex: 'date', key: 'date', minWidth: 150 },
   ];
   const searchBoxData = [
-    { typeName: '财务部类型-吉林通榆', year: '2020', month: '06', date: '2020-06' },
-    { typeName: '市场部类型-吉林通榆', year: '2020', month: '07', date: '2020-07' },
-    { typeName: '华南分部类型-江苏如东', year: '2020', month: '08', date: '2020-08' },
-    { typeName: '西北分部类型-吉林通榆', year: '2020', month: '09', date: '2020-09' },
-    { typeName: '华东分部类型-吉林通榆', year: '2020', month: '10', date: '2020-10' },
-    { typeName: '商务部类型-江苏如东', year: '2020', month: '11', date: '2020-11' },
+    { typeName: '财务部类型', year: '2020', month: '01', date: '2020-01' },
+    { typeName: '财务部类型', year: '2020', month: '02', date: '2020-02' },
+    { typeName: '市场部类型', year: '2020', month: '03', date: '2020-03' },
+    { typeName: '财务部类型', year: '2020', month: '04', date: '2020-04' },
+    { typeName: '市场部类型', year: '2020', month: '05', date: '2020-05' },
+    { typeName: '财务部类型', year: '2020', month: '06', date: '2020-06' },
+    { typeName: '市场部类型', year: '2020', month: '07', date: '2020-07' },
+    { typeName: '华南部类型', year: '2020', month: '08', date: '2020-08' },
+    { typeName: '西北部类型', year: '2020', month: '09', date: '2020-09' },
+    { typeName: '华东部类型', year: '2020', month: '10', date: '2020-10' },
+    { typeName: '商务部类型', year: '2020', month: '11', date: '2020-11' },
     { typeName: '研发部类型', year: '2020', month: '12', date: '2020-12' },
     { typeName: '财务部类型', year: '2021', month: '01', date: '2021-01' },
     { typeName: '研发部类型', year: '2021', month: '02', date: '2021-02' },
     { typeName: '财务部类型', year: '2021', month: '03', date: '2021-03' },
     { typeName: '市场部类型', year: '2021', month: '04', date: '2021-04' },
+  ];
+  const searchBoxColumns1 = [
+    { title: '名称', dataIndex: 'name', key: 'name', fixed: 'left', minWidth: 100 },
+    { title: '公司名称', dataIndex: 'orgName', key: 'orgName', fixed: 'left', minWidth: 100 },
+    { title: '时期', dataIndex: 'period', key: 'period', fixed: 'left', minWidth: 100 },
+    { title: '电站名称', dataIndex: 'shortName', key: 'shortName', fixed: 'left', minWidth: 100 },
+  ];
+  const searchBoxData1 = [
+    { name: '名称', orgName: '公司名称', period: '时期', shortName: '电站名称' },
   ];
 
   const columns: BasicColumn[] = [
@@ -213,6 +227,7 @@
         componentProps: {
           opkey: 'SearchBox123',
           twidth: '600px',
+          api: '/baseset/powerstation/page?pageNo=1&pageSize=10',
           multiple: false,
         },
         width: 150,
@@ -233,6 +248,16 @@
         label: `DictSelectBox`,
         component: 'DictSelectBox',
         componentProps: {
+          type: DICT_TYPE.CERTIFICATE,
+        },
+      },
+      {
+        field: `DictSelectBoxM`,
+        label: `DictSelectBoxM`,
+        component: 'DictSelectBox',
+        defaultValue: [],
+        componentProps: {
+          multiple: 'multiple',
           type: DICT_TYPE.CERTIFICATE,
         },
       },
@@ -419,10 +444,10 @@
 
       queryDeptTreeList();
       const options = {
-        columns: searchBoxColumns,
-        data: searchBoxData,
+        columns: searchBoxColumns1,
+        data: searchBoxData1,
         pagination: true,
-        vfield: 'date',
+        vfield: 'name',
       };
       const treeOptions = {
         data: treeData.value,

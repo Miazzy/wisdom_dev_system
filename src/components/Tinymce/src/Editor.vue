@@ -82,7 +82,10 @@
     value: {
       type: String,
     },
-
+    maxChars: {
+      type: Number,
+      default: 500,
+    },
     toolbar: {
       type: Array as PropType<string[]>,
       default: toolbar,
@@ -146,7 +149,7 @@
       });
 
       const initOptions = computed((): RawEditorSettings => {
-        const { height, options, toolbar, plugins } = props;
+        const { height, options, toolbar, plugins, maxChars } = props;
         const publicPath = import.meta.env.VITE_PUBLIC_PATH || '/';
         return {
           selector: `#${unref(tinymceId)}`,
@@ -161,6 +164,7 @@
           link_title: false,
           object_resizing: false,
           auto_focus: true,
+          max_chars: maxChars || 500, // 设置最大字符数
           skin: skinName.value,
           skin_url: publicPath + 'resource/tinymce/skins/ui/' + skinName.value,
           content_css:
