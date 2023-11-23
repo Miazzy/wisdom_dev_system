@@ -163,6 +163,135 @@
     },
   ];
 
+  const searchFormSchema: any = {
+    labelWidth: 100,
+    actionColOptions: {
+      span: 24,
+    },
+    autoAdvancedLine: 4,
+    showAdvancedButton: true,
+    baseColProps: {
+      span: 6,
+    },
+    schemas: [
+      {
+        field: `SelectBox`,
+        label: `SelectBox`,
+        component: 'SelectBox',
+        componentProps: {
+          data: [
+            { vvv: '01', label: 'Lucy01' },
+            { vvv: '02', label: 'Lucy02' },
+          ],
+          twidth: '100%',
+          tfields: { label: 'label', value: 'vvv' },
+        },
+      },
+      {
+        field: 'SearchBox0',
+        label: '单选SearchBox',
+        component: 'SearchBox',
+        componentProps: {
+          opkey: 'SearchBox123',
+          twidth: '600px',
+          multiple: false,
+        },
+        width: 150,
+      },
+      {
+        field: 'SearchBox1',
+        label: '多选SearchBox',
+        component: 'SearchBox',
+        componentProps: {
+          opkey: 'SearchBox123',
+          twidth: '600px',
+          multiple: true,
+        },
+        width: 150,
+      },
+      {
+        field: `DictSelectBox`,
+        label: `DictSelectBox`,
+        component: 'DictSelectBox',
+        componentProps: {
+          type: DICT_TYPE.CERTIFICATE,
+        },
+      },
+      {
+        field: 'TreeSelectBox',
+        label: 'TreeSelectBox',
+        component: 'TreeSelectBox',
+        componentProps: {
+          opkey: 'TreeSelectBox123',
+          twidth: '500px',
+        },
+        width: 150,
+      },
+      {
+        field: 'TreeBox',
+        label: 'TreeBox',
+        component: 'TreeBox',
+        componentProps: {
+          opkey: 'TreeBox123',
+          twidth: '500px',
+        },
+        width: 150,
+      },
+      {
+        field: 'CascaderBox',
+        label: 'CascaderBox',
+        component: 'CascaderBox',
+        componentProps: {
+          data: [
+            {
+              value: 'zhejiang',
+              label: 'Zhejiang',
+              children: [
+                {
+                  value: 'hangzhou',
+                  label: 'Hangzhou',
+                  children: [
+                    {
+                      value: 'xihu',
+                      label: 'West Lake',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              value: 'jiangsu',
+              label: 'Jiangsu',
+              children: [
+                {
+                  value: 'nanjing',
+                  label: 'Nanjing',
+                  children: [
+                    {
+                      value: 'zhonghuamen',
+                      label: 'Zhong Hua Men',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          twidth: '100%',
+          tfields: { label: 'label', value: 'value', children: 'children' },
+        },
+        width: 150,
+      },
+      {
+        field: `orgName`,
+        label: `公司名称`,
+        component: 'Input',
+        componentProps: {
+          placeholder: '请选择所属公司',
+        },
+      },
+    ],
+  };
+
   export default defineComponent({
     components: { BasicTable, TableAction },
     setup() {
@@ -181,6 +310,8 @@
           '本例中修改[数字输入框]这一列时，同一行的[远程下拉]列的当前编辑数据也会同步发生改变',
         ],
         columns: columns,
+        formConfig: searchFormSchema,
+        useSearchForm: true,
         showIndexColumn: false,
         showTableSetting: true,
         tableSetting: { fullScreen: true },
