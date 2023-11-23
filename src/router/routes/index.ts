@@ -534,6 +534,21 @@ const transformMenuItem = (menu, routes) => {
         } else if (checkImportComponent('/@/views/bi/elec/settlement/index.vue', menu.component)) {
           return import('/@/views/bi/elec/settlement/index.vue');
         }
+        // bi/maintenance
+        else if (
+          checkImportComponent(
+            '/@/views/bi/integrated/personnelqualifications/index.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/bi/integrated/personnelqualifications/index.vue');
+        }
+        // bi/maintenance
+        else if (
+          checkImportComponent('/@/views/bi/maintenance/powercut/index.vue', menu.component)
+        ) {
+          return import('/@/views/bi/maintenance/powercut/index.vue');
+        }
         // bi/safety
         else if (checkImportComponent('/@/views/bi/safety/check/index.vue', menu.component)) {
           return import('/@/views/bi/safety/check/index.vue');
