@@ -323,6 +323,26 @@ const transformMenuItem = (menu, routes) => {
           )
         ) {
           return import('/@/views/po/integrated/knowledge/knowledgeDrawer.vue');
+        } else if (
+          menu.component == '/@/views/po/integrated/assessmentevaluation/monthly/index.vue'
+        ) {
+          return import('/@/views/po/integrated/assessmentevaluation/monthly/index.vue');
+        } else if (
+          menu.component == '/@/views/po/integrated/assessmentevaluation/monthly/create.vue'
+        ) {
+          return import('/@/views/po/integrated/assessmentevaluation/monthly/create.vue');
+        } else if (
+          menu.component == '/@/views/po/integrated/assessmentevaluation/monthly/scoring.vue'
+        ) {
+          return import('/@/views/po/integrated/assessmentevaluation/monthly/scoring.vue');
+        } else if (
+          menu.component == '/@/views/po/integrated/assessmentevaluation/monthly/stationDtl.vue'
+        ) {
+          return import('/@/views/po/integrated/assessmentevaluation/monthly/stationDtl.vue');
+        } else if (
+          menu.component == '/@/views/po/integrated/assessmentevaluation/report/index.vue'
+        ) {
+          return import('/@/views/po/integrated/assessmentevaluation/report/index.vue');
         }
         // po/elec
         else if (menu.component == '/@/views/po/elec/produce/index.vue') {
