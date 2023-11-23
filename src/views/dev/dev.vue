@@ -22,6 +22,7 @@
         v-model="richTextValue"
         :width="`calc(100% - 80px)`"
         :height="600"
+        :maxChars="50"
         @change="handleRichTextChange"
       />
     </div>
@@ -458,6 +459,7 @@
   // 处理富文本输入框change事件
   function handleRichTextChange(value) {
     // TODO 监听富文本框change事件
+    richTextValue.value;
   }
 
   // 左侧树状菜单选中事件

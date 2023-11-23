@@ -164,7 +164,7 @@
           link_title: false,
           object_resizing: false,
           auto_focus: true,
-          max_chars: maxChars || 500, // 设置最大字符数
+          max_chars: maxChars || 100, // 设置最大字符数
           skin: skinName.value,
           skin_url: publicPath + 'resource/tinymce/skins/ui/' + skinName.value,
           content_css:
@@ -172,7 +172,15 @@
           ...options,
           setup: (editor: Editor) => {
             editorRef.value = editor;
-            editor.on('init', (e) => initSetup(e));
+            editor.on('init', function (e) {
+              initSetup(e);
+            });
+            editor.on('input', function (e) {
+              //
+            });
+          },
+          init_instance_callback: function (editor) {
+            editor.settings.max_chars = maxChars; // 设置最大字符数
           },
         };
       });
@@ -261,6 +269,68 @@
         }
       }
 
+      // 获取纯文本内容
+      function getPlainTextContent(html) {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        return doc.body.textContent || '';
+      }
+
+      function maxContentLength(html) {
+        let totalLength = 0;
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        for (const child of doc.body.childNodes) {
+          try {
+            if (typeof child.outerHTML == 'undefined' || child.outerHTML == null) {
+              continue;
+            }
+            const childHtml = getPlainTextContent(child.outerHTML);
+            totalLength += childHtml.length;
+          } catch (error) {
+            //
+          }
+        }
+        return totalLength;
+      }
+
+      // 截取 HTML 内容，保留标签结构
+      function truncateHtml(html, maxLength) {
+        let totalLength = 0;
+        let truncatedContent = '';
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const childNodes = Array.from(doc.body.childNodes);
+
+        for (let i = 0; i < childNodes.length; i++) {
+          const child = childNodes[i];
+          try {
+            if (typeof child.outerHTML === 'undefined' || child.outerHTML === null) {
+              continue;
+            }
+
+            const childHtml = getPlainTextContent(child.outerHTML);
+            totalLength += childHtml.length;
+
+            if (totalLength <= maxLength) {
+              truncatedContent += child.outerHTML;
+            } else {
+              const remainingLength = maxLength - (totalLength - childHtml.length);
+
+              // 截取开始标签和结束标签
+              const startTag = child.outerHTML.match(/^<[^>]+>/)[0];
+              const endTag = child.outerHTML.match(/<\/[^>]+>$/)[0];
+
+              truncatedContent += `${startTag}${childHtml.slice(0, remainingLength)}${endTag}`;
+              break;
+            }
+          } catch (error) {
+            // 处理异常
+          }
+        }
+
+        return truncatedContent;
+      }
+
       function bindModelHandlers(editor: any) {
         const modelEvents = attrs.modelEvents ? attrs.modelEvents : null;
         const normalizedEvents = Array.isArray(modelEvents) ? modelEvents.join(' ') : modelEvents;
@@ -268,7 +338,16 @@
         watch(
           () => props.modelValue,
           (val: string, prevVal: string) => {
-            setValue(editor, val, prevVal);
+            if (val !== prevVal) {
+              const initHtmlContent = editor.getContent();
+              // 如果初始化时的字符数超过最大字符数，进行截取
+              if (maxContentLength(initHtmlContent) > props.maxChars) {
+                const truncatedHtmlContent = truncateHtml(initHtmlContent, props.maxChars);
+                editor.setContent(truncatedHtmlContent);
+              } else {
+                setValue(editor, val, prevVal);
+              }
+            }
           },
         );
 

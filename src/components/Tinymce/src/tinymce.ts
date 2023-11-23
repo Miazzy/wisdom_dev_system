@@ -1,4 +1,4 @@
-export const plugins = [''];
+export const plugins = ['wordcount wordlimit'];
 
 export const toolbar = [
   'code undo redo restoredraft ' +
@@ -6,5 +6,6 @@ export const toolbar = [
     '| forecolor backcolor bold italic underline strikethrough link codesample ' +
     '| alignleft aligncenter alignright alignjustify outdent indent lineheight ' +
     '| styleselect formatselect fontselect fontsizeselect ' +
-    '| bullist numlist ',
+    '| bullist numlist ' +
+    '| wordcount ',
 ];
