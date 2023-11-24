@@ -108,12 +108,7 @@
     },
     disabled: { type: Boolean, default: false },
     api: { type: [String, Function], default: null },
-    apiParamFunc: {
-      type: Function,
-      default: () => {
-        return {};
-      },
-    },
+    apiParamFunc: { type: Function, default: null },
     vfield: { type: String, default: '' },
     pagination: { type: [Boolean, Object], default: false },
   });
@@ -128,8 +123,11 @@
 
   // 获取api请求结果
   const getApiFunc = async (url, pagination, params = null) => {
-    if (params == null || typeof params == 'undefined') {
+    if ((params == null || typeof params == 'undefined') && props.apiParamFunc != null) {
       params = await props.apiParamFunc?.();
+      if (params === false) {
+        return { data: [], total: 0 };
+      }
     }
     url = url
       .replace('{name}', search.text)

@@ -57,7 +57,9 @@
     { title: '电站名称', dataIndex: 'shortName', key: 'shortName', fixed: 'left', minWidth: 100 },
   ];
   const searchBoxData1 = [
-    { name: '名称', orgName: '公司名称', period: '时期', shortName: '电站名称' },
+    { name: '名称0', orgName: '公司名称0', period: '时期0', shortName: '电站名称0' },
+    { name: '名称1', orgName: '公司名称1', period: '时期1', shortName: '电站名称1' },
+    { name: '名称2', orgName: '公司名称2', period: '时期2', shortName: '电站名称2' },
   ];
 
   const columns: BasicColumn[] = [
@@ -241,6 +243,28 @@
           opkey: 'SearchBox123',
           twidth: '600px',
           api: '/baseset/powerstation/page?name={name}&pageNo={current}&pageSize={pageSize}',
+          multiple: true,
+        },
+        width: 150,
+      },
+      {
+        field: 'SearchBox2',
+        label: '本地SearchBox',
+        component: 'SearchBox',
+        componentProps: {
+          opkey: 'SearchBox1234',
+          twidth: '600px',
+          multiple: false,
+        },
+        width: 150,
+      },
+      {
+        field: 'SearchBox3',
+        label: '本地SearchBox',
+        component: 'SearchBox',
+        componentProps: {
+          opkey: 'SearchBox1234',
+          twidth: '600px',
           multiple: true,
         },
         width: 150,
@@ -451,6 +475,13 @@
         tfields: { key: 'name' },
         vfield: 'name',
       };
+      const localSearchBoxOptions = {
+        columns: searchBoxColumns1,
+        data: searchBoxData1,
+        pagination: false, // false 关闭分页   true 开启分页
+        tfields: { key: 'name' },
+        vfield: 'name',
+      };
       const treeOptions = {
         data: treeData.value,
         tfields: { key: 'nodeId', title: 'nodeName' },
@@ -460,6 +491,7 @@
         tfields: { value: 'nodeId', label: 'nodeName', children: 'children' },
       };
       setCustomCompOptions('SearchBox123', options);
+      setCustomCompOptions('SearchBox1234', localSearchBoxOptions);
       setCustomCompOptions('TreeBox123', treeOptions);
       setCustomCompOptions('TreeSelectBox123', treeSelectOptions);
 
