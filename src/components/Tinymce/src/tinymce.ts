@@ -1,4 +1,4 @@
-export const plugins = ['wordcount wordlimit'];
+export const plugins = ['wordcount'];
 
 export const toolbar = [
   'code undo redo restoredraft ' +

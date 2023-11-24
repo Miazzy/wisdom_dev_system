@@ -175,16 +175,18 @@
             editor.on('init', function (e) {
               initSetup(e);
             });
-            editor.on('input', function (e) {
-              //
-            });
             editor.on('KeyDown', function (e) {
+              if (e?.code == 'Backspace') {
+                return true;
+              }
               const initHtmlContent = editor.getContent();
               const tinylen = maxContentLength(initHtmlContent);
-              if (tinylen > maxChars) {
+              if (tinylen >= maxChars) {
                 e.preventDefault();
                 e.stopPropagation();
                 return false;
+              } else {
+                return true;
               }
             });
           },
