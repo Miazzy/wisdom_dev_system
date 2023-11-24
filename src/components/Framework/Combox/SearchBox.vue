@@ -227,12 +227,16 @@
 
   // 处理RowKey
   const handleRowKey = (record) => {
-    if (Reflect.has(record, tvfield.value)) {
-      return record[tvfield.value];
-    } else if (Reflect.has(record, props.tfields.key)) {
-      return record[props.tfields.key];
-    } else {
-      return JSON.stringify(record);
+    try {
+      if (Reflect.has(record, tvfield.value)) {
+        return record[tvfield.value];
+      } else if (Reflect.has(record, props.tfields.key)) {
+        return record[props.tfields.key];
+      } else {
+        return JSON.stringify(record);
+      }
+    } catch (error) {
+      //
     }
   };
 
@@ -338,23 +342,28 @@
 
   // 监听变化函数
   const handleChange = async (pagination, filters, sorter, options) => {
-    tableData.splice(0, tableData.length);
-    const result = await getApiFunc(props.api, pagination);
-    if (result?.data && Array.isArray(result?.data)) {
-      tdata.value = result?.data;
-    } else if (result?.list && Array.isArray(result?.list)) {
-      tdata.value = result?.list;
-    }
-    const rule = props?.tfields;
-    const data = unref(tdata.value as unknown[]);
-    const resultData = JSON.parse(JSON.stringify(data));
-    const tempList = transformData(resultData, rule) as never[];
-    tableData.push(...tempList);
+    try {
+      // 重新加载数据
+      tableData.splice(0, tableData.length);
+      const result = await getApiFunc(props.api, pagination);
+      if (result?.data && Array.isArray(result?.data)) {
+        tdata.value = result?.data;
+      } else if (result?.list && Array.isArray(result?.list)) {
+        tdata.value = result?.list;
+      }
+      const rule = props?.tfields;
+      const data = unref(tdata.value as unknown[]);
+      const resultData = JSON.parse(JSON.stringify(data));
+      const tempList = transformData(resultData, rule) as never[];
+      tableData.push(...tempList);
 
-    // total.value = result?.total;
-    // current.value = pagination.current;
-    xpagination.total = result?.total;
-    xpagination.current = pagination.current;
+      // 重新设置分页数据
+      xpagination.total = result?.total;
+      xpagination.current = pagination?.current;
+      xpagination.pageSize = pagination?.pageSize;
+    } catch (error) {
+      //
+    }
   };
 
   // 重新加载数据函数
@@ -403,31 +412,24 @@
 
   const xpagination = reactive({
     size: 'small',
-    total: 0, // total.value,
-    current: 1, // current.value,
-    pageSize: 5, // pageSize.value,
+    total: 0,
+    current: 1,
+    pageSize: 10,
     hideOnSinglePage: true,
     simple: false,
     disabled: false,
   });
 
-  // watch(
-  //   () => current.value,
-  //   (newValue) => {
-  //     debugger;
-  //   },
-  // );
-
   watch(
     () => props.data,
-    (newValue) => {
+    () => {
       reloadData();
     },
   );
 
   watch(
     () => props.value,
-    (newValue) => {
+    () => {
       try {
         searchRealText.value = props.value;
       } catch (error) {

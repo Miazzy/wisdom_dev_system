@@ -178,6 +178,15 @@
             editor.on('input', function (e) {
               //
             });
+            editor.on('KeyDown', function (e) {
+              const initHtmlContent = editor.getContent();
+              const tinylen = maxContentLength(initHtmlContent);
+              if (tinylen > maxChars) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+              }
+            });
           },
           init_instance_callback: function (editor) {
             editor.settings.max_chars = maxChars; // 设置最大字符数
