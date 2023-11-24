@@ -29,13 +29,13 @@
             </div>
             <div class="search-table">
               <template v-if="multiple">
-                <a-table
+                <Table
                   :rowKey="handleRowKey"
                   :row-selection="rowSelection"
                   :columns="tcolumns"
                   :data-source="tableData"
                   size="small"
-                  :pagination="tpagination"
+                  :pagination="xpagination"
                   :loading="loading"
                   :bordered="true"
                   :scroll="{ y: theight }"
@@ -43,12 +43,12 @@
                 />
               </template>
               <template v-else>
-                <a-table
+                <Table
                   :rowKey="handleRowKey"
                   :columns="tcolumns"
                   :data-source="tableData"
                   size="small"
-                  :pagination="tpagination"
+                  :pagination="xpagination"
                   :loading="loading"
                   :bordered="true"
                   :scroll="{ y: theight }"
@@ -77,10 +77,12 @@
     watch,
     reactive,
     withDirectives,
+    computed,
   } from 'vue';
   import { getCustomCompOptions } from '@/utils/cache';
   import clickOutside from '/@/directives/clickOutside';
-  import type { TableProps } from 'ant-design-vue';
+  import { Table } from 'ant-design-vue';
+  import type { TableProps, TablePaginationConfig } from 'ant-design-vue';
   import { defHttp } from '/@/utils/http/axios';
 
   const showDropdown = ref(false);
@@ -105,21 +107,34 @@
     },
     disabled: { type: Boolean, default: false },
     api: { type: [String, Function], default: null },
+    apiParamFunc: {
+      type: Function,
+      default: () => {
+        return {};
+      },
+    },
     vfield: { type: String, default: '' },
-    pagination: { type: Boolean, default: false },
+    pagination: { type: [Boolean, Object], default: false },
   });
 
   const tcolumns = ref([]);
   const tvfield = ref('');
   const tdata = ref([]);
-  const tpagination = ref(false);
+  const tpagination = ref<any>(false);
   const twidths = ref('100%');
 
   const emit = defineEmits(['update:value', 'select', 'change']); // 允许双向绑定value
 
   // 获取api请求结果
-  const getApiFunc = async (url, params = {}) => {
-    const requestParams = { url: url, params };
+  const getApiFunc = async (url, pagination, params = null) => {
+    if (params == null || typeof params == 'undefined') {
+      params = await props.apiParamFunc?.();
+    }
+    url = url
+      .replace('{name}', search.text)
+      .replace('{current}', pagination.current)
+      .replace('{pageSize}', pagination.pageSize);
+    const requestParams = { url, params };
     return defHttp.get<any>(requestParams, { isOnlyResult: true });
   };
 
@@ -131,7 +146,8 @@
       if (props.api != null && typeof props.api === 'string') {
         // 如果 api 是字符串，则说明是 URL
         const url = props.api;
-        const result = await getApiFunc(url);
+        const pagination = { current: 1, pageSize: 10 };
+        const result = await getApiFunc(url, pagination);
         let data = [];
         if (result?.data && Array.isArray(result?.data)) {
           data = result?.data;
@@ -141,6 +157,10 @@
         const rule = props?.tfields;
         const transformedData = transformData(data, rule) as never[];
         tableData.push(...transformedData);
+        // total.value = result?.total;
+        // current.value = pagination.current;
+        xpagination.total = result?.total;
+        xpagination.current = pagination.current;
       } else if (props.api != null && typeof props.api === 'function') {
         // 如果 api 是函数，则调用函数获取数据
         const list = await props.api();
@@ -316,8 +336,25 @@
     };
   };
 
-  const handleChange = (pagination, filters, sorter, options) => {
-    debugger;
+  // 监听变化函数
+  const handleChange = async (pagination, filters, sorter, options) => {
+    tableData.splice(0, tableData.length);
+    const result = await getApiFunc(props.api, pagination);
+    if (result?.data && Array.isArray(result?.data)) {
+      tdata.value = result?.data;
+    } else if (result?.list && Array.isArray(result?.list)) {
+      tdata.value = result?.list;
+    }
+    const rule = props?.tfields;
+    const data = unref(tdata.value as unknown[]);
+    const resultData = JSON.parse(JSON.stringify(data));
+    const tempList = transformData(resultData, rule) as never[];
+    tableData.push(...tempList);
+
+    // total.value = result?.total;
+    // current.value = pagination.current;
+    xpagination.total = result?.total;
+    xpagination.current = pagination.current;
   };
 
   // 重新加载数据函数
@@ -338,11 +375,13 @@
         tpagination.value = props.pagination;
         twidths.value = props.twidth;
       }
+      const pagination = { current: 1, pageSize: 10 };
+      let result: any = null;
       if (props.api != null && typeof props.api == 'function') {
-        const list = await props.api();
-        tdata.value = list;
+        result = await props.api();
+        tdata.value = result?.list;
       } else if (props.api != null && typeof props.api === 'string') {
-        const result = await getApiFunc(props.api);
+        result = await getApiFunc(props.api, pagination);
         if (result?.data && Array.isArray(result?.data)) {
           tdata.value = result?.data;
         } else if (result?.list && Array.isArray(result?.list)) {
@@ -354,10 +393,30 @@
       const resultData = JSON.parse(JSON.stringify(data));
       const tempList = transformData(resultData, rule) as never[];
       tableData.push(...tempList);
+      xpagination.disabled = !tpagination.value;
+      xpagination.total = result?.total;
+      xpagination.current = pagination.current;
     } catch (error) {
       //
     }
   };
+
+  const xpagination = reactive({
+    size: 'small',
+    total: 0, // total.value,
+    current: 1, // current.value,
+    pageSize: 5, // pageSize.value,
+    hideOnSinglePage: true,
+    simple: false,
+    disabled: false,
+  });
+
+  // watch(
+  //   () => current.value,
+  //   (newValue) => {
+  //     debugger;
+  //   },
+  // );
 
   watch(
     () => props.data,
@@ -379,7 +438,6 @@
 
   onMounted(async () => {
     try {
-      debugger;
       await reloadData();
       searchRealText.value = props.value;
       withDirectives(searchBox, [[clickOutside, handleClickOutside]]); // 注册 clickOutside 指令

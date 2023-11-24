@@ -76,18 +76,18 @@
           },
           width: 150,
         },
-        {
-          title: '默认输入状态',
-          dataIndex: 'name1',
-          editRow: true,
-          editComponent: 'SearchBox',
-          editComponentProps: {
-            opkey: 'SearchBox123',
-            twidth: '500px',
-            multiple: false,
-          },
-          width: 150,
-        },
+        // {
+        //   title: '默认输入状态',
+        //   dataIndex: 'name1',
+        //   editRow: true,
+        //   editComponent: 'SearchBox',
+        //   editComponentProps: {
+        //     opkey: 'SearchBox123',
+        //     twidth: '500px',
+        //     multiple: false,
+        //   },
+        //   width: 150,
+        // },
         {
           title: '输入框校验',
           dataIndex: 'name2',
@@ -227,7 +227,7 @@
         componentProps: {
           opkey: 'SearchBox123',
           twidth: '600px',
-          api: '/baseset/powerstation/page?pageNo=1&pageSize=10',
+          api: '/baseset/powerstation/page?name={name}&pageNo={current}&pageSize={pageSize}',
           multiple: false,
         },
         width: 150,
@@ -238,7 +238,7 @@
         component: 'SearchBox',
         componentProps: {
           opkey: 'SearchBox123',
-          twidth: '600px',
+          twidth: '500px',
           multiple: true,
         },
         width: 150,
@@ -447,6 +447,7 @@
         columns: searchBoxColumns1,
         data: searchBoxData1,
         pagination: true,
+        tfields: { key: 'name' },
         vfield: 'name',
       };
       const treeOptions = {

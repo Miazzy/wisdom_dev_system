@@ -22,7 +22,7 @@
         v-model="richTextValue"
         :width="`calc(100% - 80px)`"
         :height="600"
-        :maxChars="50"
+        :maxChars="100"
         @change="handleRichTextChange"
       />
     </div>
