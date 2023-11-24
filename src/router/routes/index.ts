@@ -216,7 +216,15 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/po/safety/safecheckissue/index.vue');
         } else if (menu.component == '/@/views/po/safety/safecheckissue/createOrUpdate.vue') {
           return import('/@/views/po/safety/safecheckissue/createOrUpdate.vue');
-        } else if (menu.component.startsWith('/@/views/po/safety/safecheckexecution/index.vue')) {
+        }
+        // po/safety/safecheckexecution checkType: 1:定期检查 、2:专项检查
+        else if (
+          menu.component.startsWith('/@/views/po/safety/safecheckexecution/index.vue?checkType=1')
+        ) {
+          return import('/@/views/po/safety/safecheckexecution/index.vue');
+        } else if (
+          menu.component.startsWith('/@/views/po/safety/safecheckexecution/index.vue?checkType=2')
+        ) {
           return import('/@/views/po/safety/safecheckexecution/index.vue');
         } else if (menu.component == '/@/views/po/safety/safecheckexecution/createOrUpdate.vue') {
           return import('/@/views/po/safety/safecheckexecution/createOrUpdate.vue');
