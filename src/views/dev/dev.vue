@@ -45,14 +45,17 @@
     <div class="" style="width: 100%">
       <span style="float: left"> SearchBox </span>
       <!-- search box -->
+      <span style="margin-left: 10px">searchBoxSearchText: {{ searchBoxSearchText }}</span>
       <SearchBox
         v-model:value="searchTableText"
+        v-model:searchText="searchBoxSearchText"
         :columns="searchBoxColumns"
         :data="searchBoxData"
         :vfield="'date'"
         :pagination="true"
         twidth="500px"
         style="width: 220px"
+        @search="handleSearchBoxSearch"
         @select="tableBoxSelect"
       />
       <span style="float: left"> TreeBox </span>
@@ -67,6 +70,7 @@
         twidth="400px"
       />
       <span style="float: left"> SelectBox </span>
+      <br />
       <SelectBox
         v-model:value="searchSelectText"
         :tfields="{ label: 'llll', value: 'vvv' }"
@@ -78,7 +82,7 @@
         twidth="220px"
       />
     </div>
-
+    <br />
     <Button @click="handleOpenCgDialog">打开分类Dialog</Button>
     <Button @click="handleOpenOgDialog">打开组织Dialog</Button>
     <CategoryDialog
@@ -288,6 +292,7 @@
   const selectedSValue = ref('');
   const radioGroupValue = ref('');
   const searchSelectText = ref('');
+  const searchBoxSearchText = ref('');
 
   const billTitleOptions = reactive<any>({});
   billTitleOptions.title = '电站填报';
@@ -524,7 +529,12 @@
     searchTreeText.value;
   };
 
+  const handleSearchBoxSearch = (value) => {
+    searchBoxSearchText.value;
+  };
+
   const tableBoxSelect = (node, event) => {
+    searchBoxSearchText.value;
     searchTableText.value;
   };
 
@@ -581,12 +591,17 @@
     }, 5000);
 
     searchBoxData.value = [
-      { typeName: '财务部类型-吉林通榆', year: '2020', month: '06', date: '2020-06' },
-      { typeName: '市场部类型-吉林通榆', year: '2020', month: '07', date: '2020-07' },
-      { typeName: '华南分部类型-江苏如东', year: '2020', month: '08', date: '2020-08' },
-      { typeName: '西北分部类型-吉林通榆', year: '2020', month: '09', date: '2020-09' },
-      { typeName: '华东分部类型-吉林通榆', year: '2020', month: '10', date: '2020-10' },
-      { typeName: '商务部类型-江苏如东', year: '2020', month: '11', date: '2020-11' },
+      { typeName: '财务部类型', year: '2020', month: '01', date: '2020-01' },
+      { typeName: '市场部类型', year: '2020', month: '02', date: '2020-02' },
+      { typeName: '华南部类型', year: '2020', month: '03', date: '2020-03' },
+      { typeName: '西北部类型', year: '2020', month: '04', date: '2020-04' },
+      { typeName: '财务部类型', year: '2020', month: '05', date: '2020-05' },
+      { typeName: '财务部类型', year: '2020', month: '06', date: '2020-06' },
+      { typeName: '市场部类型', year: '2020', month: '07', date: '2020-07' },
+      { typeName: '华南部类型', year: '2020', month: '08', date: '2020-08' },
+      { typeName: '西北部类型', year: '2020', month: '09', date: '2020-09' },
+      { typeName: '华东部类型', year: '2020', month: '10', date: '2020-10' },
+      { typeName: '商务部类型', year: '2020', month: '11', date: '2020-11' },
       { typeName: '研发部类型', year: '2020', month: '12', date: '2020-12' },
       { typeName: '财务部类型', year: '2021', month: '01', date: '2021-01' },
       { typeName: '研发部类型', year: '2021', month: '02', date: '2021-02' },

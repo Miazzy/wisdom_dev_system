@@ -78,7 +78,7 @@
     watch,
     reactive,
     withDirectives,
-    computed,
+    nextTick,
   } from 'vue';
   import { getCustomCompOptions } from '@/utils/cache';
   import clickOutside from '/@/directives/clickOutside';
@@ -128,7 +128,14 @@
     disabled: false,
   });
 
-  const emit = defineEmits(['update:value', 'select', 'change', 'search']); // 允许双向绑定value
+  const emit = defineEmits([
+    'update:value',
+    'select',
+    'change',
+    'search',
+    'searchclick',
+    'update:searchText',
+  ]); // 允许双向绑定value
 
   // 获取api请求结果
   const getApiFunc = async (url, pagination, params: any = null) => {
@@ -149,43 +156,45 @@
   };
 
   // 查询数据函数
-  const searchData = async () => {
+  const searchData = () => {
     try {
+      emit('update:searchText', search.text);
       emit('search', search.text);
-      // loading.value = true;
-      tableData.splice(0, tableData.length);
-      if (props.api != null && typeof props.api === 'string') {
-        // 如果 api 是字符串，则说明是 URL
-        const url = props.api;
-        const pagination = { current: 1, pageSize: xpagination.pageSize };
-        const result = await getApiFunc(url, pagination);
-        let data = [];
-        if (result?.data && Array.isArray(result?.data)) {
-          data = result?.data;
-        } else if (result?.list && Array.isArray(result?.list)) {
-          data = result?.list;
+      emit('searchclick', search.text);
+      nextTick(async () => {
+        // loading.value = true;
+        tableData.splice(0, tableData.length);
+        if (props.api != null && typeof props.api === 'string') {
+          // 如果 api 是字符串，则说明是 URL
+          const url = props.api;
+          const pagination = { current: 1, pageSize: xpagination.pageSize };
+          const result = await getApiFunc(url, pagination);
+          let data = [];
+          if (result?.data && Array.isArray(result?.data)) {
+            data = result?.data;
+          } else if (result?.list && Array.isArray(result?.list)) {
+            data = result?.list;
+          }
+          const rule = props?.tfields;
+          const transformedData = transformData(data, rule) as never[];
+          tableData.push(...transformedData);
+          xpagination.total = result?.total;
+          xpagination.current = pagination.current;
+        } else if (props.api != null && typeof props.api === 'function') {
+          // 如果 api 是函数，则调用函数获取数据
+          const list = await props.api();
+          const rule = props?.tfields;
+          const transformedData = transformData(list, rule) as never[];
+          tableData.push(...transformedData);
+        } else {
+          const rule = props?.tfields;
+          const data = unref(tdata.value as unknown[]);
+          const resultData = JSON.parse(JSON.stringify(data));
+          const result = findNodes(resultData, search.text);
+          const tempList = transformData(result, rule) as never[];
+          tableData.push(...tempList);
         }
-        const rule = props?.tfields;
-        const transformedData = transformData(data, rule) as never[];
-        tableData.push(...transformedData);
-        // total.value = result?.total;
-        // current.value = pagination.current;
-        xpagination.total = result?.total;
-        xpagination.current = pagination.current;
-      } else if (props.api != null && typeof props.api === 'function') {
-        // 如果 api 是函数，则调用函数获取数据
-        const list = await props.api();
-        const rule = props?.tfields;
-        const transformedData = transformData(list, rule) as never[];
-        tableData.push(...transformedData);
-      } else {
-        const rule = props?.tfields;
-        const data = unref(tdata.value as unknown[]);
-        const resultData = JSON.parse(JSON.stringify(data));
-        const result = findNodes(resultData, search.text);
-        const tempList = transformData(result, rule) as never[];
-        tableData.push(...tempList);
-      }
+      });
       // loading.value = false;
     } catch (error) {
       //
@@ -361,21 +370,22 @@
   const handleChange = async (pagination, filters, sorter, options) => {
     try {
       // 重新加载数据
-      tableData.splice(0, tableData.length);
-      const result = await getApiFunc(props.api, pagination);
-      if (result?.data && Array.isArray(result?.data)) {
-        tdata.value = result?.data;
-      } else if (result?.list && Array.isArray(result?.list)) {
-        tdata.value = result?.list;
+      if (props.api != null) {
+        tableData.splice(0, tableData.length);
+        const result = await getApiFunc(props.api, pagination);
+        if (result?.data && Array.isArray(result?.data)) {
+          tdata.value = result?.data;
+        } else if (result?.list && Array.isArray(result?.list)) {
+          tdata.value = result?.list;
+        }
+        const rule = props?.tfields;
+        const data = unref(tdata.value as unknown[]);
+        const resultData = JSON.parse(JSON.stringify(data));
+        const tempList = transformData(resultData, rule) as never[];
+        tableData.push(...tempList);
+        xpagination.total = result?.total;
       }
-      const rule = props?.tfields;
-      const data = unref(tdata.value as unknown[]);
-      const resultData = JSON.parse(JSON.stringify(data));
-      const tempList = transformData(resultData, rule) as never[];
-      tableData.push(...tempList);
-
       // 重新设置分页数据
-      xpagination.total = result?.total;
       xpagination.current = pagination?.current;
       xpagination.pageSize = pagination?.pageSize;
     } catch (error) {
