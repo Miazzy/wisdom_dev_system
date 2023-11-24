@@ -412,6 +412,7 @@
       xpagination.disabled = !tpagination.value;
       xpagination.total = result?.total;
       xpagination.current = pagination.current;
+      xpagination.pageSize = pagination?.pageSize;
     } catch (error) {
       //
     }
@@ -422,7 +423,7 @@
     total: 0,
     current: 1,
     pageSize: 10,
-    hideOnSinglePage: true,
+    hideOnSinglePage: false,
     simple: false,
     disabled: false,
   });

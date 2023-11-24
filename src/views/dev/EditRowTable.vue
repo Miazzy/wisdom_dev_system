@@ -446,7 +446,7 @@
       queryDeptTreeList();
       const options = {
         columns: searchBoxColumns1,
-        pagination: true,
+        pagination: true, // false 关闭分页   true 开启分页
         tfields: { key: 'name' },
         vfield: 'name',
       };
