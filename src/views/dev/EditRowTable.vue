@@ -227,7 +227,7 @@
         componentProps: {
           opkey: 'SearchBox123',
           twidth: '600px',
-          api: '/baseset/powerstation/page?name={name}&pageNo={current}&pageSize={pageSize}',
+          api: `/baseset/powerstation/page?name={name}&pageNo={current}&pageSize={pageSize}`,
           multiple: false,
         },
         width: 150,
@@ -238,7 +238,8 @@
         component: 'SearchBox',
         componentProps: {
           opkey: 'SearchBox123',
-          twidth: '500px',
+          twidth: '600px',
+          api: '/baseset/powerstation/page?name={name}&pageNo={current}&pageSize={pageSize}',
           multiple: true,
         },
         width: 150,
@@ -445,7 +446,6 @@
       queryDeptTreeList();
       const options = {
         columns: searchBoxColumns1,
-        data: searchBoxData1,
         pagination: true,
         tfields: { key: 'name' },
         vfield: 'name',

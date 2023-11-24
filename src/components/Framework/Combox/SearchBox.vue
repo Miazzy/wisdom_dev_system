@@ -39,6 +39,7 @@
                   :loading="loading"
                   :bordered="true"
                   :scroll="{ y: theight }"
+                  @change="handleChange"
                   :customRow="handleClick"
                 />
               </template>
@@ -86,7 +87,7 @@
   import { defHttp } from '/@/utils/http/axios';
 
   const showDropdown = ref(false);
-  const searchRealText = ref('');
+  const searchRealText = ref<any>('');
   const search = reactive({ text: '' });
   const searchBox = ref<any>(null);
   const loading = ref(false);
@@ -212,17 +213,23 @@
 
   // 选中函数
   const rowSelection: TableProps['rowSelection'] = {
-    onChange: (keys: any[], selectedRows: any[]) => {
-      const records = keys.join(',');
-      searchRealText.value = records;
-      emit('update:value', records);
-      emit('select', { records, keys, selectedRows });
-      emit('change', records, { records, keys, selectedRows });
+    hideSelectAll: true,
+    preserveSelectedRowKeys: true,
+    onChange: (keys: any[], selectedRows: any[]) => {},
+    onSelect: (record, selected, selectedRows, nativeEvent) => {
+      if (selected == true) {
+        searchRealText.value += handleRowKey(record) + ',';
+      } else {
+        searchRealText.value = searchRealText.value.replace(handleRowKey(record) + ',', '');
+      }
+      emit('update:value', searchRealText.value);
+      emit('select', { records: searchRealText.value, keys: searchRealText.value, selectedRows });
+      emit('change', searchRealText.value, {
+        records: searchRealText.value,
+        keys: searchRealText.value,
+        selectedRows,
+      });
     },
-    getCheckboxProps: (record: any) => ({
-      disabled: record.name === 'Disabled User', // Column configuration not to be checked
-      name: record.name,
-    }),
   };
 
   // 处理RowKey
