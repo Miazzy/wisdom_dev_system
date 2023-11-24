@@ -118,6 +118,15 @@
   const tdata = ref([]);
   const tpagination = ref<any>(false);
   const twidths = ref('100%');
+  const xpagination = reactive({
+    size: 'small',
+    total: 0,
+    current: 1,
+    pageSize: 10,
+    hideOnSinglePage: false,
+    simple: false,
+    disabled: false,
+  });
 
   const emit = defineEmits(['update:value', 'select', 'change', 'search']); // 允许双向绑定value
 
@@ -146,7 +155,7 @@
       if (props.api != null && typeof props.api === 'string') {
         // 如果 api 是字符串，则说明是 URL
         const url = props.api;
-        const pagination = { current: 1, pageSize: 10 };
+        const pagination = { current: 1, pageSize: xpagination.pageSize };
         const result = await getApiFunc(url, pagination);
         let data = [];
         if (result?.data && Array.isArray(result?.data)) {
@@ -390,7 +399,7 @@
         tpagination.value = props.pagination;
         twidths.value = props.twidth;
       }
-      const pagination = { current: 1, pageSize: 10 };
+      const pagination = { current: 1, pageSize: xpagination.pageSize };
       let result: any = null;
       if (props.api != null && typeof props.api == 'function') {
         result = await props.api();
@@ -416,16 +425,6 @@
       //
     }
   };
-
-  const xpagination = reactive({
-    size: 'small',
-    total: 0,
-    current: 1,
-    pageSize: 10,
-    hideOnSinglePage: false,
-    simple: false,
-    disabled: false,
-  });
 
   watch(
     () => props.data,
