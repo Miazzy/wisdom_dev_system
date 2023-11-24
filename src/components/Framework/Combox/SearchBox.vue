@@ -119,7 +119,7 @@
   const tpagination = ref<any>(false);
   const twidths = ref('100%');
 
-  const emit = defineEmits(['update:value', 'select', 'change']); // 允许双向绑定value
+  const emit = defineEmits(['update:value', 'select', 'change', 'search']); // 允许双向绑定value
 
   // 获取api请求结果
   const getApiFunc = async (url, pagination, params = null) => {
@@ -140,6 +140,7 @@
   // 查询数据函数
   const searchData = async () => {
     try {
+      emit('search', search.text);
       // loading.value = true;
       tableData.splice(0, tableData.length);
       if (props.api != null && typeof props.api === 'string') {
