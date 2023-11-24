@@ -131,11 +131,13 @@
   const emit = defineEmits(['update:value', 'select', 'change', 'search']); // 允许双向绑定value
 
   // 获取api请求结果
-  const getApiFunc = async (url, pagination, params = null) => {
+  const getApiFunc = async (url, pagination, params: any = null) => {
     if ((params == null || typeof params == 'undefined') && props.apiParamFunc != null) {
       params = await props.apiParamFunc?.();
       if (params === false) {
         return { data: [], total: 0 };
+      } else {
+        params = {};
       }
     }
     url = url
