@@ -44,8 +44,8 @@
       const routeKey = ref('');
 
       const handleComponent = (component, route) => {
-        if (typeof component.type != 'function') {
-          setComponetInfo(route.fullPath + '#type', component.type);
+        if (typeof component?.type != 'function') {
+          setComponetInfo(route.fullPath + '#type', component?.type);
         } else {
           routeKey.value = route.fullPath.includes('?')
             ? route.fullPath + `&time=${new Date().getTime()}`
