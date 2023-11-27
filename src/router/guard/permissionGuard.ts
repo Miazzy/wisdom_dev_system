@@ -106,8 +106,16 @@ export function createPermissionGuard(router: Router) {
 
     permissionStore.setDynamicAddedRoute(true);
 
-    if (to.name === PAGE_NOT_FOUND_ROUTE.name) {
-      // 动态添加路由后，此处应当重定向到fullPath，否则会加载404页面内容
+    const routeList = router.getRoutes();
+    const findRoute = routeList.find((item) => item.path == to.fullPath);
+    const routeName = findRoute?.name;
+    const rlist = [
+      '/po/safety/safecheckexecution?checkType=2',
+      '/po/safety/safecheckexecution?checkType=1',
+    ];
+    if (to.name != routeName && rlist.includes(to.fullPath)) {
+      next({ path: to.fullPath, replace: true, query: {}, name: routeName });
+    } else if (to.name === PAGE_NOT_FOUND_ROUTE.name) {
       next({ path: to.fullPath, replace: true, query: to.query });
     } else {
       const redirectPath = (from.query.redirect || to.path) as string;

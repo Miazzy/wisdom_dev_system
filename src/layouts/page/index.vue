@@ -1,17 +1,15 @@
 <template>
   <RouterView>
     <template #default="{ Component, route }">
-      <keep-alive v-if="openCache" :include="getCaches">
-        <component :is="Component" :key="route.fullPath" />
-      </keep-alive>
-      <component v-else :is="Component" :key="route.fullPath" />
+      <component :is="handleComponent(Component, route)" :key="routeKey" />
     </template>
   </RouterView>
   <FrameLayout v-if="getCanEmbedIFramePage" />
 </template>
 
 <script lang="ts">
-  import { computed, defineComponent, unref } from 'vue';
+  import { computed, defineComponent, unref, ref } from 'vue';
+  import { setComponetInfo } from '/@/utils/cache';
 
   import FrameLayout from '/@/layouts/iframe/index.vue';
 
@@ -43,6 +41,20 @@
         return tabStore.getCachedTabList;
       });
 
+      const routeKey = ref('');
+
+      const handleComponent = (component, route) => {
+        if (typeof component.type != 'function') {
+          setComponetInfo(route.fullPath + '#type', component.type);
+        } else {
+          routeKey.value = route.fullPath.includes('?')
+            ? route.fullPath + `&time=${new Date().getTime()}`
+            : route.fullPath + `?time=${new Date().getTime()}`;
+          window.location.reload();
+        }
+        return component;
+      };
+
       return {
         getTransitionName,
         openCache,
@@ -50,6 +62,8 @@
         getBasicTransition,
         getCaches,
         getCanEmbedIFramePage,
+        handleComponent,
+        routeKey,
       };
     },
   });

@@ -1,6 +1,7 @@
 import type { RouteLocationNormalized, Router, RouteRecordNormalized } from 'vue-router';
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import { cloneDeep, omit } from 'lodash-es';
+import { useMultipleTabStore } from '/@/store/modules/multipleTab';
 
 const modules = import.meta.glob('../views/**/*.{vue,tsx}');
 
@@ -53,17 +54,23 @@ export const ascending = (arr: any[]) => {
 
 export const getRawRoute = (route: RouteLocationNormalized): RouteLocationNormalized => {
   if (!route) return route;
-  const { matched, ...opt } = route;
-  return {
-    ...opt,
-    matched: (matched
-      ? matched.map((item) => ({
-          meta: item.meta,
-          name: item.name,
-          path: item.path,
-        }))
-      : undefined) as RouteRecordNormalized[],
-  };
+
+  const tabStore = useMultipleTabStore();
+  const tabs = tabStore.getTabList.filter((item) => !item.meta?.hideTab);
+  const cache = tabs.find((item) => item.fullPath == route.fullPath);
+  try {
+    const { matched, ...opt } = cache as RouteLocationNormalized;
+    return {
+      ...opt,
+      matched: matched as RouteRecordNormalized[],
+    };
+  } catch (error) {
+    const { matched, ...opt } = route;
+    return {
+      ...opt,
+      matched: matched as RouteRecordNormalized[],
+    };
+  }
 };
 
 // 后端控制路由生成

@@ -12,6 +12,8 @@ import { createStateGuard } from './stateGuard';
 import nProgress from 'nprogress';
 import projectSetting from '/@/settings/projectSetting';
 import { createParamMenuGuard } from './paramMenuGuard';
+import { useMultipleTabStore } from '/@/store/modules/multipleTab';
+import { router, resetRouter } from '/@/router';
 
 // Don't change the order of creation
 export function setupRouterGuard(router: Router) {
@@ -33,11 +35,33 @@ function createPageGuard(router: Router) {
   const loadedPageMap = new Map<string, boolean>();
 
   router.beforeEach(async (to) => {
-    // The page has already been loaded, it will be faster to open it again, you don’t need to do loading and other processing
-    to.meta.loaded = !!loadedPageMap.get(to.path);
-    // Notify routing changes
-    setRouteChange(to);
+    const rlist = [
+      '/po/safety/safecheckexecution?checkType=2',
+      '/po/safety/safecheckexecution?checkType=1',
+    ];
+    
+    const routeList = router.getRoutes();
+    const findRoute = routeList.find((item) => item.path == to.fullPath);
+    const tabStore = useMultipleTabStore();
+    const tabs = tabStore.getTabList.filter((item) => !item.meta?.hideTab);
+    const cache = tabs.find((item) => item.fullPath == to.fullPath);
 
+    to.meta.loaded = !!loadedPageMap.get(to.path);
+    if (cache && findRoute && rlist.includes(to.fullPath)) {
+      setRouteChange(cache);
+      const matched: any[] = [];
+      routeList.map((item) => {
+        const result = cache.matched.find((element) => element.path == item.path);
+        return result ? matched.push(item) : false;
+      });
+      to.matched = matched.sort((a, b) => {
+        return b.children.length - a.children.length;
+      });
+      to.name = cache.name;
+      to.meta = { ...to.meta, ...cache.meta };
+    } else {
+      setRouteChange(to);
+    }
     return true;
   });
 

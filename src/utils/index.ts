@@ -4,6 +4,9 @@ import type { App, Component } from 'vue';
 import { intersectionWith, isEqual, mergeWith, unionWith } from 'lodash-es';
 import { unref } from 'vue';
 import { isArray, isObject } from '/@/utils/is';
+import { setRouteInfo, getRouteInfo } from '/@/utils/cache';
+import { router } from '/@/router';
+import { useMultipleTabStore } from '/@/store/modules/multipleTab';
 
 export const noop = () => {};
 
@@ -106,17 +109,22 @@ export function getDynamicProps<T extends Record<string, unknown>, U>(props: T):
 
 export function getRawRoute(route: RouteLocationNormalized): RouteLocationNormalized {
   if (!route) return route;
-  const { matched, ...opt } = route;
-  return {
-    ...opt,
-    matched: (matched
-      ? matched.map((item) => ({
-          meta: item.meta,
-          name: item.name,
-          path: item.path,
-        }))
-      : undefined) as RouteRecordNormalized[],
-  };
+  const tabStore = useMultipleTabStore();
+  const tabs = tabStore.getTabList.filter((item) => !item.meta?.hideTab);
+  const cache = tabs.find((item) => item.fullPath == route.fullPath);
+  try {
+    const { matched, ...opt } = cache as RouteLocationNormalized;
+    return {
+      ...opt,
+      matched: matched as RouteRecordNormalized[],
+    };
+  } catch (error) {
+    const { matched, ...opt } = route;
+    return {
+      ...opt,
+      matched: matched as RouteRecordNormalized[],
+    };
+  }
 }
 
 // https://github.com/vant-ui/vant/issues/8302

@@ -38,4 +38,24 @@ export const getCustomCompOptions = (key) => {
   return ls.get('CUSTOM_COMP_OPTIONS_' + key);
 };
 
+export const setRouteInfo = (key, route) => {
+  const ls = createLocalStorage();
+  ls.set('ROUTE_INFO_CACHE_KEY_' + key, { ...route, timeout: DEFAULT_CACHE_TIME });
+};
+
+export const getRouteInfo = (key) => {
+  const ls = createLocalStorage();
+  return ls.get('ROUTE_INFO_CACHE_KEY_' + key);
+};
+
+export const setComponetInfo = (key, route) => {
+  const ls = createLocalStorage();
+  ls.set('COMPONET_INFO_CACHE_KEY_' + key, { ...route, timeout: DEFAULT_CACHE_TIME });
+};
+
+export const getComponetInfo = (key) => {
+  const ls = createLocalStorage();
+  return ls.get('COMPONET_INFO_CACHE_KEY_' + key);
+};
+
 export default WebStorage;
