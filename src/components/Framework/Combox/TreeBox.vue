@@ -101,6 +101,7 @@
     className: { type: String },
     expandAll: { type: Boolean, default: false },
     treeLine: { type: [Boolean, Object], default: true && { showLeafIcon: true } },
+    callback: { type: Function, default: null },
     ticons: {
       type: Object,
       default: {
@@ -290,6 +291,9 @@
       emit('update:value', event.node.title);
       emit('select', event.node, event);
       emit('change', event.node.title, event.node, event);
+      if (props.callback != null) {
+        props.callback(node, event);
+      }
       showDropdown.value = false;
     } catch {
       //

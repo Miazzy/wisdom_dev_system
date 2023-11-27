@@ -37,6 +37,7 @@
     maxTagTextLength: { type: [Number], default: 10 },
     maxTagCount: { type: [String, Number], default: 'responsive' },
     loadData: { type: Function, default: null },
+    callback: { type: Function, default: null },
     tfields: { type: Object, default: { label: 'label', value: 'value' } as Object },
   });
 
@@ -118,10 +119,16 @@
       emit('update:value', value);
     }
     emit('change', value, options);
+    if (props.callback != null) {
+      props.callback(value, options);
+    }
   };
 
   const handleSelect = (value, options) => {
     emit('select', value, options);
+    if (props.callback != null) {
+      props.callback(value, options);
+    }
   };
 
   const reloadData = () => {

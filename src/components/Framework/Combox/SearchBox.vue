@@ -111,6 +111,7 @@
     apiParamFunc: { type: Function, default: null },
     vfield: { type: String, default: '' },
     pagination: { type: [Boolean, Object], default: false },
+    callback: { type: Function, default: null },
   });
 
   const tcolumns = ref([]);
@@ -248,6 +249,10 @@
         keys: searchRealText.value,
         selectedRows,
       });
+
+      if (props.callback != null) {
+        props.callback({ records: searchRealText.value, keys: searchRealText.value, selectedRows });
+      }
     },
   };
 
@@ -355,6 +360,9 @@
           emit('update:value', record[tvfield.value]);
           emit('select', { record, index }, event);
           emit('change', record[tvfield.value], { record, index }, event);
+          if (props.callback != null) {
+            props.callback({ record, index, event });
+          }
         }
         showDropdown.value = false;
       } catch (error) {

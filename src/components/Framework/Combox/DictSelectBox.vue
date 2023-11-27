@@ -36,12 +36,16 @@
     value: { type: [String, Array], default: null }, // 搜索框文本
     delaytimes: { type: Number, default: 900 },
     multiple: { type: String, default: 'combobox' },
+    callback: { type: Function, default: null },
   });
 
   // 选中下拉框选项事件函数
   const handleChange = (value: string, node) => {
     emit('update:value', value);
     emit('change', value, node, options.value);
+    if (props.callback != null) {
+      props.callback(value, node, options.value);
+    }
   };
 
   // 设置value

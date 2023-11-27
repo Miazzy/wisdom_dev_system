@@ -38,6 +38,7 @@
     maxTagCount: { type: [String, Number], default: 'responsive' },
     loadData: { type: Function, default: null },
     tfields: { type: Object, default: { label: 'label', value: 'value' } as Object },
+    callback: { type: Function, default: null },
   });
 
   const newTfields = ref({});
@@ -107,6 +108,9 @@
       emit('update:value', value);
     }
     emit('change', value, options);
+    if (props.callback != null) {
+      props.callback(value, options);
+    }
   };
 
   // 处理search函数

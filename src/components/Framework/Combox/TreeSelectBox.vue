@@ -49,6 +49,7 @@
       },
     },
     loadData: { type: Function, default: null },
+    callback: { type: Function, default: null },
     treeNodeFilterProp: { type: String, default: 'label' },
   });
 
@@ -109,6 +110,9 @@
 
   const handleSelect = (value, node, extra) => {
     emit('select', value, node, extra);
+    if (props.callback != null) {
+      props.callback(value, node, extra);
+    }
   };
 
   const handleSearch = (value, node, extra) => {
