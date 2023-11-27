@@ -1,11 +1,11 @@
 <template>
   <div class="workflow-approve-box">
     <!-- 审批按钮 -->
-    <div class="button-content" style="">
+    <div class="button-content" style="" v-show="isShowBtns">
       <Button @click="handleSave" v-if="processStatus == 0" type="primary">保存</Button>
       <Button @click="handleSubmit" v-if="processStatus == 0" type="primary">提交</Button>
       <!-- <Button @click="handleCollect" v-if="processStatus != 0">收藏</Button> -->
-      <Button @click="handleOpenApprovalDrawer" v-if="processStatus&&processStatus != 0">审批</Button>
+      <Button @click="handleOpenApprovalDrawer" v-if="processStatus&&processStatus !== 0">审批</Button>
     </div>
     <!-- 流程审批抽屉组件 -->
     <ApprovalDrawer
@@ -38,6 +38,10 @@
   import { useUserStore } from '/@/store/modules/user';
   import { useTabs } from '/@/hooks/web/useTabs';
   import type { PropType } from 'vue';
+  import { useRouter } from 'vue-router';
+
+  const { currentRoute } = useRouter();
+  const route = unref(currentRoute);
 
   const emit = defineEmits([
     'agree',
@@ -153,6 +157,7 @@
     emit('submit', flowData);
   };
 
+  const isShowBtns = ref(false); // 是否显示保存提交审批按钮
   const isHandle = ref(1);
   const getProcessInstance = async () => {
     const data = await ProcessInstanceApi.getProcessInstance(processInstanceId.value);
@@ -184,11 +189,12 @@
 
   watch(
     () => props.processInstanceId,
-    (newValue) => {
+    (newValue, prevValue) => {
       processInstanceId.value = props.processInstanceId;
       if (processInstanceId.value.length != 0) {
         getTaskListByProcessInstanceId();
         getProcessInstance();
+        isShowBtns.value = true;
       }
     },
   );
@@ -217,6 +223,11 @@
       }
     },
   );
+  onMounted(()=>{
+    if(!route.query.processInstanceId) {
+      isShowBtns.value = true;
+    }
+  })
 </script>
 <style lang="less" scoped>
   .workflow-approve-box {
