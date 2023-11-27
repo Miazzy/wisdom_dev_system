@@ -114,6 +114,7 @@
       type: Object,
       default: {
         key: 'id',
+        value: 'value',
         title: 'title',
       } as fieldType,
     },
@@ -287,12 +288,17 @@
   // 树节点选中事件
   const handleSelect = (node, event) => {
     try {
-      searchRealText.value = event.node.title;
-      emit('update:value', event.node.title);
+      if (Reflect.has(props.tfields, 'value')) {
+        searchRealText.value = event.node[props.tfields.value];
+        emit('update:value', event.node[props.tfields.value]);
+      } else {
+        searchRealText.value = event.node[props.tfields.title];
+        emit('update:value', event.node[props.tfields.title]);
+      }
       emit('select', event.node, event);
       emit('change', event.node.title, event.node, event);
       if (props.callback != null) {
-        props.callback(node, event);
+        props.callback(event.node, event);
       }
       showDropdown.value = false;
     } catch {

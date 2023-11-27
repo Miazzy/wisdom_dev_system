@@ -26,6 +26,7 @@
   import { setCustomCompOptions } from '@/utils/cache';
 
   const treeData = ref([]);
+  const currentEditNodeRef = ref();
   const searchBoxColumns = [
     { title: '类型', dataIndex: 'typeName', key: 'typeName', fixed: 'left', minWidth: 100 },
     { title: '年份', dataIndex: 'year', key: 'year', fixed: 'left', minWidth: 100 },
@@ -75,6 +76,9 @@
           editComponent: 'DictSelectBox',
           editComponentProps: {
             type: DICT_TYPE.CERTIFICATE,
+            callback: (value, node, options) => {
+              currentEditNodeRef.value; // currentEditNodeRef 此变量的定义要放在前面
+            },
           },
           width: 150,
         },
@@ -88,6 +92,9 @@
             twidth: '600px',
             api: `/baseset/powerstation/page?name={name}&pageNo={current}&pageSize={pageSize}`,
             multiple: false,
+            callback: (options) => {
+              currentEditNodeRef.value; // currentEditNodeRef 此变量的定义要放在前面
+            },
           },
           width: 150,
         },
@@ -100,6 +107,9 @@
           editComponentProps: {
             opkey: 'TreeSelectBox123',
             twidth: '500px',
+            callback: (value, node) => {
+              currentEditNodeRef.value; // currentEditNodeRef 此变量的定义要放在前面
+            },
           },
           width: 150,
         },
@@ -112,6 +122,9 @@
           editComponentProps: {
             opkey: 'TreeBox123',
             twidth: '500px',
+            callback: (node, event) => {
+              currentEditNodeRef.value; // currentEditNodeRef 此变量的定义要放在前面
+            },
           },
           width: 150,
         },
@@ -128,6 +141,9 @@
             ],
             twidth: '500px',
             tfields: { label: 'label', value: 'vvv' },
+            callback: (value, options) => {
+              currentEditNodeRef.value; // currentEditNodeRef 此变量的定义要放在前面
+            },
           },
           width: 150,
         },
@@ -173,6 +189,9 @@
             ],
             twidth: '500px',
             tfields: { label: 'label', value: 'value', children: 'children' },
+            callback: (value, options) => {
+              currentEditNodeRef.value; // currentEditNodeRef 此变量的定义要放在前面
+            },
           },
           width: 150,
         },
@@ -387,6 +406,7 @@
         try {
           if (Reflect.has(currentEditKeyRef, 'value')) {
             currentEditKeyRef.value = record.key;
+            currentEditNodeRef.value = record;
             record.onEdit?.(true);
           }
         } catch (error) {
