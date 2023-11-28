@@ -2,14 +2,16 @@
   <a-tree-select
     v-if="props.vmode == 'edit' || props.disabled"
     v-model:value="selectedValue"
+    v-model:searchValue="searchValue"
     show-search
     :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}`"
-    :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
+    :dropdown-style="{ maxHeight: '400px', width: '500px', overflow: 'auto' }"
     placeholder="请选择..."
     allow-clear
     :disabled="props.disabled"
     :tree-default-expand-all="treeDefaultExpandAll"
     :multiple="props.multiple"
+    :dropdownMatchSelectWidth="props.twidth"
     :tree-data="treeData"
     :field-names="newTfields"
     :tree-node-filter-prop="props.treeNodeFilterProp"
@@ -33,6 +35,7 @@
     opkey: { type: String, default: null },
     disabled: { type: Boolean, default: false },
     width: { type: [Number, String], default: '100%' },
+    twidth: { type: [Boolean, Number], default: true },
     type: { type: String, default: '' },
     treeCheckable: { type: Boolean, default: false },
     treeDefaultExpandAll: { type: Boolean, default: true },
@@ -56,6 +59,7 @@
   const newTfields = ref({});
   const tdata = ref([]);
   const treeData = reactive([]);
+  const searchValue = ref('');
 
   // 定义emits
   const emit = defineEmits(['update:value', 'change', 'select', 'search', 'expand']);

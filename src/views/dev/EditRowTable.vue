@@ -106,7 +106,7 @@
           editComponent: 'TreeSelectBox',
           editComponentProps: {
             opkey: 'TreeSelectBox123',
-            twidth: '500px',
+            twidth: 500,
             callback: (value, node) => {
               currentEditNodeRef.value; // currentEditNodeRef 此变量的定义要放在前面
             },
