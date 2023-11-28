@@ -47,7 +47,7 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/bpm/manage/workflow/processEditor.vue');
         } else if (checkImportComponent('/@/views/dev/dev.vue', menu.component)) {
-          return import('/@/views/dev/EditRowTable.vue');
+          return import('/@/views/dev/dev.vue');
         }
         // baseset/demo
         else if (checkImportComponent('/@/views/hr/manage/oaleave/index.vue', menu.component)) {
@@ -219,12 +219,10 @@ const transformMenuItem = (menu, routes) => {
         }
         // po/safety/safecheckexecution checkType: 1:定期检查 、2:专项检查
         else if (
-          menu.component.startsWith('/@/views/po/safety/safecheckexecution/index.vue?checkType=1')
+          checkImportComponent('/@/views/po/safety/safecheckexecution/index.vue', menu.component)
         ) {
           return import('/@/views/po/safety/safecheckexecution/index.vue');
-        } else if (
-          menu.component.startsWith('/@/views/po/safety/safecheckexecution/index.vue?checkType=2')
-        ) {
+        } else if (menu.component.startsWith('/@/views/po/safety/safecheckexecution/index.vue')) {
           return import('/@/views/po/safety/safecheckexecution/index.vue');
         } else if (menu.component == '/@/views/po/safety/safecheckexecution/createOrUpdate.vue') {
           return import('/@/views/po/safety/safecheckexecution/createOrUpdate.vue');
