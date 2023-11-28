@@ -85,6 +85,7 @@
     <br />
     <Button @click="handleOpenCgDialog">打开分类Dialog</Button>
     <Button @click="handleOpenOgDialog">打开组织Dialog</Button>
+    <Button @click="handleOpenUpDialog">打开上传Dialog</Button>
     <CategoryDialog
       :title="`分类树Dialog`"
       v-model:visible="modalVisible"
@@ -94,6 +95,7 @@
       :gdata="searchBoxData"
       :width="800"
       :height="600"
+      @cancel="handleCategoryCancel"
       @confirm="handleCategoryConfirm"
     />
     <OrganDialog
@@ -104,7 +106,15 @@
       :tfields="{ key: 'nodeId', title: 'nodeName' }"
       :width="800"
       :height="600"
+      @cancel="handleOrganCancel"
       @confirm="handleOrganConfirm"
+    />
+    <UploadDialog
+      :title="`上传控件Dialog`"
+      :visible="uploadVisible"
+      @update:visible="uploadVisible = $event"
+      :width="800"
+      :height="600"
     />
     <br />
     <span style="display: block; margin-top: 10px; margin-left: 5px"> {{ categoryConfirm }} </span>
@@ -244,6 +254,7 @@
   import ApprovalDrawer from '/@/components/Framework/ApprovalDrawer/ApprovalDrawer.vue';
   import CategoryDialog from '/@/components/Framework/Modal/CategoryDialog.vue';
   import OrganDialog from '@/components/Framework/Modal/OrganDialog.vue';
+  import UploadDialog from '@/components/Framework/Modal/UploadDialog.vue';
   import XButton from '@/components/Framework/XButton/XButton.vue';
   import XTextButton from '@/components/Framework/XButton/XTextButton.vue';
   import type { Dayjs } from 'dayjs';
@@ -286,6 +297,7 @@
   const rangeValue = ref<RangeValue>();
   const modalVisible = ref(false);
   const organVisible = ref(false);
+  const uploadVisible = ref(false);
   const categoryConfirm = ref('');
   const organConfirm = ref('');
   const selectedValue = ref([]);
@@ -525,6 +537,10 @@
     organVisible.value = true;
   }
 
+  function handleOpenUpDialog() {
+    uploadVisible.value = true;
+  }
+
   const treeBoxSelect = (node, event) => {
     searchTreeText.value;
   };
@@ -538,14 +554,24 @@
     searchTableText.value;
   };
 
+  const handleCategoryCancel = () => {
+    modalVisible.value = false; // 关闭弹框
+  };
+
   const handleCategoryConfirm = (node) => {
     categoryConfirm.value = '分类Dialog确定，返回结果：' + JSON.stringify(node);
     console.info('分类Dialog确定，返回结果：' + JSON.stringify(node));
+    modalVisible.value = false; // 关闭弹框
+  };
+
+  const handleOrganCancel = () => {
+    organVisible.value = false; // 关闭弹框
   };
 
   const handleOrganConfirm = (nodeList) => {
     const message = nodeList.length > 0 ? JSON.stringify(nodeList) : '';
     organConfirm.value = '组织人员选择Dialog确定，返回结果：' + message;
+    organVisible.value = false; // 关闭弹框
     console.info('组织人员选择Dialog确定，返回结果：' + message);
   };
 

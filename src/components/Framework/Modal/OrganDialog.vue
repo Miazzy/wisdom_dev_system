@@ -184,8 +184,8 @@
   const confirm = () => {
     const rule = props?.tfields as fieldType;
     // modalVisible.value = false;
-    const data = transformRespData(allNodes.value, rule);
     // emit('update:visible', false); // 关闭弹框
+    const data = transformRespData(allNodes.value, rule);
     emit('confirm', data); // 发送确定事件
   };
 

@@ -91,14 +91,14 @@ const props = defineProps({
 const emit = defineEmits(['update:visible', 'cancel', 'confirm', 'tclick']); // 定义事件
 
 const cancel = () => {
-  modalVisible.value = false;
-  emit('update:visible', false); // 关闭弹框
+  // modalVisible.value = false;
+  // emit('update:visible', false); // 关闭弹框
   emit('cancel'); // 发送取消事件
 };
 
 const confirm = () => {
-  modalVisible.value = false;
-  emit('update:visible', false); // 关闭弹框
+  // modalVisible.value = false;
+  // emit('update:visible', false); // 关闭弹框
   emit('confirm', unref(selectedNode)); // 发送确定事件
 };
 
