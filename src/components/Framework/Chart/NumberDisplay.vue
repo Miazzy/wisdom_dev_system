@@ -42,6 +42,17 @@
 <script lang="ts" setup>
   import { onMounted, ref, watch } from 'vue';
 
+  // 传入参数
+  const props = defineProps({
+    title: { type: String, default: '' },
+    subtitle: { type: Object, default: {} as Object },
+    value: { type: Number, default: 0 },
+    tsize: { type: String, default: '14px' },
+    vsize: { type: String, default: '20px' },
+    vcolor: { type: String, default: '#f0f0f0' },
+    bcolor: { type: String, default: '#01B4F1' },
+  });
+
   // 将数字拆分成个位数字的数组
   const digitArray = ref([]);
 
@@ -56,15 +67,6 @@
     digitArray.value = String(props.value).split('').map(String) as never[];
   });
 
-  const props = defineProps({
-    title: { type: String, default: '' },
-    subtitle: { type: Object, default: {} as Object },
-    value: { type: Number, default: 0 },
-    tsize: { type: String, default: '14px' },
-    vsize: { type: String, default: '20px' },
-    vcolor: { type: String, default: '#f0f0f0' },
-    bcolor: { type: String, default: '#01B4F1' },
-  });
 </script>
 
 <style lang="less" scoped>
