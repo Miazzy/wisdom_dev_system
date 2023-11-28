@@ -352,6 +352,14 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/po/integrated/assessmentevaluation/report/index.vue');
         }
+        // po/integrated/vehicle
+        else if (checkImportComponent('/@/views/po/integrated/vehicle/index.vue', menu.component)) {
+          return import('/@/views/po/integrated/vehicle/index.vue');
+        } else if (
+          checkImportComponent('/@/views/po/integrated/vehicle/create.vue', menu.component)
+        ) {
+          return import('/@/views/po/integrated/vehicle/create.vue');
+        }
         // po/elec
         else if (menu.component == '/@/views/po/elec/produce/index.vue') {
           return import('/@/views/po/elec/produce/index.vue');
