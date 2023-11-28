@@ -14,7 +14,7 @@
     :dropdownMatchSelectWidth="props.twidth"
     :tree-data="treeData"
     :field-names="newTfields"
-    :tree-node-filter-prop="props.treeNodeFilterProp"
+    :tree-node-filter-prop="props.filterName"
     :treeLine="props.treeLine"
     :tree-checkable="props.treeCheckable"
     :load-data="props.loadData"
@@ -53,7 +53,7 @@
     },
     loadData: { type: Function, default: null },
     callback: { type: Function, default: null },
-    treeNodeFilterProp: { type: String, default: 'label' },
+    filterName: { type: String, default: 'label' },
   });
 
   const newTfields = ref({});
@@ -129,6 +129,7 @@
 
   const reloadData = () => {
     try {
+      debugger;
       let options = null;
       if (props.opkey != null && props.opkey != '') {
         options = getCustomCompOptions(props.opkey);
