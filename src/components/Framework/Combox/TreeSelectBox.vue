@@ -129,7 +129,6 @@
 
   const reloadData = () => {
     try {
-      debugger;
       let options = null;
       if (props.opkey != null && props.opkey != '') {
         options = getCustomCompOptions(props.opkey);
