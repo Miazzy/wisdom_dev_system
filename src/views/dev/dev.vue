@@ -92,8 +92,8 @@
       :height="550"
       :maxCount="20"
       :maxSize="100 * 1024 * 1024"
-      :application="`testuploadbox`"
-      :module="`test-module-box`"
+      :application="`baseset`"
+      :module="`oaleave`"
       :bizId="`test-bizid-${Math.floor(Math.random() * 100000)}`"
     />
     <CategoryDialog

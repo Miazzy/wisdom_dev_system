@@ -35,7 +35,7 @@
       :maxCount="props.maxCount"
       :maxSize="props.maxSize"
       :application="props.application"
-      :module="props.upmodule"
+      :module="props.module"
       :bizId="props.bizId"
       :tmessage="tmessage"
       @change="handleUploadOver"
@@ -49,6 +49,7 @@
   import Icon from '@/components/Icon/Icon.vue';
   import UploadDialog from '@/components/Framework/Modal/UploadDialog.vue';
   import { ref, onMounted, defineProps, defineEmits, watch, unref, reactive } from 'vue';
+  import * as FileApi from '@/api/infra/file';
 
   const props = defineProps({
     vmode: { type: String, default: 'edit' },
@@ -63,7 +64,7 @@
     maxCount: { type: [Number], default: 10 },
     maxSize: { type: [Number], default: 100 * 1024 * 1024 },
     application: { type: String, default: '' },
-    upmodule: { type: String, default: '' },
+    module: { type: String, default: '' },
     bizId: { type: String, default: '' },
     tmessage: { type: String, default: '文件只能上传png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4类型文件。' },
     multiple: { type: [String, Boolean], default: false },
@@ -93,10 +94,16 @@
   };
 
   // 处理上传完毕函数
-  const handleUploadOver = (list) => {
-    filelist.value = list;
-    emit('update:value', list);
-    emit('change', list);
+  const handleUploadOver = async () => {
+    filelist.value = await FileApi.getFiles({ bizId: props.bizId });
+    emit('update:value', filelist.value);
+    emit('change', filelist.value);
+  };
+
+  // 获取附件列表
+  const getFiles = async (bizId) => {
+    const filelist = await FileApi.getFiles({ bizId });
+    return filelist;
   };
 
   watch(
@@ -112,7 +119,8 @@
   // 启动加载
   onMounted(async () => {
     try {
-      //
+      filelist.value = await getFiles(props.bizId);
+      emit('update:value', filelist.value);
     } catch (error) {
       console.error(error);
     }

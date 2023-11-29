@@ -62,7 +62,7 @@
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import Icon from '@/components/Icon/Icon.vue';
   import { ref, defineProps, defineEmits, onMounted, watch, unref } from 'vue';
-  import { message } from 'ant-design-vue';
+  import { message, Modal } from 'ant-design-vue';
   import type { UploadProps } from 'ant-design-vue';
   import * as FileApi from '@/api/infra/file';
 
@@ -119,10 +119,28 @@
   };
 
   const handleRemove: UploadProps['onRemove'] = (file) => {
-    const index = fileList.value.indexOf(file);
-    const newFileList = fileList.value.slice();
-    newFileList.splice(index, 1);
-    fileList.value = newFileList;
+    Modal.confirm({
+      title: '确认操作',
+      content: '请确认是否删除此附件？',
+      onOk: async () => {
+        try {
+          const index = fileList.value.indexOf(file);
+          const newFileList = fileList.value.slice();
+          newFileList.splice(index, 1);
+          fileList.value = newFileList;
+          if (Reflect.has(file, 'id')) {
+            await FileApi.deleteFile(file.id);
+          }
+        } finally {
+          emit('update:value', fileList.value);
+          emit('change', fileList.value);
+        }
+      },
+      onCancel() {
+        emit('update:value', fileList.value);
+        emit('change', fileList.value);
+      },
+    });
   };
 
   const beforeUpload: UploadProps['beforeUpload'] = (file) => {
@@ -206,10 +224,14 @@
 
   watch(
     () => props.visible,
-    (newValue, oldValue) => {
+    async (newValue, oldValue) => {
       modalVisible.value = newValue;
       if (newValue != oldValue && newValue == true) {
-        fileList.value = [];
+        if(props.value != null && props.value.length > 0){
+          fileList.value = props.value;
+        } else {
+          fileList.value = await FileApi.getFiles({ bizId: props.bizId });
+        }
       }
     },
   );
