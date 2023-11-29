@@ -91,6 +91,9 @@
       <Icon icon="material-symbols-light:upload" />
       上传
     </Button>
+    <br />
+    <br />
+    <UploadBox />
     <CategoryDialog
       :title="`分类树Dialog`"
       v-model:visible="modalVisible"
@@ -256,6 +259,7 @@
   import SelectBox from '@/components/Framework/Combox/SelectBox.vue';
   import Icon from '@/components/Icon/Icon.vue';
   import TreeSelectBox from '@/components/Framework/Combox/TreeSelectBox.vue';
+  import UploadBox from '@/components/Framework/Combox/UploadBox.vue';
   import CommonTree from '@/components/Framework/Tree/CommonTree.vue';
   import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';
   import DictRadioGroup from '@/components/Framework/Radio/DictRadioGroup.vue';

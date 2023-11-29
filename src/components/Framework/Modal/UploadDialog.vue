@@ -18,7 +18,7 @@
           message="温馨提示"
           :description="props.message"
           type="info"
-          style="margin-top: 10px; color: #0960bd;"
+          style="margin-top: 10px; color: #0960bd"
         />
       </div>
       <!-- 附件列表区域 -->
@@ -74,6 +74,7 @@
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
     title: String, // 弹框标题
+    value: { type: Array<String>, default: [] },
     tweight: { type: Number, default: 500 },
     width: { type: Number, default: 700 }, // 弹框宽度
     height: { type: Number, default: 500 }, // 弹框高度
@@ -90,7 +91,14 @@
     },
   });
 
-  const emit = defineEmits(['update:visible', 'cancel', 'confirm', 'close']); // 定义事件
+  const emit = defineEmits([
+    'update:visible',
+    'update:value',
+    'change',
+    'cancel',
+    'confirm',
+    'close',
+  ]); // 定义事件
 
   const cancel = () => {
     emit('cancel'); // 发送取消事件
@@ -166,7 +174,8 @@
       return false;
     }
     fileList.value.forEach((file: UploadProps['fileList'][number]) => {
-      if (!file.id) { // 未上传前file.id为空
+      if (!file.id) {
+        // 未上传前file.id为空
         formData.append('files[]', file as any);
       }
     });
@@ -175,6 +184,8 @@
       .then(async () => {
         uploading.value = false;
         fileList.value = await getFiles(props.bizId);
+        emit('update:value', fileList.value);
+        emit('change', fileList.value);
         message.success('操作成功');
       })
       .catch(() => {
