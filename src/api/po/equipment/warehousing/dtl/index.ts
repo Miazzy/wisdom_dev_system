@@ -6,7 +6,7 @@ export function getEquipmentWarehousingDtlPage(params) {
 }
 
 // 查询设备入库明细详情
-export function getEquipmentWarehousingDtl(id: number) {
+export function getEquipmentWarehousingDtl(id: string) {
   return defHttp.get({ url: '/po/equipment-warehousing-dtl/get?id=' + id }, { isOnlyResult: true });
 }
 
@@ -21,7 +21,7 @@ export function updateEquipmentWarehousingDtl(data) {
 }
 
 // 删除设备入库明细
-export function deleteEquipmentWarehousingDtl(id: number) {
+export function deleteEquipmentWarehousingDtl(id: string) {
   return defHttp.delete({ url: '/po/equipment-warehousing-dtl/delete?id=' + id });
 }
 
@@ -30,5 +30,13 @@ export function exportEquipmentWarehousingDtl(params) {
   return defHttp.download(
     { url: '/po/equipment-warehousing-dtl/export-excel', params },
     '设备入库明细.xls',
+  );
+}
+
+// 查询设备入库明细结存列表
+export function getWarehousingBalancePage(params) {
+  return defHttp.get(
+    { url: '/po/equipment-warehousing-dtl/warehousing-balance-page', params },
+    { isOnlyResult: true },
   );
 }
