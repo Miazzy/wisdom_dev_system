@@ -37,6 +37,7 @@
       :application="props.application"
       :module="props.upmodule"
       :bizId="props.bizId"
+      :tmessage="tmessage"
       @change="handleUploadOver"
       @cancel="handleUploadCancel"
       @confirm="handleUploadConfirm"
@@ -64,6 +65,7 @@
     application: { type: String, default: '' },
     upmodule: { type: String, default: '' },
     bizId: { type: String, default: '' },
+    tmessage: { type: String, default: '文件只能上传png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4类型文件。' },
     multiple: { type: [String, Boolean], default: false },
   });
 

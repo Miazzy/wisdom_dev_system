@@ -16,7 +16,7 @@
       <div class="top-content">
         <a-alert
           message="温馨提示"
-          :description="props.message"
+          :description="props.tmessage"
           type="info"
           style="margin-top: 10px; color: #0960bd"
         />
@@ -84,11 +84,7 @@
     application: { type: String, default: '' },
     module: { type: String, default: '' },
     bizId: { type: String, default: '' },
-    message: {
-      type: String,
-      default:
-        '文件只能上传png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4类型文件。',
-    },
+    tmessage: { type: String, default: '' },
   });
 
   const emit = defineEmits([
