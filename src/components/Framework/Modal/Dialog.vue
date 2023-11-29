@@ -36,6 +36,7 @@
     tsize: { type: String, default: '16' }, // 标题大小
     width: { type: Number, default: 800 }, // 弹框宽度
     height: { type: Number, default: 600 }, // 弹框高度
+    pheight: { type: Number, default: 88 }, // 弹框高度
     showBtm: { type: Boolean, default: true },
     mode: { type: String, default: '' },
     url: { type: String, default: '' },
@@ -60,7 +61,7 @@
 
   // 计算 modal-body 的高度，减去 header 和 footer 的高度
   const bodyHeight = computed(() => {
-    return props.height - 90; // 64 是 header 和 footer 的高度之和
+    return props.height - props.pheight; // 64 是 header 和 footer 的高度之和
   });
 </script>
 
@@ -111,7 +112,7 @@
   .modal-footer {
     height: 35px;
     padding: 12px;
-    line-height: 35px;    
+    line-height: 35px;
     text-align: right;
 
     .footer-button {

@@ -115,6 +115,8 @@
       @update:visible="uploadVisible = $event"
       :width="800"
       :height="600"
+      @cancel="handleUploadCancel"
+      @confirm="handleUploadConfirm"
     />
     <br />
     <span style="display: block; margin-top: 10px; margin-left: 5px"> {{ categoryConfirm }} </span>
@@ -573,6 +575,14 @@
     organConfirm.value = '组织人员选择Dialog确定，返回结果：' + message;
     organVisible.value = false; // 关闭弹框
     console.info('组织人员选择Dialog确定，返回结果：' + message);
+  };
+
+  const handleUploadCancel = () => {
+    uploadVisible.value = false;
+  };
+
+  const handleUploadConfirm = () => {
+    uploadVisible.value = false;
   };
 
   const handleAgree = (flowData) => {
