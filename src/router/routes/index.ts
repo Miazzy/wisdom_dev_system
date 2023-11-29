@@ -404,6 +404,62 @@ const transformMenuItem = (menu, routes) => {
         } else if (checkImportComponent('/@/views/po/workorder/create.vue', menu.component)) {
           return import('/@/views/po/workorder/create.vue');
         }
+        // po/inspection
+        else if (
+          checkImportComponent('/@/views/po/inspection/inspectionplan/index.vue', menu.component)
+        ) {
+          return import('/@/views/po/inspection/inspectionplan/index.vue');
+        } else if (
+          checkImportComponent('/@/views/po/inspection/inspectionplan/create.vue', menu.component)
+        ) {
+          return import('/@/views/po/inspection/inspectionplan/create.vue');
+        } else if (
+          checkImportComponent(
+            '/@/views/po/inspection/inspectionexecution/index.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/po/inspection/inspectionexecution/index.vue');
+        } else if (
+          checkImportComponent(
+            '/@/views/po/inspection/inspectionexecution/create.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/po/inspection/inspectionexecution/create.vue');
+        }
+        // po/safetytools
+        else if (
+          checkImportComponent('/@/views/po/safetytools/safetytools/index.vue', menu.component)
+        ) {
+          return import('/@/views/po/safetytools/safetytools/index.vue');
+        } else if (
+          checkImportComponent('/@/views/po/safetytools/safetytools/create.vue', menu.component)
+        ) {
+          return import('/@/views/po/safetytools/safetytools/create.vue');
+        } else if (
+          checkImportComponent('/@/views/po/safetytools/safetytoolscheck/index.vue', menu.component)
+        ) {
+          return import('/@/views/po/safetytools/safetytoolscheck/index.vue');
+        } else if (
+          checkImportComponent(
+            '/@/views/po/safetytools/safetytoolscheck/create.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/po/safetytools/safetytoolscheck/create.vue');
+        } else if (
+          checkImportComponent('/@/views/po/safetytools/safetytoolsscrap/index.vue', menu.component)
+        ) {
+          return import('/@/views/po/safetytools/safetytoolsscrap/index.vue');
+        } else if (
+          checkImportComponent(
+            '/@/views/po/safetytools/safetytoolsscrap/create.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/po/safetytools/safetytoolsscrap/create.vue');
+        }
         // po/fault/hidden/supervision
         else if (checkImportComponent('/@/views/po/danger/index.vue', menu.component)) {
           return import('/@/views/po/danger/index.vue');
