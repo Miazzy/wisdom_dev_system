@@ -2,7 +2,7 @@
   <!-- 搜索工作栏 -->
   <div
     class="search-box"
-    style="width: calc(100% - 20px); height: calc(100% - 20px); margin: 10px; background: #fefefe"
+    style="width: calc(100% - 20px); height: auto; margin: 10px; background: #fefefe"
   >
     <!-- 标题 -->
     <BillTitle :options="billTitleOptions" />
@@ -87,14 +87,8 @@
     <Button @click="handleOpenOgDialog" style="margin: 0px 10px 0px 0px">打开组织Dialog</Button>
     <br />
     <br />
-    <Button @click="handleOpenUpDialog" style="margin: 0px 10px 0px 0px">
-      <Icon icon="material-symbols-light:upload" />
-      上传
-    </Button>
-    <br />
-    <br />
     <UploadBox
-      :width="720"
+      :width="800"
       :height="550"
       :maxCount="20"
       :maxSize="100 * 1024 * 1024"

@@ -1,9 +1,31 @@
 <template>
   <div>
-    <Button @click="handleOpenUpDialog" style="margin: 0px 10px 0px 0px;">
+    <Button @click="handleOpenUpDialog" style="margin: 0px 10px 0px 0px">
       <Icon icon="material-symbols-light:upload" />
-      上传
+      {{ props.tname }}
     </Button>
+    <div class="ant-upload-list ant-upload-list-text">
+      <template v-for="file in filelist" :key="`${file.id}`">
+        <div class="ant-upload-list-item">
+          <div class="ant-upload-list-item-info">
+            <span class="ant-upload-span">
+              <span role="img" aria-label="paper-clip" class="anticon anticon-paper-clip">
+                <Icon icon="ph:file-light" />
+              </span>
+              <a
+                target="_blank"
+                class="ant-upload-list-item-name"
+                :size="file?.size"
+                :title="file?.name"
+                :href="file?.url"
+              >
+                {{ file?.name }}
+              </a>
+            </span>
+          </div>
+        </div>
+      </template>
+    </div>
     <UploadDialog
       v-model:visible="uploadVisible"
       v-model:value="filelist"
@@ -29,7 +51,8 @@
 
   const props = defineProps({
     vmode: { type: String, default: 'edit' },
-    title: { type: String, default: '上传控件' },
+    title: { type: String, default: '上传附件' },
+    tname: { type: String, default: '上传附件' },
     disabled: { type: Boolean, default: false },
     width: { type: [Number], default: 800 },
     height: { type: [Number], default: 600 },
@@ -70,29 +93,39 @@
   // 处理上传完毕函数
   const handleUploadOver = (list) => {
     filelist.value = list;
-    debugger;
+    emit('update:value', list);
+    emit('change', list);
   };
 
   watch(
     () => props.value,
-    () => {
-
-    },
+    () => {},
   );
 
   watch(
     () => props.data,
-    () => {
-
-    },
+    () => {},
   );
 
   // 启动加载
   onMounted(async () => {
     try {
-
+      //
     } catch (error) {
       console.error(error);
     }
   });
 </script>
+<style lang="less" scoped>
+  .ant-upload-list-item {
+    position: relative;
+    height: 30px;
+    margin-top: 4px;
+    font-size: 14px;
+    cursor: pointer;
+
+    .ant-upload-list-item-name {
+      cursor: pointer;
+    }
+  }
+</style>
