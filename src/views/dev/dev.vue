@@ -83,17 +83,25 @@
       />
     </div>
     <br />
-    <Button @click="handleOpenCgDialog" style="margin: 0px 10px 0px 0px;">打开分类Dialog</Button>
-    <Button @click="handleOpenOgDialog" style="margin: 0px 10px 0px 0px;">打开组织Dialog</Button>
+    <Button @click="handleOpenCgDialog" style="margin: 0px 10px 0px 0px">打开分类Dialog</Button>
+    <Button @click="handleOpenOgDialog" style="margin: 0px 10px 0px 0px">打开组织Dialog</Button>
     <br />
     <br />
-    <Button @click="handleOpenUpDialog" style="margin: 0px 10px 0px 0px;">
+    <Button @click="handleOpenUpDialog" style="margin: 0px 10px 0px 0px">
       <Icon icon="material-symbols-light:upload" />
       上传
     </Button>
     <br />
     <br />
-    <UploadBox />
+    <UploadBox
+      :width="720"
+      :height="550"
+      :maxCount="20"
+      :maxSize="100 * 1024 * 1024"
+      :application="`testuploadbox`"
+      :module="`test-module-box`"
+      :bizId="`test-bizid-${Math.floor(Math.random() * 100000)}`"
+    />
     <CategoryDialog
       :title="`分类树Dialog`"
       v-model:visible="modalVisible"

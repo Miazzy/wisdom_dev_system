@@ -87,7 +87,7 @@
     message: {
       type: String,
       default:
-        '文件只能上传png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,xmind,mp3,mp4类型文件。',
+        '文件只能上传png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4类型文件。',
     },
   });
 
@@ -155,7 +155,7 @@
     }
     // 控制上传文件的类型 arr是上传类型的白名单
     const type = file.name.slice(file.name.lastIndexOf('.') + 1).toLowerCase();
-    const arr = ',png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,xmind,mp3,mp4,';
+    const arr = ',png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4,';
     if (!arr.includes(`,${type},`)) {
       message.warning(`不支持${type}类型的文件上传`);
       return false;
@@ -280,7 +280,7 @@
     text-align: left;
   }
   :deep(.ant-upload-list) {
-    margin-top: -20px;
+    margin-top: -15px;
   }
   :deep(.ant-alert-with-description .ant-alert-message) {
     color: #0960bd;

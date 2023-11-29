@@ -11,6 +11,7 @@
       :width="props.width"
       :height="props.height"
       :maxCount="props.maxCount"
+      :maxSize="props.maxSize"
       :application="props.application"
       :module="props.upmodule"
       :bizId="props.bizId"
@@ -36,6 +37,7 @@
     type: { type: String, default: '' },
     value: { type: [String, Array], default: null },
     maxCount: { type: [Number], default: 10 },
+    maxSize: { type: [Number], default: 100 * 1024 * 1024 },
     application: { type: String, default: '' },
     upmodule: { type: String, default: '' },
     bizId: { type: String, default: '' },
