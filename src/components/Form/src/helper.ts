@@ -26,6 +26,7 @@ export function createPlaceholderMessage(component: ComponentType) {
     component.includes('CascaderBox') ||
     component.includes('TreeSelectBox') ||
     component.includes('SearchBox') ||
+    component.includes('UploadBox') ||
     component.includes('Switch')
   ) {
     return t('common.chooseText');
@@ -89,6 +90,7 @@ export const NO_AUTO_LINK_COMPONENTS: ComponentType[] = [
   'AutoComplete',
   'RadioButtonGroup',
   'SearchBox',
+  'UploadBox',
   'TreeBox',
   'SelectBox',
   'CascaderBox',

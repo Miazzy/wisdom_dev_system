@@ -1,10 +1,14 @@
 <template>
   <div>
-    <Button @click="handleOpenUpDialog" style="margin: 0px 10px 0px 0px">
+    <Button
+      v-if="props.vmode == 'edit'"
+      @click="handleOpenUpDialog"
+      style="margin: 0px 10px 0px 0px"
+    >
       <Icon icon="material-symbols-light:upload" />
       {{ props.tname }}
     </Button>
-    <div class="ant-upload-list ant-upload-list-text">
+    <div v-if="props.vmode != 'edit'" class="ant-upload-list ant-upload-list-text">
       <template v-for="file in filelist" :key="`${file.id}`">
         <div class="ant-upload-list-item">
           <div class="ant-upload-list-item-info">
@@ -27,6 +31,7 @@
       </template>
     </div>
     <UploadDialog
+      v-if="props.vmode == 'edit'"
       v-model:visible="uploadVisible"
       v-model:value="filelist"
       :title="props.title"
@@ -66,8 +71,13 @@
     application: { type: String, default: '' },
     module: { type: String, default: '' },
     bizId: { type: String, default: '' },
-    tmessage: { type: String, default: '文件只能上传png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4类型文件。' },
+    tmessage: {
+      type: String,
+      default:
+        '文件只能上传png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4类型文件。',
+    },
     multiple: { type: [String, Boolean], default: false },
+    callback: { type: Function, default: null },
   });
 
   const uploadVisible = ref(false);
@@ -85,12 +95,18 @@
   const handleUploadCancel = () => {
     uploadVisible.value = false;
     emit('cancel', false);
+    if (props.callback != null) {
+      props.callback(filelist.value);
+    }
   };
 
   // 上传确认函数
   const handleUploadConfirm = () => {
     uploadVisible.value = false;
     emit('confirm', false);
+    if (props.callback != null) {
+      props.callback(filelist.value);
+    }
   };
 
   // 处理上传完毕函数
@@ -98,6 +114,9 @@
     filelist.value = await FileApi.getFiles({ bizId: props.bizId });
     emit('update:value', filelist.value);
     emit('change', filelist.value);
+    if (props.callback != null) {
+      props.callback(filelist.value);
+    }
   };
 
   // 获取附件列表
@@ -121,6 +140,9 @@
     try {
       filelist.value = await getFiles(props.bizId);
       emit('update:value', filelist.value);
+      if (props.callback != null) {
+        props.callback(filelist.value);
+      }
     } catch (error) {
       console.error(error);
     }

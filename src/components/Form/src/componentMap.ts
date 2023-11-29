@@ -31,6 +31,7 @@ import { IconPicker } from '/@/components/Icon';
 import { CountdownInput } from '/@/components/CountDown';
 
 import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
+import UploadBox from '@/components/Framework/Combox/UploadBox.vue';
 import TreeBox from '@/components/Framework/Combox/TreeBox.vue';
 import SelectBox from '@/components/Framework/Combox/SelectBox.vue';
 import CascaderBox from '@/components/Framework/Combox/CascaderBox.vue';
@@ -82,6 +83,7 @@ componentMap.set('Upload', BasicUpload);
 componentMap.set('Divider', Divider);
 
 componentMap.set('SearchBox', SearchBox);
+componentMap.set('UploadBox', UploadBox);
 componentMap.set('TreeBox', TreeBox);
 componentMap.set('SelectBox', SelectBox);
 componentMap.set('CascaderBox', CascaderBox);

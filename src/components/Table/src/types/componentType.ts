@@ -27,6 +27,7 @@ export type ComponentType =
   | 'TimePicker'
   | 'TimeRangePicker'
   | 'SearchBox'
+  | 'UploadBox'
   | 'TreeBox'
   | 'SelectBox'
   | 'CascaderBox'

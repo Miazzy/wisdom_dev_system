@@ -118,6 +118,7 @@ export type ComponentType =
   | 'Divider'
   | 'ApiTransfer'
   | 'SearchBox'
+  | 'UploadBox'
   | 'TreeBox'
   | 'SelectBox'
   | 'CascaderBox'

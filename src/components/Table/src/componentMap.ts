@@ -19,6 +19,7 @@ import {
 
 import { ApiSelect, ApiTreeSelect, RadioButtonGroup, ApiRadioGroup } from '/@/components/Form';
 import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
+import UploadBox from '@/components/Framework/Combox/UploadBox.vue';
 import SelectBox from '@/components/Framework/Combox/SelectBox.vue';
 import CascaderBox from '@/components/Framework/Combox/CascaderBox.vue';
 import TreeBox from '@/components/Framework/Combox/TreeBox.vue';
@@ -61,6 +62,7 @@ componentMap.set('TimePicker', TimePicker);
 componentMap.set('TimeRangePicker', TimePicker.TimeRangePicker);
 
 componentMap.set('SearchBox', SearchBox);
+componentMap.set('UploadBox', UploadBox);
 componentMap.set('TreeBox', TreeBox);
 componentMap.set('SelectBox', SelectBox);
 componentMap.set('CascaderBox', CascaderBox);

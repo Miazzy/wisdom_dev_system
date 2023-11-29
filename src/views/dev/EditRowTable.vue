@@ -196,6 +196,26 @@
           },
           width: 150,
         },
+        {
+          title: '输入框校验',
+          dataIndex: 'name6',
+          editRow: true,
+          align: 'left',
+          editComponent: 'UploadBox',
+          editComponentProps: {
+            width: 800,
+            height: 550,
+            maxCount: 20,
+            maxSize: 100 * 1024 * 1024,
+            application: 'baseset',
+            module: 'oaleave',
+            bizId: `test-bizid-${Math.floor(Math.random() * 100000)}`,
+            callback: (value, options) => {
+              currentEditNodeRef.value; // currentEditNodeRef 此变量的定义要放在前面
+            },
+          },
+          width: 150,
+        },
       ],
     },
   ];

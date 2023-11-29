@@ -57,6 +57,7 @@
       const componentName = unref(getComponent);
       const customCompNames = [
         'SearchBox',
+        'UploadBox',
         'TreeBox',
         'SelectBox',
         'CascaderBox',
