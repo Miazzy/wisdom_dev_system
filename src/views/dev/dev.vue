@@ -83,9 +83,14 @@
       />
     </div>
     <br />
-    <Button @click="handleOpenCgDialog">打开分类Dialog</Button>
-    <Button @click="handleOpenOgDialog">打开组织Dialog</Button>
-    <Button @click="handleOpenUpDialog">打开上传Dialog</Button>
+    <Button @click="handleOpenCgDialog" style="margin: 0px 10px 0px 0px;">打开分类Dialog</Button>
+    <Button @click="handleOpenOgDialog" style="margin: 0px 10px 0px 0px;">打开组织Dialog</Button>
+    <br />
+    <br />
+    <Button @click="handleOpenUpDialog" style="margin: 0px 10px 0px 0px;">
+      <Icon icon="material-symbols-light:upload" />
+      上传
+    </Button>
     <CategoryDialog
       :title="`分类树Dialog`"
       v-model:visible="modalVisible"
@@ -115,6 +120,10 @@
       @update:visible="uploadVisible = $event"
       :width="800"
       :height="600"
+      :maxCount="20"
+      :application="`test`"
+      :module="`test-module`"
+      :bizId="`test-bizid-${Math.floor(Math.random() * 100000)}`"
       @cancel="handleUploadCancel"
       @confirm="handleUploadConfirm"
     />
@@ -245,6 +254,7 @@
   import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
   import TreeBox from '@/components/Framework/Combox/TreeBox.vue';
   import SelectBox from '@/components/Framework/Combox/SelectBox.vue';
+  import Icon from '@/components/Icon/Icon.vue';
   import TreeSelectBox from '@/components/Framework/Combox/TreeSelectBox.vue';
   import CommonTree from '@/components/Framework/Tree/CommonTree.vue';
   import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';

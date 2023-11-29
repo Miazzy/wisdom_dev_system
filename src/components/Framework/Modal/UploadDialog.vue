@@ -1,6 +1,7 @@
 <template>
   <Dialog
     :title="title"
+    :tweight="props.tweight"
     :visible="modalVisible"
     @update:visible="updateVisible"
     :width="props.width"
@@ -11,19 +12,27 @@
     @close="close"
   >
     <div class="dialog-content" :style="`height: calc(${props.height}px - 90px)`">
+      <!-- 温馨提示区域 -->
       <div class="top-content">
-        <!-- 温馨提示区域 -->
+        <a-alert
+          message="温馨提示"
+          :description="props.message"
+          type="info"
+          style="margin-top: 10px; color: #0960bd;"
+        />
       </div>
+      <!-- 附件列表区域 -->
       <div class="main-content">
-        <!-- 附件列表区域 -->
-        <a-upload
-          :file-list="fileList"
-          :multiple="true"
-          :before-upload="beforeUpload"
-          @remove="handleRemove"
-        >
-          <a-button :id="buttonID" class="upload-button" style="display: none" />
-        </a-upload>
+        <div :style="`height: calc(${props.height + 10}px - 220px); overflow-y: scroll;`">
+          <a-upload
+            :file-list="fileList"
+            :multiple="true"
+            :before-upload="beforeUpload"
+            @remove="handleRemove"
+          >
+            <a-button :id="buttonID" class="upload-button" style="display: none" />
+          </a-upload>
+        </div>
       </div>
     </div>
     <template #footer>
@@ -54,8 +63,8 @@
   import Icon from '@/components/Icon/Icon.vue';
   import { ref, defineProps, defineEmits, onMounted, watch, unref } from 'vue';
   import { message } from 'ant-design-vue';
-  import { UploadOutlined } from '@ant-design/icons-vue';
   import type { UploadProps } from 'ant-design-vue';
+  import * as FileApi from '@/api/infra/file';
 
   const modalVisible = ref(false);
   const fileList = ref<UploadProps['fileList']>([]);
@@ -65,9 +74,20 @@
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
     title: String, // 弹框标题
+    tweight: { type: Number, default: 500 },
     width: { type: Number, default: 700 }, // 弹框宽度
     height: { type: Number, default: 500 }, // 弹框高度
     tdata: { type: Array }, // 附件数据
+    maxCount: { type: Number, default: 10 },
+    maxSize: { type: Number, default: 1024 * 1024 * 20 },
+    application: { type: String, default: '' },
+    module: { type: String, default: '' },
+    bizId: { type: String, default: '' },
+    message: {
+      type: String,
+      default:
+        '文件只能上传png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,xmind,mp3,mp4类型文件。',
+    },
   });
 
   const emit = defineEmits(['update:visible', 'cancel', 'confirm', 'close']); // 定义事件
@@ -89,6 +109,11 @@
     emit('update:visible', false); // 关闭弹框
   };
 
+  const getFiles = async (bizId) => {
+    const filelist = await FileApi.getFiles({ bizId });
+    return filelist;
+  };
+
   const handleRemove: UploadProps['onRemove'] = (file) => {
     const index = fileList.value.indexOf(file);
     const newFileList = fileList.value.slice();
@@ -97,30 +122,74 @@
   };
 
   const beforeUpload: UploadProps['beforeUpload'] = (file) => {
+    // 检查文件数量是否超限
+    if (fileList.value.length + 1 > props.maxCount) {
+      message.warning('超过文件上传数量限制，最大上传文件数：' + props.maxCount);
+      return false;
+    }
+    // 检查上传的文件大小是否超限
+    if (file.size > props.maxSize) {
+      message.warning(`文件大小超过最大限度${Math.floor(props.maxSize / 1048576)}MB`);
+      return false;
+    }
+    // 上传文件不能为空
+    if (file.size === 0) {
+      message.warning('不能上传空文件或目录，请重新选择');
+      return false;
+    }
+    // 不允许上传同名文件
+    for (let i = 0; i < fileList.value.length; i++) {
+      const item = fileList.value[i];
+      if (item.name === file.name) {
+        message.warning('不允许上传重复文件');
+        return false;
+      }
+    }
+    // 控制上传文件的类型 arr是上传类型的白名单
+    const type = file.name.slice(file.name.lastIndexOf('.') + 1).toLowerCase();
+    const arr = ',png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,xmind,mp3,mp4,';
+    if (!arr.includes(`,${type},`)) {
+      message.warning(`不支持${type}类型的文件上传`);
+      return false;
+    }
     fileList.value = [...fileList.value, file];
     return false;
   };
 
   const handleUpload = () => {
     const formData = new FormData();
+    formData.append('application', props.application); //附件上传必须携带参数：应用
+    formData.append('module', props.module); //附件上传必须携带参数：模块
+    formData.append('bizId', props.bizId); //附件上传必须携带参数：业务ID
+    if (!props.bizId) {
+      message.warning(`bizId不能为空`);
+      return false;
+    }
     fileList.value.forEach((file: UploadProps['fileList'][number]) => {
-      formData.append('files[]', file as any);
+      if (!file.id) { // 未上传前file.id为空
+        formData.append('files[]', file as any);
+      }
     });
     uploading.value = true;
-    setTimeout(() => {
-      fileList.value.forEach((file) => {
-        file.percent = 30;
+    FileApi.uploadFile(formData)
+      .then(async () => {
+        uploading.value = false;
+        fileList.value = await getFiles(props.bizId);
+        message.success('操作成功');
+      })
+      .catch(() => {
+        uploading.value = false;
+        message.error('操作失败');
       });
-    }, 1000);
-    setTimeout(() => {
-      uploading.value = false;
-      message.success('upload successfully.');
-    }, 3000);
   };
 
   const handleFileSelect = () => {
-    const button = document.querySelector('#' + buttonID + '.upload-button');
-    button.click();
+    try {
+      const button = document.querySelector('#' + buttonID + '.upload-button');
+      button.click();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleClose = () => {
@@ -130,14 +199,17 @@
 
   watch(
     () => props.visible,
-    (newValue) => {
+    (newValue, oldValue) => {
       modalVisible.value = newValue;
+      if (newValue != oldValue && newValue == true) {
+        fileList.value = [];
+      }
     },
   );
 
   watch(
     () => props.tdata,
-    (newValue) => {},
+    () => {},
   );
 
   onMounted(() => {
@@ -155,10 +227,12 @@
       height: 100px;
       border: 0px solid #f0f0f0;
       margin-bottom: 5px;
+      color: #0960bd;
     }
-  
+
     .main-content {
-      flex: 3;
+      flex: 1;
+      height: auto;
       border: 1px solid #f0f0f0;
     }
   }
@@ -181,10 +255,23 @@
     margin: 0px 12px 0px 0px;
   }
 
-  :deep(.ant-upload-list-text .ant-upload-list-item-name, .ant-upload-list-picture .ant-upload-list-item-name) {
+  :deep(
+      .ant-upload-list-text .ant-upload-list-item-name,
+      .ant-upload-list-picture .ant-upload-list-item-name
+    ) {
     flex: auto;
     margin: 0;
     padding: 0 8px;
     text-align: left;
+  }
+
+  :deep(.ant-alert-content) {
+    text-align: left;
+  }
+  :deep(.ant-upload-list) {
+    margin-top: -20px;
+  }
+  :deep(.ant-alert-with-description .ant-alert-message) {
+    color: #0960bd;
   }
 </style>
