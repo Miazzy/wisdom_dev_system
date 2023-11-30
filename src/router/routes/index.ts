@@ -223,9 +223,7 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/po/safety/safecheckissue/index.vue');
         } else if (menu.component == '/@/views/po/safety/safecheckissue/createOrUpdate.vue') {
           return import('/@/views/po/safety/safecheckissue/createOrUpdate.vue');
-        }
-        // po/safety/safecheckexecution checkType: 1:定期检查 、2:专项检查
-        else if (
+        } else if (
           checkImportComponent('/@/views/po/safety/safecheckexecution/index.vue', menu.component)
         ) {
           return import('/@/views/po/safety/safecheckexecution/index.vue');
