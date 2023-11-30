@@ -6,6 +6,7 @@ export enum CommonApi {
   GetOrgStationWarehouseTree = '/baseset/common/list-stationWarehouse',
   LIST_STATION_TREE = '/baseset/common/list-orgStationTree',
   LIST_STATION_PERSON = '/baseset/common/list-stationPerson',
+  GetMaterialCategoryTreeData = '/baseset/material-category/getTreeData',
 }
 
 export const getOrgStationPeriodTree = async (params) => {
@@ -16,6 +17,11 @@ export const getOrgStationPeriodTree = async (params) => {
 export const getOrgStationWarehouseTree = async (params) => {
   const requestParams = { url: CommonApi.GetOrgStationWarehouseTree, params };
   return defHttp.post<any>(requestParams, { isOnlyResult: true });
+};
+
+export const getMaterialCategoryTreeData = async (params) => {
+  const requestParams = { url: CommonApi.GetMaterialCategoryTreeData, params };
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
 // 获取电站树
