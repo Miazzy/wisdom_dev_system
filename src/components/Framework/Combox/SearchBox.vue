@@ -144,8 +144,6 @@
       params = await props.apiParamFunc?.();
       if (params === false) {
         return { data: [], total: 0 };
-      } else {
-        params = {};
       }
     }
     url = url
