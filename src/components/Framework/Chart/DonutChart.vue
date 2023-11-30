@@ -13,7 +13,7 @@
             <path :d="arc.path" :fill="arc.data.color" />
           </g>
         </g>
-        <text
+        <text v-if="showTotal"
           style="font-size: 28px; dy: 5px"
           :x="(width * 0.75) / 2 - 14"
           :y="(height * 0.75) / 2 + 19"
@@ -23,7 +23,7 @@
         >
           {{ totalValue }}
         </text>
-        <text
+        <text v-if="showTotal"
           style="font-size: 15px"
           :x="(width * 0.75) / 2 - 12"
           :y="(height * 0.75) / 2 + 45"
@@ -55,7 +55,7 @@
         />
       </svg>
     </div>
-    <div class="data-list" style="margin: 15px 0px 0px -5px">
+    <div class="data-list" style="margin: 15px 0 0 -5px">
       <DonutIndicatorGroup :data="props.data" />
     </div>
   </div>
@@ -75,6 +75,10 @@
       type: Number,
       default: 0.08, // 默认间距值，可以根据需要进行调整
     },
+    showTotal: {
+      type: Boolean,
+      default: true
+    }
   });
 
   const radius = props.radius;
