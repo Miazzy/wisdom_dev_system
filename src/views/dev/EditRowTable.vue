@@ -203,12 +203,12 @@
           align: 'left',
           editComponent: 'UploadBox',
           editComponentProps: {
-            width: 800,
-            height: 550,
-            maxCount: 20,
-            maxSize: 100 * 1024 * 1024,
-            application: 'baseset',
-            module: 'oaleave',
+            width: 800, // 上传弹框宽度
+            height: 550, // 上传弹框高度
+            maxCount: 20, // 最多上传文件数
+            maxSize: 100 * 1024 * 1024, // 单文件最大上传大小
+            application: 'baseset', // 当前应用模块名称，如：po、baseset、hr、da等
+            module: 'oaleave', // 当前应用子模块名称
             bizId: `test-bizid-${Math.floor(Math.random() * 100000)}`,
             callback: (value, options) => {
               currentEditNodeRef.value; // currentEditNodeRef 此变量的定义要放在前面
