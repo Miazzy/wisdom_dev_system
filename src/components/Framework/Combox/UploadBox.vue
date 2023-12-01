@@ -1,14 +1,17 @@
 <template>
   <div>
     <Button
-      v-if="props.vmode == 'edit'"
+      v-if="props.vmode == 'edit' || props.vmode == 'box'"
       @click="handleOpenUpDialog"
       style="margin: 0px 10px 0px 0px"
     >
       <Icon icon="material-symbols-light:upload" />
       {{ props.tname }}
     </Button>
-    <div v-if="props.vmode != 'edit'" class="ant-upload-list ant-upload-list-text">
+    <div
+      v-if="props.vmode != 'edit' || props.vmode == 'box' || props.vmode == 'view'"
+      class="ant-upload-list ant-upload-list-text"
+    >
       <template v-for="file in filelist" :key="`${file.id}`">
         <div class="ant-upload-list-item">
           <div class="ant-upload-list-item-info">
@@ -31,7 +34,7 @@
       </template>
     </div>
     <UploadDialog
-      v-if="props.vmode == 'edit'"
+      v-if="props.vmode == 'edit' || props.vmode == 'box'"
       v-model:visible="uploadVisible"
       v-model:value="filelist"
       :title="props.title"
