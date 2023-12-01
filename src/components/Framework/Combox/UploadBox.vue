@@ -44,7 +44,7 @@
       :maxSize="props.maxSize"
       :application="props.application"
       :module="props.module"
-      :bizId="props.bizId"
+      :bizId="bizFileId"
       :tmessage="tmessage"
       @change="handleUploadOver"
       @cancel="handleUploadCancel"
@@ -73,7 +73,7 @@
     maxSize: { type: [Number], default: 100 * 1024 * 1024 },
     application: { type: String, default: '' },
     module: { type: String, default: '' },
-    bizId: { type: String, default: '' },
+    bizId: { type: [String, Function, Object], default: '' },
     tmessage: {
       type: String,
       default:
@@ -81,10 +81,12 @@
     },
     multiple: { type: [String, Boolean], default: false },
     callback: { type: Function, default: null },
+    tfields: { type: Object, default: { label: 'label', value: 'value' } as Object },
   });
 
   const uploadVisible = ref(false);
   const filelist = ref([]);
+  const bizFileId = ref('');
 
   // 定义emits
   const emit = defineEmits(['update:value', 'change', 'cancel', 'confirm']);
@@ -112,9 +114,25 @@
     }
   };
 
+  // 获取bizId
+  const getBizId = () => {
+    try {
+      if (typeof props.bizId == 'string') {
+        return props.bizId;
+      } else if (typeof props.bizId == 'function') {
+        return props.bizId();
+      } else if (typeof props.bizId == 'object') {
+        return props.bizId[props.tfields.value];
+      }
+    } catch (error) {
+      return props.bizId;
+    }
+  };
+
   // 处理上传完毕函数
   const handleUploadOver = async () => {
-    filelist.value = await FileApi.getFiles({ bizId: props.bizId });
+    const bizId = getBizId();
+    filelist.value = await FileApi.getFiles({ bizId });
     emit('update:value', filelist.value);
     emit('change', filelist.value);
     if (props.callback != null) {
@@ -131,7 +149,9 @@
   watch(
     () => props.bizId,
     async () => {
-      filelist.value = await getFiles(props.bizId);
+      const bizId = getBizId();
+      filelist.value = await getFiles(bizId);
+      bizFileId.value = bizId;
       emit('update:value', filelist.value);
     },
   );
@@ -149,7 +169,9 @@
   // 启动加载
   onMounted(async () => {
     try {
-      filelist.value = await getFiles(props.bizId);
+      const bizId = getBizId();
+      filelist.value = await getFiles(bizId);
+      bizFileId.value = bizId;
       emit('update:value', filelist.value);
       if (props.callback != null) {
         props.callback(filelist.value);
