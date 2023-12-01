@@ -129,6 +129,14 @@
   };
 
   watch(
+    () => props.bizId,
+    async () => {
+      filelist.value = await getFiles(props.bizId);
+      emit('update:value', filelist.value);
+    },
+  );
+
+  watch(
     () => props.value,
     () => {},
   );
