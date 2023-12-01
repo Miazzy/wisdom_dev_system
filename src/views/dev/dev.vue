@@ -88,6 +88,7 @@
     <br />
     <br />
     <UploadBox
+      :vmode="'box'"
       :width="800"
       :height="550"
       :maxCount="20"
@@ -118,19 +119,6 @@
       :height="600"
       @cancel="handleOrganCancel"
       @confirm="handleOrganConfirm"
-    />
-    <UploadDialog
-      :title="`上传控件Dialog`"
-      :visible="uploadVisible"
-      @update:visible="uploadVisible = $event"
-      :width="800"
-      :height="600"
-      :maxCount="20"
-      :application="`test`"
-      :module="`test-module`"
-      :bizId="`test-bizid-${Math.floor(Math.random() * 100000)}`"
-      @cancel="handleUploadCancel"
-      @confirm="handleUploadConfirm"
     />
     <br />
     <span style="display: block; margin-top: 10px; margin-left: 5px"> {{ categoryConfirm }} </span>
