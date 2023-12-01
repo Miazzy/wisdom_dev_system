@@ -50,28 +50,38 @@
             </a-card>
             <a-card title="附件信息">
               <div class="clearfix">
-                <a-upload
-                  :multiple="true"
-                  :file-list="fileList"
-                  :before-upload="beforeUpload"
-                  :showUploadList="{ showRemoveIcon: formState.status === 0 }"
-                  @remove="handleRemove"
-                >
-                  <a-button v-if="formState.status === 0">
-                    <upload-outlined />
-                    Select File
-                  </a-button>
-                </a-upload>
-                <a-button
-                  type="primary"
-                  v-if="formState.status === 0"
-                  :disabled="isNeedUpload"
-                  :loading="uploading"
-                  style="margin-top: 16px"
-                  @click="handleUpload"
-                >
-                  {{ uploading ? 'Uploading' : 'Start Upload' }}
-                </a-button>
+                <UploadBox
+                  :width="800"
+                  :height="550"
+                  :maxCount="20"
+                  :maxSize="100 * 1024 * 1024"
+                  :application="`po`"
+                  :module="`inventory`"
+                  :vmode="formState.status == 0 ? `box` : `view`"
+                  :bizId="formState.bizFileId"
+                />
+              </div>
+            </a-card>
+            <a-card title="表格附件信息">
+              <div class="clearfix">
+                <BasicTable @register="registerAttachmentTable" @edit-change="onEditChange">
+                  <template #toolbar>
+                    <a-button
+                      type="primary"
+                      :preIcon="IconEnum.ADD"
+                      @click="handleAttachmentCreate"
+                      v-if="formState.status === 0"
+                    >
+                      添加
+                      <!-- {{ t('action.create') }} -->
+                    </a-button>
+                  </template>
+                  <template #bodyCell="{ column, record }">
+                    <template v-if="column.key === 'action'">
+                      <TableAction :actions="createActions(record)" />
+                    </template>
+                  </template>
+                </BasicTable>
               </div>
             </a-card>
           </div>
@@ -92,8 +102,20 @@
   import { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
   import { Moment } from 'moment';
   import { reactive, ref, toRaw, UnwrapRef, onMounted } from 'vue';
-  import { message, Modal, UploadProps } from 'ant-design-vue';
+  import { message } from 'ant-design-vue';
   import { useRouter, useRoute } from 'vue-router';
+  import { cloneDeep } from 'lodash-es';
+  import { IconEnum } from '@/enums/appEnum';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import UploadBox from '@/components/Framework/Combox/UploadBox.vue';
+  import {
+    BasicTable,
+    useTable,
+    TableAction,
+    BasicColumn,
+    ActionItem,
+    EditRecordRow,
+  } from '/@/components/Table';
 
   import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
   import WfApproveBox from '/@/components/Framework/WorkFlow/WfApproveBox.vue';
@@ -101,13 +123,11 @@
   import * as ProcessInstanceApi from '@/api/bpm/processInstance';
 
   import * as FileApi from '@/api/infra/file';
-  import { useUserStore } from '/@/store/modules/user';
 
   defineOptions({ name: 'OALeaveCreate' });
 
   const router = useRouter();
   const { query } = useRoute();
-  const userStore = useUserStore();
 
   const labelCol = { span: 2 };
   const wrapperCol = { span: 12 };
@@ -147,119 +167,146 @@
     reason: [{ required: true, message: '请输入请假事由', trigger: 'blur' }],
   };
 
-  const uploadHeaders = ref(); // 上传 Header 头
-  uploadHeaders.value = {
-    Authorization: 'Bearer ' + userStore.getToken,
-  };
-  const fileList = ref<UploadProps['fileList']>([]);
-  const uploading = ref<boolean>(false);
-  const isNeedUpload = ref<boolean>(true);
+  //==================================附件资料  begin ==================================
 
-  const isNeedUploadFile = () => {
-    const isExits = fileList.value.some((ele) => !ele.hasOwnProperty('id'));
-    isNeedUpload.value = !isExits;
+  const getBizFileId = async () => {
+    FileApi.getBizId().then((res) => {
+      formState.bizFileId = res;
+    });
   };
 
-  const handleRemove: UploadProps['onRemove'] = (file) => {
-    console.log('file', file);
-    Modal.confirm({
-      title: '确认操作',
-      content: '请确认是否删除此流程数据项？',
-      onOk() {
-        if (!file.id) {
-          const index = fileList.value.indexOf(file);
-          const newFileList = fileList.value.slice();
-          newFileList.splice(index, 1);
-          fileList.value = newFileList;
-          isNeedUploadFile();
-        } else {
-          FileApi.deleteFile(file.id).then(() => {
-            const index = fileList.value.indexOf(file);
-            const newFileList = fileList.value.slice();
-            newFileList.splice(index, 1);
-            fileList.value = newFileList;
-            isNeedUploadFile();
-          });
-        }
+  //==================================附件资料  end ==================================
+
+  //==================================附件表格资料  begin ==================================
+  const { createMessage: msg } = useMessage();
+  const currentEditKeyRef = ref('');
+  const fileList = ref([]);
+  const currentEditNodeRef = ref();
+
+  const handleAttachmentCreate = () => {
+    const dataSource = getAttachmentDataSource();
+    const addRow: EditRecordRow = {
+      key: `${Date.now()}`,
+    };
+    dataSource.push(addRow);
+  };
+
+  const attachmentColumns: BasicColumn[] = [
+    {
+      title: '输入框校验',
+      dataIndex: 'name6',
+      editRow: true,
+      align: 'left',
+      editComponent: 'UploadBox',
+      editComponentProps: {
+        width: 800, // 上传弹框宽度
+        height: 550, // 上传弹框高度
+        maxCount: 20, // 最多上传文件数
+        maxSize: 100 * 1024 * 1024, // 单文件最大上传大小
+        application: 'po', //附件上传必须携带参数：应用，如：po、baseset、hr、da等
+        module: 'oaleave', //附件上传必须携带参数：模块
+        bizId: () => {
+          return formState.bizFileId; //附件上传必须携带参数：业务ID
+        },
+        callback: (value, options) => {
+          currentEditNodeRef.value; // currentEditNodeRef 此变量的定义要放在前面
+        },
       },
-    });
-    return false;
-  };
+      width: 150,
+    },
+  ];
 
-  const beforeUpload: UploadProps['beforeUpload'] = (file) => {
-    // 1、控制文件数量
-    if (fileList.value.length + 1 > 5) {
-      message.warning('超过文件上传数量限制。');
-      return false;
+  const [registerAttachmentTable, { getDataSource: getAttachmentDataSource }] = useTable({
+    columns: attachmentColumns,
+    showIndexColumn: false,
+    showTableSetting: true,
+    tableSetting: { fullScreen: true },
+    actionColumn: {
+      width: 160,
+      title: '操作',
+      dataIndex: 'action',
+    },
+    dataSource: fileList,
+  });
+
+  function onEditChange({ column, value, record }) {
+    // 本例
+    if (column.dataIndex === 'id') {
+      record.editValueRefs.name4.value = `${value}`;
     }
-    // 2、控制上传的文件大小
-    if (file.size > 1073741824) {
-      message.warning('文件大小超过最大限度1G。');
-      return false;
-    }
-    // 3、控制上传文件不能为空
-    if (file.size === 0) {
-      message.warning('所选信息中存在空文件或目录，请重新选择。');
-      return false;
-    }
-    // 4、控制已上传文件不重复
-    for (let i = 0; i < fileList.value.length; i++) {
-      const item = fileList.value[i];
-      if (item.name === file.name) {
-        message.warning('不允许重复上传。');
-        return false;
+    console.log(column, value, record);
+  }
+
+  function handleEdit(record: EditRecordRow) {
+    try {
+      if (Reflect.has(currentEditKeyRef, 'value')) {
+        currentEditKeyRef.value = record.key;
+        currentEditNodeRef.value = record;
+        record.onEdit?.(true);
       }
+    } catch (error) {
+      //
     }
-    // 5、控制上传文件的类型 arr是上传类型的白名单
-    const type = file.name.slice(file.name.lastIndexOf('.') + 1).toLowerCase();
-    const arr = ['.jpg', '.png', '.jpeg', '.docx', '.xlsx', '.txt', '.pdf', '.zip'];
-    if (!arr.includes('.' + type)) {
-      message.warning(`不支持以 .${type} 扩展类型的文件或图片上传。`);
-      return false;
-    }
-    fileList.value = [...fileList.value, file];
-    isNeedUploadFile();
-    return false;
-  };
+  }
 
-  const handleUpload = () => {
-    const formData = new FormData();
-    formData.append('application', 'baseset'); //附件上传必须携带参数：应用
-    formData.append('module', 'oaleave'); //附件上传必须携带参数：模块
-    formData.append('bizId', formState.bizFileId); //附件上传必须携带参数：业务ID
-
-    if (!formState.bizFileId) {
-      message.warning(`bizFileId为空。`);
-      return false;
-    }
-
-    fileList.value.forEach((file: UploadProps['fileList'][number]) => {
-      if (!file.id) {
-        formData.append('files', file as any);
+  async function handleSave(record: EditRecordRow) {
+    msg.loading({ content: '正在保存...', duration: 0, key: 'saving' });
+    const valid = await record.onValid?.();
+    if (valid) {
+      try {
+        const data = cloneDeep(record.editValueRefs);
+        console.log(data);
+        // 保存之后提交编辑状态
+        const pass = await record.onEdit?.(false, true);
+        if (pass) {
+          currentEditKeyRef.value = '';
+        }
+        msg.success({ content: '数据已保存', key: 'saving' });
+      } catch (error) {
+        msg.error({ content: '保存失败', key: 'saving' });
       }
-    });
-    uploading.value = true;
+    } else {
+      msg.error({ content: '请填写正确的数据', key: 'saving' });
+    }
+  }
 
-    FileApi.uploadFile(formData)
-      .then(() => {
-        fileList.value = [];
-        uploading.value = false;
-        getFiles(formState.bizFileId);
-        isNeedUploadFile();
-        message.success('操作成功。');
-      })
-      .catch(() => {
-        uploading.value = false;
-        isNeedUploadFile();
-        message.error('操作失败。');
-      });
-  };
+  function handleCancel(record: EditRecordRow) {
+    try {
+      if (Reflect.has(currentEditKeyRef, 'value')) {
+        currentEditKeyRef.value = '';
+        record.onEdit?.(false, false);
+      }
+    } catch (error) {
+      //
+    }
+  }
 
-  const getFiles = async (bizFileId) => {
-    FileApi.getFiles({ bizId: bizFileId }).then((res) => {
-      fileList.value = res;
-    });
-  };
+  function createActions(record: EditRecordRow): ActionItem[] {
+    if (!record.editable) {
+      return [
+        {
+          label: '编辑',
+          disabled: currentEditKeyRef.value ? currentEditKeyRef.value !== record.key : false,
+          onClick: handleEdit.bind(null, record),
+        },
+      ];
+    }
+    return [
+      {
+        label: '保存',
+        onClick: handleSave.bind(null, record),
+      },
+      {
+        label: '取消',
+        popConfirm: {
+          title: '是否取消编辑',
+          confirm: handleCancel.bind(null, record),
+        },
+      },
+    ];
+  }
+
+  //==================================附件表格资料  end ==================================
 
   const onSave = () => {
     doSave(0);
@@ -306,7 +353,6 @@
       formState.reason = res['reason'];
       formState.status = res.status;
       formState.bizFileId = res.bizFileId;
-      getFiles(res.bizFileId);
 
       if (formState.status > 0) {
         billTitleOptions.infoItems.push({
