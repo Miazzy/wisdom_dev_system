@@ -188,6 +188,13 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/po/equipment/outbound/create.vue');
         }
 
+        // po/equipment/inventory
+        else if (menu.component == '/@/views/po/equipment/inventory/index.vue') {
+          return import('/@/views/po/equipment/inventory/index.vue');
+        } else if (menu.component == '/@/views/po/equipment/inventory/create.vue') {
+          return import('/@/views/po/equipment/inventory/create.vue');
+        }
+
         // po/ticket
         else if (
           checkImportComponent('/@/views/po/ticket/operationticket/index.vue', menu.component)
