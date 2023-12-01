@@ -2,12 +2,12 @@ import { defHttp } from '@/utils/http/axios';
 
 // 查询库存盘点单列表
 export function getEquipmentInventoryPage(params) {
-  return defHttp.get({ url: '/po/equipment-inventory/page', params });
+  return defHttp.get({ url: '/po/equipment-inventory/page', params }, { isOnlyResult: true });
 }
 
 // 查询库存盘点单详情
 export function getEquipmentInventory(id: number) {
-  return defHttp.get({ url: '/po/equipment-inventory/get?id=' + id });
+  return defHttp.get({ url: '/po/equipment-inventory/get?id=' + id }, { isOnlyResult: true });
 }
 
 // 新增库存盘点单
