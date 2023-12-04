@@ -22,7 +22,7 @@
             @change="updateLoopCardinality"
           />
         </el-form-item>
-        <el-form-item label="集合" key="collection" v-show="false">
+        <el-form-item label="集合" key="collection">
           <el-input v-model="loopInstanceForm.collection" clearable @change="updateLoopBase" />
         </el-form-item>
         <el-form-item label="元素变量" key="elementVariable">
@@ -67,7 +67,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { inject, ref, toRaw, onBeforeUnmount, watch } from "vue";
+  import { inject, ref, toRaw, onBeforeUnmount, watch } from 'vue';
 
   defineOptions({ name: 'ElementMultiInstance' });
 
