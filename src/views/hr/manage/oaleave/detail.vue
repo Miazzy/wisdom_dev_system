@@ -193,7 +193,7 @@
 
   const attachmentColumns: BasicColumn[] = [
     {
-      title: '输入框校验',
+      title: '附件',
       dataIndex: 'name6',
       editRow: true,
       align: 'left',

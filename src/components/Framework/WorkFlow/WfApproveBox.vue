@@ -5,7 +5,9 @@
       <Button @click="handleSave" v-if="processStatus == 0" type="primary">保存</Button>
       <Button @click="handleSubmit" v-if="processStatus == 0" type="primary">提交</Button>
       <!-- <Button @click="handleCollect" v-if="processStatus != 0">收藏</Button> -->
-      <Button @click="handleOpenApprovalDrawer" v-if="processStatus&&processStatus !== 0">审批</Button>
+      <Button @click="handleOpenApprovalDrawer" v-if="processStatus && processStatus !== 0"
+        >审批</Button
+      >
     </div>
     <!-- 流程审批抽屉组件 -->
     <ApprovalDrawer
@@ -13,7 +15,8 @@
       :flowData="approveDataList"
       :processInstanceId="processInstanceId"
       :isHandle="isHandle"
-      :mode="props.mode" :businessStatus="props.businessStatus"
+      :mode="props.mode"
+      :businessStatus="props.businessStatus"
       @agree="handleAgree"
       @reject="handleReject"
       @save="handleFlowSave"
@@ -52,7 +55,7 @@
     'notice',
     'collect',
     'submit',
-    'before'
+    'before',
   ]);
 
   const userStore = useUserStore();
@@ -61,8 +64,8 @@
   const props = defineProps({
     processInstanceId: propTypes.string.def(''),
     processStatus: propTypes.number.def(undefined),
-    mode: { type: String as PropType<Modes>, default: 'default'},
-    businessStatus: { type: String, default: '' }
+    mode: { type: String as PropType<Modes>, default: 'default' },
+    businessStatus: { type: String, default: '' },
   });
 
   const [approvalDrawerRegister, { openDrawer: openApprovalDrawer }] = useDrawer();
@@ -75,7 +78,7 @@
     openApprovalDrawer(true);
   }
 
-   // 关闭当前页签
+  // 关闭当前页签
   const { closeCurrentPage } = useTabs();
 
   const handleAgree = async (flowData) => {
@@ -84,7 +87,7 @@
     await TaskApi.approveTask({ id: curflowobj.id, reason: curflowobj.reason });
     message.success('操作成功。');
     isHandle.value = 2;
-    getTaskListByProcessInstanceId(); 
+    getTaskListByProcessInstanceId();
     closeCurrentPage();
   };
 
@@ -104,10 +107,9 @@
   //获取未处理任务节点
   function getuntreated(flowData) {
     const obj = {};
-    forEach(flowData, function (def) {
-      var flow = toRaw(def);
-      if (flow.result === 1) {
-        assign(obj, flow);
+    flowData.forEach((item) => {
+      if (item.assigneeUser.id === getUserInfo.userId && item.result === 1) {
+        assign(obj, item);
       }
     });
     return obj;
@@ -184,7 +186,7 @@
     (newValue) => {
       processStatus.value = props.processStatus;
     },
-    { immediate: true }
+    { immediate: true },
   );
 
   watch(
@@ -209,13 +211,13 @@
   watch(
     () => props.businessStatus,
     async (newValue) => {
-      if(newValue==='agree') { 
+      if (newValue === 'agree') {
         await TaskApi.approveTask({ id: currentNode.id, reason: currentNode.reason });
         message.success('操作成功。');
         isHandle.value = 2;
         getTaskListByProcessInstanceId();
         closeCurrentPage();
-      } else if(newValue==='reject') {
+      } else if (newValue === 'reject') {
         await TaskApi.rejectTask({ id: currentNode.id, reason: currentNode.reason });
         message.success('操作成功。');
         getTaskListByProcessInstanceId();
@@ -223,11 +225,11 @@
       }
     },
   );
-  onMounted(()=>{
-    if(!route.query.processInstanceId) {
+  onMounted(() => {
+    if (!route.query.processInstanceId) {
       isShowBtns.value = true;
     }
-  })
+  });
 </script>
 <style lang="less" scoped>
   .workflow-approve-box {
