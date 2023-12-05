@@ -636,6 +636,16 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/bi/safety/check/index.vue');
         } else if (checkImportComponent('/@/views/bi/safety/agreement/index.vue', menu.component)) {
           return import('/@/views/bi/safety/agreement/index.vue');
+        }
+        // oa
+        else if (checkImportComponent('/@/views/oa/info/infokind/infoKind.vue', menu.component)) {
+          return import('/@/views/oa/info/infokind/infoKind.vue');
+        } else if (checkImportComponent('/@/views/oa/askreport/index.vue', menu.component)) {
+          return import('/@/views/oa/askreport/index.vue');
+        } else if (
+          checkImportComponent('/@/views/oa/askreport/askReportModal.vue', menu.component)
+        ) {
+          return import('/@/views/oa/askreport/askReportModal.vue');
         } else {
           return asyncImportComponent(menu.component);
         }
