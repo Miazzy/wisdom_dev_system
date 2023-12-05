@@ -646,6 +646,8 @@ const transformMenuItem = (menu, routes) => {
           checkImportComponent('/@/views/oa/askreport/askReportModal.vue', menu.component)
         ) {
           return import('/@/views/oa/askreport/askReportModal.vue');
+        } else if (checkImportComponent('/@/views/oa/addressbook/index.vue', menu.component)) {
+          return import('/@/views/oa/addressbook/index.vue');
         } else {
           return asyncImportComponent(menu.component);
         }
