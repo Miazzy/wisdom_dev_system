@@ -57,9 +57,10 @@ export function useTabs(_router?: Router) {
 
   async function handlePushAndClose(path: string) {
     const currentTab = getCurrentTab();
-    const router = useRouter();
     router.push(path);
-    handleTabAction(TableActionEnum.CLOSE, currentTab);
+    setTimeout(() => {
+      handleTabAction(TableActionEnum.CLOSE, currentTab);
+    }, 100);
   }
 
   async function handleTabAction(action: TableActionEnum, tab?: RouteLocationNormalized) {

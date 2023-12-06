@@ -180,6 +180,8 @@
     <!-- 审批按钮 -->
     <div style="margin: 16px 0 0 16px">
       <Button @click="handleOpenApprovalDrawer">审批</Button>
+
+      <Button @click="handlePushAndClose">关闭并跳转</Button>
     </div>
 
     <!-- 流程审批抽屉组件 -->
@@ -293,7 +295,7 @@
   const userInfo = userStore.getUserInfo;
   const username = userInfo?.username;
 
-  const { closeCurrentPage } = useTabs();
+  const { pushCloseTab, updatePath, closeCurrentPage } = useTabs();
 
   const loading = ref(true); // 列表的加载中
   const total = ref(0); // 列表的总页数
@@ -513,6 +515,11 @@
 
   function handleDictSelectBoxChange(value, node, allNodes) {
     console.log('selectedValue:', selectedValue.value);
+  }
+
+  function handlePushAndClose() {
+    const path = '/system/base';
+    pushCloseTab(path);
   }
 
   const [approvalDrawerRegister, { openDrawer: openApprovalDrawer }] = useDrawer();
