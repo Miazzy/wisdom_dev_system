@@ -107,6 +107,6 @@ export function useTabs(_router?: Router) {
     closeCurrentPage: (tab?: RouteLocationNormalized) => handleTabAction(TableActionEnum.CLOSE, tab),
     setTitle: (title: string, tab?: RouteLocationNormalized) => updateTabTitle(title, tab),
     updatePath: (fullPath: string, tab?: RouteLocationNormalized) => updateTabPath(fullPath, tab),
-    pushCloseTab: (fullPath: string) => updateTabPath(fullPath),
+    pushCloseTab: (fullPath: string) => handlePushAndClose(fullPath),
   };
 }
