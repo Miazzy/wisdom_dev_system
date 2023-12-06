@@ -187,7 +187,7 @@
       <div class="flow-item-right">
         <div class="flow-row-1">
           <span class="node-name-text">{{ item.name }}</span>
-          <span class="node-time-text">{{ item.createTime }}</span>
+          <span class="node-time-text">{{ item.endTime }}</span>
         </div>
         <div class="flow-row-2">
           <span class="person-text">{{
