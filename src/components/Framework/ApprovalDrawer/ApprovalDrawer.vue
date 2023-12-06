@@ -5,14 +5,36 @@
  * @FilePath: \ygwl-framework\src\components\Framework\ApprovalDrawer\ApprovalDrawer.vue
 -->
 <template>
-  <BasicDrawer class="test" v-bind="$attrs" :isDetail="true" width="33.33%" :headerStyle="{ display: 'none' }" :drawerStyle="{ boxShadow: '0px 1px 3px 0px #E9E9E9', borderTop: '1px solid #F0F0F0' }"
-    :showFooter="currentNodeData[0]&&editAuthority(currentNodeData[0])" footerHeight="64" @visible-change="handleChange">
-    <OrganDialog :title="`组织人员Dialog`" :visible="organVisible" @update:visible="organVisible = $event" :tdata="treeData" :tfields="{ key: 'id', title: 'name' }" :width="800" :height="600"
-      @cancel="cancelOrganDialog" @confirm="handleOrganConfirm" />
+  <BasicDrawer
+    class="test"
+    v-bind="$attrs"
+    :isDetail="true"
+    width="33.33%"
+    :headerStyle="{ display: 'none' }"
+    :drawerStyle="{ boxShadow: '0px 1px 3px 0px #E9E9E9', borderTop: '1px solid #F0F0F0' }"
+    :showFooter="currentNodeData[0] && editAuthority(currentNodeData[0])"
+    footerHeight="64"
+    @visible-change="handleChange"
+  >
+    <OrganDialog
+      :title="`组织人员Dialog`"
+      :visible="organVisible"
+      @update:visible="organVisible = $event"
+      :tdata="treeData"
+      :tfields="{ key: 'id', title: 'name' }"
+      :width="800"
+      :height="600"
+      @cancel="cancelOrganDialog"
+      @confirm="handleOrganConfirm"
+    />
 
     <div>
       <Tabs class="fit-approval-tab" v-model:activeKey="activeKey">
-        <TabPane v-if="currentNodeData[0]&&editAuthority(currentNodeData[0])" key="1" tab="流程审批">
+        <TabPane
+          v-if="currentNodeData[0] && editAuthority(currentNodeData[0])"
+          key="1"
+          tab="流程审批"
+        >
           <ApprovalTab ref="approvalTabRef" :flowData="currentNodeData" type="approval" />
         </TabPane>
         <TabPane key="2" tab="流程轨迹" force-render>
@@ -23,8 +45,10 @@
         </TabPane>
       </Tabs>
     </div>
-    <template v-if="currentNodeData[0]&&editAuthority(currentNodeData[0])" #footer>
-      <Button class="fit-footer-btn" type="primary" v-if="props.isHandle == 1" @click="handleAgree">同意</Button>
+    <template v-if="currentNodeData[0] && editAuthority(currentNodeData[0])" #footer>
+      <Button class="fit-footer-btn" type="primary" v-if="props.isHandle == 1" @click="handleAgree"
+        >同意</Button
+      >
       <Button class="fit-footer-btn" v-if="props.isHandle == 1" @click="handleReject">驳回</Button>
       <!-- <Button class="fit-footer-btn" v-if="props.isHandle == 1" @click="handleFlowSave"
         >保存</Button
@@ -242,7 +266,7 @@
     const { innerFlowData } = trackTabRef.value;
     const myTask = getMyTask(innerFlowData);
 
-    if (myTask.result == 2) {
+    if (operation == 2 && myTask.result == 2) {
       message.warning('此任务已处理。');
       return;
     }
@@ -275,17 +299,16 @@
 
     const { innerFlowData } = trackTabRef.value;
     const myTask = getMyTask(innerFlowData);
-    console.log('myTask', myTask);
 
-    if (myTask.result == 2) {
-      message.warning('此任务已处理。');
-      return false;
-    }
     if (nodeList.length == 0) {
       message.warning('请选择人员。');
       return false;
     }
     if (processOperation.value == 2) {
+      if (myTask.result == 2) {
+        message.warning('此任务已处理。');
+        return false;
+      }
       if (nodeList.length > 1) {
         message.warning('只能选择一个人员。');
         return false;
@@ -306,6 +329,7 @@
       }
       const params = {
         id: myTask.id,
+        processInstanceId: myTask.processInstance.id,
         ccToVos: ccToVos,
       };
       TaskApi.addCcTo(params).then(() => {
