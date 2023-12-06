@@ -35,11 +35,11 @@ export const getStationTree = (params) =>
   );
 
 // 获取电站下的组织人员
-export const getStationPerson = (params) =>
-  defHttp.post(
+export const getStationPerson = (stationId: string) => {
+  return defHttp.post(
     {
-      url: CommonApi.LIST_STATION_PERSON,
-      params,
+      url: `${CommonApi.LIST_STATION_PERSON}?stationId=${stationId}`,
     },
-    {},
+    { isOnlyResult: true },
   );
+};
