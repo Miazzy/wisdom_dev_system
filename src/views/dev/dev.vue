@@ -111,8 +111,7 @@
     />
     <OrganDialog
       :title="`组织人员Dialog`"
-      :visible="organVisible"
-      @update:visible="organVisible = $event"
+      v-model:visible="organVisible"
       :tdata="treeData"
       :tfields="{ key: 'nodeId', title: 'nodeName' }"
       :width="800"
@@ -182,7 +181,11 @@
       <Button @click="handleOpenApprovalDrawer">审批</Button>
 
       <Button @click="handlePushAndClose">关闭并跳转</Button>
+
+      <Button @click="handleGenerateUUID">生成UUID</Button>
     </div>
+
+    <div> {{ uuidVal }} </div>
 
     <!-- 流程审批抽屉组件 -->
     <ApprovalDrawer
@@ -267,6 +270,7 @@
   import XTextButton from '@/components/Framework/XButton/XTextButton.vue';
   import type { Dayjs } from 'dayjs';
   import { DICT_TYPE } from '@/utils/dict';
+  import { buildUUID, buildShortUUID } from '@/utils/uuid'
   // import BubbleChart from '/@/components/Framework/Chart/BubbleChart.vue';
   // import DonutChart from '/@/components/Framework/Chart/DonutChart.vue';
   // import EchartPieChart from '/@/components/Framework/Chart/EchartPieChart.vue';
@@ -313,6 +317,7 @@
   const radioGroupValue = ref('');
   const searchSelectText = ref('');
   const searchBoxSearchText = ref('');
+  const uuidVal = ref('');
 
   const billTitleOptions = reactive<any>({});
   billTitleOptions.title = '电站填报';
@@ -531,6 +536,11 @@
     }, 100);
     openApprovalDrawer(true);
     queryFlowNodeList();
+  }
+
+  // 生成UUID函数
+  function handleGenerateUUID() {
+    uuidVal.value = buildUUID();
   }
 
   const flowData = ref([]);

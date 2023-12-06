@@ -139,7 +139,7 @@
     title: String, // 弹框标题
     width: { type: Number, default: 700 }, // 弹框宽度
     height: { type: Number, default: 500 }, // 弹框高度
-
+    value: { type: Array, default: [] },
     tdata: { type: Array }, // Tree数据
     tfields: {
       type: Object,
@@ -167,7 +167,7 @@
     },
   });
 
-  const emit = defineEmits(['update:visible', 'cancel', 'confirm', 'close']); // 定义事件
+  const emit = defineEmits(['update:visible', 'update:value', 'cancel', 'confirm', 'close']); // 定义事件
 
   const scolumns = ref([
     { title: '名称', dataIndex: 'title', key: 'title', fixed: 'left', minWidth: 100 },
@@ -186,7 +186,7 @@
     // modalVisible.value = false;
     // emit('update:visible', false); // 关闭弹框
     const data = transformRespData(allNodes.value, rule);
-    emit('confirm', data); // 发送确定事件
+    emit('confirm', data, allNodes.value); // 发送确定事件
   };
 
   const close = () => {
@@ -235,6 +235,7 @@
     } else {
       message.warning(props.message.double);
     }
+    emit('update:value', allNodes.value);
   };
 
   const handleDelete = () => {
@@ -242,12 +243,14 @@
       title: props.message.delete,
       onOk() {
         allNodes.value = [];
+        emit('update:value', allNodes.value);
       },
     });
   };
 
   const handleDeleteNode = (item, index) => {
     allNodes.value = allNodes.value.filter((node, tindex) => tindex !== index);
+    emit('update:value', allNodes.value);
   };
 
   // 按tfields生成转换规则
@@ -386,6 +389,17 @@
       onclick: clickFunc,
     };
   };
+
+  watch(
+    () => props.value,
+    (newValue) => {
+      const rule = props?.tfields as fieldType;
+      const data = unref(props.tdata as unknown[] as TreeItem[]);
+      treeData.value = transformData(data, rule);
+      treeMap.value = transformMap(data, rule);
+      transformTableData(data, rule, 'top');
+    },
+  );
 
   watch(
     () => props.visible,
