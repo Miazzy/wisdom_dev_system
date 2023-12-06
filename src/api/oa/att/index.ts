@@ -1,19 +1,22 @@
 import { defHttp } from '/@/utils/http/axios';
 
 export enum Api {
-  CREATE_PERIOD_URL = '/po/oa/attend-monthly-scheduling/period/create',
-  UPDATE_PERIOD_URL = '/po/oa/attend-monthly-scheduling/period/update',
-  GET_PERIOD_URL = '/po/oa/attend-monthly-scheduling/period/get',
+  CREATE_PERIOD_URL = '/oa/attend-monthly-scheduling/period/create',
+  UPDATE_PERIOD_URL = '/oa/attend-monthly-scheduling/period/update',
+  GET_PERIOD_URL = '/oa/attend-monthly-scheduling/period/get',
+  LIST_PERIOD_URL = '/oa/attend-monthly-scheduling/period/list',
 
-  CREATE_URL = '/po/oa/attend-monthly-scheduling/create',
-  UPDATE_URL = '/po/oa/attend-monthly-scheduling/update',
-  DELETE_URL = '/po/oa/attend-monthly-scheduling/delete',
-  EXPORT_EXCEL_URL = '/po/oa/attend-monthly-scheduling/export-excel',
-  GET_URL = '/po/oa/attend-monthly-scheduling/get',
-  PAGE_URL = '/po/oa/attend-monthly-scheduling/page',
+  CREATE_URL = '/oa/attend-monthly-scheduling/create',
+  UPDATE_URL = '/oa/attend-monthly-scheduling/update',
+  DELETE_URL = '/oa/attend-monthly-scheduling/delete',
+  EXPORT_EXCEL_URL = '/oa/attend-monthly-scheduling/export-excel',
+  GET_URL = '/oa/attend-monthly-scheduling/get',
+  PAGE_URL = '/oa/attend-monthly-scheduling/page',
 
-  EXPORT_DETAIL_EXCEL_URL = '/po/oa/attend-monthly-scheduling/detail/export-excel',
-  LIST_DETAIL_URL = '/po/oa/attend-monthly-scheduling/detail/list',
+  EXPORT_DETAIL_EXCEL_URL = '/oa/attend-monthly-scheduling/detail/export-excel',
+  LIST_DETAIL_URL = '/oa/attend-monthly-scheduling/detail/list',
+
+  LIST_HOLIDAY_URL = '/oa/attend-monthly-scheduling/getHolidayList',
 }
 // 添加月排班规则
 export const createPeriodData = (params) =>
@@ -37,16 +40,25 @@ export const updatePeriodData = (params) =>
 
 export const savePeriodData = (params) => {
   if (!params.id) {
-    return createData(params);
+    return createPeriodData(params);
   }
-  return updateData(params);
+  return updatePeriodData(params);
 };
 
-// 获取月排班
+// 获取月排班规则
 export const getPeriodData = (id) =>
   defHttp.get(
     {
       url: Api.GET_PERIOD_URL + '?id=' + id,
+    },
+    {},
+  );
+
+// 获取月排班规则
+export const getPeriodList = () =>
+  defHttp.get(
+    {
+      url: Api.LIST_PERIOD_URL,
     },
     {},
   );
@@ -113,7 +125,7 @@ export const getPage = (params) =>
       url: Api.PAGE_URL,
       params,
     },
-    {},
+    { isOnlyResult: true },
   );
 
 // 导出月排班明细
@@ -127,11 +139,19 @@ export const exportDetailExcel = (params) =>
   );
 
 // 获取月排班明细列表
-export const getDetailList = (params) =>
+export const getDetailList = (schedulingId) =>
   defHttp.get(
     {
-      url: Api.LIST_DETAIL_URL,
-      params,
+      url: `${Api.LIST_DETAIL_URL}?schedulingId=${schedulingId}`,
     },
     {},
+  );
+
+// 获取节假日
+export const getHolidayList = (year) =>
+  defHttp.get(
+    {
+      url: `${Api.LIST_HOLIDAY_URL}?year=${year}`,
+    },
+    { isOnlyResult: true },
   );
