@@ -55,6 +55,13 @@ export function useTabs(_router?: Router) {
     await tabStore.updateTabPath(path, targetTab);
   }
 
+  async function handlePushAndClose(path: string) {
+    const currentTab = getCurrentTab();
+    const router = useRouter();
+    router.push(path);
+    handleTabAction(TableActionEnum.CLOSE, currentTab);
+  }
+
   async function handleTabAction(action: TableActionEnum, tab?: RouteLocationNormalized) {
     const canIUse = canIUseTabs;
     if (!canIUse) {
@@ -100,5 +107,6 @@ export function useTabs(_router?: Router) {
     closeCurrentPage: (tab?: RouteLocationNormalized) => handleTabAction(TableActionEnum.CLOSE, tab),
     setTitle: (title: string, tab?: RouteLocationNormalized) => updateTabTitle(title, tab),
     updatePath: (fullPath: string, tab?: RouteLocationNormalized) => updateTabPath(fullPath, tab),
+    pushCloseTab: (fullPath: string) => updateTabPath(fullPath),
   };
 }
