@@ -83,8 +83,8 @@
       />
     </div>
     <br />
-    <Button @click="handleOpenCgDialog" style="margin: 0px 10px 0px 0px">打开分类Dialog</Button>
-    <Button @click="handleOpenOgDialog" style="margin: 0px 10px 0px 0px">打开组织Dialog</Button>
+    <Button @click="handleOpenCgDialog" style="margin: 0 10px 0 0">打开分类Dialog</Button>
+    <Button @click="handleOpenOgDialog" style="margin: 0 10px 0 0">打开组织Dialog</Button>
     <br />
     <br />
     <UploadBox
@@ -179,9 +179,7 @@
     <!-- 审批按钮 -->
     <div style="margin: 16px 0 0 16px">
       <Button @click="handleOpenApprovalDrawer">审批</Button>
-
       <Button @click="handlePushAndClose">关闭并跳转</Button>
-
       <Button @click="handleGenerateUUID">生成UUID</Button>
     </div>
 
@@ -270,7 +268,8 @@
   import XTextButton from '@/components/Framework/XButton/XTextButton.vue';
   import type { Dayjs } from 'dayjs';
   import { DICT_TYPE } from '@/utils/dict';
-  import { buildUUID, buildShortUUID } from '@/utils/uuid'
+  import { buildUUID, buildShortUUID } from '@/utils/uuid';
+  import { Maths } from '@/utils/math';
   // import BubbleChart from '/@/components/Framework/Chart/BubbleChart.vue';
   // import DonutChart from '/@/components/Framework/Chart/DonutChart.vue';
   // import EchartPieChart from '/@/components/Framework/Chart/EchartPieChart.vue';
@@ -525,6 +524,7 @@
   function handlePushAndClose() {
     const path = '/system/base';
     pushCloseTab(path);
+    // updatePath(path);
   }
 
   const [approvalDrawerRegister, { openDrawer: openApprovalDrawer }] = useDrawer();
@@ -640,6 +640,8 @@
     selectedValue.value = ['1', '2'] as never[];
     selectedSValue.value = '1';
     radioGroupValue.value = '1';
+
+    const result = Maths.add('3223.23', 392.135, 2);
 
     setTimeout(() => {
       selectedValue.value = [];
