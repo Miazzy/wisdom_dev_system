@@ -648,14 +648,28 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/oa/askreport/askReportModal.vue');
         } else if (checkImportComponent('/@/views/oa/addressbook/index.vue', menu.component)) {
           return import('/@/views/oa/addressbook/index.vue');
-        }
-        // oa/att
-        else if (checkImportComponent('/@/views/oa/att/index.vue', menu.component)) {
+        } else if (checkImportComponent('/@/views/oa/att/index.vue', menu.component)) {
           return import('/@/views/oa/att/index.vue');
         } else if (checkImportComponent('/@/views/oa/att/create.vue', menu.component)) {
           return import('/@/views/oa/att/create.vue');
         } else if (checkImportComponent('/@/views/oa/att/calendar.vue', menu.component)) {
           return import('/@/views/oa/att/calendar.vue');
+        } else if (checkImportComponent('/@/views/oa/info/officedoc/index.vue', menu.component)) {
+          return import('/@/views/oa/info/officedoc/index.vue');
+        } else if (checkImportComponent('/@/views/oa/info/officedoc/create.vue', menu.component)) {
+          return import('/@/views/oa/info/officedoc/create.vue');
+        } else if (checkImportComponent('/@/views/oa/info/infonotice/index.vue', menu.component)) {
+          return import('/@/views/oa/info/infonotice/index.vue');
+        } else if (checkImportComponent('/@/views/oa/info/infonotice/create.vue', menu.component)) {
+          return import('/@/views/oa/info/infonotice/create.vue');
+        } else if (checkImportComponent('/@/views/oa/info/information/index.vue', menu.component)) {
+          return import('/@/views/oa/info/information/index.vue');
+        } else if (
+          checkImportComponent('/@/views/oa/info/information/create.vue', menu.component)
+        ) {
+          return import('/@/views/oa/info/information/create.vue');
+        } else if (checkImportComponent('/@/views/oa/info/query/index.vue', menu.component)) {
+          return import('/@/views/oa/info/query/index.vue');
         } else {
           return asyncImportComponent(menu.component);
         }
