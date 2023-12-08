@@ -670,6 +670,10 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/oa/info/information/create.vue');
         } else if (checkImportComponent('/@/views/oa/info/query/index.vue', menu.component)) {
           return import('/@/views/oa/info/query/index.vue');
+        } else if (
+          checkImportComponent('/@/views/bi/safety/disasterwarning/index.vue', menu.component)
+        ) {
+          return import('/@/views/bi/safety/disasterwarning/index.vue');
         } else {
           return asyncImportComponent(menu.component);
         }
