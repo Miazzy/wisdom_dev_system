@@ -24,7 +24,7 @@
                 class="ant-upload-list-item-name"
                 :size="file?.size"
                 :title="file?.name"
-                :href="file?.url"
+                :href="attachmentPreview(file?.url)"
               >
                 {{ file?.name }}
               </a>
@@ -144,6 +144,21 @@
   const getFiles = async (bizId) => {
     const filelist = await FileApi.getFiles({ bizId });
     return filelist;
+  };
+
+  const attachmentPreview = (url) => {
+    let localdomain = location.protocol + '//' + location.hostname; //当前页面域名
+    const isDev = process.env.NODE_ENV === 'development';
+    if (isDev) {
+      localdomain = location.protocol + '//' + '10.8.111.203';
+    }
+    let previewdomain = localdomain + ':8012'; //预览域名
+    let downloaddomain = localdomain + ':48080'; //下载域名
+    return (
+      previewdomain +
+      '/onlinePreview?url=' +
+      encodeURIComponent(btoa(encodeURI(downloaddomain + url)))
+    );
   };
 
   watch(
