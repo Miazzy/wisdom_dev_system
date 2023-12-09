@@ -618,15 +618,6 @@ const transformMenuItem = (menu, routes) => {
         }
         // bi/maintenance
         else if (
-          checkImportComponent(
-            '/@/views/bi/integrated/personnelqualifications/index.vue',
-            menu.component,
-          )
-        ) {
-          return import('/@/views/bi/integrated/personnelqualifications/index.vue');
-        }
-        // bi/maintenance
-        else if (
           checkImportComponent('/@/views/bi/maintenance/powercut/index.vue', menu.component)
         ) {
           return import('/@/views/bi/maintenance/powercut/index.vue');
@@ -636,6 +627,17 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/bi/safety/check/index.vue');
         } else if (checkImportComponent('/@/views/bi/safety/agreement/index.vue', menu.component)) {
           return import('/@/views/bi/safety/agreement/index.vue');
+        }
+        // bi/integrated
+        else if (
+          checkImportComponent(
+            '/@/views/bi/integrated/personnelqualifications/index.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/bi/integrated/personnelqualifications/index.vue');
+        } else if (menu.component == '/@/views/bi/integrated/vehicle/index.vue') {
+          return import('/@/views/bi/integrated/vehicle/index.vue');
         }
         // oa
         else if (checkImportComponent('/@/views/oa/info/infokind/infoKind.vue', menu.component)) {
