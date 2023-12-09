@@ -4,6 +4,7 @@ import { defHttp } from '/@/utils/http/axios';
 export enum CommonApi {
   GetOrgStationPeriodTree = '/baseset/common/list-orgStationPeriodTree',
   GetOrgStationWarehouseTree = '/baseset/common/list-stationWarehouse',
+  LIST_STATION = '/baseset/common/list-station',
   LIST_STATION_TREE = '/baseset/common/list-orgStationTree',
   LIST_STATION_PERSON = '/baseset/common/list-stationPerson',
   GetMaterialCategoryTreeData = '/baseset/material-category/getTreeData',
@@ -23,6 +24,16 @@ export const getMaterialCategoryTreeData = async (params) => {
   const requestParams = { url: CommonApi.GetMaterialCategoryTreeData, params };
   return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
+
+// 获取电站列表
+export const getStationList = (params) =>
+  defHttp.post(
+    {
+      url: CommonApi.LIST_STATION,
+      params,
+    },
+    { isOnlyResult: true },
+  );
 
 // 获取电站树
 export const getStationTree = (params) =>

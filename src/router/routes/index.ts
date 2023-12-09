@@ -621,6 +621,8 @@ const transformMenuItem = (menu, routes) => {
           checkImportComponent('/@/views/bi/maintenance/powercut/index.vue', menu.component)
         ) {
           return import('/@/views/bi/maintenance/powercut/index.vue');
+        } else if (menu.component == '/@/views/bi/maintenance/ticket/index.vue') {
+          return import('/@/views/bi/maintenance/ticket/index.vue');
         }
         // bi/safety
         else if (checkImportComponent('/@/views/bi/safety/check/index.vue', menu.component)) {
@@ -639,12 +641,10 @@ const transformMenuItem = (menu, routes) => {
         } else if (menu.component == '/@/views/bi/integrated/vehicle/index.vue') {
           return import('/@/views/bi/integrated/vehicle/index.vue');
         }
-
         // bi/equipment
         else if (menu.component == '/@/views/bi/equipment/index.vue') {
           return import('/@/views/bi/equipment/index.vue');
         }
-
         // oa
         else if (checkImportComponent('/@/views/oa/info/infokind/infoKind.vue', menu.component)) {
           return import('/@/views/oa/info/infokind/infoKind.vue');
