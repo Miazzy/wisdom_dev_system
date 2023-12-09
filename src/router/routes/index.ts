@@ -510,6 +510,18 @@ const transformMenuItem = (menu, routes) => {
         ) {
           return import('/@/views/da/cockpit/security/Security.vue');
         }
+        // da/groupOperation
+        else if (
+          checkImportComponent('/@/views/da/groupOperation/GroupOperation.vue', menu.component)
+        ) {
+          return import('/@/views/da/groupOperation/GroupOperation.vue');
+        } 
+        // da/stationOperation
+        else if (
+          checkImportComponent('/@/views/da/stationOperation/StationOperation.vue', menu.component)
+        ) {
+          return import('/@/views/da/stationOperation/StationOperation.vue');
+        }
         // monitor/PVArea
         else if (
           checkImportComponent(
@@ -811,6 +823,25 @@ export const CockpitPowerRoute: AppRouteRecordRaw = {
   },
 };
 
+// 集团运营大屏
+export const GroupOperationRoute: AppRouteRecordRaw = {
+  path: '/groupOperation',
+  name: 'GroupOperation',
+  component: () => import('/@/views/da/groupOperation/GroupOperation.vue'),
+  meta: {
+    title: '集团运营',
+  },
+};
+// 电站运营大屏
+export const StationOperationRoute: AppRouteRecordRaw = {
+  path: '/stationOperation',
+  name: 'StationOperation',
+  component: () => import('/@/views/da/stationOperation/StationOperation.vue'),
+  meta: {
+    title: '电站运营',
+  },
+};
+
 // 暴露基础路由
 export const basicRoutes = [
   LoginRoute,
@@ -824,4 +855,6 @@ export const basicRoutes = [
   ...mainOutRoutes,
   REDIRECT_ROUTE,
   PAGE_NOT_FOUND_ROUTE,
+  GroupOperationRoute,
+  StationOperationRoute
 ];
