@@ -5,11 +5,14 @@
 -->
 <template>
   <div :style="`width:${width}px; height:${height}px;`">
-    <div :id="`chart-pillar-container${random}`" :style="`width:${props.width}px; height:${props.height}px;`"></div>
+    <div
+      :id="`chart-pillar-container${random}`"
+      :style="`width:${props.width}px; height:${props.height}px;`"
+    ></div>
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted, onUnmounted } from 'vue';
+  import { ref, onMounted, onUnmounted, watch } from 'vue';
   import * as echarts from 'echarts';
 
   const random = parseInt(Math.random() * 10000000);
@@ -474,6 +477,17 @@
       console.error(error);
     }
   };
+
+  watch(
+    () => props.data,
+    () => {
+      setupData();
+    },
+    {
+      deep: true,
+      immediate: true
+    },
+  );
 
   onMounted(() => {
     setupBarShape();
