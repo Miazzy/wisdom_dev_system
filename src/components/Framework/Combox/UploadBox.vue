@@ -147,10 +147,10 @@
   };
 
   const attachmentPreview = (url) => {
-    let localdomain = location.protocol + '//' + location.hostname; //当前页面域名
+    let localdomain = 'http://ecs-e1aa-0001'; //当前页面域名
     const isDev = process.env.NODE_ENV === 'development';
     if (isDev) {
-      localdomain = location.protocol + '//' + '10.8.111.203';
+      localdomain = 'http://10.8.111.203';
     }
     let previewdomain = localdomain + ':8012'; //预览域名
     let downloaddomain = localdomain + ':48080'; //下载域名
