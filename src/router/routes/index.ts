@@ -515,7 +515,7 @@ const transformMenuItem = (menu, routes) => {
           checkImportComponent('/@/views/da/groupOperation/GroupOperation.vue', menu.component)
         ) {
           return import('/@/views/da/groupOperation/GroupOperation.vue');
-        } 
+        }
         // da/stationOperation
         else if (
           checkImportComponent('/@/views/da/stationOperation/StationOperation.vue', menu.component)
@@ -635,6 +635,8 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/bi/maintenance/powercut/index.vue');
         } else if (menu.component == '/@/views/bi/maintenance/ticket/index.vue') {
           return import('/@/views/bi/maintenance/ticket/index.vue');
+        } else if (menu.component == '/@/views/bi/maintenance/workorder/index.vue') {
+          return import('/@/views/bi/maintenance/workorder/index.vue');
         }
         // bi/safety
         else if (checkImportComponent('/@/views/bi/safety/check/index.vue', menu.component)) {
@@ -856,5 +858,5 @@ export const basicRoutes = [
   REDIRECT_ROUTE,
   PAGE_NOT_FOUND_ROUTE,
   GroupOperationRoute,
-  StationOperationRoute
+  StationOperationRoute,
 ];
