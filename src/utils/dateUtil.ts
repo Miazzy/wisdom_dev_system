@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 const DATE_FORMAT = 'YYYY-MM-DD';
+type DATE_TYPE = Date | number | string;
 
 /***
  * @description 日期工具库
@@ -55,14 +56,14 @@ export function formatToDateTime(date?: dayjs.ConfigType, format = DATE_TIME_FOR
   return dayjs(date).format(format);
 }
 
-export function formatDate(date: Date | number, format: string = DATE_FORMAT): string {
+export function formatDate(date: DATE_TYPE, format: string = DATE_FORMAT): string {
   if (!date) {
     return '';
   }
   return dayjs(date).format(format);
 }
 
-export function formatTime(date: Date | number, format: string = DATE_TIME_FORMAT): string {
+export function formatTime(date: DATE_TYPE, format: string = DATE_TIME_FORMAT): string {
   if (!date) {
     return '';
   }
@@ -94,23 +95,23 @@ export const timeFormatter = (row, column, cellValue) => {
  * @returns {string} 字符串
  */
 export function formatPast2(ms) {
-  const day = Math.floor(ms / (24 * 60 * 60 * 1000))
-  const hour = Math.floor(ms / (60 * 60 * 1000) - day * 24)
-  const minute = Math.floor(ms / (60 * 1000) - day * 24 * 60 - hour * 60)
-  const second = Math.floor(ms / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - minute * 60)
+  const day = Math.floor(ms / (24 * 60 * 60 * 1000));
+  const hour = Math.floor(ms / (60 * 60 * 1000) - day * 24);
+  const minute = Math.floor(ms / (60 * 1000) - day * 24 * 60 - hour * 60);
+  const second = Math.floor(ms / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - minute * 60);
   if (day > 0) {
-    return day + '天' + hour + '小时' + minute + '分钟'
+    return day + '天' + hour + '小时' + minute + '分钟';
   }
   if (hour > 0) {
-    return hour + '小时' + minute + '分钟'
+    return hour + '小时' + minute + '分钟';
   }
   if (minute > 0) {
-    return minute + '分钟'
+    return minute + '分钟';
   }
   if (second > 0) {
-    return second + '秒'
+    return second + '秒';
   } else {
-    return 0 + '秒'
+    return 0 + '秒';
   }
 }
 
