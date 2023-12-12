@@ -51,7 +51,7 @@
   // 设置value
   const setupValue = () => {
     if (props.multiple == 'multiple') {
-      selectedValue.value = props.value as string[];
+      selectedValue.value = props.value == null ? [] : (props.value as string[]);
     } else {
       selectedValue.value = props.value as string;
     }
@@ -89,6 +89,7 @@
     try {
       const { type } = props;
       if (props.multiple == 'multiple' || props.multiple == 'tags') {
+        debugger;
         selectedValue.value = [];
       }
       let cache = ls.get(DICT_DATA__KEY + type);
