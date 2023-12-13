@@ -654,6 +654,20 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/bi/integrated/personnelqualifications/index.vue');
         } else if (menu.component == '/@/views/bi/integrated/vehicle/index.vue') {
           return import('/@/views/bi/integrated/vehicle/index.vue');
+        } else if (
+          checkImportComponent(
+            '/@/views/bi/integrated/personnelstructure/index.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/bi/integrated/personnelstructure/index.vue');
+        } else if (
+          checkImportComponent(
+            '/@/views/bi/integrated/trainingstatistics/index.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/bi/integrated/trainingstatistics/index.vue');
         }
         // bi/equipment
         else if (menu.component == '/@/views/bi/equipment/index.vue') {
