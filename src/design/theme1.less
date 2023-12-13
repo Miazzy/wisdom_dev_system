@@ -285,16 +285,17 @@
   }
 
   .vben-multiple-tabs {
-    border-bottom: none;
+    // border-bottom: none;
     background-color: rgb(10 36 74 / 70%);
-    box-shadow: 0 0 5px 0 rgb(12 6 14 / 10%);
+    // box-shadow: 0 0 5px 0 rgb(12 6 14 / 10%);
 
     .ant-tabs.ant-tabs-card .ant-tabs-nav {
       background-color: transparent;
   
       .ant-tabs-tab {
         background-color: transparent;
-        color: #fff;
+        // color: #fff;
+        border: 1px solid rgba(253, 253, 253, 0.12);
   
         &:not(.ant-tabs-tab-active):hover {
           color: #1890FF;
@@ -302,36 +303,36 @@
       }
   
       .ant-tabs-tab-active {
-        background-color: rgb(24 144 255 / 10%);
+        background-color: #1890FF;
         
-        span {
-          color: #1890FF !important;
-        }
+        // span {
+        //   color: #1890FF !important;
+        // }
 
-        svg {
-          fill: #1890FF !important;
-        }
+        // svg {
+        //   fill: #1890FF !important;
+        // }
 
-        &::after {
-          content: '';
-          position: absolute;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          border-bottom: 2px solid #1890FF;
-        }
+        // &::after {
+        //   content: '';
+        //   position: absolute;
+        //   right: 0;
+        //   bottom: 0;
+        //   left: 0;
+        //   border-bottom: 2px solid #1890FF;
+        // }
       }
     }
   }
 
-  .vben-multiple-tabs-content__extra-quick, .vben-multiple-tabs-content__extra-redo, .vben-multiple-tabs-content__extra-fold {
-    border-left-color:rgb(255 255 255 / 16%);
-    color: #8C8C8C;
+  // .vben-multiple-tabs-content__extra-quick, .vben-multiple-tabs-content__extra-redo, .vben-multiple-tabs-content__extra-fold {
+  //   border-left-color:rgb(255 255 255 / 16%);
+  //   color: #8C8C8C;
 
-    &:hover {
-      color: #8C8C8C;
-    }
-  }
+  //   &:hover {
+  //     color: #8C8C8C;
+  //   }
+  // }
   
   .vben-layout-sideBar.ant-layout-sider-dark {
     background-color: rgb(10 36 74 / 70%);
