@@ -147,7 +147,7 @@
   };
 
   const attachmentPreview = (url) => {
-    let localdomain = 'http://ecs-e1aa-0001'; //当前页面域名
+    let localdomain = 'http://139.9.148.32'; //当前页面域名
     const isDev = process.env.NODE_ENV === 'development';
     if (isDev) {
       localdomain = 'http://10.8.111.203';
