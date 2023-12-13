@@ -658,6 +658,14 @@ const transformMenuItem = (menu, routes) => {
         // bi/equipment
         else if (menu.component == '/@/views/bi/equipment/index.vue') {
           return import('/@/views/bi/equipment/index.vue');
+        } else if (checkImportComponent('/@/views/bi/fault/index.vue', menu.component)) {
+          return import('/@/views/bi/fault/index.vue');
+        } else if (checkImportComponent('/@/views/bi/hidden/index.vue', menu.component)) {
+          return import('/@/views/bi/hidden/index.vue');
+        } else if (checkImportComponent('/@/views/bi/inspection/index.vue', menu.component)) {
+          return import('/@/views/bi/inspection/index.vue');
+        } else if (checkImportComponent('/@/views/bi/safetytools/index.vue', menu.component)) {
+          return import('/@/views/bi/safetytools/index.vue');
         }
         // oa
         else if (checkImportComponent('/@/views/oa/info/infokind/infoKind.vue', menu.component)) {
