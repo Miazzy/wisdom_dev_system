@@ -49,6 +49,15 @@
 
   // 将数字拆分成个位数字的数组
   const digitArray = ref([]);
+  const props = defineProps({
+    title: { type: String, default: '' },
+    subtitle: { type: Object, default: {} as Object },
+    value: { type: Number, default: 0 },
+    tsize: { type: String, default: '14px' },
+    vsize: { type: String, default: '48px' },
+    vcolor: { type: String, default: '#FEFEFF' },
+    colorStyle: {type: String, default: 'green' }
+  });
 
   watch(
     () => props.value,
@@ -59,16 +68,6 @@
 
   onMounted(() => {
     digitArray.value = String(props.value).split('').map(String) as never[];
-  });
-
-  const props = defineProps({
-    title: { type: String, default: '' },
-    subtitle: { type: Object, default: {} as Object },
-    value: { type: Number, default: 0 },
-    tsize: { type: String, default: '14px' },
-    vsize: { type: String, default: '48px' },
-    vcolor: { type: String, default: '#FEFEFF' },
-    colorStyle: {type: String, default: 'green' }
   });
 </script>
 
