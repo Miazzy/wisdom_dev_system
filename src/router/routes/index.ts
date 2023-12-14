@@ -682,6 +682,8 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/bi/inspection/index.vue');
         } else if (checkImportComponent('/@/views/bi/safetytools/index.vue', menu.component)) {
           return import('/@/views/bi/safetytools/index.vue');
+        } else if (menu.component == '/@/views/bi/oa/att/index.vue') {
+          return import('/@/views/bi/oa/att/index.vue');
         }
         // oa
         else if (checkImportComponent('/@/views/oa/info/infokind/infoKind.vue', menu.component)) {
