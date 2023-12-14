@@ -11,47 +11,82 @@
     height: calc(100% - 46px);
   }
 
-  .vben-menu-vertical .vben-menu-item, .vben-menu-vertical .vben-menu-submenu-title {
+  .vben-menu-vertical .vben-menu-item,
+  .vben-menu-vertical .vben-menu-submenu-title {
     padding: 9px 24px;
   }
 
   .vben-multiple-tabs {
-  //   height: 40px;
-  //   line-height: 40px;
+    //   height: 40px;
+    //   line-height: 40px;
 
-  //   .ant-tabs-small {
-  //     height: 40px;
-  //   }
+    //   .ant-tabs-small {
+    //     height: 40px;
+    //   }
 
-  //   .ant-tabs-card.ant-tabs-top > .ant-tabs-nav {
-  //     height: 40px;
-  //     padding-top: 0;
-      
-  //     .ant-tabs-tab {
-  //       height: 40px;
-  //       border-radius: 0;
-  //       line-height: 40px;
+    //   .ant-tabs-card.ant-tabs-top > .ant-tabs-nav {
+    //     height: 40px;
+    //     padding-top: 0;
 
-  //       .ant-tabs-tab-remove {
-  //         height: 40px;
-  //       }
-  //     }
-  
-  //     &::before {
-  //       border-bottom: none;
-  //     }
-  //   }
-  // }
+    //     .ant-tabs-tab {
+    //       height: 40px;
+    //       border-radius: 0;
+    //       line-height: 40px;
 
-  // .vben-multiple-tabs-content__extra-quick, .vben-multiple-tabs-content__extra-redo, .vben-multiple-tabs-content__extra-fold {
-  //   height: 40px;
-  //   line-height: 40px;
+    //       .ant-tabs-tab-remove {
+    //         height: 40px;
+    //       }
+    //     }
 
-  //   .anticon {
-  //     vertical-align: middle !important;
-  //   }
+    //     &::before {
+    //       border-bottom: none;
+    //     }
+    //   }
+    // }
+
+    // .vben-multiple-tabs-content__extra-quick, .vben-multiple-tabs-content__extra-redo, .vben-multiple-tabs-content__extra-fold {
+    //   height: 40px;
+    //   line-height: 40px;
+
+    //   .anticon {
+    //     vertical-align: middle !important;
+    //   }
     .ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab {
       border-radius: 6px 6px 0 0;
     }
+  }
+
+  // table
+  .ant-table.ant-table-small {
+    font-size: 12px;
+  }
+  .ant-table-small .ant-table-thead > tr > th {
+    font-size: 13px;
+  }
+  .ant-table.ant-table-small .ant-table-thead > tr > th {
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+  .ant-table.ant-table-small .ant-table-tbody > tr > td {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .vben-basic-table {
+    .ant-table.ant-table-small .ant-table-thead > tr > th {
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+    .ant-table.ant-table-small .ant-table-tbody > tr > td {
+      padding-top: 3px;
+      padding-bottom: 3px;
+    }
+  }
+
+  .vben-basic-table-header__toolbar > * {
+    margin-right: 10px;
+  }
+  ::-webkit-scrollbar-corner {
+    background-color: transparent;
   }
 }

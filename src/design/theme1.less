@@ -83,49 +83,48 @@
     border-color: transparent;
     background: 0 0;
     color: rgb(24 144 255 / 85%);
+    &.ant-btn-dangerous {
+      color: rgba(255, 77, 79, 0.85);
+    }
   }
+  
 
   // a-table
-  .vben-basic-table .ant-table-wrapper {
-    background-color: transparent;
-  }
+  // .vben-basic-table .ant-table-wrapper {
+  //   background-color: transparent;
+  // }
 
   .ant-table {
-    background-color: rgb(12 46 90 / 50%);
+    background-color: transparent;
     color: rgb(255 255 255 / 85%);
 
     .ant-table-thead > tr > th {
       background-color: #073B6D;
       color: rgb(255 255 255 / 85%);
+      border-bottom-color: rgba(255, 255, 255, 0.1);
     }
   }
 
-  .ant-table-cell-fix-left, .ant-table-cell-fix-right {
-    background-color: rgb(12 46 90 / 50%);
+  .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tfoot > tr > td {
+    border-right-color: rgba(255, 255, 255, 0.1);
+  }
+  .ant-table.ant-table-bordered > .ant-table-container {
+    background-color: rgba(7,59,109,0.2);
+    border-left-color: rgba(255, 255, 255, 0.1);
+  }
+  .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table {
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+  .ant-table-tbody > tr > td {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .ant-table-body td {
+    background-color: #002F5C;
   }
 
   .ant-table-body .table-striped td {
     background-color: #073B6D;
-  }
-
-  .ant-table.ant-table-bordered > .ant-table-container {
-    border-left: 1px solid rgb(255 255 255 / 10%);
-  }
-
-  .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table {
-    border-top: 1px solid rgb(255 255 255 / 10%);
-  }
-
-  .ant-table-thead > tr > th {
-    border-bottom: 1px solid rgb(255 255 255 / 10%);
-  }
-
-  .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > thead > tr > th {
-    border-right: 1px solid rgb(255 255 255 / 10%);
-  }
-
-  .ant-table-tbody > tr > td {
-    border-bottom: 1px solid rgb(255 255 255 / 10%);
   }
 
   .ant-table-cell-scrollbar {
@@ -133,24 +132,28 @@
   }
 
   .ant-table-tbody > tr.ant-table-row:hover > td, .ant-table-tbody > tr > td.ant-table-cell-row-hover {
-    background-color: rgb(24 144 255 / 20%);
+    background-color: #00427D;
   }
 
   .ant-table-tbody > tr:hover.ant-table-row-selected > td, .ant-table-tbody > tr.ant-table-row-selected td {
-    background: rgb(24 144 255 / 20%);
-  }
-
-  .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tbody > tr > .ant-table-cell-fix-right-first::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tfoot > tr > .ant-table-cell-fix-right-first::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > thead > tr > .ant-table-cell-fix-right-first::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tbody > tr > .ant-table-cell-fix-right-first::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tfoot > tr > .ant-table-cell-fix-right-first::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > thead > tr > .ant-table-cell-fix-right-first::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tbody > tr > .ant-table-cell-fix-right-first::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tfoot > tr > .ant-table-cell-fix-right-first::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > thead > tr > .ant-table-cell-fix-right-first::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tbody > tr > .ant-table-cell-fix-right-first::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tfoot > tr > .ant-table-cell-fix-right-first::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > thead > tr > .ant-table-cell-fix-right-first::after {
-    border-right: 1px solid rgb(255 255 255 / 10%);
+    background: #00427D;
   }
 
   // vben table
-  .vben-basic-table-row__striped td {
+  .ant-table-body .vben-basic-table-row__striped td {
     background-color: #073B6D;
   }
-
   .vben-basic-table-title {
-    color: rgb(255 255 255 / 85%);
+    color: #fff;
+  }
+  .vben-basic-table-header__toolbar .ant-divider-vertical {
+    border-left: 2px solid rgba(255, 255, 255, 0.85);
+  }
+  .vben-basic-table-form-container .ant-form {
+    background-color: rgba(10,36,74,0.7);
+  }
+  .vben-basic-table .ant-table-wrapper  {
+    background-color: rgba(10,36,74,0.7);
   }
 
   // a-radio
@@ -227,6 +230,43 @@
 
   .bg-white {
     background-color: transparent !important;
+  }
+
+  // ant-pagination
+  .ant-pagination {
+    color: rgba(255, 255, 255, 0.85);
+    .ant-select {
+      color: rgba(255, 255, 255, 0.85);
+      &:not(.ant-select-customize-input) .ant-select-selector {
+        background-color: transparent;
+      }
+    }
+  }
+  .ant-pagination.mini .ant-pagination-item {
+    background-color: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  .ant-pagination.mini .ant-pagination-item-active {
+    background-color: #1890FF !important;
+    border-color: #1890FF;
+  }
+  .ant-pagination.mini .ant-pagination-item-active a {
+    color: #FEFEFE !important;
+  }
+  .ant-pagination.mini .ant-pagination-item a {
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+  .ant-pagination.mini .ant-pagination-prev, .ant-pagination.mini .ant-pagination-next {
+    background-color: transparent !important;
+    color: #D9D9D9;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  .ant-pagination.mini .ant-select-arrow {
+    color: #D9D9D9 !important;
+  }
+  .ant-pagination-options-quick-jumper input {
+    border-color: rgba(255, 255, 255, 0.16);
+    color: rgba(255, 255, 255, 0.85);
   }
 }
 
@@ -622,4 +662,35 @@
       color: rgb(255 255 255 / 85%);
     }
   }
+
+  // ant-table
+  // .ant-table {
+  //   color: rgba(0, 0, 0, 0.85);
+  // }
+  // .ant-table-small .ant-table-thead > tr > th {
+  //   background-color: #073B6D;
+  // }
+  // .ant-table-thead > tr > th {
+  //   border-bottom-color: rgba(255, 255, 255, 0.1);
+  // }
+  // .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tfoot > tr > td {
+  //   border-right-color: rgba(255, 255, 255, 0.1);
+  // }
+  // .ant-table.ant-table-bordered > .ant-table-container {
+  //   background-color: rgba(7,59,109,0.2);
+  //   border-left-color: rgba(255, 255, 255, 0.1);
+  // }
+  // .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table {
+  //   border-top-color: rgba(255, 255, 255, 0.1);
+  // }
+  // .ant-table-tbody > tr > td {
+  //   border-bottom-color: rgba(255, 255, 255, 0.1);
+  // }
+  // // vben-basic-table
+  // .vben-basic-table-row__striped td {
+  //   background-color: #073B6D;
+  // }
+  // .vben-basic-table-header__toolbar .ant-divider-vertical {
+  //   border-left: 2px solid rgba(255, 255, 255, 0.85);
+  // }
 }
