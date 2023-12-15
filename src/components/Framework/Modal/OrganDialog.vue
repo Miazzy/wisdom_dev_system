@@ -409,6 +409,13 @@
   );
 
   watch(
+    () => props.value,
+    (newValue) => {
+      allNodes.value = newValue;
+    },
+  );
+
+  watch(
     () => props.tdata,
     (newValue) => {
       const rule = props?.tfields as fieldType;
@@ -421,6 +428,7 @@
 
   onMounted(() => {
     modalVisible.value = props.visible;
+    allNodes.value = props.value;
   });
 </script>
 

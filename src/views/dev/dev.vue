@@ -112,6 +112,7 @@
     <OrganDialog
       :title="`组织人员Dialog`"
       v-model:visible="organVisible"
+      v-model:value="organValue"
       :tdata="treeData"
       :tfields="{ key: 'nodeId', title: 'nodeName' }"
       :width="800"
@@ -434,6 +435,7 @@
   const chartColors = ref(['#3c8dbc', '#00a65a', '#f39c12', '#d81b60']);
   const chartLegend = ref(['Series A', 'Series B', 'Series C', 'Series D']);
   const pieColors = ref(['red', 'green', 'blue', 'yellow', 'skyblue', 'purple']);
+  const organValue = ref([]);
 
   const chinaRegionData = ref([]);
   chinaRegionData.value = [
@@ -648,6 +650,10 @@
       selectedSValue.value = '';
       radioGroupValue.value = '';
     }, 5000);
+
+    organValue.value = JSON.parse(
+      `[{"key":"76@0d76f0a575a94fa599f63d8eb1a4283f","nodeId":"0d76f0a575a94fa599f63d8eb1a4283f","title":"zcsnbq-type","nodeName":"zcsnbq-type"},{"key":"18@7e14c133613b443590005078554bb797","nodeId":"7e14c133613b443590005078554bb797","title":"jzsnbq-type","nodeName":"jzsnbq-type"},{"key":"92@7e14c133613b443590005078554bb321d","nodeId":"7e14c133613b443590005078554bb321d","title":"gfq-cateGory","nodeName":"gfq-cateGory"}]`,
+    );
 
     searchBoxData.value = [
       { typeName: '财务部类型', year: '2020', month: '01', date: '2020-01' },
