@@ -64,6 +64,7 @@
         v-model:value="searchTreeText"
         :tfields="{ key: 'nodeId', title: 'nodeName' }"
         :data="treeData"
+        :multiple="true"
         :expand-all="false"
         @select="treeBoxSelect"
         style="width: 220px"

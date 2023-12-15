@@ -32,6 +32,7 @@
                 :default-expand-all="props.expandAll"
                 @select="handleSelect"
                 :height="theight"
+                :multiple="props.multiple"
                 :show-line="props.treeLine"
               >
                 <template v-if="!props.treeLine" #switcherIcon="{ switcherCls }">
@@ -86,6 +87,7 @@
   const loading = ref(false);
   const treeData = reactive([]);
   const treeMap = ref<any>();
+  const selectedValue = ref(null);
   type fieldType = { key: String; title: String };
   type tIconsType = { parent: String; leaf: String };
 
@@ -102,6 +104,7 @@
     expandAll: { type: Boolean, default: false },
     treeLine: { type: [Boolean, Object], default: true && { showLeafIcon: true } },
     callback: { type: Function, default: null },
+    multiple: { type: Boolean, default: false },
     ticons: {
       type: Object,
       default: {
@@ -289,18 +292,29 @@
   const handleSelect = (node, event) => {
     try {
       if (Reflect.has(props.tfields, 'value')) {
-        searchRealText.value = event.node[props.tfields.value];
-        emit('update:value', event.node[props.tfields.value]);
+        if (props.multiple) {
+          searchRealText.value = selectedValue.value = event.selectedNodes.map((element) => element[props.tfields.value]);
+        } else {
+          searchRealText.value = selectedValue.value = event.node[props.tfields.value];
+        }
+        emit('update:value', selectedValue.value);
       } else {
-        searchRealText.value = event.node[props.tfields.title];
-        emit('update:value', event.node[props.tfields.title]);
+        if (props.multiple) {
+          searchRealText.value = selectedValue.value = event.selectedNodes.map((element) => element[props.tfields.title]);
+        } else {
+          searchRealText.value = selectedValue.value = event.node[props.tfields.title];
+        }
+        emit('update:value', selectedValue.value);
       }
+
       emit('select', event.node, event);
       emit('change', event.node.title, event.node, event);
       if (props.callback != null) {
         props.callback(event.node, event);
       }
-      showDropdown.value = false;
+      if (!props.multiple) {
+        showDropdown.value = false;
+      }
     } catch {
       //
     }
@@ -331,6 +345,17 @@
   };
 
   watch(
+    () => props.multiple,
+    (newValue) => {
+      if (newValue) {
+        selectedValue.value = [];
+      } else {
+        selectedValue.value = '';
+      }
+    }
+  );
+
+  watch(
     () => props.data,
     () => {
       reload();
@@ -355,6 +380,12 @@
       reload();
       searchRealText.value = props.value;
       withDirectives(treeBox, [[clickOutside, handleClickOutside]]); // 注册 clickOutside 指令
+
+      if (props.multiple) {
+        selectedValue.value = [];
+      } else {
+        selectedValue.value = '';
+      }
     } catch {
       //
     }

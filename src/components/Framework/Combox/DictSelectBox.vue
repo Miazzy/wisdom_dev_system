@@ -89,7 +89,6 @@
     try {
       const { type } = props;
       if (props.multiple == 'multiple' || props.multiple == 'tags') {
-        debugger;
         selectedValue.value = [];
       }
       let cache = ls.get(DICT_DATA__KEY + type);
