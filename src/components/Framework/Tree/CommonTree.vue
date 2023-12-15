@@ -125,7 +125,8 @@
 
   // 计算tree高度
   const treeWrapperHeightClass = computed(()=>{
-    return props.search?'h-[calc(100vh-120px-68px)]' : 'h-[calc(100vh-120px-36px)]';
+    // return props.search?'h-[calc(100vh-120px-68px)]' : 'h-[calc(100vh-120px-36px)]';
+    return props.search?'h-[calc(100%-82px)]' : 'h-[calc(100%-48px)]';
   });
 
   watch(
