@@ -5,7 +5,7 @@
  * @FilePath: \ygwl-framework\src\components\Framework\Tree\CommonTree.vue
 -->
 <template>
-  <div class="m-4 mr-0 overflow-hidden bg-white" :class="$attrs.class" style="border: 1px solid #d9d9d9">
+  <div class="m-4 mr-0 overflow-hidden bg-white" :class="$attrs.class">
     <BasicTree
       :title="title"
       :toolbar="toolbar"
@@ -155,6 +155,21 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    :deep(.ant-tree-switcher) {
+      width: 18px;
+      line-height: 28px;
+    }
+    :deep(.ant-tree .ant-tree-node-content-wrapper) {
+      min-height: 28px;
+      line-height: 28px;
+    }
+    :deep(.ant-tree .ant-tree-treenode) {
+      padding-left: 9px;
+    }
+    :deep(.ant-tree) {
+      padding-top: 2px;
     }
   }
 </style>
