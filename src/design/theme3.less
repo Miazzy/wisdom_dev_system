@@ -60,16 +60,16 @@
   }
 
   .vben-multiple-tabs {
-    border-bottom: none;
+    // border-bottom: none;
     // background-color: rgb(194 250 255 / 4%);
-    box-shadow: 0 0 5px 0 rgb(12 6 14 / 10%);
-
+    // box-shadow: 0 0 5px 0 rgb(12 6 14 / 10%);
+    border-bottom-color: #eee;
     .ant-tabs.ant-tabs-card .ant-tabs-nav {
-      background-color: transparent;
+      // background-color: transparent;
 
       .ant-tabs-tab {
-        background-color: transparent;
-        color: #262626;
+        // background-color: transparent;
+        // color: #262626;
 
         &:not(.ant-tabs-tab-active):hover {
           color: #1890FF;
@@ -77,38 +77,42 @@
       }
 
       .ant-tabs-tab-active {
-        background-color: rgb(24 144 255 / 10%);
+        background-color: #1890FF;
 
-        span {
-          color: #1890FF !important;
-        }
+        // span {
+        //   color: #1890FF !important;
+        // }
 
-        svg {
-          fill: #1890FF !important;
-        }
+        // svg {
+        //   fill: #1890FF !important;
+        // }
 
-        &::after {
-          content: '';
-          position: absolute;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          border-bottom: 2px solid #1890FF;
-        }
+        // &::after {
+        //   content: '';
+        //   position: absolute;
+        //   right: 0;
+        //   bottom: 0;
+        //   left: 0;
+        //   border-bottom: 2px solid #1890FF;
+        // }
       }
     }
-  }
 
-  .vben-multiple-tabs-content__extra-quick,
-  .vben-multiple-tabs-content__extra-redo,
-  .vben-multiple-tabs-content__extra-fold {
-    border-left-color: #F0F0F0;
-    color: #8C8C8C;
-
-    &:hover {
-      color: #8C8C8C;
+    .ant-tabs-top > .ant-tabs-nav::before {
+      border-bottom: 1px solid rgba(5, 5, 5, 0.06);
     }
   }
+
+  // .vben-multiple-tabs-content__extra-quick,
+  // .vben-multiple-tabs-content__extra-redo,
+  // .vben-multiple-tabs-content__extra-fold {
+  //   border-left-color: #F0F0F0;
+  //   color: #8C8C8C;
+
+  //   &:hover {
+  //     color: #8C8C8C;
+  //   }
+  // }
 
   .vben-layout-sideBar.ant-layout-sider-dark {
     .ant-layout-sider-trigger {
@@ -398,9 +402,77 @@
     > div:first-child {
       background-color: #fff;
     }
+    .ant-input-search > .ant-input-group > .ant-input-group-addon:last-child .ant-input-search-button:hover {
+      border-color: rgba(217, 217, 217, 0.85);
+    }
+    .ant-input-affix-wrapper {
+      border-color: rgba(217, 217, 217, 0.85);
+    }
+    .ant-btn:active, .ant-btn:focus {
+      border-color: rgba(217, 217, 217, 0.85);
+    }
+    .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+      border-color: rgba(217, 217, 217, 0.85);
+    }
+  }
+
+  // a标签
+  a {
+    color: rgba(24,144,255,0.85);
+  }
+
+  // ant-pagination
+  .ant-pagination {
+    color: rgba(0, 0, 0, 0.4);
+    .ant-select {
+      color: rgba(0, 0, 0, 0.6);
+    }
+  }
+  .ant-pagination.mini .ant-pagination-item-active {
+    background-color: #1890FF !important;
+  }
+  .ant-pagination.mini .ant-pagination-item-active a {
+    color: #FEFEFE !important;
+  }
+  .ant-pagination.mini .ant-pagination-item a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  .ant-pagination.mini .ant-pagination-prev, .ant-pagination.mini .ant-pagination-next {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  // ant-table
+  .ant-table {
+    color: rgba(38, 38, 38, 0.85);
+  }
+  .ant-table-small .ant-table-thead > tr > th {
+    background-color: #F7F7F7;
+  }
+  .ant-table-thead > tr > th {
+    border-bottom-color: rgba(217, 217, 217, 0.85);
+  }
+  .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tfoot > tr > td {
+    border-right-color: rgba(217, 217, 217, 0.85);
+  }
+  .ant-table.ant-table-bordered > .ant-table-container {
+    background-color: rgba(255,255,255,0.85);
+    border-left-color: rgba(217, 217, 217, 0.85);
+  }
+  .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table {
+    border-top-color: rgba(217, 217, 217, 0.85);
+  }
+  .ant-table-tbody > tr > td {
+    border-bottom-color: rgba(217, 217, 217, 0.85);
+  }
+  // vben-basic-table
+  .vben-basic-table-row__striped td {
+    background-color: #F7F7F7;
+  }
+  .vben-basic-table-header__toolbar .ant-divider-vertical {
+    border-left: 2px solid rgba(0, 0, 0, 0.85);
   }
 }
 
-html[data-theme='light'] .theme3 .vben-multiple-tabs .ant-tabs-tab:not(.ant-tabs-tab-active) {
-  border: none !important;
-}
+// html[data-theme='light'] .theme3 .vben-multiple-tabs .ant-tabs-tab:not(.ant-tabs-tab-active) {
+//   border: none !important;
+// }

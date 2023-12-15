@@ -637,6 +637,8 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/bi/maintenance/ticket/index.vue');
         } else if (menu.component == '/@/views/bi/maintenance/workorder/index.vue') {
           return import('/@/views/bi/maintenance/workorder/index.vue');
+        } else if (menu.component == '/@/views/bi/maintenance/assess/index.vue') {
+          return import('/@/views/bi/maintenance/assess/index.vue');
         }
         // bi/safety
         else if (checkImportComponent('/@/views/bi/safety/check/index.vue', menu.component)) {
@@ -654,10 +656,34 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/bi/integrated/personnelqualifications/index.vue');
         } else if (menu.component == '/@/views/bi/integrated/vehicle/index.vue') {
           return import('/@/views/bi/integrated/vehicle/index.vue');
+        } else if (
+          checkImportComponent(
+            '/@/views/bi/integrated/personnelstructure/index.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/bi/integrated/personnelstructure/index.vue');
+        } else if (
+          checkImportComponent(
+            '/@/views/bi/integrated/trainingstatistics/index.vue',
+            menu.component,
+          )
+        ) {
+          return import('/@/views/bi/integrated/trainingstatistics/index.vue');
         }
         // bi/equipment
         else if (menu.component == '/@/views/bi/equipment/index.vue') {
           return import('/@/views/bi/equipment/index.vue');
+        } else if (checkImportComponent('/@/views/bi/fault/index.vue', menu.component)) {
+          return import('/@/views/bi/fault/index.vue');
+        } else if (checkImportComponent('/@/views/bi/hidden/index.vue', menu.component)) {
+          return import('/@/views/bi/hidden/index.vue');
+        } else if (checkImportComponent('/@/views/bi/inspection/index.vue', menu.component)) {
+          return import('/@/views/bi/inspection/index.vue');
+        } else if (checkImportComponent('/@/views/bi/safetytools/index.vue', menu.component)) {
+          return import('/@/views/bi/safetytools/index.vue');
+        } else if (menu.component == '/@/views/bi/oa/att/index.vue') {
+          return import('/@/views/bi/oa/att/index.vue');
         }
         // oa
         else if (checkImportComponent('/@/views/oa/info/infokind/infoKind.vue', menu.component)) {

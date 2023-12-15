@@ -1,6 +1,6 @@
 <template>
   <div :class="bem()" class="fit-tree-header" ref="treeHeaderRef">
-    <div class="flex px-2 py-1.5 items-center bg-[#F5F5F5]">
+    <div class="flex px-2 py-3 items-center bg-[#F5F5F5]">
       <slot name="headerTitle" v-if="slots.headerTitle"></slot>
       <BasicTitle :helpMessage="helpMessage" v-if="!slots.headerTitle && title">
       {{ title }}
@@ -32,11 +32,11 @@
     </div>
     <div :class="getInputSearchCls" v-if="search">
       <InputSearch :placeholder="t('common.inputKeyWords')" allowClear v-model:value="searchValue">
-        <template #prefix>
+        <!-- <template #prefix>
           <Icon icon="ant-design:search-outlined" color="rgba(0, 0, 0, 0.45)" />
-        </template>
+        </template> -->
         <template #enterButton>
-          <Button>{{t('common.searchText')}}</Button>
+          <Button class="search-btn"><Icon icon="ant-design:search-outlined" /></Button>
         </template>
       </InputSearch>
     </div>
@@ -248,6 +248,10 @@
 .fit-tree-header.vben-tree-header {
   border-bottom: none;
 
+  :deep(.vben-basic-title) {
+    font-size: 14px;
+  }
+
   :deep(.ant-input-search .ant-input-group .ant-input-affix-wrapper:not(:last-child)) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -263,14 +267,15 @@
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 
-    &:hover {
-      border-color: #d9d9d9;
-      color: #2a7dc9;
+    &:hover {    
+      color: #1890FF;
     }
   }
 
   :deep(.ant-input-affix-wrapper) {
+    padding: 5px 14px;
     border-left: none;
+    border-right: none;
 
     &::after {
       content: '';
@@ -285,13 +290,30 @@
       box-shadow: none;
     }
 
-    &:hover::after, &:focus::after, &.ant-input-affix-wrapper-focused::after {
-      display: block;
-      background-color: #2a7dc9;
-    }
+    // &:hover::after, &:focus::after, &.ant-input-affix-wrapper-focused::after {
+    //   display: block;
+    //   background-color: #2a7dc9;
+    // }
   }
+  :deep(.ant-input-affix-wrapper:focus), 
+  :deep(.ant-input-affix-wrapper-focused) {
+      box-shadow: none;
+      border-left: none !important;
+    }
 
   :deep(.ant-input-affix-wrapper-focused) {
+    box-shadow: none;
+  }
+
+  :deep(.search-btn .anticon>.iconify) {
+    font-size: 18px;
+    color: #BFBFBF;
+  }
+  :deep(.search-btn.ant-input-search-button) {
+    height: 34px;
+    line-height: 34px;
+  }
+  :deep(.ant-btn) {
     box-shadow: none;
   }
 }

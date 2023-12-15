@@ -5,7 +5,7 @@
  * @FilePath: \ygwl-framework\src\components\Framework\Tree\CommonTree.vue
 -->
 <template>
-  <div class="m-4 mr-0 overflow-hidden bg-white" :class="$attrs.class" style="border: 1px solid #d9d9d9">
+  <div class="m-4 mr-0 overflow-hidden bg-white" :class="$attrs.class">
     <BasicTree
       :title="title"
       :toolbar="toolbar"
@@ -21,6 +21,8 @@
       class="fit-basic-tree"
       :checkable="checkable"
       @check="handleCheck"
+      :selectedKeys="props.selectedKeys"
+      :checkedKeys="props.checkedKeys"
     >
       <template #title="nodeItem">
         <a-tooltip v-if="nodeItem[fieldNames.title || 'title'].length>9">
@@ -36,6 +38,7 @@
   import { onMounted, ref, watch, provide, unref, computed } from 'vue';
   import { BasicTree, TreeItem, TreeActionType } from '/@/components/Tree';
   import { type Nullable } from '@vben/types';
+  import type { PropType } from 'vue'
 
   const treeData = ref<TreeItem[]>([]);
   const props = defineProps({
@@ -53,6 +56,7 @@
       type: Object,
       default: new Object(),
     }, // 配置树的key和title取值字段名，例如{ key: 'nodeId', title: 'nodeName' }
+    selectedKeys: {type: Array as PropType<string[]>, default: []}, // 选中的树节点
   });
   const emit = defineEmits(['select', 'edit', 'add', 'delete', 'refresh']);
 
@@ -121,8 +125,19 @@
 
   // 计算tree高度
   const treeWrapperHeightClass = computed(()=>{
-    return props.search?'h-[calc(100vh-120px-68px)]' : 'h-[calc(100vh-120px-36px)]';
+    // return props.search?'h-[calc(100vh-120px-68px)]' : 'h-[calc(100vh-120px-36px)]';
+    return props.search?'h-[calc(100%-82px)]' : 'h-[calc(100%-48px)]';
   });
+
+  watch(
+    ()=>props.selectedKeys,
+    (newValue)=>{
+      selectedNode.value = newValue[0];
+    },
+    {
+      deep: true
+    }
+  );
 
   onMounted(() => {
     treeData.value = props.value as unknown as TreeItem[];
@@ -134,13 +149,28 @@
   .fit-basic-tree {
     :deep(.ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected) {
       background: none;
-      color: #2a7dc9;
+      color: #1890FF;
     }
 
     .common-tree-node-text {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    :deep(.ant-tree-switcher) {
+      width: 18px;
+      line-height: 28px;
+    }
+    :deep(.ant-tree .ant-tree-node-content-wrapper) {
+      min-height: 28px;
+      line-height: 28px;
+    }
+    :deep(.ant-tree .ant-tree-treenode) {
+      padding-left: 9px;
+    }
+    :deep(.ant-tree) {
+      padding-top: 2px;
     }
   }
 </style>

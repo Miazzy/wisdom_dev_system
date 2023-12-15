@@ -209,6 +209,7 @@
             class="fit-comment-textarea"
             v-model:value="item.reason"
             placeholder="回复意见"
+            maxlength="200"
             :auto-size="{ minRows: 5 }"
             :bordered="false"
           />

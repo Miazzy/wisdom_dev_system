@@ -10,7 +10,6 @@
   >
     <FormItem name="account" class="enter-x">
       <Input
-        size="large"
         v-model:value="formData.account"
         :placeholder="t('sys.login.userName')"
         class="fix-auto-fill"
@@ -18,7 +17,6 @@
     </FormItem>
     <FormItem name="password" class="enter-x">
       <InputPassword
-        size="large"
         visibilityToggle
         v-model:value="formData.password"
         :placeholder="t('sys.login.password')"
@@ -43,7 +41,7 @@
     </ARow>
 
     <FormItem class="enter-x">
-      <Button type="primary" size="large" block @click="handleLogin" :loading="loading">
+      <Button type="primary" block @click="handleLogin" :loading="loading">
         {{ t('sys.login.loginButton') }}
       </Button>
     </FormItem>

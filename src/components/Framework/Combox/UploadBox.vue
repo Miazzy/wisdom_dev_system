@@ -147,13 +147,15 @@
   };
 
   const attachmentPreview = (url) => {
-    let localdomain = location.protocol + '//' + location.hostname; //当前页面域名
+    let previewdomain = 'http://139.9.148.32'; //测试环境域名
+    let downloaddomain = 'http://192.168.0.200'; //测试环境下载域名
     const isDev = process.env.NODE_ENV === 'development';
     if (isDev) {
-      localdomain = location.protocol + '//' + '10.8.111.203';
+      previewdomain = 'http://10.8.111.203'; //开发环境域名
+      downloaddomain = 'http://10.8.111.203'; //下载域名
     }
-    let previewdomain = localdomain + ':8012'; //预览域名
-    let downloaddomain = localdomain + ':48080'; //下载域名
+    previewdomain = previewdomain + ':8012'; //预览域名
+    downloaddomain = downloaddomain + ':48080'; //下载域名
     return (
       previewdomain +
       '/onlinePreview?url=' +
