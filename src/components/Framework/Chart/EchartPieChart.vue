@@ -6,7 +6,7 @@
   ></div>
 </template>
 <script lang="ts" setup>
-  import { onMounted } from 'vue';
+  import { onMounted, watch } from 'vue';
   import * as echarts from 'echarts';
 
   // 定义属性
@@ -17,6 +17,14 @@
     colors: { type: Array, default: [] as any[] },
     showLabel: { type: Boolean, default: false },
   });
+
+  // 监听数据变化
+  watch(
+    () => props.data,
+    () => {
+      createChart();
+    },
+  );
 
   // 创建图表
   const createChart = () => {

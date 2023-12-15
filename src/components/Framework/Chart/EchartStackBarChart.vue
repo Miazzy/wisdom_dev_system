@@ -1,8 +1,12 @@
 <template>
-  <div id="echarts-stackbar-container" class="echarts-stackbar-container" :style="`width: ${props.width}px; height: ${props.height}px;`"></div>
+  <div
+    id="echarts-stackbar-container"
+    class="echarts-stackbar-container"
+    :style="`width: ${props.width}px; height: ${props.height}px;`"
+  ></div>
 </template>
 <script lang="ts" setup>
-  import { onMounted } from 'vue';
+  import { onMounted, watch } from 'vue';
   import * as echarts from 'echarts';
 
   // 定义属性
@@ -13,6 +17,14 @@
     colors: Array,
     barWidth: { type: Number, default: 25 },
   });
+
+  // 监听数据变化
+  watch(
+    () => props.data,
+    () => {
+      createChart();
+    },
+  );
 
   // 创建图表
   const createChart = () => {
@@ -179,8 +191,14 @@
             0,
             0,
             [
-              { offset: 0, color: props.colors?.[1]?.[0] ? props.colors[1][0] : defaultColors[1][0] },
-              { offset: 1, color: props.colors?.[1]?.[1] ? props.colors[1][1] : defaultColors[1][1] },
+              {
+                offset: 0,
+                color: props.colors?.[1]?.[0] ? props.colors[1][0] : defaultColors[1][0],
+              },
+              {
+                offset: 1,
+                color: props.colors?.[1]?.[1] ? props.colors[1][1] : defaultColors[1][1],
+              },
             ],
             false,
           ),

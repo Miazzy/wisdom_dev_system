@@ -6,7 +6,7 @@
   ></div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, toRefs } from 'vue';
+  import { onMounted, toRefs, watch } from 'vue';
   import * as echarts from 'echarts';
 
   // 定义属性
@@ -26,17 +26,30 @@
   // 解构 props
   const { data, colors, category, ybgcolor, name } = toRefs(props);
 
+  // 监听数据变化
+  watch(
+    () => props.data,
+    () => {
+      createChart();
+    },
+  );
+
   // 创建图表
   const createChart = () => {
     var chartDom = document.getElementById('echarts-linebar-container' + random);
     var myChart = echarts.init(chartDom);
     var option;
 
-    const barData0 = data.value.barData && data.value.barData.length > 0 ? data.value.barData[0] : [];
-    const barData1 = data.value.barData && data.value.barData.length > 1 ? data.value.barData[1] : [];
-    const barData2 = data.value.barData && data.value.barData.length > 2 ? data.value.barData[2] : [];
-    const lineData0 = data.value.lineData && data.value.lineData.length > 0 ? data.value.lineData[0] : [];
-    const lineData1 = data.value.lineData && data.value.lineData.length > 1 ? data.value.lineData[1] : [];
+    const barData0 =
+      data.value.barData && data.value.barData.length > 0 ? data.value.barData[0] : [];
+    const barData1 =
+      data.value.barData && data.value.barData.length > 1 ? data.value.barData[1] : [];
+    const barData2 =
+      data.value.barData && data.value.barData.length > 2 ? data.value.barData[2] : [];
+    const lineData0 =
+      data.value.lineData && data.value.lineData.length > 0 ? data.value.lineData[0] : [];
+    const lineData1 =
+      data.value.lineData && data.value.lineData.length > 1 ? data.value.lineData[1] : [];
     const barName0 = name.value?.length > 0 && name.value[0][0] ? name.value[0][0] : '';
     const barName1 = name.value?.length > 0 && name.value[0][1] ? name.value[0][1] : '';
     const barName2 = name.value?.length > 0 && name.value[0][2] ? name.value[0][2] : '';
@@ -66,7 +79,8 @@
             fontWeight: 'bolder',
             padding: [10, -800, 66, 0], //标题位置调整 上 右 下 左
           },
-          axisLabel: { // 设置 x 轴刻度文本样式
+          axisLabel: {
+            // 设置 x 轴刻度文本样式
             color: 'rgba(170, 221, 255, .8)', // 设置文本颜色
             fontSize: 14, // 设置字体大小
             fontFamily: 'Arial', // 设置字体样式
@@ -101,7 +115,8 @@
           min: props.yAxis.min,
           max: props.yAxis.max,
           interval: props.yAxis.interval,
-          axisLabel: {  // 设置 y 轴刻度文本样式
+          axisLabel: {
+            // 设置 y 轴刻度文本样式
             color: 'rgba(170, 221, 255, .8)', // 设置文本颜色
             fontSize: 14, // 设置字体大小
             fontFamily: 'Arial', // 设置字体样式
@@ -245,11 +260,11 @@
         x: 'right',
         y: '10%',
         textStyle: {
-          color: 'rgba(255, 255, 255, 0.6)'
+          color: 'rgba(255, 255, 255, 0.6)',
         },
         itemWidth: 14,
-        itemHeight: 10
-      }
+        itemHeight: 10,
+      },
     };
 
     option && myChart.setOption(option);

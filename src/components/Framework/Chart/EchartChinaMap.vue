@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, watch } from 'vue';
   import * as echarts from 'echarts';
   import 'echarts/extension/bmap/bmap';
   import { getChinaJsonData } from '@/api/echarts/map';
@@ -28,6 +28,14 @@
   });
 
   const option = ref({});
+
+  // 监听数据变化
+  watch(
+    () => props.data,
+    () => {
+      createChart();
+    },
+  );
 
   // 创建地图并绘制点位
   onMounted(() => {

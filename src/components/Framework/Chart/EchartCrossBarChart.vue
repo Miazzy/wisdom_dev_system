@@ -6,7 +6,7 @@
   ></div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, toRefs } from 'vue';
+  import { onMounted, toRefs, watch } from 'vue';
   import * as echarts from 'echarts';
 
   // 定义属性
@@ -32,6 +32,14 @@
   const names0 = names.value && names.value.length > 0 ? names.value[0] : [];
   const names1 = names.value && names.value.length > 1 ? names.value[1] : [];
 
+  // 监听数据变化
+  watch(
+    () => props.data,
+    () => {
+      createChart();
+    },
+  );
+
   // 创建图表
   const createChart = () => {
     var chartDom = document.getElementById('echarts-crossbar-container' + random);
@@ -51,7 +59,7 @@
           color: 'rgba(255, 255, 255, 0.6)',
         },
         itemWidth: 14,
-        itemHeight: 10
+        itemHeight: 10,
       },
       grid: {
         left: '1%',
