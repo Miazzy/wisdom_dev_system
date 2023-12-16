@@ -525,7 +525,7 @@
   }
 
   function handlePushAndClose() {
-    const path = '/system/base';
+    const path = '/monitor/PVArea/subareaOverviewe';
     pushCloseTab(path);
     // updatePath(path);
   }
