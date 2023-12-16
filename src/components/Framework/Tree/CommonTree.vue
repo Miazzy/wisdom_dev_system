@@ -5,7 +5,7 @@
  * @FilePath: \ygwl-framework\src\components\Framework\Tree\CommonTree.vue
 -->
 <template>
-  <div class="m-4 mr-0 overflow-hidden bg-white" :class="$attrs.class">
+  <div class="overflow-hidden bg-white" :class="$attrs.class" style="margin: 10px 0 10px 10px;">
     <BasicTree
       :title="title"
       :toolbar="toolbar"
@@ -170,7 +170,10 @@
       padding-left: 9px;
     }
     :deep(.ant-tree) {
-      padding-top: 2px;
+      padding-top: 3px;
+    }
+    :deep(.vben-tree__title) {
+      padding-left: 4px;
     }
   }
 </style>
