@@ -111,6 +111,10 @@
       type: Boolean,
       default: false,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   };
 
   export default defineComponent({
@@ -149,8 +153,9 @@
       });
 
       const initOptions = computed((): RawEditorSettings => {
-        const { height, options, toolbar, plugins, maxChars } = props;
+        const { height, options, toolbar, plugins, maxChars, disabled } = props;
         const publicPath = import.meta.env.VITE_PUBLIC_PATH || '/';
+        const readOnlyConfig = disabled ? { disabled } : {};
         return {
           selector: `#${unref(tinymceId)}`,
           height,
@@ -170,6 +175,7 @@
           content_css:
             publicPath + 'resource/tinymce/skins/ui/' + skinName.value + '/content.min.css',
           ...options,
+          ...readOnlyConfig,
           setup: (editor: Editor) => {
             editorRef.value = editor;
             editor.on('init', function (e) {
