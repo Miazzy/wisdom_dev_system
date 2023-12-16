@@ -29,6 +29,7 @@
       margin-right: 10px;
     }
   }
+  
 
   .vben-menu-vertical .vben-menu-item,
   .vben-menu-vertical .vben-menu-submenu-title {
@@ -100,6 +101,12 @@
       padding-top: 3px;
       padding-bottom: 3px;
     }
+    .ant-table-wrapper {
+      padding: 8px 16px 10px;
+    }
+  }
+  .vben-basic-table-title {
+    font-size: 14px !important;
   }
 
   .vben-basic-table-header__toolbar > * {
@@ -108,4 +115,26 @@
   ::-webkit-scrollbar-corner {
     background-color: transparent;
   }
+
+  // 流程表单
+  .process-box {
+    .ant-card-head {
+    padding: 0 16px;
+    font-size: 14px;
+    border-bottom: none;
+    }
+    .ant-card-head-title {
+      vertical-align: middle;
+    }
+    .ant-card-head-title::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 16px;
+      background-color: #1890FF;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+  }
+  
 }

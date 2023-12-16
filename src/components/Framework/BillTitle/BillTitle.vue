@@ -1,9 +1,9 @@
 <template>
   <div
     class="bill-title-box"
-    :style="`min-height: ${billTitleOption.height}px; border-bottom: ${billTitleOption.bottomLine};`"
+    :style="`height: ${billTitleOption.height}px;`"
   >
-    <h2 class="bill-title">{{ billTitleOption.title }}</h2>
+    <div class="bill-title">{{ billTitleOption.title }}</div>
     <div class="bill-info-box" v-if="billTitleOption.infoItems && billTitleOption.infoItems.length">
       <div class="bill-info-item left">
         <div v-if="billInfo.left" class="bill-info-item-content"
@@ -31,8 +31,8 @@
     options: { type: Object as PropType<BillTitleOptions> },
   });
   const DEF_TITLE = '';
-  const DEF_HEIGHT = 70;
-  const DEF_BOTTOM_LINE = '1px solid #f0f0f0';
+  const DEF_HEIGHT = 56;
+  // const DEF_BOTTOM_LINE = '1px solid #f0f0f0';
   const billTitleOption = reactive<BillTitleOptions>({});
 
   const billInfo = computed(() => {
@@ -50,7 +50,7 @@
     (newValue) => {
       billTitleOption.title = newValue?.title || billTitleOption?.title;
       billTitleOption.height = newValue?.height || billTitleOption?.height || DEF_HEIGHT;
-      billTitleOption.bottomLine = newValue?.bottomLine || billTitleOption?.bottomLine || DEF_BOTTOM_LINE;
+      // billTitleOption.bottomLine = newValue?.bottomLine || billTitleOption?.bottomLine || DEF_BOTTOM_LINE;
       billTitleOption.infoItems = newValue?.infoItems || billTitleOption?.infoItems;
     },
     { deep: true }
@@ -59,39 +59,32 @@
   onMounted(() => {
     billTitleOption.title = props.options?.title || DEF_TITLE;
     billTitleOption.height = props.options?.height || DEF_HEIGHT;
-    billTitleOption.bottomLine = props.options?.bottomLine || DEF_BOTTOM_LINE;
+    // billTitleOption.bottomLine = props.options?.bottomLine || DEF_BOTTOM_LINE;
     billTitleOption.infoItems = props.options?.infoItems || [];
   });
 </script>
 <style lang="less" scoped>
   .bill-title-box {
     width: 100%;
-    padding: 15px;
+    padding: 0 16px;
     background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     .bill-title {
-      color: #333;
-      font-size: 26px;
-      font-weight: 600;
-      text-align: center;
+      color: rgba(0, 0, 0, 0.85);
+      font-size: 16px;   
     }
 
     .bill-info-box {
       display: flex;
-      justify-content: space-between;
+      align-items: center;
 
       .bill-info-item {
-        flex: 1;
-        color: #777;
-        font-size: 12px;
-
-        &.center {
-          text-align: center;
-        }
-
-        &.right {
-          text-align: right;
-        }
+        color: #666;
+        font-size: 13px;
+        margin-right: 16px;
       }
     }
   }
