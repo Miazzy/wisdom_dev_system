@@ -211,14 +211,11 @@
           if (key in rules) {
             if (rules[key] == 'title') {
               newItem[rules[key]] = item[key];
-              newItem[key] = item[key];
             } else if (rules[key] == 'id') {
               newItem[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key].slice(0, 5);
-              newItem[key] = item[key];
             }
-          } else {
-            newItem[key] = item[key];
           }
+          newItem[key] = item[key];
         }
         if (item.children && item.children.length > 0) {
           newItem.children = transformData(item.children, rule);
@@ -291,31 +288,39 @@
   // 树节点选中事件
   const handleSelect = (node, event) => {
     try {
+      debugger;
       if (Reflect.has(props.tfields, 'value')) {
         if (props.multiple) {
-          searchRealText.value = selectedValue.value = event.selectedNodes.map((element) => element[props.tfields.value]);
+          searchRealText.value = selectedValue.value = event.selectedNodes.map(
+            (element) => element[props.tfields.value],
+          );
         } else {
           searchRealText.value = selectedValue.value = event.node[props.tfields.value];
         }
         emit('update:value', selectedValue.value);
       } else {
         if (props.multiple) {
-          searchRealText.value = selectedValue.value = event.selectedNodes.map((element) => element[props.tfields.title]);
+          searchRealText.value = selectedValue.value = event.selectedNodes.map(
+            (element) => element[props.tfields.title],
+          );
         } else {
           searchRealText.value = selectedValue.value = event.node[props.tfields.title];
         }
         emit('update:value', selectedValue.value);
       }
-
-      emit('select', event.node, event);
-      emit('change', event.node.title, event.node, event);
       if (props.callback != null) {
         props.callback(event.node, event);
       }
       if (!props.multiple) {
         showDropdown.value = false;
       }
-    } catch {
+      try {
+        emit('select', event.node, event);
+        emit('change', event.node.title, event.node, event);
+      } catch {
+        //
+      }
+    } catch (e) {
       //
     }
   };
@@ -352,7 +357,7 @@
       } else {
         selectedValue.value = '';
       }
-    }
+    },
   );
 
   watch(
