@@ -288,7 +288,6 @@
   // 树节点选中事件
   const handleSelect = (node, event) => {
     try {
-      debugger;
       if (Reflect.has(props.tfields, 'value')) {
         if (props.multiple) {
           searchRealText.value = selectedValue.value = event.selectedNodes.map(
