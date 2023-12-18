@@ -65,15 +65,12 @@
 </script>
 <style lang="less" scoped>
   .bill-title-box {
-    width: 100%;
-    padding: 0 16px;
-    background-color: #fff;
+    width: 100%;  
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     .bill-title {
-      color: rgba(0, 0, 0, 0.85);
       font-size: 16px;   
     }
 
@@ -82,7 +79,6 @@
       align-items: center;
 
       .bill-info-item {
-        color: #666;
         font-size: 13px;
         margin-right: 16px;
       }
