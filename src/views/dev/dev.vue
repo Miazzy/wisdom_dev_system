@@ -23,6 +23,7 @@
         :width="`calc(100% - 80px)`"
         :height="600"
         :maxChars="100"
+        :disabled="true"
         @change="handleRichTextChange"
       />
     </div>

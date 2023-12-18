@@ -155,8 +155,11 @@
       const initOptions = computed((): RawEditorSettings => {
         const { height, options, toolbar, plugins, maxChars, disabled } = props;
         const publicPath = import.meta.env.VITE_PUBLIC_PATH || '/';
-        const readOnlyConfig = disabled ? { disabled } : {};
-        return {
+        const readOnlyConfig = disabled ? { disabled } : {}; // 原来的设置只读的逻辑
+        if (disabled) {
+          richTextEditStatus('#' + tinymceId.value + '_ifr', 'false');
+        }
+        const config = {
           selector: `#${unref(tinymceId)}`,
           height,
           toolbar,
@@ -199,12 +202,13 @@
           init_instance_callback: function (editor) {
             editor.settings.max_chars = maxChars; // 设置最大字符数
           },
-        };
+        } as RawEditorSettings;
+        return config;
       });
 
       const disabled = computed(() => {
-        const { options } = props;
-        const getdDisabled = options && Reflect.get(options, 'readonly');
+        const { options, disabled } = props;
+        const getdDisabled = (options && Reflect.get(options, 'readonly')) || disabled;
         const editor = unref(editorRef);
         if (editor) {
           editor.setMode(getdDisabled ? 'readonly' : 'design');
@@ -413,6 +417,29 @@
         return `[uploading:${name}]`;
       }
 
+      const richTextEditStatus = (selector, status = 'true', count = 10) => {
+        // 到达最大递归次数
+        if (count <= 0) {
+          return;
+        }
+        // 获取iframe元素
+        const iframes = document.querySelectorAll(selector);
+        // 如果iframes存在多个，则进行遍历
+        if (iframes && iframes.length > 0) {
+          // 设置所有的iframe框为不可编辑
+          iframes.forEach((iframe) => {
+            // 获取iframe内部的body元素
+            const iframeBody = iframe.contentDocument.body;
+            // 设置状态
+            iframeBody.setAttribute('contenteditable', status);
+          });
+        } else {
+          setTimeout(() => {
+            richTextEditStatus(selector, status, --count);
+          }, 500);
+        }
+      };
+
       return {
         prefixCls,
         containerWidth,
@@ -425,6 +452,7 @@
         editorRef,
         fullscreen,
         disabled,
+        richTextEditStatus,
       };
     },
   });
