@@ -50,10 +50,8 @@
           routeKey.value = route.fullPath;
           setComponetInfo(route.fullPath + '#type', component?.type);
         } else {
-          routeKey.value = route.fullPath.includes('?')
-            ? route.fullPath + `&time=${new Date().getTime()}`
-            : route.fullPath + `?time=${new Date().getTime()}`;
-          window.location.reload();
+          routeKey.value = route.fullPath;
+          setComponetInfo(route.fullPath + '#type', component?.type);
         }
         return component;
       };
