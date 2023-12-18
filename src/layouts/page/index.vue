@@ -1,7 +1,9 @@
 <template>
   <RouterView>
     <template #default="{ Component, route }">
-      <component :is="handleComponent(Component, route)" :key="routeKey" />
+      <keep-alive>
+        <component :is="handleComponent(Component, route)" :key="routeKey" />
+      </keep-alive>
     </template>
   </RouterView>
   <FrameLayout v-if="getCanEmbedIFramePage" />
@@ -45,6 +47,7 @@
 
       const handleComponent = (component, route) => {
         if (typeof component?.type != 'function') {
+          routeKey.value = route.fullPath;
           setComponetInfo(route.fullPath + '#type', component?.type);
         } else {
           routeKey.value = route.fullPath.includes('?')
