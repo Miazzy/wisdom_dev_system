@@ -8,6 +8,7 @@ export enum CommonApi {
   LIST_STATION_TREE = '/baseset/common/list-orgStationTree',
   LIST_STATION_PERSON = '/baseset/common/list-stationPerson',
   GetMaterialCategoryTreeData = '/baseset/material-category/getTreeData',
+  GetMaterialPage = '/baseset/material/page',
 }
 
 export const getOrgStationPeriodTree = async (params) => {
@@ -24,6 +25,11 @@ export const getMaterialCategoryTreeData = async (params) => {
   const requestParams = { url: CommonApi.GetMaterialCategoryTreeData, params };
   return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
+
+// 查询物料列表
+export function getMaterialPage(params) {
+  return defHttp.get({ url: CommonApi.GetMaterialPage, params }, { isOnlyResult: true });
+}
 
 // 获取电站列表
 export const getStationList = (params) =>
