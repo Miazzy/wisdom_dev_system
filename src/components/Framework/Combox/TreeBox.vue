@@ -1,12 +1,18 @@
 <template>
   <div class="tree-box" ref="treeBox">
     <a-dropdown
-      v-if="props.vmode == 'edit' && !props.disabled"
+      v-if="(props.vmode == 'edit' || props.vmode == 'label') && !props.disabled"
       :trigger="['click']"
       v-model:visible="showDropdown"
     >
       <!-- 输入框区域 -->
-      <a-input v-model:value="searchRealText" class="tree-text" @click="toggleDropdown($event)" />
+      <template v-if="props.vmode === 'label'">
+        <a-input v-model:value="searchLabelText" class="tree-text" @click="toggleDropdown($event)" />
+      </template>
+      <template v-if="props.vmode !== 'label'">
+        <a-input v-model:value="searchRealText" class="tree-text" @click="toggleDropdown($event)" />
+      </template>
+
       <template #overlay>
         <a-menu>
           <!-- 下拉表格弹框区域 -->
@@ -82,6 +88,7 @@
 
   const showDropdown = ref(false);
   const searchRealText = ref<string>('');
+  const searchLabelText = ref<string>('');
   const search = reactive({ text: '' });
   const treeBox = ref<any>(null);
   const loading = ref(false);
@@ -293,8 +300,12 @@
           searchRealText.value = selectedValue.value = event.selectedNodes.map(
             (element) => element[props.tfields.value],
           );
+          searchLabelText.value = event.selectedNodes.map(
+            (element) => element[props.tfields.title],
+          );
         } else {
           searchRealText.value = selectedValue.value = event.node[props.tfields.value];
+          searchLabelText.value = event.node[props.tfields.title];
         }
         emit('update:value', selectedValue.value);
       } else {
@@ -305,6 +316,7 @@
         } else {
           searchRealText.value = selectedValue.value = event.node[props.tfields.title];
         }
+        searchLabelText.value = selectedValue.value as unknown as string;
         emit('update:value', selectedValue.value);
       }
       if (props.callback != null) {
