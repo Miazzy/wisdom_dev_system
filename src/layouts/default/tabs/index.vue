@@ -93,6 +93,14 @@
           return;
         }
 
+        const menus = userStore.getMenuList;
+        const element = menus.find((item) => {
+          return item?.url === route.path && item?.name === route?.name;
+        });
+        if (element && element?.url.split('/').length <= 2) {
+          return;
+        }
+
         const { path, fullPath, meta = {} } = route;
         const { currentActiveMenu, hideTab } = meta as RouteMeta;
         const isHide = !hideTab ? null : currentActiveMenu;
@@ -114,6 +122,7 @@
 
       function handleChange(activeKey: any) {
         try {
+          // TODO 切换 Tab栏 页签
           activeKeyRef.value = activeKey;
           router.push(activeKey);
         } catch {
@@ -121,13 +130,10 @@
         }
       }
 
-      // Close the current tab
       function handleEdit(targetKey: string) {
-        // Added operation to hide, currently only use delete operation
         if (unref(unClose)) {
           return;
         }
-
         tabStore.closeTabByKey(targetKey, router);
       }
       return {

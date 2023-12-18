@@ -31,7 +31,7 @@
   import { useRouter } from 'vue-router';
   import { isFunction, isUrl } from '/@/utils/is';
   import { openWindow } from '/@/utils';
-
+  import { useUserStore } from '/@/store/modules/user';
   import { useOpenKeys } from './useOpenKeys';
 
   export default defineComponent({
@@ -80,6 +80,7 @@
       );
 
       const getBindValues = computed(() => ({ ...attrs, ...props }));
+      // const userStore = useUserStore();
 
       watch(
         () => props.collapse,
@@ -99,6 +100,14 @@
           if (!props.isSplitMenu) {
             return;
           }
+          /*** 左侧菜单，监听菜单变化
+          const menus = userStore.getMenuList;
+          const element = menus.find((item) => {
+            return item?.url === currentRoute.value.path && item?.name === currentRoute.value?.name;
+          });
+          if (element) {
+            return;
+          } **/
           setOpenKeys(currentRoute.value.path);
         },
         { flush: 'post' },
@@ -106,7 +115,14 @@
 
       listenerRouteChange((route) => {
         if (route.name === REDIRECT_NAME) return;
-
+        /*** 左侧菜单，监听路由变化
+        const menus = userStore.getMenuList;
+        const element = menus.find((item) => {
+          return item?.url === route.path && item?.name === route?.name;
+        });
+        if (element) {
+          return;
+        } **/
         currentActiveMenu.value = route.meta?.currentActiveMenu as string;
         handleMenuChange(route);
 
