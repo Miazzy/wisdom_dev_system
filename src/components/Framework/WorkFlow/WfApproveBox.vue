@@ -68,7 +68,7 @@
     businessStatus: { type: String, default: '' },
   });
 
-  const [approvalDrawerRegister, { openDrawer: openApprovalDrawer }] = useDrawer();
+  const [approvalDrawerRegister, { openDrawer: openApprovalDrawer, closeDrawer: closeApprovalDrawer}] = useDrawer();
   const approveDataList = ref([]);
   const processInstanceId = ref(null);
   const processStatus = ref();
@@ -88,6 +88,7 @@
     message.success('操作成功。');
     isHandle.value = 2;
     getTaskListByProcessInstanceId();
+    closeApprovalDrawer();
     closeCurrentPage();
   };
 
@@ -121,6 +122,7 @@
     await TaskApi.rejectTask({ id: curflowobj.id, reason: curflowobj.reason });
     message.success('操作成功。');
     getTaskListByProcessInstanceId();
+    closeApprovalDrawer();
     closeCurrentPage();
   };
 
@@ -216,11 +218,13 @@
         message.success('操作成功。');
         isHandle.value = 2;
         getTaskListByProcessInstanceId();
+        closeApprovalDrawer();
         closeCurrentPage();
       } else if (newValue === 'reject') {
         await TaskApi.rejectTask({ id: currentNode.id, reason: currentNode.reason });
         message.success('操作成功。');
         getTaskListByProcessInstanceId();
+        closeApprovalDrawer();
         closeCurrentPage();
       }
     },
