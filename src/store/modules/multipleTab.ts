@@ -19,6 +19,7 @@ export interface MultipleTabState {
   cacheTabList: Set<string>;
   tabList: RouteLocationNormalized[];
   lastDragEndIndex: number;
+  refreshTabList: Map<string, Object>;
 }
 
 function handleGotoPage(router: Router) {
@@ -46,10 +47,15 @@ export const useMultipleTabStore = defineStore({
     tabList: cacheTab ? Persistent.getLocal(MULTIPLE_TABS_KEY) || [] : [],
     // Index of the last moved tab
     lastDragEndIndex: 0,
+    // refreshTabList
+    refreshTabList: new Map(),
   }),
   getters: {
     getTabList(state): RouteLocationNormalized[] {
       return state.tabList;
+    },
+    getRefreshTabList(state): any[] {
+      return Array.from(state.refreshTabList.entries());
     },
     getCachedTabList(state): string[] {
       return Array.from(state.cacheTabList);
@@ -77,7 +83,34 @@ export const useMultipleTabStore = defineStore({
       }
       this.cacheTabList = cacheMap;
     },
-
+    /**
+     * 设置刷新路由path
+     */
+    setRefreshList(path, timestamp) {
+      const options = {
+        path,
+        start: new Date().getTime(),
+        cacheTime: timestamp,
+      };
+      this.refreshTabList.set(path, options);
+    },
+    /**
+     * 设置刷新路由path
+     */
+    getRefreshList(path) {
+      if (this?.refreshTabList?.size === 0) {
+        return true;
+      }
+      const options = this.refreshTabList.get(path);
+      const maxTime = Number(options?.start) + Number(options?.cacheTime);
+      const nowTime = new Date().getTime();
+      if (maxTime >= nowTime) {
+        return true;
+      } else {
+        this.refreshTabList.delete(path); // 超时失效
+        return false;
+      }
+    },
     /**
      * Refresh tabs
      */

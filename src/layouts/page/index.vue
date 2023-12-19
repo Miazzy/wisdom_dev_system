@@ -1,9 +1,14 @@
 <template>
   <RouterView>
     <template #default="{ Component, route }">
-      <keep-alive>
+      <template v-if="handleIsCachedComponent(Component, route)">
+        <keep-alive>
+          <component :is="handleComponent(Component, route)" :key="routeKey" />
+        </keep-alive>
+      </template>
+      <template v-else>
         <component :is="handleComponent(Component, route)" :key="routeKey" />
-      </keep-alive>
+      </template>
     </template>
   </RouterView>
   <FrameLayout v-if="getCanEmbedIFramePage" />
@@ -35,6 +40,7 @@
       const { getBasicTransition, getEnableTransition } = useTransitionSetting();
 
       const openCache = computed(() => unref(getOpenKeepAlive) && unref(getShowMultipleTab));
+      const isCachedComponent = ref(true);
 
       const getCaches = computed((): string[] => {
         if (!unref(getOpenKeepAlive)) {
@@ -56,6 +62,11 @@
         return component;
       };
 
+      const handleIsCachedComponent = (component, route): boolean => {
+        const flag = Boolean(tabStore.getRefreshList(route.fullPath));
+        return flag;
+      };
+
       return {
         getTransitionName,
         openCache,
@@ -63,7 +74,9 @@
         getBasicTransition,
         getCaches,
         getCanEmbedIFramePage,
+        isCachedComponent,
         handleComponent,
+        handleIsCachedComponent,
         routeKey,
       };
     },

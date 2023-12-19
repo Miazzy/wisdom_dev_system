@@ -1,3 +1,7 @@
+import { useMultipleTabStore } from '/@/store/modules/multipleTab';
+import { useRouter } from 'vue-router';
+
+// 解析路由路径参数
 export const parseRoutePath = (path: string): Record<string, string> => {
   const segments = path.split('/');
   const lastSegment = segments[segments.length - 1];
@@ -13,3 +17,10 @@ export const parseRoutePath = (path: string): Record<string, string> => {
   return queryParams;
 };
 
+// 跳转路由不带缓存
+export const pushAndRefresh = (path: string) => {
+  const router = useRouter();
+  const useTab = useMultipleTabStore();
+  useTab.setRefreshList(path, 1000);
+  router.push(path);
+};
