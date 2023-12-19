@@ -98,6 +98,7 @@
   const loading = ref(false);
   const treeData = reactive([]);
   const treeMap = ref<any>();
+  const treeEntry = ref<any>(new Map());
   const selectedValue = ref(null);
   type fieldType = { key: String; title: String };
   type tIconsType = { parent: String; leaf: String };
@@ -231,6 +232,14 @@
         if (item.children && item.children.length > 0) {
           newItem.children = transformData(item.children, rule);
         }
+        try {
+          treeEntry.value.set(
+            newItem[props.tfields.value] || newItem[props.tfields.title],
+            newItem[props.tfields.title],
+          );
+        } catch {
+          //
+        }
         return newItem;
       });
     } catch (error) {
@@ -302,13 +311,14 @@
       if (Reflect.has(props.tfields, 'value')) {
         if (props.multiple) {
           searchRealText.value = selectedValue.value = event.selectedNodes.map(
-            (element) => element[props.tfields.value],
+            (element) => element[props.tfields.value] || element[props.tfields.title],
           );
           searchLabelText.value = event.selectedNodes.map(
             (element) => element[props.tfields.title],
           );
         } else {
-          searchRealText.value = selectedValue.value = event.node[props.tfields.value];
+          searchRealText.value = selectedValue.value =
+            event.node[props.tfields.value] || event.node[props.tfields.title];
           searchLabelText.value = event.node[props.tfields.title];
         }
         emit('update:value', selectedValue.value);
@@ -398,7 +408,12 @@
   onMounted(() => {
     try {
       reload();
-      searchRealText.value = props.value;
+      try {
+        searchRealText.value = props.value;
+        searchLabelText.value = treeEntry.value.get(props.value);
+      } catch {
+        //
+      }
       withDirectives(treeBox, [[clickOutside, handleClickOutside]]); // 注册 clickOutside 指令
 
       if (props.multiple) {
