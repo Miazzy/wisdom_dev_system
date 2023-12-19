@@ -89,3 +89,8 @@
     </BasicTable>
   </div>
 </template>
+<style lang="less" scoped>
+  :deep(.vben-basic-table-action.center) {
+    justify-content: left;
+  }
+</style>
