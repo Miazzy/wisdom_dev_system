@@ -63,8 +63,19 @@
       };
 
       const handleIsCachedComponent = (component, route): boolean => {
-        const flag = Boolean(tabStore.getRefreshList(route.fullPath));
-        return flag;
+        try {
+          // 如果Path在刷新List中，则重新渲染，如果在Tab页签List中，则使用缓存
+          let flag = Boolean(tabStore.getRefreshList(route.fullPath));
+          if (!flag) {
+            const item = tabStore.getTabList.find((element) => element.fullPath === route.fullPath);
+            if (item) {
+              flag = true;
+            }
+          }
+          return flag;
+        } catch (error) {
+          return false;
+        }
       };
 
       return {
