@@ -329,11 +329,6 @@
               border: 1px solid #1890ff;
               color: #1890ff;
             }
-
-            &.gray {
-              border: 1px solid #999;
-              color: #999;
-            }
           }
 
           .circle-inner-icon {
@@ -377,10 +372,6 @@
           &.solid {
             border-left: 1px solid #1890ff;
           }
-
-          &.dashed {
-            border-left: 1px dashed #ccc;
-          }
         }
       }
 
@@ -395,18 +386,15 @@
         }
 
         .node-name-text {
-          color: #262626;
           font-size: 16px;
           line-height: 28px;
         }
 
         .node-time-text {
-          color: #999;
           font-size: 12px;
         }
 
         .person-text {
-          color: #666;
           font-size: 13px;
         }
 
@@ -424,7 +412,6 @@
         }
 
         .comment-text {
-          color: #999;
           font-size: 13px;
           line-height: 22px;
         }
@@ -433,12 +420,7 @@
           margin: 4px 0 7px;
           padding: 7px 8px;
           border-radius: 2px;
-          background-color: #f7f7f7;
           font-size: 13px;
-
-          &::placeholder {
-            color: #ccc;
-          }
         }
       }
     }

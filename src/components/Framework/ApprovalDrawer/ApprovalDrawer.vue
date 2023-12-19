@@ -11,7 +11,7 @@
     :isDetail="true"
     width="33.33%"
     :headerStyle="{ display: 'none' }"
-    :drawerStyle="{ boxShadow: '0px 1px 3px 0px #E9E9E9', borderTop: '1px solid #F0F0F0' }"
+    :drawerStyle="{ boxShadow: '0px 1px 3px 0px #E9E9E9'}"
     :showFooter="currentNodeData[0] && editAuthority(currentNodeData[0])"
     footerHeight="64"
     @visible-change="handleChange"
@@ -375,6 +375,8 @@
 <style lang="less" scoped>
   .fit-approval-tab {
     :deep(.ant-tabs-tab) {
+      padding-left: 0;
+      padding-right: 0;
       font-size: 16px;
 
       &.ant-tabs-tab-active .ant-tabs-tab-btn {
@@ -383,7 +385,7 @@
     }
 
     :deep(&.ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap) {
-      padding: 0 20px;
+      padding: 0 16px;
     }
 
     :deep(.ant-tabs-ink-bar) {
@@ -392,20 +394,12 @@
   }
 
   .fit-footer-btn.ant-btn {
-    width: 64px;
+    width: 62px;
     margin-right: 10px;
     padding: 4px 0;
-    border-color: #d9d9d9;
-    color: #262626;
 
     & > span + .anticon {
       margin-left: 0;
     }
-  }
-
-  .fit-footer-btn.ant-btn.ant-btn-primary {
-    border-color: #1890ff;
-    background: #1890ff;
-    color: #fff;
   }
 </style>
