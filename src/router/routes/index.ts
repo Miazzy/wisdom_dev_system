@@ -696,12 +696,12 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/oa/askreport/askReportModal.vue');
         } else if (checkImportComponent('/@/views/oa/addressbook/index.vue', menu.component)) {
           return import('/@/views/oa/addressbook/index.vue');
-        } else if (checkImportComponent('/@/views/oa/att/index.vue', menu.component)) {
-          return import('/@/views/oa/att/index.vue');
-        } else if (checkImportComponent('/@/views/oa/att/create.vue', menu.component)) {
-          return import('/@/views/oa/att/create.vue');
-        } else if (checkImportComponent('/@/views/oa/att/calendar.vue', menu.component)) {
-          return import('/@/views/oa/att/calendar.vue');
+        } else if (checkImportComponent('/@/views/oa/attend/index.vue', menu.component)) {
+          return import('/@/views/oa/attend/index.vue');
+        } else if (checkImportComponent('/@/views/oa/attend/create.vue', menu.component)) {
+          return import('/@/views/oa/attend/create.vue');
+        } else if (checkImportComponent('/@/views/oa/attend/calendar.vue', menu.component)) {
+          return import('/@/views/oa/attend/calendar.vue');
         } else if (checkImportComponent('/@/views/oa/info/officedoc/index.vue', menu.component)) {
           return import('/@/views/oa/info/officedoc/index.vue');
         } else if (checkImportComponent('/@/views/oa/info/officedoc/create.vue', menu.component)) {
