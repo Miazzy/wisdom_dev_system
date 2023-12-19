@@ -409,7 +409,10 @@
   }
 
   .ant-drawer-content {
-    background-color: #0A244A;
+    background-color: #032748;
+    .ant-tabs {
+      background-color: transparent;
+    }
   }
   .ant-drawer-header {
     border-bottom: 1px solid rgba(255, 255, 255, 0.16);
@@ -430,7 +433,57 @@
     color: rgba(255, 255, 255, 0.85);
   }
 
-  
+  // 流程审批弹框
+  .approval-tab {
+    .flow-item {
+      .flow-item-left {
+        .circle-out {
+          .circle-inner-text.gray {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.4);
+          }
+        }
+
+        .flow-vertical-line {
+          border-left: 1px dashed #ccc;
+          opacity: 0.4;
+        }
+      }
+
+      .flow-item-right {
+        .node-name-text {
+          color: #fff;
+        }
+        .node-time-text {
+          color: #fff;
+          opacity: 0.4;
+        }
+        .person-text {
+          color: #fff;
+          opacity: 0.8;
+        }
+        .comment-text {
+          color: #fff;
+          opacity: 0.6;
+        }
+        .fit-comment-textarea.ant-input {
+          background-color: rgba(247, 247, 247, 0.04);
+          border: none;
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+          }
+          &:focus {
+            box-shadow: none;
+          }
+        }
+      }
+    }
+  }
+
+  .vben-basic-drawer-footer {
+    background-color: transparent;
+    border-top-color: rgba(255, 255, 255, 0.16);
+  }
 }
 
 .theme1 {

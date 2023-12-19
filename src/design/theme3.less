@@ -494,6 +494,45 @@
       }
     }
   }
+
+  // 流程审批弹框
+  .approval-tab {
+    .flow-item {
+      .flow-item-left {
+        .circle-out {
+          .circle-inner-text.gray {
+            border: 1px solid #999;
+            color: #999;
+          }
+        }
+
+        .flow-vertical-line {
+          border-left: 1px dashed #ccc;
+        }
+      }
+
+      .flow-item-right {
+        .node-name-text {
+          color: #262626;
+        }
+        .node-time-text {
+          color: #999;
+        }
+        .person-text {
+          color: #666;
+        }
+        .comment-text {
+          color: #999;
+        }
+        .fit-comment-textarea.ant-input {
+          background-color: #f7f7f7;
+          &::placeholder {
+            color: #ccc;
+          }
+        }
+      }
+    }
+  }
 }
 
 // html[data-theme='light'] .theme3 .vben-multiple-tabs .ant-tabs-tab:not(.ant-tabs-tab-active) {
