@@ -7,9 +7,13 @@
     >
       <!-- 输入框区域 -->
       <template v-if="props.vmode === 'label'">
-        <a-input v-model:value="searchLabelText" class="tree-text" @click="toggleDropdown($event)" />
+        <a-input
+          v-model:value="searchLabelText"
+          class="tree-text"
+          @click="toggleDropdown($event)"
+        />
       </template>
-      <template v-if="props.vmode !== 'label'">
+      <template v-else>
         <a-input v-model:value="searchRealText" class="tree-text" @click="toggleDropdown($event)" />
       </template>
 

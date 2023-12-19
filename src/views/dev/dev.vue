@@ -63,7 +63,7 @@
       <!-- tree box -->
       <TreeBox
         v-model:value="searchTreeText"
-        vmode="label"
+        vmode="edit"
         :tfields="{ key: 'nodeId', title: 'nodeName' }"
         :data="treeData"
         :multiple="true"
