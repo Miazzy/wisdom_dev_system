@@ -21,6 +21,6 @@ export const parseRoutePath = (path: string): Record<string, string> => {
 export const pushAndRefresh = (path: string) => {
   const router = useRouter();
   const useTab = useMultipleTabStore();
-  useTab.setRefreshList(path, 1000); // 设置刷新时效1000ms, 在此1000ms内，打开此path路由对应页面，都重新渲染，不加载缓存
+  useTab.setRefreshList(path); // 设置刷新时效300ms, 在此1000ms内，打开此path路由对应页面，都重新渲染，不加载缓存
   router.push(path);
 };

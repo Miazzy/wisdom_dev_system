@@ -57,7 +57,7 @@ export function useTabs(_router?: Router) {
 
   async function handlePushAndClose(path: string) {
     const currentTab = getCurrentTab();
-    tabStore.setRefreshList(path, 1000);
+    tabStore.setRefreshList(path);
     router.push(path);
     setTimeout(() => {
       handleTabAction(TableActionEnum.CLOSE, currentTab);

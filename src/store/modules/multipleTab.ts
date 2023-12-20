@@ -86,12 +86,13 @@ export const useMultipleTabStore = defineStore({
     /**
      * 设置刷新路由path
      */
-    setRefreshList(path, timestamp) {
+    setRefreshList(path, timestamp = 100) {
       const options = {
         path,
         start: new Date().getTime(),
         cacheTime: timestamp,
       };
+      console.log('add path:', path, ' start:', options.start, ' cacheTime:', options.cacheTime);
       this.refreshTabList.set(path, options);
     },
     /**
@@ -99,11 +100,15 @@ export const useMultipleTabStore = defineStore({
      */
     getRefreshList(path) {
       if (this?.refreshTabList?.size === 0) {
-        return true;
+        return false;
       }
       const options = this.refreshTabList.get(path);
+      if (!options) {
+        return false;
+      }
       const maxTime = Number(options?.start) + Number(options?.cacheTime);
       const nowTime = new Date().getTime();
+      console.log('refresh path:', path, ' boolean:', maxTime >= nowTime ? 'true' : 'false');
       if (maxTime >= nowTime) {
         return true;
       } else {
@@ -198,6 +203,7 @@ export const useMultipleTabStore = defineStore({
             index !== -1 && this.tabList.splice(index, 1);
           }
         }
+        this.setRefreshList(route.fullPath);
         this.tabList.push(route);
       }
       this.updateCacheTab();
@@ -212,10 +218,11 @@ export const useMultipleTabStore = defineStore({
         }
         const index = this.tabList.findIndex((item) => item.fullPath === fullPath);
         index !== -1 && this.tabList.splice(index, 1);
+        console.log('delete path:', route.fullPath);
+        this.refreshTabList.delete(route.fullPath);
       };
 
       const { currentRoute, replace } = router;
-
       const { path } = unref(currentRoute);
       if (path !== tab.path) {
         // Closed is not the activation tab

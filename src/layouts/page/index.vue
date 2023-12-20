@@ -1,13 +1,13 @@
 <template>
   <RouterView>
     <template #default="{ Component, route }">
-      <template v-if="handleIsCachedComponent(Component, route)">
+      <template v-if="handleIsCachedComponent(Component, route, 'reverse')">
+        <component :is="handleComponent(Component, route)" :key="routeKey" />
+      </template>
+      <template v-else >
         <keep-alive>
           <component :is="handleComponent(Component, route)" :key="routeKey" />
         </keep-alive>
-      </template>
-      <template v-else>
-        <component :is="handleComponent(Component, route)" :key="routeKey" />
       </template>
     </template>
   </RouterView>
@@ -62,19 +62,18 @@
         return component;
       };
 
-      const handleIsCachedComponent = (component, route): boolean => {
+      const handleIsCachedComponent = (component, route, flag = 'forward'): boolean => {
         try {
           // 如果Path在刷新List中，则重新渲染，如果在Tab页签List中，则使用缓存
-          let flag = Boolean(tabStore.getRefreshList(route.fullPath));
-          if (!flag) {
-            const item = tabStore.getTabList.find((element) => element.fullPath === route.fullPath);
-            if (item) {
-              flag = true;
-            }
+          const result = !tabStore.getRefreshList(route.fullPath);
+          console.log('path use cache:', result, ' path:', route.fullPath);
+          if (flag == 'forward') {
+            return result;
+          } else {
+            return !result;
           }
-          return flag;
         } catch (error) {
-          return false;
+          return true;
         }
       };
 
