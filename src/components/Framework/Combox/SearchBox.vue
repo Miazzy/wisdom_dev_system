@@ -97,6 +97,7 @@
   const props = defineProps({
     vmode: { type: String, default: 'edit' },
     opkey: { type: String, default: null },
+    searchKey: { type: String, default: 'name' },
     multiple: { type: Boolean, default: false },
     columns: Array, // 列定义
     data: Array, // 表格数据
@@ -145,6 +146,9 @@
       if (params === false) {
         return { data: [], total: 0 };
       }
+    }
+    if (!url.includes('?')) {
+      url = url + `?${props.searchKey}={name}&pageNo={current}&pageSize={pageSize}`;
     }
     url = url
       .replace('{name}', search.text)
