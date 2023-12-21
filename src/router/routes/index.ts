@@ -722,6 +722,10 @@ const transformMenuItem = (menu, routes) => {
           checkImportComponent('/@/views/bi/safety/disasterwarning/index.vue', menu.component)
         ) {
           return import('/@/views/bi/safety/disasterwarning/index.vue');
+        } else if (
+          checkImportComponent('/@/views/workbench/Workbench.vue', menu.component)
+        ) {
+          return import('/@/views/workbench/Workbench.vue');
         } else {
           return asyncImportComponent(menu.component);
         }
