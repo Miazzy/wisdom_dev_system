@@ -17,13 +17,12 @@
         </span>
         <div class="category-content" :style="`height: calc(${props.height}px - 130px)`">
           <div class="category-search-box" style="position: relative">
-            <span class="search-title" style="" @click="handleSearch">搜索</span>
+            <span class="search-title" style="">搜索</span>
             <a-input-search
               v-model:value="searchText"
               class="search-input"
               placeholder="请输入搜索内容"
               enter-button
-              @change="handleSearch"
               @search="handleSearch"
             />
             <span class="search-icon" style="left: 300px">
@@ -176,15 +175,11 @@
   ]);
 
   const cancel = () => {
-    // modalVisible.value = false;
-    // emit('update:visible', false); // 关闭弹框
     emit('cancel'); // 发送取消事件
   };
 
   const confirm = () => {
     const rule = props?.tfields as fieldType;
-    // modalVisible.value = false;
-    // emit('update:visible', false); // 关闭弹框
     const data = transformRespData(allNodes.value, rule);
     emit('confirm', data, allNodes.value); // 发送确定事件
   };
