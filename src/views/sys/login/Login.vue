@@ -118,9 +118,18 @@
         .ant-form label {
           color: rgba(255, 255, 255, 0.6);
         }
+        
         .ant-checkbox-inner {
           background-color: #fff;
           border-color: #d9d9d9;
+        }
+        .ant-checkbox-checked {
+          .ant-checkbox-inner {
+            background-color: #1890FF;
+          }
+        }
+        .ant-form {
+          background-color: transparent;
         }
       }
     }
