@@ -106,7 +106,7 @@
   .ant-form {
     color: rgba(255, 255, 255, 0.85);
     background-color: rgba(10, 36, 74, 0.7);
-    &>.ant-card {
+    & > .ant-card {
       background-color: transparent;
     }
   }
@@ -544,7 +544,7 @@
   }
 
   .vben-multiple-tabs {
-    &>.ant-tabs {
+    & > .ant-tabs {
       background-color: transparent;
     }
     // border-bottom: none;
@@ -946,16 +946,112 @@
     }
   }
 
+  // 工作台
+  .workbench {
+    .ant-card-head {
+      border-bottom-color: rgba(234, 234, 234, 0.16);
+    }
+    .ant-card-extra {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    .workbench-header {
+      .info-box {
+        .black-text {
+          color: #fff;
+        }
+        .grey-text {
+          color: rgba(255, 255, 255, 0.5);
+        }
+      }
+    }
+    .data-board-item {
+      background-color: rgba(7, 59, 109, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      .label-text {
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .value-text {
+        color: #fff;
+      }
+      .pLabel-text {
+        color: rgba(255, 255, 255, 0.5);
+      }
+    }
+    .nav-icon-box {
+      .app-iconify.anticon {
+        color: #fff;
+      }
+    }
+    .nav-label {
+      color: #fff;
+    }
+    .carousel-dots > li {
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+    .card-content {
+      .ant-tabs {
+        background-color: transparent;
+      }
+      .tab-text {
+        color: #fff;
+      }
+      .ant-tabs-tab-active .tab-text {
+        color: #1890ff;
+      }
+    }
+    .ant-badge-count {
+      background: #ff4d4f;
+      box-shadow: none;
+    }
+    .ant-picker-calendar {
+      background-color: transparent;
+    }
+
+    .ant-picker-calendar .ant-picker-panel {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      background: transparent;
+    }
+    .ant-picker-calendar-mini .ant-picker-content {
+      th {
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .ant-picker-cell {
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    }
+    .notice-item {
+      .item-dot {
+        background: #1890FF;
+      }
+      .title-text {
+        color: rgba(255, 255, 255, 0.97);
+        &.isRead {
+          color: rgba(255, 255, 255, 0.5);
+        }
+      }
+      .dept-text,
+      .person-text {
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .time-text {
+        color: rgba(255, 255, 255, 0.5);
+      }
+    }
+  }
+
   .tab-button-div {
     background-color: rgba(10, 36, 74, 0.7);
-    &>.ant-form {
+    & > .ant-form {
       background-color: transparent;
     }
   }
 
   .tab-table-div {
     background-color: rgba(10, 36, 74, 0.7);
-    >.ant-tabs {
+    > .ant-tabs {
       background-color: transparent;
     }
   }
