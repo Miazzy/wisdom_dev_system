@@ -126,6 +126,10 @@ export const basicProps = {
     type: [Object, Boolean] as PropType<PaginationProps | boolean>,
     default: null,
   },
+  tableLayout: {
+    type: String as PropType<SizeType>,
+    default: 'fixed',
+  },
   loading: propTypes.bool,
   rowClassName: {
     type: Function as PropType<(record: TableCustomRecord<any>, index: number) => string>,
