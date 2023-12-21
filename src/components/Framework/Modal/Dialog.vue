@@ -33,6 +33,7 @@
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
     title: String, // 弹框标题
+    smode: { type: String, default: 'default' },
     tweight: { type: Number, default: 400 },
     tsize: { type: String, default: '16' }, // 标题大小
     width: { type: Number, default: 800 }, // 弹框宽度
@@ -54,6 +55,9 @@
 
   const cancel = () => {
     emit('cancel'); // 发送取消事件
+    if (props.smode == 'simple') {
+      emit('update:visible', false); // 关闭弹框
+    }
   };
 
   const confirm = () => {
@@ -108,6 +112,7 @@
 
   .modal-body {
     padding: 0 10px 10px;
+    margin: 0.15rem 0 0 0;
   }
 
   .modal-footer {
