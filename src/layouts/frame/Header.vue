@@ -6,7 +6,7 @@
     <div class="module-info">
       <a-menu v-model:selectedKeys="current" mode="horizontal">
         <template v-for="element in topModuleList" :key="element.id">
-          <a-menu-item :iconvalue="element.icon" :name="element.name">
+          <a-menu-item :iconvalue="element.icon" :name="element.name" @click="handleModuleClick(element)">
             <template #icon>
               <Icon :icon="element.icon" />
             </template>
@@ -43,15 +43,38 @@
   </header>
 </template>
 <script lang="ts" setup>
-  import { onMounted, ref } from 'vue';
+  import { onMounted, ref, watch } from 'vue';
   import { useUserStore } from '/@/store/modules/user';
   import Icon from '@/components/Icon/Icon.vue';
 
   const topModuleList = ref([]);
   const userStore = useUserStore();
 
+  const props = defineProps({
+    modules: { type: Array, default: null },
+  });
+
+  const emit = defineEmits(['click', 'change', 'menuclick']);
+
+  watch(
+    () => props.modules,
+    () => {
+      topModuleList.value = props.modules;
+    },
+  );
+
+  // 顶部模块
+  const handleModuleClick = (element) => {
+    emit('click', element, element.children);
+  };
+
   onMounted(() => {
-    topModuleList.value = userStore.getMenuList;
+    // 如果传入modules参数为空，则使用默认menulist作为顶部展示modules内容
+    if (props.modules == null || props?.modules?.length == 0) {
+      topModuleList.value = userStore.getMenuList;
+    } else {
+      topModuleList.value = props.modules;
+    }
   });
 </script>
 <style scoped>
@@ -80,7 +103,7 @@
 
   .user-info {
     width: 280px;
-    
+
     display: flex;
     flex-direction: row;
     align-items: right;

@@ -1,16 +1,37 @@
 <template>
   <div class="main-layout">
-    <Header />
+    <Header @click="handleModuleClick" />
     <div class="main-content">
-      <Menu />
-      <Content />
+      <Menu :menus="menuList" @click="handleMenuClick" />
+      <Content @click="handleTabsClick" />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
+    import { onMounted, ref, watch } from 'vue';
   import Header from './Header.vue';
   import Menu from './Menu.vue';
   import Content from './Content.vue';
+
+  const currentModule = ref(null);
+  const menuList = ref([]);
+
+  // 处理顶部模块点击函数
+  const handleModuleClick = (cmodule, menus) => {
+    menuList.value = menus;
+    currentModule.value = cmodule;
+  };
+
+  // 处理菜单点击函数
+  const handleMenuClick = (menu, path, mode) => {
+
+  };
+
+  // 处理页签切换点击函数
+  const handleTabsClick = (tabs, tabName, tabUrl) => {
+
+  };
+
 </script>
 <style scoped>
   .main-layout {
