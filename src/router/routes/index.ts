@@ -874,6 +874,16 @@ export const StationOperationRoute: AppRouteRecordRaw = {
   },
 };
 
+// 电站运营大屏
+export const FramePage: AppRouteRecordRaw = {
+  path: '/framepage',
+  name: 'FramePage',
+  component: () => import('/@/layouts/frame/MainLayout.vue'),
+  meta: {
+    title: '集维管理系统 ',
+  },
+};
+
 // 暴露基础路由
 export const basicRoutes = [
   LoginRoute,
@@ -889,4 +899,5 @@ export const basicRoutes = [
   PAGE_NOT_FOUND_ROUTE,
   GroupOperationRoute,
   StationOperationRoute,
+  FramePage,
 ];
