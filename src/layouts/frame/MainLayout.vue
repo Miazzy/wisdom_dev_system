@@ -51,3 +51,6 @@
     flex: 1; /* Content 占据剩余空间 */
   }
 </style>
+<style lang="less">
+  @import url('../default/tabs/index.less');
+</style>
