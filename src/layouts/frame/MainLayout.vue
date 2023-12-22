@@ -8,7 +8,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-    import { onMounted, ref, watch } from 'vue';
+  import { onMounted, ref, watch } from 'vue';
   import Header from './Header.vue';
   import Menu from './Menu.vue';
   import Content from './Content.vue';
