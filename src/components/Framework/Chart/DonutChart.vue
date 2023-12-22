@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, onMounted, defineProps, computed } from 'vue';
+  import { ref, onMounted, defineProps, computed, watch } from 'vue';
   import * as d3 from 'd3';
   import DonutIndicatorGroup from './DonutIndicatorGroup.vue';
 
@@ -105,12 +105,25 @@
     .innerRadius(radius - 30)
     .outerRadius(radius - 8);
 
-  // 生成饼状图数据
-  onMounted(() => {
+  const updateChart = () => {
     arcs.value = pie(props.data).map((arc) => ({
       data: arc.data,
       path: arcGenerator(arc),
     }));
+  }
+  watch(
+    () => props.data,
+    () => {
+      updateChart();
+    },
+    {
+      deep: true,
+    },
+  );
+
+  // 生成饼状图数据
+  onMounted(() => {
+    updateChart();
   });
 
   // 计算 viewBox 属性以保持饼状图居中

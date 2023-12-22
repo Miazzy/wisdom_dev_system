@@ -1,9 +1,5 @@
 <template>
-  <div
-    :id="`echarts-crossbar-container${random}`"
-    class="echarts-crossbar-container"
-    :style="`width: ${props.width}px; height: ${props.height}px;`"
-  ></div>
+  <div :id="`echarts-crossbar-container${random}`" class="echarts-crossbar-container" :style="`width: ${props.width}px; height: ${props.height}px;`"></div>
 </template>
 <script lang="ts" setup>
   import { onMounted, toRefs, watch } from 'vue';
@@ -26,24 +22,30 @@
   // 解构 props
   const { data, colors, names, category, ybgcolor } = toRefs(props);
 
-  const barData0 = data.value.barData && data.value.barData.length > 0 ? data.value.barData[0] : [];
-  const barData1 = data.value.barData && data.value.barData.length > 1 ? data.value.barData[1] : [];
-
-  const names0 = names.value && names.value.length > 0 ? names.value[0] : [];
-  const names1 = names.value && names.value.length > 1 ? names.value[1] : [];
-
   // 监听数据变化
   watch(
     () => props.data,
     () => {
       createChart();
     },
+    {
+      deep: true,
+    },
   );
 
   // 创建图表
   const createChart = () => {
     var chartDom = document.getElementById('echarts-crossbar-container' + random);
-    var myChart = echarts.init(chartDom);
+    let myChart = echarts.getInstanceByDom(chartDom);
+    if (myChart == undefined) {
+      myChart = echarts.init(chartDom);
+    }
+
+    const barData0 = data.value.barData && data.value.barData.length > 0 ? data.value.barData[0] : [];
+    const barData1 = data.value.barData && data.value.barData.length > 1 ? data.value.barData[1] : [];
+
+    const names0 = names.value && names.value.length > 0 ? names.value[0] : [];
+    const names1 = names.value && names.value.length > 1 ? names.value[1] : [];
     var option;
     option = {
       tooltip: {
