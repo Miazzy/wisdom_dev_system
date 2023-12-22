@@ -44,6 +44,8 @@
     display: flex;
     flex-direction: column;
     height: 100vh; /* 100%视窗高度，使布局充满整个屏幕 */
+    overflow-y: hidden;
+    overflow-x: hidden;
   }
 
   .main-content {

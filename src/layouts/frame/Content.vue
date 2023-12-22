@@ -1,10 +1,10 @@
 <template>
   <main class="app-content">
-    <div class="vben-multiple-tabs tabs-content" >
-      <a-tabs v-model:activeKey="activeKey" type="editable-card" hideAdd @edit="onEdit">
+    <div class="vben-multiple-tabs tabs-content">
+      <a-tabs v-model:activeKey="activeKey" type="editable-card" hideAdd @change="handleTabChange">
         <a-tab-pane
           v-for="pane in panes"
-          :key="pane.key"
+          :key="pane.pageurl"
           :tab="pane.title"
           :closable="pane.closable"
         >
@@ -12,53 +12,35 @@
         </a-tab-pane>
       </a-tabs>
       <div class="iframe-content">
-        <iframe >
-          
-        </iframe>
+        <template v-for="pane in panes">
+          <div v-show="pane.status" class="content">
+            <iframe :src="pane.pageurl" style="width:100%; height:100%"></iframe>
+          </div>
+        </template>
       </div>
     </div>
   </main>
 </template>
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { onMounted, ref } from 'vue';
 
-  const panes = ref<{ title: string; content: string; key: string; closable?: boolean }[]>([
-    { title: '工作台', content: '', key: '1', closable: false },
+  const panes = ref<any[]>([
+    { title: '工作台', closable: false, status: true, pageurl: '/#/frame/workbench' },
+    { title: '总览驾驶舱', closable: true, status: false, pageurl: '/#/cockpit/overview' },
   ]);
 
   const activeKey = ref(panes.value[0].key);
 
-  const newTabIndex = ref(0);
-
-  const add = () => {
-    activeKey.value = `newTab${++newTabIndex.value}`;
-    panes.value.push({ title: 'New Tab', content: 'Content of new Tab', key: activeKey.value });
-  };
-
-  const remove = (targetKey: string) => {
-    let lastIndex = 0;
-    panes.value.forEach((pane, i) => {
-      if (pane.key === targetKey) {
-        lastIndex = i - 1;
-      }
-    });
-    panes.value = panes.value.filter((pane) => pane.key !== targetKey);
-    if (panes.value.length && activeKey.value === targetKey) {
-      if (lastIndex >= 0) {
-        activeKey.value = panes.value[lastIndex].key;
-      } else {
-        activeKey.value = panes.value[0].key;
-      }
+  const handleTabChange = (key) => {
+    activeKey.value = key;
+    for (let pane of panes.value) {
+      pane.status = pane.pageurl === key;
     }
   };
 
-  const onEdit = (targetKey: string | MouseEvent, action: string) => {
-    if (action === 'add') {
-      add();
-    } else {
-      remove(targetKey as string);
-    }
-  };
+  onMounted(() => {
+    activeKey.value = panes.value[0].key;
+  });
 </script>
 <style scoped>
   .app-content {
@@ -80,6 +62,15 @@
       width: 100%;
       height: calc(100vh - 85px);
       background: transparent;
+      .content {
+        width: 100%;
+        height: 100%;
+
+        iframe {
+          width: 100%;
+          height: 100%;
+        }
+      }
     }
   }
 </style>

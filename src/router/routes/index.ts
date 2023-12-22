@@ -875,6 +875,16 @@ export const StationOperationRoute: AppRouteRecordRaw = {
 };
 
 // 电站运营大屏
+export const FrameWorkbench: AppRouteRecordRaw = {
+  path: '/frame/workbench',
+  name: 'FrameWorkbench',
+  component: () => import('/@/views/workbench/Workbench.vue'),
+  meta: {
+    title: '工作台',
+  },
+};
+
+// 电站运营大屏
 export const FramePage: AppRouteRecordRaw = {
   path: '/framepage',
   name: 'FramePage',
@@ -900,4 +910,5 @@ export const basicRoutes = [
   GroupOperationRoute,
   StationOperationRoute,
   FramePage,
+  FrameWorkbench,
 ];
