@@ -175,5 +175,15 @@
     :deep(.vben-tree__title) {
       padding-left: 4px;
     }
+    :deep(.vben-basic-title) {
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+    :deep(.vben-tree-header .ant-btn-sm) {
+      padding: 0 6px;
+    }
   }
 </style>
