@@ -1,17 +1,18 @@
 <template>
-  <aside class="app-menu">
+  <aside class="app-menu" ref="containerRef" :class="systemTheme + ' ' + systemCollClass">
     <a-menu
+      v-model:openKeys="openKeys"
       v-model:selectedKeys="selectedKeys"
-      style="width: 220px"
-      mode="inline"
-      :open-keys="openKeys"
-      @openChange="onOpenChange"
+      class="menu-content"
+      :mode="systemMode"
+      :theme="systemTheme"
+      :inline-collapsed="systemCollapsed"
     >
       <template v-for="menu in menuList" :key="menu.id">
         <template v-if="menu?.visible && menu?.component === 'LAYOUT'">
           <a-sub-menu :key="menu?.id">
             <template #icon>
-              <Icon :icon="menu.icon" color="#333" size="22" />
+              <Icon :icon="menu.icon" :color="iconColor" size="22" />
             </template>
             <template #title>{{ menu.name }}</template>
             <template v-for="item in menu.children">
@@ -33,24 +34,36 @@
         <template v-else-if="menu?.visible && menu?.component !== 'LAYOUT'">
           <a-menu-item :key="menu?.id">
             <template #icon>
-              <Icon :icon="menu.icon" color="#333" size="22" />
+              <Icon :icon="menu.icon" :color="iconColor" size="22" />
             </template>
-            <template #title>{{ menu.name }}</template>
             {{ menu.name }}
           </a-menu-item>
         </template>
       </template>
     </a-menu>
+
+    <a-affix class="app-menu-collClass-icon" @click="handleCollapsed">
+      <Icon :icon="`${systemCollapsed ? 'gg:move-right' : 'gg:move-left'}`" />
+    </a-affix>
   </aside>
 </template>
 <script lang="ts" setup>
   import { onMounted, ref, watch } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
-import { template } from 'lodash-es';
 
   const menuList = ref([]);
+  const systemTheme = ref('');
+  const systemMode = ref('');
+  const openKeys = ref<string[]>(['']);
+  const selectedKeys = ref<string[]>(['']);
+  const iconColor = ref('#333');
+  const systemCollapsed = ref(false);
+  const systemCollClass = ref('');
+  const containerRef = ref();
 
   const props = defineProps({
+    mode: { type: String, default: 'inline' },
+    theme: { type: String, default: 'light' },
     menus: { type: Array, default: null },
   });
 
@@ -58,22 +71,79 @@ import { template } from 'lodash-es';
     () => props.menus,
     () => {
       menuList.value = props.menus;
-      debugger;
     },
   );
 
+  watch(
+    () => props.theme,
+    (theme) => {
+      systemTheme.value = props.theme;
+      iconColor.value = theme == 'dark' ? '#ccc' : '#333';
+    },
+  );
+
+  watch(
+    () => props.mode,
+    () => {
+      systemMode.value = props.mode;
+    },
+  );
+
+  const handleCollapsed = () => {
+    systemCollapsed.value = !systemCollapsed.value;
+    systemCollClass.value = systemCollapsed.value ? 'collapsed' : '';
+  };
+
   onMounted(() => {
     menuList.value = props.menus;
+    systemTheme.value = props.theme;
+    systemMode.value = props.mode;
   });
 </script>
 <style scoped>
   .app-menu {
     width: 220px;
     height: calc(100vh - 3.25rem);
-    background-color: #eee;
+    background-color: #fff;
     padding: 0 0 0 0;
     overflow-y: scroll;
     overflow-x: hidden;
+
+    .menu-content {
+      width: 220px;
+      height: 100%;
+    }
+
+    .app-menu-collClass-icon {
+      position: fixed;
+      bottom: 50vh;
+      left: 205px;
+      height: 1rem;
+      line-height: 1rem;
+      background: #f0f0f0;
+      border-radius: 20px;
+    }
+
+    &.dark {
+      background-color: #000;
+    }
+
+    &.collapsed {
+      width: 60px;
+      .menu-content {
+        width: 55px;
+        height: 100%;
+      }
+      .app-menu-collClass-icon {
+        position: fixed;
+        bottom: 50vh;
+        left: 50px;
+        height: 1rem;
+        line-height: 1rem;
+        background: #f0f0f0;
+        border-radius: 20px;
+      }
+    }
   }
   .logo {
     width: 100%;

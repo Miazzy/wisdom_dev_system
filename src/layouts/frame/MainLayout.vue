@@ -2,7 +2,7 @@
   <div class="main-layout">
     <Header @click="handleModuleClick" />
     <div class="main-content">
-      <Menu :menus="menuList" @click="handleMenuClick" />
+      <Menu :menus="menuList" @click="handleMenuClick" :theme="systemTheme"/>
       <Content @click="handleTabsClick" />
     </div>
   </div>
@@ -15,6 +15,7 @@
 
   const currentModule = ref(null);
   const menuList = ref([]);
+  const systemTheme = ref('');
 
   // 处理顶部模块点击函数
   const handleModuleClick = (cmodule, menus) => {
@@ -31,6 +32,11 @@
   const handleTabsClick = (tabs, tabName, tabUrl) => {
 
   };
+
+  // Mounted时加载函数
+  onMounted(() => {
+    systemTheme.value = 'light';
+  });
 
 </script>
 <style scoped>
