@@ -4,15 +4,20 @@
     <div class="logo anticon vben-app-logo light vben-layout-header-logo" style="width: 220px">
     </div>
     <div class="module-info">
-      <a-menu v-model:selectedKeys="current" mode="horizontal">
-        <template v-for="element in topModuleList" :key="element.id">
-          <a-menu-item :iconvalue="element.icon" :name="element.name" @click="handleModuleClick(element)">
-            <template #icon>
-              <Icon :icon="element.icon" />
-            </template>
-            {{ element.name }}
-          </a-menu-item>
-        </template>
+      <a-menu v-model:selectedKeys="currentKey" mode="horizontal">
+        <a-menu-item
+          v-for="element in topModuleList"
+          :key="element.id"
+          :iconvalue="element.icon"
+          :name="element.name"
+          :class="`id__${element.id}`"
+          @click="handleModuleClick(element)"
+        >
+          <template #icon>
+            <Icon :icon="element.icon" />
+          </template>
+          {{ element.name }}
+        </a-menu-item>
       </a-menu>
     </div>
     <!-- 用户信息 -->
@@ -43,14 +48,16 @@
   </header>
 </template>
 <script lang="ts" setup>
-  import { onMounted, ref, watch } from 'vue';
+  import { onMounted, ref, watch, nextTick } from 'vue';
   import { useUserStore } from '/@/store/modules/user';
   import Icon from '@/components/Icon/Icon.vue';
 
   const topModuleList = ref([]);
   const userStore = useUserStore();
+  const currentKey = ref('');
 
   const props = defineProps({
+    current: { type: String, default: null },
     modules: { type: Array, default: null },
   });
 
@@ -59,7 +66,7 @@
   watch(
     () => props.modules,
     () => {
-      topModuleList.value = props.modules;
+      handleLoadModules();
     },
   );
 
@@ -68,13 +75,31 @@
     emit('click', element, element.children);
   };
 
-  onMounted(() => {
-    // 如果传入modules参数为空，则使用默认menulist作为顶部展示modules内容
-    if (props.modules == null || props?.modules?.length == 0) {
-      topModuleList.value = userStore.getMenuList;
-    } else {
-      topModuleList.value = props.modules;
+  // 加载模块数据
+  const handleLoadModules = () => {
+    try {
+      // 如果传入modules参数为空，则使用默认menulist作为顶部展示modules内容
+      if (props.modules == null || props?.modules?.length == 0) {
+        topModuleList.value = userStore.getMenuList;
+      } else {
+        topModuleList.value = props.modules;
+      }
+      // 打开顶部模块第默认菜单
+      if (topModuleList.value && topModuleList.value.length > 0) {
+        currentKey.value = [topModuleList.value[0].id];
+        nextTick(() => {
+          const selector = `.id__${topModuleList.value[0].id}`;
+          const defaultModule = document.querySelector(selector);
+          defaultModule.click();
+        });
+      }
+    } catch (error) {
+      //
     }
+  };
+
+  onMounted(() => {
+    handleLoadModules();
   });
 </script>
 <style scoped>
