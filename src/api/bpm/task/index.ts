@@ -17,7 +17,7 @@ export enum BpmTaskApi {
   ExportTask = '/bpm/task/export',
   AddCcTo = '/bpm/task/addCcTo',
   GetTodoCCPage = '/bpm/task/todo-cc-page',
-  UpdateCcTo = '/bpm/task/updateCcTo',
+  UpdateCcTo = '/bpm/task/updateCcTo?processInstanceId=',
 }
 
 export const getTodoTaskPage = async (params) => {
@@ -79,7 +79,7 @@ export const getTodoCCPage = async (params) => {
 };
 
 //处理抄送任务
-export const updateCcTo = async (data) => {
-  const requestParams = { url: BpmTaskApi.UpdateCcTo, data };
+export const updateCcTo = async (processInstanceId) => {
+  const requestParams = { url: BpmTaskApi.UpdateCcTo + processInstanceId };
   return defHttp.put<any>(requestParams, {});
 };
