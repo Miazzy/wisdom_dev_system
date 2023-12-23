@@ -27,7 +27,7 @@ export const useRender = {
    * @returns link 按钮
    */
   renderLink: (url: string, text?: string) => {
-    if (url) return h(Button, { type: 'link', href: url, target: '_blank' }, () => text || '');
+    if (url) return h(Button, { type: 'link', href: url, target: '_self' }, () => text || '');
 
     return '';
   },
