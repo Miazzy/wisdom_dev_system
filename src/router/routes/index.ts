@@ -1161,6 +1161,61 @@ export const PoAssessEvaluationReport: AppRouteRecordRaw = {
   component: () => import('/@/views/po/integrated/assessmentevaluation/report/index.vue'),
 };
 
+export const GroupOperation: AppRouteRecordRaw = {
+  path: '/framepage/groupOperation',
+  component: () => import('/@/views/da/groupOperation/GroupOperation.vue'),
+};
+
+export const StationOperation: AppRouteRecordRaw = {
+  path: '/framepage/stationOperation',
+  component: () => import('/@/views/da/stationOperation/StationOperation.vue'),
+};
+
+export const BiCapacityStatistics: AppRouteRecordRaw = {
+  path: '/framepage/bi/grid/capacity/statistics',
+  component: () => import('/@/views/bi/elec/gridCapacity/index.vue'),
+};
+
+export const BiRecordStatistics: AppRouteRecordRaw = {
+  path: '/framepage/bi/grid/record/statistics',
+  component: () => import('/@/views/bi/elec/gridRecord/index.vue'),
+};
+
+export const BiElecEnvironmental: AppRouteRecordRaw = {
+  path: '/framepage/bi/elec/environmental',
+  component: () => import('/@/views/bi/elec/environmental/index.vue'),
+};
+
+export const BiElecLossPower: AppRouteRecordRaw = {
+  path: '/framepage/bi/elec/lossPower',
+  component: () => import('/@/views/bi/elec/lossPower/index.vue'),
+};
+
+export const BiElecLossDetail: AppRouteRecordRaw = {
+  path: '/framepage/bi/elec/lossDetail',
+  component: () => import('/@/views/bi/elec/lossDetail/index.vue'),
+};
+
+export const BiElecLossPlanned: AppRouteRecordRaw = {
+  path: '/framepage/bi/elec/planned',
+  component: () => import('/@/views/bi/elec/planned/index.vue'),
+};
+
+export const BiElecLossSettlement: AppRouteRecordRaw = {
+  path: '/framepage/bi/elec/settlement',
+  component: () => import('/@/views/bi/elec/settlement/index.vue'),
+};
+
+export const BiSafetyDisasterWarning: AppRouteRecordRaw = {
+  path: '/framepage/bi/safety/disasterWarning',
+  component: () => import('/@/views/bi/safety/disasterwarning/index.vue'),
+};
+
+export const BiSafetyDisasterWarning: AppRouteRecordRaw = {
+  path: '/framepage/bi/safety/disasterWarning',
+  component: () => import('/@/views/bi/safety/disasterwarning/index.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
   LoginRoute,
@@ -1232,4 +1287,14 @@ export const basicRoutes = [
   PoAssessEvaluationDaily,
   PoAssessEvaluationMonthly,
   PoAssessEvaluationReport,
+  GroupOperation,
+  StationOperation,
+  BiCapacityStatistics,
+  BiRecordStatistics,
+  BiElecEnvironmental,
+  BiElecLossPower,
+  BiElecLossDetail,
+  BiElecLossPlanned,
+  BiElecLossSettlement,
+  BiSafetyDisasterWarning,
 ];

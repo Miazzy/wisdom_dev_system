@@ -95,7 +95,7 @@
     () => {
       const path = props.path.startsWith('/') ? props.path : '/' + props.path;
       const tempKey = path
-        .replace('/da/cockpit', '/cockpit')
+        .replace('/da/', '/')
         .replace('/po/', '/framepage/po/')
         .replace('/monitor/', '/framepage/monitor/');
       const key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
