@@ -929,6 +929,26 @@ export const PvEnergyStorage: AppRouteRecordRaw = {
   component: () => import('/@/views/monitor/energyStorage/energyStorageMonitor.vue'),
 };
 
+export const PvAreaRealTimeAnalysis: AppRouteRecordRaw = {
+  path: '/framepage/monitor/realTimeAnalysis/areaRealTimeAnalysis',
+  component: () => import('/@/views/monitor/realTimeAnalysis/areaRealTimeAnalysis.vue'),
+};
+
+export const PvInverterRealTimeAnalysis: AppRouteRecordRaw = {
+  path: '/framepage/monitor/realTimeAnalysis/inverterRealTimeAnalysis',
+  component: () => import('/@/views/monitor/realTimeAnalysis/inverterRealTimeAnalysis.vue'),
+};
+
+export const PvDispersionRatioRealTimeAnalysis: AppRouteRecordRaw = {
+  path: '/framepage/monitor/realTimeAnalysis/dispersionRatioRealTimeAnalysis',
+  component: () => import('/@/views/monitor/realTimeAnalysis/dispersionRatioRealTimeAnalysis.vue'),
+};
+
+export const PvGroupSeriesRealTimeAnalysis: AppRouteRecordRaw = {
+  path: '/framepage/monitor/realTimeAnalysis/groupSeriesRealTimeAnalysis',
+  component: () => import('/@/views/monitor/realTimeAnalysis/groupSeriesRealTimeAnalysis.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
   LoginRoute,
@@ -953,4 +973,9 @@ export const basicRoutes = [
   PvBoosterStationOverview,
   PvFaultWarning,
   PvEnergyStorage,
+  PvAreaRealTimeAnalysis,
+  PvInverterRealTimeAnalysis,
+  PvDispersionRatioRealTimeAnalysis,
+  PvDispersionRatioRealTimeAnalysis,
+  PvGroupSeriesRealTimeAnalysis,
 ];
