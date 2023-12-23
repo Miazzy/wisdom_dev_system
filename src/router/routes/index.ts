@@ -884,7 +884,7 @@ export const FrameWorkbench: AppRouteRecordRaw = {
   },
 };
 
-// 电站运营大屏
+// 框架页面
 export const FramePage: AppRouteRecordRaw = {
   path: '/framepage',
   name: 'FramePage',
@@ -892,6 +892,41 @@ export const FramePage: AppRouteRecordRaw = {
   meta: {
     title: '集维管理系统 ',
   },
+};
+
+export const PvSubareaOverview: AppRouteRecordRaw = {
+  path: '/framepage/monitor/pvarea/subareaoverview',
+  component: () => import('/@/views/monitor/PVArea/subareaOverview/subareaOverview.vue'),
+};
+
+export const PvInverterOverview: AppRouteRecordRaw = {
+  path: '/framepage/monitor/PVArea/inverterOverview',
+  component: () => import('/@/views/monitor/PVArea/inverterOverview/inverterOverview.vue'),
+};
+
+export const PvTransformerSubstationOverview: AppRouteRecordRaw = {
+  path: '/framepage/monitor/PVArea/boxTransformerSubstationOverview',
+  component: () => import('/@/views/monitor/PVArea/boxTransformerSubstationOverview/boxTransformerSubstationOverview.vue'),
+};
+
+export const PvGroupSeriesOverview: AppRouteRecordRaw = {
+  path: '/framepage/monitor/PVArea/groupSeriesOverview',
+  component: () => import('/@/views/monitor/PVArea/groupSeriesOverview/groupSeriesOverview.vue'),
+};
+
+export const PvBoosterStationOverview: AppRouteRecordRaw = {
+  path: '/framepage/monitor/boosterStation/boosterStationOverview',
+  component: () => import('/@/views/monitor/boosterStation/boosterStationOverview/boosterStationOverview.vue'),
+};
+
+export const PvFaultWarning: AppRouteRecordRaw = {
+  path: '/framepage/monitor/faultWarning',
+  component: () => import('/@/views/monitor/faultWarning/faultWarning.vue'),
+};
+
+export const PvEnergyStorage: AppRouteRecordRaw = {
+  path: '/framepage/monitor/energyStorage',
+  component: () => import('/@/views/monitor/energyStorage/energyStorageMonitor.vue'),
 };
 
 // 暴露基础路由
@@ -911,4 +946,11 @@ export const basicRoutes = [
   StationOperationRoute,
   FramePage,
   FrameWorkbench,
+  PvSubareaOverview,
+  PvInverterOverview,
+  PvTransformerSubstationOverview,
+  PvGroupSeriesOverview,
+  PvBoosterStationOverview,
+  PvFaultWarning,
+  PvEnergyStorage,
 ];

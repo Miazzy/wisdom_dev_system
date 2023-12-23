@@ -83,7 +83,9 @@
   watch(
     () => props.path,
     () => {
-      const tempKey = props.path.replace('/da/cockpit', '/cockpit');
+      const tempKey = props.path
+        .replace('/da/cockpit', '/cockpit')
+        .replace('/monitor/', '/framepage/monitor/');
       const key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
       activeKey.value = key;
       if (!paneMap.has(key)) {
