@@ -320,6 +320,7 @@
   /** 初始化 */
   onMounted(async () => {
     doTodo();
+    doCC();
   });
 </script>
 
