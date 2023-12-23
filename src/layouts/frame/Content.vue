@@ -20,7 +20,10 @@
             {{ pane.content }}
           </a-tab-pane>
         </a-tabs>
-        <div class="tabs-buttons"></div>
+        <div class="tabs-buttons">
+          <Icon :icon="'icons8:refresh'" color="#333" size="15" />
+          <Icon :icon="'codicon:fold-down'" color="#333" size="13" />
+        </div>
       </div>
       <div class="iframe-content">
         <template v-for="pane in panes">
@@ -34,6 +37,7 @@
 </template>
 <script lang="ts" setup>
   import { onMounted, ref, watch, reactive } from 'vue';
+  import Icon from '@/components/Icon/Icon.vue';
 
   const props = defineProps({
     path: { type: String, default: null },
@@ -89,7 +93,8 @@
   watch(
     () => props.path,
     () => {
-      const tempKey = props.path
+      const path = props.path.startsWith('/') ? props.path : '/' + props.path;
+      const tempKey = path
         .replace('/da/cockpit', '/cockpit')
         .replace('/po/', '/framepage/po/')
         .replace('/monitor/', '/framepage/monitor/');
@@ -138,10 +143,17 @@
       flex-direction: row;
       align-items: left;
       justify-content: left;
+      border-bottom: 1px solid #f0f0f0;
 
       .tabs-buttons {
         width: 60px;
-        border-bottom: 1px solid #f0f0f0;
+
+        span {
+          cursor: pointer;
+          display: inline-flex;
+          padding: 5px 5px;
+          border-left: 1px solid #f0f0f0;
+        }
       }
     }
 

@@ -722,9 +722,7 @@ const transformMenuItem = (menu, routes) => {
           checkImportComponent('/@/views/bi/safety/disasterwarning/index.vue', menu.component)
         ) {
           return import('/@/views/bi/safety/disasterwarning/index.vue');
-        } else if (
-          checkImportComponent('/@/views/workbench/Workbench.vue', menu.component)
-        ) {
+        } else if (checkImportComponent('/@/views/workbench/Workbench.vue', menu.component)) {
           return import('/@/views/workbench/Workbench.vue');
         } else {
           return asyncImportComponent(menu.component);
@@ -906,7 +904,10 @@ export const PvInverterOverview: AppRouteRecordRaw = {
 
 export const PvTransformerSubstationOverview: AppRouteRecordRaw = {
   path: '/framepage/monitor/PVArea/boxTransformerSubstationOverview',
-  component: () => import('/@/views/monitor/PVArea/boxTransformerSubstationOverview/boxTransformerSubstationOverview.vue'),
+  component: () =>
+    import(
+      '/@/views/monitor/PVArea/boxTransformerSubstationOverview/boxTransformerSubstationOverview.vue'
+    ),
 };
 
 export const PvGroupSeriesOverview: AppRouteRecordRaw = {
@@ -916,7 +917,8 @@ export const PvGroupSeriesOverview: AppRouteRecordRaw = {
 
 export const PvBoosterStationOverview: AppRouteRecordRaw = {
   path: '/framepage/monitor/boosterStation/boosterStationOverview',
-  component: () => import('/@/views/monitor/boosterStation/boosterStationOverview/boosterStationOverview.vue'),
+  component: () =>
+    import('/@/views/monitor/boosterStation/boosterStationOverview/boosterStationOverview.vue'),
 };
 
 export const PvFaultWarning: AppRouteRecordRaw = {
@@ -1134,6 +1136,31 @@ export const PoIntegratedKnowledge: AppRouteRecordRaw = {
   component: () => import('/@/views/po/integrated/knowledge/knowledge.vue'),
 };
 
+export const PoAssessEvaluation: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/assessmentevaluation/index',
+  component: () => import('/@/views/po/integrated/assessmentevaluation/index/index.vue'),
+};
+
+export const PoAssessEvaluationTemplate: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/assessmentevaluation/template',
+  component: () => import('/@/views/po/integrated/assessmentevaluation/template/index.vue'),
+};
+
+export const PoAssessEvaluationDaily: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/assessmentevaluation/daily',
+  component: () => import('/@/views/po/integrated/assessmentevaluation/daily/index.vue'),
+};
+
+export const PoAssessEvaluationMonthly: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/assessmentevaluation/monthly',
+  component: () => import('/@/views/po/integrated/assessmentevaluation/monthly/index.vue'),
+};
+
+export const PoAssessEvaluationReport: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/assessmentevaluation/report',
+  component: () => import('/@/views/po/integrated/assessmentevaluation/report/index.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
   LoginRoute,
@@ -1200,4 +1227,9 @@ export const basicRoutes = [
   PoIntegratedVehicle,
   PoIntegratedContract,
   PoIntegratedKnowledge,
+  PoAssessEvaluation,
+  PoAssessEvaluationTemplate,
+  PoAssessEvaluationDaily,
+  PoAssessEvaluationMonthly,
+  PoAssessEvaluationReport,
 ];
