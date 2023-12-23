@@ -144,7 +144,7 @@
         border-radius: 50%;
       }
       .title-text {
-        width: 76%;
+        width: 72%;
         opacity: 0.97;
         overflow: hidden;
         white-space: nowrap;
@@ -152,7 +152,10 @@
         padding: 0 14px;
         cursor: pointer;
       }
-      .dept-text,
+      .dept-text {
+        padding-right: 14px;
+        width: 10%;
+      }
       .person-text {
         padding-right: 14px;
         width: 7%;

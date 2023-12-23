@@ -5,10 +5,10 @@
     </template>
     <div class="card-content">
       <div class="table-box">
-        <BasicTable @register="registerWorkReminderTable" :scroll="{y: 248}">
+        <BasicTable @register="registerWorkReminderTable" :scroll="{ y: 248 }">
           <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'status'">
-              <span :class="statusColors[record.status]">{{record.statusText}}</span>
+              <span :class="statusColors[record.status]">{{ record.statusText }}</span>
             </template>
           </template>
         </BasicTable>
@@ -54,7 +54,7 @@
       title: '状态',
       dataIndex: 'status',
       width: 60,
-    } 
+    },
   ];
   const detailTableProps = {
     pagination: false,
@@ -66,25 +66,25 @@
     canResize: false,
   };
   const tableDataSource = [
-    {
-      workType: '日报',
-      description: '你今日日报尚未未完成',
-      time: '2023-06-28 10:44:06',
-      status: '1',
-      statusText: '执行中'
-    },
-    {
-      workType: '日报',
-      description: '你今日日报尚未未完成',
-      time: '2023-06-28 10:44:06',
-      status: '2',
-      statusText: '已超期'
-    },
+    // {
+    //   workType: '日报',
+    //   description: '你今日日报尚未未完成',
+    //   time: '2023-06-28 10:44:06',
+    //   status: '1',
+    //   statusText: '执行中'
+    // },
+    // {
+    //   workType: '日报',
+    //   description: '你今日日报尚未未完成',
+    //   time: '2023-06-28 10:44:06',
+    //   status: '2',
+    //   statusText: '已超期'
+    // },
   ];
   const statusColors = {
     '1': 'blue-text',
     '2': 'yellow-text',
-  }
+  };
   const [registerWorkReminderTable] = useTable(
     assign(
       {
