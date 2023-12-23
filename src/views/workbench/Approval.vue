@@ -229,7 +229,16 @@
   ]);
   // 查看
   const handleCheck = (record) => {
-    router.push(`${record.viewPath}?processInstanceId=${record.processInstanceId}`);
+    if (activeKey.value == '2') {
+      TaskApi.updateCcTo(record.processInstanceId).then((res) => {
+        if (res.result) {
+          doCC();
+          router.push(`${record.viewPath}?processInstanceId=${record.processInstanceId}`);
+        }
+      });
+    } else {
+      router.push(`${record.viewPath}?processInstanceId=${record.processInstanceId}`);
+    }
   };
 
   const doTodo = async () => {
