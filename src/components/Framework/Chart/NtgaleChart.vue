@@ -4,7 +4,7 @@
 
 <script lang="ts" setup>
   import * as echarts from 'echarts';
-  import { onMounted } from 'vue';
+  import { onMounted, watch, PropType } from 'vue';
 
   const props = defineProps({
     width: { type: Number, default: 600 },
@@ -13,11 +13,15 @@
     id: { type: String },
     showLabel: { type: Boolean, default: false }, // 是否显示饼图图形旁边的文字标签
     roseType: { type: [String, Boolean], default: 'area' }, // 是否展示成南丁格尔图，通过半径区分数据大小 radius/area
+    radius: {type: Array as PropType<number[]>, default: [30, 100] }
   });
 
-  onMounted(() => {
+  const setupData = () => {
     const chartDom = document.getElementById(props.id);
-    const myChart = echarts.init(chartDom);
+    let myChart = echarts.getInstanceByDom(chartDom);
+    if (myChart == undefined) {
+      myChart = echarts.init(chartDom);
+    }
     const option = {
       legend: {
         show: false,
@@ -26,7 +30,7 @@
         {
           name: 'Nightingale Chart',
           type: 'pie',
-          radius: [30, 100],
+          radius: props.radius,
           center: ['50%', '50%'],
           roseType: props.roseType,
           itemStyle: {
@@ -44,5 +48,19 @@
       ],
     };
     option && myChart.setOption(option);
+  }
+
+  watch(
+    () => props.data,
+    () => {
+      setupData();
+    },
+    {
+      deep: true,
+    },
+  );
+
+  onMounted(() => {
+    setupData();
   });
 </script>

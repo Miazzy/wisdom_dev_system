@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-  import { onMounted } from 'vue';
+  import { onMounted, watch } from 'vue';
   import * as echarts from 'echarts';
   import 'echarts-liquidfill';
 
@@ -43,12 +43,6 @@
     },
     circle: { type: Object },
   });
-
-  const updateChart = () => {
-    const chartDom = document.getElementById('water-level-chart');
-    const chart = echarts.init(chartDom);
-    chart.setOption(getChartOptions());
-  };
 
   const getChartOptions = () => {
     return {
@@ -98,6 +92,25 @@
       ],
     };
   };
+
+  const updateChart = () => {
+    const chartDom = document.getElementById('water-level-chart');
+    let chart = echarts.getInstanceByDom(chartDom);
+    if (chart == undefined) {
+      chart = echarts.init(chartDom);
+    }
+    chart.setOption(getChartOptions());
+  };
+
+  watch(
+    () => props.data,
+    () => {
+      updateChart();
+    },
+    {
+      deep: true,
+    },
+  );
 
   onMounted(() => {
     updateChart();

@@ -29,7 +29,10 @@
   // 创建图表
   const createChart = () => {
     var chartDom = document.getElementById('echarts-stackbar-container');
-    var myChart = echarts.init(chartDom);
+    let myChart = echarts.getInstanceByDom(chartDom);
+    if (myChart == undefined) {
+      myChart = echarts.init(chartDom);
+    }
     var option;
     const categories = props.data.categories;
     const barNames = props.data.barNames?.length ? props.data.barNames : [];
@@ -38,7 +41,7 @@
     const data2 = props.data.barData && props.data.barData.length > 2 ? props.data.barData[2] : [];
     const data3 = props.data.barData && props.data.barData.length > 3 ? props.data.barData[3] : [];
     const lineData =
-      props.data.lineData && props.data.lineData.length > 0 ? props.data.lineData[0] : [];
+      props.data.lineData && props.data.lineData.length > 0 ? props.data.lineData: [];
     const lineNames = props.data.lineNames?.length ? props.data.lineNames : [];
 
     const defaultColors = [

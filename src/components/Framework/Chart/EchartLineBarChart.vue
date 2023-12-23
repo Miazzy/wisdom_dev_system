@@ -32,14 +32,19 @@
     () => {
       createChart();
     },
+    {
+      deep: true,
+    },
   );
 
   // 创建图表
   const createChart = () => {
     var chartDom = document.getElementById('echarts-linebar-container' + random);
-    var myChart = echarts.init(chartDom);
+    let myChart = echarts.getInstanceByDom(chartDom);
+    if (myChart == undefined) {
+      myChart = echarts.init(chartDom);
+    }
     var option;
-
     const barData0 =
       data.value.barData && data.value.barData.length > 0 ? data.value.barData[0] : [];
     const barData1 =
@@ -84,6 +89,7 @@
             color: 'rgba(170, 221, 255, .8)', // 设置文本颜色
             fontSize: 14, // 设置字体大小
             fontFamily: 'Arial', // 设置字体样式
+            interval: 0
           },
           splitLine: {
             show: false,
@@ -112,9 +118,9 @@
         {
           type: 'value',
           name: '',
-          min: props.yAxis.min,
-          max: props.yAxis.max,
-          interval: props.yAxis.interval,
+          // min: props.yAxis.min,
+          // max: props.yAxis.max,
+          // interval: props.yAxis.interval,
           axisLabel: {
             // 设置 y 轴刻度文本样式
             color: 'rgba(170, 221, 255, .8)', // 设置文本颜色

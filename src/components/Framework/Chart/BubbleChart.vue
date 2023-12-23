@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, onMounted, onUnmounted, toRefs, defineProps } from 'vue';
+  import { ref, onMounted, onUnmounted, toRefs, defineProps, watch } from 'vue';
   import BubbleDataGrid from '/@/components/Framework/Chart/BubbleDataGrid.vue';
   import * as d3 from 'd3';
 
@@ -26,17 +26,6 @@
 
   const { data, width, height, fontSize, fontColor } = toRefs(props);
   const chart = ref(null);
-
-  onMounted(() => {
-    createBubbleChart(
-      chart.value,
-      data.value,
-      width.value,
-      height.value,
-      fontSize.value,
-      fontColor.value,
-    );
-  });
 
   onUnmounted(() => {
     // 清理组件卸载时的操作
@@ -77,4 +66,32 @@
       .style('fill', (d) => d.data.color || fontColor)
       .text((d) => d.data.name);
   }
+
+  watch(
+    () => props.data,
+    () => {
+      createBubbleChart(
+      chart.value,
+      data.value,
+      width.value,
+      height.value,
+      fontSize.value,
+      fontColor.value,
+    );
+    },
+    {
+      deep: true,
+    },
+  );
+
+  onMounted(() => {
+    createBubbleChart(
+      chart.value,
+      data.value,
+      width.value,
+      height.value,
+      fontSize.value,
+      fontColor.value,
+    );
+  });
 </script>

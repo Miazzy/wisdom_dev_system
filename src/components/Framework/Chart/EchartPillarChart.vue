@@ -459,7 +459,10 @@
   // 获取发电统计数据
   const setupData = async () => {
     const chartDom = document.getElementById('chart-pillar-container' + random);
-    const myChart = echarts.init(chartDom);
+    let myChart = echarts.getInstanceByDom(chartDom);
+    if (myChart == undefined) {
+      myChart = echarts.init(chartDom);
+    }
 
     // 获取统计数据
     barData.value = props.data.barData;
