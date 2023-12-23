@@ -5,7 +5,7 @@
     </template>
     <div class="card-content">
       <div class="data-board-item">
-        <div class="label-text">并网容量(kWh)</div>
+        <div class="label-text">并网容量(MWp)</div>
         <div class="value-text">715,400.00</div>
         <!-- <div class="percentage-box">
           <div class="pLabel-text">同比昨日</div>
@@ -13,7 +13,7 @@
         </div> -->
       </div>
       <div class="data-board-item">
-        <div class="label-text">日发电量(kW.h)</div>
+        <div class="label-text">日发电量(kWh)</div>
         <div class="value-text">715,400.00</div>
       </div>
       <div class="data-board-item">
