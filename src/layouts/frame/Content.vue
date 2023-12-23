@@ -65,7 +65,10 @@
         lastIndex = i - 1;
       }
     });
-    panes.value = panes.value.filter((pane) => pane.pageurl !== targetKey);
+    panes.value = panes.value.filter((pane) => {
+      return pane.pageurl !== targetKey;
+    });
+    paneMap.delete(targetKey);
     if (panes.value.length && activeKey.value === targetKey) {
       if (lastIndex >= 0) {
         activeKey.value = panes.value[lastIndex].pageurl;
@@ -73,6 +76,7 @@
         activeKey.value = panes.value[0].pageurl;
       }
     }
+    panes.value.map((pane) => (pane.status = pane.pageurl === activeKey.value));
     emit('change', activeKey.value, paneMap.get(activeKey.value));
   };
 
@@ -80,7 +84,7 @@
     () => props.path,
     () => {
       const tempKey = props.path.replace('/da/cockpit', '/cockpit');
-      const key = tempKey.includes('/#') ? '/#' + tempKey : tempKey;
+      const key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
       activeKey.value = key;
       if (!paneMap.has(key)) {
         paneMap.set(key, props.menu);
