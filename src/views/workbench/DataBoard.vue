@@ -4,21 +4,50 @@
       <Icon icon="ion:settings-outline" :size="17" />
     </template>
     <div class="card-content">
-      <div class="data-board-item" v-for="i in 6" :key="i">
-        <div class="label-text">今日发电量(kW.h)</div>
+      <div class="data-board-item">
+        <div class="label-text">并网容量(kWh)</div>
         <div class="value-text">715,400.00</div>
-        <div class="percentage-box">
+        <!-- <div class="percentage-box">
           <div class="pLabel-text">同比昨日</div>
           <div class="pValue-text up">1.6%</div>
-        </div>
+        </div> -->
       </div>
-      <div class="data-board-item" v-for="i in 6" :key="i">
-        <div class="label-text">今日发电量(kW.h)</div>
+      <div class="data-board-item">
+        <div class="label-text">日发电量(kW.h)</div>
         <div class="value-text">715,400.00</div>
-        <div class="percentage-box">
-          <div class="pLabel-text">同比昨日</div>
-          <div class="pValue-text down">1.6%</div>
-        </div>
+      </div>
+      <div class="data-board-item">
+        <div class="label-text">实时功率(kW)</div>
+        <div class="value-text">400.00</div>
+      </div>
+      <div class="data-board-item">
+        <div class="label-text">月上网电量(万kWh)</div>
+        <div class="value-text">715,400.00</div>
+      </div>
+      <div class="data-board-item">
+        <div class="label-text">年上网电量(万kWh)</div>
+        <div class="value-text">715,400.00</div>
+      </div>
+
+      <div class="data-board-item">
+        <div class="label-text">月计划完成率(%)</div>
+        <div class="value-text">98.23</div>
+      </div>
+      <div class="data-board-item">
+        <div class="label-text">年计划完成率(%)</div>
+        <div class="value-text">98.23</div>
+      </div>
+      <div class="data-board-item">
+        <div class="label-text">月损失电量(万kWh)</div>
+        <div class="value-text">715,400.00</div>
+      </div>
+      <div class="data-board-item">
+        <div class="label-text">待闭环工单(笔)</div>
+        <div class="value-text">0</div>
+      </div>
+      <div class="data-board-item">
+        <div class="label-text">故障告警(台)</div>
+        <div class="value-text">20</div>
       </div>
     </div>
   </a-card>
@@ -60,22 +89,22 @@
       }
       .pValue-text {
         &.up {
-          color: #FF4D4F;
+          color: #ff4d4f;
         }
         &.up::before {
           content: '▲';
           display: inline-block;
           transform: scale(0.6);
-          color: #FF4D4F;
+          color: #ff4d4f;
         }
         &.down {
-          color: #52C41A;
+          color: #52c41a;
         }
         &.down::before {
           content: '▼';
           display: inline-block;
           transform: scale(0.6);
-          color: #52C41A;
+          color: #52c41a;
         }
       }
     }
