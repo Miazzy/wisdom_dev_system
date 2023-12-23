@@ -23,6 +23,7 @@
       class="fit-basic-tree"
       :checkable="checkable"
       @check="handleCheck"
+      :expandedKeys="curExpandedKeys"
       :selectedKeys="curSelectedKeys"
       :checkedKeys="props.checkedKeys"
     >
@@ -58,12 +59,14 @@
       type: Object,
       default: new Object(),
     }, // 配置树的key和title取值字段名，例如{ key: 'nodeId', title: 'nodeName' }
+    expandedKeys: { type: Array as PropType<string[]>, default: [] }, // 选中的树节点
     selectedKeys: { type: Array as PropType<string[]>, default: [] }, // 选中的树节点
   });
   const emit = defineEmits(['select', 'edit', 'add', 'delete', 'refresh']);
 
   const selectedNode = ref('');
   const curSelectedKeys = ref<any[]>([]);
+  const curExpandedKeys = ref<any[]>([]);
 
   const basicTreeRef = ref<Nullable<TreeActionType>>(null);
   function getTree() {
@@ -136,7 +139,17 @@
     () => props.selectedKeys,
     (newValue) => {
       selectedNode.value = newValue[0];
-      curSelectedKeys.value = newValue;
+      curSelectedKeys.value = props.selectedKeys;
+    },
+    {
+      deep: true,
+    },
+  );
+
+  watch(
+    () => props.expandedKeys,
+    () => {
+      curExpandedKeys.value = props.expandedKeys;
     },
     {
       deep: true,
@@ -146,6 +159,7 @@
   onMounted(() => {
     treeData.value = props.value as unknown as TreeItem[];
     curSelectedKeys.value = props.selectedKeys;
+    curExpandedKeys.value = props.expandedKeys;
   });
 
   defineExpose({ getSelectedTreeNode });
