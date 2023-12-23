@@ -1084,6 +1084,56 @@ export const PoAssessFilling: AppRouteRecordRaw = {
   component: () => import('/@/views/po/assess/template/index.vue'),
 };
 
+export const PoEquipment: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/index',
+  component: () => import('/@/views/po/equipment/index.vue'),
+};
+
+export const PoEquipmentWarehousing: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/warehousing/index',
+  component: () => import('/@/views/po/equipment/warehousing/index.vue'),
+};
+
+export const PoEquipmentOutbound: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/outbound/index',
+  component: () => import('/@/views/po/equipment/outbound/index.vue'),
+};
+
+export const PoEquipmentInventory: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/inventory/index',
+  component: () => import('/@/views/po/equipment/inventory/index.vue'),
+};
+
+export const PoInPersoncertificate: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/personcertificate',
+  component: () => import('/@/views/po/integrated/personcertificate/index.vue'),
+};
+
+export const PoIntegratedTraining: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/training',
+  component: () => import('/@/views/po/integrated/training/index.vue'),
+};
+
+export const PoIntegratedInfoarchive: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/infoarchive',
+  component: () => import('/@/views/po/integrated/infoarchive/index.vue'),
+};
+
+export const PoIntegratedVehicle: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/vehicle/index',
+  component: () => import('/@/views/po/integrated/vehicle/index.vue'),
+};
+
+export const PoIntegratedContract: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/contract',
+  component: () => import('/@/views/po/integrated/contract/index.vue'),
+};
+
+export const PoIntegratedKnowledge: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/knowledge',
+  component: () => import('/@/views/po/integrated/knowledge/knowledge.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
   LoginRoute,
@@ -1140,4 +1190,14 @@ export const basicRoutes = [
   PoPowerCutPlan,
   PoAssessTemplate,
   PoAssessFilling,
+  PoEquipment,
+  PoEquipmentWarehousing,
+  PoEquipmentOutbound,
+  PoEquipmentInventory,
+  PoInPersoncertificate,
+  PoIntegratedTraining,
+  PoIntegratedInfoarchive,
+  PoIntegratedVehicle,
+  PoIntegratedContract,
+  PoIntegratedKnowledge,
 ];

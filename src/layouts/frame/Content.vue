@@ -1,23 +1,27 @@
 <template>
   <main class="app-content">
-    <div class="vben-multiple-tabs tabs-content">
-      <a-tabs
-        v-model:activeKey="activeKey"
-        class="vben-tabs-panes"
-        type="editable-card"
-        hideAdd
-        @change="handleTabChange"
-        @edit="handleTabEdit"
-      >
-        <a-tab-pane
-          v-for="pane in panes"
-          :key="pane.pageurl"
-          :tab="pane.title"
-          :closable="pane.closable"
+    <div class="vben-multiple-tabs">
+      <div class="tabs-content">
+        <a-tabs
+          v-model:activeKey="activeKey"
+          :style="`width: ${tabWidth};`"
+          class="vben-tabs-panes"
+          type="editable-card"
+          hideAdd
+          @change="handleTabChange"
+          @edit="handleTabEdit"
         >
-          {{ pane.content }}
-        </a-tab-pane>
-      </a-tabs>
+          <a-tab-pane
+            v-for="pane in panes"
+            :key="pane.pageurl"
+            :tab="pane.title"
+            :closable="pane.closable"
+          >
+            {{ pane.content }}
+          </a-tab-pane>
+        </a-tabs>
+        <div class="tabs-buttons"></div>
+      </div>
       <div class="iframe-content">
         <template v-for="pane in panes">
           <div v-show="pane.status" class="content">
@@ -29,7 +33,7 @@
   </main>
 </template>
 <script lang="ts" setup>
-  import { onMounted, ref, watch } from 'vue';
+  import { onMounted, ref, watch, reactive } from 'vue';
 
   const props = defineProps({
     path: { type: String, default: null },
@@ -44,6 +48,7 @@
 
   const paneMap = new Map();
   const activeKey = ref(panes.value[0].key);
+  const tabWidth = ref('');
 
   const handleTabChange = (key) => {
     activeKey.value = key;
@@ -109,6 +114,7 @@
   onMounted(() => {
     paneMap.set(panes.value[0].pageurl, panes.value[0]);
     activeKey.value = panes.value[0].pageurl;
+    tabWidth.value = document.body.clientWidth - 280 + 'px';
     emit('change', activeKey.value, paneMap.get(activeKey.value));
   });
 </script>
@@ -116,10 +122,6 @@
   .app-content {
     flex: 1;
     padding: 0.1rem 0 0.2rem 0.2rem;
-
-    .vben-tabs-panes {
-      width: calc(100% - 100px);
-    }
 
     :deep(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
       color: #fefefe;
@@ -129,6 +131,18 @@
     }
     :deep(.ant-tabs-tab .ant-tabs-tab-btn) {
       margin: 0px 0.05rem 0 0.3rem;
+    }
+
+    .tabs-content {
+      display: flex;
+      flex-direction: row;
+      align-items: left;
+      justify-content: left;
+
+      .tabs-buttons {
+        width: 60px;
+        border-bottom: 1px solid #f0f0f0;
+      }
     }
 
     .iframe-content {
