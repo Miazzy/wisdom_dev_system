@@ -5,12 +5,14 @@
  * @FilePath: \ygwl-framework\src\components\Framework\Tree\CommonTree.vue
 -->
 <template>
-  <div class="overflow-hidden bg-white" :class="$attrs.class" style="margin: 10px 0 10px 10px;">
+  <div class="overflow-hidden bg-white" :class="$attrs.class" style="margin: 10px 0 10px 10px">
     <BasicTree
       :title="title"
       :toolbar="toolbar"
       :search="search"
-      :canEdit="canEdit" :canAdd="canAdd" :canDelete="canDelete"
+      :canEdit="canEdit"
+      :canAdd="canAdd"
+      :canDelete="canDelete"
       :treeWrapperClassName="`${treeWrapperHeightClass} overflow-auto`"
       :clickRowToExpand="false"
       :treeData="treeData"
@@ -21,13 +23,13 @@
       class="fit-basic-tree"
       :checkable="checkable"
       @check="handleCheck"
-      :selectedKeys="props.selectedKeys"
+      :selectedKeys="curSelectedKeys"
       :checkedKeys="props.checkedKeys"
     >
       <template #title="nodeItem">
-        <a-tooltip v-if="nodeItem[fieldNames.title || 'title'].length>9">
+        <a-tooltip v-if="nodeItem[fieldNames.title || 'title'].length > 9">
           <template #title>{{ nodeItem[fieldNames.title || 'title'] }}</template>
-            <span class="common-tree-node-text">{{ nodeItem[fieldNames.title || 'title'] }}</span>
+          <span class="common-tree-node-text">{{ nodeItem[fieldNames.title || 'title'] }}</span>
         </a-tooltip>
         <template v-else>{{ nodeItem[fieldNames.title || 'title'] }}</template>
       </template>
@@ -38,7 +40,7 @@
   import { onMounted, ref, watch, provide, unref, computed } from 'vue';
   import { BasicTree, TreeItem, TreeActionType } from '/@/components/Tree';
   import { type Nullable } from '@vben/types';
-  import type { PropType } from 'vue'
+  import type { PropType } from 'vue';
 
   const treeData = ref<TreeItem[]>([]);
   const props = defineProps({
@@ -56,11 +58,12 @@
       type: Object,
       default: new Object(),
     }, // 配置树的key和title取值字段名，例如{ key: 'nodeId', title: 'nodeName' }
-    selectedKeys: {type: Array as PropType<string[]>, default: []}, // 选中的树节点
+    selectedKeys: { type: Array as PropType<string[]>, default: [] }, // 选中的树节点
   });
   const emit = defineEmits(['select', 'edit', 'add', 'delete', 'refresh']);
 
   const selectedNode = ref('');
+  const curSelectedKeys = ref<any[]>([]);
 
   const basicTreeRef = ref<Nullable<TreeActionType>>(null);
   function getTree() {
@@ -73,18 +76,18 @@
 
   // 获取选中树节点
   function getSelectedTreeNode() {
-    return getTree().getSelectedNode(selectedNode.value)
+    return getTree().getSelectedNode(selectedNode.value);
   }
 
   // 选择
   function handleSelect(keys) {
     selectedNode.value = keys[0];
-    const node = getTree().getSelectedNode(selectedNode.value);  
+    const node = getTree().getSelectedNode(selectedNode.value);
     emit('select', node);
   }
 
   // 复选框勾选
-  function handleCheck(keys,e) {
+  function handleCheck(keys, e) {
     emit('check', e.checkedNodes);
   }
 
@@ -124,32 +127,34 @@
   );
 
   // 计算tree高度
-  const treeWrapperHeightClass = computed(()=>{
+  const treeWrapperHeightClass = computed(() => {
     // return props.search?'h-[calc(100vh-120px-68px)]' : 'h-[calc(100vh-120px-36px)]';
-    return props.search?'h-[calc(100%-82px)]' : 'h-[calc(100%-48px)]';
+    return props.search ? 'h-[calc(100%-82px)]' : 'h-[calc(100%-48px)]';
   });
 
   watch(
-    ()=>props.selectedKeys,
-    (newValue)=>{
+    () => props.selectedKeys,
+    (newValue) => {
       selectedNode.value = newValue[0];
+      curSelectedKeys.value = newValue;
     },
     {
-      deep: true
-    }
+      deep: true,
+    },
   );
 
   onMounted(() => {
     treeData.value = props.value as unknown as TreeItem[];
+    curSelectedKeys.value = props.selectedKeys;
   });
 
-  defineExpose({getSelectedTreeNode});
+  defineExpose({ getSelectedTreeNode });
 </script>
 <style lang="less" scoped>
   .fit-basic-tree {
     :deep(.ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected) {
       background: none;
-      color: #1890FF;
+      color: #1890ff;
     }
 
     .common-tree-node-text {

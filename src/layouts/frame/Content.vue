@@ -3,6 +3,7 @@
     <div class="vben-multiple-tabs tabs-content">
       <a-tabs
         v-model:activeKey="activeKey"
+        class="vben-tabs-panes"
         type="editable-card"
         hideAdd
         @change="handleTabChange"
@@ -85,6 +86,7 @@
     () => {
       const tempKey = props.path
         .replace('/da/cockpit', '/cockpit')
+        .replace('/po/', '/framepage/po/')
         .replace('/monitor/', '/framepage/monitor/');
       const key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
       activeKey.value = key;
@@ -114,7 +116,10 @@
   .app-content {
     flex: 1;
     padding: 0.1rem 0 0.2rem 0.2rem;
-    background-color: #fff;
+
+    .vben-tabs-panes {
+      width: calc(100% - 100px);
+    }
 
     :deep(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
       color: #fefefe;
@@ -129,7 +134,6 @@
     .iframe-content {
       width: 100%;
       height: calc(100vh - 85px);
-      background: transparent;
       .content {
         width: 100%;
         height: 100%;

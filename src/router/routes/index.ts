@@ -890,7 +890,7 @@ export const FramePage: AppRouteRecordRaw = {
   name: 'FramePage',
   component: () => import('/@/layouts/frame/MainLayout.vue'),
   meta: {
-    title: '集维管理系统 ',
+    title: '工作台',
   },
 };
 
@@ -949,6 +949,141 @@ export const PvGroupSeriesRealTimeAnalysis: AppRouteRecordRaw = {
   component: () => import('/@/views/monitor/realTimeAnalysis/groupSeriesRealTimeAnalysis.vue'),
 };
 
+export const PoElecProduceIndex: AppRouteRecordRaw = {
+  path: '/framepage/po/elec/produce/index',
+  component: () => import('/@/views/po/elec/produce/index.vue'),
+};
+
+export const PoElecSettlementElectricity: AppRouteRecordRaw = {
+  path: '/framepage/po/elec/settlementelec/settlementElectricity',
+  component: () => import('/@/views/po/elec/settlementelec/settlementElectricity.vue'),
+};
+
+export const PoPlannedElectricity: AppRouteRecordRaw = {
+  path: '/framepage/po/elec/settlementelec/plannedElectricity',
+  component: () => import('/@/views/po/elec/plannedelectricity/plannedElectricity.vue'),
+};
+
+export const PoSafechecktemplate: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/safechecktemplate',
+  component: () => import('/@/views/po/safety/safechecktemplate/index.vue'),
+};
+
+export const PoSafecheckissue: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/safecheckissue',
+  component: () => import('/@/views/po/safety/safechecktemplate/index.vue'),
+};
+
+export const PoSafecheckexecutionCheckType1: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/safecheckexecution/checkType__1',
+  component: () => import('/@/views/po/safety/safecheckexecution/index.vue'),
+};
+
+export const PoSafecheckexecutionCheckType2: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/safecheckexecution/checkType__2',
+  component: () => import('/@/views/po/safety/safecheckexecution/index.vue'),
+};
+
+export const PoVehicleexecution: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/vehicleexecution',
+  component: () => import('/@/views/po/safety/vehicleexecution/index.vue'),
+};
+
+export const PoSafetyFiles: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/safetyFiles',
+  component: () => import('/@/views/po/safety/safetyfiles/index.vue'),
+};
+
+export const PoEmergencydrill: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/emergencydrill',
+  component: () => import('/@/views/po/safety/emergencydrill/index.vue'),
+};
+
+export const PoSafetyAccident: AppRouteRecordRaw = {
+  path: '/framepage/po/safetyAccident',
+  component: () => import('/@/views/po/safety/safetyaccident/index.vue'),
+};
+
+export const PoSafetytoolsscrap: AppRouteRecordRaw = {
+  path: '/framepage/po/safetytools/safetytoolsscrap',
+  component: () => import('/@/views/po/safetytools/safetytoolsscrap/index.vue'),
+};
+
+export const PoSafetytoolscheck: AppRouteRecordRaw = {
+  path: '/framepage/po/safetytools/safetytoolscheck',
+  component: () => import('/@/views/po/safetytools/safetytoolscheck/index.vue'),
+};
+
+export const PoSafetytools: AppRouteRecordRaw = {
+  path: '/framepage/po/safetytools/safetytools',
+  component: () => import('/@/views/po/safetytools/safetytools/index.vue'),
+};
+
+export const PoSafetyRespAgreement: AppRouteRecordRaw = {
+  path: '/framepage/po/safetyRespAgreement',
+  component: () => import('/@/views/po/safety/safetyrespagreement/index.vue'),
+};
+
+export const PoOperationticket: AppRouteRecordRaw = {
+  path: '/framepage/po/ticket/operationticket/index',
+  component: () => import('/@/views/po/ticket/operationticket/index.vue'),
+};
+
+export const PoFirstworkticket: AppRouteRecordRaw = {
+  path: '/framepage/po/ticket/firstworkticket/index',
+  component: () => import('/@/views/po/ticket/firstworkticket/index.vue'),
+};
+
+export const PoSecondworkticket: AppRouteRecordRaw = {
+  path: '/framepage/po/ticket/secondworkticket/index',
+  component: () => import('/@/views/po/ticket/secondworkticket/index.vue'),
+};
+
+export const PoInspectionplan: AppRouteRecordRaw = {
+  path: '/framepage/po/inspection/inspectionplan',
+  component: () => import('/@/views/po/inspection/inspectionplan/index.vue'),
+};
+
+export const PoInspectionexecution: AppRouteRecordRaw = {
+  path: '/framepage/po/inspection/inspectionexecution',
+  component: () => import('/@/views/po/inspection/inspectionexecution/index.vue'),
+};
+
+export const PoSupervision: AppRouteRecordRaw = {
+  path: '/framepage/po/supervision/index',
+  component: () => import('/@/views/po/supervision/index.vue'),
+};
+
+export const PoDanger: AppRouteRecordRaw = {
+  path: '/framepage/po/danger/index',
+  component: () => import('/@/views/po/danger/index.vue'),
+};
+
+export const PoFault: AppRouteRecordRaw = {
+  path: '/framepage/po/fault/index',
+  component: () => import('/@/views/po/fault/index.vue'),
+};
+
+export const PoWorkorder: AppRouteRecordRaw = {
+  path: '/framepage/po/workorder/index',
+  component: () => import('/@/views/po/workorder/index.vue'),
+};
+
+export const PoPowerCutPlan: AppRouteRecordRaw = {
+  path: '/framepage/po/powerCutPlan/index',
+  component: () => import('/@/views/po/powercutplan/powerCutPlan.vue'),
+};
+
+export const PoAssessTemplate: AppRouteRecordRaw = {
+  path: '/framepage/po/assess/template/index',
+  component: () => import('/@/views/po/assess/template/index.vue'),
+};
+
+export const PoAssessFilling: AppRouteRecordRaw = {
+  path: '/framepage/po/assess/filling/index',
+  component: () => import('/@/views/po/assess/template/index.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
   LoginRoute,
@@ -978,4 +1113,31 @@ export const basicRoutes = [
   PvDispersionRatioRealTimeAnalysis,
   PvDispersionRatioRealTimeAnalysis,
   PvGroupSeriesRealTimeAnalysis,
+  PoElecProduceIndex,
+  PoElecSettlementElectricity,
+  PoPlannedElectricity,
+  PoSafechecktemplate,
+  PoSafecheckissue,
+  PoSafecheckexecutionCheckType1,
+  PoSafecheckexecutionCheckType2,
+  PoVehicleexecution,
+  PoSafetyFiles,
+  PoEmergencydrill,
+  PoSafetyAccident,
+  PoSafetytoolsscrap,
+  PoSafetytoolscheck,
+  PoSafetytools,
+  PoSafetyRespAgreement,
+  PoOperationticket,
+  PoFirstworkticket,
+  PoSecondworkticket,
+  PoInspectionplan,
+  PoInspectionexecution,
+  PoSupervision,
+  PoDanger,
+  PoFault,
+  PoWorkorder,
+  PoPowerCutPlan,
+  PoAssessTemplate,
+  PoAssessFilling,
 ];

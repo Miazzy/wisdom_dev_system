@@ -127,6 +127,7 @@
 <style scoped>
   .app-menu {
     width: 220px;
+    min-width: 220px;
     height: calc(100vh - 3.25rem);
     background-color: #fff;
     padding: 0 0 0 0;
