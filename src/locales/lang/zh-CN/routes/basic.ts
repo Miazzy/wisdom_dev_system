@@ -32,7 +32,7 @@ export default {
       wftaskAssignRule: '流程分配规则',
       wftaskDefinition: '流程定义',
       wflowpage: {
-        search: '搜索',
+        search: '查询',
         reset: '重置',
         newwflow: '新建流程',
         importwflow: '导入流程',
