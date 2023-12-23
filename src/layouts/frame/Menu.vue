@@ -7,6 +7,7 @@
       :mode="systemMode"
       :theme="systemTheme"
       :inline-collapsed="systemCollapsed"
+      @click="handleMenuClick"
     >
       <template v-for="menu in menuList" :key="menu.id">
         <template v-if="menu?.visible && menu?.component === 'LAYOUT'">
@@ -17,13 +18,22 @@
             <template #title>{{ menu.name }}</template>
             <template v-for="item in menu.children">
               <template v-if="item?.visible && item?.component !== 'LAYOUT'">
-                <a-menu-item :key="item?.id">{{ item?.name }}</a-menu-item>
+                <a-menu-item :key="handleMenuItemId(item)">{{ item?.name }}</a-menu-item>
               </template>
               <template v-if="item?.visible && item?.component === 'LAYOUT'">
                 <a-sub-menu :key="item?.id" :title="item?.name">
                   <template v-for="subitem in item.children">
-                    <template v-if="subitem?.visible">
-                      <a-menu-item :key="subitem?.id">{{ subitem?.name }}</a-menu-item>
+                    <template v-if="subitem?.visible && subitem?.component !== 'LAYOUT'">
+                      <a-menu-item :key="handleMenuItemId(subitem)">{{ subitem?.name }}</a-menu-item>
+                    </template>
+                    <template v-if="subitem?.visible && subitem?.component === 'LAYOUT'">
+                      <a-sub-menu :key="subitem?.id" :title="subitem?.name">
+                        <template v-for="secsubitem in subitem.children">
+                          <template v-if="secsubitem?.visible">
+                            <a-menu-item :key="handleMenuItemId(secsubitem)">{{ secsubitem?.name }}</a-menu-item>
+                          </template>
+                        </template>
+                      </a-sub-menu>
                     </template>
                   </template>
                 </a-sub-menu>
@@ -32,7 +42,7 @@
           </a-sub-menu>
         </template>
         <template v-else-if="menu?.visible && menu?.component !== 'LAYOUT'">
-          <a-menu-item :key="menu?.id">
+          <a-menu-item :key="handleMenuItemId(menu)">
             <template #icon>
               <Icon :icon="menu.icon" :color="iconColor" size="22" />
             </template>
@@ -51,7 +61,7 @@
   import { onMounted, ref, watch } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
 
-  const menuList = ref([]);
+  const menuList = ref<any[]>([]);
   const systemTheme = ref('');
   const systemMode = ref('');
   const openKeys = ref<string[]>(['']);
@@ -60,12 +70,15 @@
   const systemCollapsed = ref(false);
   const systemCollClass = ref('');
   const containerRef = ref();
+  const menuMap = new Map();
 
   const props = defineProps({
     mode: { type: String, default: 'inline' },
     theme: { type: String, default: 'light' },
     menus: { type: Array, default: null },
   });
+
+  const emit = defineEmits(['click']);
 
   watch(
     () => props.menus,
@@ -92,6 +105,17 @@
   const handleCollapsed = () => {
     systemCollapsed.value = !systemCollapsed.value;
     systemCollClass.value = systemCollapsed.value ? 'collapsed' : '';
+  };
+
+  const handleMenuItemId = (element) => {
+    menuMap.set(element?.id, element);
+    return element?.id;
+  };
+
+  const handleMenuClick = (event) => {
+    const { key } = event;
+    const menu = menuMap.get(key);
+    emit('click', key, menu, event);
   };
 
   onMounted(() => {

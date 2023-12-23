@@ -1,7 +1,13 @@
 <template>
   <main class="app-content">
     <div class="vben-multiple-tabs tabs-content">
-      <a-tabs v-model:activeKey="activeKey" type="editable-card" hideAdd @change="handleTabChange">
+      <a-tabs
+        v-model:activeKey="activeKey"
+        type="editable-card"
+        hideAdd
+        @change="handleTabChange"
+        @edit="handleTabEdit"
+      >
         <a-tab-pane
           v-for="pane in panes"
           :key="pane.pageurl"
@@ -14,7 +20,7 @@
       <div class="iframe-content">
         <template v-for="pane in panes">
           <div v-show="pane.status" class="content">
-            <iframe :src="pane.pageurl" style="width:100%; height:100%"></iframe>
+            <iframe :src="pane.pageurl" style="width: 100%; height: 100%"></iframe>
           </div>
         </template>
       </div>
@@ -22,13 +28,20 @@
   </main>
 </template>
 <script lang="ts" setup>
-  import { onMounted, ref } from 'vue';
+  import { onMounted, ref, watch } from 'vue';
+
+  const props = defineProps({
+    path: { type: String, default: null },
+    menu: { type: Object, default: null },
+  });
+
+  const emit = defineEmits(['change']);
 
   const panes = ref<any[]>([
     { title: '工作台', closable: false, status: true, pageurl: '/#/frame/workbench' },
-    { title: '总览驾驶舱', closable: true, status: false, pageurl: '/#/cockpit/overview' },
   ]);
 
+  const paneMap = new Map();
   const activeKey = ref(panes.value[0].key);
 
   const handleTabChange = (key) => {
@@ -36,10 +49,59 @@
     for (let pane of panes.value) {
       pane.status = pane.pageurl === key;
     }
+    emit('change', activeKey.value, paneMap.get(activeKey.value));
   };
 
+  const handleTabEdit = (targetKey: string | MouseEvent, action: string) => {
+    if (action === 'remove') {
+      handleRemoveItem(targetKey as string);
+    }
+  };
+
+  const handleRemoveItem = (targetKey: string) => {
+    let lastIndex = 0;
+    panes.value.forEach((pane, i) => {
+      if (pane.pageurl === targetKey) {
+        lastIndex = i - 1;
+      }
+    });
+    panes.value = panes.value.filter((pane) => pane.pageurl !== targetKey);
+    if (panes.value.length && activeKey.value === targetKey) {
+      if (lastIndex >= 0) {
+        activeKey.value = panes.value[lastIndex].pageurl;
+      } else {
+        activeKey.value = panes.value[0].pageurl;
+      }
+    }
+    emit('change', activeKey.value, paneMap.get(activeKey.value));
+  };
+
+  watch(
+    () => props.path,
+    () => {
+      const tempKey = props.path.replace('/da/cockpit', '/cockpit');
+      const key = tempKey.includes('/#') ? '/#' + tempKey : tempKey;
+      activeKey.value = key;
+      if (!paneMap.has(key)) {
+        paneMap.set(key, props.menu);
+        panes.value.push({
+          title: props.menu.name,
+          closable: true,
+          status: true,
+          pageurl: key,
+        });
+      }
+      for (let pane of panes.value) {
+        pane.status = pane.pageurl === key;
+      }
+      emit('change', activeKey.value, paneMap.get(activeKey.value));
+    },
+  );
+
   onMounted(() => {
-    activeKey.value = panes.value[0].key;
+    paneMap.set(panes.value[0].pageurl, panes.value[0]);
+    activeKey.value = panes.value[0].pageurl;
+    emit('change', activeKey.value, paneMap.get(activeKey.value));
   });
 </script>
 <style scoped>

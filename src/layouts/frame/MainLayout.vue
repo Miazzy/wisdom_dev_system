@@ -2,13 +2,13 @@
   <div class="main-layout">
     <Header @click="handleModuleClick" />
     <div class="main-content">
-      <Menu :menus="menuList" @click="handleMenuClick" :theme="systemTheme"/>
-      <Content @click="handleTabsClick" />
+      <Menu :menus="menuList" @click="handleMenuClick" :theme="systemTheme" />
+      <Content :path="currentPath" :menu="currentMenu" @change="handleTabsClick" />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, ref, watch } from 'vue';
+  import { onMounted, reactive, ref, watch } from 'vue';
   import Header from './Header.vue';
   import Menu from './Menu.vue';
   import Content from './Content.vue';
@@ -16,6 +16,12 @@
   const currentModule = ref(null);
   const menuList = ref([]);
   const systemTheme = ref('');
+  const currentPath = ref('');
+  const currentMenu = ref();
+  const state = reactive({
+    path: '',
+    menu: null,
+  });
 
   // 处理顶部模块点击函数
   const handleModuleClick = (cmodule, menus) => {
@@ -24,28 +30,32 @@
   };
 
   // 处理菜单点击函数
-  const handleMenuClick = (menu, path, mode) => {
-
+  const handleMenuClick = (key, menu, event) => {
+    currentPath.value = menu.url;
+    currentMenu.value = menu;
   };
 
   // 处理页签切换点击函数
-  const handleTabsClick = (tabs, tabName, tabUrl) => {
-
+  const handleTabsClick = (key, menu) => {
+    const preKey = !currentPath.value.includes('/#') ? '/#' + currentPath.value : currentPath.value;
+    if (key != preKey && currentPath.value) {
+      state.path = key;
+      state.menu = menu;
+    }
   };
 
   // Mounted时加载函数
   onMounted(() => {
     systemTheme.value = 'light';
   });
-
 </script>
 <style scoped>
   .main-layout {
     display: flex;
     flex-direction: column;
     height: 100vh; /* 100%视窗高度，使布局充满整个屏幕 */
-    overflow-y: hidden;
     overflow-x: hidden;
+    overflow-y: hidden;
   }
 
   .main-content {
