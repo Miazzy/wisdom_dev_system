@@ -2,24 +2,48 @@
   <main class="app-content">
     <div class="vben-multiple-tabs">
       <div class="tabs-content">
-        <a-tabs
-          v-model:activeKey="activeKey"
-          :style="`width: ${tabWidth};`"
-          class="vben-tabs-panes"
-          type="editable-card"
-          hideAdd
-          @change="handleTabChange"
-          @edit="handleTabEdit"
-        >
-          <a-tab-pane
-            v-for="pane in panes"
-            :key="pane.pageurl"
-            :tab="pane.title"
-            :closable="pane.closable"
+        <a-dropdown :trigger="['contextmenu']">
+          <a-tabs
+            v-model:activeKey="activeKey"
+            :style="`width: ${tabWidth};`"
+            class="vben-tabs-panes"
+            type="editable-card"
+            hideAdd
+            @change="handleTabChange"
+            @edit="handleTabEdit"
           >
-            {{ pane.content }}
-          </a-tab-pane>
-        </a-tabs>
+            <a-tab-pane
+              v-for="pane in panes"
+              :key="pane.pageurl"
+              :tab="pane.title"
+              :closable="pane.closable"
+            >
+              {{ pane.content }}
+            </a-tab-pane>
+          </a-tabs>
+          <template #overlay>
+            <a-menu>
+              <a-menu-item>
+                <a @click="handleRefreshTabPage">重新加载</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a @click="handleCloseTabPage('now')">关闭标签页</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a @click="handleCloseTabPage('left')">关闭左侧标签页</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a @click="handleCloseTabPage('right')">关闭右侧标签页</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a @click="handleCloseTabPage('other')">关闭其他标签页</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a @click="handleCloseTabPage('all')">关闭全部标签页</a>
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
         <div class="tabs-buttons">
           <Icon :icon="'icons8:refresh'" color="#333" size="15" @click="handleRefreshTabPage" />
           <a-dropdown :trigger="trigger">
@@ -60,7 +84,6 @@
   </main>
 </template>
 <script lang="ts" setup>
-  
   import { onMounted, ref, watch, reactive, nextTick } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
 
