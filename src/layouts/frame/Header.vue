@@ -23,26 +23,34 @@
     <!-- 用户信息 -->
     <div class="user-info">
       <div class="icon-element">
-        <Icon :icon="'fe:search'" color="#333" size="22" />
+        <AppSearch :class="`${prefixCls}-action__item `" class="search-icon" />
       </div>
       <div class="icon-element">
-        <Icon :icon="'mdi:message-processing-outline'" color="#333" size="22" />
+        <Notify :class="`${prefixCls}-action__item notify-item notify-icon`" />
       </div>
       <div class="icon-element">
-        <Icon :icon="'bx:fullscreen'" color="#333" size="22" />
+        <Icon
+          v-if="!isFullscreen"
+          :icon="'ant-design:fullscreen-outlined'"
+          color="#333"
+          size="20"
+          class="fullscreen-icon"
+          @click="toggle"
+        />
+        <Icon
+          v-if="isFullscreen"
+          :icon="'ant-design:fullscreen-exit-outlined'"
+          color="#333"
+          size="20"
+          class="fullscreen-icon"
+          @click="toggle"
+        />
       </div>
       <div class="icon-element avatar-element">
-        <div class="avatar">
-          <a-avatar class="avatar-item" :size="24" style="">
-            <template #icon>
-              <Icon :icon="'ant-design:user-outlined'" color="#fff" size="16" />
-            </template>
-          </a-avatar>
-        </div>
-        <span class="text">张哲瑞</span>
+        <UserDropDown :theme="getHeaderTheme" />
       </div>
       <div class="icon-element">
-        <Icon :icon="'icon-park-outline:setting-two'" color="#333" size="22" />
+        <SettingDrawer :class="`${prefixCls}-action__item drawer-icon`" />
       </div>
     </div>
   </header>
@@ -51,7 +59,16 @@
   import { onMounted, ref, watch, nextTick } from 'vue';
   import { useUserStore } from '/@/store/modules/user';
   import Icon from '@/components/Icon/Icon.vue';
+  import { AppSearch } from '/@/components/Application';
+  import { useDesign } from '/@/hooks/web/useDesign';
+  import { useHeaderSetting } from '/@/hooks/setting/useHeaderSetting';
+  import { UserDropDown, Notify } from '@/layouts/default/header/components';
+  import { useFullscreen } from '@vueuse/core';
+  import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
+  const SettingDrawer = createAsyncComponent(() => import('/@/layouts/default/setting/index.vue'), {
+    loading: true,
+  });
   const topModuleList = ref([]);
   const userStore = useUserStore();
   const currentKey = ref('');
@@ -61,6 +78,18 @@
     modules: { type: Array, default: null },
   });
 
+  const { getHeaderTheme } = useHeaderSetting();
+
+  const { toggle, isFullscreen } = useFullscreen();
+  // 重新检查全屏状态
+  isFullscreen.value = !!(
+    document.fullscreenElement ||
+    document.webkitFullscreenElement ||
+    document.mozFullScreenElement ||
+    document.msFullscreenElement
+  );
+
+  const { prefixCls } = useDesign('layout-header');
   const emit = defineEmits(['click', 'change', 'menuclick']);
 
   watch(
@@ -102,7 +131,7 @@
     handleLoadModules();
   });
 </script>
-<style scoped>
+<style lang="less" scoped>
   .app-header {
     display: flex;
     align-items: left;
@@ -138,6 +167,40 @@
       padding: 0.15rem 0 0 0;
       width: 40px;
       cursor: pointer;
+
+      .search-icon {
+        z-index: 1000;
+        color: #333;
+        transform: scale(1.2);
+        margin-top: -0.45rem;
+      }
+
+      .notify-icon {
+        z-index: 1000;
+        color: #333;
+        width: 1rem;
+        height: 1rem;
+        margin-top: 0.85rem;
+      }
+
+      .fullscreen-icon {
+        z-index: 1000;
+        color: #333;
+      }
+
+      .drawer-icon {
+        z-index: 1000;
+        color: #333;
+        width: 1.2rem;
+        height: 1.2rem;
+        transform: scale(1.1);
+        transform-origin: 0% 0%;
+        margin-top: -0.15rem;
+      }
+
+      :deep(.vben-header-user-dropdown) {
+        padding: 0 0 0 0 !important;
+      }
     }
     .avatar-element {
       padding: 0.15rem 0 0 0;
