@@ -27,19 +27,19 @@
                 <a @click="handleRefreshTabPage">重新加载</a>
               </a-menu-item>
               <a-menu-item>
-                <a @click="handleCloseTabPage('now')">关闭标签页</a>
+                <a @click="handleCloseTabPage('now')">关闭当前</a>
               </a-menu-item>
               <a-menu-item>
-                <a @click="handleCloseTabPage('left')">关闭左侧标签页</a>
+                <a @click="handleCloseTabPage('left')">关闭左侧</a>
               </a-menu-item>
               <a-menu-item>
-                <a @click="handleCloseTabPage('right')">关闭右侧标签页</a>
+                <a @click="handleCloseTabPage('right')">关闭右侧</a>
               </a-menu-item>
               <a-menu-item>
-                <a @click="handleCloseTabPage('other')">关闭其他标签页</a>
+                <a @click="handleCloseTabPage('other')">关闭其他</a>
               </a-menu-item>
               <a-menu-item>
-                <a @click="handleCloseTabPage('all')">关闭全部标签页</a>
+                <a @click="handleCloseTabPage('all')">关闭全部</a>
               </a-menu-item>
             </a-menu>
           </template>
@@ -54,19 +54,19 @@
                   <a @click="handleRefreshTabPage">重新加载</a>
                 </a-menu-item>
                 <a-menu-item>
-                  <a @click="handleCloseTabPage('now')">关闭标签页</a>
+                  <a @click="handleCloseTabPage('now')">关闭当前</a>
                 </a-menu-item>
                 <a-menu-item>
-                  <a @click="handleCloseTabPage('left')">关闭左侧标签页</a>
+                  <a @click="handleCloseTabPage('left')">关闭左侧</a>
                 </a-menu-item>
                 <a-menu-item>
-                  <a @click="handleCloseTabPage('right')">关闭右侧标签页</a>
+                  <a @click="handleCloseTabPage('right')">关闭右侧</a>
                 </a-menu-item>
                 <a-menu-item>
-                  <a @click="handleCloseTabPage('other')">关闭其他标签页</a>
+                  <a @click="handleCloseTabPage('other')">关闭其他</a>
                 </a-menu-item>
                 <a-menu-item>
-                  <a @click="handleCloseTabPage('all')">关闭全部标签页</a>
+                  <a @click="handleCloseTabPage('all')">关闭全部</a>
                 </a-menu-item>
               </a-menu>
             </template>
