@@ -1211,11 +1211,6 @@ export const BiSafetyDisasterWarning: AppRouteRecordRaw = {
   component: () => import('/@/views/bi/safety/disasterwarning/index.vue'),
 };
 
-export const BiSafetyDisasterWarning: AppRouteRecordRaw = {
-  path: '/framepage/bi/safety/disasterWarning',
-  component: () => import('/@/views/bi/safety/disasterwarning/index.vue'),
-};
-
 // 暴露基础路由
 export const basicRoutes = [
   LoginRoute,
