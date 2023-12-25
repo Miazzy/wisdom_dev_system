@@ -26,7 +26,7 @@
       </div>
       <div class="data-board-item">
         <div class="label-text">年上网电量(万kWh)</div>
-        <div class="value-text">715,400.00</div>
+        <div class="value-text">44179.5866</div>
       </div>
 
       <div class="data-board-item">
