@@ -5,7 +5,7 @@
         <img class="user-icon-img" src="../../assets/images/header.jpg" />
       </div>
       <div class="info-box">
-        <p class="black-text">上午好，卢晓东，开始您一天的工作吧！</p>
+        <p class="black-text">上午好，卢晓冬，开始您一天的工作吧！</p>
         <p class="grey-text">今日晴，20℃ - 32℃！</p>
       </div>
     </div>
