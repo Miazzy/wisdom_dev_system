@@ -155,6 +155,7 @@
 
     &.collapsed {
       width: 60px;
+      min-width: 60px;
       .menu-content {
         width: 55px;
         height: 100%;

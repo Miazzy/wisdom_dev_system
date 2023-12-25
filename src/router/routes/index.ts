@@ -722,9 +722,7 @@ const transformMenuItem = (menu, routes) => {
           checkImportComponent('/@/views/bi/safety/disasterwarning/index.vue', menu.component)
         ) {
           return import('/@/views/bi/safety/disasterwarning/index.vue');
-        } else if (
-          checkImportComponent('/@/views/workbench/Workbench.vue', menu.component)
-        ) {
+        } else if (checkImportComponent('/@/views/workbench/Workbench.vue', menu.component)) {
           return import('/@/views/workbench/Workbench.vue');
         } else {
           return asyncImportComponent(menu.component);
@@ -906,7 +904,10 @@ export const PvInverterOverview: AppRouteRecordRaw = {
 
 export const PvTransformerSubstationOverview: AppRouteRecordRaw = {
   path: '/framepage/monitor/PVArea/boxTransformerSubstationOverview',
-  component: () => import('/@/views/monitor/PVArea/boxTransformerSubstationOverview/boxTransformerSubstationOverview.vue'),
+  component: () =>
+    import(
+      '/@/views/monitor/PVArea/boxTransformerSubstationOverview/boxTransformerSubstationOverview.vue'
+    ),
 };
 
 export const PvGroupSeriesOverview: AppRouteRecordRaw = {
@@ -916,7 +917,8 @@ export const PvGroupSeriesOverview: AppRouteRecordRaw = {
 
 export const PvBoosterStationOverview: AppRouteRecordRaw = {
   path: '/framepage/monitor/boosterStation/boosterStationOverview',
-  component: () => import('/@/views/monitor/boosterStation/boosterStationOverview/boosterStationOverview.vue'),
+  component: () =>
+    import('/@/views/monitor/boosterStation/boosterStationOverview/boosterStationOverview.vue'),
 };
 
 export const PvFaultWarning: AppRouteRecordRaw = {
@@ -1084,6 +1086,131 @@ export const PoAssessFilling: AppRouteRecordRaw = {
   component: () => import('/@/views/po/assess/template/index.vue'),
 };
 
+export const PoEquipment: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/index',
+  component: () => import('/@/views/po/equipment/index.vue'),
+};
+
+export const PoEquipmentWarehousing: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/warehousing/index',
+  component: () => import('/@/views/po/equipment/warehousing/index.vue'),
+};
+
+export const PoEquipmentOutbound: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/outbound/index',
+  component: () => import('/@/views/po/equipment/outbound/index.vue'),
+};
+
+export const PoEquipmentInventory: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/inventory/index',
+  component: () => import('/@/views/po/equipment/inventory/index.vue'),
+};
+
+export const PoInPersoncertificate: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/personcertificate',
+  component: () => import('/@/views/po/integrated/personcertificate/index.vue'),
+};
+
+export const PoIntegratedTraining: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/training',
+  component: () => import('/@/views/po/integrated/training/index.vue'),
+};
+
+export const PoIntegratedInfoarchive: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/infoarchive',
+  component: () => import('/@/views/po/integrated/infoarchive/index.vue'),
+};
+
+export const PoIntegratedVehicle: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/vehicle/index',
+  component: () => import('/@/views/po/integrated/vehicle/index.vue'),
+};
+
+export const PoIntegratedContract: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/contract',
+  component: () => import('/@/views/po/integrated/contract/index.vue'),
+};
+
+export const PoIntegratedKnowledge: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/knowledge',
+  component: () => import('/@/views/po/integrated/knowledge/knowledge.vue'),
+};
+
+export const PoAssessEvaluation: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/assessmentevaluation/index',
+  component: () => import('/@/views/po/integrated/assessmentevaluation/index/index.vue'),
+};
+
+export const PoAssessEvaluationTemplate: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/assessmentevaluation/template',
+  component: () => import('/@/views/po/integrated/assessmentevaluation/template/index.vue'),
+};
+
+export const PoAssessEvaluationDaily: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/assessmentevaluation/daily',
+  component: () => import('/@/views/po/integrated/assessmentevaluation/daily/index.vue'),
+};
+
+export const PoAssessEvaluationMonthly: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/assessmentevaluation/monthly',
+  component: () => import('/@/views/po/integrated/assessmentevaluation/monthly/index.vue'),
+};
+
+export const PoAssessEvaluationReport: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/assessmentevaluation/report',
+  component: () => import('/@/views/po/integrated/assessmentevaluation/report/index.vue'),
+};
+
+export const GroupOperation: AppRouteRecordRaw = {
+  path: '/framepage/groupOperation',
+  component: () => import('/@/views/da/groupOperation/GroupOperation.vue'),
+};
+
+export const StationOperation: AppRouteRecordRaw = {
+  path: '/framepage/stationOperation',
+  component: () => import('/@/views/da/stationOperation/StationOperation.vue'),
+};
+
+export const BiCapacityStatistics: AppRouteRecordRaw = {
+  path: '/framepage/bi/grid/capacity/statistics',
+  component: () => import('/@/views/bi/elec/gridCapacity/index.vue'),
+};
+
+export const BiRecordStatistics: AppRouteRecordRaw = {
+  path: '/framepage/bi/grid/record/statistics',
+  component: () => import('/@/views/bi/elec/gridRecord/index.vue'),
+};
+
+export const BiElecEnvironmental: AppRouteRecordRaw = {
+  path: '/framepage/bi/elec/environmental',
+  component: () => import('/@/views/bi/elec/environmental/index.vue'),
+};
+
+export const BiElecLossPower: AppRouteRecordRaw = {
+  path: '/framepage/bi/elec/lossPower',
+  component: () => import('/@/views/bi/elec/lossPower/index.vue'),
+};
+
+export const BiElecLossDetail: AppRouteRecordRaw = {
+  path: '/framepage/bi/elec/lossDetail',
+  component: () => import('/@/views/bi/elec/lossDetail/index.vue'),
+};
+
+export const BiElecLossPlanned: AppRouteRecordRaw = {
+  path: '/framepage/bi/elec/planned',
+  component: () => import('/@/views/bi/elec/planned/index.vue'),
+};
+
+export const BiElecLossSettlement: AppRouteRecordRaw = {
+  path: '/framepage/bi/elec/settlement',
+  component: () => import('/@/views/bi/elec/settlement/index.vue'),
+};
+
+export const BiSafetyDisasterWarning: AppRouteRecordRaw = {
+  path: '/framepage/bi/safety/disasterWarning',
+  component: () => import('/@/views/bi/safety/disasterwarning/index.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
   LoginRoute,
@@ -1140,4 +1267,29 @@ export const basicRoutes = [
   PoPowerCutPlan,
   PoAssessTemplate,
   PoAssessFilling,
+  PoEquipment,
+  PoEquipmentWarehousing,
+  PoEquipmentOutbound,
+  PoEquipmentInventory,
+  PoInPersoncertificate,
+  PoIntegratedTraining,
+  PoIntegratedInfoarchive,
+  PoIntegratedVehicle,
+  PoIntegratedContract,
+  PoIntegratedKnowledge,
+  PoAssessEvaluation,
+  PoAssessEvaluationTemplate,
+  PoAssessEvaluationDaily,
+  PoAssessEvaluationMonthly,
+  PoAssessEvaluationReport,
+  GroupOperation,
+  StationOperation,
+  BiCapacityStatistics,
+  BiRecordStatistics,
+  BiElecEnvironmental,
+  BiElecLossPower,
+  BiElecLossDetail,
+  BiElecLossPlanned,
+  BiElecLossSettlement,
+  BiSafetyDisasterWarning,
 ];
