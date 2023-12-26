@@ -224,6 +224,7 @@
             return;
           }
           editor.setMode(attrs.disabled ? 'readonly' : 'design');
+          richTextEditStatus('#' + tinymceId.value + '_ifr', attrs.disabled ? 'false' : 'true');
         },
       );
 

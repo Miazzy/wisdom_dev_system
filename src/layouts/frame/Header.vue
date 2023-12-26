@@ -139,7 +139,7 @@
   onMounted(() => {
     handleLoadModules();
     executor.value = TaskExecutor.getInstance(TimeInterval.ONE_SECOND);
-    executor.value.pushListTask('execTodoTaskList', handleTodoTask, TimeInterval.TEN_SECOND);
+    executor.value.pushListTask('execTodoTaskList', handleTodoTask, TimeInterval.FIVE_SECOND);
     executor.value.start();
   });
 </script>
