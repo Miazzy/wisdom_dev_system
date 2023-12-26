@@ -147,7 +147,7 @@
   };
 
   const attachmentPreview = (url) => {
-    let previewdomain = 'http://ecs-e1aa-0001'; //测试环境域名
+    let previewdomain = 'http://139.9.148.32'; //测试环境域名
     let downloaddomain = 'http://ecs-e1aa-0001'; //测试环境下载域名
     const isDev = process.env.NODE_ENV === 'development';
     if (isDev) {

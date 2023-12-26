@@ -115,7 +115,7 @@
         mode: 'none', //不要默认的错误提示
       });
       if (userInfo) {
-        const username = userInfo.realName || userInfo.userId;
+        const username = userInfo.username || userInfo.userId;
         notification.success({
           message: t('sys.login.loginSuccessTitle'),
           description: `${t('sys.login.loginSuccessDesc')}: ${username}`,
