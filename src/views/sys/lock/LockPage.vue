@@ -124,8 +124,9 @@
   }
 
   function goLogin() {
-    userStore.logout(true);
     lockStore.resetLockInfo();
+    window.postMessage({ type: 'userOffline' }, '*');
+    window.parent.postMessage({ type: 'userOffline' }, '*');
   }
 
   function handleShowForm(show = false) {

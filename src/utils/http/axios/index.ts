@@ -104,8 +104,8 @@ const transform: AxiosTransform = {
     switch (code) {
       case ResultEnum.TIMEOUT:
         timeoutMsg = t('sys.api.timeoutMessage');
-        const userStore = useUserStoreWithOut();
-        userStore.logout(true);
+        window.postMessage({ type: 'userOffline' }, '*');
+        window.parent.postMessage({ type: 'userOffline' }, '*');
         break;
       default:
         if (message) {

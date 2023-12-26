@@ -128,7 +128,7 @@ export const useUserStore = defineStore({
         this.setToken(accessToken as string);
         this.setRefreshToken(refreshToken as string);
         // 推入任务
-        task.pushTask(async () => {
+        task.pushOnceTask(async () => {
           const response = await execRefreshToken(this.getRefreshToken as string);
           const { accessToken } = response || {};
           this.setToken(accessToken as string);

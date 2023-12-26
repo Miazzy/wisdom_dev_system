@@ -314,7 +314,8 @@ export class VAxios {
               const logoutFlag = res.data.code == ResultEnum.ACCOUNT_ERROR;
               if (logoutFlag) {
                 setTimeout(() => {
-                  userStore.logout(true);
+                  window.postMessage({ type: 'userOffline' }, '*');
+                  window.parent.postMessage({ type: 'userOffline' }, '*');
                 }, 500);
               }
             }

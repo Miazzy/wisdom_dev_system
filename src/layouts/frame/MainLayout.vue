@@ -12,7 +12,10 @@
   import Header from './Header.vue';
   import Menu from './Menu.vue';
   import Content from './Content.vue';
+  import { useRouter } from 'vue-router';
+  import { useUserStore } from '/@/store/modules/user';
 
+  const router = useRouter();
   const currentModule = ref(null);
   const menuList = ref([]);
   const systemTheme = ref('');
@@ -44,8 +47,18 @@
     }
   };
 
+  const handleOfflineMessage = (event) => {
+    const userStore = useUserStore();
+    const message = event.data;
+    // 处理接收到的消息
+    if (message.type === 'userOffline') {
+      userStore.logout(true);
+    }
+  };
+
   // Mounted时加载函数
   onMounted(() => {
+    window.addEventListener('message', handleOfflineMessage, false);
     systemTheme.value = 'light';
   });
 </script>

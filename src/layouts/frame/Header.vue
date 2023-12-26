@@ -77,6 +77,7 @@
   const currentKey = ref('');
   const todoTaskList = ref();
   const executor = ref<TaskExecutor>();
+  
 
   const props = defineProps({
     current: { type: String, default: null },
@@ -139,7 +140,7 @@
   onMounted(() => {
     handleLoadModules();
     executor.value = TaskExecutor.getInstance(TimeInterval.ONE_SECOND);
-    executor.value.pushListTask('execTodoTaskList', handleTodoTask, TimeInterval.FIVE_SECOND);
+    executor.value.pushListTask('execTodoTaskList', handleTodoTask, TimeInterval.ONE_HOUR);
     executor.value.start();
   });
 </script>

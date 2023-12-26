@@ -1,8 +1,6 @@
 import type { ErrorMessageMode } from '/#/axios';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { useI18n } from '/@/hooks/web/useI18n';
-// import router from '/@/router';
-// import { PageEnum } from '/@/enums/pageEnum';
 import { useUserStoreWithOut } from '/@/store/modules/user';
 import projectSetting from '/@/settings/projectSetting';
 import { SessionTimeoutProcessingEnum } from '/@/enums/appEnum';
@@ -33,7 +31,8 @@ export function checkStatus(
       if (stp === SessionTimeoutProcessingEnum.PAGE_COVERAGE) {
         userStore.setSessionTimeout(true);
       } else {
-        userStore.logout(true);
+        window.postMessage({ type: 'userOffline' }, '*');
+        window.parent.postMessage({ type: 'userOffline' }, '*');
       }
       break;
     case 403:

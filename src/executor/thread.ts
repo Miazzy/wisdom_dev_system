@@ -76,7 +76,9 @@ export class Thread {
           this.arrayTask.forEach((callback) => {
             callback();
           });
-          this.arrayTask = [];
+          setTimeout(() => {
+            this.arrayTask = [];
+          }, 1000);
         }
         // 执行循环任务
         if (this.listTask.length > 0) {

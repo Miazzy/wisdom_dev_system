@@ -218,12 +218,56 @@ function prompt(content: string, tip: string) {
   });
 }
 
+class SysMessage {
+  private static instance: SysMessage;
+  lastMessage: string;
+
+  static getInstance() {
+    if (!SysMessage.instance) {
+      SysMessage.instance = new SysMessage();
+    }
+    return SysMessage.instance;
+  }
+
+  constructor() {
+    this.lastMessage = '';
+  }
+
+  info(content: string) {
+    if (this.lastMessage != content) {
+      this.lastMessage = content;
+      Message.info(content);
+    }
+  }
+
+  error(content: string) {
+    if (this.lastMessage != content) {
+      this.lastMessage = content;
+      Message.error(content);
+    }
+  }
+
+  success(content: string) {
+    if (this.lastMessage != content) {
+      this.lastMessage = content;
+      Message.success(content);
+    }
+  }
+
+  warning(content: string) {
+    if (this.lastMessage != content) {
+      this.lastMessage = content;
+      Message.warning(content);
+    }
+  }
+}
+
 /**
  * @description: message
  */
 export function useMessage() {
   return {
-    createMessage: Message,
+    createMessage: SysMessage.getInstance(),
     notification: notification as NotifyApi,
     createConfirm: createConfirm,
     createSuccessModal,

@@ -84,7 +84,7 @@
   </main>
 </template>
 <script lang="ts" setup>
-  import { onMounted, ref, watch, reactive, nextTick } from 'vue';
+  import { onMounted, ref, watch, nextTick } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
 
   const props = defineProps({
