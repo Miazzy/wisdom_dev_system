@@ -26,19 +26,24 @@ export const pushAndRefresh = (path: string) => {
 };
 
 // 新增TabPage页面函数（iframe模式）
-export const addTabPage = (path: string, name: string) => {
-  const message = { type: 'addTabPage', data: { path, name } };
+export const addTabPage = (path: string, name: string, params: Object = {}) => {
+  const message = { type: 'addTabPage', data: { path, name, params } };
   sendMessage(message);
+};
+
+// 获取当前页面信息
+export const getCurrentPageInfo = () => {
+  return { id: '', path: '', params: '' };
 };
 
 // 新增Tab页签并关闭原页面（iframe模式）
 export const addTabAndClose = (
   path: string,
   name: string,
-  closePath: string,
+  closeID: string = '',
   refresh: boolean = true,
 ) => {
-  const message = { type: 'addTabAndClose', data: { path, name, closePath, refresh } };
+  const message = { type: 'addTabAndClose', data: { path, name, closeID, refresh } };
   sendMessage(message);
 };
 

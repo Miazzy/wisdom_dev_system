@@ -1351,6 +1351,11 @@ export const BiOaAskreportIndexs: AppRouteRecordRaw = {
   component: () => import('/@/views/oa/askreport/index.vue'),
 };
 
+export const BiOaAskreportIndexss: AppRouteRecordRaw = {
+  path: () => {},
+  component: () => import('/@/views/oa/askreport/index.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
   LoginRoute,
