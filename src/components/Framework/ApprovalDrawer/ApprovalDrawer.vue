@@ -394,7 +394,7 @@
   }
 
   .fit-footer-btn.ant-btn {
-    width: 62px;
+    width: 66px;
     margin-right: 10px;
     padding: 4px 0;
 
