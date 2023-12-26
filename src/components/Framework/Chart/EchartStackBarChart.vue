@@ -18,14 +18,6 @@
     barWidth: { type: Number, default: 25 },
   });
 
-  // 监听数据变化
-  watch(
-    () => props.data,
-    () => {
-      createChart();
-    },
-  );
-
   // 创建图表
   const createChart = () => {
     var chartDom = document.getElementById('echarts-stackbar-container');
@@ -253,6 +245,17 @@
     };
     option && myChart.setOption(option);
   };
+
+  // 监听数据变化
+  watch(
+    () => props.data,
+    () => {
+      createChart();
+    },
+    {
+      deep: true
+    }
+  );
 
   // 创建地图并绘制点位
   onMounted(() => {
