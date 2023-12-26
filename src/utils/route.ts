@@ -27,10 +27,40 @@ export const pushAndRefresh = (path: string) => {
 
 // 新增TabPage页面函数（iframe模式）
 export const addTabPage = (path: string, name: string) => {
-
+  const message = { type: 'addTabPage', data: { path, name } };
+  sendMessage(message);
 };
 
 // 新增Tab页签并关闭原页面（iframe模式）
-export const addTabAndClose = (newPath: string, closePath: string, refreshFlag: boolean) => {
+export const addTabAndClose = (
+  path: string,
+  name: string,
+  closePath: string,
+  refresh: boolean = true,
+) => {
+  const message = { type: 'addTabAndClose', data: { path, name, closePath, refresh } };
+  sendMessage(message);
+};
 
+// 关闭TabPage页面函数（iframe模式）
+export const closeTabPage = (path: string) => {
+  const message = { type: 'closeTabPage', data: { path } };
+  sendMessage(message);
+};
+
+// 刷新TabPage页面函数（iframe模式）
+export const refreshTabPage = () => {
+  const message = { type: 'refreshTabPage', data: {} };
+  sendMessage(message);
+};
+
+// 推送消息至框架
+const sendMessage = (message) => {
+  let context: any = window;
+  if (window?.top) {
+    context = window?.top;
+  } else if (window?.parent) {
+    context = window?.parent;
+  }
+  context.postMessage(message, '*');
 };

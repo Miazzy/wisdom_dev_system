@@ -147,32 +147,36 @@
   watch(
     () => props.path,
     () => {
-      const path = props.path.startsWith('/') ? props.path : '/' + props.path;
-      const tempKey = path
-        .replace('/da/', '/')
-        .replace('/bi/', '/framepage/bi/')
-        .replace('/oa/', '/framepage/oa/')
-        .replace('/po/', '/framepage/po/')
-        .replace('/monitor/', '/framepage/monitor/');
-      const key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
-      activeKey.value = key;
-      if (!paneMap.has(key)) {
-        paneMap.set(key, props.menu);
-        panes.value.push({
-          title: props.menu.name,
-          show: true,
-          closable: true,
-          status: true,
-          pageurl: key,
-        });
-      }
-      for (let pane of panes.value) {
-        pane.key = pane.key ? pane.key : new Date().getTime();
-        pane.status = pane.pageurl === key;
-      }
-      emit('change', activeKey.value, paneMap.get(activeKey.value));
+      handleNewTabPage(props.path, props.menu.name, props.menu);
     },
   );
+
+  const handleNewTabPage = (value, name, menu) => {
+    const path = value.startsWith('/') ? value : '/' + value;
+    const tempKey = path
+      .replace('/da/', '/')
+      .replace('/bi/', '/framepage/bi/')
+      .replace('/oa/', '/framepage/oa/')
+      .replace('/po/', '/framepage/po/')
+      .replace('/monitor/', '/framepage/monitor/');
+    const key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
+    activeKey.value = key;
+    if (!paneMap.has(key)) {
+      paneMap.set(key, menu || props.menu);
+      panes.value.push({
+        title: name || props.menu.name,
+        show: true,
+        closable: true,
+        status: true,
+        pageurl: key,
+      });
+    }
+    for (let pane of panes.value) {
+      pane.key = pane.key ? pane.key : new Date().getTime();
+      pane.status = pane.pageurl === key;
+    }
+    emit('change', activeKey.value, paneMap.get(activeKey.value));
+  };
 
   // 处理刷新当前页面的函数
   const handleRefreshTabPage = () => {
@@ -228,10 +232,31 @@
     emit('change', activeKey.value, paneMap.get(activeKey.value));
   };
 
+  const handleTabMessage = (event) => {
+    const message = event.data;
+    const { data } = message;
+    // 处理接收到的消息
+    if (message.type === 'addTabPage') {
+      handleNewTabPage(data.path, data.name, {});
+    } else if (message.type === 'addTabAndClose') {
+      handleRemoveItem(data.closePath);
+      if (paneMap.has(data.path)) { // 如果页面已打开过，则切换到相应页签；否则新打开一个页签
+        handleTabChange(data.path);
+      } else {
+        handleNewTabPage(data.path, data.name, {});
+      }
+    } else if (message.type === 'closeTabPage') {
+      handleRemoveItem(data.path);
+    } else if (message.type === 'refreshTabPage') {
+      handleRefreshTabPage();
+    }
+  };
+
   onMounted(() => {
     paneMap.set(panes.value[0].pageurl, panes.value[0]);
     activeKey.value = panes.value[0].pageurl;
     tabWidth.value = document.body.clientWidth - 280 + 'px';
+    window.addEventListener('message', handleTabMessage, false);
     emit('change', activeKey.value, paneMap.get(activeKey.value));
   });
 </script>
