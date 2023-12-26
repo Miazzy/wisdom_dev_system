@@ -8,6 +8,7 @@ export enum SystemAuthApi {
   RefreshToken = '/system/auth/refresh-token',
   ListMenus = '/system/auth/list-menus',
   GetPermissionInfo = '/system/auth/get-permission-info',
+  CheckToken = '/system/oauth2/check-token?token=',
 }
 
 /**
@@ -43,9 +44,17 @@ export function execRefreshToken(rtoken: string) {
 }
 
 /**
- * @description: get user info
+ * @description: get menu list
  */
 export function getListMenus() {
   const requestParams = { url: SystemAuthApi.ListMenus };
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
+}
+
+/**
+ * @description: check token valid
+ */
+export function checkToken(token) {
+  const requestParams = { url: SystemAuthApi.CheckToken + token };
   return defHttp.get<any>(requestParams, { isOnlyResult: true });
 }
