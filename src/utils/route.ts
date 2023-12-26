@@ -24,3 +24,13 @@ export const pushAndRefresh = (path: string) => {
   useTab.setRefreshList(path); // 设置刷新时效300ms, 在此1000ms内，打开此path路由对应页面，都重新渲染，不加载缓存
   router.push(path);
 };
+
+// 新增TabPage页面函数（iframe模式）
+export const addTabPage = (path: string, name: string) => {
+
+};
+
+// 新增Tab页签并关闭原页面（iframe模式）
+export const addTabAndClose = (newPath: string, closePath: string, refreshFlag: boolean) => {
+
+};

@@ -4,25 +4,25 @@ import { Thread } from '@/executor/thread';
 /***
  * @description 任务线程
  * @class  TaskExecutor 任务线程执行器
- * @classdesc 任务线程，定时执行主动指令、阈值指令、定时任务指令，处理几类指令的调度任务
+ * @classdesc 任务线程，定时执行调度任务
  */
 export class TaskExecutor extends Thread {
   private static instance: TaskExecutor;
 
-  static getInstance() {
+  static getInstance(time = TimeInterval.TEN_SECOND) {
     if (!TaskExecutor.instance) {
-      TaskExecutor.instance = new TaskExecutor();
+      TaskExecutor.instance = new TaskExecutor(time);
     }
     return TaskExecutor.instance;
   }
 
-  static getNewInstance() {
-    return new TaskExecutor();
+  static getNewInstance(time = TimeInterval.TEN_SECOND) {
+    return new TaskExecutor(time);
   }
 
-  constructor() {
+  constructor(time = TimeInterval.TEN_SECOND) {
     super();
-    this.interval = TimeInterval.ONE_HOUR;
+    this.interval = time || TimeInterval.ONE_HOUR;
   }
 
   override run() {

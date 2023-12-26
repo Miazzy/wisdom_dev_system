@@ -1211,6 +1211,146 @@ export const BiSafetyDisasterWarning: AppRouteRecordRaw = {
   component: () => import('/@/views/bi/safety/disasterwarning/index.vue'),
 };
 
+export const BiSafetyCheck: AppRouteRecordRaw = {
+  path: '/framepage/bi/safety/check',
+  component: () => import('/@/views/bi/safety/check/index.vue'),
+};
+
+export const BiSafetyAgreement: AppRouteRecordRaw = {
+  path: '/framepage/bi/safety/agreement',
+  component: () => import('/@/views/bi/safety/agreement/index.vue'),
+};
+
+export const BiSafetytoolsIndex: AppRouteRecordRaw = {
+  path: '/framepage/bi/safetytools/index',
+  component: () => import('/@/views/bi/safetytools/index.vue'),
+};
+
+export const BiIntegratedVehicle: AppRouteRecordRaw = {
+  path: '/framepage/bi/integrated/vehicle',
+  component: () => import('/@/views/bi/integrated/vehicle/index.vue'),
+};
+
+export const BiHiddenIndex: AppRouteRecordRaw = {
+  path: '/framepage/bi/hidden/index',
+  component: () => import('/@/views/bi/hidden/index.vue'),
+};
+
+export const BiInspectionIndex: AppRouteRecordRaw = {
+  path: '/framepage/bi/inspection/index',
+  component: () => import('/@/views/bi/inspection/index.vue'),
+};
+
+export const BiMaintenanceTicket: AppRouteRecordRaw = {
+  path: '/framepage/bi/maintenance/ticket',
+  component: () => import('/@/views/bi/maintenance/ticket/index.vue'),
+};
+
+export const BiFaultIndex: AppRouteRecordRaw = {
+  path: '/framepage/bi/fault/index',
+  component: () => import('/@/views/bi/fault/index.vue'),
+};
+
+export const BiMaintenanceWorkorder: AppRouteRecordRaw = {
+  path: '/framepage/bi/maintenance/workorder',
+  component: () => import('/@/views/bi/maintenance/workorder/index.vue'),
+};
+
+export const BiMaintenancePowerCut: AppRouteRecordRaw = {
+  path: '/framepage/bi/maintenance/powerCut',
+  component: () => import('/@/views/bi/maintenance/powercut/index.vue'),
+};
+
+export const BiMaintenanceAssess: AppRouteRecordRaw = {
+  path: '/framepage/bi/maintenance/assess',
+  component: () => import('/@/views/bi/maintenance/assess/index.vue'),
+};
+
+export const BiEquipmentIndex: AppRouteRecordRaw = {
+  path: '/framepage/bi/equipment/index',
+  component: () => import('/@/views/bi/equipment/index.vue'),
+};
+
+export const BiIntegratedPersonnelqualifications: AppRouteRecordRaw = {
+  path: '/framepage/bi/integrated/personnelQualifications',
+  component: () => import('/@/views/bi/integrated/personnelqualifications/index.vue'),
+};
+
+export const BiIntegratedPersonnelStructure: AppRouteRecordRaw = {
+  path: '/framepage/bi/integrated/personnelStructure',
+  component: () => import('/@/views/bi/integrated/personnelstructure/index.vue'),
+};
+
+export const BiIntegratedTrainingStatistics: AppRouteRecordRaw = {
+  path: '/framepage/bi/integrated/trainingStatistics',
+  component: () => import('/@/views/bi/integrated/trainingstatistics/index.vue'),
+};
+
+export const BiOaAtt: AppRouteRecordRaw = {
+  path: '/framepage/bi/oa/att',
+  component: () => import('/@/views/bi/oa/att/index.vue'),
+};
+
+export const BiOaInfoInfoKind: AppRouteRecordRaw = {
+  path: '/framepage/oa/info/infoKind',
+  component: () => import('/@/views/oa/info/infokind/infoKind.vue'),
+};
+
+export const BiOaInfoOfficedoc: AppRouteRecordRaw = {
+  path: '/framepage/oa/info/officedoc/index',
+  component: () => import('/@/views/oa/info/officedoc/index.vue'),
+};
+
+export const BiOaInfoOfficedocCreate: AppRouteRecordRaw = {
+  path: '/framepage/oa/info/officedoc/create',
+  component: () => import('/@/views/oa/info/officedoc/create.vue'),
+};
+
+export const BiOaInfoInfonoticeIndex: AppRouteRecordRaw = {
+  path: '/framepage/oa/info/infonotice/index',
+  component: () => import('/@/views/oa/info/infonotice/index.vue'),
+};
+
+export const BiOaInfoInfonoticeCreate: AppRouteRecordRaw = {
+  path: '/framepage/oa/info/infonotice/create',
+  component: () => import('/@/views/oa/info/infonotice/create.vue'),
+};
+
+export const BiOaInfoInformationCreate: AppRouteRecordRaw = {
+  path: '/framepage/oa/info/information/create',
+  component: () => import('/@/views/oa/info/information/create.vue'),
+};
+
+export const BiOaInfoQueryIndex: AppRouteRecordRaw = {
+  path: '/framepage/oa/info/query/index',
+  component: () => import('/@/views/oa/info/query/index.vue'),
+};
+
+export const BiOaAttendIndex: AppRouteRecordRaw = {
+  path: '/framepage/oa/attend/index',
+  component: () => import('/@/views/oa/attend/index.vue'),
+};
+
+export const BiOaAttendCreate: AppRouteRecordRaw = {
+  path: '/framepage/oa/attend/create',
+  component: () => import('/@/views/oa/attend/create.vue'),
+};
+
+export const BiOaAttendCalendar: AppRouteRecordRaw = {
+  path: '/framepage/oa/attend/calendar',
+  component: () => import('/@/views/oa/attend/calendar.vue'),
+};
+
+export const BiOaAskreportIndex: AppRouteRecordRaw = {
+  path: '/framepage/oa/askReport',
+  component: () => import('/@/views/oa/askreport/index.vue'),
+};
+
+export const BiOaAskreportIndexs: AppRouteRecordRaw = {
+  path: '/framepage/oa/askReport',
+  component: () => import('/@/views/oa/askreport/index.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
   LoginRoute,
@@ -1292,4 +1432,30 @@ export const basicRoutes = [
   BiElecLossPlanned,
   BiElecLossSettlement,
   BiSafetyDisasterWarning,
+  BiSafetyCheck,
+  BiSafetyAgreement,
+  BiSafetytoolsIndex,
+  BiIntegratedVehicle,
+  BiHiddenIndex,
+  BiInspectionIndex,
+  BiMaintenanceTicket,
+  BiFaultIndex,
+  BiMaintenanceWorkorder,
+  BiMaintenancePowerCut,
+  BiMaintenanceAssess,
+  BiEquipmentIndex,
+  BiIntegratedPersonnelqualifications,
+  BiIntegratedPersonnelStructure,
+  BiIntegratedTrainingStatistics,
+  BiOaAtt,
+  BiOaInfoInfoKind,
+  BiOaInfoOfficedoc,
+  BiOaInfoOfficedocCreate,
+  BiOaInfoInfonoticeIndex,
+  BiOaInfoInfonoticeCreate,
+  BiOaInfoInformationCreate,
+  BiOaInfoQueryIndex,
+  BiOaAttendIndex,
+  BiOaAttendCreate,
+  BiOaAttendCalendar,
 ];

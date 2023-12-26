@@ -150,6 +150,8 @@
       const path = props.path.startsWith('/') ? props.path : '/' + props.path;
       const tempKey = path
         .replace('/da/', '/')
+        .replace('/bi/', '/framepage/bi/')
+        .replace('/oa/', '/framepage/oa/')
         .replace('/po/', '/framepage/po/')
         .replace('/monitor/', '/framepage/monitor/');
       const key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;

@@ -1,3 +1,5 @@
+import { DateTools } from '/@/utils/dateUtil';
+
 /***
  * @description 线程基类
  * @class  Thread 线程基类
@@ -8,11 +10,13 @@ export class Thread {
   private running = false;
   private callback;
   private arrayTask;
+  private listTask;
   public interval = 100;
 
   constructor(callback = () => {}) {
     this.callback = callback;
     this.arrayTask = [];
+    this.listTask = [];
   }
 
   run() {
@@ -23,8 +27,21 @@ export class Thread {
     this.callback = callback;
   }
 
+  removeTask() {
+    this.callback = null;
+  }
+
   pushOnceTask(callback: Function) {
     this.arrayTask.push(callback);
+  }
+
+  pushListTask(id, callback: Function, interval = 1000) {
+    const lasttime = new Date().getTime();
+    this.listTask.push({ id, callback, interval, lasttime });
+  }
+
+  removeListTask(id) {
+    this.listTask = this.listTask.filter((task) => task.id !== id);
   }
 
   setTimeValue(timeValue) {
@@ -50,13 +67,29 @@ export class Thread {
     this.timer = setInterval(() => {
       if (this.running) {
         this.run();
-        this.callback(); // 执行回调函数
+        // 执行回调函数
+        if (this.callback != null && typeof this.callback == 'function') {
+          this.callback();
+        }
         // 执行临时任务
         if (this.arrayTask.length > 0) {
           this.arrayTask.forEach((callback) => {
             callback();
           });
           this.arrayTask = [];
+        }
+        // 执行循环任务
+        if (this.listTask.length > 0) {
+          this.listTask.forEach((element) => {
+            const currentTime = new Date().getTime();
+            const time = DateTools.format(new Date(), 'hh:mm:ss');
+            const { id, callback, interval, lasttime } = element;
+            if (currentTime > lasttime + interval) {
+              callback();
+              element.lasttime = new Date().getTime();
+              console.info(`now exec task, which id is `, id, ' time:', time);
+            }
+          });
         }
       }
     }, this.interval);

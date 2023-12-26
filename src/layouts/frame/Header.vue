@@ -65,6 +65,9 @@
   import { UserDropDown, Notify } from '@/layouts/default/header/components';
   import { useFullscreen } from '@vueuse/core';
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
+  import * as TaskApi from '/@/api/bpm/task';
+  import { TaskExecutor } from '/@/executor/taskExecutor';
+  import { TimeInterval } from '@/constant/constant';
 
   const SettingDrawer = createAsyncComponent(() => import('/@/layouts/default/setting/index.vue'), {
     loading: true,
@@ -72,6 +75,8 @@
   const topModuleList = ref([]);
   const userStore = useUserStore();
   const currentKey = ref('');
+  const todoTaskList = ref();
+  const executor = ref<TaskExecutor>();
 
   const props = defineProps({
     current: { type: String, default: null },
@@ -127,8 +132,15 @@
     }
   };
 
+  const handleTodoTask = () => {
+    todoTaskList.value = TaskApi.getTodoTaskPage({});
+  };
+
   onMounted(() => {
     handleLoadModules();
+    executor.value = TaskExecutor.getInstance(TimeInterval.ONE_SECOND);
+    executor.value.pushListTask('execTodoTaskList', handleTodoTask, TimeInterval.TEN_SECOND);
+    executor.value.start();
   });
 </script>
 <style lang="less" scoped>
