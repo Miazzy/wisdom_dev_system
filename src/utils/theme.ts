@@ -14,6 +14,7 @@ export const reloadTheme = (attr, className) => {
 
 // 推送刷新主题信息
 export const sendThemeMessage = (attr, className) => {
+  reloadTheme(attr, className);
   MsgManager.getInstance().sendMsg(THEME_MESSAGE, { attr, className });
 };
 
