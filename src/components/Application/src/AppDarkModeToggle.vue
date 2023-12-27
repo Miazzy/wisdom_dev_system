@@ -13,6 +13,7 @@
   import { updateHeaderBgColor, updateSidebarBgColor } from '/@/logics/theme/updateBackground';
   import { updateDarkTheme } from '/@/logics/theme/dark';
   import { ThemeEnum } from '/@/enums/appEnum';
+  import { sendDarkModeMsg } from '@/utils/theme';
 
   const { prefixCls } = useDesign('dark-switch');
   const { getDarkMode, setDarkMode, getShowDarkModeToggle } = useRootSetting();
@@ -32,6 +33,7 @@
     updateDarkTheme(darkMode);
     updateHeaderBgColor();
     updateSidebarBgColor();
+    sendDarkModeMsg(darkMode);
   }
 </script>
 <style lang="less" scoped>
@@ -61,7 +63,9 @@
       z-index: 1;
       width: 18px;
       height: 18px;
-      transition: transform 0.5s, background-color 0.5s;
+      transition:
+        transform 0.5s,
+        background-color 0.5s;
       border-radius: 50%;
       background-color: #fff;
       will-change: transform;
