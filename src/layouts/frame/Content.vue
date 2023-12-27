@@ -108,10 +108,13 @@
   const tabWidth = ref('');
   const trigger = ref(['click']);
 
-  const handleTabChange = (key) => {
+  const handleTabChange = (key, options: any = null) => {
     activeKey.value = key;
     for (let pane of panes.value) {
       pane.status = pane.pageurl === key;
+      if (options && pane.pageurl === key) {
+        pane.id = options.id;
+      }
     }
     emit('change', activeKey.value, paneMap.get(activeKey.value));
   };
@@ -131,6 +134,30 @@
     });
     panes.value = panes.value.filter((pane) => {
       return pane.pageurl !== targetKey;
+    });
+    paneMap.delete(targetKey);
+    if (panes.value.length && activeKey.value === targetKey) {
+      if (lastIndex >= 0) {
+        activeKey.value = panes.value[lastIndex].pageurl;
+      } else {
+        activeKey.value = panes.value[0].pageurl;
+      }
+    }
+    panes.value.map((pane) => (pane.status = pane.pageurl === activeKey.value));
+    emit('change', activeKey.value, paneMap.get(activeKey.value));
+  };
+
+  const handleRemoveItemById = (id: string) => {
+    let lastIndex = 0;
+    let targetKey = '';
+    panes.value.forEach((pane, i) => {
+      if (pane.id === id) {
+        lastIndex = i - 1;
+        targetKey = pane.paneurl;
+      }
+    });
+    panes.value = panes.value.filter((pane) => {
+      return pane.id !== id;
     });
     paneMap.delete(targetKey);
     if (panes.value.length && activeKey.value === targetKey) {
@@ -164,6 +191,7 @@
     if (!paneMap.has(key)) {
       paneMap.set(key, menu || props.menu);
       panes.value.push({
+        id: menu.id,
         title: name || props.menu.name,
         show: true,
         closable: true,
@@ -182,6 +210,20 @@
   const handleRefreshTabPage = () => {
     for (let pane of panes.value) {
       if (activeKey.value == pane.pageurl) {
+        pane.show = false;
+        pane.key = '';
+        nextTick(() => {
+          pane.key = new Date().getTime();
+          pane.show = true;
+        });
+      }
+    }
+  };
+
+  // 处理刷新当前页面的函数
+  const handleRefreshTabById = (id) => {
+    for (let pane of panes.value) {
+      if (pane.id === id) {
         pane.show = false;
         pane.key = '';
         nextTick(() => {
@@ -237,18 +279,30 @@
     const { data } = message;
     // 处理接收到的消息
     if (message.type === 'addTabPage') {
-      handleNewTabPage(data.path, data.name, {});
+      handleNewTabPage(data.path, data.name, { id: data.id });
     } else if (message.type === 'addTabAndClose') {
-      handleRemoveItem(data.closePath);
-      if (paneMap.has(data.path)) { // 如果页面已打开过，则切换到相应页签；否则新打开一个页签
-        handleTabChange(data.path);
+      // 打开新页面 如果页面已打开过，则切换到相应页签；否则新打开一个页签
+      if (paneMap.has(data.path)) {
+        handleTabChange(data.path, { id: data.id });
       } else {
-        handleNewTabPage(data.path, data.name, {});
+        handleNewTabPage(data.path, data.name, { id: data.id });
+      }
+      // 关闭原页面
+      if (typeof data.closePath == 'undefined' || data.closePath == null || data.closePath == '') {
+        handleRemoveItem(activeKey.value);
+      } else {
+        handleRemoveItem(data.closePath);
       }
     } else if (message.type === 'closeTabPage') {
       handleRemoveItem(data.path);
+    } else if (message.type === 'closeCurrentTab') {
+      handleRemoveItem(activeKey.value);
+    } else if (message.type === 'closeTabById') {
+      handleRemoveItemById(data.id);
     } else if (message.type === 'refreshTabPage') {
       handleRefreshTabPage();
+    } else if (message.type === 'reloadTabById') {
+      handleRefreshTabById(data.id);
     }
   };
 

@@ -1,5 +1,6 @@
 import { useMultipleTabStore } from '/@/store/modules/multipleTab';
 import { useRouter } from 'vue-router';
+import { buildUUID } from '/@/utils/uuid';
 
 // 解析路由路径参数
 export const parseRoutePath = (path: string): Record<string, string> => {
@@ -25,10 +26,14 @@ export const pushAndRefresh = (path: string) => {
   router.push(path);
 };
 
-// 新增TabPage页面函数（iframe模式）
-export const addTabPage = (path: string, name: string, params: Object = {}) => {
-  const message = { type: 'addTabPage', data: { path, name, params } };
-  sendMessage(message);
+// 将路径转为带参数url
+export const pathToUrl = (path, params) => {
+  const hasQuery = path.includes('?');
+  const paramString = Object.entries(params)
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`)
+    .join('&');
+  const result = hasQuery ? `${path}&${paramString}` : `${path}?${paramString}`;
+  return result;
 };
 
 // 获取当前页面信息
@@ -36,15 +41,28 @@ export const getCurrentPageInfo = () => {
   return { id: '', path: '', params: '' };
 };
 
+// 新增TabPage页面函数（iframe模式）
+export const addTabPage = (path: string, name: string, params: Object | null = null) => {
+  const id = buildUUID();
+  path = params == null || typeof params == 'undefined' ? path : pathToUrl(path, params);
+  const message = { type: 'addTabPage', data: { id, path, name, params } };
+  sendMessage(message);
+  return id;
+};
+
 // 新增Tab页签并关闭原页面（iframe模式）
 export const addTabAndClose = (
   path: string,
   name: string,
+  params: Object | null = null,
   closeID: string = '',
   refresh: boolean = true,
 ) => {
-  const message = { type: 'addTabAndClose', data: { path, name, closeID, refresh } };
+  const id = buildUUID();
+  path = params == null || typeof params == 'undefined' ? path : pathToUrl(path, params);
+  const message = { type: 'addTabAndClose', data: { id, path, name, params, closeID, refresh } };
   sendMessage(message);
+  return id;
 };
 
 // 关闭TabPage页面函数（iframe模式）
@@ -53,9 +71,27 @@ export const closeTabPage = (path: string) => {
   sendMessage(message);
 };
 
+// 关闭当前Tab页签函数（iframe模式）
+export const closeCurrentTab = () => {
+  const message = { type: 'closeCurrentTab', data: {} };
+  sendMessage(message);
+};
+
+// 关闭当前Tab页签函数（iframe模式）
+export const closeTabById = (id) => {
+  const message = { type: 'closeTabById', data: { id } };
+  sendMessage(message);
+};
+
 // 刷新TabPage页面函数（iframe模式）
-export const refreshTabPage = () => {
+export const reloadCurrrentTab = () => {
   const message = { type: 'refreshTabPage', data: {} };
+  sendMessage(message);
+};
+
+// 刷新指定TabPage页面函数（iframe模式）
+export const reloadTabById = (id) => {
+  const message = { type: 'reloadTabById', data: { id } };
   sendMessage(message);
 };
 
