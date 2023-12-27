@@ -2,12 +2,8 @@ import 'uno.css';
 import '@/design/index.less';
 import '@/components/VxeTable/src/css/index.scss';
 import 'ant-design-vue/dist/antd.less';
-
-// Register icon sprite
 import 'virtual:svg-icons-register';
-
 import { createApp } from 'vue';
-
 import ElementPlus from 'element-plus';
 import Antd from 'ant-design-vue';
 import { registerGlobComp } from '@/components/registerGlobComp';
@@ -18,7 +14,6 @@ import { initAppConfigStore } from '@/logics/initAppConfig';
 import { router, setupRouter } from '@/router';
 import { setupRouterGuard } from '@/router/guard';
 import { setupStore } from '@/store';
-
 import App from './App.vue';
 
 async function bootstrap() {

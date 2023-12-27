@@ -10,7 +10,9 @@
       <Tooltip :title="item.title" placement="bottom">
         <div
           @click="handler(item)"
-          class="theme-picker-item" :class="{active: currentTheme === item.themeName}" :style="{backgroundColor: item.color}"
+          class="theme-picker-item"
+          :class="{ active: currentTheme === item.themeName }"
+          :style="{ backgroundColor: item.color }"
         ></div>
       </Tooltip>
     </template>
@@ -21,6 +23,7 @@
   import { Tooltip } from 'ant-design-vue';
   import { themeList } from '../enum';
   import { useRootSetting } from '/@/hooks/setting/useRootSetting';
+  import { sendThemeMessage } from '/@/utils/theme';
 
   export default defineComponent({
     name: 'ThemePicker',
@@ -29,53 +32,54 @@
       const { getDarkMode } = useRootSetting();
       let currentThemeList = ref([]);
       console.log('getDarkMode.value', getDarkMode.value);
-      currentThemeList.value = themeList.filter(item=>{
-        return item.mode === getDarkMode.value
+      currentThemeList.value = themeList.filter((item) => {
+        return item.mode === getDarkMode.value;
       });
       let currentThemeVal = localStorage.getItem('THEME') || currentThemeList.value[0].themeName;
       let currentTheme = ref(currentThemeVal);
-      document.getElementsByTagName('body')[0].setAttribute('class', `${unref(currentTheme)} my-layout`);
       localStorage.setItem('THEME', unref(currentTheme));
+      sendThemeMessage('class', `${unref(currentTheme)} my-layout`);
 
       const handler = (item: (typeof themeList)[0]) => {
-        if(item.themeName === currentTheme.value) return
+        if (item.themeName === currentTheme.value) return;
         currentTheme.value = item.themeName;
-        document.getElementsByTagName('body')[0].setAttribute('class', `${item.themeName} my-layout`);
         localStorage.setItem('THEME', unref(currentTheme));
-      }
+        sendThemeMessage('class', `${item.themeName} my-layout`);
+      };
 
       watch(
         () => getDarkMode.value,
         (v: string) => {
-          currentThemeList.value = themeList.filter(item=>{
-            return item.mode === getDarkMode.value
+          currentThemeList.value = themeList.filter((item) => {
+            return item.mode === getDarkMode.value;
           });
           currentTheme.value = currentThemeList.value[0].themeName;
-          document.getElementsByTagName('body')[0].setAttribute('class', `${currentThemeList.value[0].themeName} my-layout`);
+          sendThemeMessage('class', `${currentThemeList.value[0].themeName} my-layout`);
           localStorage.setItem('THEME', unref(currentTheme));
-        }
+        },
       );
+
       return {
         currentTheme,
         handler,
-        currentThemeList
-      }
+        currentThemeList,
+      };
     },
   });
 </script>
 <style lang="less" scoped>
-.theme-picker {
-  display: flex;
+  .theme-picker {
+    display: flex;
 
-  .theme-picker-item {
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
-    border-radius: 2px;
+    .theme-picker-item {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+      border-radius: 2px;
 
-    &.active {
-      border: 2px solid #0960bd;
+      &.active {
+        border: 2px solid #0960bd;
+      }
     }
   }
-}
 </style>

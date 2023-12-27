@@ -19,6 +19,7 @@ import { getCommonStoragePrefix, getStorageShortName } from '/@/utils/env';
 import { Persistent } from '/@/utils/cache/persistent';
 import { deepMerge } from '/@/utils';
 import { ThemeEnum } from '/@/enums/appEnum';
+import { sendThemeMessage } from '/@/utils/theme';
 
 // Initial project configuration
 export function initAppConfigStore() {
@@ -53,15 +54,12 @@ export function initAppConfigStore() {
   }
   // init store
   localeStore.initLocale();
-
-  // document.getElementsByTagName('body')[0].setAttribute('class', 'theme3 my-layout');
   let themeName = localStorage.getItem('THEME') || '';
-  if(!themeName) {
+  if (!themeName) {
     themeName = darkMode === ThemeEnum.DARK ? 'theme1' : 'theme3';
     localStorage.setItem('THEME', themeName);
   }
-  document.getElementsByTagName('body')[0].setAttribute('class', `${themeName} my-layout`);
-
+  sendThemeMessage('class', `${themeName} my-layout`);
   setTimeout(() => {
     clearObsoleteStorage();
   }, 16);
