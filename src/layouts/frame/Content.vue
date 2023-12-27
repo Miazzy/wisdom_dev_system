@@ -86,6 +86,7 @@
 <script lang="ts" setup>
   import { onMounted, ref, watch, nextTick } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const props = defineProps({
     path: { type: String, default: null },
@@ -275,7 +276,7 @@
   };
 
   const handleTabMessage = (event) => {
-    const message = event.data;
+    const message = Reflect.has(event, 'type') && Reflect.has(event, 'data') ? event : event.data;
     const { data } = message;
     // 处理接收到的消息
     if (message.type === 'addTabPage') {
@@ -310,7 +311,7 @@
     paneMap.set(panes.value[0].pageurl, panes.value[0]);
     activeKey.value = panes.value[0].pageurl;
     tabWidth.value = document.body.clientWidth - 280 + 'px';
-    window.addEventListener('message', handleTabMessage, false);
+    MsgManager.getInstance().listen('iframe-tabs-message', handleTabMessage);
     emit('change', activeKey.value, paneMap.get(activeKey.value));
   });
 </script>

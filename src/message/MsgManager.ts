@@ -1,3 +1,6 @@
+/**
+ * @description 全局推送监听消息类
+ */
 export class MsgManager {
   private static instance: MsgManager | undefined;
   private static channels: Map<string, any>;
@@ -6,14 +9,16 @@ export class MsgManager {
     MsgManager.channels = new Map<string, any>();
   }
 
-  getInstance() {
+  // 获取示例函数
+  static getInstance(): MsgManager {
     if (!MsgManager.instance) {
       MsgManager.instance = new MsgManager();
     }
     return MsgManager.instance;
   }
 
-  sendMsg(channelName, message) {
+  // 向指定信道推送信息
+  public sendMsg(channelName, message) {
     let channel = MsgManager.channels.get(channelName);
     if (!channel) {
       channel = new BroadcastChannel(channelName);
@@ -22,7 +27,8 @@ export class MsgManager {
     channel.postMessage(message);
   }
 
-  listen(channelName, callback) {
+  // 监听指定信道消息
+  public listen(channelName, callback) {
     let channel = MsgManager.channels.get(channelName);
     if (!channel) {
       channel = new BroadcastChannel(channelName);

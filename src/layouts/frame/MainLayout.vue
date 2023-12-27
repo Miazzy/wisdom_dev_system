@@ -12,10 +12,9 @@
   import Header from './Header.vue';
   import Menu from './Menu.vue';
   import Content from './Content.vue';
-  import { useRouter } from 'vue-router';
   import { useUserStore } from '/@/store/modules/user';
+  import { MsgManager } from '/@/message/MsgManager';
 
-  const router = useRouter();
   const currentModule = ref(null);
   const menuList = ref([]);
   const systemTheme = ref('');
@@ -47,10 +46,9 @@
     }
   };
 
-  const handleOfflineMessage = (event) => {
+  // 用户下线消息处理函数
+  const handleOfflineMessage = (message) => {
     const userStore = useUserStore();
-    const message = event.data;
-    // 处理接收到的消息
     if (message.type === 'userOffline') {
       userStore.logout(true);
     }
@@ -58,7 +56,7 @@
 
   // Mounted时加载函数
   onMounted(() => {
-    window.addEventListener('message', handleOfflineMessage, false);
+    MsgManager.getInstance().listen('notify-message', handleOfflineMessage);
     systemTheme.value = 'light';
   });
 </script>

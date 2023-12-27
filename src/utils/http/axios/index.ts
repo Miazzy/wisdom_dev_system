@@ -19,6 +19,7 @@ import { joinTimestamp, formatRequestDate } from './helper';
 import { useUserStoreWithOut } from '/@/store/modules/user';
 import { AxiosRetry } from '/@/utils/http/axios/axiosRetry';
 import axios from 'axios';
+import { MsgManager } from '/@/message/MsgManager';
 
 const globSetting = useGlobSetting();
 const urlPrefix = globSetting.urlPrefix;
@@ -104,8 +105,7 @@ const transform: AxiosTransform = {
     switch (code) {
       case ResultEnum.TIMEOUT:
         timeoutMsg = t('sys.api.timeoutMessage');
-        window.postMessage({ type: 'userOffline' }, '*');
-        window.parent.postMessage({ type: 'userOffline' }, '*');
+        MsgManager.getInstance().sendMsg('notify-message', { type: 'userOffline' });
         break;
       default:
         if (message) {

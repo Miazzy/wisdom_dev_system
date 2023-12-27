@@ -185,6 +185,7 @@
       <Button @click="handleOpenApprovalDrawer">审批</Button>
       <Button @click="handlePushAndClose">关闭并跳转</Button>
       <Button @click="handleGenerateUUID">生成UUID</Button>
+      <Button @click="reloadCurrrentTab">刷新当前</Button>
     </div>
 
     <div> {{ uuidVal }} </div>
@@ -291,6 +292,7 @@
   import { DateTools } from '/@/utils/dateUtil';
   import { Tinymce } from '/@/components/Tinymce/index';
   import { useUserStore } from '/@/store/modules/user';
+  import { reloadCurrrentTab } from '/@/utils/route';
 
   type RangeValue = [Dayjs, Dayjs];
 

@@ -18,6 +18,7 @@ import { useDictStoreWithOut } from '@/store/modules/dict';
 import { SystemAuthApi } from '/@/api/sys/user';
 import { DictDataApi } from '/@/api/system/dict/data';
 import { createLocalStorage } from '@/utils/cache';
+import { MsgManager } from '/@/message/MsgManager';
 
 const ls = createLocalStorage();
 const dictStore = useDictStoreWithOut();
@@ -314,8 +315,7 @@ export class VAxios {
               const logoutFlag = res.data.code == ResultEnum.ACCOUNT_ERROR;
               if (logoutFlag) {
                 setTimeout(() => {
-                  window.postMessage({ type: 'userOffline' }, '*');
-                  window.parent.postMessage({ type: 'userOffline' }, '*');
+                  MsgManager.getInstance().sendMsg('notify-message', { type: 'userOffline' });
                 }, 500);
               }
             }

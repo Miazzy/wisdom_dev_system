@@ -1,6 +1,7 @@
 import { useMultipleTabStore } from '/@/store/modules/multipleTab';
 import { useRouter } from 'vue-router';
 import { buildUUID } from '/@/utils/uuid';
+import { MsgManager } from '/@/message/MsgManager';
 
 // 解析路由路径参数
 export const parseRoutePath = (path: string): Record<string, string> => {
@@ -97,11 +98,5 @@ export const reloadTabById = (id) => {
 
 // 推送消息至框架
 const sendMessage = (message) => {
-  let context: any = window;
-  if (window?.top) {
-    context = window?.top;
-  } else if (window?.parent) {
-    context = window?.parent;
-  }
-  context.postMessage(message, '*');
+  MsgManager.getInstance().sendMsg('iframe-tabs-message', message);
 };
