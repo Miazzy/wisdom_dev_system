@@ -53,8 +53,16 @@
 }
 
 .theme2 {
-  .ant-layout {
+  .ant-layout , #app > .main-layout{
     background: url('../assets/images/background2.png') no-repeat center/100% 100%;
+  }
+
+  #app > .main-layout .logo{
+    background: url('../assets/images/my-logo-dark.png') no-repeat 24px 6px/104px auto;
+    
+    &:hover {
+      background-color: transparent;
+    }
   }
 
   .vben-layout-header--dark {

@@ -518,8 +518,17 @@
   .ant-layout {
     background: transparent;
   }
-  #app > .ant-layout {
+
+  #app > .ant-layout, #app > .main-layout {
     background: url('../assets/images/background4.png') no-repeat center/100% 100%;
+  }
+
+  #app > .main-layout .logo{
+    background: url('../assets/images/my-logo-dark.png') no-repeat 24px 6px/104px auto;
+    
+    &:hover {
+      background-color: transparent;
+    }
   }
 
   .vben-layout-header--dark {
@@ -528,7 +537,7 @@
     border-left-color: rgb(10 36 74 / 70%);
     background-color: rgb(10 36 74 / 70%) !important;
 
-    .vben-layout-header-logo {
+    .vben-layout-header-logo , #app > .main-layout .logo{
       background: url('../assets/images/my-logo-dark.png') no-repeat 24px 6px/104px auto;
 
       &:hover {
