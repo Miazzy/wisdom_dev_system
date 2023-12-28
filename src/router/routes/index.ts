@@ -1136,9 +1136,24 @@ export const PoSafetyRespAgreement: AppRouteRecordRaw = {
   component: () => import('/@/views/po/safety/safetyrespagreement/index.vue'),
 };
 
+export const PoSafetyRespAgreementCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/safetyRespAgreement/create',
+  component: () => import('/@/views/po/safety/safetyrespagreement/safetyRespAgreementModal.vue'),
+};
+
+export const PoSafetyRespAgreementDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/safetyRespAgreement/detail',
+  component: () => import('/@/views/po/safety/safetyrespagreement/safetyRespAgreementModal.vue'),
+};
+
 export const PoOperationticket: AppRouteRecordRaw = {
   path: '/framepage/po/ticket/operationticket/index',
   component: () => import('/@/views/po/ticket/operationticket/index.vue'),
+};
+
+export const PoOperationticketCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/ticket/operationticket/create',
+  component: () => import('/@/views/po/ticket/operationticket/create.vue'),
 };
 
 export const PoFirstworkticket: AppRouteRecordRaw = {
@@ -1146,9 +1161,19 @@ export const PoFirstworkticket: AppRouteRecordRaw = {
   component: () => import('/@/views/po/ticket/firstworkticket/index.vue'),
 };
 
+export const PoFirstworkticketCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/ticket/firstworkticket/create',
+  component: () => import('/@/views/po/ticket/firstworkticket/create.vue'),
+};
+
 export const PoSecondworkticket: AppRouteRecordRaw = {
   path: '/framepage/po/ticket/secondworkticket/index',
   component: () => import('/@/views/po/ticket/secondworkticket/index.vue'),
+};
+
+export const PoSecondworkticketCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/ticket/secondworkticket/create',
+  component: () => import('/@/views/po/ticket/secondworkticket/create.vue'),
 };
 
 export const PoInspectionplan: AppRouteRecordRaw = {
@@ -1662,9 +1687,14 @@ export const basicRoutes = [
   PoSafetytools,
   PoSafetytoolsCreate,
   PoSafetyRespAgreement,
+  PoSafetyRespAgreementCreate,
+  PoSafetyRespAgreementDetail,
   PoOperationticket,
+  PoOperationticketCreate,
   PoFirstworkticket,
+  PoFirstworkticketCreate,
   PoSecondworkticket,
+  PoSecondworkticketCreate,
   PoInspectionplan,
   PoInspectionexecution,
   PoSupervision,
