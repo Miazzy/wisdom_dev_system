@@ -1352,8 +1352,13 @@ export const OaAttendCalendar: AppRouteRecordRaw = {
 };
 
 export const OaAskreportIndex: AppRouteRecordRaw = {
-  path: '/framepage/oa/askReport',
+  path: '/framepage/oa/askreport',
   component: () => import('/@/views/oa/askreport/index.vue'),
+};
+
+export const OaAskreportDetail: AppRouteRecordRaw = {
+  path: '/framepage/oa/askreport/detail',
+  component: () => import('/@/views/oa/askreport/detail.vue'),
 };
 
 export const OaAddressbook: AppRouteRecordRaw = {
@@ -1591,6 +1596,7 @@ export const basicRoutes = [
   OaAttendCreate,
   OaAttendCalendar,
   OaAskreportIndex,
+  OaAskreportDetail,
   OaAddressbook,
   OaWorkbench,
   BpmWorkflow,
