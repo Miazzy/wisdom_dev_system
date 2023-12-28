@@ -690,9 +690,7 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/oa/info/infokind/infoKind.vue');
         } else if (checkImportComponent('/@/views/oa/askreport/index.vue', menu.component)) {
           return import('/@/views/oa/askreport/index.vue');
-        } else if (
-          checkImportComponent('/@/views/oa/askreport/detail.vue', menu.component)
-        ) {
+        } else if (checkImportComponent('/@/views/oa/askreport/detail.vue', menu.component)) {
           return import('/@/views/oa/askreport/detail.vue');
         } else if (checkImportComponent('/@/views/oa/addressbook/index.vue', menu.component)) {
           return import('/@/views/oa/addressbook/index.vue');
@@ -1049,7 +1047,7 @@ export const PoSafetyFilesDetail: AppRouteRecordRaw = {
 };
 
 export const PoEmergencydrill: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/emergencydrill/create',
+  path: '/framepage/po/safety/emergencydrill',
   component: () => import('/@/views/po/safety/emergencydrill/index.vue'),
 };
 
@@ -1405,7 +1403,8 @@ export const PoAssessEvaluationTemplate: AppRouteRecordRaw = {
 
 export const PoAssessEvaluationTemplateCreate: AppRouteRecordRaw = {
   path: '/framepage/po/integrated/assessmentevaluation/template/templateCreate',
-  component: () => import('/@/views/po/integrated/assessmentevaluation/template/templateCreate.vue'),
+  component: () =>
+    import('/@/views/po/integrated/assessmentevaluation/template/templateCreate.vue'),
 };
 
 export const PoAssessEvaluationDaily: AppRouteRecordRaw = {
@@ -1862,6 +1861,7 @@ export const basicRoutes = [
   PoEquipment,
   PoEquipmentCreate,
   PoEquipmentWarehousing,
+  PoEquipmentWarehousingCreate,
   PoEquipmentOutbound,
   PoEquipmentOutboundCreate,
   PoEquipmentOutboundDetail,
