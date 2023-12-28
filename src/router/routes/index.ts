@@ -690,10 +690,8 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/oa/info/infokind/infoKind.vue');
         } else if (checkImportComponent('/@/views/oa/askreport/index.vue', menu.component)) {
           return import('/@/views/oa/askreport/index.vue');
-        } else if (
-          checkImportComponent('/@/views/oa/askreport/askReportModal.vue', menu.component)
-        ) {
-          return import('/@/views/oa/askreport/askReportModal.vue');
+        } else if (checkImportComponent('/@/views/oa/askreport/detail.vue', menu.component)) {
+          return import('/@/views/oa/askreport/detail.vue');
         } else if (checkImportComponent('/@/views/oa/addressbook/index.vue', menu.component)) {
           return import('/@/views/oa/addressbook/index.vue');
         } else if (checkImportComponent('/@/views/oa/attend/index.vue', menu.component)) {
