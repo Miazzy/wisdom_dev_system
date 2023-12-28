@@ -1291,59 +1291,74 @@ export const BiOaAtt: AppRouteRecordRaw = {
   component: () => import('/@/views/bi/oa/att/index.vue'),
 };
 
-export const BiOaInfoInfoKind: AppRouteRecordRaw = {
+export const OaInfoInfoKind: AppRouteRecordRaw = {
   path: '/framepage/oa/info/infoKind',
   component: () => import('/@/views/oa/info/infokind/infoKind.vue'),
 };
 
-export const BiOaInfoOfficedoc: AppRouteRecordRaw = {
+export const OaInfoOfficedoc: AppRouteRecordRaw = {
   path: '/framepage/oa/info/officedoc/index',
   component: () => import('/@/views/oa/info/officedoc/index.vue'),
 };
 
-export const BiOaInfoOfficedocCreate: AppRouteRecordRaw = {
+export const OaInfoOfficedocCreate: AppRouteRecordRaw = {
   path: '/framepage/oa/info/officedoc/create',
   component: () => import('/@/views/oa/info/officedoc/create.vue'),
 };
 
-export const BiOaInfoInfonoticeIndex: AppRouteRecordRaw = {
+export const OaInfoInfonoticeIndex: AppRouteRecordRaw = {
   path: '/framepage/oa/info/infonotice/index',
   component: () => import('/@/views/oa/info/infonotice/index.vue'),
 };
 
-export const BiOaInfoInfonoticeCreate: AppRouteRecordRaw = {
+export const OaInfoInfonoticeCreate: AppRouteRecordRaw = {
   path: '/framepage/oa/info/infonotice/create',
   component: () => import('/@/views/oa/info/infonotice/create.vue'),
 };
 
-export const BiOaInfoInformationCreate: AppRouteRecordRaw = {
+export const OaInfoInformationIndex: AppRouteRecordRaw = {
+  path: '/framepage/oa/info/information/index',
+  component: () => import('/@/views/oa/info/information/index.vue'),
+};
+
+export const OaInfoInformationCreate: AppRouteRecordRaw = {
   path: '/framepage/oa/info/information/create',
   component: () => import('/@/views/oa/info/information/create.vue'),
 };
 
-export const BiOaInfoQueryIndex: AppRouteRecordRaw = {
+export const OaInfoQueryIndex: AppRouteRecordRaw = {
   path: '/framepage/oa/info/query/index',
   component: () => import('/@/views/oa/info/query/index.vue'),
 };
 
-export const BiOaAttendIndex: AppRouteRecordRaw = {
+export const OaAttendIndex: AppRouteRecordRaw = {
   path: '/framepage/oa/attend/index',
   component: () => import('/@/views/oa/attend/index.vue'),
 };
 
-export const BiOaAttendCreate: AppRouteRecordRaw = {
+export const OaAttendCreate: AppRouteRecordRaw = {
   path: '/framepage/oa/attend/create',
   component: () => import('/@/views/oa/attend/create.vue'),
 };
 
-export const BiOaAttendCalendar: AppRouteRecordRaw = {
+export const OaAttendCalendar: AppRouteRecordRaw = {
   path: '/framepage/oa/attend/calendar',
   component: () => import('/@/views/oa/attend/calendar.vue'),
 };
 
-export const BiOaAskreportIndex: AppRouteRecordRaw = {
+export const OaAskreportIndex: AppRouteRecordRaw = {
   path: '/framepage/oa/askReport',
   component: () => import('/@/views/oa/askreport/index.vue'),
+};
+
+export const OaAddressbook: AppRouteRecordRaw = {
+  path: '/framepage/oa/addressbook',
+  component: () => import('/@/views/oa/addressbook/index.vue'),
+};
+
+export const OaWorkbench: AppRouteRecordRaw = {
+  path: '/framepage/workbench',
+  component: () => import('/@/views/workbench/Workbench.vue'),
 };
 
 export const BpmWorkflow: AppRouteRecordRaw = {
@@ -1558,17 +1573,20 @@ export const basicRoutes = [
   BiIntegratedPersonnelStructure,
   BiIntegratedTrainingStatistics,
   BiOaAtt,
-  BiOaInfoInfoKind,
-  BiOaInfoOfficedoc,
-  BiOaInfoOfficedocCreate,
-  BiOaInfoInfonoticeIndex,
-  BiOaInfoInfonoticeCreate,
-  BiOaInfoInformationCreate,
-  BiOaInfoQueryIndex,
-  BiOaAttendIndex,
-  BiOaAttendCreate,
-  BiOaAttendCalendar,
-  BiOaAskreportIndex,
+  OaInfoInfoKind,
+  OaInfoOfficedoc,
+  OaInfoOfficedocCreate,
+  OaInfoInfonoticeIndex,
+  OaInfoInfonoticeCreate,
+  OaInfoInformationIndex,
+  OaInfoInformationCreate,
+  OaInfoQueryIndex,
+  OaAttendIndex,
+  OaAttendCreate,
+  OaAttendCalendar,
+  OaAskreportIndex,
+  OaAddressbook,
+  OaWorkbench,
   BpmWorkflow,
   BpmWftaskAssignRule,
   BpmWfdefinition,
