@@ -690,7 +690,9 @@ const transformMenuItem = (menu, routes) => {
           return import('/@/views/oa/info/infokind/infoKind.vue');
         } else if (checkImportComponent('/@/views/oa/askreport/index.vue', menu.component)) {
           return import('/@/views/oa/askreport/index.vue');
-        } else if (checkImportComponent('/@/views/oa/askreport/detail.vue', menu.component)) {
+        } else if (
+          checkImportComponent('/@/views/oa/askreport/detail.vue', menu.component)
+        ) {
           return import('/@/views/oa/askreport/detail.vue');
         } else if (checkImportComponent('/@/views/oa/addressbook/index.vue', menu.component)) {
           return import('/@/views/oa/addressbook/index.vue');
@@ -1206,7 +1208,7 @@ export const PoSupervisionCreate: AppRouteRecordRaw = {
 
 export const PoSupervisionDetail: AppRouteRecordRaw = {
   path: '/framepage/po/supervision/detail',
-  component: () => import('/@/views/po/supervision/detail.vue'),
+  component: () => import('/@/views/po/supervision/create.vue'),
 };
 
 export const PoDanger: AppRouteRecordRaw = {
@@ -1221,7 +1223,7 @@ export const PoDangerCreate: AppRouteRecordRaw = {
 
 export const PoDangerDetail: AppRouteRecordRaw = {
   path: '/framepage/po/danger/detail',
-  component: () => import('/@/views/po/danger/detail.vue'),
+  component: () => import('/@/views/po/danger/create.vue'),
 };
 
 export const PoFault: AppRouteRecordRaw = {
@@ -1236,7 +1238,7 @@ export const PoFaultCreate: AppRouteRecordRaw = {
 
 export const PoFaultDetail: AppRouteRecordRaw = {
   path: '/framepage/po/fault/detail',
-  component: () => import('/@/views/po/fault/detail.vue'),
+  component: () => import('/@/views/po/fault/create.vue'),
 };
 
 export const PoWorkorder: AppRouteRecordRaw = {
@@ -1311,7 +1313,7 @@ export const PoEquipmentWarehousingCreate: AppRouteRecordRaw = {
 
 export const PoEquipmentWarehousingDetail: AppRouteRecordRaw = {
   path: '/framepage/po/equipment/warehousing/detail',
-  component: () => import('/@/views/po/equipment/warehousing/detail.vue'),
+  component: () => import('/@/views/po/equipment/warehousing/create.vue'),
 };
 
 export const PoEquipmentOutbound: AppRouteRecordRaw = {
@@ -1341,7 +1343,7 @@ export const PoEquipmentInventoryCreate: AppRouteRecordRaw = {
 
 export const PoEquipmentInventoryDetail: AppRouteRecordRaw = {
   path: '/framepage/po/equipment/inventory/detail',
-  component: () => import('/@/views/po/equipment/inventory/detail.vue'),
+  component: () => import('/@/views/po/equipment/inventory/create.vue'),
 };
 
 export const PoInPersoncertificate: AppRouteRecordRaw = {
