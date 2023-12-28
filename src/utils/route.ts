@@ -43,7 +43,7 @@ export const getCurrentPageInfo = () => {
 };
 
 // 新增TabPage页面函数（iframe模式）
-export const addTabPage = (path: string, name: string, params: Object | null = null) => {
+export const addTabPage = (path: string, name: string = '', params: Object | null = null) => {
   const id = buildUUID();
   path = params == null || typeof params == 'undefined' ? path : pathToUrl(path, params);
   const message = { type: 'addTabPage', data: { id, path, name, params } };

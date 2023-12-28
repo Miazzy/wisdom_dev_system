@@ -1071,6 +1071,11 @@ export const PoWorkorder: AppRouteRecordRaw = {
   component: () => import('/@/views/po/workorder/index.vue'),
 };
 
+export const PoWorkorderCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/workorder/create',
+  component: () => import('/@/views/po/workorder/create.vue'),
+};
+
 export const PoPowerCutPlan: AppRouteRecordRaw = {
   path: '/framepage/po/powerCutPlan/index',
   component: () => import('/@/views/po/powercutplan/powerCutPlan.vue'),
@@ -1529,6 +1534,7 @@ export const basicRoutes = [
   PoDanger,
   PoFault,
   PoWorkorder,
+  PoWorkorderCreate,
   PoPowerCutPlan,
   PoAssessTemplate,
   PoAssessFilling,
