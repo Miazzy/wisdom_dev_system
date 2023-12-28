@@ -13,7 +13,8 @@
         <template v-if="menu?.visible && menu?.component === 'LAYOUT'">
           <a-sub-menu :key="menu?.id">
             <template #icon>
-              <Icon :icon="menu.icon" :color="iconColor" size="22" />
+              <Icon :icon="menu.icon" size="16" />
+              <!--  :color="iconColor" -->
             </template>
             <template #title>{{ menu.name }}</template>
             <template v-for="item in menu.children">
@@ -44,7 +45,8 @@
         <template v-else-if="menu?.visible && menu?.component !== 'LAYOUT'">
           <a-menu-item :key="handleMenuItemId(menu)">
             <template #icon>
-              <Icon :icon="menu.icon" :color="iconColor" size="22" />
+              <Icon :icon="menu.icon" size="16" />
+              <!-- :color="iconColor" -->
             </template>
             {{ menu.name }}
           </a-menu-item>
@@ -124,12 +126,73 @@
     systemMode.value = props.mode;
   });
 </script>
-<style scoped>
+<style lang="less">
+.app-menu {
+  .ant-menu-light .ant-menu-item:hover, .ant-menu-light .ant-menu-item-active, .ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open, .ant-menu-light .ant-menu-submenu-active, .ant-menu-light .ant-menu-submenu-title:hover {
+    color: #1890FF;
+  }
+}
+
+.theme1 {
+  .app-menu {
+    .ant-menu {
+      color: #A7ADB4;
+      background-color: rgba(10, 36, 74, 0.7);
+    }
+    .ant-menu-sub.ant-menu-inline {
+      background-color: rgba(5, 22, 41, 0.7);
+    }
+    .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+      background-color: #1890FF;
+    }
+    .ant-menu-item:active, .ant-menu-submenu-title:active {
+      background-color: #1890FF;
+    }
+    .ant-menu-item-selected, .ant-menu-submenu-selected {
+      color: #FEFEFE;
+    }
+    .ant-menu-light .ant-menu-item-selected.ant-menu-item:hover {
+      color: #FEFEFE;
+    }
+    .ant-menu-light .ant-menu-item-selected.ant-menu-item-active {
+      color: #FEFEFE;
+    }
+  }
+}
+
+.theme3 {
+  .app-menu {
+    .ant-menu {
+      color: #A7ADB4;
+      background-color: #001529;
+    }
+    .ant-menu-sub.ant-menu-inline {
+      background-color: #000C17;
+    }
+    .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+      background-color: #1890FF;
+    }
+    .ant-menu-item:active, .ant-menu-submenu-title:active {
+      background-color: #1890FF;
+    }
+    .ant-menu-item-selected, .ant-menu-submenu-selected {
+      color: #FEFEFE;
+    }
+    .ant-menu-light .ant-menu-item-selected.ant-menu-item:hover {
+      color: #FEFEFE;
+    }
+    .ant-menu-light .ant-menu-item-selected.ant-menu-item-active {
+      color: #FEFEFE;
+    }
+  }
+}
+</style>
+<style lang="less" scoped>
   .app-menu {
     width: 220px;
     min-width: 220px;
     height: calc(100vh - 3.25rem);
-    background-color: #fff;
+    background-color: transparent;
     padding: 0 0 0 0;
     overflow-y: scroll;
     overflow-x: hidden;

@@ -45,9 +45,9 @@
           </template>
         </a-dropdown>
         <div class="tabs-buttons">
-          <Icon :icon="'icons8:refresh'" color="#333" size="15" @click="handleRefreshTabPage" />
+          <Icon :icon="'icons8:refresh'" size="15" @click="handleRefreshTabPage" />
           <a-dropdown :trigger="trigger">
-            <Icon :icon="'codicon:fold-down'" color="#333" size="13" />
+            <Icon :icon="'codicon:fold-down'" size="13" />
             <template #overlay>
               <a-menu>
                 <a-menu-item>
@@ -311,10 +311,41 @@
     emit('change', activeKey.value, paneMap.get(activeKey.value));
   });
 </script>
-<style scoped>
+<style lang="less">
+.theme1 {
+  .app-content {
+    .tabs-content {
+      .ant-tabs {
+        background-color: transparent;
+      }
+      border-bottom: 1px solid transparent;
+      .tabs-buttons {
+        span {
+          border-left: 1px solid rgba(255, 255, 255, 0.16);
+        }
+      }
+    }
+  }
+  
+}
+
+.theme3 {
+  .app-content {
+    .tabs-content {
+      border-bottom: 1px solid #f0f0f0;
+      .tabs-buttons {
+        span {
+          border-left: 1px solid #f0f0f0;
+        }
+      }
+    }
+  }
+}
+</style>
+<style lang="less" scoped>
   .app-content {
     flex: 1;
-    padding: 0.1rem 0 0.2rem 0.2rem;
+    /* padding: 0.1rem 0 0.2rem 0.2rem; */
 
     :deep(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
       color: #fefefe;
@@ -332,16 +363,14 @@
       display: flex;
       flex-direction: row;
       align-items: left;
-      justify-content: left;
-      border-bottom: 1px solid #f0f0f0;
+      justify-content: left;      
 
       .tabs-buttons {
         width: 60px;
 
         span {
           display: inline-flex;
-          padding: 5px;
-          border-left: 1px solid #f0f0f0;
+          padding: 5px;       
           cursor: pointer;
         }
       }
