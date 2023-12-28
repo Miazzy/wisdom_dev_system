@@ -54,7 +54,7 @@ export const addTabPage = (path: string, name: string = '', params: Object | nul
 // 新增Tab页签并关闭原页面（iframe模式）
 export const addTabAndClose = (
   path: string,
-  name: string,
+  name: string = '',
   params: Object | null = null,
   closeID: string = '',
   refresh: boolean = true,
