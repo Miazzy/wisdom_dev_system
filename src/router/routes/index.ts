@@ -956,9 +956,39 @@ export const PoElecProduceIndex: AppRouteRecordRaw = {
   component: () => import('/@/views/po/elec/produce/index.vue'),
 };
 
+export const PoElecProduceDayReportCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/elec/produce/dayReportCreate',
+  component: () => import('/@/views/po/elec/produce/dayReportCreate.vue'),
+};
+
+export const PoElecProduceWeekReportCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/elec/produce/weekReportCreate',
+  component: () => import('/@/views/po/elec/produce/weekReportCreate.vue'),
+};
+
+export const PoElecProduceMonthReportCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/elec/produce/monthReportCreate',
+  component: () => import('/@/views/po/elec/produce/monthReportCreate.vue'),
+};
+
+export const PoElecProduceYearReportCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/elec/produce/yearReportCreate',
+  component: () => import('/@/views/po/elec/produce/yearReportCreate.vue'),
+};
+
 export const PoElecSettlementElectricity: AppRouteRecordRaw = {
   path: '/framepage/po/elec/settlementelec/settlementElectricity',
   component: () => import('/@/views/po/elec/settlementelec/settlementElectricity.vue'),
+};
+
+export const PoElecSettlementElecModal: AppRouteRecordRaw = {
+  path: '/framepage/po/elec/settlementelec/setElecCreate',
+  component: () => import('/@/views/po/elec/settlementelec/settlemenElecModal.vue'),
+};
+
+export const PoElecSettlementElecSetElecDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/elec/settlementelec/setElecDetail',
+  component: () => import('/@/views/po/elec/settlementelec/settlemenElecModal.vue'),
 };
 
 export const PoPlannedElectricity: AppRouteRecordRaw = {
@@ -966,14 +996,34 @@ export const PoPlannedElectricity: AppRouteRecordRaw = {
   component: () => import('/@/views/po/elec/plannedelectricity/plannedElectricity.vue'),
 };
 
+export const PoPlannedElecCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/elec/plannedelec/plannedElecCreate',
+  component: () => import('/@/views/po/elec/plannedelectricity/plannedElecModal.vue'),
+};
+
+export const PoPlannedElecDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/elec/plannedelec/plannedElecDetail',
+  component: () => import('/@/views/po/elec/plannedelectricity/plannedElecModal.vue'),
+};
+
 export const PoSafechecktemplate: AppRouteRecordRaw = {
   path: '/framepage/po/safety/safechecktemplate',
   component: () => import('/@/views/po/safety/safechecktemplate/index.vue'),
 };
 
+export const PoSafechecktemplateCreateOrUpdate: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/safechecktemplate/create',
+  component: () => import('/@/views/po/safety/safechecktemplate/createOrUpdate.vue'),
+};
+
 export const PoSafecheckissue: AppRouteRecordRaw = {
   path: '/framepage/po/safety/safecheckissue',
-  component: () => import('/@/views/po/safety/safechecktemplate/index.vue'),
+  component: () => import('/@/views/po/safety/safecheckissue/index.vue'),
+};
+
+export const PoSafecheckissueCreateOrUpdate: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/safecheckissue/create',
+  component: () => import('/@/views/po/safety/safecheckissue/createOrUpdate.vue'),
 };
 
 export const PoSafecheckexecutionCheckType1: AppRouteRecordRaw = {
@@ -981,9 +1031,19 @@ export const PoSafecheckexecutionCheckType1: AppRouteRecordRaw = {
   component: () => import('/@/views/po/safety/safecheckexecution/index.vue'),
 };
 
+export const PoSafecheckexecutionCreateCheckType1: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/safecheckexecution/create/checkType__1',
+  component: () => import('/@/views/po/safety/safecheckexecution/createOrUpdate.vue'),
+};
+
 export const PoSafecheckexecutionCheckType2: AppRouteRecordRaw = {
   path: '/framepage/po/safety/safecheckexecution/checkType__2',
   component: () => import('/@/views/po/safety/safecheckexecution/index.vue'),
+};
+
+export const PoSafecheckexecutionCreateCheckType2: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/safecheckexecution/create/checkType__2',
+  component: () => import('/@/views/po/safety/safecheckexecution/createOrUpdate.vue'),
 };
 
 export const PoVehicleexecution: AppRouteRecordRaw = {
@@ -991,14 +1051,39 @@ export const PoVehicleexecution: AppRouteRecordRaw = {
   component: () => import('/@/views/po/safety/vehicleexecution/index.vue'),
 };
 
+export const PoVehicleexecutionCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/vehicleexecution/create',
+  component: () => import('/@/views/po/safety/vehicleexecution/createOrUpdate.vue'),
+};
+
 export const PoSafetyFiles: AppRouteRecordRaw = {
   path: '/framepage/po/safety/safetyFiles',
   component: () => import('/@/views/po/safety/safetyfiles/index.vue'),
 };
 
+export const PoSafetyFilesCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/safetyfiles/create',
+  component: () => import('/@/views/po/safety/safetyfiles/SafetyFilesModal.vue'),
+};
+
+export const PoSafetyFilesDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/safetyfiles/detail',
+  component: () => import('/@/views/po/safety/safetyfiles/SafetyFilesModal.vue'),
+};
+
 export const PoEmergencydrill: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/emergencydrill',
+  path: '/framepage/po/safety/emergencydrill/create',
   component: () => import('/@/views/po/safety/emergencydrill/index.vue'),
+};
+
+export const PoEmergencydrillCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/emergencydrill/create',
+  component: () => import('/@/views/po/safety/emergencydrill/emergencyDrillModal.vue'),
+};
+
+export const PoEmergencydrillDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/emergencydrill/detail',
+  component: () => import('/@/views/po/safety/emergencydrill/emergencyDrillModal.vue'),
 };
 
 export const PoSafetyAccident: AppRouteRecordRaw = {
@@ -1006,9 +1091,24 @@ export const PoSafetyAccident: AppRouteRecordRaw = {
   component: () => import('/@/views/po/safety/safetyaccident/index.vue'),
 };
 
+export const PoSafetyAccidentCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/safetyAccident/create',
+  component: () => import('/@/views/po/safety/safetyaccident/safetyAccidentModal.vue'),
+};
+
+export const PoSafetyAccidentDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/safetyAccident/detail',
+  component: () => import('/@/views/po/safety/safetyaccident/safetyAccidentModal.vue'),
+};
+
 export const PoSafetytoolsscrap: AppRouteRecordRaw = {
   path: '/framepage/po/safetytools/safetytoolsscrap',
   component: () => import('/@/views/po/safetytools/safetytoolsscrap/index.vue'),
+};
+
+export const PoSafetytoolsscrapCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/safetytools/safetytoolsscrap/create',
+  component: () => import('/@/views/po/safetytools/safetytoolsscrap/create.vue'),
 };
 
 export const PoSafetytoolscheck: AppRouteRecordRaw = {
@@ -1016,9 +1116,19 @@ export const PoSafetytoolscheck: AppRouteRecordRaw = {
   component: () => import('/@/views/po/safetytools/safetytoolscheck/index.vue'),
 };
 
+export const PoSafetytoolscheckCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/safetytools/safetytoolscheck/create',
+  component: () => import('/@/views/po/safetytools/safetytoolscheck/create.vue'),
+};
+
 export const PoSafetytools: AppRouteRecordRaw = {
   path: '/framepage/po/safetytools/safetytools',
   component: () => import('/@/views/po/safetytools/safetytools/index.vue'),
+};
+
+export const PoSafetytoolsCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/safetytools/safetytools/create',
+  component: () => import('/@/views/po/safetytools/safetytools/create.vue'),
 };
 
 export const PoSafetyRespAgreement: AppRouteRecordRaw = {
@@ -1516,19 +1626,41 @@ export const basicRoutes = [
   PvDispersionRatioRealTimeAnalysis,
   PvGroupSeriesRealTimeAnalysis,
   PoElecProduceIndex,
+  PoElecProduceDayReportCreate,
+  PoElecProduceWeekReportCreate,
+  PoElecProduceMonthReportCreate,
+  PoElecProduceYearReportCreate,
   PoElecSettlementElectricity,
+  PoElecSettlementElecModal,
+  PoElecSettlementElecSetElecDetail,
   PoPlannedElectricity,
+  PoPlannedElecCreate,
+  PoPlannedElecDetail,
   PoSafechecktemplate,
+  PoSafechecktemplateCreateOrUpdate,
   PoSafecheckissue,
+  PoSafecheckissueCreateOrUpdate,
   PoSafecheckexecutionCheckType1,
+  PoSafecheckexecutionCreateCheckType1,
   PoSafecheckexecutionCheckType2,
+  PoSafecheckexecutionCreateCheckType2,
   PoVehicleexecution,
+  PoVehicleexecutionCreate,
   PoSafetyFiles,
+  PoSafetyFilesCreate,
+  PoSafetyFilesDetail,
   PoEmergencydrill,
+  PoEmergencydrillCreate,
+  PoEmergencydrillDetail,
   PoSafetyAccident,
+  PoSafetyAccidentCreate,
+  PoSafetyAccidentDetail,
   PoSafetytoolsscrap,
+  PoSafetytoolsscrapCreate,
   PoSafetytoolscheck,
+  PoSafetytoolscheckCreate,
   PoSafetytools,
+  PoSafetytoolsCreate,
   PoSafetyRespAgreement,
   PoOperationticket,
   PoFirstworkticket,
