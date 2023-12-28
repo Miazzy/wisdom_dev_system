@@ -13,7 +13,7 @@
   import { updateHeaderBgColor, updateSidebarBgColor } from '/@/logics/theme/updateBackground';
   import { updateDarkTheme } from '/@/logics/theme/dark';
   import { ThemeEnum } from '/@/enums/appEnum';
-  import { sendDarkModeMsg } from '@/utils/theme';
+  import { sendDarkModeMsg, sendThemeMessage } from '@/utils/theme';
 
   const { prefixCls } = useDesign('dark-switch');
   const { getDarkMode, setDarkMode, getShowDarkModeToggle } = useRootSetting();
@@ -33,7 +33,10 @@
     updateDarkTheme(darkMode);
     updateHeaderBgColor();
     updateSidebarBgColor();
-    sendDarkModeMsg(darkMode);
+    sendDarkModeMsg(darkMode); 
+    let themeName = darkMode === ThemeEnum.DARK ? 'theme1' : 'theme3';
+    localStorage.setItem('THEME', themeName);
+    sendThemeMessage('class', `${themeName} my-layout`);
   }
 </script>
 <style lang="less" scoped>
