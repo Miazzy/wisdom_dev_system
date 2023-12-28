@@ -1070,7 +1070,7 @@ export const PoSafetyFilesDetail: AppRouteRecordRaw = {
 };
 
 export const PoEmergencydrill: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/emergencydrill/create',
+  path: '/framepage/po/safety/emergencydrill',
   component: () => import('/@/views/po/safety/emergencydrill/index.vue'),
 };
 
