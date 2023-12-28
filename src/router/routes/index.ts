@@ -795,62 +795,39 @@ export const LoginRoute: AppRouteRecordRaw = {
 
 // 总览驾驶舱路由
 export const CockpitOverviewRoute: AppRouteRecordRaw = {
-  path: '/cockpit/overview',
+  path: '/framepage/cockpit/overview',
   name: 'CockpitOverview',
   component: () => import('/@/views/da/cockpit/overview/Overview.vue'),
-  meta: {
-    title: t('routes.basic.cockpit.overview'),
-  },
 };
 
 // 运维驾驶舱路由
 export const CockpitOperationRoute: AppRouteRecordRaw = {
-  path: '/cockpit/operation',
-  name: 'CockpitOperation',
+  path: '/framepage/cockpit/operation',
   component: () => import('/@/views/da/cockpit/operation/Operation.vue'),
-  meta: {
-    title: t('routes.basic.cockpit.operation'),
-  },
 };
 
 // 资产驾驶舱路由
 export const CockpitPropertyRoute: AppRouteRecordRaw = {
-  path: '/cockpit/property',
-  name: 'CockpitProperty',
+  path: '/framepage/cockpit/property',
   component: () => import('/@/views/da/cockpit/property/Property.vue'),
-  meta: {
-    title: t('routes.basic.cockpit.property'),
-  },
 };
 
 // 安全驾驶舱路由
 export const CockpitSecurityRoute: AppRouteRecordRaw = {
-  path: '/cockpit/security',
-  name: 'CockpitSecurity',
+  path: '/framepage/cockpit/security',
   component: () => import('/@/views/da/cockpit/security/Security.vue'),
-  meta: {
-    title: t('routes.basic.cockpit.security'),
-  },
 };
 
 // 综合驾驶舱路由
 export const CockpitCompositionRoute: AppRouteRecordRaw = {
-  path: '/cockpit/composition',
-  name: 'CockpitComposition',
+  path: '/framepage/cockpit/composition',
   component: () => import('/@/views/da/cockpit/composition/Composition.vue'),
-  meta: {
-    title: t('routes.basic.cockpit.composition'),
-  },
 };
 
 // 安全驾驶舱路由
 export const CockpitPowerRoute: AppRouteRecordRaw = {
-  path: '/cockpit/power',
-  name: 'CockpitPower',
+  path: '/framepage/cockpit/power',
   component: () => import('/@/views/da/cockpit/power/Power.vue'),
-  meta: {
-    title: t('routes.basic.cockpit.power'),
-  },
 };
 
 // 集团运营大屏
