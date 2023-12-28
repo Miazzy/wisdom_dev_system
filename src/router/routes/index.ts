@@ -1346,14 +1346,94 @@ export const BiOaAskreportIndex: AppRouteRecordRaw = {
   component: () => import('/@/views/oa/askreport/index.vue'),
 };
 
-export const BiOaAskreportIndexs: AppRouteRecordRaw = {
-  path: '/framepage/oa/askReport',
-  component: () => import('/@/views/oa/askreport/index.vue'),
+export const BpmWorkflow: AppRouteRecordRaw = {
+  path: '/framepage/bpm/manage/workflow',
+  component: () => import('/@/views/bpm/manage/workflow/workflow.vue'),
 };
 
-export const BiOaAskreportIndexss: AppRouteRecordRaw = {
-  path: () => {},
-  component: () => import('/@/views/oa/askreport/index.vue'),
+export const BpmWftaskAssignRule: AppRouteRecordRaw = {
+  path: '/framepage/bpm/manage/wftaskAssignRule',
+  component: () => import('/@/views/bpm/manage/taskAssignRule/index.vue'),
+};
+
+export const BpmWfdefinition: AppRouteRecordRaw = {
+  path: '/framepage/bpm/manage/wftaskDefinition',
+  component: () => import('/@/views/bpm/manage/definition/index.vue'),
+};
+
+export const BpmWfprocessEditor: AppRouteRecordRaw = {
+  path: '/framepage/bpm/manage/wfeditor',
+  component: () => import('/@/views/bpm/manage/workflow/processEditor.vue'),
+};
+
+export const BpmWfprocessInstance: AppRouteRecordRaw = {
+  path: '/framepage/bpm/task/processInstance',
+  component: () => import('/@/views/bpm/manage/processInstance/index.vue'),
+};
+
+export const BpmWftaskTodo: AppRouteRecordRaw = {
+  path: '/framepage/bpm/task/todo',
+  component: () => import('/@/views/bpm/manage/task/todo/index.vue'),
+};
+
+export const BpmWftaskDone: AppRouteRecordRaw = {
+  path: '/framepage/bpm/task/done',
+  component: () => import('/@/views/bpm/manage/task/done/index.vue'),
+};
+
+export const BasesetMonitorAreaSet: AppRouteRecordRaw = {
+  path: '/framepage/baseset/monitor/area',
+  component: () => import('/@/views/baseset/monitor/area/areaSet.vue'),
+};
+
+export const BasesetMonitorModelSet: AppRouteRecordRaw = {
+  path: '/framepage/baseset/monitor/model',
+  component: () => import('/@/views/baseset/monitor/model/modelSet.vue'),
+};
+
+export const BasesetMonitorDeviceSet: AppRouteRecordRaw = {
+  path: '/framepage/baseset/monitor/device',
+  component: () => import('/@/views/baseset/monitor/device/deviceSet.vue'),
+};
+
+export const BasesetMonitorDeviceInfoSet: AppRouteRecordRaw = {
+  path: '/framepage/baseset/monitor/deviceinfo',
+  component: () => import('/@/views/baseset/monitor/deviceinfo/deviceInfoSet.vue'),
+};
+
+export const BasesetMonitorModelInfo: AppRouteRecordRaw = {
+  path: '/framepage/baseset/monitor/modelinfo/modelInfo',
+  component: () => import('/@/views/baseset/monitor/modelinfo/modelInfo.vue'),
+};
+
+export const BasesetMonitorSunrise: AppRouteRecordRaw = {
+  path: '/framepage/baseset/monitor/sunrise',
+  component: () => import('/@/views/baseset/monitor/sunrise/sunriseSet.vue'),
+};
+
+export const BasesetPowerstation: AppRouteRecordRaw = {
+  path: '/framepage/baseset/operation/powerstation',
+  component: () => import('/@/views/baseset/operation/powerstation/index.vue'),
+};
+
+export const BasesetStationDrawer: AppRouteRecordRaw = {
+  path: '/framepage/baseset/operation/powerstation/create',
+  component: () => import('/@/views/baseset/operation/powerstation/stationDrawer.vue'),
+};
+
+export const BasesetMaterial: AppRouteRecordRaw = {
+  path: '/framepage/baseset/operation/material',
+  component: () => import('/@/views/baseset/operation/material/material.vue'),
+};
+
+export const BasesetRelatedParty: AppRouteRecordRaw = {
+  path: '/framepage/baseset/operation/relatedparty',
+  component: () => import('/@/views/baseset/operation/relatedparty/relatedParty.vue'),
+};
+
+export const BasesetWarehouse: AppRouteRecordRaw = {
+  path: '/framepage/baseset/operation/warehouse',
+  component: () => import('/@/views/baseset/operation/warehouse/warehouse.vue'),
 };
 
 // 暴露基础路由
@@ -1463,4 +1543,23 @@ export const basicRoutes = [
   BiOaAttendIndex,
   BiOaAttendCreate,
   BiOaAttendCalendar,
+  BiOaAskreportIndex,
+  BpmWorkflow,
+  BpmWftaskAssignRule,
+  BpmWfdefinition,
+  BpmWfprocessEditor,
+  BpmWfprocessInstance,
+  BpmWftaskTodo,
+  BpmWftaskDone,
+  BasesetMonitorAreaSet,
+  BasesetMonitorModelSet,
+  BasesetMonitorDeviceSet,
+  BasesetMonitorDeviceInfoSet,
+  BasesetMonitorModelInfo,
+  BasesetMonitorSunrise,
+  BasesetPowerstation,
+  BasesetStationDrawer,
+  BasesetMaterial,
+  BasesetRelatedParty,
+  BasesetWarehouse,
 ];

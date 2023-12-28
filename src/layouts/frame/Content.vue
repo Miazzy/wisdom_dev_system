@@ -181,12 +181,8 @@
 
   const handleNewTabPage = (value, name, menu) => {
     const path = value.startsWith('/') ? value : '/' + value;
-    const tempKey = path
-      .replace('/da/', '/')
-      .replace('/bi/', '/framepage/bi/')
-      .replace('/oa/', '/framepage/oa/')
-      .replace('/po/', '/framepage/po/')
-      .replace('/monitor/', '/framepage/monitor/');
+    let tempKey = path.replace('/da/', '/');
+    tempKey = tempKey.startsWith('/framepage') ? tempKey : '/framepage' + tempKey;
     const key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
     activeKey.value = key;
     if (!paneMap.has(key)) {
