@@ -31,7 +31,6 @@
     setup() {
       const { getDarkMode } = useRootSetting();
       let currentThemeList = ref([]);
-      console.log('getDarkMode.value', getDarkMode.value);
       currentThemeList.value = themeList.filter((item) => {
         return item.mode === getDarkMode.value;
       });

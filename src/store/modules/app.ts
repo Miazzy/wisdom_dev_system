@@ -40,7 +40,12 @@ export const useAppStore = defineStore({
       return state.pageLoading;
     },
     getDarkMode(state): 'light' | 'dark' | string {
-      return state.darkMode || localStorage.getItem(APP_DARK_MODE_KEY) || darkMode;
+      const htmlRoot = window.parent.document.getElementById('htmlRoot');
+      let htmlTheme='';
+      if (htmlRoot?.getAttribute('data-theme')) {
+        htmlTheme = htmlRoot.getAttribute('data-theme')||'';
+      }
+      return state.darkMode || localStorage.getItem(APP_DARK_MODE_KEY) || htmlTheme || darkMode;
     },
 
     getBeforeMiniInfo(state): BeforeMiniState {
