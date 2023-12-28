@@ -1328,7 +1328,7 @@ export const PoEquipmentOutboundCreate: AppRouteRecordRaw = {
 
 export const PoEquipmentOutboundDetail: AppRouteRecordRaw = {
   path: '/framepage/po/equipment/outbound/detail',
-  component: () => import('/@/views/po/equipment/outbound/detail.vue'),
+  component: () => import('/@/views/po/equipment/outbound/create.vue'),
 };
 
 export const PoEquipmentInventory: AppRouteRecordRaw = {
