@@ -1181,9 +1181,19 @@ export const PoInspectionplan: AppRouteRecordRaw = {
   component: () => import('/@/views/po/inspection/inspectionplan/index.vue'),
 };
 
+export const PoInspectionplanCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/inspection/inspectionplan/create',
+  component: () => import('/@/views/po/inspection/inspectionplan/create.vue'),
+};
+
 export const PoInspectionexecution: AppRouteRecordRaw = {
   path: '/framepage/po/inspection/inspectionexecution',
   component: () => import('/@/views/po/inspection/inspectionexecution/index.vue'),
+};
+
+export const PoInspectionexecutionCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/inspection/inspectionexecution/create',
+  component: () => import('/@/views/po/inspection/inspectionexecution/create.vue'),
 };
 
 export const PoSupervision: AppRouteRecordRaw = {
@@ -1191,14 +1201,44 @@ export const PoSupervision: AppRouteRecordRaw = {
   component: () => import('/@/views/po/supervision/index.vue'),
 };
 
+export const PoSupervisionCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/supervision/create',
+  component: () => import('/@/views/po/supervision/create.vue'),
+};
+
+export const PoSupervisionDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/supervision/detail',
+  component: () => import('/@/views/po/supervision/detail.vue'),
+};
+
 export const PoDanger: AppRouteRecordRaw = {
   path: '/framepage/po/danger/index',
   component: () => import('/@/views/po/danger/index.vue'),
 };
 
+export const PoDangerCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/danger/create',
+  component: () => import('/@/views/po/danger/create.vue'),
+};
+
+export const PoDangerDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/danger/detail',
+  component: () => import('/@/views/po/danger/detail.vue'),
+};
+
 export const PoFault: AppRouteRecordRaw = {
   path: '/framepage/po/fault/index',
   component: () => import('/@/views/po/fault/index.vue'),
+};
+
+export const PoFaultCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/fault/create',
+  component: () => import('/@/views/po/fault/create.vue'),
+};
+
+export const PoFaultDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/fault/detail',
+  component: () => import('/@/views/po/fault/detail.vue'),
 };
 
 export const PoWorkorder: AppRouteRecordRaw = {
@@ -1216,9 +1256,24 @@ export const PoPowerCutPlan: AppRouteRecordRaw = {
   component: () => import('/@/views/po/powercutplan/powerCutPlan.vue'),
 };
 
+export const PoPowerCutPlanCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/powerCutPlan/create',
+  component: () => import('/@/views/po/powercutplan/powerCutPlanModal.vue'),
+};
+
+export const PoPowerCutPlanDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/powerCutPlan/detail',
+  component: () => import('/@/views/po/powercutplan/powerCutPlanModal.vue'),
+};
+
 export const PoAssessTemplate: AppRouteRecordRaw = {
   path: '/framepage/po/assess/template/index',
   component: () => import('/@/views/po/assess/template/index.vue'),
+};
+
+export const PoAssessTemplateCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/assess/template/create',
+  component: () => import('/@/views/po/assess/template/create.vue'),
 };
 
 export const PoAssessFilling: AppRouteRecordRaw = {
@@ -1226,9 +1281,24 @@ export const PoAssessFilling: AppRouteRecordRaw = {
   component: () => import('/@/views/po/assess/template/index.vue'),
 };
 
+export const PoAssessFillingCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/assess/filling/create',
+  component: () => import('/@/views/po/assess/template/create.vue'),
+};
+
 export const PoEquipment: AppRouteRecordRaw = {
   path: '/framepage/po/equipment/index',
   component: () => import('/@/views/po/equipment/index.vue'),
+};
+
+export const PoEquipmentCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/create',
+  component: () => import('/@/views/po/equipment/create.vue'),
+};
+
+export const PoEquipmentDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/detail',
+  component: () => import('/@/views/po/equipment/detail.vue'),
 };
 
 export const PoEquipmentWarehousing: AppRouteRecordRaw = {
@@ -1236,9 +1306,29 @@ export const PoEquipmentWarehousing: AppRouteRecordRaw = {
   component: () => import('/@/views/po/equipment/warehousing/index.vue'),
 };
 
+export const PoEquipmentWarehousingCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/warehousing/create',
+  component: () => import('/@/views/po/equipment/warehousing/create.vue'),
+};
+
+export const PoEquipmentWarehousingDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/warehousing/detail',
+  component: () => import('/@/views/po/equipment/warehousing/detail.vue'),
+};
+
 export const PoEquipmentOutbound: AppRouteRecordRaw = {
   path: '/framepage/po/equipment/outbound/index',
   component: () => import('/@/views/po/equipment/outbound/index.vue'),
+};
+
+export const PoEquipmentOutboundCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/outbound/create',
+  component: () => import('/@/views/po/equipment/outbound/create.vue'),
+};
+
+export const PoEquipmentOutboundDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/outbound/detail',
+  component: () => import('/@/views/po/equipment/outbound/detail.vue'),
 };
 
 export const PoEquipmentInventory: AppRouteRecordRaw = {
@@ -1246,9 +1336,24 @@ export const PoEquipmentInventory: AppRouteRecordRaw = {
   component: () => import('/@/views/po/equipment/inventory/index.vue'),
 };
 
+export const PoEquipmentInventoryCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/inventory/create',
+  component: () => import('/@/views/po/equipment/inventory/create.vue'),
+};
+
+export const PoEquipmentInventoryDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/equipment/inventory/detail',
+  component: () => import('/@/views/po/equipment/inventory/detail.vue'),
+};
+
 export const PoInPersoncertificate: AppRouteRecordRaw = {
   path: '/framepage/po/integrated/personcertificate',
   component: () => import('/@/views/po/integrated/personcertificate/index.vue'),
+};
+
+export const PoInPersoncertificateCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/personcertificate/create',
+  component: () => import('/@/views/po/integrated/personcertificate/certificateDrawer.vue'),
 };
 
 export const PoIntegratedTraining: AppRouteRecordRaw = {
@@ -1256,9 +1361,19 @@ export const PoIntegratedTraining: AppRouteRecordRaw = {
   component: () => import('/@/views/po/integrated/training/index.vue'),
 };
 
+export const PoIntegratedTrainingCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/training/create',
+  component: () => import('/@/views/po/integrated/training/trainingCreate.vue'),
+};
+
 export const PoIntegratedInfoarchive: AppRouteRecordRaw = {
   path: '/framepage/po/integrated/infoarchive',
   component: () => import('/@/views/po/integrated/infoarchive/index.vue'),
+};
+
+export const PoIntegratedInfoarchiveCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/infoarchive/create',
+  component: () => import('/@/views/po/integrated/infoarchive/infoarchiveCreate.vue'),
 };
 
 export const PoIntegratedVehicle: AppRouteRecordRaw = {
@@ -1266,14 +1381,39 @@ export const PoIntegratedVehicle: AppRouteRecordRaw = {
   component: () => import('/@/views/po/integrated/vehicle/index.vue'),
 };
 
+export const PoIntegratedVehicleCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/vehicle/create',
+  component: () => import('/@/views/po/integrated/vehicle/create.vue'),
+};
+
 export const PoIntegratedContract: AppRouteRecordRaw = {
   path: '/framepage/po/integrated/contract',
   component: () => import('/@/views/po/integrated/contract/index.vue'),
 };
 
+export const PoIntegratedContractCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/contract/create',
+  component: () => import('/@/views/po/integrated/contract/contractModal.vue'),
+};
+
+export const PoIntegratedContractDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/contract/detail',
+  component: () => import('/@/views/po/integrated/contract/contractModal.vue'),
+};
+
 export const PoIntegratedKnowledge: AppRouteRecordRaw = {
   path: '/framepage/po/integrated/knowledge',
   component: () => import('/@/views/po/integrated/knowledge/knowledge.vue'),
+};
+
+export const PoIntegratedKnowledgeCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/knowledge/create',
+  component: () => import('/@/views/po/integrated/knowledge/knowledgeDrawer.vue'),
+};
+
+export const PoIntegratedKnowledgeDetail: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/knowledge/detail',
+  component: () => import('/@/views/po/integrated/knowledge/knowledgeDrawer.vue'),
 };
 
 export const PoAssessEvaluation: AppRouteRecordRaw = {
@@ -1286,14 +1426,39 @@ export const PoAssessEvaluationTemplate: AppRouteRecordRaw = {
   component: () => import('/@/views/po/integrated/assessmentevaluation/template/index.vue'),
 };
 
+export const PoAssessEvaluationTemplateCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/assessmentevaluation/template/templateCreate',
+  component: () => import('/@/views/po/integrated/assessmentevaluation/template/templateCreate.vue'),
+};
+
 export const PoAssessEvaluationDaily: AppRouteRecordRaw = {
   path: '/framepage/po/integrated/assessmentevaluation/daily',
   component: () => import('/@/views/po/integrated/assessmentevaluation/daily/index.vue'),
 };
 
+export const PoAssessEvaluationDailyCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/assessmentevaluation/daily/create',
+  component: () => import('/@/views/po/integrated/assessmentevaluation/daily/create.vue'),
+};
+
 export const PoAssessEvaluationMonthly: AppRouteRecordRaw = {
   path: '/framepage/po/integrated/assessmentevaluation/monthly',
   component: () => import('/@/views/po/integrated/assessmentevaluation/monthly/index.vue'),
+};
+
+export const PoAssessEvaluationMonthlyCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/assessmentevaluation/monthly/create',
+  component: () => import('/@/views/po/integrated/assessmentevaluation/monthly/create.vue'),
+};
+
+export const PoAssessEvaluationMonthlyScoring: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/assessmentevaluation/monthly/scoring',
+  component: () => import('/@/views/po/integrated/assessmentevaluation/monthly/scoring.vue'),
+};
+
+export const PoAssessEvaluationMonthlyStationDtl: AppRouteRecordRaw = {
+  path: '/framepage/po/integrated/assessmentevaluation/monthly/stationDtl',
+  component: () => import('/@/views/po/integrated/assessmentevaluation/monthly/stationDtl.vue'),
 };
 
 export const PoAssessEvaluationReport: AppRouteRecordRaw = {
@@ -1696,29 +1861,59 @@ export const basicRoutes = [
   PoSecondworkticket,
   PoSecondworkticketCreate,
   PoInspectionplan,
+  PoInspectionplanCreate,
   PoInspectionexecution,
+  PoInspectionexecutionCreate,
   PoSupervision,
+  PoSupervisionCreate,
+  PoSupervisionDetail,
   PoDanger,
+  PoDangerCreate,
+  PoDangerDetail,
   PoFault,
+  PoFaultCreate,
+  PoFaultDetail,
   PoWorkorder,
   PoWorkorderCreate,
   PoPowerCutPlan,
+  PoPowerCutPlanCreate,
+  PoPowerCutPlanDetail,
   PoAssessTemplate,
+  PoAssessTemplateCreate,
   PoAssessFilling,
+  PoAssessFillingCreate,
   PoEquipment,
+  PoEquipmentCreate,
   PoEquipmentWarehousing,
   PoEquipmentOutbound,
+  PoEquipmentOutboundCreate,
+  PoEquipmentOutboundDetail,
   PoEquipmentInventory,
+  PoEquipmentInventoryCreate,
+  PoEquipmentInventoryDetail,
   PoInPersoncertificate,
+  PoInPersoncertificateCreate,
   PoIntegratedTraining,
+  PoIntegratedTrainingCreate,
   PoIntegratedInfoarchive,
+  PoIntegratedInfoarchiveCreate,
   PoIntegratedVehicle,
+  PoIntegratedVehicleCreate,
   PoIntegratedContract,
+  PoIntegratedContractCreate,
+  PoIntegratedContractDetail,
   PoIntegratedKnowledge,
+  PoIntegratedKnowledgeCreate,
+  PoIntegratedKnowledgeDetail,
   PoAssessEvaluation,
   PoAssessEvaluationTemplate,
+  PoAssessEvaluationTemplateCreate,
   PoAssessEvaluationDaily,
+  PoAssessEvaluationDailyCreate,
   PoAssessEvaluationMonthly,
+  PoAssessEvaluationMonthlyCreate,
+  PoAssessEvaluationMonthlyScoring,
+  PoAssessEvaluationMonthlyStationDtl,
   PoAssessEvaluationReport,
   GroupOperation,
   StationOperation,
