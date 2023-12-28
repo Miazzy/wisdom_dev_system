@@ -1436,6 +1436,31 @@ export const BasesetWarehouse: AppRouteRecordRaw = {
   component: () => import('/@/views/baseset/operation/warehouse/warehouse.vue'),
 };
 
+export const BasesetAssessRule: AppRouteRecordRaw = {
+  path: '/framepage/baseset/operation/assessRule',
+  component: () => import('/@/views/baseset/operation/assessrule/assessRule.vue'),
+};
+
+export const BasesetSafeCheckSet: AppRouteRecordRaw = {
+  path: '/framepage/baseset/operation/safeCheckSet',
+  component: () => import('/@/views/baseset/operation/safecheck/safeCheckSet.vue'),
+};
+
+export const BasesetPersonnelqualifications: AppRouteRecordRaw = {
+  path: '/framepage/baseset/operation/personnelqualifications',
+  component: () => import('/@/views/baseset/operation/personnelqualifications/index.vue'),
+};
+
+export const BasesetSettlement: AppRouteRecordRaw = {
+  path: '/framepage/baseset/operation/settlement',
+  component: () => import('/@/views/baseset/operation/settlement/index.vue'),
+};
+
+export const BasesetLinelossrate: AppRouteRecordRaw = {
+  path: '/framepage/baseset/operation/linelossrate',
+  component: () => import('/@/views/baseset/operation/linelossrate/lineLossRateSet.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
   LoginRoute,
@@ -1562,4 +1587,9 @@ export const basicRoutes = [
   BasesetMaterial,
   BasesetRelatedParty,
   BasesetWarehouse,
+  BasesetAssessRule,
+  BasesetSafeCheckSet,
+  BasesetPersonnelqualifications,
+  BasesetSettlement,
+  BasesetLinelossrate,
 ];
