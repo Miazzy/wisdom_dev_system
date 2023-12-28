@@ -60,6 +60,19 @@
     systemTheme.value = 'light';
   });
 </script>
+<style lang="less">
+.theme1 {
+  .main-layout {
+    background: url('../../assets/images/background4.png') no-repeat center/100% 100%;
+  }
+}
+
+.theme3 {
+  .main-layout {
+    background-color: #F0F2F5;
+  } 
+}
+</style>
 <style scoped>
   .main-layout {
     display: flex;

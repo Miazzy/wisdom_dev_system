@@ -32,15 +32,13 @@
         <Icon
           v-if="!isFullscreen"
           :icon="'ant-design:fullscreen-outlined'"
-          color="#333"
           size="20"
           class="fullscreen-icon"
           @click="toggle"
         />
         <Icon
           v-if="isFullscreen"
-          :icon="'ant-design:fullscreen-exit-outlined'"
-          color="#333"
+          :icon="'ant-design:fullscreen-exit-outlined'"  
           size="20"
           class="fullscreen-icon"
           @click="toggle"
@@ -144,24 +142,82 @@
     executor.value.start();
   });
 </script>
+<style lang="less">
+// 深色主题
+[data-theme='dark'] .theme1 {
+  .module-info {
+    .ant-menu {
+      background: transparent;
+    }
+    .ant-menu-horizontal {
+      border-bottom-color: transparent;
+    }
+  }
+  .user-info {
+    .ant-badge {
+      color: #fff;
+    }
+  }
+}
+.theme1 {
+  .app-header {
+    background-color: rgba(10, 36, 74, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  .logo {
+    background: url(../../assets/images/my-logo-dark.png) no-repeat 24px 6px/104px auto;
+  }
+  .user-info {
+    .icon-element {
+      .search-icon, .notify-icon, .fullscreen-icon, .drawer-icon {
+        color: #fff;
+      }
+    }
+  }
+  .avatar-element {
+    .text {
+      color: #fff;
+    }
+  }
+}
+
+// 浅色主题
+.theme3 {
+  .app-header {
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .logo {
+    background: url(../../assets/images/my-logo-light.png) no-repeat 24px 6px/104px auto;
+  }
+  .user-info {
+    .icon-element {
+      .search-icon, .notify-icon, .fullscreen-icon, .drawer-icon {
+        color: #333;
+      }
+    }
+  }
+  .avatar-element {
+    .text {
+      color: #333;
+    }
+  }
+}
+</style>
 <style lang="less" scoped>
   .app-header {
     display: flex;
     align-items: left;
     justify-content: left;
     padding: 0 0 0 0;
-    background-color: transparent;
-    color: #fff;
     height: 3.25rem;
     line-height: 3.25rem;
-    border-bottom: 1px solid #f0f0f0;
   }
 
   .logo {
     width: 260px;
     height: 100%;
     margin: 0.22rem 0.05rem 0rem 0rem;
-    background: url(../../assets/images/my-logo-light.png) no-repeat 24px 6px/104px auto;
   }
 
   .module-info {
@@ -183,14 +239,12 @@
 
       .search-icon {
         z-index: 1000;
-        color: #333;
         transform: scale(1.2);
         margin-top: -0.45rem;
       }
 
       .notify-icon {
         z-index: 1000;
-        color: #333;
         width: 1rem;
         height: 1rem;
         margin-top: 0.85rem;
@@ -198,12 +252,10 @@
 
       .fullscreen-icon {
         z-index: 1000;
-        color: #333;
       }
 
       .drawer-icon {
         z-index: 1000;
-        color: #333;
         width: 1.2rem;
         height: 1.2rem;
         transform: scale(1.1);
@@ -229,7 +281,6 @@
       .text {
         float: left;
         margin: -0.15rem 0.5rem 0 0.5rem;
-        color: #333;
       }
     }
   }
