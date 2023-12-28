@@ -40,7 +40,6 @@
   // 处理页签切换点击函数
   const handleTabsClick = (key, menu) => {
     const preKey = !currentPath.value.includes('/#') ? '/#' + currentPath.value : currentPath.value;
-    debugger;
     if (key != preKey && currentPath.value) {
       state.path = key;
       state.menu = menu;

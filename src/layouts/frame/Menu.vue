@@ -115,7 +115,6 @@
   };
 
   const handleMenuClick = (event) => {
-    debugger;
     const { key } = event;
     const menu = menuMap.get(key);
     emit('click', key, menu, event);
