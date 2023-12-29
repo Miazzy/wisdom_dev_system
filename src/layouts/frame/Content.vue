@@ -87,12 +87,14 @@
   import { onMounted, ref, watch, nextTick } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
   import { MsgManager } from '/@/message/MsgManager';
+  import { useUserStore } from '/@/store/modules/user';
 
   const props = defineProps({
     path: { type: String, default: null },
     menu: { type: Object, default: null },
   });
 
+  const userStore = useUserStore();
   const emit = defineEmits(['change']);
   const pageurl = '/#/framepage/workbench';
   const workbench = {
@@ -117,7 +119,7 @@
         pane.id = options.id;
       }
     }
-    emit('change', activeKey.value, paneMap.get(activeKey.value));
+    handleActivePath();
   };
 
   const handleTabEdit = (targetKey: string | MouseEvent, action: string) => {
@@ -145,7 +147,7 @@
       }
     }
     panes.value.map((pane) => (pane.status = pane.pageurl === activeKey.value));
-    emit('change', activeKey.value, paneMap.get(activeKey.value));
+    handleActivePath();
   };
 
   const handleRemoveItemById = (id: string) => {
@@ -169,7 +171,7 @@
       }
     }
     panes.value.map((pane) => (pane.status = pane.pageurl === activeKey.value));
-    emit('change', activeKey.value, paneMap.get(activeKey.value));
+    handleActivePath();
   };
 
   watch(
@@ -200,7 +202,7 @@
       pane.key = pane.key ? pane.key : new Date().getTime();
       pane.status = pane.pageurl === key;
     }
-    emit('change', activeKey.value, paneMap.get(activeKey.value));
+    handleActivePath();
   };
 
   // 处理刷新当前页面的函数
@@ -231,6 +233,7 @@
     }
   };
 
+  // 关闭当前页签页面
   const handleCloseTabPage = (action) => {
     const element = JSON.parse(JSON.stringify(workbench));
     element.status = false;
@@ -268,6 +271,11 @@
     panes.value.forEach((pane) => {
       paneMap.set(pane.pageurl, pane);
     });
+    handleActivePath();
+  };
+
+  const handleActivePath = () => {
+    userStore.setCurrentPath(activeKey.value);
     emit('change', activeKey.value, paneMap.get(activeKey.value));
   };
 
@@ -314,7 +322,7 @@
       panes.value[0].pageurl = pageurl;
     }, 100);
     MsgManager.getInstance().listen('iframe-tabs-message', handleTabMessage);
-    emit('change', activeKey.value, paneMap.get(activeKey.value));
+    handleActivePath();
   });
 </script>
 <style lang="less">

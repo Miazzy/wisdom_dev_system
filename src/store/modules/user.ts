@@ -80,7 +80,7 @@ export const useUserStore = defineStore({
       if (state?.currentPath === '') {
         state.currentPath = getAuthCache<string>(CURRENT_PATH_KEY);
       }
-      return state.menuList.length > 0 ? state.menuList : [];
+      return state.currentPath;
     },
     getMenuNameMap(state) {
       if (state?.menuNameMap?.size === 0) {
