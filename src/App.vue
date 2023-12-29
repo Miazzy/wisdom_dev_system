@@ -30,15 +30,19 @@
   useTitle();
 
   const handleRoutePath = () => {
-    // const currentPath = (userStore.getCurrentPath as string).replace('/#/', '/');
-    const routePath = router.currentRoute.value.path;
-    const flag = checkInIframe();
-    const iframePath = document.querySelectorAll('iframe.active')[0].src.split('/#')[1];
-    if (flag && iframePath !== routePath) {
-      router.push(iframePath as string);
+    try {
+      // const currentPath = (userStore.getCurrentPath as string).replace('/#/', '/');
+      const routePath = router.currentRoute.value.path;
+      const flag = checkInIframe();
+      const iframePath = window.top.document.querySelectorAll('iframe.active')[0].src.split('/#')[1];
+      if (flag && iframePath !== routePath) {
+        router.push(iframePath as string);
+      }
+      console.info('currentPath: ', iframePath);
+      console.info('routePath: ', routePath);
+    } catch (error) {
+      //
     }
-    console.info('currentPath: ', iframePath);
-    console.info('routePath: ', routePath);
   };
 
   // 判断当前页面是否在 iframe 中显示
