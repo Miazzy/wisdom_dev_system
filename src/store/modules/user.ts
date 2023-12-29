@@ -12,6 +12,7 @@ import {
   MENU_LIST_KEY,
   MENU_NAME_MAP_KEY,
   CURRENT_PATH_KEY,
+  APP_DARK_MODE_KEY
 } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
@@ -228,7 +229,10 @@ export const useUserStore = defineStore({
       this.setUserInfo(null);
       setTimeout(() => {
         window.sessionStorage.clear(); // 清空sessionStorage和localStorage缓存
+        // 退出登录不清本地深浅模式缓存
+        const darkMode = window.localStorage.getItem(APP_DARK_MODE_KEY) || 'light';
         window.localStorage.clear(); // 清空sessionStorage和localStorage缓存
+        window.localStorage.setItem(APP_DARK_MODE_KEY, darkMode);
       }, 1000);
       setTimeout(() => {
         goLogin && router.push(PageEnum.BASE_LOGIN);
