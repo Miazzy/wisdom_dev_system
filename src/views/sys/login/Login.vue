@@ -39,7 +39,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { computed, defineComponent } from 'vue';
+  import { computed, defineComponent, onMounted } from 'vue';
   import { AppLogo, AppDarkModeToggle } from '/@/components/Application';
   import LoginForm from './LoginForm.vue';
   import ForgetPasswordForm from './ForgetPasswordForm.vue';
@@ -49,6 +49,7 @@
   import { useGlobSetting } from '/@/hooks/setting';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import { MsgManager } from '/@/message/MsgManager';
 
   defineComponent({
     name: 'Login',
@@ -63,6 +64,10 @@
   const { prefixCls } = useDesign('login');
   const { t } = useI18n();
   const title = computed(() => globSetting?.title ?? '');
+
+  onMounted(() => {
+    MsgManager.getInstance().sendMsg('notify-message', { type: 'userOffline' });
+  });
 </script>
 <style lang="less">
   @prefix-cls: ~'@{namespace}-login';
