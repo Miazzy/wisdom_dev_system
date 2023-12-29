@@ -15,6 +15,7 @@
     :showFooter="currentNodeData[0] && editAuthority(currentNodeData[0])"
     footerHeight="64"
     @visible-change="handleChange"
+    :get-container="getContainer"
   >
     <OrganDialog
       :title="`组织人员Dialog`"
@@ -360,6 +361,10 @@
     setTimeout(() => {
       window.scrollTo({ top: 0 });
     }, 0);
+  };
+
+  const getContainer = () => {
+    return document.body
   };
 
   /** 初始化 **/
