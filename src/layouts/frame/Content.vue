@@ -76,7 +76,7 @@
       <div class="iframe-content">
         <template v-for="pane in panes">
           <div v-show="pane.status" class="content">
-            <iframe v-if="pane.show" :key="pane.key" :src="pane.pageurl" style="width: 100%; height: 100%"></iframe>
+            <iframe v-if="pane.show" :key="pane.key" :src="pane.pageurl" :class="`${pane.status ? 'active' : 'disactive'}`" style="width: 100%; height: 100%"></iframe>
           </div>
         </template>
       </div>
@@ -258,7 +258,7 @@
         });
         break;
       case 'all':
-        activeKey.value = '/#/frame/workbench';
+        activeKey.value = pageurl;
         panes.value = panes.value.filter((item, index) => {
           return index == 0;
         });
@@ -269,6 +269,7 @@
     // 重新构建 paneMap
     paneMap.clear();
     panes.value.forEach((pane) => {
+      pane.status = pane.pageurl === activeKey.value;
       paneMap.set(pane.pageurl, pane);
     });
     handleActivePath();

@@ -19,25 +19,25 @@
   import { useTitle } from '@/hooks/web/useTitle';
   import { useLocale } from '@/locales/useLocale';
   import { listenThemeMessage } from '@/utils/theme';
-  import { useUserStore } from '/@/store/modules/user';
   import { useRouter } from 'vue-router';
   import 'dayjs/locale/zh-cn';
+  // import { useUserStore } from '/@/store/modules/user';
 
   const { getAntdLocale } = useLocale();
-  const userStore = useUserStore();
   const router = useRouter();
+  // const userStore = useUserStore();
 
   useTitle();
 
   const handleRoutePath = () => {
-    const currentPath = (userStore.getCurrentPath as string).replace('/#/', '/');
+    // const currentPath = (userStore.getCurrentPath as string).replace('/#/', '/');
     const routePath = router.currentRoute.value.path;
     const flag = checkInIframe();
-    if (flag && currentPath !== routePath) {
-      debugger;
-      router.push(currentPath as string);
+    const iframePath = document.querySelectorAll('iframe.active')[0].src.split('/#')[1];
+    if (flag && iframePath !== routePath) {
+      router.push(iframePath as string);
     }
-    console.info('currentPath: ', currentPath);
+    console.info('currentPath: ', iframePath);
     console.info('routePath: ', routePath);
   };
 
@@ -54,6 +54,6 @@
     listenThemeMessage();
     setTimeout(() => {
       handleRoutePath();
-    }, 500);
+    }, 100);
   });
 </script>
