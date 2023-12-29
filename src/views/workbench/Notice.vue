@@ -145,7 +145,7 @@
         border-radius: 50%;
       }
       .title-text {
-        width: 70%;
+        width: 67%;
         opacity: 0.97;
         overflow: hidden;
         white-space: nowrap;
@@ -155,7 +155,7 @@
       }
       .dept-text {
         padding-right: 14px;
-        width: 10%;
+        width: 12%;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
