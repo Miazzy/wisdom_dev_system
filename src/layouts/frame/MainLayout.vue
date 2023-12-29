@@ -14,6 +14,7 @@
   import Content from './Content.vue';
   import { useUserStore } from '/@/store/modules/user';
   import { MsgManager } from '/@/message/MsgManager';
+  import { handleRouteGo } from '/@/utils/route';
 
   const currentModule = ref(null);
   const menuList = ref([]);
@@ -58,6 +59,7 @@
   onMounted(() => {
     MsgManager.getInstance().listen('notify-message', handleOfflineMessage);
     systemTheme.value = 'light';
+    handleRouteGo();
   });
 </script>
 <style lang="less">

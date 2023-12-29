@@ -2,6 +2,7 @@ import { useMultipleTabStore } from '/@/store/modules/multipleTab';
 import { useRouter } from 'vue-router';
 import { buildUUID } from '/@/utils/uuid';
 import { MsgManager } from '/@/message/MsgManager';
+import { useGo } from '/@/hooks/web/usePage';
 
 // 解析路由路径参数
 export const parseRoutePath = (path: string): Record<string, string> => {
@@ -95,6 +96,16 @@ export const reloadCurrrentTab = () => {
 export const reloadTabById = (id) => {
   const message = { type: 'reloadTabById', data: { id } };
   sendMessage(message);
+};
+
+// 处理路由
+export const handleRouteGo = () => {
+  const go = useGo();
+  const flag = window.location.hash && window.location.hash.startsWith('#');
+  const path = flag ? window.location.hash.slice(1) : window.location.hash;
+  if (!['/framepage', '/login'].includes(path)) {
+    go(path);
+  }
 };
 
 // 推送消息至框架
