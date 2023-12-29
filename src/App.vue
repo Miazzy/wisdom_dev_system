@@ -33,7 +33,6 @@
     try {
       const flag = checkInIframe();
       if (flag) {
-        // const currentPath = (userStore.getCurrentPath as string).replace('/#/', '/');
         const flag = window.location.hash && window.location.hash.startsWith('#');
         const routePath = flag ? window.location.hash.slice(1) : window.location.hash;
         const iframePath = window.frameElement.src.split('/#')[1];
