@@ -15,6 +15,7 @@ import {
   MULTIPLE_TABS_KEY,
   REFRESH_TOKEN_KEY,
   MENU_LIST_KEY,
+  MENU_NAME_MAP_KEY,
 } from '/@/enums/cacheEnum';
 import { DEFAULT_CACHE_TIME } from '/@/settings/encryptionSetting';
 import { toRaw } from 'vue';
@@ -29,6 +30,7 @@ interface BasicStore {
   [LOCK_INFO_KEY]: LockInfo;
   [PROJ_CFG_KEY]: ProjectConfig;
   [MULTIPLE_TABS_KEY]: RouteLocationNormalized[];
+  [MENU_NAME_MAP_KEY]: Map<any, any>;
 }
 
 type LocalStore = BasicStore;

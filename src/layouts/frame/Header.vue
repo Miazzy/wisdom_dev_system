@@ -75,7 +75,7 @@
   const currentKey = ref('');
   const todoTaskList = ref();
   const executor = ref<TaskExecutor>();
-  
+  const menuNameMap = new Map();
 
   const props = defineProps({
     current: { type: String, default: null },
@@ -124,7 +124,25 @@
           const selector = `.id__${topModuleList.value[0].id}`;
           const defaultModule = document.querySelector(selector);
           defaultModule.click();
+          // 生成菜单名称
+          generateNameMap(topModuleList.value);
+          userStore.setMenuNameMap(menuNameMap);
         });
+      }
+    } catch (error) {
+      //
+    }
+  };
+
+  // 获取节点名称
+  const generateNameMap = (tree = []) => {
+    try {
+      for (const node of tree) {
+        const path = node?.url.includes('?') ? node?.url.split('?')[0] : node?.url;
+        menuNameMap.set(path, node?.name);
+        if (node?.children && node?.children.length > 0) {
+          generateNameMap(node?.children);
+        }
       }
     } catch (error) {
       //

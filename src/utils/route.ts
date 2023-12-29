@@ -3,6 +3,9 @@ import { useRouter } from 'vue-router';
 import { buildUUID } from '/@/utils/uuid';
 import { MsgManager } from '/@/message/MsgManager';
 import { useGo } from '/@/hooks/web/usePage';
+import { useUserStore } from '/@/store/modules/user';
+
+const userStore = useUserStore();
 
 // 解析路由路径参数
 export const parseRoutePath = (path: string): Record<string, string> => {
@@ -46,6 +49,9 @@ export const getCurrentPageInfo = () => {
 // 新增TabPage页面函数（iframe模式）
 export const addTabPage = (path: string, name: string = '', params: Object | null = null) => {
   const id = buildUUID();
+  const nameMap = userStore.getMenuNameMap;
+  const purePath = path.includes('?') ? path.split('?')[0] : path;
+  name = name == '' ? nameMap.get(purePath) : name;
   path = path.startsWith('/framepage') ? path : '/framepage' + path;
   path = params == null || typeof params == 'undefined' ? path : pathToUrl(path, params);
   const message = { type: 'addTabPage', data: { id, path, name, params } };
@@ -62,6 +68,10 @@ export const addTabAndClose = (
   refresh: boolean = true,
 ) => {
   const id = buildUUID();
+  const nameMap = userStore.getMenuNameMap;
+  const purePath = path.includes('?') ? path.split('?')[0] : path;
+  name = name == '' ? nameMap.get(purePath) : name;
+  path = path.startsWith('/framepage') ? path : '/framepage' + path;
   path = params == null || typeof params == 'undefined' ? path : pathToUrl(path, params);
   const message = { type: 'addTabAndClose', data: { id, path, name, params, closeID, refresh } };
   sendMessage(message);

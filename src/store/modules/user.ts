@@ -10,6 +10,7 @@ import {
   USER_INFO_KEY,
   REFRESH_TOKEN_KEY,
   MENU_LIST_KEY,
+  MENU_NAME_MAP_KEY,
 } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
@@ -30,6 +31,7 @@ interface UserState {
   rtoken?: string;
   roleList: RoleEnum[];
   menuList: [];
+  menuNameMap?: Map<string, string>;
   sessionTimeout?: boolean;
   lastUpdateTime: number;
 }
@@ -47,6 +49,8 @@ export const useUserStore = defineStore({
     roleList: [],
     // menuList
     menuList: [],
+    // menuNameMap
+    menuNameMap: new Map(),
     // Whether the login expired
     sessionTimeout: false,
     // Last fetch time
@@ -68,6 +72,13 @@ export const useUserStore = defineStore({
     getMenuList(state) {
       return state.menuList.length > 0 ? state.menuList : [];
     },
+    getMenuNameMap(state) {
+      if (state?.menuNameMap?.size === 0) {
+        const list = getAuthCache<[string, string][]>(MENU_NAME_MAP_KEY);
+        state.menuNameMap = deserializeMap(list);
+      }
+      return state?.menuNameMap;
+    },
     getSessionTimeout(state): boolean {
       return !!state.sessionTimeout;
     },
@@ -86,6 +97,10 @@ export const useUserStore = defineStore({
     async setMenuList(list: []) {
       this.menuList = list;
       await setAuthCache(MENU_LIST_KEY, list);
+    },
+    setMenuNameMap(map) {
+      this.menuNameMap = map;
+      setAuthCache(MENU_NAME_MAP_KEY, serializeMap(map));
     },
     setRefreshToken(info: string | undefined) {
       this.rtoken = info ? info : ''; // for null or undefined value
@@ -225,4 +240,14 @@ export const useUserStore = defineStore({
 // Need to be used outside the setup
 export function useUserStoreWithOut() {
   return useUserStore(store);
+}
+
+// 序列化 Map 到数组
+export function serializeMap(map: Map<string, string>): [string, string][] {
+  return Array.from(map.entries());
+}
+
+// 反序列化数组到 Map
+export function deserializeMap(arr: [string, string][]): Map<string, string> {
+  return new Map(arr);
 }

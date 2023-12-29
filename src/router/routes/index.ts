@@ -6,7 +6,7 @@ import { t } from '/@/hooks/web/useI18n';
 import { getAuthCache } from '/@/utils/auth';
 import { MENU_LIST_KEY } from '/@/enums/cacheEnum';
 import { DefaultMenuInfo } from '/@/utils/constants';
-import { asyncImportComponent, checkImportComponent } from '/@/router/helper/routeHelper';
+import { asyncImportComponent } from '/@/router/helper/routeHelper';
 
 // 路由转换函数 这个函数用于将后端的菜单数据转换为前端的路由配置
 function transformMenusToRoutes(menus) {

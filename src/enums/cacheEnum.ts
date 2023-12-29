@@ -4,6 +4,9 @@ export const TOKEN_KEY = 'TOKEN__';
 // menulist key
 export const MENU_LIST_KEY = 'MENU_LIST__';
 
+// menulist key
+export const MENU_NAME_MAP_KEY = 'MENU_NAME_MAP__';
+
 // refresh token key
 export const REFRESH_TOKEN_KEY = 'REFRESH_TOKEN__';
 
