@@ -135,9 +135,10 @@
 
 .theme1 {
   .app-menu {
+    background-color: rgba(10, 36, 74, 0.7);
     .ant-menu {
       color: #A7ADB4;
-      background-color: rgba(10, 36, 74, 0.7);
+      background-color: transparent;
     }
     .ant-menu-sub.ant-menu-inline {
       background-color: rgba(5, 22, 41, 0.7);
@@ -157,11 +158,15 @@
     .ant-menu-light .ant-menu-item-selected.ant-menu-item-active {
       color: #FEFEFE;
     }
+    .ant-menu-submenu-expand-icon, .ant-menu-submenu-arrow {
+      color: #A7ADB4;
+    }
   }
 }
 
 .theme3 {
   .app-menu {
+    background-color: #001529;
     .ant-menu {
       color: #A7ADB4;
       background-color: #001529;
@@ -184,6 +189,9 @@
     .ant-menu-light .ant-menu-item-selected.ant-menu-item-active {
       color: #FEFEFE;
     }
+    .ant-menu-submenu-expand-icon, .ant-menu-submenu-arrow {
+      color: #A7ADB4;
+    }
   }
 }
 </style>
@@ -192,7 +200,6 @@
     width: 220px;
     min-width: 220px;
     height: calc(100vh - 3.25rem);
-    background-color: transparent;
     padding: 0 0 0 0;
     overflow-y: scroll;
     overflow-x: hidden;
