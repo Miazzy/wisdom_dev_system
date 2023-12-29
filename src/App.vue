@@ -31,15 +31,17 @@
 
   const handleRoutePath = () => {
     try {
-      // const currentPath = (userStore.getCurrentPath as string).replace('/#/', '/');
-      const routePath = router.currentRoute.value.path;
       const flag = checkInIframe();
-      const iframePath = window.top.document.querySelectorAll('iframe.active')[0].src.split('/#')[1];
-      if (flag && iframePath !== routePath) {
-        router.push(iframePath as string);
+      if (flag) {
+        // const currentPath = (userStore.getCurrentPath as string).replace('/#/', '/');
+        const routePath = router.currentRoute.value.path;
+        const iframePath = window.top.document.querySelectorAll('iframe.active')[0].src.split('/#')[1];
+        if (iframePath !== routePath) {
+          router.push(iframePath as string);
+        }
+        console.info('currentPath: ', iframePath);
+        console.info('routePath: ', routePath);
       }
-      console.info('currentPath: ', iframePath);
-      console.info('routePath: ', routePath);
     } catch (error) {
       //
     }
