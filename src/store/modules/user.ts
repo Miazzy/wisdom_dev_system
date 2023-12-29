@@ -11,6 +11,7 @@ import {
   REFRESH_TOKEN_KEY,
   MENU_LIST_KEY,
   MENU_NAME_MAP_KEY,
+  CURRENT_PATH_KEY,
 } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
@@ -33,6 +34,7 @@ interface UserState {
   menuList: [];
   menuNameMap?: Map<string, string>;
   sessionTimeout?: boolean;
+  currentPath?: string;
   lastUpdateTime: number;
 }
 
@@ -49,6 +51,8 @@ export const useUserStore = defineStore({
     roleList: [],
     // menuList
     menuList: [],
+    // current path
+    currentPath: '',
     // menuNameMap
     menuNameMap: new Map(),
     // Whether the login expired
@@ -72,6 +76,12 @@ export const useUserStore = defineStore({
     getMenuList(state) {
       return state.menuList.length > 0 ? state.menuList : [];
     },
+    getCurrentPath(state) {
+      if (state?.currentPath === '') {
+        state.currentPath = getAuthCache<string>(CURRENT_PATH_KEY);
+      }
+      return state.menuList.length > 0 ? state.menuList : [];
+    },
     getMenuNameMap(state) {
       if (state?.menuNameMap?.size === 0) {
         const list = getAuthCache<[string, string][]>(MENU_NAME_MAP_KEY);
@@ -93,6 +103,10 @@ export const useUserStore = defineStore({
     setToken(info: string | undefined) {
       this.token = info ? info : ''; // for null or undefined value
       setAuthCache(TOKEN_KEY, info);
+    },
+    setCurrentPath(key) {
+      this.currentPath = key;
+      setAuthCache(CURRENT_PATH_KEY, key);
     },
     async setMenuList(list: []) {
       this.menuList = list;

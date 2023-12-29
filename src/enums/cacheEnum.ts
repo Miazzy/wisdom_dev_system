@@ -7,6 +7,9 @@ export const MENU_LIST_KEY = 'MENU_LIST__';
 // menulist key
 export const MENU_NAME_MAP_KEY = 'MENU_NAME_MAP__';
 
+// current path key
+export const CURRENT_PATH_KEY = 'CURRENT_PATH_KEY__';
+
 // refresh token key
 export const REFRESH_TOKEN_KEY = 'REFRESH_TOKEN__';
 
