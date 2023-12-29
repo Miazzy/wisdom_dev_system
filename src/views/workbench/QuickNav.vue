@@ -23,6 +23,7 @@
   import Icon from '@/components/Icon/Icon.vue';
   import { ref, reactive } from 'vue';
   import { useRouter } from 'vue-router';
+  import { addTabPage } from '@/utils/route';
 
   const router = useRouter();
 
@@ -120,60 +121,71 @@
   };
 
   const toPath = (item) => {
-    router.push(item.url);
+    addTabPage(item.url, item.label);
   };
 </script>
 <style lang="less" scoped>
   .card-content {
     height: 278px;
+
     .nav-page {
       height: 278px;
       padding: 16px 0;
     }
+
     .nav-item-container {
-      width: 100%;
       display: flex;
       flex-wrap: wrap;
+      width: 100%;
     }
+
     .nav-item {
       width: 20%;
       height: 88px;
+
       &:first-child {
         margin-bottom: 45px;
       }
+
       .nav-icon-box {
         width: 58px;
         height: 58px;
+        margin: 0 auto;
+        padding: 13px 0;
         border-radius: 16px;
         text-align: center;
-        padding: 13px 0;
-        margin: 0 auto;
         cursor: pointer;
       }
+
       .nav-label {
-        text-align: center;
-        font-size: 14px;
-        padding-top: 16px;
-        line-height: 1;
-        cursor: pointer;
         width: 100%;
-        white-space: nowrap;
+        padding-top: 16px;
         overflow: hidden;
+        font-size: 14px;
+        line-height: 1;
+        text-align: center;
         text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
       }
     }
+
     :deep(.carousel-dots) {
       bottom: 0;
     }
+
     :deep(.carousel-dots > li) {
       width: 32px;
       height: 4px;
       border-radius: 2px;
+
       button {
         background-color: transparent;
       }
+
       &.slick-active {
         background-color: #1890ff;
+
         button {
           background-color: transparent;
         }
