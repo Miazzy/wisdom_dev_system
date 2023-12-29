@@ -34,7 +34,7 @@ export function usePermission() {
           ? PermissionModeEnum.ROUTE_MAPPING
           : PermissionModeEnum.BACK,
     });
-    location.reload();
+    // location.reload();
   }
 
   /**

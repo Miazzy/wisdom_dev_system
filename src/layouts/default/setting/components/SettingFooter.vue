@@ -79,7 +79,7 @@
         permissionStore.resetState();
         tabStore.resetState();
         userStore.resetState();
-        location.reload();
+        // location.reload();
       }
       return {
         prefixCls,
