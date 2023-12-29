@@ -278,17 +278,17 @@
     if (message.type === 'addTabPage') {
       handleNewTabPage(data.path, data.name, { id: data.id });
     } else if (message.type === 'addTabAndClose') {
-      // 打开新页面 如果页面已打开过，则切换到相应页签；否则新打开一个页签
-      if (paneMap.has(data.path)) {
-        handleTabChange(data.path, { id: data.id });
-      } else {
-        handleNewTabPage(data.path, data.name, { id: data.id });
-      }
       // 关闭原页面
       if (typeof data.closePath == 'undefined' || data.closePath == null || data.closePath == '') {
         handleRemoveItem(activeKey.value);
       } else {
         handleRemoveItem(data.closePath);
+      }
+      // 打开新页面 如果页面已打开过，则切换到相应页签；否则新打开一个页签
+      if (paneMap.has(data.path)) {
+        handleTabChange(data.path, { id: data.id });
+      } else {
+        handleNewTabPage(data.path, data.name, { id: data.id });
       }
     } else if (message.type === 'closeTabPage') {
       handleRemoveItem(data.path);
