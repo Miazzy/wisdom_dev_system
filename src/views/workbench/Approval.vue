@@ -238,11 +238,11 @@
       TaskApi.updateCcTo(record.processInstanceId).then((res) => {
         if (res.result) {
           doCC();
-          router.push(`${record.viewPath}?processInstanceId=${record.processInstanceId}`);
+          addTabPage(`${record.viewPath}?processInstanceId=${record.processInstanceId}`, record.flowName);
         }
       });
     } else {
-      router.push(`${record.viewPath}?processInstanceId=${record.processInstanceId}`);
+      addTabPage(`${record.viewPath}?processInstanceId=${record.processInstanceId}`, record.flowName);
     }
   };
 
