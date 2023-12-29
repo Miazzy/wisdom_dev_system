@@ -76,7 +76,7 @@
       <div class="iframe-content">
         <template v-for="pane in panes">
           <div v-show="pane.status" class="content">
-            <iframe :key="pane.key" :src="pane.pageurl" style="width: 100%; height: 100%"></iframe>
+            <iframe v-if="pane.show" :key="pane.key" :src="pane.pageurl" style="width: 100%; height: 100%"></iframe>
           </div>
         </template>
       </div>
@@ -94,16 +94,16 @@
   });
 
   const emit = defineEmits(['change']);
+  const pageurl = '/#/framepage/workbench';
   const workbench = {
     title: '工作台',
     key: 'workbench',
     closable: false,
     show: true,
     status: true,
-    pageurl: '/#/frame/workbench',
+    pageurl: pageurl,
   };
   const panes = ref<any[]>([workbench]);
-
   const paneMap = new Map();
   const activeKey = ref(panes.value[0].key);
   const tabWidth = ref('');
@@ -307,6 +307,12 @@
     paneMap.set(panes.value[0].pageurl, panes.value[0]);
     activeKey.value = panes.value[0].pageurl;
     tabWidth.value = document.body.clientWidth - 280 + 'px';
+    panes.value[0].show = false;
+    panes.value[0].pageurl = '';
+    setTimeout(() => {
+      panes.value[0].show = true;
+      panes.value[0].pageurl = pageurl;
+    }, 100);
     MsgManager.getInstance().listen('iframe-tabs-message', handleTabMessage);
     emit('change', activeKey.value, paneMap.get(activeKey.value));
   });

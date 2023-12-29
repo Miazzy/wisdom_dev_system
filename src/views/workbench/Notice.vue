@@ -145,7 +145,7 @@
         border-radius: 50%;
       }
       .title-text {
-        width: 72%;
+        width: 70%;
         opacity: 0.97;
         overflow: hidden;
         white-space: nowrap;
@@ -156,13 +156,22 @@
       .dept-text {
         padding-right: 14px;
         width: 10%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .person-text {
         padding-right: 14px;
         width: 7%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .time-text {
-        width: 11%;
+        width: 14%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
