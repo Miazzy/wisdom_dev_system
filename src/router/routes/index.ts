@@ -877,6 +877,11 @@ export const BiOaAtt: AppRouteRecordRaw = {
   component: () => import('/@/views/bi/oa/att/index.vue'),
 };
 
+export const BiPowerContrast: AppRouteRecordRaw = {
+  path: '/framepage/bi/elec/powerContrast',
+  component: () => import('/@/views/bi/elec/powerContrast/index.vue'),
+};
+
 export const OaInfoInfoKind: AppRouteRecordRaw = {
   path: '/framepage/oa/info/infoKind',
   component: () => import('/@/views/oa/info/infokind/infoKind.vue'),
@@ -1223,6 +1228,7 @@ export const basicRoutes = [
   BiIntegratedPersonnelStructure,
   BiIntegratedTrainingStatistics,
   BiOaAtt,
+  BiPowerContrast,
   OaInfoInfoKind,
   OaInfoOfficedoc,
   OaInfoOfficedocCreate,
