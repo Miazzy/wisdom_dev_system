@@ -66,7 +66,7 @@
       width: 170px;
       height: 100px;
       border-radius: 2px;
-      margin: 0 13px 16px 0;
+      margin: 0 12px 16px 0;
       padding-left: 20px;
       padding-top: 14px;
       line-height: 1;

@@ -45,7 +45,8 @@
 <style lang="less" scoped>
   .workbench {
     width: 100%;
-    padding: 10px 0;
+    padding: 10px;
+    padding-right: 0;
     & > :deep(.ant-row) {
       width: 100%;
     }
