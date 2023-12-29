@@ -24,12 +24,11 @@
 
 <script lang="ts" setup>
   import { ref, onMounted } from 'vue';
-  import { useRouter } from 'vue-router';
-
   import * as DateUtil from '/@/utils/dateUtil';
   import * as WorkbenchApi from '@/api/workbench';
-
-  const router = useRouter();
+  import { addTabPage } from '@/utils/route';
+  // import { useRouter } from 'vue-router';
+  // const router = useRouter();
 
   const urls: any = ref([
     { key: 'notice', url: '/oa/info/infonotice/create' },
@@ -37,7 +36,8 @@
   ]);
 
   const toMorePage = () => {
-    router.push(`/oa/info/officedoc/index`);
+    // router.push(`/oa/info/officedoc/index`);
+    addTabPage(`/oa/info/officedoc/index`, '通知公告');
   };
 
   const toNotice = (item) => {
@@ -45,7 +45,8 @@
       return e?.key === item.businessType;
     });
     if (element) {
-      router.push({ path: element.url, query: { id: item.id } });
+      // router.push({ path: element.url, query: { id: item.id } });
+      addTabPage(element.url, { id: item.id } );
     }
   };
 

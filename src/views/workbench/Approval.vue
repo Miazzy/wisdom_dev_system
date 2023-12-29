@@ -47,6 +47,7 @@
   import * as TaskApi from '@/api/bpm/task';
   import * as ProcessInstanceApi from '@/api/bpm/processInstance';
   import { useUserStore } from '/@/store/modules/user';
+  import { addTabPage } from '@/utils/route';
 
   const router = useRouter();
   const userStore = useUserStore();
@@ -90,13 +91,17 @@
 
   const toMorePage = () => {
     if (activeKey.value == '1') {
-      router.push(`/bpm/task/todo`);
+      // router.push(`/bpm/task/todo`);
+      addTabPage(`/bpm/task/todo`, '待办任务');
     } else if (activeKey.value == '2') {
-      router.push(`/bpm/task/todo`);
+      // router.push(`/bpm/task/todo`);
+      addTabPage(`/bpm/task/todo`, '待办任务');
     } else if (activeKey.value == '3') {
-      router.push(`/bpm/task/processInstance`);
+      // router.push(`/bpm/task/processInstance`);
+      addTabPage(`/bpm/task/processInstance`, '流程实例');
     } else if (activeKey.value == '4') {
-      router.push(`/bpm/task/done`);
+      // router.push(`/bpm/task/done`);
+      addTabPage(`/bpm/task/done`, '已办任务');
     }
   };
 
