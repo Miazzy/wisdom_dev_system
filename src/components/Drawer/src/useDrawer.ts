@@ -106,7 +106,7 @@ export const useDrawerInner = (callbackFn?: Fn): UseDrawerInnerReturnType => {
     throw new Error('useDrawerInner() can only be used inside setup() or functional components!');
   }
 
-  const getInstance = () => {
+  const getInstance = () => { 
     const instance = unref(drawerInstanceRef);
     if (!instance) {
       error('useDrawerInner instance is undefined!');
