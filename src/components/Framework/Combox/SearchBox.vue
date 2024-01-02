@@ -500,11 +500,8 @@
     }
 
     .search-panel {
-      position: absolute;
-      z-index: 1000 !important;
       width: 100%;
-      border-bottom: 1px solid #f0f0f0;
-      background: #fefefe;
+      
 
       .search-popup-subcontent {
         margin: 0 5px 1px;
@@ -520,11 +517,8 @@
         position: absolute;
         top: 5px;
         right: 0;
-        background: #fefefe;
-        color: #cecece;
 
         &:hover {
-          color: #c0c0c0;
           cursor: pointer;
         }
       }
@@ -533,30 +527,20 @@
         position: absolute;
         top: 5px;
         right: 40px;
-        background: #fefefe;
-        color: #cecece;
 
         &:hover {
-          color: #c0c0c0;
           cursor: pointer;
         }
       }
     }
 
     .search-table {
-      position: absolute;
-      z-index: 1000 !important;
       top: 36px;
       width: 100%;
-      border-top: 1px solid #f0f0f0;
       border-bottom: 0 solid #cecece;
-      background: #fefefe;
 
       .ant-table-wrapper {
-        border-top: 1px solid #e9e9e9;
-        border-right: 1px solid #e9e9e9;
-        border-bottom: 1px solid #e9e9e9;
-        border-left: 1px solid #e9e9e9;
+        padding: 10px;
       }
     }
   }
@@ -571,6 +555,64 @@
       border-bottom: 1px solid #3793f5;
       border-radius: 0;
       outline: none;
+    }
+  }
+</style>
+<style lang="less">
+  .theme1 {
+    .search-content .search-panel {
+      border-bottom: 1px solid rgba(217, 217, 217, 0.16);
+      background: #032748;
+
+      .search-button {
+        background: transparent;
+        color: #fefefe;
+        &:hover {
+          color: #1890FF;
+        }
+      }
+      .close-button {
+        background: transparent;
+        color: #fefefe;
+        &:hover {
+          color: #1890FF;
+        }
+      }
+    }
+    .search-popup-subcontent {
+      .search-input {
+        background: transparent;
+      }
+    }
+  }
+  [data-theme='dark'] .theme1 {
+    .ant-dropdown-menu {
+      background: #032748;
+    }
+    .ant-dropdown {
+      background: #032748;
+      box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+    }
+  }
+  .theme3 {
+    .search-content .search-panel {
+      border-bottom: 1px solid #f0f0f0;
+      background: #fefefe;
+
+      .search-button {
+        background: #fefefe;
+        color: #cecece;
+        &:hover {
+          color: #1890FF;
+        }
+      }
+      .close-button {
+        background: #fefefe;
+        color: #cecece;
+        &:hover {
+          color: #1890FF;
+        }
+      }
     }
   }
 </style>

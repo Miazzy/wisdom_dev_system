@@ -2454,7 +2454,7 @@ html[data-theme='dark'] .ant-pagination.mini .ant-pagination-prev {
 [data-theme='dark'] .ant-input {
   border: 1px solid #303030;
   background-color: transparent;
-  color: #c9d1d9;
+  color: #fefefe;
 }
 
 [data-theme='dark'] .ant-input::placeholder {
@@ -8358,7 +8358,7 @@ html[data-theme='dark'] .ant-pagination.mini .ant-pagination-prev {
 
 [data-theme='dark'] html[data-theme='dark'] .fix-auto-fill input,
 [data-theme='dark'] html[data-theme='dark'] input.fix-auto-fill {
-  -webkit-text-fill-color: #c9d1d9 !important;
+  -webkit-text-fill-color: #fff !important;
 }
 
 @media (max-width: 1200px) {
@@ -9692,4 +9692,13 @@ html[data-theme='dark'] .ant-pagination.mini .ant-pagination-prev {
   width: 822px;
   margin: 0 auto auto;
   border-radius: 4px;
+}
+
+[data-theme='dark'] input:-webkit-autofill {
+  box-shadow: none !important;
+  color: #fefefe !important;
+  -webkit-text-fill-color: #fefefe !important;
+}
+[data-theme='dark'] input {
+  caret-color: #fefefe;
 }
