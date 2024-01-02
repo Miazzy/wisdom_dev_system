@@ -177,9 +177,25 @@
   watch(
     () => props.path,
     () => {
-      handleNewTabPage(props.path, props.menu.name, props.menu);
+      const path = handlePath(props.path);
+      if (props.path == '') {
+        return;
+      }
+      if (paneMap.has(path)) {
+        handleTabChange(path, props.menu);
+      } else {
+        handleNewTabPage(props.path, props.menu.name, props.menu);
+      }
     },
   );
+
+  const handlePath = (value) => {
+    const path = value.startsWith('/') ? value : '/' + value;
+    let tempKey = path.replace('/da/', '/');
+    tempKey = tempKey.startsWith('/framepage') ? tempKey : '/framepage' + tempKey;
+    const key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
+    return key;
+  };
 
   const handleNewTabPage = (value, name, menu) => {
     const path = value.startsWith('/') ? value : '/' + value;

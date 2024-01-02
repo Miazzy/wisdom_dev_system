@@ -8,7 +8,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, reactive, ref, watch } from 'vue';
+  import { nextTick, onMounted, reactive, ref, watch } from 'vue';
   import Header from './Header.vue';
   import Menu from './Menu.vue';
   import Content from './Content.vue';
@@ -34,8 +34,11 @@
 
   // 处理菜单点击函数
   const handleMenuClick = (key, menu, event) => {
-    currentPath.value = menu.url;
-    currentMenu.value = menu;
+    currentPath.value = '';
+    nextTick(() => {
+      currentPath.value = menu.url;
+      currentMenu.value = menu;
+    });
   };
 
   // 处理页签切换点击函数
