@@ -90,6 +90,8 @@
   import * as OrgApi from '@/api/sys/org';
   import { reloadTreeData } from '@/utils/tree';
   import type { PropType } from 'vue';
+  import { MsgManager } from '/@/message/MsgManager';
+  import { closeCurrentTab } from '@/utils/route';
 
   type Modes = 'default' | 'before'; // default: 默认不需要在流程同意、驳回、终止等之前，业务有保存或提交数据；before: 需要在流程同意、驳回、终止等之前，业务保存或提交数据
 
@@ -187,6 +189,8 @@
     } else if (props.mode === 'before') {
       emit('before', currentNodeData.value[0], 'beforeAgree');
     }
+    closeCurrentTab();
+    MsgManager.getInstance().sendMsg('workflow-task-done', {}); // 发送消息，通知审批待办任务已办任务刷新列表
   }
 
   // 驳回
@@ -197,6 +201,8 @@
     } else if (props.mode === 'before') {
       emit('before', currentNodeData.value[0], 'beforeReject');
     }
+    closeCurrentTab();
+    MsgManager.getInstance().sendMsg('workflow-task-done', {}); // 发送消息，通知审批待办任务已办任务刷新列表
   }
 
   // 保存
