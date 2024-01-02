@@ -3,6 +3,7 @@
     v-if="props.vmode == 'edit' || props.disabled"
     v-model:value="selectedValue"
     show-search
+    allow-clear
     :mode="props.multiple"
     :disabled="props.disabled"
     placeholder="请选择数据..."
