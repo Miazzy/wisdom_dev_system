@@ -299,6 +299,10 @@
       } else {
         handleNewTabPage(data.path, data.name, { id: data.id });
       }
+      // 检查是否需要刷新页面
+      if (data.refresh) {
+        handleRefreshTabPage();
+      }
     } else if (message.type === 'closeTabPage') {
       handleRemoveItem(data.path);
     } else if (message.type === 'closeCurrentTab') {
