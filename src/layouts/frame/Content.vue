@@ -288,10 +288,10 @@
       handleNewTabPage(data.path, data.name, { id: data.id });
     } else if (message.type === 'addTabAndClose') {
       // 关闭原页面
-      if (typeof data.closePath == 'undefined' || data.closePath == null || data.closePath == '') {
+      if (typeof data.closeID == 'undefined' || data.closeID == null || data.closeID == '') {
         handleRemoveItem(activeKey.value);
       } else {
-        handleRemoveItem(data.closePath);
+        handleRemoveItem(data.closeID);
       }
       // 打开新页面 如果页面已打开过，则切换到相应页签；否则新打开一个页签
       if (paneMap.has(data.path)) {

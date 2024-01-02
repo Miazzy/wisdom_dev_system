@@ -292,7 +292,7 @@
   import { DateTools } from '/@/utils/dateUtil';
   import { Tinymce } from '/@/components/Tinymce/index';
   import { useUserStore } from '/@/store/modules/user';
-  import { reloadCurrrentTab } from '/@/utils/route';
+  import { reloadCurrrentTab, addTabAndClose } from '/@/utils/route';
 
   type RangeValue = [Dayjs, Dayjs];
 
