@@ -85,7 +85,7 @@
     await TaskApi.approveTask({ id: curflowobj.id, reason: curflowobj.reason });
     message.success('操作成功。');
     isHandle.value = 2;
-    getTaskListByProcessInstanceId();
+    await getTaskListByProcessInstanceId();
     closeApprovalDrawer();
     closeCurrentTab();
   };
@@ -119,7 +119,7 @@
     const curflowobj = getuntreated(toRaw(flowData));
     await TaskApi.rejectTask({ id: curflowobj.id, reason: curflowobj.reason });
     message.success('操作成功。');
-    getTaskListByProcessInstanceId();
+    await getTaskListByProcessInstanceId();
     closeApprovalDrawer();
     closeCurrentTab();
   };
@@ -215,13 +215,13 @@
         await TaskApi.approveTask({ id: currentNode.id, reason: currentNode.reason });
         message.success('操作成功。');
         isHandle.value = 2;
-        getTaskListByProcessInstanceId();
+        await getTaskListByProcessInstanceId();
         closeApprovalDrawer();
         closeCurrentTab();
       } else if (newValue === 'reject') {
         await TaskApi.rejectTask({ id: currentNode.id, reason: currentNode.reason });
         message.success('操作成功。');
-        getTaskListByProcessInstanceId();
+        await getTaskListByProcessInstanceId();
         closeApprovalDrawer();
         closeCurrentTab();
       }
