@@ -66,6 +66,8 @@
   import * as TaskApi from '/@/api/bpm/task';
   import { TaskExecutor } from '/@/executor/taskExecutor';
   import { TimeInterval } from '@/constant/constant';
+  import { PageVisibleHandler } from '/@/utils/handler/pageVisibleHandler';
+  import { execRefreshToken } from '/@/api/sys/user';
 
   const SettingDrawer = createAsyncComponent(() => import('/@/layouts/default/setting/index.vue'), {
     loading: true,
@@ -158,6 +160,11 @@
     executor.value = TaskExecutor.getInstance(TimeInterval.ONE_SECOND);
     executor.value.pushListTask('execTodoTaskList', handleTodoTask, TimeInterval.ONE_HOUR);
     executor.value.start();
+    PageVisibleHandler.getInstance().start();
+    PageVisibleHandler.getInstance().setCallback(async () => {
+      const resp = await execRefreshToken('');
+      userStore.setToken(resp?.accessToken);
+    });
   });
 </script>
 <style lang="less">

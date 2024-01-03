@@ -1,5 +1,6 @@
 import { defHttp } from '/@/utils/http/axios';
 import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
+import { useUserStore } from '/@/store/modules/user';
 
 export enum SystemAuthApi {
   Login = '/system/auth/login',
@@ -39,6 +40,8 @@ export function getUserInfo() {
  * @description: refresh token
  */
 export function execRefreshToken(rtoken: string) {
+  const userStore = useUserStore();
+  rtoken = rtoken ? rtoken : userStore.getRefreshToken;
   const requestParams = { url: SystemAuthApi.RefreshToken + '?refreshToken=' + rtoken };
   return defHttp.post<any>(requestParams, { isOnlyResult: true });
 }
@@ -55,6 +58,8 @@ export function getListMenus() {
  * @description: check token valid
  */
 export function checkToken(token) {
+  const userStore = useUserStore();
+  token = token ? token : userStore.getToken;
   const requestParams = { url: SystemAuthApi.CheckToken + token };
   return defHttp.get<any>(requestParams, { isOnlyResult: true });
 }
