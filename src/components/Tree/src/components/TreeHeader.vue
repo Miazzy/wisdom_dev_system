@@ -32,9 +32,6 @@
     </div>
     <div :class="getInputSearchCls" v-if="search">
       <InputSearch :placeholder="t('common.inputKeyWords')" allowClear v-model:value="searchValue">
-        <!-- <template #prefix>
-          <Icon icon="ant-design:search-outlined" color="rgba(0, 0, 0, 0.45)" />
-        </template> -->
         <template #enterButton>
           <Button class="search-btn"><Icon icon="ant-design:search-outlined" /></Button>
         </template>

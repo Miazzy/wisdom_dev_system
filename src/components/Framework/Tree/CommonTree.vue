@@ -26,6 +26,7 @@
       :expandedKeys="curExpandedKeys"
       :selectedKeys="curSelectedKeys"
       :checkedKeys="props.checkedKeys"
+      :expandOnSearch="true"
     >
       <template #title="nodeItem">
         <a-tooltip v-if="nodeItem[fieldNames.title || 'title'].length > 9">
@@ -203,6 +204,9 @@
     }
     :deep(.vben-tree-header .ant-btn-sm) {
       padding: 0 6px;
+    }
+    :deep(.vben-tree-header .ant-input-group-addon) {
+      display: none;
     }
   }
 </style>
