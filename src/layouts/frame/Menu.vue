@@ -25,13 +25,17 @@
                 <a-sub-menu :key="item?.id" :title="item?.name">
                   <template v-for="subitem in item.children">
                     <template v-if="subitem?.visible && subitem?.component !== 'LAYOUT'">
-                      <a-menu-item :key="handleMenuItemId(subitem)">{{ subitem?.name }}</a-menu-item>
+                      <a-menu-item :key="handleMenuItemId(subitem)">{{
+                        subitem?.name
+                      }}</a-menu-item>
                     </template>
                     <template v-if="subitem?.visible && subitem?.component === 'LAYOUT'">
                       <a-sub-menu :key="subitem?.id" :title="subitem?.name">
                         <template v-for="secsubitem in subitem.children">
                           <template v-if="secsubitem?.visible">
-                            <a-menu-item :key="handleMenuItemId(secsubitem)">{{ secsubitem?.name }}</a-menu-item>
+                            <a-menu-item :key="handleMenuItemId(secsubitem)">{{
+                              secsubitem?.name
+                            }}</a-menu-item>
                           </template>
                         </template>
                       </a-sub-menu>
@@ -62,6 +66,9 @@
 <script lang="ts" setup>
   import { onMounted, ref, watch } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
+  import { getAuthCache } from '/@/utils/auth';
+  import { TOKEN_KEY } from '/@/enums/cacheEnum';
+  import { useUserStore } from '/@/store/modules/user';
 
   const menuList = ref<any[]>([]);
   const systemTheme = ref('');
@@ -73,6 +80,7 @@
   const systemCollClass = ref('');
   const containerRef = ref();
   const menuMap = new Map();
+  const userStore = useUserStore();
 
   const props = defineProps({
     mode: { type: String, default: 'inline' },
@@ -115,6 +123,10 @@
   };
 
   const handleMenuClick = (event) => {
+    const token = getAuthCache<string>(TOKEN_KEY);
+    if (typeof token == 'undefined' || token == null || token == '') {
+      return userStore.logout(true);
+    }
     const { key } = event;
     const menu = menuMap.get(key);
     emit('click', key, menu, event);
@@ -127,82 +139,108 @@
   });
 </script>
 <style lang="less">
-.app-menu {
-  .ant-menu-light .ant-menu-item:hover, .ant-menu-light .ant-menu-item-active, .ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open, .ant-menu-light .ant-menu-submenu-active, .ant-menu-light .ant-menu-submenu-title:hover {
-    color: #1890FF;
-  }
-}
-
-.theme1 {
   .app-menu {
-    background-color: rgba(10, 36, 74, 0.7);
-    .ant-menu {
-      color: #A7ADB4;
-      background-color: transparent;
-    }
-    .ant-menu-sub.ant-menu-inline {
-      background-color: rgba(5, 22, 41, 0.7);
-    }
-    .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-      background-color: #1890FF;
-    }
-    .ant-menu-item:active, .ant-menu-submenu-title:active {
-      background-color: #1890FF;
-    }
-    .ant-menu-item-selected, .ant-menu-submenu-selected {
-      color: #FEFEFE;
-    }
-    .ant-menu-light .ant-menu-item-selected.ant-menu-item:hover {
-      color: #FEFEFE;
-    }
-    .ant-menu-light .ant-menu-item-selected.ant-menu-item-active {
-      color: #FEFEFE;
-    }
-    .ant-menu-submenu-expand-icon, .ant-menu-submenu-arrow {
-      color: #A7ADB4;
+    .ant-menu-light .ant-menu-item:hover,
+    .ant-menu-light .ant-menu-item-active,
+    .ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
+    .ant-menu-light .ant-menu-submenu-active,
+    .ant-menu-light .ant-menu-submenu-title:hover {
+      color: #1890ff;
     }
   }
-}
 
-.theme3 {
-  .app-menu {
-    background-color: #001529;
-    .ant-menu {
-      color: #A7ADB4;
+  .theme1 {
+    .app-menu {
+      background-color: rgb(10 36 74 / 70%);
+
+      .ant-menu {
+        background-color: transparent;
+        color: #a7adb4;
+      }
+
+      .ant-menu-sub.ant-menu-inline {
+        background-color: rgb(5 22 41 / 70%);
+      }
+
+      .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+        background-color: #1890ff;
+      }
+
+      .ant-menu-item:active,
+      .ant-menu-submenu-title:active {
+        background-color: #1890ff;
+      }
+
+      .ant-menu-item-selected,
+      .ant-menu-submenu-selected {
+        color: #fefefe;
+      }
+
+      .ant-menu-light .ant-menu-item-selected.ant-menu-item:hover {
+        color: #fefefe;
+      }
+
+      .ant-menu-light .ant-menu-item-selected.ant-menu-item-active {
+        color: #fefefe;
+      }
+
+      .ant-menu-submenu-expand-icon,
+      .ant-menu-submenu-arrow {
+        color: #a7adb4;
+      }
+    }
+  }
+
+  .theme3 {
+    .app-menu {
       background-color: #001529;
-    }
-    .ant-menu-sub.ant-menu-inline {
-      background-color: #000C17;
-    }
-    .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-      background-color: #1890FF;
-    }
-    .ant-menu-item:active, .ant-menu-submenu-title:active {
-      background-color: #1890FF;
-    }
-    .ant-menu-item-selected, .ant-menu-submenu-selected {
-      color: #FEFEFE;
-    }
-    .ant-menu-light .ant-menu-item-selected.ant-menu-item:hover {
-      color: #FEFEFE;
-    }
-    .ant-menu-light .ant-menu-item-selected.ant-menu-item-active {
-      color: #FEFEFE;
-    }
-    .ant-menu-submenu-expand-icon, .ant-menu-submenu-arrow {
-      color: #A7ADB4;
+
+      .ant-menu {
+        background-color: #001529;
+        color: #a7adb4;
+      }
+
+      .ant-menu-sub.ant-menu-inline {
+        background-color: #000c17;
+      }
+
+      .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+        background-color: #1890ff;
+      }
+
+      .ant-menu-item:active,
+      .ant-menu-submenu-title:active {
+        background-color: #1890ff;
+      }
+
+      .ant-menu-item-selected,
+      .ant-menu-submenu-selected {
+        color: #fefefe;
+      }
+
+      .ant-menu-light .ant-menu-item-selected.ant-menu-item:hover {
+        color: #fefefe;
+      }
+
+      .ant-menu-light .ant-menu-item-selected.ant-menu-item-active {
+        color: #fefefe;
+      }
+
+      .ant-menu-submenu-expand-icon,
+      .ant-menu-submenu-arrow {
+        color: #a7adb4;
+      }
     }
   }
-}
 </style>
 <style lang="less" scoped>
   .app-menu {
     width: 220px;
     min-width: 220px;
     height: calc(100vh - 3.25rem);
-    padding: 0 0 0 0;
-    overflow-y: scroll;
+    padding: 0;
     overflow-x: hidden;
+    overflow-y: scroll;
 
     .menu-content {
       width: 220px;
@@ -214,9 +252,9 @@
       bottom: 50vh;
       left: 205px;
       height: 1rem;
-      line-height: 1rem;
-      background: #f0f0f0;
       border-radius: 20px;
+      background: #f0f0f0;
+      line-height: 1rem;
     }
 
     &.dark {
@@ -226,21 +264,24 @@
     &.collapsed {
       width: 60px;
       min-width: 60px;
+
       .menu-content {
         width: 55px;
         height: 100%;
       }
+
       .app-menu-collClass-icon {
         position: fixed;
         bottom: 50vh;
         left: 50px;
         height: 1rem;
-        line-height: 1rem;
-        background: #f0f0f0;
         border-radius: 20px;
+        background: #f0f0f0;
+        line-height: 1rem;
       }
     }
   }
+
   .logo {
     width: 100%;
     height: calc(100vh - 3.25rem);
