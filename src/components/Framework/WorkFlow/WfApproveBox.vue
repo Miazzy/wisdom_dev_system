@@ -43,6 +43,7 @@
   import type { PropType } from 'vue';
   import { useRouter } from 'vue-router';
   import { closeCurrentTab } from '@/utils/route';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const { currentRoute } = useRouter();
   const route = unref(currentRoute);
@@ -67,6 +68,7 @@
     processStatus: propTypes.number.def(undefined),
     mode: { type: String as PropType<Modes>, default: 'default' },
     businessStatus: { type: String, default: '' },
+    listenMessage: { type: String, default: 'workflow-task-done' },
   });
 
   const [approvalDrawerRegister, { openDrawer: openApprovalDrawer, closeDrawer: closeApprovalDrawer}] = useDrawer();
@@ -88,6 +90,7 @@
     await getTaskListByProcessInstanceId();
     closeApprovalDrawer();
     closeCurrentTab();
+    MsgManager.getInstance().sendMsg(props.listenMessage, {}); // 发送消息，通知审批待办任务已办任务刷新列表
   };
 
   const getTaskListByProcessInstanceId = async () => {
@@ -122,6 +125,7 @@
     await getTaskListByProcessInstanceId();
     closeApprovalDrawer();
     closeCurrentTab();
+    MsgManager.getInstance().sendMsg(props.listenMessage, {}); // 发送消息，通知审批待办任务已办任务刷新列表
   };
 
   // 流程审批保存
@@ -218,12 +222,14 @@
         await getTaskListByProcessInstanceId();
         closeApprovalDrawer();
         closeCurrentTab();
+        MsgManager.getInstance().sendMsg(props.listenMessage, {}); // 发送消息，通知审批待办任务已办任务刷新列表
       } else if (newValue === 'reject') {
         await TaskApi.rejectTask({ id: currentNode.id, reason: currentNode.reason });
         message.success('操作成功。');
         await getTaskListByProcessInstanceId();
         closeApprovalDrawer();
         closeCurrentTab();
+        MsgManager.getInstance().sendMsg(props.listenMessage, {}); // 发送消息，通知审批待办任务已办任务刷新列表
       }
     },
   );
