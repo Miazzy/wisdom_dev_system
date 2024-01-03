@@ -326,6 +326,16 @@ export const PoSafecheckexecutionCreateCheckType2: AppRouteRecordRaw = {
   component: () => import('/@/views/po/safety/safecheckexecution/createOrUpdate.vue'),
 };
 
+export const PoSafecheckexecution: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/safecheckexecution',
+  component: () => import('/@/views/po/safety/safecheckexecution/index.vue'),
+};
+
+export const PoSafecheckexecutionCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/safety/safecheckexecution/create',
+  component: () => import('/@/views/po/safety/safecheckexecution/createOrUpdate.vue'),
+};
+
 export const PoVehicleexecution: AppRouteRecordRaw = {
   path: '/framepage/po/safety/vehicleexecution',
   component: () => import('/@/views/po/safety/vehicleexecution/index.vue'),
@@ -1120,6 +1130,8 @@ export const basicRoutes = [
   PoSafecheckexecutionCreateCheckType1,
   PoSafecheckexecutionCheckType2,
   PoSafecheckexecutionCreateCheckType2,
+  PoSafecheckexecution,
+  PoSafecheckexecutionCreate,
   PoVehicleexecution,
   PoVehicleexecutionCreate,
   PoSafetyFiles,
