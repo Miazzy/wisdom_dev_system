@@ -51,9 +51,6 @@
             <template #overlay>
               <a-menu>
                 <a-menu-item>
-                  <a @click="handleRefreshTabPage">重新加载</a>
-                </a-menu-item>
-                <a-menu-item>
                   <a @click="handleCloseTabPage('now')">关闭当前</a>
                 </a-menu-item>
                 <a-menu-item>

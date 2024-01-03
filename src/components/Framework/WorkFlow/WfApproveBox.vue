@@ -87,7 +87,7 @@
     await TaskApi.approveTask({ id: curflowobj.id, reason: curflowobj.reason });
     message.success('操作成功。');
     isHandle.value = 2;
-    getTaskListByProcessInstanceId();
+    await getTaskListByProcessInstanceId();
     closeApprovalDrawer();
     closeCurrentTab();
     MsgManager.getInstance().sendMsg(props.listenMessage, {}); // 发送消息，通知审批待办任务已办任务刷新列表
@@ -122,7 +122,7 @@
     const curflowobj = getuntreated(toRaw(flowData));
     await TaskApi.rejectTask({ id: curflowobj.id, reason: curflowobj.reason });
     message.success('操作成功。');
-    getTaskListByProcessInstanceId();
+    await getTaskListByProcessInstanceId();
     closeApprovalDrawer();
     closeCurrentTab();
     MsgManager.getInstance().sendMsg(props.listenMessage, {}); // 发送消息，通知审批待办任务已办任务刷新列表
@@ -219,14 +219,14 @@
         await TaskApi.approveTask({ id: currentNode.id, reason: currentNode.reason });
         message.success('操作成功。');
         isHandle.value = 2;
-        getTaskListByProcessInstanceId();
+        await getTaskListByProcessInstanceId();
         closeApprovalDrawer();
         closeCurrentTab();
         MsgManager.getInstance().sendMsg(props.listenMessage, {}); // 发送消息，通知审批待办任务已办任务刷新列表
       } else if (newValue === 'reject') {
         await TaskApi.rejectTask({ id: currentNode.id, reason: currentNode.reason });
         message.success('操作成功。');
-        getTaskListByProcessInstanceId();
+        await getTaskListByProcessInstanceId();
         closeApprovalDrawer();
         closeCurrentTab();
         MsgManager.getInstance().sendMsg(props.listenMessage, {}); // 发送消息，通知审批待办任务已办任务刷新列表
