@@ -48,7 +48,6 @@ export class PageVisibleHandler {
     } catch (error) {
       //
     }
-    console.info('system on page show event...');
   }
 
   setCallback(scallback: Function = () => {}, hcallback: Function = () => {}) {
