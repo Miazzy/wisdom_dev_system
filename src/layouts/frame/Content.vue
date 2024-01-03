@@ -88,6 +88,7 @@
   import Icon from '@/components/Icon/Icon.vue';
   import { MsgManager } from '/@/message/MsgManager';
   import { useUserStore } from '/@/store/modules/user';
+  import { buildUUID } from '/@/utils/uuid';
 
   const props = defineProps({
     path: { type: String, default: null },
@@ -199,6 +200,7 @@
 
   const handleNewTabPage = (value, name, menu) => {
     const path = value.startsWith('/') ? value : '/' + value;
+    const id = menu && menu?.id && Reflect.has(menu, 'id') ? menu?.id : buildUUID();
     let tempKey = path.replace('/da/', '/');
     tempKey = tempKey.startsWith('/framepage') ? tempKey : '/framepage' + tempKey;
     const key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
@@ -206,7 +208,7 @@
     if (!paneMap.has(key)) {
       paneMap.set(key, menu || props.menu);
       panes.value.push({
-        id: menu.id,
+        id: id,
         title: name || props.menu.name,
         show: true,
         closable: true,
@@ -305,9 +307,13 @@
     } else if (message.type === 'addTabAndClose') {
       // 关闭原页面
       if (typeof data.closeID == 'undefined' || data.closeID == null || data.closeID == '') {
-        handleRemoveItem(activeKey.value);
+        handleRemoveItem(activeKey.value); // 默认关闭当前页面
       } else {
-        handleRemoveItem(data.closeID);
+        if (paneMap.has(data.closeID)) {
+          handleRemoveItem(data.closeID);
+        } else {
+          handleRemoveItemById(data.closeID);
+        }
       }
       // 打开新页面 如果页面已打开过，则切换到相应页签；否则新打开一个页签
       if (paneMap.has(data.path)) {

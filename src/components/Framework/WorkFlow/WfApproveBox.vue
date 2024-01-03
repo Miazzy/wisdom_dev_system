@@ -42,6 +42,7 @@
   import { useTabs } from '/@/hooks/web/useTabs';
   import type { PropType } from 'vue';
   import { useRouter } from 'vue-router';
+  import { closeCurrentTab } from '@/utils/route';
 
   const { currentRoute } = useRouter();
   const route = unref(currentRoute);
@@ -78,9 +79,6 @@
     openApprovalDrawer(true);
   }
 
-  // 关闭当前页签
-  const { closeCurrentPage } = useTabs();
-
   const handleAgree = async (flowData) => {
     // emit('agree', flowData);
     const curflowobj = getuntreated(toRaw(flowData));
@@ -89,7 +87,7 @@
     isHandle.value = 2;
     getTaskListByProcessInstanceId();
     closeApprovalDrawer();
-    closeCurrentPage();
+    closeCurrentTab();
   };
 
   const getTaskListByProcessInstanceId = async () => {
@@ -123,7 +121,7 @@
     message.success('操作成功。');
     getTaskListByProcessInstanceId();
     closeApprovalDrawer();
-    closeCurrentPage();
+    closeCurrentTab();
   };
 
   // 流程审批保存
@@ -219,13 +217,13 @@
         isHandle.value = 2;
         getTaskListByProcessInstanceId();
         closeApprovalDrawer();
-        closeCurrentPage();
+        closeCurrentTab();
       } else if (newValue === 'reject') {
         await TaskApi.rejectTask({ id: currentNode.id, reason: currentNode.reason });
         message.success('操作成功。');
         getTaskListByProcessInstanceId();
         closeApprovalDrawer();
-        closeCurrentPage();
+        closeCurrentTab();
       }
     },
   );

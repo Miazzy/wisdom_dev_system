@@ -11,7 +11,7 @@
     :isDetail="true"
     width="33.33%"
     :headerStyle="{ display: 'none' }"
-    :drawerStyle="{ boxShadow: '0px 1px 3px 0px #E9E9E9'}"
+    :drawerStyle="{ boxShadow: '0px 1px 3px 0px #E9E9E9' }"
     :showFooter="currentNodeData[0] && editAuthority(currentNodeData[0])"
     footerHeight="64"
     @visible-change="handleChange"
@@ -189,7 +189,7 @@
     } else if (props.mode === 'before') {
       emit('before', currentNodeData.value[0], 'beforeAgree');
     }
-    closeCurrentTab();
+    // closeCurrentTab();
     MsgManager.getInstance().sendMsg('workflow-task-done', {}); // 发送消息，通知审批待办任务已办任务刷新列表
   }
 
@@ -201,7 +201,7 @@
     } else if (props.mode === 'before') {
       emit('before', currentNodeData.value[0], 'beforeReject');
     }
-    closeCurrentTab();
+    // closeCurrentTab();
     MsgManager.getInstance().sendMsg('workflow-task-done', {}); // 发送消息，通知审批待办任务已办任务刷新列表
   }
 
@@ -370,7 +370,7 @@
   };
 
   const getContainer = () => {
-    return document.body
+    return document.body;
   };
 
   /** 初始化 **/
