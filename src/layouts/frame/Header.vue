@@ -38,7 +38,7 @@
         />
         <Icon
           v-if="isFullscreen"
-          :icon="'ant-design:fullscreen-exit-outlined'"  
+          :icon="'ant-design:fullscreen-exit-outlined'"
           size="20"
           class="fullscreen-icon"
           @click="toggle"
@@ -67,7 +67,7 @@
   import { TaskExecutor } from '/@/executor/taskExecutor';
   import { TimeInterval } from '@/constant/constant';
   import { PageVisibleHandler } from '/@/utils/handler/pageVisibleHandler';
-  import { execRefreshToken } from '/@/api/sys/user';
+  import { checkToken } from '/@/api/sys/user';
 
   const SettingDrawer = createAsyncComponent(() => import('/@/layouts/default/setting/index.vue'), {
     loading: true,
@@ -162,87 +162,102 @@
     executor.value.start();
     PageVisibleHandler.getInstance().start();
     PageVisibleHandler.getInstance().setCallback(async () => {
-      const resp = await execRefreshToken('');
-      userStore.setToken(resp?.accessToken);
+      const resp = await checkToken('');
+      console.info('browser visibility: ', resp.user_id);
     });
   });
 </script>
 <style lang="less">
-// 深色主题
-[data-theme='dark'] .theme1 {
-  .module-info {
-    .ant-menu {
-      background: transparent;
+  // 深色主题
+  [data-theme='dark'] .theme1 {
+    .module-info {
+      .ant-menu {
+        background: transparent;
+      }
+
+      .ant-menu-horizontal {
+        border-bottom-color: transparent;
+      }
     }
-    .ant-menu-horizontal {
-      border-bottom-color: transparent;
-    }
-  }
-  .user-info {
-    .ant-badge {
-      color: #fff;
-    }
-  }
-}
-.theme1 {
-  .app-header {
-    background-color: rgba(10, 36, 74, 0.7);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-  }
-  .logo {
-    background: url(../../assets/images/my-logo-dark.png) no-repeat 24px 6px/104px auto;
-  }
-  .user-info {
-    .icon-element {
-      .search-icon, .notify-icon, .fullscreen-icon, .drawer-icon {
+
+    .user-info {
+      .ant-badge {
         color: #fff;
       }
     }
   }
-  .avatar-element {
-    .text {
-      color: #fff;
+
+  .theme1 {
+    .app-header {
+      border-bottom: 1px solid rgb(255 255 255 / 16%);
+      background-color: rgb(10 36 74 / 70%);
+    }
+
+    .logo {
+      background: url("../../assets/images/my-logo-dark.png") no-repeat 24px 6px/104px auto;
+    }
+
+    .user-info {
+      .icon-element {
+        .search-icon,
+        .notify-icon,
+        .fullscreen-icon,
+        .drawer-icon {
+          color: #fff;
+        }
+      }
+    }
+
+    .avatar-element {
+      .text {
+        color: #fff;
+      }
     }
   }
-}
 
-// 浅色主题
-.theme3 {
-  .app-header {
-    background-color: #fff;
-    border-bottom: 1px solid #f0f0f0;
-  }
-  .logo {
-    background: url(../../assets/images/my-logo-light.png) no-repeat 24px 6px/104px auto;
-  }
-  .user-info {
-    .icon-element {
-      .search-icon, .notify-icon, .fullscreen-icon, .drawer-icon {
+  // 浅色主题
+  .theme3 {
+    .app-header {
+      border-bottom: 1px solid #f0f0f0;
+      background-color: #fff;
+    }
+
+    .logo {
+      background: url("../../assets/images/my-logo-light.png") no-repeat 24px 6px/104px auto;
+    }
+
+    .user-info {
+      .icon-element {
+        .search-icon,
+        .notify-icon,
+        .fullscreen-icon,
+        .drawer-icon {
+          color: #333;
+        }
+      }
+    }
+
+    .avatar-element {
+      .text {
         color: #333;
       }
     }
   }
-  .avatar-element {
-    .text {
-      color: #333;
-    }
-  }
-}
 </style>
 <style lang="less" scoped>
   .app-header {
     display: flex;
     align-items: left;
     justify-content: left;
-    padding: 0 0 0 0;
     height: 3.25rem;
+    padding: 0;
     line-height: 3.25rem;
   }
 
   .logo {
     width: 260px;
     height: 100%;
-    margin: 0.22rem 0.05rem 0rem 0rem;
+    margin: 0.22rem 0.05rem 0 0;
   }
 
   .module-info {
@@ -250,22 +265,21 @@
   }
 
   .user-info {
-    width: 280px;
-
     display: flex;
     flex-direction: row;
     align-items: right;
     justify-content: right;
+    width: 280px;
 
     .icon-element {
-      padding: 0.15rem 0 0 0;
       width: 40px;
+      padding: 0.15rem 0 0;
       cursor: pointer;
 
       .search-icon {
         z-index: 1000;
-        transform: scale(1.2);
         margin-top: -0.45rem;
+        transform: scale(1.2);
       }
 
       .notify-icon {
@@ -283,29 +297,33 @@
         z-index: 1000;
         width: 1.2rem;
         height: 1.2rem;
+        margin-top: -0.15rem;
         transform: scale(1.1);
         transform-origin: 0% 0%;
-        margin-top: -0.15rem;
       }
 
       :deep(.vben-header-user-dropdown) {
-        padding: 0 0 0 0 !important;
+        padding: 0 !important;
       }
     }
+
     .avatar-element {
-      padding: 0.15rem 0 0 0;
       width: 100px;
+      padding: 0.15rem 0 0;
       cursor: pointer;
+
       .avatar {
         float: left;
+
         .avatar-item {
+          margin: -0.5rem 0 0;
           background-color: #87d068;
-          margin: -0.5rem 0 0 0;
         }
       }
+
       .text {
+        margin: -0.15rem 0.5rem 0;
         float: left;
-        margin: -0.15rem 0.5rem 0 0.5rem;
       }
     }
   }

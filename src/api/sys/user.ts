@@ -60,6 +60,8 @@ export function getListMenus() {
 export function checkToken(token) {
   const userStore = useUserStore();
   token = token ? token : userStore.getToken;
-  const requestParams = { url: SystemAuthApi.CheckToken + token };
-  return defHttp.get<any>(requestParams, { isOnlyResult: true });
+  const url = SystemAuthApi.CheckToken + token + `&client_id=default&client_secret=admin123`;
+  const requestParams = { url };
+  const options = { isOnlyResult: true };
+  return defHttp.post<any>(requestParams, options);
 }
