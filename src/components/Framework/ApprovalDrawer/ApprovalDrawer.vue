@@ -74,7 +74,7 @@
 <script lang="ts" setup>
   import { assign, forEach } from 'min-dash';
   import { watch, ref, toRaw, onMounted, createVNode } from 'vue';
-  import { Tabs, TabPane, Button, Dropdown, Menu, MenuItem, message, Modal } from 'ant-design-vue';
+  import { Tabs, TabPane, Button, Dropdown, Menu, MenuItem, Modal } from 'ant-design-vue';
   import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
   import type { MenuProps } from 'ant-design-vue';
   import { propTypes } from '@/utils/propTypes';
@@ -92,6 +92,7 @@
   import type { PropType } from 'vue';
   import { MsgManager } from '/@/message/MsgManager';
   import { closeCurrentTab } from '@/utils/route';
+  import { SysMessage } from '/@/hooks/web/useMessage';
 
   type Modes = 'default' | 'before'; // default: 默认不需要在流程同意、驳回、终止等之前，业务有保存或提交数据；before: 需要在流程同意、驳回、终止等之前，业务保存或提交数据
 
@@ -217,11 +218,11 @@
     console.log('myTask', myTask);
 
     if (Object.keys(myTask).length === 0) {
-      message.warning('没有权限操作。');
+      SysMessage.getInstance().warning('没有权限操作。');
       return;
     }
     if (myTask.result == 2) {
-      message.warning('此任务已处理。');
+      SysMessage.getInstance().warning('此任务已处理。');
       return;
     }
     const params = {
@@ -244,7 +245,7 @@
           ProcessInstanceApi.abortProcessInstance(params).then(() => {
             processOperation.value = 0;
             emit('onReload');
-            message.success('操作成功。');
+            SysMessage.getInstance().success('操作成功。');
           });
         } else if (props.mode === 'before') {
           emit('before', currentNodeData.value[0], 'beforeEnd');
@@ -261,7 +262,7 @@
         ProcessInstanceApi.abortProcessInstance(params).then(() => {
           processOperation.value = 0;
           emit('onReload');
-          message.success('操作成功。');
+          SysMessage.getInstance().success('操作成功。');
         });
       }
     },
@@ -274,7 +275,7 @@
     const myTask = getMyTask(innerFlowData);
 
     if (operation == 2 && myTask.result == 2) {
-      message.warning('此任务已处理。');
+      SysMessage.getInstance().warning('此任务已处理。');
       return;
     }
 
@@ -308,16 +309,16 @@
     const myTask = getMyTask(innerFlowData);
 
     if (nodeList.length == 0) {
-      message.warning('请选择人员。');
+      SysMessage.getInstance().warning('请选择人员。');
       return false;
     }
     if (processOperation.value == 2) {
       if (myTask.result == 2) {
-        message.warning('此任务已处理。');
+        SysMessage.getInstance().warning('此任务已处理。');
         return false;
       }
       if (nodeList.length > 1) {
-        message.warning('只能选择一个人员。');
+        SysMessage.getInstance().warning('只能选择一个人员。');
         return false;
       }
       const params = {
@@ -327,7 +328,7 @@
       TaskApi.updateTaskAssignee(params).then(() => {
         processOperation.value = 0;
         emit('onReload');
-        message.success('操作成功。');
+        SysMessage.getInstance().success('操作成功。');
       });
     } else if (processOperation.value == 3) {
       const ccToVos = [];
@@ -342,7 +343,7 @@
       TaskApi.addCcTo(params).then(() => {
         processOperation.value = 0;
         emit('onReload');
-        message.success('操作成功。');
+        SysMessage.getInstance().success('操作成功。');
       });
     }
   };
