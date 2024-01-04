@@ -237,7 +237,7 @@ export class SysMessage {
 
   static valid(content) {
     const nowtime = new Date().getTime();
-    if (SysMessage.lastMessage == content || nowtime < SysMessage.lasttime + 3000) {
+    if (SysMessage.lastMessage == content && nowtime < SysMessage.lasttime + 3000) {
       return false;
     } else {
       return true;
