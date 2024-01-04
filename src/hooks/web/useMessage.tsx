@@ -221,6 +221,7 @@ function prompt(content: string, tip: string) {
 class SysMessage {
   private static instance: SysMessage;
   lastMessage: string;
+  lasttime: number;
 
   static getInstance() {
     if (!SysMessage.instance) {
@@ -230,32 +231,42 @@ class SysMessage {
   }
 
   constructor() {
+    this.lasttime = 0;
     this.lastMessage = '';
   }
 
+  valid(content) {
+    const nowtime = new Date().getTime();
+    if (this.lastMessage != content && nowtime < this.lasttime + 3000) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   info(content: string) {
-    if (this.lastMessage != content) {
+    if (this.valid(content)) {
       this.lastMessage = content;
       Message.info(content);
     }
   }
 
   error(content: string) {
-    if (this.lastMessage != content) {
+    if (this.valid(content)) {
       this.lastMessage = content;
       Message.error(content);
     }
   }
 
   success(content: string) {
-    if (this.lastMessage != content) {
+    if (this.valid(content)) {
       this.lastMessage = content;
       Message.success(content);
     }
   }
 
   warning(content: string) {
-    if (this.lastMessage != content) {
+    if (this.valid(content)) {
       this.lastMessage = content;
       Message.warning(content);
     }
