@@ -84,7 +84,7 @@
     },
     maxChars: {
       type: Number,
-      default: 500,
+      default: 20000,
     },
     toolbar: {
       type: Array as PropType<string[]>,
@@ -172,7 +172,7 @@
           link_title: false,
           object_resizing: false,
           auto_focus: true,
-          max_chars: maxChars || 100, // 设置最大字符数
+          max_chars: maxChars || 20000, // 设置最大字符数
           skin: skinName.value,
           skin_url: publicPath + 'resource/tinymce/skins/ui/' + skinName.value,
           content_css:
@@ -462,14 +462,14 @@
 <style lang="less" scoped>
   .vben-tinymce-container {
     :deep(.tox .tox-statusbar) {
-      align-items: center;
-      border-top: 0px solid #ccc;
-      color: #ffffff;
       display: flex;
-      flex: 0 0 auto;
-      height: 0px;
-      overflow: hidden;
       position: relative;
+      flex: 0 0 auto;
+      align-items: center;
+      height: 0;
+      overflow: hidden;
+      border-top: 0 solid #ccc;
+      color: #fff;
       text-transform: uppercase;
     }
   }
