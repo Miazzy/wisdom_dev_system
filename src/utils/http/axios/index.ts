@@ -119,9 +119,9 @@ const transform: AxiosTransform = {
       createErrorModal({ title: t('sys.api.errorTip'), content: timeoutMsg });
     } else if (options.errorMessageMode === 'message') {
       createMessage.error(timeoutMsg);
+    } else {
+      createMessage.error(timeoutMsg || t('sys.api.apiRequestFailed'));
     }
-
-    throw new Error(timeoutMsg || t('sys.api.apiRequestFailed'));
   },
 
   // 请求之前处理config

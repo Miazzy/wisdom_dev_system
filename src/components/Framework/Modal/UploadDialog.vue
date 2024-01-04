@@ -65,6 +65,7 @@
   import { message, Modal } from 'ant-design-vue';
   import type { UploadProps } from 'ant-design-vue';
   import * as FileApi from '@/api/infra/file';
+  import { SysMessage } from '/@/hooks/web/useMessage';
 
   const modalVisible = ref(false);
   const fileList = ref<UploadProps['fileList']>([]);
@@ -146,24 +147,24 @@
   const beforeUpload: UploadProps['beforeUpload'] = (file) => {
     // 检查文件数量是否超限
     if (fileList.value.length + 1 > props.maxCount) {
-      message.warning('超过文件上传数量限制，最大上传文件数：' + props.maxCount);
+      SysMessage.getInstance().warning('超过文件上传数量限制，最大上传文件数：' + props.maxCount);
       return false;
     }
     // 检查上传的文件大小是否超限
     if (file.size > props.maxSize) {
-      message.warning(`文件大小超过最大限度${Math.floor(props.maxSize / 1048576)}MB`);
+      SysMessage.getInstance().warning(`文件大小超过最大限度${Math.floor(props.maxSize / 1048576)}MB`);
       return false;
     }
     // 上传文件不能为空
     if (file.size === 0) {
-      message.warning('不能上传空文件或目录，请重新选择');
+      SysMessage.getInstance().warning('不能上传空文件或目录，请重新选择');
       return false;
     }
     // 不允许上传同名文件
     for (let i = 0; i < fileList.value.length; i++) {
       const item = fileList.value[i];
       if (item.name === file.name) {
-        message.warning('不允许上传重复文件');
+        SysMessage.getInstance().warning('不允许上传重复文件');
         return false;
       }
     }
@@ -171,7 +172,7 @@
     const type = file.name.slice(file.name.lastIndexOf('.') + 1).toLowerCase();
     const arr = ',png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4,';
     if (!arr.includes(`,${type},`)) {
-      message.warning(`不支持${type}类型的文件上传`);
+      SysMessage.getInstance().warning(`不支持${type}类型的文件上传`);
       return false;
     }
     fileList.value = [...fileList.value, file];
@@ -184,7 +185,7 @@
     formData.append('module', props.module); //附件上传必须携带参数：模块
     formData.append('bizId', props.bizId); //附件上传必须携带参数：业务ID
     if (!props.bizId) {
-      message.warning(`bizId不能为空`);
+      SysMessage.getInstance().warning(`bizId不能为空`);
       return false;
     }
     fileList.value.forEach((file: UploadProps['fileList'][number]) => {
@@ -200,11 +201,11 @@
         fileList.value = await getFiles(props.bizId);
         emit('update:value', fileList.value);
         emit('change', fileList.value);
-        message.success('操作成功');
+        SysMessage.getInstance().success('操作成功');
       })
       .catch(() => {
         uploading.value = false;
-        message.error('操作失败');
+        SysMessage.getInstance().error('操作失败');
       });
   };
 

@@ -108,22 +108,22 @@ notification.config({
 
 // 消息提示
 function info(content: string) {
-  ElMessage.info(content);
+  SysMessage.getInstance().info(content);
 }
 
 // 错误消息
 function error(content: string) {
-  ElMessage.error(content);
+  SysMessage.getInstance().error(content);
 }
 
 // 成功消息
 function success(content: string) {
-  ElMessage.success(content);
+  SysMessage.getInstance().success(content);
 }
 
 // 警告消息
 function warning(content: string) {
-  ElMessage.warning(content);
+  SysMessage.getInstance().warning(content);
 }
 
 // 弹出提示
@@ -218,10 +218,10 @@ function prompt(content: string, tip: string) {
   });
 }
 
-class SysMessage {
+export class SysMessage {
   private static instance: SysMessage;
-  lastMessage: string;
-  lasttime: number;
+  private static lastMessage: string;
+  private static lasttime: number;
 
   static getInstance() {
     if (!SysMessage.instance) {
@@ -231,47 +231,47 @@ class SysMessage {
   }
 
   constructor() {
-    this.lasttime = 0;
-    this.lastMessage = '';
+    SysMessage.lasttime = 0;
+    SysMessage.lastMessage = '';
   }
 
-  valid(content) {
+  static valid(content) {
     const nowtime = new Date().getTime();
-    if (this.lastMessage != content && nowtime < this.lasttime + 3000) {
-      return true;
-    } else {
+    if (SysMessage.lastMessage == content || nowtime < SysMessage.lasttime + 3000) {
       return false;
+    } else {
+      return true;
     }
   }
 
   info(content: string) {
-    if (this.valid(content)) {
-      this.lasttime = new Date().getTime();
-      this.lastMessage = content;
+    if (SysMessage.valid(content)) {
+      SysMessage.lasttime = new Date().getTime();
+      SysMessage.lastMessage = content;
       Message.info(content);
     }
   }
 
   error(content: string) {
-    if (this.valid(content)) {
-      this.lasttime = new Date().getTime();
-      this.lastMessage = content;
+    if (SysMessage.valid(content)) {
+      SysMessage.lasttime = new Date().getTime();
+      SysMessage.lastMessage = content;
       Message.error(content);
     }
   }
 
   success(content: string) {
-    if (this.valid(content)) {
-      this.lasttime = new Date().getTime();
-      this.lastMessage = content;
+    if (SysMessage.valid(content)) {
+      SysMessage.lasttime = new Date().getTime();
+      SysMessage.lastMessage = content;
       Message.success(content);
     }
   }
 
   warning(content: string) {
-    if (this.valid(content)) {
-      this.lasttime = new Date().getTime();
-      this.lastMessage = content;
+    if (SysMessage.valid(content)) {
+      SysMessage.lasttime = new Date().getTime();
+      SysMessage.lastMessage = content;
       Message.warning(content);
     }
   }

@@ -44,6 +44,7 @@
   import { useRouter } from 'vue-router';
   import { closeCurrentTab } from '@/utils/route';
   import { MsgManager } from '/@/message/MsgManager';
+  import { SysMessage } from '/@/hooks/web/useMessage';
 
   const { currentRoute } = useRouter();
   const route = unref(currentRoute);
@@ -85,7 +86,7 @@
     // emit('agree', flowData);
     const curflowobj = getuntreated(toRaw(flowData));
     await TaskApi.approveTask({ id: curflowobj.id, reason: curflowobj.reason });
-    message.success('操作成功。');
+    SysMessage.getInstance().success('操作成功。');
     isHandle.value = 2;
     await getTaskListByProcessInstanceId();
     closeApprovalDrawer();
@@ -96,7 +97,7 @@
   const getTaskListByProcessInstanceId = async () => {
     const data = await TaskApi.getTaskListByProcessInstanceId(processInstanceId.value);
     if (!data) {
-      message.error('查询不到流程信息！');
+      SysMessage.getInstance().error('查询不到流程信息！');
       return;
     }
     const myTask = getMyTask(data);
@@ -121,7 +122,7 @@
     // emit('reject', flowData);
     const curflowobj = getuntreated(toRaw(flowData));
     await TaskApi.rejectTask({ id: curflowobj.id, reason: curflowobj.reason });
-    message.success('操作成功。');
+    SysMessage.getInstance().success('操作成功。');
     await getTaskListByProcessInstanceId();
     closeApprovalDrawer();
     closeCurrentTab();
@@ -168,7 +169,7 @@
   const getProcessInstance = async () => {
     const data = await ProcessInstanceApi.getProcessInstance(processInstanceId.value);
     if (!data) {
-      message.error('查询不到流程信息！');
+      SysMessage.getInstance().error('查询不到流程信息！');
       return;
     }
     isHandle.value = data['status'];
@@ -217,7 +218,7 @@
     async (newValue) => {
       if (newValue === 'agree') {
         await TaskApi.approveTask({ id: currentNode.id, reason: currentNode.reason });
-        message.success('操作成功。');
+        SysMessage.getInstance().success('操作成功。');
         isHandle.value = 2;
         await getTaskListByProcessInstanceId();
         closeApprovalDrawer();
@@ -225,7 +226,7 @@
         MsgManager.getInstance().sendMsg(props.listenMessage, {}); // 发送消息，通知审批待办任务已办任务刷新列表
       } else if (newValue === 'reject') {
         await TaskApi.rejectTask({ id: currentNode.id, reason: currentNode.reason });
-        message.success('操作成功。');
+        SysMessage.getInstance().success('操作成功。');
         await getTaskListByProcessInstanceId();
         closeApprovalDrawer();
         closeCurrentTab();
