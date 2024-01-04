@@ -246,6 +246,7 @@ class SysMessage {
 
   info(content: string) {
     if (this.valid(content)) {
+      this.lasttime = new Date().getTime();
       this.lastMessage = content;
       Message.info(content);
     }
@@ -253,6 +254,7 @@ class SysMessage {
 
   error(content: string) {
     if (this.valid(content)) {
+      this.lasttime = new Date().getTime();
       this.lastMessage = content;
       Message.error(content);
     }
@@ -260,6 +262,7 @@ class SysMessage {
 
   success(content: string) {
     if (this.valid(content)) {
+      this.lasttime = new Date().getTime();
       this.lastMessage = content;
       Message.success(content);
     }
@@ -267,6 +270,7 @@ class SysMessage {
 
   warning(content: string) {
     if (this.valid(content)) {
+      this.lasttime = new Date().getTime();
       this.lastMessage = content;
       Message.warning(content);
     }
