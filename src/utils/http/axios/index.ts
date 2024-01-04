@@ -103,6 +103,10 @@ const transform: AxiosTransform = {
     // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
     let timeoutMsg = '';
     switch (code) {
+      case ResultEnum.ACCOUNT_ERROR:
+        timeoutMsg = message;
+        MsgManager.getInstance().sendMsg('notify-message', { type: 'userOffline' });
+        break;
       case ResultEnum.TIMEOUT:
         timeoutMsg = t('sys.api.timeoutMessage');
         MsgManager.getInstance().sendMsg('notify-message', { type: 'userOffline' });
