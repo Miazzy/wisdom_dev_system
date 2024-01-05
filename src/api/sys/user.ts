@@ -42,6 +42,9 @@ export function getUserInfo() {
 export function execRefreshToken(rtoken: string) {
   const userStore = useUserStore();
   rtoken = rtoken ? rtoken : userStore.getRefreshToken;
+  if (typeof rtoken == 'undefined' || rtoken == null || rtoken == '') {
+    return new Promise<any>(() => {});
+  }
   const requestParams = { url: SystemAuthApi.RefreshToken + '?refreshToken=' + rtoken };
   return defHttp.post<any>(requestParams, { isOnlyResult: true });
 }
@@ -60,6 +63,9 @@ export function getListMenus() {
 export function checkToken(token) {
   const userStore = useUserStore();
   token = token ? token : userStore.getToken;
+  if (typeof token == 'undefined' || token == null || token == '') {
+    return new Promise<any>(() => {});
+  }
   const url = SystemAuthApi.CheckToken + token + `&client_id=default&client_secret=admin123`;
   const requestParams = { url };
   const options = { isOnlyResult: true };

@@ -45,40 +45,17 @@
         {{ t('sys.login.loginButton') }}
       </Button>
     </FormItem>
-
-    <div
-      class="flex justify-evenly enter-x"
-      :class="`${prefixCls}-sign-in-way`"
-      style="display: none"
-    >
-      <GithubFilled />
-      <WechatFilled />
-      <AlipayCircleFilled />
-      <GoogleCircleFilled />
-      <TwitterCircleFilled />
-    </div>
   </Form>
 </template>
 <script lang="ts" setup>
-  import { reactive, ref, unref, computed } from 'vue';
-
-  import { Checkbox, Form, Input, Row, Col, Button, Divider } from 'ant-design-vue';
-  import {
-    GithubFilled,
-    WechatFilled,
-    AlipayCircleFilled,
-    GoogleCircleFilled,
-    TwitterCircleFilled,
-  } from '@ant-design/icons-vue';
+  import { reactive, ref, unref, computed, onMounted } from 'vue';
+  import { Checkbox, Form, Input, Row, Col, Button } from 'ant-design-vue';
   import LoginFormTitle from './LoginFormTitle.vue';
-
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
-
   import { useUserStore } from '/@/store/modules/user';
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin';
   import { useDesign } from '/@/hooks/web/useDesign';
-  //import { onKeyStroke } from '@vueuse/core';
 
   const ACol = Col;
   const ARow = Row;
@@ -115,6 +92,14 @@
         mode: 'none', //不要默认的错误提示
       });
       if (userInfo) {
+        const params = {
+          remember: rememberMe.value,
+          account: data.account,
+          password: data.password,
+        };
+        rememberMe.value
+          ? localStorage.setItem('REMEMBER_ME_INFO', JSON.stringify(params))
+          : localStorage.setItem('REMEMBER_ME_INFO', '');
         const username = userInfo.username || userInfo.userId;
         notification.success({
           message: t('sys.login.loginSuccessTitle'),
@@ -132,4 +117,18 @@
       loading.value = false;
     }
   }
+
+  const handleLoadAccount = () => {
+    const info = localStorage.getItem('REMEMBER_ME_INFO');
+    if (info) {
+      const data = JSON.parse(info);
+      rememberMe.value = data.remember;
+      formData.account = data.account;
+      formData.password = data.password;
+    }
+  };
+
+  onMounted(() => {
+    handleLoadAccount();
+  });
 </script>
