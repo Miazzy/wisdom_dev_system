@@ -37,13 +37,16 @@
             <!-- 基础Tree组件 -->
             <div class="tree-compoment" :style="`max-height: ${theight}px;`">
               <a-tree
+                v-model:selectedKeys="selectedRealKeys"
                 :tree-data="treeData"
                 show-icon
-                :default-expand-all="props.expandAll"
-                @select="handleSelect"
+                selectable
                 :height="theight"
+                :fieldNames="newTfields"
                 :multiple="props.multiple"
                 :show-line="props.treeLine"
+                :default-expand-all="props.expandAll"
+                @select="handleSelect"
               >
                 <template v-if="!props.treeLine" #switcherIcon="{ switcherCls }">
                   <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
@@ -100,6 +103,7 @@
   const treeMap = ref<any>();
   const treeEntry = ref<any>(new Map());
   const selectedValue = ref(null);
+  const selectedRealKeys = ref<any[]>([]);
   type fieldType = { key: String; title: String };
   type tIconsType = { parent: String; leaf: String };
 
@@ -117,6 +121,7 @@
     treeLine: { type: [Boolean, Object], default: true && { showLeafIcon: true } },
     callback: { type: Function, default: null },
     multiple: { type: Boolean, default: false },
+    skeys: { type: Array, default: [] },
     ticons: {
       type: Object,
       default: {
@@ -138,7 +143,7 @@
   const newTfields = ref({});
   const tdata = ref([]);
 
-  const emit = defineEmits(['update:value', 'select', 'change']); // 允许双向绑定value
+  const emit = defineEmits(['update:value', 'update:skeys', 'select', 'change']); // 允许双向绑定value
 
   const searchData = () => {
     try {
@@ -322,6 +327,7 @@
           searchLabelText.value = event.node[props.tfields.title];
         }
         emit('update:value', selectedValue.value);
+        emit('update:skeys', selectedRealKeys.value);
       } else {
         if (props.multiple) {
           searchRealText.value = selectedValue.value = event.selectedNodes.map(
@@ -332,6 +338,7 @@
         }
         searchLabelText.value = selectedValue.value as unknown as string;
         emit('update:value', selectedValue.value);
+        emit('update:skeys', selectedRealKeys.value);
       }
       if (props.callback != null) {
         props.callback(event.node, event);
@@ -369,8 +376,19 @@
       treeMap.value = transformMap(data, rule);
       const tempList = transformData(resultData, rule) as never[];
       treeData.push(...tempList);
+
+      handleLoadKeys();
     } catch {
       //
+    }
+  };
+
+  const handleLoadKeys = () => {
+    selectedRealKeys.value = [];
+    if (typeof props.skeys == 'string') {
+      selectedRealKeys.value = props.skeys == '' ? [] : (props.skeys as string).split(',');
+    } else {
+      selectedRealKeys.value = props.skeys;
     }
   };
 
@@ -397,6 +415,17 @@
     (newValue) => {
       try {
         searchRealText.value = props.value;
+      } catch {
+        //
+      }
+    },
+  );
+
+  watch(
+    () => props.skeys,
+    (newValue) => {
+      try {
+        // handleLoadKeys()
       } catch {
         //
       }
