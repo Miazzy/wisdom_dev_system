@@ -6,6 +6,7 @@ import { isArray, isString } from '@/utils/is';
 import { DictTag } from '@/components/DictTag';
 import { Icon } from '@/components/Icon';
 import { JsonPreview } from '@/components/CodeEditor';
+import { addTabPage } from '@/utils/route';
 
 export const useRender = {
   /**
@@ -29,6 +30,32 @@ export const useRender = {
   renderLink: (url: string, text?: string) => {
     if (url) return h(Button, { type: 'link', href: url, target: '_self' }, () => text || '');
 
+    return '';
+  },
+  /**
+   * 渲染链接（iframe模式）
+   * @param url 链接地址
+   * @param text 文字说明
+   * @returns link 按钮
+   */
+  renderIframeLink: (
+    url: string,
+    name: string = '',
+    params: Object | null = null,
+    text?: string,
+  ) => {
+    if (url) {
+      return h(
+        Button,
+        {
+          type: 'link',
+          onClick: () => {
+            addTabPage(url, name, params);
+          },
+        },
+        () => text || '',
+      );
+    }
     return '';
   },
   /**
