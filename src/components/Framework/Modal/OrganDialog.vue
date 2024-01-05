@@ -23,6 +23,7 @@
               class="search-input"
               placeholder="请输入搜索内容"
               enter-button
+              @change="handleSearch"
               @search="handleSearch"
             />
             <span class="search-icon" style="left: 300px">
@@ -49,7 +50,7 @@
               v-if="searchText.length <= 0"
               :tree-data="treeData"
               show-icon
-              default-expand-all
+              :default-expand-all="false"
               @select="handleSelect"
             >
               <template #switcherIcon="{ switcherCls }">
@@ -76,7 +77,8 @@
               size="small"
               :columns="scolumns"
               :data-source="xdataList"
-              :scroll="{ y: props.height - 220 }"
+              :pagination="false"
+              :scroll="{ x: (props.width - 30) / 2, y: props.height - 220 }"
               style="overflow-x: hidden"
               :customRow="handleTableClick"
             />
@@ -170,9 +172,10 @@
   const emit = defineEmits(['update:visible', 'update:value', 'cancel', 'confirm', 'close']); // 定义事件
 
   const scolumns = ref([
-    { title: '名称', dataIndex: 'title', key: 'title', fixed: 'left', minWidth: 100 },
-    { title: '部门', dataIndex: 'dept', key: 'dept', fixed: 'left', minWidth: 100 },
-    { title: '岗位', dataIndex: 'postion', key: 'postion', fixed: 'left', minWidth: 100 },
+    { title: '名称', dataIndex: 'title', key: 'title', fixed: true, width: 80 },
+    { title: '公司', dataIndex: 'company', key: 'company', fixed: false, width: 200 },
+    { title: '部门', dataIndex: 'dept', key: 'dept', fixed: false, width: 150 },
+    { title: '岗位', dataIndex: 'postion', key: 'postion', fixed: false, width: 150 },
   ]);
 
   const cancel = () => {
@@ -208,12 +211,17 @@
 
   const handleNode = () => {
     const snode = selectedNode.value || {};
-    const findex = allNodes.value.findIndex((x) => {
-      return (
-        x[props.tfields.key] === snode[props.tfields.key] &&
-        x[props.tfields.title] === snode[props.tfields.title]
-      );
-    });
+    if (typeof allNodes.value == 'undefined' || allNodes.value == null) {
+      allNodes.value = [];
+    }
+    const findex = allNodes.value
+      ? allNodes.value.findIndex((x) => {
+          return (
+            x[props.tfields.key] === snode[props.tfields.key] &&
+            x[props.tfields.title] === snode[props.tfields.title]
+          );
+        })
+      : -1;
     if (findex < 0) {
       // 将选中节点推入allNodes节点中
       allNodes.value.push(selectedNode.value);
@@ -285,7 +293,7 @@
   };
 
   // 按tfields的设置转换tree的数据
-  const transformTableData = (data, rule, flag = 'top') => {
+  const transformTableData = (data, rule, flag = 'top', pnode) => {
     // 获取字段规则
     const rules = reverseRule(rule);
     // 数组遍历
@@ -304,10 +312,15 @@
             newObj[key] = item[key];
           }
         }
+        newObj[key] = item[key];
+        if (pnode) {
+          newObj['parent_node'] = pnode;
+        }
       }
+      treeMap.value.set(item[props.tfields.key], item);
       tdataList.value.push(newObj);
       if (item.children && item.children.length > 0) {
-        transformTableData(item.children, rule, 'none');
+        transformTableData(item.children, rule, 'none', item);
       }
     });
     // 顶级数组去重
@@ -366,7 +379,19 @@
   const handleSearch = () => {
     const text = searchText.value;
     const list = tdataList.value.filter((node) => {
-      return node[props.tfields.title].includes(text);
+      const flag = node[props.tfields.title].includes(text);
+      if (flag) {
+        node['company'] = treeMap.value.get(node['orgId'])
+          ? treeMap.value.get(node['orgId'])[props.tfields.title]
+          : '';
+        node['dept'] = treeMap.value.get(node['parent_node']['parentId'])
+          ? treeMap.value.get(node['parent_node']['parentId'])[props.tfields.title]
+          : '';
+        node['postion'] = treeMap.value.get(node['parentId'])
+          ? treeMap.value.get(node['parentId'])[props.tfields.title]
+          : '';
+      }
+      return flag;
     });
     xdataList.value = list;
   };
@@ -395,11 +420,14 @@
   watch(
     () => props.value,
     (newValue) => {
-      const rule = props?.tfields as fieldType;
-      const data = unref(props.tdata as unknown[] as TreeItem[]);
-      treeData.value = transformData(data, rule);
-      treeMap.value = transformMap(data, rule);
-      transformTableData(data, rule, 'top');
+      if (allNodes.value && newValue && allNodes.value.length != newValue.length) {
+        allNodes.value = newValue;
+        const rule = props?.tfields as fieldType;
+        const data = unref(props.tdata as unknown[] as TreeItem[]);
+        treeData.value = transformData(data, rule);
+        treeMap.value = transformMap(data, rule);
+        transformTableData(data, rule, 'top', null);
+      }
     },
   );
 
@@ -407,13 +435,9 @@
     () => props.visible,
     (newValue) => {
       modalVisible.value = newValue;
-    },
-  );
-
-  watch(
-    () => props.value,
-    (newValue) => {
-      allNodes.value = newValue;
+      if (!newValue) {
+        searchText.value = '';
+      }
     },
   );
 
@@ -424,7 +448,7 @@
       const data = unref(props.tdata as unknown[] as TreeItem[]);
       treeData.value = transformData(data, rule);
       treeMap.value = transformMap(data, rule);
-      transformTableData(data, rule, 'top');
+      transformTableData(data, rule, 'top', null);
     },
   );
 
@@ -442,7 +466,7 @@
   }
 
   .category-tree {
-    flex: 5;
+    width: 50%;
     padding: 10px;
     border-right: 1px solid #ebebeb; /* 右侧加上分割线 */
     text-align: left;
@@ -530,7 +554,7 @@
   }
 
   .employee-table {
-    flex: 5;
+    width: 50%;
     padding: 10px;
     text-align: left;
 

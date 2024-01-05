@@ -88,6 +88,7 @@
     <br />
     <Button @click="handleOpenCgDialog" style="margin: 0 10px 0 0">打开分类Dialog</Button>
     <Button @click="handleOpenOgDialog" style="margin: 0 10px 0 0">打开组织Dialog</Button>
+    <Button @click="handleOpen2OgDialog" style="margin: 0 10px 0 0">打开组织Dialog2</Button>
     <br />
     <br />
     <UploadBox
@@ -112,8 +113,9 @@
       @cancel="handleCategoryCancel"
       @confirm="handleCategoryConfirm"
     />
+
     <OrganDialog
-      :title="`组织人员Dialog`"
+      :title="`组织人员1Dialog`"
       v-model:visible="organVisible"
       v-model:value="organValue"
       :tdata="treeData"
@@ -122,6 +124,18 @@
       :height="600"
       @cancel="handleOrganCancel"
       @confirm="handleOrganConfirm"
+    />
+
+    <OrganDialog
+      :title="`组织人员2Dialog`"
+      v-model:visible="organ2Visible"
+      v-model:value="organ2Value"
+      :tdata="treeData"
+      :tfields="{ key: 'nodeId', title: 'nodeName' }"
+      :width="800"
+      :height="600"
+      @cancel="handleOrgan2Cancel"
+      @confirm="handleOrgan2Confirm"
     />
     <br />
     <span style="display: block; margin-top: 10px; margin-left: 5px"> {{ categoryConfirm }} </span>
@@ -314,6 +328,7 @@
   const rangeValue = ref<RangeValue>();
   const modalVisible = ref(false);
   const organVisible = ref(false);
+  const organ2Visible = ref(false);
   const uploadVisible = ref(false);
   const categoryConfirm = ref('');
   const organConfirm = ref('');
@@ -441,6 +456,7 @@
   const chartLegend = ref(['Series A', 'Series B', 'Series C', 'Series D']);
   const pieColors = ref(['red', 'green', 'blue', 'yellow', 'skyblue', 'purple']);
   const organValue = ref([]);
+  const organ2Value = ref([]);
 
   const chinaRegionData = ref([]);
   chinaRegionData.value = [
@@ -567,6 +583,10 @@
     organVisible.value = true;
   }
 
+  function handleOpen2OgDialog() {
+    organ2Visible.value = true;
+  }
+
   function handleOpenUpDialog() {
     uploadVisible.value = true;
   }
@@ -598,10 +618,21 @@
     organVisible.value = false; // 关闭弹框
   };
 
+  const handleOrgan2Cancel = () => {
+    organ2Visible.value = false; // 关闭弹框
+  };
+
   const handleOrganConfirm = (nodeList) => {
     const message = nodeList.length > 0 ? JSON.stringify(nodeList) : '';
     organConfirm.value = '组织人员选择Dialog确定，返回结果：' + message;
     organVisible.value = false; // 关闭弹框
+    console.info('组织人员选择Dialog确定，返回结果：' + message);
+  };
+
+  const handleOrgan2Confirm = (nodeList) => {
+    const message = nodeList.length > 0 ? JSON.stringify(nodeList) : '';
+    organConfirm.value = '组织人员选择Dialog确定，返回结果：' + message;
+    organ2Visible.value = false; // 关闭弹框
     console.info('组织人员选择Dialog确定，返回结果：' + message);
   };
 
@@ -657,6 +688,10 @@
     }, 5000);
 
     organValue.value = JSON.parse(
+      `[{"key":"76@0d76f0a575a94fa599f63d8eb1a4283f","nodeId":"0d76f0a575a94fa599f63d8eb1a4283f","title":"zcsnbq-type","nodeName":"zcsnbq-type"},{"key":"18@7e14c133613b443590005078554bb797","nodeId":"7e14c133613b443590005078554bb797","title":"jzsnbq-type","nodeName":"jzsnbq-type"},{"key":"92@7e14c133613b443590005078554bb321d","nodeId":"7e14c133613b443590005078554bb321d","title":"gfq-cateGory","nodeName":"gfq-cateGory"}]`,
+    );
+
+    organ2Value.value = JSON.parse(
       `[{"key":"76@0d76f0a575a94fa599f63d8eb1a4283f","nodeId":"0d76f0a575a94fa599f63d8eb1a4283f","title":"zcsnbq-type","nodeName":"zcsnbq-type"},{"key":"18@7e14c133613b443590005078554bb797","nodeId":"7e14c133613b443590005078554bb797","title":"jzsnbq-type","nodeName":"jzsnbq-type"},{"key":"92@7e14c133613b443590005078554bb321d","nodeId":"7e14c133613b443590005078554bb321d","title":"gfq-cateGory","nodeName":"gfq-cateGory"}]`,
     );
 
