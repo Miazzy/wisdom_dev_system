@@ -160,6 +160,7 @@
     message: {
       type: Object,
       default: {
+        none: '当前没有被选人员，无法删除！',
         double: '该节点已经被选中，请不要重复勾选！',
         delete: '请您确认是否删除所有勾选节点？',
       } as messageType,
@@ -234,13 +235,19 @@
   };
 
   const handleDelete = () => {
-    Modal.confirm({
-      title: props.message.delete,
-      onOk() {
-        allNodes.value = [];
-        emit('update:value', allNodes.value);
-      },
-    });
+    if (allNodes.value && allNodes.value.length > 0) {
+      Modal.confirm({
+        title: props.message.delete,
+        onOk() {
+          allNodes.value = [];
+          emit('update:value', allNodes.value);
+        },
+      });
+    } else {
+      Modal.warning({
+        title: props.message.none,
+      });
+    }
   };
 
   const handleDeleteNode = (item, index) => {

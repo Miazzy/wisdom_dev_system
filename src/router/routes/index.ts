@@ -972,6 +972,11 @@ export const BpmWorkflow: AppRouteRecordRaw = {
   component: () => import('/@/views/bpm/manage/workflow/workflow.vue'),
 };
 
+export const DevPage: AppRouteRecordRaw = {
+  path: '/framepage/dev',
+  component: () => import('/@/views/dev/dev.vue'),
+};
+
 export const BpmWftaskAssignRule: AppRouteRecordRaw = {
   path: '/framepage/bpm/manage/wftaskAssignRule',
   component: () => import('/@/views/bpm/manage/taskAssignRule/index.vue'),
@@ -1256,6 +1261,7 @@ export const basicRoutes = [
   OaAskreportDetail,
   OaAddressbook,
   OaWorkbench,
+  DevPage,
   BpmWorkflow,
   BpmWftaskAssignRule,
   BpmWfdefinition,
