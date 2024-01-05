@@ -25,6 +25,7 @@
               enter-button
               @change="handleSearch"
               @search="handleSearch"
+              @keydown.prevent.enter="preventEnter"
             />
             <span class="search-icon" style="left: 300px">
               <Icon
@@ -418,6 +419,12 @@
     return {
       onclick: clickFunc,
     };
+  };
+
+  const preventEnter = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
   };
 
   watch(
