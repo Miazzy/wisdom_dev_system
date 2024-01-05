@@ -67,7 +67,7 @@
   import { TaskExecutor } from '/@/executor/taskExecutor';
   import { TimeInterval } from '@/constant/constant';
   import { PageVisibleHandler } from '/@/utils/handler/pageVisibleHandler';
-  import { checkToken } from '/@/api/sys/user';
+  import { checkToken, getOrganTree } from '/@/api/sys/user';
 
   const SettingDrawer = createAsyncComponent(() => import('/@/layouts/default/setting/index.vue'), {
     loading: true,
@@ -165,6 +165,12 @@
       const resp = await checkToken('');
       console.info('browser visibility: ', resp.user_id);
     });
+    nextTick(async () => {
+      const orgKindIds = 'ogn,dpt,pos,psm';
+      const showPosition = true;
+      const resp = await getOrganTree({ orgKindIds, showPosition, status: 1 });
+      userStore.setOgranTree(resp);
+    });
   });
 </script>
 <style lang="less">
@@ -194,7 +200,7 @@
     }
 
     .logo {
-      background: url("../../assets/images/my-logo-dark.png") no-repeat 24px 6px/104px auto;
+      background: url('../../assets/images/my-logo-dark.png') no-repeat 24px 6px/104px auto;
     }
 
     .user-info {
@@ -223,7 +229,7 @@
     }
 
     .logo {
-      background: url("../../assets/images/my-logo-light.png") no-repeat 24px 6px/104px auto;
+      background: url('../../assets/images/my-logo-light.png') no-repeat 24px 6px/104px auto;
     }
 
     .user-info {

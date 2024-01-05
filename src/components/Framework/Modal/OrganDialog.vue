@@ -121,7 +121,9 @@
   import Icon from '@/components/Icon/Icon.vue';
   import { ref, defineProps, defineEmits, onMounted, watch, unref } from 'vue';
   import { TreeItem } from '@/components/Tree';
-  import { message, Modal } from 'ant-design-vue';
+  import { Modal } from 'ant-design-vue';
+  import { SysMessage } from '/@/hooks/web/useMessage';
+  import { getOrganTree } from '/@/api/sys/user';
 
   const modalVisible = ref(false);
   const treeData = ref([]);
@@ -237,7 +239,8 @@
       });
       allNodes.value = list;
     } else {
-      message.warning(props.message.double);
+      // message.warning(props.message.double);
+      SysMessage.getInstance().warning(props.message.double);
     }
     emit('update:value', allNodes.value);
   };

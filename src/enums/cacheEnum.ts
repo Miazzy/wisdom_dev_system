@@ -1,6 +1,9 @@
 // token key
 export const TOKEN_KEY = 'TOKEN__';
 
+// organ tree key
+export const ORGAN_TREE_KEY = 'ORGAN_TREE_KEY__';
+
 // menulist key
 export const MENU_LIST_KEY = 'MENU_LIST__';
 

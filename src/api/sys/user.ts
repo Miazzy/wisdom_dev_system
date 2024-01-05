@@ -10,6 +10,7 @@ export enum SystemAuthApi {
   ListMenus = '/system/auth/list-menus',
   GetPermissionInfo = '/system/auth/get-permission-info',
   CheckToken = '/system/oauth2/check-token?token=',
+  OrganTree = '/system/org/list-tree',
 }
 
 /**
@@ -55,6 +56,14 @@ export function execRefreshToken(rtoken: string) {
 export function getListMenus() {
   const requestParams = { url: SystemAuthApi.ListMenus };
   return defHttp.get<any>(requestParams, { isOnlyResult: true });
+}
+
+/*
+ * @description: get organ tree
+ */
+export function getOrganTree(params) {
+  const requestParams = { url: SystemAuthApi.OrganTree, params };
+  return defHttp.post<any>(requestParams, { isOnlyResult: true });
 }
 
 /**

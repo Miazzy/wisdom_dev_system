@@ -12,7 +12,8 @@ import {
   MENU_LIST_KEY,
   MENU_NAME_MAP_KEY,
   CURRENT_PATH_KEY,
-  APP_DARK_MODE_KEY
+  APP_DARK_MODE_KEY,
+  ORGAN_TREE_KEY,
 } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
@@ -37,6 +38,7 @@ interface UserState {
   sessionTimeout?: boolean;
   currentPath?: string;
   lastUpdateTime: number;
+  organTree?: string;
 }
 
 export const useUserStore = defineStore({
@@ -60,6 +62,8 @@ export const useUserStore = defineStore({
     sessionTimeout: false,
     // Last fetch time
     lastUpdateTime: 0,
+    // organ tree
+    organTree: '',
   }),
   getters: {
     getUserInfo(state): UserInfo {
@@ -67,6 +71,10 @@ export const useUserStore = defineStore({
     },
     getToken(state): string {
       return state.token || getAuthCache<string>(TOKEN_KEY);
+    },
+    getOrganTree(state): any {
+      const tree = state?.organTree || getAuthCache<string>(ORGAN_TREE_KEY);
+      return JSON.parse(tree);
     },
     getRefreshToken(state): string {
       return state.rtoken || getAuthCache<string>(REFRESH_TOKEN_KEY);
@@ -104,6 +112,10 @@ export const useUserStore = defineStore({
     setToken(info: string | undefined) {
       this.token = info ? info : ''; // for null or undefined value
       setAuthCache(TOKEN_KEY, info);
+    },
+    setOgranTree(info: Object) {
+      this.organTree = info ? JSON.stringify(info) : ''; // for null or undefined value
+      setAuthCache(ORGAN_TREE_KEY, this.organTree);
     },
     setCurrentPath(key) {
       this.currentPath = key;

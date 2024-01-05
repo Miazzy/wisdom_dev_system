@@ -19,6 +19,7 @@ import { SystemAuthApi } from '/@/api/sys/user';
 import { DictDataApi } from '/@/api/system/dict/data';
 import { createLocalStorage } from '@/utils/cache';
 import { MsgManager } from '/@/message/MsgManager';
+import { pathToUrl } from '/@/utils/route';
 
 const ls = createLocalStorage();
 const dictStore = useDictStoreWithOut();
@@ -276,6 +277,15 @@ export class VAxios {
         });
       }
     }
+    if (conf.url === SystemAuthApi.OrganTree) {
+      const key = SystemAuthApi.OrganTree + pathToUrl(conf.url, { ...conf.params, ...options });
+      const cache = ls.get(key);
+      if (cache) {
+        return new Promise((resolve) => {
+          resolve(cache);
+        });
+      }
+    }
     if (conf.url === SystemAuthApi.SysLogout) {
       return new Promise((resolve) => {
         const result = `{"userId":"","username":""}`;
@@ -307,6 +317,12 @@ export class VAxios {
               }
               if (conf.url == opt.apiUrl + SystemAuthApi.GetPermissionInfo) {
                 const key = SystemAuthApi.GetPermissionInfo;
+                ls.set(key, ret, 60 * 60 * 24 * 7);
+              }
+              if (conf.url == opt.apiUrl + SystemAuthApi.OrganTree) {
+                const key =
+                  SystemAuthApi.OrganTree +
+                  pathToUrl(SystemAuthApi.OrganTree, { ...conf?.data, ...options });
                 ls.set(key, ret, 60 * 60 * 24 * 7);
               }
               resolve(ret);
