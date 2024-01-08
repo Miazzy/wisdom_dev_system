@@ -286,6 +286,15 @@ export class VAxios {
         });
       }
     }
+    if (conf.url === SystemAuthApi.OrgStationTree) {
+      const key = SystemAuthApi.OrgStationTree + pathToUrl(conf.url, { ...conf.params, ...options });
+      const cache = ls.get(key);
+      if (cache) {
+        return new Promise((resolve) => {
+          resolve(cache);
+        });
+      }
+    }
     if (conf.url === SystemAuthApi.SysLogout) {
       return new Promise((resolve) => {
         const result = `{"userId":"","username":""}`;
@@ -323,6 +332,12 @@ export class VAxios {
                 const key =
                   SystemAuthApi.OrganTree +
                   pathToUrl(SystemAuthApi.OrganTree, { ...conf?.data, ...options });
+                ls.set(key, ret, 60 * 60 * 24 * 7);
+              }
+              if (conf.url == opt.apiUrl + SystemAuthApi.OrgStationTree) {
+                const key =
+                  SystemAuthApi.OrgStationTree +
+                  pathToUrl(SystemAuthApi.OrgStationTree, { ...conf?.data, ...options });
                 ls.set(key, ret, 60 * 60 * 24 * 7);
               }
               resolve(ret);
