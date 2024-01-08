@@ -123,8 +123,10 @@ const transform: AxiosTransform = {
       createErrorModal({ title: t('sys.api.errorTip'), content: timeoutMsg });
     } else if (options.errorMessageMode === 'message') {
       createMessage.error(timeoutMsg);
+      throw Error();
     } else {
       createMessage.error(timeoutMsg || t('sys.api.apiRequestFailed'));
+      throw Error();
     }
   },
 
