@@ -10,11 +10,19 @@
         <a-input
           v-model:value="searchLabelText"
           class="tree-text"
+          :allow-clear="showDropdown"
+          placeholder="请选择下拉树中数据..."
           @click="toggleDropdown($event)"
         />
       </template>
       <template v-else>
-        <a-input v-model:value="searchRealText" class="tree-text" @click="toggleDropdown($event)" />
+        <a-input
+          v-model:value="searchRealText"
+          class="tree-text"
+          :allow-clear="showDropdown"
+          placeholder="请选择下拉树中数据..."
+          @click="toggleDropdown($event)"
+        />
       </template>
 
       <template #overlay>
@@ -29,7 +37,12 @@
             <!-- 输入框、搜索按钮和关闭按钮区域 -->
             <div class="search-panel">
               <div class="search-popup-subcontent">
-                <input class="search-input" v-model="search.text" />
+                <input
+                  class="search-input"
+                  v-model="search.text"
+                  @keyup="searchData"
+                  placeholder="请输入搜索关键字..."
+                />
                 <button class="close-button" @click="clearData">清除</button>
                 <button class="search-button" @click="searchData">搜索</button>
               </div>
