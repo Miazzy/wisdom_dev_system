@@ -12,6 +12,8 @@
         class="search-text"
         :allow-clear="showDropdown"
         placeholder="请选择下拉列表中数据..."
+        @focus="handlePreventEvent"
+        @keydown="handlePreventEvent"
         @click="toggleDropdown($event)"
       />
       <template #overlay>
@@ -225,6 +227,11 @@
     } catch (error) {
       //
     }
+  };
+
+  // 禁用事件
+  const handlePreventEvent = (event) => {
+    event.preventDefault();
   };
 
   const clearData = () => {

@@ -21,6 +21,8 @@
           class="tree-text"
           :allow-clear="showDropdown"
           placeholder="请选择下拉树中数据..."
+          @focus="handlePreventEvent"
+          @keydown="handlePreventEvent"
           @click="toggleDropdown($event)"
         />
       </template>
@@ -201,6 +203,11 @@
     } catch (e) {
       //
     }
+  };
+
+  // 禁用事件
+  const handlePreventEvent = (event) => {
+    event.preventDefault();
   };
 
   // 点击组件外的区域，关闭弹框
