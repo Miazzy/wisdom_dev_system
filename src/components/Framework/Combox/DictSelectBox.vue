@@ -34,7 +34,7 @@
     width: { type: [Number, String], default: '100%' },
     type: { type: String, default: '' },
     filter: { type: Function, default: null },
-    value: { type: [String, Array], default: null }, // 搜索框文本
+    value: { type: [String, Number, Array], default: null }, // 搜索框文本
     delaytimes: { type: Number, default: 900 },
     multiple: { type: String, default: 'combobox' },
     callback: { type: Function, default: null },
@@ -52,9 +52,11 @@
   // 设置value
   const setupValue = () => {
     if (props.multiple == 'multiple') {
-      selectedValue.value = props.value == null ? [] : (props.value as string[]);
-    } else {
+      selectedValue.value = props.value == null ? [] : (props.value as any[]);
+    } else if (typeof props.value == 'string') {
       selectedValue.value = props.value as string;
+    } else if (typeof props.value == 'number') {
+      selectedValue.value = props.value as number;
     }
   };
 
