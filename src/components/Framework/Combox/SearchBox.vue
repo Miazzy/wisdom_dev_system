@@ -166,7 +166,6 @@
       emit('searchclick', search.text);
       nextTick(async () => {
         // loading.value = true;
-        tableData.splice(0, tableData.length);
         if (props.api != null && typeof props.api === 'string') {
           // 如果 api 是字符串，则说明是 URL
           const url = props.api;
@@ -180,6 +179,7 @@
           }
           const rule = props?.tfields;
           const transformedData = transformData(data, rule) as never[];
+          tableData.splice(0, tableData.length);
           tableData.push(...transformedData);
           xpagination.total = result?.total;
           xpagination.current = pagination.current;
@@ -188,6 +188,7 @@
           const list = await props.api();
           const rule = props?.tfields;
           const transformedData = transformData(list, rule) as never[];
+          tableData.splice(0, tableData.length);
           tableData.push(...transformedData);
         } else {
           const rule = props?.tfields;
@@ -195,6 +196,7 @@
           const resultData = JSON.parse(JSON.stringify(data));
           const result = findNodes(resultData, search.text);
           const tempList = transformData(result, rule) as never[];
+          tableData.splice(0, tableData.length);
           tableData.push(...tempList);
         }
       });
@@ -381,7 +383,6 @@
     try {
       // 重新加载数据
       if (props.api != null) {
-        tableData.splice(0, tableData.length);
         const result = await getApiFunc(props.api, pagination);
         if (result?.data && Array.isArray(result?.data)) {
           tdata.value = result?.data;
@@ -392,6 +393,7 @@
         const data = unref(tdata.value as unknown[]);
         const resultData = JSON.parse(JSON.stringify(data));
         const tempList = transformData(resultData, rule) as never[];
+        tableData.splice(0, tableData.length);
         tableData.push(...tempList);
         xpagination.total = result?.total;
       }
@@ -406,7 +408,6 @@
   // 重新加载数据函数
   const reloadData = async () => {
     try {
-      tableData.splice(0, tableData.length);
       if (props.opkey != null && props.opkey != '') {
         const options = getCustomCompOptions(props.opkey);
         tcolumns.value = options.columns;
@@ -438,6 +439,7 @@
       const data = unref(tdata.value as unknown[]);
       const resultData = JSON.parse(JSON.stringify(data));
       const tempList = transformData(resultData, rule) as never[];
+      tableData.splice(0, tableData.length);
       tableData.push(...tempList);
       xpagination.disabled = !tpagination.value;
       xpagination.total = result?.total;
