@@ -127,6 +127,7 @@
 
   .layout-xscroll {
     overflow-x: scroll !important;
+    overflow-y: hidden;
   }
 
   .main-content {

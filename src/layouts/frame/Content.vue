@@ -139,8 +139,8 @@
     if (!flag) {
       tabWidth.value = window.outerWidth - 280 + 'px';
       contentClass.value = 'layout-xscroll';
-      contentStyle.value = `width: ${swidth - 200}px;`;
-      contentWidth.value = `width: ${owidth - 220}px;`;
+      contentStyle.value = `width: ${swidth - 190}px;`;
+      contentWidth.value = `width: ${owidth - 190}px;`;
       iframeWidth.value = 'width: calc(100% - 30px); height: 100%;';
     } else {
       tabWidth.value = window.outerWidth - 280 + 'px';
@@ -474,6 +474,7 @@
     }
     .layout-xscroll {
       overflow-x: scroll !important;
+      overflow-y: hidden;
     }
   }
 </style>
