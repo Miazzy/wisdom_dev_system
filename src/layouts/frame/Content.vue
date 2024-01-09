@@ -113,6 +113,7 @@
   const contentWidth = ref('');
   const iframeWidth = ref('width: 100%; height: 100%');
   const instance = getCurrentInstance();
+  const menuTabMargin = ref(275);
 
   const handleTabChange = (key, options: any = null) => {
     activeKey.value = key;
@@ -133,22 +134,24 @@
 
   // 处理浏览器窗口Resize函数
   const handleResize = () => {
-    const owidth = window.outerWidth;
-    const swidth = window.screen.availWidth;
-    const flag = owidth === swidth;
-    if (!flag) {
-      tabWidth.value = window.outerWidth - 280 + 'px';
-      contentClass.value = 'layout-xscroll';
-      contentStyle.value = `width: ${swidth - 190}px;`;
-      contentWidth.value = `width: ${owidth - 190}px;`;
-      iframeWidth.value = 'width: calc(100% - 30px); height: 100%;';
-    } else {
-      tabWidth.value = window.outerWidth - 280 + 'px';
-      contentClass.value = '';
-      contentStyle.value = '';
-      contentWidth.value = '';
-      iframeWidth.value = 'width: 100%; height: 100%;';
-    }
+    setTimeout(() => {
+      const owidth = window.outerWidth;
+      const swidth = window.screen.availWidth;
+      const flag = owidth === swidth;
+      if (!flag) {
+        tabWidth.value = window.outerWidth - menuTabMargin.value + 'px';
+        contentClass.value = 'layout-xscroll';
+        contentStyle.value = `width: ${swidth - 190}px;`;
+        contentWidth.value = `width: ${owidth - 190}px;`;
+        iframeWidth.value = 'width: calc(100% - 30px); height: 100%;';
+      } else {
+        tabWidth.value = window.outerWidth - menuTabMargin.value + 'px';
+        contentClass.value = '';
+        contentStyle.value = '';
+        contentWidth.value = '';
+        iframeWidth.value = 'width: 100%; height: 100%;';
+      }
+    }, 100);
   };
 
   const handleRemoveItem = (targetKey: string) => {
@@ -377,7 +380,7 @@
   onMounted(() => {
     paneMap.set(panes.value[0].pageurl, panes.value[0]);
     activeKey.value = panes.value[0].pageurl;
-    tabWidth.value = document.body.clientWidth - 280 + 'px';
+    tabWidth.value = document.body.clientWidth - menuTabMargin.value + 'px';
     panes.value[0].show = false;
     panes.value[0].pageurl = '';
     setTimeout(() => {
