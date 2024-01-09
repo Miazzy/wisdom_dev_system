@@ -18,10 +18,10 @@
   import type { SelectProps } from 'ant-design-vue';
   import { ref, onMounted, defineProps, defineEmits, watch } from 'vue';
   import { useDictStoreWithOut } from '@/store/modules/dict';
-  import { createLocalStorage } from '@/utils/cache';
+  import { createLocalForage } from '@/utils/cache';
   import { DICT_DATA__KEY } from '@/enums/cacheEnum';
 
-  const ls = createLocalStorage();
+  const ls = createLocalForage();
 
   const dictStore = useDictStoreWithOut();
   const selectedValue = ref<any>();
@@ -96,7 +96,7 @@
       if (props.multiple == 'multiple' || props.multiple == 'tags') {
         selectedValue.value = [];
       }
-      let cache = ls.get(DICT_DATA__KEY + type);
+      let cache = await ls.fget(DICT_DATA__KEY + type);
       if (!cache) {
         if (props.mode !== 'group') {
           // 调用后端接口获取数据
@@ -111,7 +111,7 @@
           dictStore.setDictKey(props.type);
           setTimeout(async () => {
             const typeList = dictStore.getDictKey.join(',');
-            cache = ls.get(DICT_DATA__KEY + type);
+            cache = await ls.fget(DICT_DATA__KEY + type);
             if (!cache) {
               // 调用后端接口获取数据
               const response = await dictStore.fetchBackendData(typeList, props);

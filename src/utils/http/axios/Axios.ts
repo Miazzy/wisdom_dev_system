@@ -17,11 +17,11 @@ import { useUserStore } from '/@/store/modules/user';
 import { useDictStoreWithOut } from '@/store/modules/dict';
 import { SystemAuthApi } from '/@/api/sys/user';
 import { DictDataApi } from '/@/api/system/dict/data';
-import { createLocalStorage } from '@/utils/cache';
+import { createLocalForage } from '@/utils/cache';
 import { MsgManager } from '/@/message/MsgManager';
 import { pathToUrl } from '/@/utils/route';
 
-const ls = createLocalStorage();
+const ls = createLocalForage();
 const dictStore = useDictStoreWithOut();
 export * from './axiosTransform';
 
@@ -247,7 +247,7 @@ export class VAxios {
     return this.request({ ...config, method: 'GET', responseType: 'blob' }, options);
   }
 
-  request<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
+  async request<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
     const userStore = useUserStore();
     let conf: CreateAxiosOptions = cloneDeep(config);
     // cancelToken 如果被深拷贝，会导致最外层无法使用cancel方法来取消请求
@@ -261,7 +261,7 @@ export class VAxios {
     // 检查查询数据字典
     if (conf.url === DictDataApi.GetDictDataMap) {
       const key = DictDataApi.GetDictDataMap + '?' + qs.stringify(config.params);
-      const cache = ls.get(key);
+      const cache = await ls.fget(key);
       if (cache) {
         return new Promise((resolve) => {
           resolve(cache);
@@ -270,7 +270,7 @@ export class VAxios {
     }
     if (conf.url === SystemAuthApi.GetPermissionInfo) {
       const key = SystemAuthApi.GetPermissionInfo;
-      const cache = ls.get(key);
+      const cache = await ls.fget(key);
       if (cache) {
         return new Promise((resolve) => {
           resolve(cache);
@@ -279,7 +279,7 @@ export class VAxios {
     }
     if (conf.url === SystemAuthApi.OrganTree) {
       const key = SystemAuthApi.OrganTree + pathToUrl(conf.url, { ...conf.params, ...options });
-      const cache = ls.get(key);
+      const cache = await ls.fget(key);
       if (cache) {
         return new Promise((resolve) => {
           resolve(cache);
@@ -288,7 +288,7 @@ export class VAxios {
     }
     if (conf.url === SystemAuthApi.OrgStationTree) {
       const key = SystemAuthApi.OrgStationTree + pathToUrl(conf.url, { ...conf.params, ...options });
-      const cache = ls.get(key);
+      const cache = await ls.fget(key);
       if (cache) {
         return new Promise((resolve) => {
           resolve(cache);

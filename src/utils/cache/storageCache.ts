@@ -92,6 +92,29 @@ export const createStorage = ({
     }
 
     /**
+     * Read cache
+     * @param {string} key
+     * @param {*} def
+     * @memberof Cache
+     */
+    async fget(key: string, def: any = null): any {
+      const val = await this.storage.getItem(this.getKey(key));
+      if (!val) return def;
+
+      try {
+        const decVal = this.hasEncrypt ? this.encryption.decryptByAES(val) : val;
+        const data = JSON.parse(decVal);
+        const { value, expire } = data;
+        if (isNullOrUnDef(expire) || expire >= new Date().getTime()) {
+          return value;
+        }
+        this.remove(key);
+      } catch (e) {
+        return def;
+      }
+    }
+
+    /**
      * Delete cache based on key
      * @param {string} key
      * @memberof Cache

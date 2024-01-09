@@ -8,7 +8,7 @@ export function getCommonStoragePrefix() {
 
 // Generate cache key according to version
 export function getStorageShortName() {
-  return `${getCommonStoragePrefix()}${`__${pkg.version}`}__`.toUpperCase();
+  return `v${`${pkg.version.replace(/\./g, '_')}`}__`.toUpperCase();
 }
 
 const getVariableName = (title: string) => {

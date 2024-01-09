@@ -1,6 +1,7 @@
 import { getStorageShortName } from '/@/utils/env';
 import { createStorage as create, CreateStorageParams } from './storageCache';
 import { enableStorageEncryption, DEFAULT_CACHE_TIME } from '/@/settings/encryptionSetting';
+import * as localforage from 'localforage';
 
 export type Options = Partial<CreateStorageParams>;
 
@@ -16,7 +17,7 @@ const createOptions = (storage: Storage, options: Options = {}): Options => {
 
 export const WebStorage = create(createOptions(sessionStorage));
 
-export const createStorage = (storage: Storage = sessionStorage, options: Options = {}) => {
+export const createStorage = (storage: Storage | any = sessionStorage, options: Options = {}) => {
   return create(createOptions(storage, options));
 };
 
@@ -26,6 +27,10 @@ export const createSessionStorage = (options: Options = {}) => {
 
 export const createLocalStorage = (options: Options = {}) => {
   return createStorage(localStorage, { ...options, timeout: DEFAULT_CACHE_TIME });
+};
+
+export const createLocalForage = (options: Options = {}) => {
+  return createStorage(localforage, { ...options, timeout: DEFAULT_CACHE_TIME });
 };
 
 export const setCustomCompOptions = (key, options) => {

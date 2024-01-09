@@ -4,10 +4,10 @@
 <script lang="ts" setup>
   import { onMounted, watch, ref } from 'vue';
   import { useDictStoreWithOut } from '@/store/modules/dict';
-  import { createLocalStorage } from '@/utils/cache';
+  import { createLocalForage } from '@/utils/cache';
   import { DICT_DATA__KEY } from '@/enums/cacheEnum';
 
-  const ls = createLocalStorage();
+  const ls = createLocalForage();
   const dictData = ref<any>();
   const dictStore = useDictStoreWithOut();
 
@@ -21,7 +21,7 @@
   });
 
   const getDictData = async (type: string, value: string | number | boolean) => {
-    let cache = ls.get(DICT_DATA__KEY + type);
+    let cache = await ls.fget(DICT_DATA__KEY + type);
     if (!cache) {
       if (props.mode !== 'group') {
         const response = await dictStore.fetchBackendData('', { type });
@@ -33,7 +33,7 @@
         dictStore.setDictKey(props.type as string);
         setTimeout(async () => {
           const typeList = dictStore.getDictKey.join(',');
-          cache = ls.get(DICT_DATA__KEY + type);
+          cache = await ls.fget(DICT_DATA__KEY + type);
           if (!cache) {
             const response = await dictStore.fetchBackendData(typeList, props); // 调用后端接口获取数据
             const node = response.find((item) => item.value == value);
