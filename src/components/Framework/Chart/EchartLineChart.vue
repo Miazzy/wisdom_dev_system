@@ -16,10 +16,11 @@
   const seriesList = [];
   const colorList = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de']
   const getSeriesList = () => {
-    if (props.data.lineData?.length) {
+    if (props.data?.lineData?.length) {
       let { lineData } = props.data;
       lineData.forEach((item, index) => {
         seriesList.push({
+          name: props.data.seriesName[index],
           smooth: props.smooth,
           data: item,
           type: 'line',
@@ -61,6 +62,9 @@
       //   },
       // },
     },
+    legend: {
+      show: true
+    },
     xAxis: {
       type: 'category',
       data: props.data.categories,
@@ -87,18 +91,29 @@
       trigger: 'axis',
       align: 'left',
       appendToBody: true,
-      // formatter: function (params) {
-      //   const units = props.data.units;
-      //   const name = props.name;
-      //   const first = params?.length > 0&&(params[0].value||params[0].value===0) ? `${name[0]}：${params[0].value} ${units[0]}` : '';
-      //   try {
-      //     const second = params?.length > 2&&(params[2].value||params[2].value===0) ? `<br /> ${name[1]}：${params[2].value} ${units[1]}` : '';
-      //     const third = params?.length > 3&&(params[3].value||params[3].value===0) ? `<br /> ${name[2]}：${params[3].value} ${units[2]}` : '';
-      //     return first + second + third;
-      //   } catch (e) {
-      //     return first;
-      //   }
-      // },
+      formatter: function (params) {
+        const units = props.data.units;
+        const name = props.data.seriesName;
+        // const first = params?.length > 0&&(params[0].value||params[0].value===0) ? `${name[0]}：${params[0].value} ${units[0]}` : '';
+        // try {
+        //   const second = params?.length > 2&&(params[2].value||params[2].value===0) ? `<br /> ${name[1]}：${params[2].value} ${units[1]}` : '';
+        //   const third = params?.length > 3&&(params[3].value||params[3].value===0) ? `<br /> ${name[2]}：${params[3].value} ${units[2]}` : '';
+        //   return first + second + third;
+        // } catch (e) {
+        //   return first;
+        // }
+
+        let content = '';
+        if(params?.length) {
+          params.forEach((item, index) => {
+            content = content + `${name[index]}：${item.value} ${units[index]}`
+            if(index<params.length - 1) {
+              content = content + `<br />`
+            }
+          });
+        }
+        return content
+      },
       position: function (point, params, dom, rect, size) {
         var x = 0; // x坐标位置
         var y = 0; // y坐标位置
