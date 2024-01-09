@@ -27,6 +27,7 @@ import { h } from 'vue';
 import { TaskExecutor } from '/@/executor/taskExecutor';
 import { OnceExecutor } from '/@/executor/onceExecutor';
 import { DICT_TYPE } from '@/utils/dict';
+import * as localforage from 'localforage';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -240,11 +241,20 @@ export const useUserStore = defineStore({
       this.setSessionTimeout(false);
       this.setUserInfo(null);
       setTimeout(() => {
-        window.sessionStorage.clear(); // 清空sessionStorage和localStorage缓存
-        // 退出登录不清本地深浅模式缓存
-        const darkMode = window.localStorage.getItem(APP_DARK_MODE_KEY) || 'light';
-        window.localStorage.clear(); // 清空sessionStorage和localStorage缓存
-        window.localStorage.setItem(APP_DARK_MODE_KEY, darkMode);
+        try {
+          window.sessionStorage.clear(); // 清空sessionStorage和localStorage缓存
+          // 退出登录不清本地深浅模式缓存
+          const darkMode = window.localStorage.getItem(APP_DARK_MODE_KEY) || 'light';
+          window.localStorage.clear(); // 清空sessionStorage和localStorage缓存
+          window.localStorage.setItem(APP_DARK_MODE_KEY, darkMode);
+        } catch (error) {
+          //
+        }
+        try {
+          localforage.clear();
+        } catch (error) {
+          //
+        }
       }, 1000);
       setTimeout(() => {
         goLogin && router.push(PageEnum.BASE_LOGIN);
