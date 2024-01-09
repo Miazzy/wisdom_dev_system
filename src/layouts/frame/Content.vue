@@ -1,7 +1,7 @@
 <template>
   <main class="app-content">
     <div class="vben-multiple-tabs">
-      <div class="tabs-content">
+      <div class="tabs-content" :style="contentWidth">
         <a-dropdown :trigger="['contextmenu']">
           <a-tabs
             v-model:activeKey="activeKey"
@@ -70,10 +70,10 @@
           </a-dropdown>
         </div>
       </div>
-      <div class="iframe-content">
+      <div class="iframe-content" :class="contentClass" :style="contentWidth">
         <template v-for="pane in panes">
-          <div v-show="pane.status" class="content">
-            <iframe v-if="pane.show" :key="pane.key" :src="pane.pageurl" :class="`${pane.status ? 'active' : 'disactive'}`" style="width: 100%; height: 100%"></iframe>
+          <div v-show="pane.status" class="content" :style="contentStyle">
+            <iframe v-if="pane.show" :key="pane.key" :src="pane.pageurl" :class="`${pane.status ? 'active' : 'disactive'}`" :style="iframeWidth"></iframe>
           </div>
         </template>
       </div>
@@ -108,6 +108,10 @@
   const activeKey = ref(panes.value[0].key);
   const tabWidth = ref('');
   const trigger = ref(['click']);
+  const contentClass = ref('');
+  const contentStyle = ref('');
+  const contentWidth = ref('');
+  const iframeWidth = ref('width: 100%; height: 100%');
 
   const handleTabChange = (key, options: any = null) => {
     activeKey.value = key;
@@ -123,6 +127,24 @@
   const handleTabEdit = (targetKey: string | MouseEvent, action: string) => {
     if (action === 'remove') {
       handleRemoveItem(targetKey as string);
+    }
+  };
+
+  // 处理浏览器窗口Resize函数
+  const handleResize = () => {
+    const owidth = window.outerWidth;
+    const swidth = window.screen.availWidth;
+    const flag = owidth === swidth;
+    if (!flag) {
+      contentClass.value = 'layout-xscroll';
+      contentStyle.value = `width: ${swidth - 200}px;`;
+      contentWidth.value = `width: ${owidth - 220}px;`;
+      iframeWidth.value = 'width: calc(100% - 30px); height: 100%;';
+    } else {
+      contentClass.value = '';
+      contentStyle.value = '';
+      contentWidth.value = '';
+      iframeWidth.value = 'width: 100%; height: 100%;';
     }
   };
 
@@ -347,38 +369,38 @@
     }, 100);
     MsgManager.getInstance().listen('iframe-tabs-message', handleTabMessage);
     handleActivePath();
+    handleResize();
   });
 </script>
 <style lang="less">
-.theme1 {
-  .app-content {
-    .tabs-content {
-      .ant-tabs {
-        background-color: transparent;
-      }
-      border-bottom: 1px solid transparent;
-      .tabs-buttons {
-        span {
-          border-left: 1px solid rgba(255, 255, 255, 0.16);
+  .theme1 {
+    .app-content {
+      .tabs-content {
+        .ant-tabs {
+          background-color: transparent;
+        }
+        border-bottom: 1px solid transparent;
+        .tabs-buttons {
+          span {
+            border-left: 1px solid rgba(255, 255, 255, 0.16);
+          }
         }
       }
     }
   }
-  
-}
 
-.theme3 {
-  .app-content {
-    .tabs-content {
-      border-bottom: 1px solid #f0f0f0;
-      .tabs-buttons {
-        span {
-          border-left: 1px solid #f0f0f0;
+  .theme3 {
+    .app-content {
+      .tabs-content {
+        border-bottom: 1px solid #f0f0f0;
+        .tabs-buttons {
+          span {
+            border-left: 1px solid #f0f0f0;
+          }
         }
       }
     }
   }
-}
 </style>
 <style lang="less" scoped>
   .app-content {
@@ -401,14 +423,14 @@
       display: flex;
       flex-direction: row;
       align-items: left;
-      justify-content: left;      
+      justify-content: left;
 
       .tabs-buttons {
         width: 60px;
 
         span {
           display: inline-flex;
-          padding: 5px;       
+          padding: 5px;
           cursor: pointer;
         }
       }
@@ -427,6 +449,9 @@
           height: 100%;
         }
       }
+    }
+    .layout-xscroll {
+      overflow-x: scroll !important;
     }
   }
 </style>

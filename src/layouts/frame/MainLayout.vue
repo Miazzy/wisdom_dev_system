@@ -3,7 +3,12 @@
     <Header @click="handleModuleClick" />
     <div class="main-content">
       <Menu :menus="menuList" @click="handleMenuClick" :theme="systemTheme" />
-      <Content :path="currentPath" :menu="currentMenu" @change="handleTabsClick" />
+      <Content
+        :path="currentPath"
+        :menu="currentMenu"
+        :style="contentStyle"
+        @change="handleTabsClick"
+      />
     </div>
   </div>
 </template>
@@ -21,6 +26,8 @@
   const systemTheme = ref('');
   const currentPath = ref('');
   const currentMenu = ref();
+  const contentClass = ref('');
+  const contentStyle = ref('');
   const state = reactive({
     path: '',
     menu: null,
@@ -58,33 +65,55 @@
     }
   };
 
+  // 处理浏览器窗口Resize函数
+  const handleResize = () => {
+    const owidth = window.outerWidth;
+    const swidth = window.screen.availWidth;
+    const flag = owidth === swidth;
+    if (!flag) {
+      contentClass.value = 'layout-xscroll';
+      contentStyle.value = `width: ${swidth - 220}px;`;
+    } else {
+      contentClass.value = '';
+      contentStyle.value = '';
+    }
+  };
+
   // Mounted时加载函数
   onMounted(() => {
     MsgManager.getInstance().listen('notify-message', handleOfflineMessage);
     systemTheme.value = 'light';
     handleRouteGo();
+    handleResize();
+    window.addEventListener('resize', () => {
+      window.location.reload();
+    }); // 添加窗口大小变化的事件监听器
   });
 </script>
 <style lang="less">
-.theme1 {
-  .main-layout {
-    background: url('../../assets/images/background4.png') no-repeat center/100% 100%;
+  .theme1 {
+    .main-layout {
+      background: url('../../assets/images/background4.png') no-repeat center/100% 100%;
+    }
   }
-}
 
-.theme3 {
-  .main-layout {
-    background-color: #F0F2F5;
-  } 
-}
+  .theme3 {
+    .main-layout {
+      background-color: #f0f2f5;
+    }
+  }
 </style>
-<style scoped>
+<style lang="less" scoped>
   .main-layout {
     display: flex;
     flex-direction: column;
     height: 100vh; /* 100%视窗高度，使布局充满整个屏幕 */
-    overflow-x: hidden;
     overflow-y: hidden;
+    overflow-x: hidden;
+  }
+
+  .layout-xscroll {
+    overflow-x: scroll !important;
   }
 
   .main-content {
