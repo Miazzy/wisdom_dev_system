@@ -13,7 +13,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { nextTick, onMounted, reactive, ref, watch } from 'vue';
+  import { nextTick, onMounted, reactive, ref, getCurrentInstance, watch } from 'vue';
   import Header from './Header.vue';
   import Menu from './Menu.vue';
   import Content from './Content.vue';
@@ -32,6 +32,7 @@
     path: '',
     menu: null,
   });
+  const instance = getCurrentInstance();
 
   // 处理顶部模块点击函数
   const handleModuleClick = (cmodule, menus) => {
@@ -79,15 +80,27 @@
     }
   };
 
+  // 处理Reload函数
+  const handleReload = () => {
+    if (instance?.proxy) {
+      nextTick(() => {
+        instance?.proxy.$forceUpdate();
+        handleResize();
+      });
+    } else {
+      nextTick(() => {
+        window.location.reload();
+      });
+    }
+  };
+
   // Mounted时加载函数
   onMounted(() => {
     MsgManager.getInstance().listen('notify-message', handleOfflineMessage);
     systemTheme.value = 'light';
     handleRouteGo();
     handleResize();
-    window.addEventListener('resize', () => {
-      window.location.reload();
-    }); // 添加窗口大小变化的事件监听器
+    window.addEventListener('resize', handleReload);
   });
 </script>
 <style lang="less">

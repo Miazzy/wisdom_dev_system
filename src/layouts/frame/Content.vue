@@ -81,7 +81,7 @@
   </main>
 </template>
 <script lang="ts" setup>
-  import { onMounted, ref, watch, nextTick } from 'vue';
+  import { onMounted, ref, watch, nextTick, getCurrentInstance } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
   import { MsgManager } from '/@/message/MsgManager';
   import { useUserStore } from '/@/store/modules/user';
@@ -112,6 +112,7 @@
   const contentStyle = ref('');
   const contentWidth = ref('');
   const iframeWidth = ref('width: 100%; height: 100%');
+  const instance = getCurrentInstance();
 
   const handleTabChange = (key, options: any = null) => {
     activeKey.value = key;
@@ -136,11 +137,13 @@
     const swidth = window.screen.availWidth;
     const flag = owidth === swidth;
     if (!flag) {
+      tabWidth.value = window.outerWidth - 325 + 'px';
       contentClass.value = 'layout-xscroll';
       contentStyle.value = `width: ${swidth - 200}px;`;
       contentWidth.value = `width: ${owidth - 220}px;`;
       iframeWidth.value = 'width: calc(100% - 30px); height: 100%;';
     } else {
+      tabWidth.value = window.outerWidth - 275 + 'px';
       contentClass.value = '';
       contentStyle.value = '';
       contentWidth.value = '';
@@ -357,6 +360,20 @@
     }
   };
 
+  // 处理Reload函数
+  const handleReload = () => {
+    if (instance?.proxy) {
+      nextTick(() => {
+        instance?.proxy.$forceUpdate();
+        handleResize();
+      });
+    } else {
+      nextTick(() => {
+        window.location.reload();
+      });
+    }
+  };
+
   onMounted(() => {
     paneMap.set(panes.value[0].pageurl, panes.value[0]);
     activeKey.value = panes.value[0].pageurl;
@@ -370,6 +387,7 @@
     MsgManager.getInstance().listen('iframe-tabs-message', handleTabMessage);
     handleActivePath();
     handleResize();
+    window.addEventListener('resize', handleReload);
   });
 </script>
 <style lang="less">
@@ -417,6 +435,10 @@
 
     :deep(.ant-tabs-tab .ant-tabs-tab-btn) {
       margin: 0 0.05rem 0 0.3rem;
+    }
+
+    .vben-multiple-tabs {
+      position: relative;
     }
 
     .tabs-content {
