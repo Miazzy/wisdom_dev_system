@@ -137,13 +137,13 @@
     const swidth = window.screen.availWidth;
     const flag = owidth === swidth;
     if (!flag) {
-      tabWidth.value = window.outerWidth - 325 + 'px';
+      tabWidth.value = window.outerWidth - 280 + 'px';
       contentClass.value = 'layout-xscroll';
       contentStyle.value = `width: ${swidth - 200}px;`;
       contentWidth.value = `width: ${owidth - 220}px;`;
       iframeWidth.value = 'width: calc(100% - 30px); height: 100%;';
     } else {
-      tabWidth.value = window.outerWidth - 275 + 'px';
+      tabWidth.value = window.outerWidth - 280 + 'px';
       contentClass.value = '';
       contentStyle.value = '';
       contentWidth.value = '';
