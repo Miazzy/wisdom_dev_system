@@ -57,6 +57,8 @@
       selectedValue.value = props.value as string;
     } else if (typeof props.value == 'number') {
       selectedValue.value = props.value as number;
+    } else {
+      selectedValue.value = props.value;
     }
   };
 
