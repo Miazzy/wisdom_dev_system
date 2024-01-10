@@ -13,9 +13,10 @@
   });
   const chartRef = ref<HTMLDivElement | null>(null);
   const { setOptions, echarts } = useECharts(chartRef as Ref<HTMLDivElement>);
-  const seriesList = [];
+ 
   const colorList = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de']
   const getSeriesList = () => {
+    const seriesList = [];
     if (props.data?.lineData?.length) {
       let { lineData } = props.data;
       lineData.forEach((item, index) => {
@@ -30,7 +31,7 @@
           // },
           symbolSize: 8,
           lineStyle: {
-            width: 2,
+            width: 2,           
           },
           areaStyle: {
             opacity: 0.25,
@@ -41,16 +42,17 @@
               },
               {
                 offset: 1,
-                color: 'rgba(255,255,255,0)',
+                color: `${colorList[index]}00`,
               },
             ]),
           },
+          itemStyle: {
+            color: colorList[index],
+          }
         });
       });
-      return seriesList
-    } else {
-      return []
     }
+    return seriesList;
   };
   const chartOption = reactive({
     tooltip: {
@@ -86,7 +88,7 @@
         },
       },
     ],
-    grid: { left: '2%', right: '2%', top: '2%', bottom: '2%', containLabel: true },
+    grid: { left: '2%', right: '2%', top: '10%', bottom: '2%', containLabel: true },
     tooltip: {
       trigger: 'axis',
       align: 'left',
@@ -136,12 +138,17 @@
     },
     series: getSeriesList(),
   });
-  watch(()=>props.data, ()=>{
+  const setChartOptions = ()=>{
+    chartOption.xAxis.data = props.data.categories;
+    chartOption.series = getSeriesList();
     setOptions(chartOption);
+  }
+  watch(()=>props.data, ()=>{
+    setChartOptions(chartOption);
   }, {
     deep: true
   })
   onMounted(() => {
-    setOptions(chartOption);
+    setChartOptions(chartOption);
   });
 </script>
