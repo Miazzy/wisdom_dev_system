@@ -16,6 +16,7 @@ import { ContentTypeEnum, RequestEnum, ResultEnum } from '/@/enums/httpEnum';
 import { useUserStore } from '/@/store/modules/user';
 import { useDictStoreWithOut } from '@/store/modules/dict';
 import { SystemAuthApi } from '/@/api/sys/user';
+import { CommonApi } from '/@/api/baseset/common/index';
 import { DictDataApi } from '/@/api/system/dict/data';
 import { createLocalForage } from '@/utils/cache';
 import { MsgManager } from '/@/message/MsgManager';
@@ -295,6 +296,15 @@ export class VAxios {
         });
       }
     }
+    if (conf.url === CommonApi.LIST_STATION_TREE) {
+      const key = CommonApi.LIST_STATION_TREE + pathToUrl(conf.url, { ...conf.params, ...options });
+      const cache = await ls.fget(key);
+      if (cache) {
+        return new Promise((resolve) => {
+          resolve(cache);
+        });
+      }
+    }
     if (conf.url === SystemAuthApi.SysLogout) {
       return new Promise((resolve) => {
         const result = `{"userId":"","username":""}`;
@@ -338,6 +348,12 @@ export class VAxios {
                 const key =
                   SystemAuthApi.OrgStationTree +
                   pathToUrl(SystemAuthApi.OrgStationTree, { ...conf?.data, ...options });
+                ls.set(key, ret, 60 * 60 * 24 * 7);
+              }
+              if (conf.url == opt.apiUrl + CommonApi.LIST_STATION_TREE) {
+                const key =
+                CommonApi.LIST_STATION_TREE +
+                  pathToUrl(CommonApi.LIST_STATION_TREE, { ...conf?.data, ...options });
                 ls.set(key, ret, 60 * 60 * 24 * 7);
               }
               resolve(ret);

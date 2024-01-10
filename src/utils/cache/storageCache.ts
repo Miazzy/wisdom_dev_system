@@ -97,7 +97,7 @@ export const createStorage = ({
      * @param {*} def
      * @memberof Cache
      */
-    async fget(key: string, def: any = null): any {
+    async fget(key: string, def: any = null): Promise<any> {
       const val = await this.storage.getItem(this.getKey(key));
       if (!val) return def;
 
