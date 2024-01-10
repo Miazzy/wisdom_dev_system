@@ -68,6 +68,11 @@
 
   // 处理浏览器窗口Resize函数
   const handleResize = () => {
+    if (window.screen.availWidth <= 1440 || window.outerWidth <= 1440) {
+      contentClass.value = '';
+      contentStyle.value = '';
+      return;
+    }
     const owidth = window.outerWidth;
     const swidth = window.screen.availWidth;
     const flag = owidth === swidth;

@@ -135,6 +135,14 @@
   // 处理浏览器窗口Resize函数
   const handleResize = () => {
     setTimeout(() => {
+      if (window.screen.availWidth <= 1440 || window.outerWidth <= 1440) {
+        tabWidth.value = window.outerWidth - menuTabMargin.value + 'px';
+        contentClass.value = '';
+        contentStyle.value = '';
+        contentWidth.value = '';
+        iframeWidth.value = 'width: 100%; height: 100%;';
+        return;
+      }
       const owidth = window.outerWidth;
       const swidth = window.screen.availWidth;
       const flag = owidth === swidth;
