@@ -384,6 +384,17 @@
         border-radius: 2px;
         background-color: @component-background;
       }
+
+      .vben-basic-form {
+        .ant-row {
+          position: relative;
+        }
+
+        .ant-col[tableaction] {
+          position: fixed;
+          right: 1rem;
+        }
+      }
     }
 
     .ant-table-cell {
