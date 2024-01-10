@@ -56,3 +56,66 @@ ul {
   padding: 0;
   list-style: none;
 }
+
+/************** 低分辨率自适应 **************/
+@media screen and (max-width: 1440px) {
+  body {
+    width: 117.65% !important;
+    height: 117.65vh !important;
+    transform: scale(0.85);
+    transform-origin: 0% 0%;
+
+    .main-layout {
+        height: 117.65vh !important;
+    }
+
+    .app-menu{
+      height: calc(117.65vh - 3.25rem) !important;
+    }
+
+    .app-content {
+      .iframe-content {
+        width: 100%;
+        height: calc(117.65vh - 85px) !important;
+      }
+
+      .tabs-content {
+        .tabs-buttons {
+          position: fixed;
+          right: 0 !important;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  body {
+    width: 131.58% !important;
+    height: 131.58vh !important;
+    transform: scale(0.76);
+    transform-origin: 0% 0%;
+
+    .main-layout {
+        height: 131.58vh !important;
+    }
+
+    .app-menu{
+      height: calc(131.58vh - 3.25rem) !important;
+    }
+
+    .app-content {
+      .iframe-content {
+        width: 100%;
+        height: calc(131.58vh - 85px) !important;
+      }
+
+      .tabs-content {
+        .tabs-buttons {
+          position: fixed;
+          right: 0 !important;
+        }
+      }
+    }
+  }
+}
