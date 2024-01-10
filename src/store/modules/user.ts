@@ -27,7 +27,7 @@ import { h } from 'vue';
 import { TaskExecutor } from '/@/executor/taskExecutor';
 import { OnceExecutor } from '/@/executor/onceExecutor';
 import { DICT_TYPE } from '@/utils/dict';
-import * as localforage from 'localforage';
+import { createLocalForage } from '@/utils/cache';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -251,7 +251,8 @@ export const useUserStore = defineStore({
           //
         }
         try {
-          localforage.clear();
+          const ls = createLocalForage();
+          ls.clear();
         } catch (error) {
           //
         }

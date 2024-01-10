@@ -1,7 +1,13 @@
 import { getStorageShortName } from '/@/utils/env';
 import { createStorage as create, CreateStorageParams } from './storageCache';
 import { enableStorageEncryption, DEFAULT_CACHE_TIME } from '/@/settings/encryptionSetting';
-import * as localforage from 'localforage';
+import localforage from 'localforage';
+
+localforage.config({
+  driver: localforage.INDEXEDDB,
+  name: 'systemDataDb',
+  storeName: 'systemDataStore',
+});
 
 export type Options = Partial<CreateStorageParams>;
 
