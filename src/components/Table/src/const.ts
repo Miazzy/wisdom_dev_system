@@ -9,6 +9,8 @@ const {
   defaultSize,
   defaultSortFn,
   defaultFilterFn,
+  showQuickJumper,
+  showSizeChanger,
 } = table;
 
 export const ROW_KEY = 'key';
@@ -24,6 +26,12 @@ export const FETCH_SETTING = fetchSetting;
 
 // Default Size
 export const DEFAULT_SIZE = defaultSize;
+
+// DEFAULT QUICK JUMPER
+export const DEFAULT_QUICK_JUMPER = showQuickJumper;
+
+// DEFAULT SIZE CHANGER
+export const DEFAULT_SIZE_CHANGER = showSizeChanger;
 
 // Configure general sort function
 export const DEFAULT_SORT_FN = defaultSortFn;

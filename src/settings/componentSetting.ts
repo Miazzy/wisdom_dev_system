@@ -10,13 +10,15 @@ export default {
       sizeField: 'pageSize',
       // Field name of the form data returned by the interface
       // listField: 'items',
-
       // 这里要和 mock 和 api 返回的数据字段匹配
       listField: 'list',
-
       // Total number of tables returned by the interface field name
       totalField: 'total',
     },
+    // show size changer
+    showSizeChanger: true,
+    // show quick jumper
+    showQuickJumper: true,
     // Number of pages that can be selected
     pageSizeOptions: ['20', '50', '100', '200'],
     // Default display quantity on one page
