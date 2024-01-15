@@ -119,6 +119,28 @@ export const handleRouteGo = () => {
 };
 
 // 推送消息至框架
-const sendMessage = (message) => {
+export const sendMessage = (message) => {
   MsgManager.getInstance().sendMsg('iframe-tabs-message', message);
+};
+
+// 推送下线消息函数
+export const sendOfflineMessage = () => {
+  const message = { type: 'userOffline' };
+  if (window.top == window) {
+    handleOfflineMessage(message);
+  }
+  MsgManager.getInstance().sendMsg('notify-message', message);
+};
+
+// 用户下线消息处理函数
+export const handleOfflineMessage = (message) => {
+  const userStore = useUserStore();
+  if (message.type === 'userOffline') {
+    userStore.logout(true);
+  }
+};
+
+// 监听用户下线消息
+export const listenOfflineMessage = () => {
+  MsgManager.getInstance().listen('notify-message', handleOfflineMessage);
 };

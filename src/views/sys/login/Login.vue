@@ -49,7 +49,7 @@
   import { useGlobSetting } from '/@/hooks/setting';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useDesign } from '/@/hooks/web/useDesign';
-  import { MsgManager } from '/@/message/MsgManager';
+  import { sendOfflineMessage } from '/@/utils/route';
 
   defineComponent({
     name: 'Login',
@@ -66,7 +66,7 @@
   const title = computed(() => globSetting?.title ?? '');
 
   onMounted(() => {
-    MsgManager.getInstance().sendMsg('notify-message', { type: 'userOffline' });
+    sendOfflineMessage();
   });
 </script>
 <style lang="less">
@@ -77,11 +77,7 @@
 
   html[data-theme='dark'] {
     .@{prefix-cls} {
-      // background-color: @dark-bg;
 
-      // &::before {
-      //   background-image: url('/@/assets/svg/login-bg-dark.svg');
-      // }
       background: url('/@/assets/images/login-bg-dark.png') no-repeat center/100% 100%;
 
       .ant-input,
@@ -166,24 +162,6 @@
       top: 48px;
       left: 81px;
     }
-
-    // &::before {
-    //   content: '';
-    //   position: absolute;
-    //   top: 0;
-    //   left: 0;
-    //   width: 100%;
-    //   height: 100%;
-    //   margin-left: -48%;
-    //   background-image: url('/@/assets/svg/login-bg.svg');
-    //   background-repeat: no-repeat;
-    //   background-position: 100%;
-    //   background-size: auto 100%;
-
-    //   @media (max-width: @screen-xl) {
-    //     display: none;
-    //   }
-    // }
 
     .@{logo-prefix-cls} {
       position: absolute;

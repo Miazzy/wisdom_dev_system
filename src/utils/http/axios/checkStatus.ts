@@ -4,7 +4,7 @@ import { useI18n } from '/@/hooks/web/useI18n';
 import { useUserStoreWithOut } from '/@/store/modules/user';
 import projectSetting from '/@/settings/projectSetting';
 import { SessionTimeoutProcessingEnum } from '/@/enums/appEnum';
-import { MsgManager } from '/@/message/MsgManager';
+import { sendOfflineMessage } from '/@/utils/route';
 
 const { createMessage, createErrorModal } = useMessage();
 const error = createMessage.error!;
@@ -32,7 +32,7 @@ export function checkStatus(
       if (stp === SessionTimeoutProcessingEnum.PAGE_COVERAGE) {
         userStore.setSessionTimeout(true);
       } else {
-        MsgManager.getInstance().sendMsg('notify-message', { type: 'userOffline' });
+        sendOfflineMessage();
       }
       break;
     case 403:

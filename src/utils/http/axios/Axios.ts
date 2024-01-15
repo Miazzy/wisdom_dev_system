@@ -19,8 +19,7 @@ import { SystemAuthApi } from '/@/api/sys/user';
 import { CommonApi } from '/@/api/baseset/common/index';
 import { DictDataApi } from '/@/api/system/dict/data';
 import { createLocalForage } from '@/utils/cache';
-import { MsgManager } from '/@/message/MsgManager';
-import { pathToUrl } from '/@/utils/route';
+import { pathToUrl, sendOfflineMessage } from '/@/utils/route';
 
 const ls = createLocalForage();
 const dictStore = useDictStoreWithOut();
@@ -362,7 +361,7 @@ export class VAxios {
               const logoutFlag = res.data.code == ResultEnum.ACCOUNT_ERROR;
               if (logoutFlag) {
                 setTimeout(() => {
-                  MsgManager.getInstance().sendMsg('notify-message', { type: 'userOffline' });
+                  sendOfflineMessage();
                 }, 500);
               }
             }

@@ -17,9 +17,7 @@
   import Header from './Header.vue';
   import Menu from './Menu.vue';
   import Content from './Content.vue';
-  import { useUserStore } from '/@/store/modules/user';
-  import { MsgManager } from '/@/message/MsgManager';
-  import { handleRouteGo } from '/@/utils/route';
+  import { handleRouteGo, listenOfflineMessage } from '/@/utils/route';
 
   const currentModule = ref(null);
   const menuList = ref([]);
@@ -58,14 +56,6 @@
     }
   };
 
-  // 用户下线消息处理函数
-  const handleOfflineMessage = (message) => {
-    const userStore = useUserStore();
-    if (message.type === 'userOffline') {
-      userStore.logout(true);
-    }
-  };
-
   // 处理浏览器窗口Resize函数
   const handleResize = () => {
     if (window.screen.availWidth <= 1440 || window.outerWidth <= 1440) {
@@ -101,10 +91,10 @@
 
   // Mounted时加载函数
   onMounted(() => {
-    MsgManager.getInstance().listen('notify-message', handleOfflineMessage);
     systemTheme.value = 'light';
     handleRouteGo();
     handleResize();
+    listenOfflineMessage();
     window.addEventListener('resize', handleReload);
   });
 </script>
