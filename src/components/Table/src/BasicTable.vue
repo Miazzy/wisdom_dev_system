@@ -415,13 +415,19 @@
       }
     }
 
-    .table-settings {
-      span[aria-label='redo'] {
+    .vben-basic-table-header__toolbar {
+      div.ant-divider-vertical[role='separator'] {
         display: none;
       }
 
-      span[aria-label='column-height'] {
-        display: none;
+      .table-settings {
+        span[aria-label='redo'] {
+          display: none; // display: inline-block;
+        }
+
+        span[aria-label='column-height'] {
+          display: none; // display: inline-block;
+        }
       }
     }
 
