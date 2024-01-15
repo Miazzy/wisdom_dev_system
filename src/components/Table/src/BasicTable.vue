@@ -242,6 +242,12 @@
       const getBindValues = computed(() => {
         const dataSource = unref(getDataSourceRef);
         let propsData: any = {
+          tableSetting: {
+            redo: false,
+            size: false,
+            setting: true,
+            fullScreen: false,
+          },
           ...attrs,
           customRow,
           ...unref(getProps),
@@ -256,6 +262,12 @@
           dataSource,
           footer: unref(getFooterProps),
           ...unref(getExpandOption),
+        };
+        propsData.tableSetting = {
+          redo: false,
+          size: false,
+          setting: true,
+          fullScreen: false,
         };
 
         propsData = omit(propsData, ['class', 'onChange']);
@@ -400,6 +412,16 @@
     .ant-table-cell {
       .ant-tag {
         margin-right: 0;
+      }
+    }
+
+    .table-settings {
+      span[aria-label='redo'] {
+        display: none;
+      }
+
+      span[aria-label='column-height'] {
+        display: none;
       }
     }
 
