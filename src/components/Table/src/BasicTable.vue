@@ -450,6 +450,10 @@
       width: 100%;
       overflow-x: hidden;
 
+      &.ant-table-empty {
+        padding-bottom: 34px;
+      }
+
       &-title {
         display: flex;
         align-items: center;
