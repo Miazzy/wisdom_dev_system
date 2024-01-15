@@ -458,6 +458,14 @@
         border-bottom: none;
       }
 
+      .ant-table-body {
+        .ant-table-tbody {
+          .ant-table-placeholder {
+            height: 100%;
+          }
+        }
+      }
+
       //.ant-table-tbody > tr.ant-table-row-selected td {
       //background-color: fade(@primary-color, 8%) !important;
       //}
