@@ -14,7 +14,7 @@
   .vben-basic-table {
 
     &.xl\:w-10\/12 {
-      padding: 10px 10px;
+      padding: 10px;
     }
   
     &.vben-basic-table-form-container {
@@ -48,7 +48,7 @@
 
   .ant-table-container {
     .ant-table-body {
-      table {
+      table:has(tbody.ant-table-tbody tr.ant-table-placeholder) {
         height: 100%;
       }
     }
@@ -65,18 +65,22 @@
 
   .vben-basic-table-form-container {
     padding: 10px;
+
     .ant-form {
       margin-bottom: 10px;
       padding: 12px 6px 4px 16px;
+
       .ant-row > div:last-child {
         .ant-form-item {
           margin-right: 0;
         }
       }
     }
+
     .ant-form-item {
       margin-right: 10px;
     }
+
     .ant-form-item-control-input-content .ant-btn {
       margin-right: 10px;
     }
@@ -88,8 +92,8 @@
   }
 
   .ant-tabs-tab {
-    padding-left: 18px;
     padding-right: 18px;
+    padding-left: 18px;
   }
 
   .vben-multiple-tabs {
@@ -136,14 +140,17 @@
   .ant-table.ant-table-small {
     font-size: 12px;
   }
+
   .ant-table-small .ant-table-thead > tr > th {
     font-size: 13px;
   }
+
   .ant-table.ant-table-small .ant-table-thead > tr > th {
     padding-top: 8px;
     padding-bottom: 8px;
     line-height: 22px;
   }
+
   .ant-table.ant-table-small .ant-table-tbody > tr > td {
     padding-top: 6px;
     padding-bottom: 6px;
@@ -152,32 +159,38 @@
 
   .vben-basic-table {
     .ant-table.ant-table-small .ant-table-thead > tr > th {
+      height: 39px;
       padding-top: 8px;
       padding-bottom: 8px;
-      height: 39px;
     }
+
     .ant-table.ant-table-small .ant-table-tbody > tr > td {
+      height: 31px;
       padding-top: 3px;
       padding-bottom: 3px;
-      height: 31px;
     }
+
     .ant-table-wrapper {
       padding: 10px 16px;
+
       .ant-table-title {
         padding-bottom: 10px !important;
       }
     }
   }
+
   .vben-basic-table-title {
     font-size: 14px !important;
   }
 
   .vben-basic-table-header__toolbar > * {
     margin-right: 10px;
+
     &:last-child {
       margin-right: 0;
     }
   }
+
   ::-webkit-scrollbar-corner {
     background-color: transparent;
   }
@@ -194,19 +207,22 @@
     border-radius: 2px;
 
     .header-box {
-      padding: 0 16px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+
       .workflow-approve-box {
         .button-content {
-          margin: 0;
           display: flex;
+          margin: 0;
+
           & > .ant-btn:last-child {
             margin-right: 0;
           }
         }
       }
+
       .header-left {
         height: 56px;
         font-size: 16px;
@@ -220,44 +236,51 @@
 
     .ant-card-head {
       padding: 0 16px;
-      font-size: 14px;
       border-bottom: none;
+      font-size: 14px;
     }
+
     .ant-card-head-title {
       display: flex;
       align-items: center;
     }
+
     .ant-card-head-title::before,
     .vben-basic-table-title::before {
       content: '';
       display: inline-block;
       width: 3px;
       height: 16px;
-      background-color: #1890ff;
       margin-right: 10px;
+      background-color: #1890ff;
     }
+
     .ant-card-body {
       padding: 0;
+
       & > .ant-row {
         padding: 0 16px;
       }
+
       .ant-table-wrapper {
         padding-top: 0;
         padding-bottom: 0;
       }
     }
+
     .vben-basic-table-header__toolbar {
       .ant-btn {
-        font-size: 12px;
         height: 28px;
         padding: 3px 13px;
+        font-size: 12px;
       }
     }
+
     &>.content {
       height: calc(100vh - 20px - 57px);
-      overflow-y: auto;
-      overflow-x: hidden;
       padding-bottom: 16px;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
   }
 }
