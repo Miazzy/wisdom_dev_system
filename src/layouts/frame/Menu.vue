@@ -114,7 +114,12 @@
 
   const handleCollapsed = () => {
     systemCollapsed.value = !systemCollapsed.value;
-    systemCollClass.value = systemCollapsed.value ? 'collapsed' : '';
+    systemCollClass.value = systemCollapsed.value ? 'collapsed' : 'expand';
+    if (systemCollClass.value == 'expand') {
+      setTimeout(() => {
+        systemCollClass.value = '';
+      }, 300);
+    }
   };
 
   const handleMenuItemId = (element) => {
@@ -242,6 +247,11 @@
     overflow-x: hidden;
     overflow-y: scroll;
 
+    &.expand {
+      transition: all 0.3s;
+      border-right: none;
+    }
+
     .menu-content {
       width: 220px;
       height: 100%;
@@ -264,6 +274,9 @@
     &.collapsed {
       width: 60px;
       min-width: 60px;
+      transition: all 0.1s;
+      border-right: none;
+      border-left: none;
 
       .menu-content {
         width: 55px;
@@ -275,6 +288,7 @@
         bottom: 50vh;
         left: 50px;
         height: 1rem;
+        transition: all 0.1s;
         border-radius: 20px;
         background: #f0f0f0;
         line-height: 1rem;
