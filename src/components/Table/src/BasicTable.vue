@@ -425,6 +425,10 @@
           display: none; // display: inline-block;
         }
 
+        span[aria-label='fullscreen'] {
+          display: none; // display: inline-block;
+        }
+
         span[aria-label='column-height'] {
           display: none; // display: inline-block;
         }
