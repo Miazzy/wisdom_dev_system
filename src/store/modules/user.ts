@@ -172,9 +172,9 @@ export const useUserStore = defineStore({
         this.setRefreshToken(refreshToken as string);
         // 推入任务
         task.pushOnceTask(async () => {
-          const response = await execRefreshToken(this.getRefreshToken as string);
-          const { accessToken } = response || {};
-          this.setToken(accessToken as string);
+          // const response = await execRefreshToken(this.getRefreshToken as string);
+          // const { accessToken } = response || {};
+          // this.setToken(accessToken as string);
         });
         // DICT_LOADING 登录时加载已知的数据字典 加载数据字典集合
         once.pushOnceTask(async () => {
