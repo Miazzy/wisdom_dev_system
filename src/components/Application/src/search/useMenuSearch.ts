@@ -4,7 +4,6 @@ import { ref, onBeforeMount, unref, Ref, nextTick } from 'vue';
 import { getMenus } from '/@/router/menus';
 import { cloneDeep } from 'lodash-es';
 import { filter, forEach } from '/@/utils/helper/treeHelper';
-import { useGo } from '/@/hooks/web/usePage';
 import { useScrollTo } from '@vben/hooks';
 import { onKeyStroke, useDebounceFn } from '@vueuse/core';
 import { useI18n } from '/@/hooks/web/useI18n';
@@ -14,6 +13,7 @@ export interface SearchResult {
   name: string;
   path: string;
   icon?: string;
+  children?: string;
 }
 
 // Translate special characters
@@ -36,7 +36,6 @@ export function useMenuSearch(refs: Ref<HTMLElement[]>, scrollWrap: Ref, emit: A
   let menuList: Menu[] = [];
 
   const { t } = useI18n();
-  const go = useGo();
   const handleSearch = useDebounceFn(search, 200);
 
   onBeforeMount(async () => {
@@ -67,12 +66,15 @@ export function useMenuSearch(refs: Ref<HTMLElement[]>, scrollWrap: Ref, emit: A
     const ret: SearchResult[] = [];
     filterMenu.forEach((item) => {
       const { name, path, icon, children, hideMenu, meta } = item;
-      if (!hideMenu && reg.test(name) && (!children?.length || meta?.hideChildrenInMenu)) {
-        ret.push({
-          name: parent?.name ? `${parent.name} > ${name}` : name,
-          path,
-          icon,
-        });
+      if (!Array.isArray(children) && typeof children == 'undefined') {
+        if (!hideMenu && reg.test(name) && (!children?.length || meta?.hideChildrenInMenu)) {
+          ret.push({
+            name: parent?.name ? `${parent.name} > ${name}` : name,
+            path,
+            icon,
+            children,
+          });
+        }
       }
       if (!meta?.hideChildrenInMenu && Array.isArray(children) && children.length) {
         ret.push(...handlerSearchResult(children, reg, item));

@@ -25,30 +25,32 @@
           </div>
 
           <ul :class="`${prefixCls}-list`" v-show="!getIsNotData" ref="scrollWrap">
-            <li
-              :ref="setRefs(index)"
-              v-for="(item, index) in searchResult"
-              :key="item.path"
-              :data-index="index"
-              @mouseenter="handleMouseenter"
-              @click="handleEnter"
-              :class="[
-                `${prefixCls}-list__item`,
-                {
-                  [`${prefixCls}-list__item--active`]: activeIndex === index,
-                },
-              ]"
-            >
-              <div :class="`${prefixCls}-list__item-icon`">
-                <Icon :icon="item.icon || 'mdi:form-select'" :size="20" />
-              </div>
-              <div :class="`${prefixCls}-list__item-text`">
-                {{ item.name }}
-              </div>
-              <div :class="`${prefixCls}-list__item-enter`">
-                <Icon icon="ant-design:enter-outlined" :size="20" />
-              </div>
-            </li>
+            <template v-for="(item, index) in searchResult">
+              <li
+                v-if="handleShow(item)"
+                :ref="setRefs(index)"
+                :key="item.path"
+                :data-index="index"
+                @mouseenter="handleMouseenter"
+                @click="handleEnter"
+                :class="[
+                  `${prefixCls}-list__item`,
+                  {
+                    [`${prefixCls}-list__item--active`]: activeIndex === index,
+                  },
+                ]"
+              >
+                <div :class="`${prefixCls}-list__item-icon`">
+                  <Icon :icon="item.icon || 'mdi:form-select'" :size="20" />
+                </div>
+                <div :class="`${prefixCls}-list__item-text`">
+                  {{ item.name }}
+                </div>
+                <div :class="`${prefixCls}-list__item-enter`">
+                  <Icon icon="ant-design:enter-outlined" :size="20" />
+                </div>
+              </li>
+            </template>
           </ul>
           <AppSearchFooter />
         </div>
@@ -107,6 +109,10 @@
         });
     },
   );
+
+  function handleShow(item) {
+    return item.name.includes('>');
+  }
 
   function handleClose() {
     searchResult.value = [];
