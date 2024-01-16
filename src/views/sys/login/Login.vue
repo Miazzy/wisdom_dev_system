@@ -49,7 +49,6 @@
   import { useGlobSetting } from '/@/hooks/setting';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useDesign } from '/@/hooks/web/useDesign';
-  import { sendOfflineMessage } from '/@/utils/route';
 
   defineComponent({
     name: 'Login',
@@ -66,7 +65,7 @@
   const title = computed(() => globSetting?.title ?? '');
 
   onMounted(() => {
-    sendOfflineMessage();
+    //
   });
 </script>
 <style lang="less">
