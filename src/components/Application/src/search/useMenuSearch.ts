@@ -8,6 +8,7 @@ import { useGo } from '/@/hooks/web/usePage';
 import { useScrollTo } from '@vben/hooks';
 import { onKeyStroke, useDebounceFn } from '@vueuse/core';
 import { useI18n } from '/@/hooks/web/useI18n';
+import { addTabPage } from '/@/utils/route';
 
 export interface SearchResult {
   name: string;
@@ -146,7 +147,7 @@ export function useMenuSearch(refs: Ref<HTMLElement[]>, scrollWrap: Ref, emit: A
     const to = result[index];
     handleClose();
     await nextTick();
-    go(to.path);
+    addTabPage(to.path); // go(to.path);
   }
 
   // close search modal
