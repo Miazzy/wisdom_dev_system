@@ -38,16 +38,16 @@
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: colorList[index],
+                color: colorList[index%5],
               },
               {
                 offset: 1,
-                color: `${colorList[index]}00`,
+                color: `${colorList[index%5]}00`,
               },
             ]),
           },
           itemStyle: {
-            color: colorList[index],
+            color: colorList[index%5],
           }
         });
       });
