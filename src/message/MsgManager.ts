@@ -1,5 +1,5 @@
 /**
- * @description 主题（Subject）类
+ * @description 主题类
  */
 class Subject {
   observers;
@@ -27,7 +27,7 @@ class Subject {
 }
 
 /**
- * @description 观察者（Observer）类
+ * @description 观察者
  */
 class Observer {
   channelName;
