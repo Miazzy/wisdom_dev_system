@@ -86,7 +86,6 @@
   import { useDesign } from '/@/hooks/web/useDesign';
   import { LockOutlined } from '@ant-design/icons-vue';
   import headerImg from '/@/assets/images/header.jpg';
-  import { sendOfflineMessage } from '/@/utils/route';
 
   const InputPassword = Input.Password;
 
@@ -126,7 +125,6 @@
 
   function goLogin() {
     lockStore.resetLockInfo();
-    sendOfflineMessage();
   }
 
   function handleShowForm(show = false) {
