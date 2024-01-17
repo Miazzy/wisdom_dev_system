@@ -64,6 +64,7 @@
                   :fieldNames="newTfields"
                   :show-line="props.treeLine"
                   :default-expand-all="props.expandAll"
+                  :virtual="false"
                   @check="handleCheck"
                 >
                   <template v-if="!props.treeLine" #switcherIcon="{ switcherCls }">
@@ -97,6 +98,7 @@
                   :fieldNames="newTfields"
                   :show-line="props.treeLine"
                   :default-expand-all="props.expandAll"
+                  :virtual="false"
                   @select="handleSelect"
                   @check="handleCheck"
                 >
