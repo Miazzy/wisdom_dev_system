@@ -568,12 +568,12 @@ export const PoAssessTemplateCreate: AppRouteRecordRaw = {
 
 export const PoAssessFilling: AppRouteRecordRaw = {
   path: '/framepage/po/assess/filling/index',
-  component: () => import('/@/views/po/assess/template/index.vue'),
+  component: () => import('/@/views/po/assess/filling/index.vue'),
 };
 
 export const PoAssessFillingCreate: AppRouteRecordRaw = {
   path: '/framepage/po/assess/filling/create',
-  component: () => import('/@/views/po/assess/template/create.vue'),
+  component: () => import('/@/views/po/assess/filling/create.vue'),
 };
 
 export const PoEquipment: AppRouteRecordRaw = {
