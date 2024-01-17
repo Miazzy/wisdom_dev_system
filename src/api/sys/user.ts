@@ -12,6 +12,7 @@ export enum SystemAuthApi {
   CheckToken = '/system/oauth2/check-token?token=',
   OrganTree = '/system/org/list-tree',
   OrgStationTree = '/baseset/common/list-orgStationPeriodTree',
+  MaterialTree = '/baseset/material-category/getTreeData',
 }
 
 /**

@@ -3,6 +3,7 @@
     <a-dropdown
       v-if="(props.vmode == 'edit' || props.vmode == 'label') && !props.disabled"
       :trigger="['click']"
+      @visible-change="handleVisibleChange"
       v-model:visible="showDropdown"
     >
       <!-- 输入框区域 -->
@@ -12,6 +13,7 @@
           class="tree-text"
           :allow-clear="showDropdown"
           placeholder="请选择下拉树中数据..."
+          @change="handleLabelChange"
           @click="toggleDropdown($event)"
         />
       </template>
@@ -51,36 +53,72 @@
             </div>
             <!-- 基础Tree组件 -->
             <div class="tree-compoment" :style="`max-height: ${theight}px;`">
-              <a-tree
-                v-model:selectedKeys="selectedRealKeys"
-                :tree-data="treeData"
-                show-icon
-                selectable
-                :height="theight"
-                :fieldNames="newTfields"
-                :multiple="props.multiple"
-                :show-line="props.treeLine"
-                :default-expand-all="props.expandAll"
-                @select="handleSelect"
-              >
-                <template v-if="!props.treeLine" #switcherIcon="{ switcherCls }">
-                  <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
-                </template>
-                <template v-if="!props.treeLine" #icon="{ key, isLeaf }">
-                  <Icon
-                    v-if="isLeaf && !isTopNode(key)"
-                    :icon="props.ticons.leaf"
-                    color="#333"
-                    size="14"
-                  />
-                  <Icon
-                    v-if="!isLeaf && !isTopNode(key)"
-                    :icon="props.ticons.middle"
-                    color="#333"
-                    size="14"
-                  />
-                </template>
-              </a-tree>
+              <template v-if="props.multiple">
+                <a-tree
+                  key="multiple-tree"
+                  :tree-data="treeData"
+                  show-icon
+                  checkable
+                  checkStrictly
+                  :height="theight"
+                  :fieldNames="newTfields"
+                  :show-line="props.treeLine"
+                  :default-expand-all="props.expandAll"
+                  @check="handleCheck"
+                >
+                  <template v-if="!props.treeLine" #switcherIcon="{ switcherCls }">
+                    <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
+                  </template>
+                  <template v-if="!props.treeLine" #icon="{ key, isLeaf }">
+                    <Icon
+                      v-if="isLeaf && !isTopNode(key)"
+                      :icon="props.ticons.leaf"
+                      color="#333"
+                      size="14"
+                    />
+                    <Icon
+                      v-if="!isLeaf && !isTopNode(key)"
+                      :icon="props.ticons.middle"
+                      color="#333"
+                      size="14"
+                    />
+                  </template>
+                </a-tree>
+              </template>
+              <template v-else>
+                <a-tree
+                  key="single-tree"
+                  :checkedKeys="selectedRealKeys"
+                  :selectedKeys="selectedRealKeys"
+                  :tree-data="treeData"
+                  show-icon
+                  selectable
+                  :height="theight"
+                  :fieldNames="newTfields"
+                  :show-line="props.treeLine"
+                  :default-expand-all="props.expandAll"
+                  @select="handleSelect"
+                  @check="handleCheck"
+                >
+                  <template v-if="!props.treeLine" #switcherIcon="{ switcherCls }">
+                    <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
+                  </template>
+                  <template v-if="!props.treeLine" #icon="{ key, isLeaf }">
+                    <Icon
+                      v-if="isLeaf && !isTopNode(key)"
+                      :icon="props.ticons.leaf"
+                      color="#333"
+                      size="14"
+                    />
+                    <Icon
+                      v-if="!isLeaf && !isTopNode(key)"
+                      :icon="props.ticons.middle"
+                      color="#333"
+                      size="14"
+                    />
+                  </template>
+                </a-tree>
+              </template>
             </div>
           </div>
         </a-menu>
@@ -101,12 +139,10 @@
     watch,
     unref,
     reactive,
-    withDirectives,
   } from 'vue';
   import { TreeItem } from '../../Tree';
   import { getCustomCompOptions } from '@/utils/cache';
   import Icon from '@/components/Icon/Icon.vue';
-  import clickOutside from '/@/directives/clickOutside';
 
   const showDropdown = ref(false);
   const searchRealText = ref<string>('');
@@ -117,8 +153,11 @@
   const treeData = reactive([]);
   const treeMap = ref<any>();
   const treeEntry = ref<any>(new Map());
-  const selectedValue = ref(null);
+  const selectedValue = ref<any>(null);
+  const selectedKeys = ref<any[]>([]);
   const selectedRealKeys = ref<any[]>([]);
+  const checkedKeys = ref<any[]>([]);
+  const reloadKey = ref(0);
   type fieldType = { key: String; title: String };
   type tIconsType = { parent: String; leaf: String };
 
@@ -171,10 +210,25 @@
       const result = findNodes(resultData, text);
       const tempList = transformData(result, rule) as never[];
       treeData.push(...tempList);
+
+      handleLoadKeys();
     } catch (error) {
       //
     }
   };
+
+  const handleVisibleChange = () => {
+    reloadKey.value += 1;
+    setTimeout(() => {
+      searchData();
+    }, 300);
+  };
+
+  const handleLabelChange = () => {
+    if (searchLabelText.value == '') {
+
+    }
+  }
 
   const toggleDropdown = (event) => {
     try {
@@ -208,18 +262,6 @@
   // 禁用事件
   const handlePreventEvent = (event) => {
     event.preventDefault();
-  };
-
-  // 点击组件外的区域，关闭弹框
-  const handleClickOutside = (event) => {
-    try {
-      if (treeBox.value && !treeBox.value.contains(event.target)) {
-        clearData();
-        showDropdown.value = false;
-      }
-    } catch (error) {
-      //
-    }
   };
 
   // 按tfields生成转换规则
@@ -412,14 +454,19 @@
     }
   };
 
+  const handleCheck = (checkedKeys, event) => {
+    checkedKeys.value = checkedKeys.checked;
+    searchRealText.value = selectedValue.value = event.checkedNodes.map(
+      (element) => element[props.tfields.title],
+    );
+    emit('update:value', selectedValue.value);
+    emit('update:skeys', checkedKeys.checked);
+  };
+
   watch(
     () => props.multiple,
     (newValue) => {
-      if (newValue) {
-        selectedValue.value = [];
-      } else {
-        selectedValue.value = '';
-      }
+      selectedValue.value = props.multiple ? [] : '';
     },
   );
 
@@ -443,39 +490,25 @@
 
   watch(
     () => props.skeys,
-    (newValue) => {
-      try {
-        // handleLoadKeys()
-      } catch {
-        //
-      }
+    () => {
+      //
     },
   );
-
-  defineExpose({ reload });
 
   onMounted(() => {
     try {
       reload();
-      try {
-        searchRealText.value = props.value;
-        searchLabelText.value = treeEntry.value.get(props.value);
-      } catch {
-        //
-      }
-      withDirectives(treeBox, [[clickOutside, handleClickOutside]]); // 注册 clickOutside 指令
-
-      if (props.multiple) {
-        selectedValue.value = [];
-      } else {
-        selectedValue.value = '';
-      }
+      searchRealText.value = props.value;
+      selectedValue.value = props.multiple ? [] : '';
+      searchLabelText.value = treeEntry.value.get(props.value);
     } catch {
       //
     }
   });
 
   onUnmounted(() => {});
+
+  defineExpose({ reload });
 </script>
 
 <style scoped>

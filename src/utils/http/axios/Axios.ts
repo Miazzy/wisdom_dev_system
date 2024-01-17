@@ -287,7 +287,17 @@ export class VAxios {
       }
     }
     if (conf.url === SystemAuthApi.OrgStationTree) {
-      const key = SystemAuthApi.OrgStationTree + pathToUrl(conf.url, { ...conf.params, ...options });
+      const key =
+        SystemAuthApi.OrgStationTree + pathToUrl(conf.url, { ...conf.params, ...options });
+      const cache = await ls.fget(key);
+      if (cache) {
+        return new Promise((resolve) => {
+          resolve(cache);
+        });
+      }
+    }
+    if (conf.url === SystemAuthApi.MaterialTree) {
+      const key = SystemAuthApi.MaterialTree + pathToUrl(conf.url, { ...conf.params, ...options });
       const cache = await ls.fget(key);
       if (cache) {
         return new Promise((resolve) => {
@@ -349,9 +359,15 @@ export class VAxios {
                   pathToUrl(SystemAuthApi.OrgStationTree, { ...conf?.data, ...options });
                 ls.set(key, ret, 60 * 60 * 24 * 7);
               }
+              if (conf.url == opt.apiUrl + SystemAuthApi.MaterialTree) {
+                const key =
+                  SystemAuthApi.MaterialTree +
+                  pathToUrl(SystemAuthApi.MaterialTree, { ...conf?.data, ...options });
+                ls.set(key, ret, 60 * 60 * 24 * 7);
+              }
               if (conf.url == opt.apiUrl + CommonApi.LIST_STATION_TREE) {
                 const key =
-                CommonApi.LIST_STATION_TREE +
+                  CommonApi.LIST_STATION_TREE +
                   pathToUrl(CommonApi.LIST_STATION_TREE, { ...conf?.data, ...options });
                 ls.set(key, ret, 60 * 60 * 24 * 7);
               }
