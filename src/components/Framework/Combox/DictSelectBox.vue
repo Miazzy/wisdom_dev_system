@@ -60,6 +60,21 @@
     } else {
       selectedValue.value = props.value;
     }
+
+    try {
+      const flag =
+        options.value &&
+        props.value != null &&
+        options.value.length > 0 &&
+        typeof options.value[0]?.value == 'string';
+      if (flag) {
+        selectedValue.value = String(props.value);
+      } else if (props.value == null) {
+        selectedValue.value = '';
+      }
+    } catch (error) {
+      //
+    }
   };
 
   // 选项过滤函数
