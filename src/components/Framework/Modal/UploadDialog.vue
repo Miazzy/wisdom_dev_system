@@ -276,6 +276,16 @@
     }
   }
 
+  .theme1 {
+    .dialog-content {
+      .main-content {
+        flex: 1;
+        height: auto;
+        border: 1px solid rgba(217,217,217,.16);
+      }
+    }
+  }
+
   :deep(.modal-footer) {
     height: 60px;
     padding: 5px 0px 10px 0px;
