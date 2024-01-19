@@ -1,8 +1,10 @@
 <template>
   <div class="search-box" ref="searchBox">
     <a-dropdown
+      ref="dropdown"
       v-if="props.vmode == 'edit' && !props.disabled"
       :trigger="['click']"
+      class="search-dropdown-box"
       v-model:visible="showDropdown"
       @visibleChange="handleClickOutside"
     >
@@ -96,13 +98,14 @@
   import { getCustomCompOptions } from '@/utils/cache';
   import clickOutside from '/@/directives/clickOutside';
   import { Table } from 'ant-design-vue';
-  import type { TableProps, TablePaginationConfig } from 'ant-design-vue';
+  import type { TableProps } from 'ant-design-vue';
   import { defHttp } from '/@/utils/http/axios';
 
   const showDropdown = ref(false);
   const searchRealText = ref<any>('');
   const search = reactive({ text: '' });
   const searchBox = ref<any>(null);
+  const dropdown = ref<any>(null);
   const loading = ref(false);
   const tableData = reactive([]);
   const theight = ref(260);
@@ -114,7 +117,7 @@
     multiple: { type: Boolean, default: false },
     columns: Array, // 列定义
     data: Array, // 表格数据
-    twidth: { type: String, default: '100%' },
+    twidth: { type: String, default: 'auto' },
     value: { type: String, default: '' }, // 搜索框文本
     tfields: {
       type: Object,
@@ -469,6 +472,19 @@
   };
 
   watch(
+    () => showDropdown.value,
+    async () => {
+      if (props.twidth === 'auto' || props.twidth === '100%') {
+        await nextTick();
+        await nextTick();
+        await nextTick();
+        const dom = document.querySelector('body .ant-dropdown');
+        dom.style.width = dom.style.minWidth;
+      }
+    },
+  );
+
+  watch(
     () => props.data,
     () => {
       reloadData();
@@ -502,6 +518,10 @@
 <style lang="less" scoped>
   .search-box {
     position: relative;
+  }
+
+  :deep(.ant-dropdown.ant-dropdown-placement-bottomLeft) {
+    width: auto !important;
   }
 
   .search-content {
@@ -580,42 +600,49 @@
 <style lang="less">
   .theme1 {
     .search-content .search-panel {
-      border-bottom: 1px solid rgba(217, 217, 217, 0.16);
+      border-bottom: 1px solid rgb(217 217 217 / 16%);
       background: #032748;
 
       .search-button {
         background: transparent;
         color: #fefefe;
+
         &:hover {
           color: #1890ff;
         }
       }
+
       .close-button {
         background: transparent;
         color: #fefefe;
+
         &:hover {
           color: #1890ff;
         }
       }
     }
+
     .search-popup-subcontent {
       .search-input {
         background: transparent;
       }
     }
   }
+
   [data-theme='dark'] .theme1 {
     .ant-dropdown-menu {
       background: #032748;
     }
+
     .ant-dropdown {
       background: #032748;
       box-shadow:
-        0 3px 6px -4px rgba(0, 0, 0, 0.12),
-        0 6px 16px 0 rgba(0, 0, 0, 0.08),
-        0 9px 28px 8px rgba(0, 0, 0, 0.05);
+        0 3px 6px -4px rgb(0 0 0 / 12%),
+        0 6px 16px 0 rgb(0 0 0 / 8%),
+        0 9px 28px 8px rgb(0 0 0 / 5%);
     }
   }
+
   .theme3 {
     .search-content .search-panel {
       border-bottom: 1px solid #f0f0f0;
@@ -624,13 +651,16 @@
       .search-button {
         background: #fefefe;
         color: #cecece;
+
         &:hover {
           color: #1890ff;
         }
       }
+
       .close-button {
         background: #fefefe;
         color: #cecece;
+
         &:hover {
           color: #1890ff;
         }
