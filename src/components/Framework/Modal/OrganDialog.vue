@@ -381,7 +381,7 @@
   };
 
   const handleSearch = () => {
-    const text = searchText.value;
+    const text = searchText.value ? searchText.value.trim() : '';
     const list = tdataList.value.filter((node) => {
       const flag = node[props.tfields.title].includes(text);
       if (flag) {
