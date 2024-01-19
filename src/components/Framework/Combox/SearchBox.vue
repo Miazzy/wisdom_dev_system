@@ -474,12 +474,16 @@
   watch(
     () => showDropdown.value,
     async () => {
-      if (props.twidth === 'auto' || props.twidth === '100%') {
-        await nextTick();
-        await nextTick();
-        await nextTick();
-        const dom = document.querySelector('body .ant-dropdown');
-        dom.style.width = dom.style.minWidth;
+      try {
+        if (props.twidth === 'auto' || props.twidth === '100%') {
+          await nextTick();
+          await nextTick();
+          await nextTick();
+          const dom = document.querySelector('body .ant-dropdown');
+          dom.style.width = dom.style.minWidth;
+        }
+      } catch (error) {
+        //
       }
     },
   );
