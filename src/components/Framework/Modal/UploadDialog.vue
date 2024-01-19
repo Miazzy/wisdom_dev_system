@@ -62,7 +62,7 @@
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import Icon from '@/components/Icon/Icon.vue';
   import { ref, defineProps, defineEmits, onMounted, watch, unref } from 'vue';
-  import { message, Modal } from 'ant-design-vue';
+  import { Modal } from 'ant-design-vue';
   import type { UploadProps } from 'ant-design-vue';
   import * as FileApi from '@/api/infra/file';
   import { SysMessage } from '/@/hooks/web/useMessage';
@@ -86,6 +86,7 @@
     module: { type: String, default: '' },
     bizId: { type: String, default: '' },
     tmessage: { type: String, default: '' },
+    format: { type: String, default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4' },
   });
 
   const emit = defineEmits([
@@ -170,7 +171,7 @@
     }
     // 控制上传文件的类型 arr是上传类型的白名单
     const type = file.name.slice(file.name.lastIndexOf('.') + 1).toLowerCase();
-    const arr = ',png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4,';
+    const arr = `,${props.format},`;
     if (!arr.includes(`,${type},`)) {
       SysMessage.getInstance().warning(`不支持${type}类型的文件上传`);
       return false;
