@@ -147,11 +147,11 @@
   };
 
   const attachmentPreview = (url) => {
-    let previewdomain = 'http://139.9.148.32'; //测试环境域名
-    let downloaddomain = 'http://ecs-e1aa-0001'; //测试环境下载域名
+    let previewdomain = 'http://122.9.154.245'; //测试环境域名
+    let downloaddomain = 'http://192.168.0.200'; //测试环境下载域名
     const isDev = process.env.NODE_ENV === 'development';
     if (isDev) {
-      previewdomain = 'http://10.8.111.203'; //开发环境域名
+      previewdomain = 'http://10.8.111.167'; //开发环境域名
       downloaddomain = 'http://10.8.111.203'; //下载域名
     }
     previewdomain = previewdomain + ':8012'; //预览域名
