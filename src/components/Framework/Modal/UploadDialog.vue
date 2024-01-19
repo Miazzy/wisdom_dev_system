@@ -181,6 +181,7 @@
   };
 
   const handleUpload = () => {
+    let valid = false;
     const formData = new FormData();
     formData.append('application', props.application); //附件上传必须携带参数：应用
     formData.append('module', props.module); //附件上传必须携带参数：模块
@@ -193,8 +194,15 @@
       if (!file.id) {
         // 未上传前file.id为空
         formData.append('files[]', file as any);
+        valid = true;
       }
     });
+
+    // 校验是否存在新选择的待上传附件
+    if (!valid) {
+      return SysMessage.getInstance().error('请选择文件后再进行上传操作！');
+    }
+
     uploading.value = true;
     FileApi.uploadFile(formData)
       .then(async () => {
