@@ -98,7 +98,7 @@
       addTabPage(`/bpm/task/todo`, '待办任务');
     } else if (activeKey.value == '3') {
       // router.push(`/bpm/task/processInstance`);
-      addTabPage(`/bpm/task/processInstance`, '流程实例');
+      addTabPage(`/bpm/task/processInstance`, '我的流程');
     } else if (activeKey.value == '4') {
       // router.push(`/bpm/task/done`);
       addTabPage(`/bpm/task/done`, '已办任务');
@@ -238,11 +238,17 @@
       TaskApi.updateCcTo(record.processInstanceId).then((res) => {
         if (res.result) {
           doCC();
-          addTabPage(`${record.viewPath}?processInstanceId=${record.processInstanceId}`, record.flowName);
+          addTabPage(
+            `${record.viewPath}?processInstanceId=${record.processInstanceId}`,
+            record.flowName,
+          );
         }
       });
     } else {
-      addTabPage(`${record.viewPath}?processInstanceId=${record.processInstanceId}`, record.flowName);
+      addTabPage(
+        `${record.viewPath}?processInstanceId=${record.processInstanceId}`,
+        record.flowName,
+      );
     }
   };
 
@@ -254,7 +260,7 @@
       tabList.value[0].count = getTodoTask.total;
       getTodoTask.list.forEach((element) => {
         tableDataSource1.value.push({
-          title: element.name,
+          title: element.description,
           flowName: element.processInstance.name,
           dept: element.processInstance.deptName,
           person: element.processInstance.startUserNickname,
@@ -274,7 +280,7 @@
       tabList.value[1].count = getCCTaskPage.total;
       getCCTaskPage.list.forEach((element) => {
         tableDataSource2.value.push({
-          title: element.name,
+          title: element.description,
           flowName: element.processInstance.name,
           dept: element.processInstance.deptName,
           person: element.processInstance.startUserNickname,
@@ -292,7 +298,7 @@
     if (getMyProcessInstancePage) {
       getMyProcessInstancePage.list.forEach((element) => {
         tableDataSource3.value.push({
-          title: element.name,
+          title: element.description,
           flowName: element.name,
           dept: element.deptName,
           person: getUserInfo.username,
@@ -310,7 +316,7 @@
     if (getDoneTaskPage) {
       getDoneTaskPage.list.forEach((element) => {
         tableDataSource4.value.push({
-          title: element.name,
+          title: element.description,
           flowName: element.processInstance.name,
           dept: element.processInstance.deptName,
           person: element.processInstance.startUserNickname,
