@@ -8,7 +8,7 @@ import {
   DICT_DATA__KEY,
 } from '@/enums/cacheEnum';
 import { createLocalStorage } from '@/utils/cache';
-import { getDictDataMap } from '/@/api/system/dict/data';
+import { getDictDataMap } from '/@/api/bpm/system/dict/data';
 
 const ls = createLocalStorage();
 

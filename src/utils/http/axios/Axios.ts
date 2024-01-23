@@ -17,7 +17,7 @@ import { useUserStore } from '/@/store/modules/user';
 import { useDictStoreWithOut } from '@/store/modules/dict';
 import { SystemAuthApi } from '/@/api/sys/user';
 import { CommonApi } from '/@/api/baseset/common/index';
-import { DictDataApi } from '/@/api/system/dict/data';
+import { DictDataApi } from '/@/api/bpm/system/dict/data';
 import { createLocalForage } from '@/utils/cache';
 import { pathToUrl, sendOfflineMessage } from '/@/utils/route';
 
