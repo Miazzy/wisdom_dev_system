@@ -126,7 +126,7 @@
     disabled: { type: Boolean, default: false },
     api: { type: [String, Function], default: null },
     apiParamFunc: { type: Function, default: null },
-    vfield: { type: String, default: '' },
+    vfield: { type: String, default: 'name' },
     pagination: { type: [Boolean, Object], default: false },
     callback: { type: Function, default: null },
   });
@@ -476,11 +476,18 @@
     async () => {
       try {
         if (props.twidth === 'auto' || props.twidth === '100%') {
+          const handleWidth = () => {
+            const doms = document.querySelectorAll('body .ant-dropdown');
+            for (let dom of doms) {
+              dom.style.width = dom.style.minWidth;
+            }
+          };
           await nextTick();
           await nextTick();
           await nextTick();
-          const dom = document.querySelector('body .ant-dropdown');
-          dom.style.width = dom.style.minWidth;
+          await nextTick();
+          await nextTick();
+          handleWidth();
         }
       } catch (error) {
         //
