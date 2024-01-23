@@ -1087,8 +1087,14 @@ export const BasesetLinelossrate: AppRouteRecordRaw = {
   component: () => import('/@/views/baseset/operation/linelossrate/lineLossRateSet.vue'),
 };
 
+export const SysParameter: AppRouteRecordRaw = {
+  path: '/framepage/system/configuration/parameter',
+  component: () => import('/@/views/system/configuration/parameter/index.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  SysParameter,
   LoginRoute,
   CockpitOverviewRoute,
   CockpitOperationRoute,
