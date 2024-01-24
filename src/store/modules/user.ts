@@ -28,6 +28,7 @@ import { TaskExecutor } from '/@/executor/taskExecutor';
 import { OnceExecutor } from '/@/executor/onceExecutor';
 import { DICT_TYPE } from '@/utils/dict';
 import { createLocalForage } from '@/utils/cache';
+import { SysMessage } from '/@/hooks/web/useMessage';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -230,6 +231,15 @@ export const useUserStore = defineStore({
      * @description: logout
      */
     async logout(goLogin = false) {
+      const time = localStorage.getItem('LOGIN_TIMESTAMP');
+      const nowtime = new Date().getTime();
+      if (!(typeof time == 'undefined' || time == null || time == '')) {
+        const timestamp = Number(time);
+        if (nowtime - timestamp < 100 * 1000) {
+          SysMessage.getInstance().error('您的操作太快，请稍后再尝试！');
+          return;
+        }
+      }
       if (this.getToken) {
         try {
           await doLogout();
@@ -245,8 +255,10 @@ export const useUserStore = defineStore({
           window.sessionStorage.clear(); // 清空sessionStorage和localStorage缓存
           // 退出登录不清本地深浅模式缓存
           const darkMode = window.localStorage.getItem(APP_DARK_MODE_KEY) || 'light';
+          const rememberInfo = window.localStorage.getItem('REMEMBER_ME_INFO') || '';
           window.localStorage.clear(); // 清空sessionStorage和localStorage缓存
           window.localStorage.setItem(APP_DARK_MODE_KEY, darkMode);
+          window.localStorage.setItem('REMEMBER_ME_INFO', rememberInfo);
         } catch (error) {
           //
         }

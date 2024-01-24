@@ -100,6 +100,7 @@
         rememberMe.value
           ? localStorage.setItem('REMEMBER_ME_INFO', JSON.stringify(params))
           : localStorage.setItem('REMEMBER_ME_INFO', '');
+        localStorage.setItem('LOGIN_TIMESTAMP', String(new Date().getTime()));
         const username = userInfo.username || userInfo.userId;
         notification.success({
           message: t('sys.login.loginSuccessTitle'),
