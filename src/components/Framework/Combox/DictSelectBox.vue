@@ -33,6 +33,7 @@
     mode: { type: String, default: 'group' }, // 如果mode为group模式，则统一加载数据
     width: { type: [Number, String], default: '100%' },
     type: { type: String, default: '' },
+    subtype: { type: String, default: '' },
     filter: { type: Function, default: null },
     value: { type: [String, Number, Array], default: null }, // 搜索框文本
     delaytimes: { type: Number, default: 900 },
@@ -71,6 +72,16 @@
         selectedValue.value = String(props.value);
       } else if (props.value == null) {
         selectedValue.value = '';
+      }
+
+      if (props.subtype != '') {
+        options.value = options?.value.filter((value) => {
+          if (Reflect.has(value, 'relationDict')) {
+            return value.relationDict === props.subtype;
+          } else {
+            return false;
+          }
+        });
       }
     } catch (error) {
       //
