@@ -42,14 +42,13 @@
 <script lang="ts" setup>
   import { ref, onMounted } from 'vue';
   import { assign } from 'lodash-es';
-  import { useRouter } from 'vue-router';
   import { BasicTable, useTable, TableAction, BasicColumn } from '/@/components/Table';
   import * as TaskApi from '@/api/bpm/task';
   import * as ProcessInstanceApi from '@/api/bpm/processInstance';
   import { useUserStore } from '/@/store/modules/user';
   import { addTabPage } from '@/utils/route';
+  import { MsgManager } from '/@/message/MsgManager';
 
-  const router = useRouter();
   const userStore = useUserStore();
   const getUserInfo = userStore.getUserInfo;
 
@@ -328,10 +327,19 @@
     }
   };
 
+  const reloadAll = () => {
+    doTodo();
+    doCC();
+    doMy();
+    doDone();
+  };
+
   /** 初始化 */
   onMounted(async () => {
     doTodo();
     doCC();
+
+    MsgManager.getInstance().listen('workbench-approval', reloadAll);
   });
 </script>
 
