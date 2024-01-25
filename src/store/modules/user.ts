@@ -233,10 +233,12 @@ export const useUserStore = defineStore({
     async logout(goLogin = false) {
       const time = localStorage.getItem('LOGIN_TIMESTAMP');
       const nowtime = new Date().getTime();
-      if (!(typeof time == 'undefined' || time == null || time == '')) {
-        const timestamp = Number(time);
-        if (nowtime - timestamp < 100 * 1000) {
-          SysMessage.getInstance().error('您的操作太快，请稍后再尝试！');
+      const flag = typeof time == 'undefined' || time == null || time == '';
+      const timestamp = Number(time);
+      const diff = nowtime - timestamp;
+      if (!flag) {
+        if (diff < 100 * 1000) {
+          diff > 1000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
           return;
         }
       }
