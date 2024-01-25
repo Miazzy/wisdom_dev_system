@@ -45,7 +45,7 @@
               />
             </span>
           </div>
-          <div class="tree-value" :style="`height: calc(${props.height}px - 140px);`">
+          <div class="tree-value" :style="`height: calc(${props.height}px - 180px);`">
             <!-- 基础Tree组件 -->
             <a-tree
               v-if="searchText.length <= 0"
