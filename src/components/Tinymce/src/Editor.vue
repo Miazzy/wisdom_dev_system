@@ -1,5 +1,5 @@
 <template>
-  <div :class="prefixCls" :style="{ width: containerWidth }">
+  <div :class="prefixCls" :style="{ width: containerWidth }" :status-attr="`disabled:${disabled}`">
     <ImgUpload
       :fullscreen="fullscreen"
       @uploading="handleImageUploading"
@@ -186,7 +186,7 @@
             editor.on('init', function (e) {
               initSetup(e);
               try {
-                e.target.editorCommands.execCommand("fontName", false, "微软雅黑");
+                e.target.editorCommands.execCommand('fontName', false, '微软雅黑');
               } catch (error) {
                 //
               }
@@ -490,6 +490,12 @@
     textarea {
       visibility: hidden;
       z-index: -1;
+    }
+
+    &[status-attr='disabled:true'] {
+      .tox-toolbar-overlord {
+        display: none;
+      }
     }
   }
 </style>
