@@ -376,6 +376,19 @@
     }
   }
 
+  .ant-modal-content {
+    .@{prefix-cls} {
+      &-form-container {
+        .vben-basic-form {
+          .ant-col[tableaction] {
+            position: absolute;
+            right: 0;
+          }
+        }
+      }
+    }
+  }
+
   .@{prefix-cls} {
     max-width: 100%;
     height: 100%;
