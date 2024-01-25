@@ -338,7 +338,6 @@
   onMounted(async () => {
     doTodo();
     doCC();
-
     MsgManager.getInstance().listen('workbench-approval', reloadAll);
   });
 </script>

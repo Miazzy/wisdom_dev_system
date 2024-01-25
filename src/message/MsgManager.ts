@@ -62,9 +62,17 @@ export class MsgManager extends Subject {
   // 获取示例函数
   static getInstance(): MsgManager {
     if (!MsgManager.instance) {
-      MsgManager.instance = new MsgManager();
+      const instance = new MsgManager();
+      if (!Reflect.has(window.top, 'MsgManager')) {
+        window.top.MsgManager = instance;
+      }
+      if (window.top !== window) {
+        MsgManager.instance = window?.top?.MsgManager ? window?.top?.MsgManager : instance;
+      } else {
+        MsgManager.instance = instance;
+      }
     }
-    return MsgManager.instance;
+    return MsgManager.instance as MsgManager;
   }
 
   // 向指定信道推送信息
