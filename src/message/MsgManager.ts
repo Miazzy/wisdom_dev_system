@@ -63,13 +63,19 @@ export class MsgManager extends Subject {
   static getInstance(): MsgManager {
     if (!MsgManager.instance) {
       const instance = new MsgManager();
-      if (!Reflect.has(window.top, 'MsgManager')) {
-        window.top.MsgManager = instance;
-      }
-      if (window.top !== window) {
-        MsgManager.instance = window?.top?.MsgManager ? window?.top?.MsgManager : instance;
-      } else {
-        MsgManager.instance = instance;
+      MsgManager.instance = instance;
+      try {
+        if (!Reflect.has(window.top, 'MsgManager')) {
+          window.top.MsgManager = instance;
+        }
+        if (window.top !== window) {
+          MsgManager.instance = window?.top?.MsgManager ? window?.top?.MsgManager : instance;
+        } else {
+          MsgManager.instance = instance;
+          window.MsgManager = instance;
+        }
+      } catch (error) {
+        //
       }
     }
     return MsgManager.instance as MsgManager;
