@@ -45,9 +45,9 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    height: 64px;
-    padding: 0 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    height: 0.64rem;
+    padding: 0 0.12rem;
+    border-bottom: 0.01rem solid rgba(255, 255, 255, 0.1);
     &:last-child {
       border-bottom: none;
     }
@@ -58,7 +58,7 @@
     .left {
       flex: 1.2;
       .station-name {
-        font-size: 14px;
+        font-size: 0.14rem;
         color: #fff;
         line-height: 1;
       }
@@ -71,12 +71,12 @@
     .right {
       flex: 3.8;
       .warning-type {
-        margin-bottom: 4px;
+        margin-bottom: 0.04rem;
         line-height: 1;
-        font-size: 12px;
+        font-size: 0.12rem;
         opacity: 0.9;
         .weather-text {
-          margin-right: 4px;
+          margin-right: 0.04rem;
           color: #fff;
         }
         .red {
@@ -88,9 +88,9 @@
       }
       .warning-content {
         margin-bottom: 0;
-        font-size: 12px;
+        font-size: 0.12rem;
         color: #ffffff;
-        line-height: 16px;
+        line-height: 0.16rem;
         opacity: 0.5;
       }
     }

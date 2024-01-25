@@ -51,7 +51,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2px 4px;
+    padding: 0.02rem 0.04rem;
     background-color: transparent;
     color: white;
     font-family: Arial, sans-serif;
@@ -60,13 +60,13 @@
 
   .title {
     color: #07A5FD;
-    font-size: 14px;
+    font-size: 0.14rem;
   }
 
   .value {
-    margin: 2px 0;
+    margin: 0.02rem 0;
     color: rgb(255 255 255 / 99%);
-    font-size: 22px;
+    font-size: 0.22rem;
   }
 
   .info {
@@ -77,35 +77,35 @@
   }
 
   .subtitle {
-    margin-right: 10px;
+    margin-right: 0.1rem;
     color: rgb(255 255 255 / 60%);
-    font-size: 12px;
+    font-size: 0.12rem;
     line-height: 1;
   }
 
   .text-red {
-    margin-left: 3px;
+    margin-left: 0.03rem;
     color: #FF4F38;
-    font-size: 14px;
+    font-size: 0.14rem;
   }
 
   .text-green {
-    margin-left: 3px;
+    margin-left: 0.03rem;
     color: #00BA24;
-    font-size: 14px;
+    font-size: 0.14rem;
   }
 
   .trend {
-    width: 10px;
-    border: 5px solid transparent;
+    width: 0.1rem;
+    border: 0.05rem solid transparent;
 
     &.red {
       border-top: none;
-      border-bottom: 6px solid #FF4F38;
+      border-bottom: 0.06rem solid #FF4F38;
     }
 
     &.green {
-      border-top: 6px solid #00BA24;
+      border-top: 0.06rem solid #00BA24;
       border-bottom: none;
     }
   }

@@ -11,7 +11,7 @@
         >
           {{ props.subtitle.mvalue }}
         </span>
-        <span v-show="props?.subtitle?.stext" style="margin-left: 10px">{{
+        <span v-show="props?.subtitle?.stext" style="margin-left: 0.1rem">{{
           props.subtitle.stext
         }}</span>
         <span
@@ -71,7 +71,7 @@
 
 <style lang="less" scoped>
   .number-display {
-    margin-left: 15px;
+    margin-left: 0.15rem;
     text-align: left;
   }
 
@@ -84,7 +84,7 @@
   .title {
     color: #32afff;
     font-family: 'Microsoft YaHei', '微软雅黑';
-    font-size: 12px;
+    font-size: 0.12rem;
     font-weight: 300;
     text-align: left;
     white-space: nowrap;
@@ -93,7 +93,7 @@
   .subtitle {
     transform: scale(0.80);
     color: #32afff;
-    font-size: 12px;
+    font-size: 0.12rem;
     white-space: nowrap;
   }
 
@@ -105,13 +105,13 @@
 
   .number {
     position: relative;
-    width: 30px;
-    height: 42px;
-    margin: 5px 3px 0 0; /* 根据需要调整数字之间的间距 */
-    padding: 1px 2px; /* 根据需要调整内边距 */
+    width: 0.3rem;
+    height: 0.42rem;
+    margin: 0.05rem 0.03rem 0 0; /* 根据需要调整数字之间的间距 */
+    padding: 0.01rem 0.02rem; /* 根据需要调整内边距 */
     transform: scaleY(1.15);
-    border: 0.001rem solid #01b5f140;
-    border-radius: 5px; /* 可以根据需要调整圆角 */
+    border: 0.01rem solid #01b5f140;
+    border-radius: 0.05rem; /* 可以根据需要调整圆角 */
     font-weight: 600;
     line-height: 1.35; /* 调整行高以增加数字的高度 */
     text-align: center;
@@ -122,17 +122,17 @@
       left: 0;
       width: 100%;
       height: 100%;
-      border: 0.001rem solid #0606fd50;
-      border-radius: 5px; /* 可以根据需要调整圆角 */
+      border: 0.01rem solid #0606fd50;
+      border-radius: 0.05rem; /* 可以根据需要调整圆角 */
       opacity: 0.35;
       background: #01b4f150; /* 设置数字背景色 */
     }
   }
 
   .number-dot {
-    margin: 0 3px 0 0; /* 根据需要调整数字之间的间距 */
-    padding: 1px 2px; /* 根据需要调整内边距 */
-    border-radius: 5px; /* 可以根据需要调整圆角 */
+    margin: 0 0.03rem 0 0; /* 根据需要调整数字之间的间距 */
+    padding: 0.01rem 0.02rem; /* 根据需要调整内边距 */
+    border-radius: 0.05rem; /* 可以根据需要调整圆角 */
     color: #07a6ff;
     font-weight: 600;
     line-height: 1; /* 调整行高以增加数字的高度 */
@@ -140,8 +140,8 @@
   }
 
   .arrow {
-    margin-right: 4px;
-    margin-left: 4px;
+    margin-right: 0.04rem;
+    margin-left: 0.04rem;
     color: #32afff;
   }
 

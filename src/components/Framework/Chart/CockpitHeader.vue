@@ -9,7 +9,7 @@
         <WeatherDisplay />
       </span>
       <button class="settings">
-        <Icon icon="arcticons:settings" color="#32afff" size="28" style="cursor: pointer"/>
+        <Icon icon="arcticons:settings" color="#32afff" style="cursor: pointer;font-size:0.28rem;" />
       </button>
     </div>
   </div>
@@ -39,18 +39,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 0.1rem;
     color: white;
-    height: 80px;
-    border-bottom: 2px solid #01D8FF12;
+    height: 0.8rem;
+    border-bottom: 0.02rem solid #01D8FF12;
 
     .title {
-      font-size: 24px;
+      font-size: 0.24rem;
       font-family: 'Microsoft YaHei', '微软雅黑';
       font-weight: 400;
       color: #ffffff;
-      line-height: 16px;
-      margin-left: 20px;
+      line-height: 0.16rem;
+      margin-left: 0.2rem;
     }
     .info {
       display: flex;
@@ -59,7 +59,7 @@
       .time,
       .weather,
       .settings {
-        margin-left: 20px;
+        margin-left: 0.2rem;
         background: transparent;
         cursor: pointer;
       }

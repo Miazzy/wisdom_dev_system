@@ -32,10 +32,10 @@
 
 <style lang="less" scoped>
   .station-info-item {
-    height: 64px;
-    padding: 14px 20px;
+    height: 0.64rem;
+    padding: 0.14rem 0.2rem;
     line-height: 1;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 0.01rem solid rgba(255, 255, 255, 0.1);
     &:last-child {
       border-bottom: none;
     }
@@ -45,19 +45,19 @@
 
     .station-name {
       color: #fff;
-      font-size: 14px;
-      margin-bottom: 9px;
+      font-size: 0.14rem;
+      margin-bottom: 0.09rem;
     }
 
     .data-box {
       display: flex;
       justify-content: flex-start;
-      padding-right: 100px;
+      padding-right: 1rem;
       opacity: 0.8;
       .info-item {
         flex: 1;
         .info-text {
-          font-size: 12px;
+          font-size: 0.12rem;
           &.total {
             color: #fff;
           }

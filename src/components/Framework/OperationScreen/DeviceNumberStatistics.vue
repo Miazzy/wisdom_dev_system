@@ -41,16 +41,16 @@
     display: flex;
     align-items: center;
     .device-icon-box {
-      width: 47px;
-      height: 47px;
-      line-height: 47px;
+      width: 0.47rem;
+      height: 0.47rem;
+      line-height: 0.47rem;
       background: url('../../../assets/images/operationScreen/device-icon-bg2.png') no-repeat
         center/100% 100%;
       text-align: center;
-      margin-right: 14px;
+      margin-right: 0.14rem;
       .device-icon {
         display: inline-block;
-        font-size: 16px;
+        font-size: 0.16rem;
         width: 100%;
         background: linear-gradient(0deg, #89f7fe, #01b4f1);
         background-clip: text;
@@ -60,32 +60,32 @@
     }
 
     .data-box {
-      width: 132px;
+      width: 1.32rem;
       display: flex;
       align-items: center;
-      padding: 10px 0;
+      padding: 0.1rem 0;
       line-height: 1;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 0.01rem solid rgba(255, 255, 255, 0.1);
       .device-name-text {
         flex: 1.1;
         color: #fff;
-        font-size: 12px;
+        font-size: 0.12rem;
       }
       .device-num-box {
         flex: 1;
         .value-text {
-          font-size: 16px;
+          font-size: 0.16rem;
           color: #00f6ff;
         }
         .unit-text {
           color: #fff;
-          font-size: 12px;
+          font-size: 0.12rem;
         }
       }
       .percentage-box {
         flex: 1.2;
         .percentage-value {
-            font-size: 14px;
+            font-size: 0.14rem;
           }
           .arrow-positive {
             color: #ff4f38;

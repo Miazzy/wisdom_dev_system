@@ -1,12 +1,12 @@
 <template>
   <div class="indicator-card">
     <div class="icon-box">
-      <img :src="icons[iconName]" style="width: 50px;" />
+      <img :src="icons[iconName]" style="width: 0.5rem;" />
     </div>
     <div class="label-text">{{label}}</div>
     <div class="value-text">{{formatPercent(value)}}</div>
     <div class="info">
-      <div class="info-item" style="margin-right: 14px;">
+      <div class="info-item" style="margin-right: 0.14rem;">
         <span class="slabel-text">同比</span>
         <span v-if="lPercent!=0" class="trend" :class="lPercent>=0?'red':'green'"></span>
         <span class="svalue-text" :class="lPercent>=0?'red':'green'">{{ formatPercent(lPercent) }}</span>
@@ -57,9 +57,9 @@
 
 <style lang="less" scoped>
   .indicator-card {
-    width: 176px;
-    height: 140px;
-    border-radius: 2px;
+    width: 2rem;
+    height: 1.4rem;
+    border-radius: 0.02rem;
     background: linear-gradient(0deg, rgb(53 158 255 / 8%) 0%, rgb(53 158 255 / 0%) 100%);
     font-family: Arial, sans-serif;
     line-height: 1;
@@ -67,20 +67,20 @@
   }
 
   .icon-box {
-    height: 50px;
-    margin-bottom: 12px;
+    height: 0.5rem;
+    margin-bottom: 0.12rem;
   }
 
   .label-text {
-    margin-bottom: 8px;
+    margin-bottom: 0.08rem;
     color: #fff;
-    font-size: 14px;
+    font-size: 0.14rem;
   }
 
   .value-text {
-    margin-bottom: 10px;
+    margin-bottom: 0.1rem;
     color: #32afff;
-    font-size: 24px;
+    font-size: 0.24rem;
     font-weight: 600;
   }
 
@@ -96,13 +96,13 @@
     }
 
     .slabel-text {
-      margin-right: 7px;
+      margin-right: 0.07rem;
       color: rgb(255 255 255 / 60%);
-      font-size: 12px;
+      font-size: 0.12rem;
     }
 
     .svalue-text {
-      font-size: 12px;
+      font-size: 0.12rem;
 
       &.red {
         color: #ff4f38;
@@ -114,16 +114,16 @@
     }
 
     .trend {
-      width: 8px;
-      border: 4px solid transparent;
+      width: 0.08rem;
+      border: 0.04rem solid transparent;
 
       &.red {
         border-top: none;
-        border-bottom: 4px solid #ff4f38;
+        border-bottom: 0.04rem solid #ff4f38;
       }
 
       &.green {
-        border-top: 4px solid #00ba24;
+        border-top: 0.04rem solid #00ba24;
         border-bottom: none;
       }
     }

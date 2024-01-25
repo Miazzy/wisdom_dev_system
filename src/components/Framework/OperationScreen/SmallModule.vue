@@ -24,7 +24,7 @@
 <style lang="less" scoped>
   .small-module {
     width: 100%;
-    height: 315px;
+    height: 3.15rem;
     &.left-bg {
       background: url('../../../assets/images/operationScreen/small-module-bg.png') no-repeat
         center/100% auto;
@@ -38,9 +38,9 @@
       justify-content: space-between;
       align-items: center;
       .title-left {
-        font-size: 16px;
+        font-size: 0.16rem;
         color: #fefefe;
-        padding: 20px 0 0 16px;
+        padding: 0.2rem 0 0 0.16rem;
         font-weight: 600;
       }
     }

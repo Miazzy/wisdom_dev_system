@@ -26,15 +26,15 @@
       text-align: center;
 
       .value-text {
-        margin-bottom: 10px;
+        margin-bottom: 0.1rem;
         color: #32afff;
-        font-size: 22px;
+        font-size: 0.22rem;
         font-weight: 600;
       }
 
       .label-text {
         color: rgb(255 255 255 / 80%);
-        font-size: 12px;
+        font-size: 0.12rem;
       }
     }
   }

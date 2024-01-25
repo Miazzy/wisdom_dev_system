@@ -46,28 +46,28 @@
   .device-status-info {
     position: relative;
     width: 100%;
-    height: 60px;
-    padding-left: 30px;
-    background: url('../../../assets/images/operationScreen/device-status-bg.png') no-repeat left/auto 60px;
+    height: 0.6rem;
+    padding-left: 0.3rem;
+    background: url('../../../assets/images/operationScreen/device-status-bg.png') no-repeat left/auto 0.6rem;
     .icon-bg {
       position: absolute;
       top: 0;
       left: 0;
-      width: 60px;
-      height: 60px;
-      line-height: 60px;
+      width: 0.6rem;
+      height: 0.6rem;
+      line-height: 0.6rem;
       text-align: center;
       .device-icon {
         color: #fff;
-        font-size: 26px;
+        font-size: 0.26rem;
       }
     }
 
     .data-box {
       width: 100%;
-      height: 60px;
-      padding: 0 30px;
-      border-radius: 2px;
+      height: 0.6rem;
+      padding: 0 0.3rem;
+      border-radius: 0.02rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -76,14 +76,14 @@
         position: relative;
         line-height: 1;
         .info-label {
-          margin-bottom: 10px;
+          margin-bottom: 0.1rem;
           text-align: center;
-          font-size: 12px;
+          font-size: 0.12rem;
         }
         .info-value {
           text-align: center;
           font-weight: 500;
-          font-size: 18px;
+          font-size: 0.18rem;
         }
         &.total {
           color: #fff;
@@ -100,11 +100,11 @@
         &.has-divider::before {
           content: '';
           position: absolute;
-          top: 5px;
+          top: 0.05rem;
           right: 0;
           width: 0;
-          height: 32px;
-          border-right: 1px dashed #fff;
+          height: 0.32rem;
+          border-right: 0.01rem dashed #fff;
           opacity: 0.6;
         }
       }

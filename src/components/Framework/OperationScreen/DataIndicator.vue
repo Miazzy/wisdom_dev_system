@@ -18,11 +18,11 @@
     text-align: center;
     line-height: 1;
     .number-text {
-      margin-bottom: 8px;
-      font-size: 22px;
+      margin-bottom: 0.08rem;
+      font-size: 0.22rem;
     }
     .label-text {
-      font-size: 12px;
+      font-size: 0.12rem;
       color: #fff;
       opacity: 0.8;
     }

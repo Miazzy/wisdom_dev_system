@@ -1,5 +1,5 @@
 <template>
-  <div :id="`echarts-crossbar-container${random}`" class="echarts-crossbar-container" :style="`width: ${props.width}px; height: ${props.height}px;`"></div>
+  <div :id="`echarts-crossbar-container${random}`" class="echarts-crossbar-container" :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height};`"></div>
 </template>
 <script lang="ts" setup>
   import { onMounted, toRefs, watch } from 'vue';
@@ -8,8 +8,8 @@
   // 定义属性
   const props = defineProps({
     data: { type: Array },
-    width: { type: Number, default: 600 },
-    height: { type: Number, default: 300 },
+    width: { type: [Number, String], default: 600 },
+    height: { type: [Number, String], default: 300 },
     yAxis: { type: Object, default: { min: 0, max: 100, interval: 20 } as Object },
     colors: { type: Array },
     names: { type: Array },

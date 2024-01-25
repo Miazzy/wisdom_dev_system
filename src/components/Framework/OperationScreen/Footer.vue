@@ -42,19 +42,19 @@
 <style lang="less" scoped>
   .footer {
     width: 100%;
-    height: 90px;
-    background: url('../../../assets/images/operationScreen/footer-bg.png') no-repeat center/1793px auto;
+    height: 0.9rem;
+    background: url('../../../assets/images/operationScreen/footer-bg.png') no-repeat center/17.93rem auto;
     display: flex;
     justify-content: center;
     align-items: center;
     .menu-item {
-      width: 130px;
-      height: 35px;
-      margin-right: 25px;
+      width: 1.3rem;
+      height: 0.35rem;
+      margin-right: 0.25rem;
       background: url('../../../assets/images/operationScreen/menu-bg.png') no-repeat center/100% 100%;
-      font-size: 18px;
+      font-size: 0.18rem;
       color: #03A9FF;
-      line-height: 35px;
+      line-height: 0.35rem;
       text-align: center;
       cursor: pointer;
       &:last-child {

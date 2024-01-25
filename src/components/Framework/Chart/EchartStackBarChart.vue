@@ -2,7 +2,7 @@
   <div
     id="echarts-stackbar-container"
     class="echarts-stackbar-container"
-    :style="`width: ${props.width}px; height: ${props.height}px;`"
+    :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height};`"
   ></div>
 </template>
 <script lang="ts" setup>
@@ -12,8 +12,8 @@
   // 定义属性
   const props = defineProps({
     data: Array,
-    width: { type: Number, default: 600 },
-    height: { type: Number, default: 300 },
+    width: { type: [Number, String], default: 600 },
+    height: { type: [Number, String], default: 300 },
     colors: Array,
     barWidth: { type: Number, default: 25 },
   });

@@ -11,7 +11,7 @@
         >
           {{ props.subtitle.mvalue }}
         </span>
-        <span v-show="props?.subtitle?.stext" style="margin-left: 10px">{{
+        <span v-show="props?.subtitle?.stext" style="margin-left: 0.1rem">{{
           props.subtitle.stext
         }}</span>
         <span
@@ -53,8 +53,8 @@
     title: { type: String, default: '' },
     subtitle: { type: Object, default: {} as Object },
     value: { type: Number, default: 0 },
-    tsize: { type: String, default: '14px' },
-    vsize: { type: String, default: '48px' },
+    tsize: { type: String, default: '0.14rem' },
+    vsize: { type: String, default: '0.48rem' },
     vcolor: { type: String, default: '#FEFEFF' },
     colorStyle: {type: String, default: 'green' }
   });
@@ -84,17 +84,17 @@
 
   .title {
     font-family: 'Microsoft YaHei', '微软雅黑';
-    font-size: 14px;
+    font-size: 0.14rem;
     text-align: left;
     white-space: nowrap;
     line-height: 1;
-    margin-bottom: 16px;
+    margin-bottom: 0.16rem;
   }
 
   .subtitle {
     transform: scale(0.80);
     color: #32afff;
-    font-size: 12px;
+    font-size: 0.12rem;
     white-space: nowrap;
   }
 
@@ -106,25 +106,25 @@
 
   .number {
     position: relative;
-    width: 36px;
-    height: 60px;
-    margin: 0 3px 0 0; /* 根据需要调整数字之间的间距 */
-    border-radius: 4px; /* 可以根据需要调整圆角 */
+    width: 0.36rem;
+    height: 0.6rem;
+    margin: 0 0.03rem 0 0; /* 根据需要调整数字之间的间距 */
+    border-radius: 0.04rem; /* 可以根据需要调整圆角 */
     font-weight: 600;
-    line-height: 58px; /* 调整行高以增加数字的高度 */
+    line-height: 0.58rem; /* 调整行高以增加数字的高度 */
     text-align: center;
   }
 
   .number-dot {
-    margin: 0 3px 0 0; /* 根据需要调整数字之间的间距 */   
+    margin: 0 0.03rem 0 0; /* 根据需要调整数字之间的间距 */   
     font-weight: 600;
-    line-height: 58px; /* 调整行高以增加数字的高度 */
+    line-height: 0.58rem; /* 调整行高以增加数字的高度 */
     text-align: center;
   }
 
   .arrow {
-    margin-right: 4px;
-    margin-left: 4px;
+    margin-right: 0.04rem;
+    margin-left: 0.04rem;
     color: #32afff;
   }
 
@@ -147,20 +147,20 @@
   }
 
   .icon-box {
-      width: 60px;
-      height: 60px;
-      padding: 6px;
-      border-radius: 4px;
-      margin-right: 20px;
+      width: 0.6rem;
+      height: 0.6rem;
+      padding: 0.06rem;
+      border-radius: 0.04rem;
+      margin-right: 0.2rem;
       .inner-box {
         width: 100%;
         height: 100%;
-        border-radius: 4px;
-        padding-top: 10px;
+        border-radius: 0.04rem;
+        padding-top: 0.1rem;
         text-align: center;
         .icon-img {
           display: inline-block;
-          width: 30px;
+          width: 0.3rem;
         }
       }
     }
@@ -171,7 +171,7 @@
     }
 
     .number {
-      border: 1px solid rgba(0, 246, 255, 0.25);
+      border: 0.01rem solid rgba(0, 246, 255, 0.25);
       background-color: rgba(0, 246, 255, 0.2);
     }
 
@@ -180,7 +180,7 @@
     }
 
     .icon-box {
-      border:  1px solid rgba(0, 246, 255, .25);
+      border:  0.01rem solid rgba(0, 246, 255, .25);
       .inner-box {
         background-color: rgba(0, 246, 255, .2);
       }
@@ -193,7 +193,7 @@
     }
 
     .number {
-      border: 1px solid rgba(22, 207, 254, .25);
+      border: 0.01rem solid rgba(22, 207, 254, .25);
       background-color: rgba(22, 207, 254, .2);
     }
 
@@ -202,7 +202,7 @@
     }
 
     .icon-box {
-      border: 1px solid rgba(22, 207, 254, .25);
+      border: 0.01rem solid rgba(22, 207, 254, .25);
       .inner-box {
         background-color: rgba(22, 207, 254, .2);
       }
