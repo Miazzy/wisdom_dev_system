@@ -188,7 +188,7 @@
     //   time: '2023-06-28 10:44:06',
     // },
   ]);
-  const [registerApprovalTable1] = useTable(
+  const [registerApprovalTable1, tInstance1] = useTable(
     assign(
       {
         dataSource: tableDataSource1,
@@ -197,7 +197,7 @@
       detailTableProps,
     ),
   );
-  const [registerApprovalTable2] = useTable(
+  const [registerApprovalTable2, tInstance2] = useTable(
     assign(
       {
         dataSource: tableDataSource2,
@@ -206,7 +206,7 @@
       detailTableProps,
     ),
   );
-  const [registerApprovalTable3] = useTable(
+  const [registerApprovalTable3, tInstance3] = useTable(
     assign(
       {
         dataSource: tableDataSource3,
@@ -215,7 +215,7 @@
       detailTableProps,
     ),
   );
-  const [registerApprovalTable4] = useTable(
+  const [registerApprovalTable4, tInstance4] = useTable(
     assign(
       {
         dataSource: tableDataSource4,
@@ -269,6 +269,7 @@
         });
       });
     }
+    tInstance1.setTableData(tableDataSource1.value);
   };
 
   const doCC = async () => {
@@ -289,6 +290,7 @@
         });
       });
     }
+    tInstance2.setTableData(tableDataSource2.value);
   };
 
   const doMy = async () => {
@@ -307,6 +309,7 @@
         });
       });
     }
+    tInstance3.setTableData(tableDataSource3.value);
   };
 
   const doDone = async () => {
@@ -325,13 +328,17 @@
         });
       });
     }
+    tInstance4.setTableData(tableDataSource4.value);
   };
 
-  const reloadAll = () => {
-    doTodo();
-    doCC();
-    doMy();
-    doDone();
+  const reloadAll = async () => {
+    // 后续需要一段时间处理后才能查询到最新数据，建议延时查询
+    setTimeout(() => {
+      doTodo();
+      doCC();
+      doMy();
+      doDone();
+    }, 1500);
   };
 
   /** 初始化 */
@@ -345,24 +352,30 @@
 <style lang="less" scoped>
   .card-content {
     height: 360px;
+
     :deep(.ant-tabs-tab) {
-      padding-left: 0;
       padding-right: 0;
+      padding-left: 0;
     }
+
     :deep(.ant-tabs-top > .ant-tabs-nav::before) {
       border-bottom-color: transparent;
     }
+
     :deep(.vben-basic-table .ant-table-wrapper) {
       padding: 0;
     }
+
     :deep(.vben-basic-table-action .ant-btn-sm) {
       & > span {
         font-size: 12px;
       }
     }
+
     :deep(.ant-table-thead th.text-center) {
       text-align: center !important;
     }
+
     .table-box {
       height: 286px;
     }
