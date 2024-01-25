@@ -3,20 +3,20 @@
     <div
       id="water-level-chart"
       class="water-level-chart"
-      :style="`width: ${props.width}px; height: ${props.height}px;`"
+      :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height};`"
     >
     </div>
     <div
       class="circle-layout"
-      :style="`top: ${props.circle.top}px; left:  ${props.circle.left}px;`"
+      :style="`top: ${typeof props.circle.top == 'number' ? props.circle.top + 'px' : props.circle.top}; left:  ${typeof props.circle.left == 'number' ? props.circle.left + 'px' : props.circle.left};`"
     >
       <div
         class="circle-1"
-        :style="`width: ${props.circle.width}px; height: ${props.circle.height}px;`"
+        :style="`width: ${typeof props.circle.width == 'number' ? props.circle.width + 'px' : props.circle.width}; height: ${typeof props.circle.height == 'number' ? props.circle.height + 'px' : props.circle.height};`"
       ></div>
       <div
         class="circle-0"
-        :style="`width: ${props.circle.width}px; height: ${props.circle.height}px;`"
+        :style="`width: ${typeof props.circle.width == 'number' ? props.circle.width + 'px' : props.circle.width}; height: ${typeof props.circle.height == 'number' ? props.circle.height + 'px' : props.circle.height};`"
       ></div>
     </div>
   </div>
@@ -34,12 +34,12 @@
       default: 0,
     },
     width: {
-      type: String,
-      default: '200',
+      type: [Number, String],
+      default: 200,
     },
     height: {
-      type: String,
-      default: '200',
+      type: [Number, String],
+      default: 200,
     },
     circle: { type: Object },
   });
@@ -123,15 +123,15 @@
       position: absolute;
       .circle-0 {
         position: absolute;
-        width: 102px;
-        height: 102px;
+        width: 1.02rem;
+        height: 1.02rem;
         border-radius: 50%;
         background: linear-gradient(90deg, #ffffff25 0%, transparent 50%, #ffffff25 100%);
       }
       .circle-1 {
         position: absolute;
-        width: 102px;
-        height: 102px;
+        width: 1.02rem;
+        height: 1.02rem;
         border-radius: 50%;
         background: linear-gradient(0deg, #ffffff25 0%, transparent 50%, #ffffff25 100%);
       }

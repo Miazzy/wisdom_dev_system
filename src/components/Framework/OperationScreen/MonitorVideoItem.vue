@@ -1,5 +1,5 @@
 <template>
-  <div class="monitor-video-item" :style="`width: ${props.width}px; height: ${props.height}px`">
+  <div class="monitor-video-item" :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height}`">
     <div class="video-box">
       视频
     </div>
@@ -9,8 +9,8 @@
 
 <script lang="ts" setup>
   const props = defineProps({
-    width: { type: Number, default: 340 },
-    height: { type: Number, default: 208 },
+    width: { type: [Number, String], default: 340 },
+    height: { type: [Number, String], default: 208 },
     title: { type: String, default: '' }
   });
 </script>
@@ -28,11 +28,11 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 32px;
+      height: 0.32rem;
       background-color: rgba(0, 0, 0, 0.5);
-      line-height: 32px;
-      padding: 0 14px;
-      font-size: 14px;
+      line-height: 0.32rem;
+      padding: 0 0.14rem;
+      font-size: 0.14rem;
       color: #fff;
     }
   }

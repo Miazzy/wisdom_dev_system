@@ -5,7 +5,8 @@
         <div class="day-text">{{props.day}}</div>
         <div class="weather-info">
           <div class="weather-icon">
-            <SvgIcon class="iconfont" :name="props.weatherIcon" :size="50"> </SvgIcon>
+            <SvgIcon class="iconfont" :name="props.weatherIcon" style="width: 0.5rem; height:0.5rem;"> </SvgIcon>
+            <!--  :size="50" -->
           </div>
           <div class="weather-data">
             <div class="temperature-text">{{props.temperature}}</div>
@@ -18,7 +19,7 @@
       <div class="other-layout bg">
         <div class="day-text">{{props.day}}</div>
         <div class="weather-icon">
-          <SvgIcon class="iconfont" :name="props.weatherIcon" :size="24"> </SvgIcon>
+          <SvgIcon class="iconfont" :name="props.weatherIcon" style="width: 0.24rem; height:0.24rem;"> </SvgIcon>
         </div>
         <div class="temperature-text">{{props.temperature}}</div>
       </div>
@@ -43,41 +44,38 @@
   .weather-item {
     .bg {
       background-color: rgba(0, 246, 255, 0.15);
-      border-radius: 4px;
-      border: 1px solid rgba(0, 246, 255, 0.2);
+      border-radius: 0.04rem;
+      border: 0.01rem solid rgba(0, 246, 255, 0.2);
     }
     .day-text {
-      font-size: 12px;
+      font-size: 0.12rem;
       color: #fff;
       text-align: center;
       opacity: 0.6;
       line-height: 1;
-      padding-top: 6px;
+      padding-top: 0.06rem;
     }
     .today-layout {
-      width: 126px;
-      height: 78px;
-      // .day-text {
-      //   margin-bottom: 8px;
-      // }
+      width: 1.26rem;
+      height: 0.78rem;
       .weather-info {
         display: flex;
         justify-content: center;
         align-items: center;
 
         .weather-icon {
-          margin-right: 12px;
+          margin-right: 0.12rem;
         }
         .weather-data {
           color: #fff;
           line-height: 1;
         }
         .temperature-text {
-          font-size: 18px;
-          margin-bottom: 7px;
+          font-size: 0.18rem;
+          margin-bottom: 0.07rem;
         }
         .weather-text {
-          font-size: 12px;
+          font-size: 0.12rem;
           opacity: 0.9;
           transform: scale(0.83);
           transform-origin: left;
@@ -86,19 +84,19 @@
     }
 
     .other-layout {
-      width: 64px;
-      height: 78px;
+      width: 0.64rem;
+      height: 0.78rem;
       text-align: center;
       line-height: 1;
       .day-text {
-        margin-bottom: 13px;
+        margin-bottom: 0.13rem;
       }
       .weather-icon {
-        margin-bottom: 3px;
+        margin-bottom: 0.03rem;
       }
       .temperature-text {
         color: #fff;
-        font-size: 12px;
+        font-size: 0.12rem;
         transform: scale(0.83);
       }
     }

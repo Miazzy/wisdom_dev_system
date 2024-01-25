@@ -36,15 +36,15 @@
   .image-indicator {
     display: flex;
     align-items: center;
-    padding: 10px;
-    border: 1px solid #1890ff30;
-    border-radius: 5px;
+    padding: 0.1rem;
+    border: 0.01rem solid #1890ff30;
+    border-radius: 0.05rem;
     background: #1890ff25;
     z-index: 10000;
 
     .image-container {
-      width: 50px;
-      height: 50px;
+      width: 0.5rem;
+      height: 0.5rem;
       overflow: hidden;
       img {
         width: 100%;
@@ -55,25 +55,23 @@
 
     .info-container {
       flex: 1;
-      margin-left: 10px;
+      margin-left: 0.1rem;
 
       .title {
-        font-size: 16px;
+        font-size: 0.16rem;
         font-family: Microsoft YaHei;
         font-weight: 400;
         color: #ffffff;
-        margin-bottom: 5px;
+        margin-bottom: 0.05rem;
       }
       .data-container {
         display: flex;
         .data-row {
           font-family: Microsoft YaHei;
           color: #ffffff;
-          font-size: 12px;
-          .data-label {
-          }
+          font-size: 0.12rem;
           .data-value {
-            min-width: 30px;
+            min-width: 0.3rem;
             color: #1890ff;
             text-align: right;
           }

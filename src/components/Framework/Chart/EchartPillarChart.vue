@@ -4,10 +4,10 @@
  * @FilePath: \web\src\components\common\powerPillarChart.vue
 -->
 <template>
-  <div :style="`width:${width}px; height:${height}px;`">
+  <div :style="`width:${typeof props.width == 'number' ? props.width + 'px' : props.width}; height:${typeof props.height == 'number' ? props.height + 'px' : props.height};`">
     <div
       :id="`chart-pillar-container${random}`"
-      :style="`width:${props.width}px; height:${props.height}px;`"
+      :style="`width:${typeof props.width == 'number' ? props.width + 'px' : props.width}; height:${typeof props.height == 'number' ? props.height + 'px' : props.height};`"
     ></div>
   </div>
 </template>
@@ -19,8 +19,8 @@
   // 定义属性
   const props = defineProps({
     data: { type: Array },
-    width: { type: Number, default: 600 },
-    height: { type: Number, default: 300 },
+    width: { type: [Number, String], default: 600 },
+    height: { type: [Number, String], default: 300 },
     colors: {
       type: Array,
       default: [

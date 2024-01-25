@@ -1,5 +1,5 @@
 <template>
-  <div :id="props.id" ref="chart" :style="`width: ${props.width}px; height: ${props.height}px;`"></div>
+  <div :id="props.id" ref="chart" :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height};`"></div>
 </template>
 
 <script lang="ts" setup>
@@ -7,13 +7,13 @@
   import { onMounted, watch, PropType } from 'vue';
 
   const props = defineProps({
-    width: { type: Number, default: 600 },
-    height: { type: Number, default: 300 },
+    width: { type: [Number, String], default: 600 },
+    height: { type: [Number, String], default: 300 },
     data: Array,
     id: { type: String },
     showLabel: { type: Boolean, default: false }, // 是否显示饼图图形旁边的文字标签
     roseType: { type: [String, Boolean], default: 'area' }, // 是否展示成南丁格尔图，通过半径区分数据大小 radius/area
-    radius: {type: Array as PropType<number[]>, default: [30, 100] }
+    radius: {type: Array as PropType<Array<number|string>>, default: [30, 100] }
   });
 
   const setupData = () => {

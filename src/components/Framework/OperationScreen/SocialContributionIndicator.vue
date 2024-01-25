@@ -30,12 +30,12 @@
 <style lang="less" scoped>
   .indicator-item {
     display: flex;
-    width: 210px;
+    width: 2.10rem;
 
     .left {
-      width: 82px;
-      height: 70px;
-      margin-right: 6px;
+      width: 0.82rem;
+      height: 0.7rem;
+      margin-right: 0.06rem;
       .indicator-icon {
         display: inline-block;
         width: 100%;
@@ -45,13 +45,13 @@
     .right {
       line-height: 1;
       .value-text {
-        font-size: 22px;
+        font-size: 0.22rem;
         color: #00f6ff;
         font-weight: 500;
-        margin-bottom: 10px;
+        margin-bottom: 0.1rem;
       }
       .label-text {
-        font-size: 14px;
+        font-size: 0.14rem;
         color: #fff;
         opacity: 0.78;
       }

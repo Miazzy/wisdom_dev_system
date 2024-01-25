@@ -1,13 +1,13 @@
 <template>
-  <div class="weather-display" style="width: 200px; margin-right: -20px; margin-left: 10px">
+  <div class="weather-display" style="width: 2rem; margin-right: -0.2rem; margin-left: 0.1rem">
     <div class="weather-icon" style="">
-      <Icon class="icon" icon="arcticons:quickweather" color="#32afff" size="34" />
+      <Icon style="font-size: 0.34rem;" class="icon" icon="arcticons:quickweather" color="#32afff" />
     </div>
-    <div class="weather-info" style="width: 165px">
+    <div class="weather-info" style="width: 1.65rem">
       <div class="temperature-range">
         <span>{{ props.min }}</span>
         <span class="unit">℃</span>
-        <span style="margin: 0 10px">~</span>
+        <span style="margin: 0 0.1rem">~</span>
         <span>{{ props.max }}</span>
         <span class="unit">℃</span>
       </div>
@@ -38,15 +38,15 @@
 
     .weather-icon {
       position: relative;
-      width: 35px;
-      margin-right: 10px;
+      width: 0.35rem;
+      margin-right: 0.1rem;
 
       /* 添加天气图标的样式，可以根据需要自定义 */
-      font-size: 48px;
+      font-size: 0.48rem;
 
       .icon {
         position: absolute;
-        top: -18px;
+        top: -0.18rem;
         right: 0;
       }
     }
@@ -56,25 +56,25 @@
       .temperature-range {
         color: #32afff;
         font-family: Digital;
-        font-size: 24px;
-        letter-spacing: 2px;
+        font-size: 0.24rem;
+        letter-spacing: 0.02rem;
 
         .unit {
-          margin: 0 0 0 5px;
-          font-size: 15px;
+          margin: 0 0 0 0.05rem;
+          font-size: 0.15rem;
         }
       }
 
       .weather-description {
         display: flex;
-        margin-top: -5px;
+        margin-top: -0.05rem;
 
         .weather-text {
           width: 49.5%;
           opacity: 0.6;
           color: #fff;
           font-family: "Microsoft YaHei";
-          font-size: 14px;
+          font-size: 0.14rem;
           font-weight: 400;
         }
 
@@ -83,7 +83,7 @@
           opacity: 0.6;
           color: #fff;
           font-family: "Microsoft YaHei";
-          font-size: 14px;
+          font-size: 0.14rem;
           font-weight: 400;
           text-align: center;
         }

@@ -58,8 +58,8 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 12px 10px 9px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.12rem 0.1rem 0.09rem;
+    border-bottom: 0.01rem solid rgba(255, 255, 255, 0.1);
     &:last-child {
       border-bottom: none;
     }
@@ -67,16 +67,16 @@
     .left {
       flex: 1;
       .icon-bg {
-        width: 42px;
-        height: 42px;
-        line-height: 42px;
+        width: 0.42rem;
+        height: 0.42rem;
+        line-height: 0.42rem;
         background: url('../../../assets/images/operationScreen/device-icon-bg.png') no-repeat
           center/100% 100%;
         text-align: center;
       }
       .device-icon {
         color: #fff;
-        font-size: 18px;
+        font-size: 0.18rem;
       }
     }
 
@@ -85,12 +85,12 @@
       line-height: 1;
       .title-ch {
         color: #fff;
-        font-size: 14px;
-        margin-bottom: 8px;
+        font-size: 0.14rem;
+        margin-bottom: 0.08rem;
       }
       .title-en {
         color: #fff;
-        font-size: 12px;
+        font-size: 0.12rem;
         opacity: 0.6;
       }
     }
@@ -105,21 +105,21 @@
         line-height: 1;
         .cicle {
           display: inline-block;
-          width: 8px;
-          height: 8px;
+          width: 0.08rem;
+          height: 0.08rem;
           border-radius: 50%;
-          margin: 2px 4px 0 0 ;
+          margin: 0.02rem 0.04rem 0 0 ;
         }
         .info-label {
-          margin-bottom: 6px;
+          margin-bottom: 0.06rem;
           text-align: center;
-          font-size: 12px;
+          font-size: 0.12rem;
           color: #fff;
         }
         .info-value {
           text-align: center;
           font-weight: 500;
-          font-size: 14px;
+          font-size: 0.14rem;
           color: #fff;
         }
         &.online {

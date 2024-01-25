@@ -16,7 +16,7 @@
 
     <div class="date">
       <span class="normal-font">{{ currentDate }}</span>
-      <span class="normal-font" style="margin-left: 10px">{{ currentWeek }}</span>
+      <span class="normal-font" style="margin-left: 0.1rem">{{ currentWeek }}</span>
     </div>
   </div>
 </template>
@@ -59,14 +59,14 @@
       justify-content: center;
       color: #32afff;
       font-family: Digital;
-      font-size: 24px;
+      font-size: 0.24rem;
       font-weight: 600;
-      letter-spacing: 4px;
+      letter-spacing: 0.04rem;
 
       div {
         display: flex;
         justify-content: center;
-        width: 28px;
+        width: 0.28rem;
 
         span {
           flex: 50%;
@@ -74,17 +74,17 @@
       }
 
       .colon {
-        margin: 2px 5px 0;
-        font-size: 20px;
+        margin: 0.02rem 0.05rem 0;
+        font-size: 0.2rem;
       }
     }
 
     .date {
-      margin-top: -6px;
+      margin-top: -0.06rem;
 
       .normal-font {
         font-family: 'Microsoft YaHei';
-        font-size: 14px;
+        font-size: 0.14rem;
       }
     }
   }

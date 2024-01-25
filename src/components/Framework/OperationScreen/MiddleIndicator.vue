@@ -42,20 +42,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 304px;
-    height: 111px;
+    width: 3.04rem;
+    height: 1.11rem;
     background-color: rgba(7, 29, 54, 0.66);
-    border-radius: 1px;
+    border-radius: 0.01rem;
     
     .left {
-      width: 90px;
-      height: 57px;
-      margin-right: 18px;
+      width: 0.9rem;
+      height: 0.57rem;
+      margin-right: 0.18rem;
       background: url('../../../assets/images/operationScreen/middle-indicator-icon-bg.png') no-repeat center/100% 100%;
       text-align: center;
       .indicator-icon {
         display: inline-block;
-        font-size: 30px;
+        font-size: 0.3rem;
         width: 100%;
         background: linear-gradient(0deg, #08fff6, #16cffe);
         background-clip: text;
@@ -67,29 +67,29 @@
     .right {
       line-height: 1;
       .label-text {
-        font-size: 14px;
+        font-size: 0.14rem;
         color: #fff;
-        margin-bottom: 8px;
+        margin-bottom: 0.08rem;
       }
       .value-box {
         display: flex;
         align-items: baseline;
         .value-text {
-          font-size: 28px;
+          font-size: 0.28rem;
           color: #00f6ff;
           font-weight: 500;
-          margin-right: 18px;
+          margin-right: 0.18rem;
         }
         .percentage-box {
           display: flex;
           .percentage-label {
-            font-size: 12px;
+            font-size: 0.12rem;
             color: #fff;
             opacity: 0.6;
-            margin-right: 7px;
+            margin-right: 0.07rem;
           }
           .percentage-value {
-            font-size: 14px;
+            font-size: 0.14rem;
           }
           .arrow-positive {
             color: #ff4f38;

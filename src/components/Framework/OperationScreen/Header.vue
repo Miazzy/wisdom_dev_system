@@ -38,16 +38,16 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 80px;
+    height: 0.8rem;
     background: url('../../../assets/images/operationScreen/title-bg.png') no-repeat center/cover;
 
     .logo {
       flex: 1;
 
       .logo-img-box {
-        width: 108px;
-        height: 33px;
-        margin-left: 20px;
+        width: 1.08rem;
+        height: 0.33rem;
+        margin-left: 0.2rem;
         background: url('../../../assets/images/my-logo-dark.png') no-repeat center/cover;
       }
     }
@@ -59,7 +59,7 @@
       background-image: linear-gradient(0deg, #16cffe 0%, #00f6ff 100%);
       color: transparent;
       font-family: 'Microsoft YaHei', '微软雅黑';
-      font-size: 30px;
+      font-size: 0.3rem;
       font-weight: 600;
       text-align: center;
     }
@@ -80,7 +80,7 @@
       }
 
       .weather {
-        margin-right: 20px;
+        margin-right: 0.2rem;
         :deep(.weather-display .weather-info .temperature-range) {
           color: #00F6FF;
         }
@@ -88,7 +88,7 @@
 
       .time,
       .weather {
-        margin-left: 20px;
+        margin-left: 0.2rem;
         background: transparent;
         cursor: pointer;
       }

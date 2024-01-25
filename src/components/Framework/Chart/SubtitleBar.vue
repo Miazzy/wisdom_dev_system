@@ -21,7 +21,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 0;
+    padding: 0.1rem 0;
     color: #fefefe;
   }
 
@@ -31,13 +31,13 @@
   }
 
   .vertical-line {
-    width: 5px;
-    height: 20px;
-    margin-right: 10px;
+    width: 0.05rem;
+    height: 0.2rem;
+    margin-right: 0.1rem;
     background-color: #32AFFF;
   }
 
   .subtitle {
-    font-size: 18px;
+    font-size: 0.18rem;
   }
 </style>

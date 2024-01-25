@@ -1,13 +1,9 @@
 <template>
-  <div
-    :id="props.mapID"
-    :style="`width: ${props.width}px; height: ${props.height}px;`"
-    class="echarts-emap-china-container"
-  ></div>
+  <div :id="props.mapID" :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height};`" class="echarts-emap-china-container"></div>
 </template>
 
 <script lang="ts" setup>
-  import { ref, onMounted, watch } from 'vue';
+  import { ref, onMounted, watch, onBeforeUnmount } from 'vue';
   import * as echarts from 'echarts';
   import 'echarts/extension/bmap/bmap';
   import { getChinaJsonData } from '@/api/echarts/map';
@@ -17,8 +13,8 @@
     mapID: { type: String, default: 'echarts-emap-china-container' },
     data: { type: Array, default: [] as any },
     title: { type: String, default: '中国行政区域图' },
-    width: { type: Number, default: 600 },
-    height: { type: Number, default: 500 },
+    width: { type: [Number, String], default: 600 },
+    height: { type: [Number, String], default: 500 },
     zoom: { type: Number, default: 1.0 },
     offset: { type: Number, default: 100 },
     colors: {
@@ -206,6 +202,29 @@
 
     myChart.setOption(option.value);
   };
+
+  const chartSize = () => {
+    const myChart = echarts.getInstanceByDom(document.getElementById(props.mapID));
+    myChart.resize();
+  };
+  // 添加自适应事件
+  const onWinResize = () => {
+    window.addEventListener('resize', chartSize);
+  };
+  // 移除自适应事件
+  const rmWinResize = () => {
+    window.removeEventListener('resize', chartSize);
+  };
+
+  // 创建地图并绘制点位
+  onMounted(() => {
+    createChart();
+    onWinResize();
+  });
+
+  onBeforeUnmount(() => {
+    rmWinResize();
+  })
 </script>
 
 <style lang="less" scoped>

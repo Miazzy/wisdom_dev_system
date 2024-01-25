@@ -38,21 +38,21 @@
   .hidden-defect-progress {
     display: flex;
     align-items: center;
-    font-size: 14px;
-    margin-bottom: 6px;
+    font-size: 0.14rem;
+    margin-bottom: 0.06rem;
 
     .rank-icon-box {
       position: relative;
-      padding-right: 5px;
+      padding-right: 0.05rem;
       .rank-icon {
-        font-size: 15px;
+        font-size: 0.15rem;
       }
       .index-text {
         position: absolute;
         left: 0;
-        top: 1px;
-        width: 17px;
-        font-size: 12px;
+        top: 0.01rem;
+        width: 0.17rem;
+        font-size: 0.12rem;
         color: #fff;
         text-align: center;
         transform: scale(0.83);
@@ -66,7 +66,7 @@
 
     .progress-box {
       flex: 1;
-      padding: 0 16px 0 7px;
+      padding: 0 0.16rem 0 0.07rem
     }
 
     .value-text {
