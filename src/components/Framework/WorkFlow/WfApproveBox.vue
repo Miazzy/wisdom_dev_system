@@ -4,9 +4,13 @@
     <div class="button-content" style="" v-show="isShowBtns">
       <Button @click="handleSubmit" v-if="processStatus == 0" type="primary">提交</Button>
       <Button @click="handleSave" v-if="processStatus == 0">保存</Button>
-      
+
       <!-- <Button @click="handleCollect" v-if="processStatus != 0">收藏</Button> -->
-      <Button @click="handleOpenApprovalDrawer" v-if="processStatus && processStatus !== 0" type="primary">审批</Button
+      <Button
+        @click="handleOpenApprovalDrawer"
+        v-if="processStatus && processStatus !== 0"
+        type="primary"
+        >审批</Button
       >
     </div>
     <!-- 流程审批抽屉组件 -->
@@ -24,7 +28,7 @@
       @transfer="handleTransfer"
       @notice="handleNotice"
       @collect="handleCollect"
-      @onReload="onReload"
+      @on-reload="onReload"
       @before="handleBefore"
     />
   </div>
@@ -72,7 +76,10 @@
     listenMessage: { type: String, default: 'workflow-task-done' },
   });
 
-  const [approvalDrawerRegister, { openDrawer: openApprovalDrawer, closeDrawer: closeApprovalDrawer}] = useDrawer();
+  const [
+    approvalDrawerRegister,
+    { openDrawer: openApprovalDrawer, closeDrawer: closeApprovalDrawer },
+  ] = useDrawer();
   const approveDataList = ref([]);
   const processInstanceId = ref(null);
   const processStatus = ref();
@@ -91,7 +98,7 @@
     await getTaskListByProcessInstanceId();
     closeApprovalDrawer();
     closeCurrentTab();
-    MsgManager.getInstance().sendMsg(props.listenMessage, {}); // 发送消息，通知审批待办任务已办任务刷新列表
+    sendMsg();
   };
 
   const getTaskListByProcessInstanceId = async () => {
@@ -126,7 +133,7 @@
     await getTaskListByProcessInstanceId();
     closeApprovalDrawer();
     closeCurrentTab();
-    MsgManager.getInstance().sendMsg(props.listenMessage, {}); // 发送消息，通知审批待办任务已办任务刷新列表
+    sendMsg();
   };
 
   // 流程审批保存
@@ -142,6 +149,14 @@
   // 业务的保存
   const handleSave = () => {
     emit('save');
+
+    sendMsg();
+  };
+
+  //发送通知消息
+  const sendMsg = () => {
+    MsgManager.getInstance().sendMsg('workbench-approval', {}); // 工作台
+    MsgManager.getInstance().sendMsg(props.listenMessage, {}); // 发送消息，通知审批待办任务已办任务刷新列表
   };
 
   const handleEnd = (flowData) => {
@@ -162,6 +177,8 @@
 
   const handleSubmit = (flowData) => {
     emit('submit', flowData);
+
+    sendMsg();
   };
 
   const isShowBtns = ref(false); // 是否显示保存提交审批按钮
