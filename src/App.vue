@@ -20,27 +20,30 @@
   import { useLocale } from '@/locales/useLocale';
   import { listenThemeMessage } from '@/utils/theme';
   import { useRouter } from 'vue-router';
+  import { PageEnum } from '/@/enums/pageEnum';
   import 'dayjs/locale/zh-cn';
-  // import { useUserStore } from '/@/store/modules/user';
 
   const { getAntdLocale } = useLocale();
   const router = useRouter();
-  // const userStore = useUserStore();
 
   useTitle();
 
   const handleRoutePath = () => {
     try {
       const flag = checkInIframe();
+      const hashFlag = window.location.hash && window.location.hash.startsWith('#');
+      const routePath = hashFlag ? window.location.hash.slice(1) : window.location.hash;
       if (flag) {
-        const flag = window.location.hash && window.location.hash.startsWith('#');
-        const routePath = flag ? window.location.hash.slice(1) : window.location.hash;
         const iframePath = window.frameElement.src.split('/#')[1];
         if (iframePath !== routePath) {
           router.push(iframePath as string);
+        } else if (routePath == PageEnum.BASE_HOME) {
+          window.location.reload();
         }
         console.info('currentPath: ', iframePath);
         console.info('routePath: ', routePath);
+      } else {
+        routePath != PageEnum.BASE_HOME ? router.push(PageEnum.BASE_HOME) : null;
       }
     } catch (error) {
       //
@@ -60,6 +63,6 @@
     listenThemeMessage();
     setTimeout(() => {
       handleRoutePath();
-    }, 100);
+    }, 150);
   });
 </script>
