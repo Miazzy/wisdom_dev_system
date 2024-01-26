@@ -35,11 +35,11 @@
 
   .icon {
     flex-shrink: 0;
-    width: 10px;
-    height: 10px;
-    margin-top: -20px;
-    margin-right: 10px;
-    border: 1px solid #45A2E930;
+    width: 0.1rem;
+    height: 0.1rem;
+    margin-top: -0.2rem;
+    margin-right: 0.1rem;
+    border: 0.01rem solid #45A2E930;
     border-radius: 50%;
     vertical-align: top;
   }
@@ -47,23 +47,23 @@
   .info {
     display: flex;
     flex-direction: column;
-    height: 40px;
+    height: 0.4rem;
   }
 
   .title {
     width: 100%;
     color: rgb(255 255 255 / 60%);
     font-family: "Microsoft YaHei";
-    font-size: 12px;
+    font-size: 0.12rem;
     font-weight: 400;
   }
 
   .value {
     width: 100%;
-    height: 12px;
+    height: 0.12rem;
     color: #FFF;
     font-family: "Microsoft YaHei";
-    font-size: 14px;
+    font-size: 0.14rem;
     font-weight: 400;
   }
 </style>

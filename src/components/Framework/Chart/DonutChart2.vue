@@ -1,11 +1,11 @@
 <template>
-  <div class="donut-chart-container" :style="`width:${width}px; height:${height}px`">
+  <div class="donut-chart-container" :style="`width:${typeof props.width == 'number' ? props.width + 'px' : props.width}; height:${typeof props.height == 'number' ? props.height + 'px' : props.height}`">
     <div class="donut-chart">
       <svg
-        :width="height * 0.8"
-        :height="height * 0.8"
+        :width="200"
+        :height="200"
         :viewBox="viewBox"
-        preserveAspectRatio="xMidYMid meet"
+        preserveAspectRatio="xMidYMid meet" style="height: 100%;width: 100%;"
       >
         <!-- 绘制饼状图 -->
         <g :transform="'translate(' + radius + ',' + radius + ')'">
@@ -68,8 +68,8 @@
 
   const props = defineProps({
     data: Array,
-    width: Number,
-    height: Number,
+    width: [Number, String],
+    height: [Number, String],
     radius: Number,
     sliceGap: {
       type: Number,
@@ -138,24 +138,24 @@
   .data-item {
     display: flex;
     align-items: center;
-    margin: 4px 0;
+    margin: 0.04rem 0;
     cursor: pointer;
   }
 
   .data-color {
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
+    width: 0.2rem;
+    height: 0.2rem;
+    margin-right: 0.08rem;
     border-radius: 50%;
   }
 
   .data-label {
-    font-size: 14px;
+    font-size: 0.14rem;
   }
 
   .data-value {
-    margin-left: 5px;
-    font-size: 14px;
+    margin-left: 0.05rem;
+    font-size: 0.14rem;
   }
 
   .data-item:hover {
@@ -163,7 +163,7 @@
   }
 
   .data-item:hover .data-color {
-    box-shadow: 0 0 4px rgb(0 0 0 / 50%);
+    box-shadow: 0 0 0.04rem rgb(0 0 0 / 50%);
   }
 
   .data-item:hover .data-label {

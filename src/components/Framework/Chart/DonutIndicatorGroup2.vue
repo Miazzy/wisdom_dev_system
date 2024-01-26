@@ -21,8 +21,8 @@
   }
 
   .indicator-item {
-    width: calc(33.3% - 5px);
-    margin-right: 5px;
-    margin-bottom: 5px;
+    width: calc(33.3% - 0.05rem);
+    margin-right: 0.05rem;
+    margin-bottom: 0.05rem;
   }
 </style>

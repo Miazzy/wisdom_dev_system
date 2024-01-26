@@ -1,11 +1,11 @@
 <template>
-  <div class="donut-chart-container" :style="`width:${width * 1.0 + 120}px; height:${height}px`">
+  <div class="donut-chart-container" :style="`width:${typeof props.width == 'number' ? props.width + 'px' : props.width}; height:${typeof props.height == 'number' ? props.height + 'px' : props.height}`">
     <div class="donut-chart">
       <svg
-        :width="width * 0.75"
-        :height="height * 0.75"
+        :width="pieWidth * 0.75"
+        :height="pieHeight * 0.75"
         :viewBox="viewBox"
-        preserveAspectRatio="xMidYMid meet"
+        preserveAspectRatio="xMidYMid meet" style="height: 100%;width: 100%;"
       >
         <!-- 绘制饼状图 -->
         <g :transform="'translate(' + radius + ',' + radius + ')'">
@@ -14,9 +14,9 @@
           </g>
         </g>
         <text v-if="showTotal"
-          style="font-size: 28px; dy: 5px"
-          :x="(width * 0.75) / 2 - 14"
-          :y="(height * 0.75) / 2 + 19"
+          style="font-size: 0.28rem; dy: 0.05rem"
+          :x="(pieWidth * 0.75) / 2 - 14"
+          :y="(pieHeight * 0.75) / 2 + 19"
           text-anchor="middle"
           dominant-baseline="middle"
           fill="white"
@@ -24,9 +24,9 @@
           {{ totalValue }}
         </text>
         <text v-if="showTotal"
-          style="font-size: 15px"
-          :x="(width * 0.75) / 2 - 12"
-          :y="(height * 0.75) / 2 + 45"
+          style="font-size: 0.15rem"
+          :x="(pieWidth * 0.75) / 2 - 12"
+          :y="(pieHeight * 0.75) / 2 + 45"
           text-anchor="middle"
           dominant-baseline="middle"
           fill="white"
@@ -55,7 +55,7 @@
         />
       </svg>
     </div>
-    <div class="data-list" style="margin: 15px 0 0 -5px">
+    <div class="data-list" style="margin: 0.15rem 0 0 -0.05rem">
       <DonutIndicatorGroup :data="props.data" />
     </div>
   </div>
@@ -66,10 +66,12 @@
   import * as d3 from 'd3';
   import DonutIndicatorGroup from './DonutIndicatorGroup.vue';
 
+  const pieWidth = 300;
+  const pieHeight = 200;
   const props = defineProps({
     data: Array,
-    width: Number,
-    height: Number,
+    width: [Number, String],
+    height: [Number, String],
     radius: Number,
     sliceGap: {
       type: Number,
@@ -154,24 +156,24 @@
   .data-item {
     display: flex;
     align-items: center;
-    margin: 4px 0;
+    margin: 0.04rem 0;
     cursor: pointer;
   }
 
   .data-color {
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
+    width: 0.2rem;
+    height: 0.2rem;
+    margin-right: 0.08rem;
     border-radius: 50%;
   }
 
   .data-label {
-    font-size: 14px;
+    font-size: 0.14rem;
   }
 
   .data-value {
-    margin-left: 5px;
-    font-size: 14px;
+    margin-left: 0.05rem;
+    font-size: 0.14rem;
   }
 
   .data-item:hover {
@@ -179,7 +181,7 @@
   }
 
   .data-item:hover .data-color {
-    box-shadow: 0 0 4px rgb(0 0 0 / 50%);
+    box-shadow: 0 0 0.04rem rgb(0 0 0 / 50%);
   }
 
   .data-item:hover .data-label {
