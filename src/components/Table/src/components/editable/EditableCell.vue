@@ -540,7 +540,9 @@
     min-height: 24px; //设置高度让其始终可被hover
     line-height: 24px;
 
-    .ant-picker-input, .ant-input, .ant-calendar-picker-input, .ant-time-picker-input, .ant-input-number-input {
+    .ant-picker-input, .ant-input, .ant-calendar-picker-input, 
+    .ant-time-picker-input, .ant-input-number-input, .ant-select, 
+    .ant-select-show-search {
       height: 32px;
       line-height: 32px;
     }
