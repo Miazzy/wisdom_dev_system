@@ -43,7 +43,8 @@
         console.info('currentPath: ', iframePath);
         console.info('routePath: ', routePath);
       } else {
-        routePath != PageEnum.BASE_HOME ? router.push(PageEnum.BASE_HOME) : null;
+        const isLocal = window.location.hostname == 'localhost';
+        routePath != PageEnum.BASE_HOME && !isLocal ? router.push(PageEnum.BASE_HOME) : null;
       }
     } catch (error) {
       //
