@@ -9,9 +9,22 @@ import { Thread } from '@/executor/thread';
 export class TaskExecutor extends Thread {
   private static instance: TaskExecutor;
 
-  static getInstance(time = TimeInterval.TEN_SECOND) {
+  static getInstance(time = TimeInterval.ONE_SECOND) {
     if (!TaskExecutor.instance) {
-      TaskExecutor.instance = new TaskExecutor(time);
+      const instance = new TaskExecutor(time); // TaskExecutor.instance = new TaskExecutor(time);
+      TaskExecutor.instance = instance;
+      try {
+        if (!Reflect.has(window.top, 'TaskExecutor')) {
+          window.top.TaskExecutor = instance;
+        }
+        if (window.top !== window) {
+          TaskExecutor.instance = window?.top?.TaskExecutor ? window?.top?.TaskExecutor : instance;
+        } else {
+          TaskExecutor.instance = instance;
+        }
+      } catch (error) {
+        //
+      }
     }
     return TaskExecutor.instance;
   }
