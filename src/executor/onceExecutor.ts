@@ -9,20 +9,33 @@ import { Thread } from '@/executor/thread';
 export class OnceExecutor extends Thread {
   private static instance: OnceExecutor;
 
-  static getInstance() {
+  static getInstance(time = TimeInterval.ONE_SECOND) {
     if (!OnceExecutor.instance) {
-      OnceExecutor.instance = new OnceExecutor();
+      const instance = new OnceExecutor(time); // OnceExecutor.instance = new OnceExecutor(time);
+      OnceExecutor.instance = instance;
+      try {
+        if (!Reflect.has(window.top, 'OnceExecutor')) {
+          window.top.OnceExecutor = instance;
+        }
+        if (window.top !== window) {
+          OnceExecutor.instance = window?.top?.OnceExecutor ? window?.top?.OnceExecutor : instance;
+        } else {
+          OnceExecutor.instance = instance;
+        }
+      } catch (error) {
+        //
+      }
     }
     return OnceExecutor.instance;
   }
 
-  static getNewInstance() {
-    return new OnceExecutor();
+  static getNewInstance(time = TimeInterval.TEN_SECOND) {
+    return new OnceExecutor(time);
   }
 
-  constructor() {
+  constructor(time = TimeInterval.ONE_SECOND) {
     super();
-    this.interval = TimeInterval.ONE_SECOND;
+    this.interval = time || TimeInterval.ONE_SECOND;
   }
 
   override run() {
