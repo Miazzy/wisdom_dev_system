@@ -162,12 +162,12 @@ export const themeList = [
     themeName: 'theme1',
     mode: 'dark'
   },
-  {
-    title: '深色主题二',
-    color: '#00FFFF',
-    themeName: 'theme2',
-    mode: 'dark'
-  },
+  // {
+  //   title: '深色主题二',
+  //   color: '#00FFFF',
+  //   themeName: 'theme2',
+  //   mode: 'dark'
+  // },
   {
     title: '浅色主题一',
     color: '#F0F2F5',
