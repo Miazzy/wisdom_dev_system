@@ -56,7 +56,7 @@
       </svg>
     </div>
     <div class="data-list" style="margin: 0.15rem 0 0 -0.05rem">
-      <DonutIndicatorGroup :data="props.data" />
+      <DonutIndicatorGroup :data="groupList" />
     </div>
   </div>
 </template>
@@ -85,6 +85,7 @@
 
   const radius = props.radius;
   const arcs = ref([]);
+  const groupList = ref([]);
 
   // 创建饼状图布局
   const pie = d3
@@ -95,11 +96,7 @@
   // 颜色比例尺函数
   const colorScale = d3.scaleOrdinal().range(d3.schemeCategory10);
 
-  // 为每个数据项分配颜色
-  props.data.forEach((d, i) => { 
-    d.color = d.color ? d.color : colorScale(i);
-    d.title = d.label;
-  });
+
 
   // 生成饼状图的路径
   const arcGenerator = d3
@@ -108,11 +105,19 @@
     .outerRadius(radius - 8);
 
   const updateChart = () => {
-    arcs.value = pie(props.data).map((arc) => ({
+    // 为每个数据项分配颜色
+    const list = props.data.map((d, i) => {
+      const color = d.color ? d.color : colorScale(i);
+      const title = d.label;
+      return { ...d, color, title };
+    });
+    groupList.value = list;
+    arcs.value = pie(list).map((arc) => ({
       data: arc.data,
       path: arcGenerator(arc),
     }));
-  }
+  };
+
   watch(
     () => props.data,
     () => {

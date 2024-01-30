@@ -16,8 +16,12 @@
 
 <style scoped>
   .indicator-group {
+    width: 135%;
     display: flex;
     flex-wrap: wrap;
+    margin-left: 0%;
+    transform: scale(0.8);
+    transform-origin: 0% 0%;
   }
 
   .indicator-item {

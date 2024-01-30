@@ -56,13 +56,13 @@
       </svg>
     </div>
     <div class="data-list">
-      <DonutIndicatorGroup :data="props.data" />
+      <DonutIndicatorGroup :data="groupList" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { ref, onMounted, defineProps, computed } from 'vue';
+  import { ref, onMounted, defineProps, computed, watch } from 'vue';
   import * as d3 from 'd3';
   import DonutIndicatorGroup from './DonutIndicatorGroup2.vue';
 
@@ -79,6 +79,7 @@
 
   const radius = props.radius;
   const arcs = ref([]);
+  const groupList = ref([]);
 
   // 创建饼状图布局
   const pie = d3
@@ -89,30 +90,44 @@
   // 颜色比例尺函数
   const colorScale = d3.scaleOrdinal().range(d3.schemeCategory10);
 
-  // 为每个数据项分配颜色
-  props.data.forEach((d, i) => { 
-    d.color = d.color ? d.color : colorScale(i);
-    d.title = d.label;
-  });
-
   // 生成饼状图的路径
   const arcGenerator = d3
     .arc()
     .innerRadius(radius - 30)
     .outerRadius(radius - 8);
 
-  // 生成饼状图数据
-  onMounted(() => {
-    arcs.value = pie(props.data).map((arc) => ({
+  const updateChart = () => {
+    // 为每个数据项分配颜色
+    const list = props.data.map((item, i) => {
+      const color = item.color ? item.color : colorScale(i);
+      const title = item.label;
+      return { ...item, color, title };
+    });
+    groupList.value = list;
+    arcs.value = pie(list).map((arc) => ({
       data: arc.data,
       path: arcGenerator(arc),
     }));
+  };
+
+  watch(
+    () => props.data,
+    () => {
+      updateChart();
+    },
+    {
+      deep: true,
+    },
+  );
+
+  // 生成饼状图数据
+  onMounted(() => {
+    updateChart();
   });
 
   // 计算 viewBox 属性以保持饼状图居中
   const viewBox = ref(`0 0 ${2 * radius} ${2 * radius}`);
   // const totalValue = computed(() => props.data.reduce((acc, curr) => acc + curr.value, 0));
-
 </script>
 
 <style scoped>
