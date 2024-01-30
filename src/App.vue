@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { onMounted } from 'vue';
+  import { onMounted, nextTick } from 'vue';
   import { ConfigProvider } from 'ant-design-vue';
   import { AppProvider } from '@/components/Application';
   import { useTitle } from '@/hooks/web/useTitle';
@@ -21,6 +21,8 @@
   import { listenThemeMessage } from '@/utils/theme';
   import { useRouter } from 'vue-router';
   import { PageEnum } from '/@/enums/pageEnum';
+  import { closeCurrentTab } from '@/utils/route';
+  import { SysMessage } from '/@/hooks/web/useMessage';
   import 'dayjs/locale/zh-cn';
 
   const { getAntdLocale } = useLocale();
@@ -35,9 +37,14 @@
       const routePath = hashFlag ? window.location.hash.slice(1) : window.location.hash;
       if (flag) {
         const iframePath = window.frameElement.src.split('/#')[1];
-        if (iframePath !== routePath) {
+        const baseFlag = iframePath == PageEnum.BASE_HOME || iframePath == PageEnum.BASE_HOME + '/';
+        const routeFlag = routePath == PageEnum.BASE_HOME || routePath == PageEnum.BASE_HOME + '/';
+        if (iframePath == routePath && baseFlag) {
+          SysMessage.getInstance().warning('警告：页签页面不能打开框架页面！');
+          nextTick(closeCurrentTab);
+        } else if (iframePath !== routePath) {
           router.push(iframePath as string);
-        } else if (routePath == PageEnum.BASE_HOME) {
+        } else if (routeFlag) {
           window.location.reload();
         }
         console.info('currentPath: ', iframePath);
