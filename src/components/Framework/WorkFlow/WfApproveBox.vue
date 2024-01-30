@@ -2,8 +2,8 @@
   <div class="workflow-approve-box">
     <!-- 审批按钮 -->
     <div class="button-content" style="" v-show="isShowBtns">
-      <Button @click="handleSubmit" v-if="processStatus == 0" type="primary">提交</Button>
-      <Button @click="handleSave" v-if="processStatus == 0">保存</Button>
+      <Button @click="handleSubmit" v-if="!isReadOnly" type="primary">提交</Button>
+      <Button @click="handleSave" v-if="!isReadOnly">保存</Button>
 
       <!-- <Button @click="handleCollect" v-if="processStatus != 0">收藏</Button> -->
       <Button
@@ -64,6 +64,8 @@
     'submit',
     'before',
   ]);
+
+  const isReadOnly = ref<boolean>(true);
 
   const userStore = useUserStore();
   const getUserInfo = toRaw(userStore.getUserInfo);
@@ -188,6 +190,11 @@
     if (!data) {
       SysMessage.getInstance().error('查询不到流程信息！');
       return;
+    }
+    //获取当前流程是否可操作
+    const startUserId = data.startUser.id;
+    if (startUserId === getUserInfo.userId && processStatus.value == 0) {
+      isReadOnly.value = false;
     }
     isHandle.value = data['status'];
   };
