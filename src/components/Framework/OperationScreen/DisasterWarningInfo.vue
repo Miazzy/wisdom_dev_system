@@ -14,7 +14,7 @@
         <span class="weather-text">{{props.weatherName}}</span>
         <span :class="props.warningLevel">{{color[props.warningLevel]}}</span>
       </div>
-      <p class="warning-content">
+      <p class="warning-content" :title="props.warningContent">
         {{props.warningContent}}
       </p>
     </div>
@@ -92,6 +92,11 @@
         color: #ffffff;
         line-height: 0.16rem;
         opacity: 0.5;
+        display: -webkit-box; /* Safari */
+        -webkit-line-clamp: 2; /* number of lines to show */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
