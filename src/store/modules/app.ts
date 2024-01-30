@@ -76,7 +76,7 @@ export const useAppStore = defineStore({
 
     setDarkMode(mode: ThemeEnum): void {
       this.darkMode = mode;
-      localStorage.setItem(APP_DARK_MODE_KEY, mode);
+      localStorage?.setItem(APP_DARK_MODE_KEY, mode);
     },
 
     setBeforeMiniInfo(state: BeforeMiniState): void {

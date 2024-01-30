@@ -65,7 +65,7 @@
     'before',
   ]);
 
-  const isReadOnly = ref<boolean>(true);
+  const isReadOnly = ref<boolean>(false);
 
   const userStore = useUserStore();
   const getUserInfo = toRaw(userStore.getUserInfo);
@@ -193,8 +193,8 @@
     }
     //获取当前流程是否可操作
     const startUserId = data.startUser.id;
-    if (startUserId === getUserInfo.userId && processStatus.value == 0) {
-      isReadOnly.value = false;
+    if (!(startUserId === getUserInfo.userId && processStatus.value == 0)) {
+      isReadOnly.value = true;
     }
     isHandle.value = data['status'];
   };
