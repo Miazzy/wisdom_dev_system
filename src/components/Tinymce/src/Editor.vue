@@ -156,8 +156,12 @@
         const { height, options, toolbar, plugins, maxChars, disabled } = props;
         const publicPath = import.meta.env.VITE_PUBLIC_PATH || '/';
         const readOnlyConfig = disabled ? { disabled } : {}; // 原来的设置只读的逻辑
+        const themeValue = localStorage.getItem('THEME');
         if (disabled) {
           richTextEditStatus('#' + tinymceId.value + '_ifr', 'false');
+        }
+        if (themeValue === 'theme1' || themeValue === 'theme2') {
+          richTextThemeStyle('#' + tinymceId.value + '_ifr');
         }
         const config = {
           selector: `#${unref(tinymceId)}`,
@@ -444,6 +448,27 @@
         } else {
           setTimeout(() => {
             richTextEditStatus(selector, status, --count);
+          }, 500);
+        }
+      };
+
+      const richTextThemeStyle = (selector, count = 10) => {
+        // 到达最大递归次数
+        if (count <= 0) {
+          return;
+        }
+        // 获取iframe元素
+        const iframes = document.querySelectorAll(selector);
+        // 如果iframes存在多个，则进行遍历
+        if (iframes && iframes.length > 0) {
+          // 设置所有的iframe框为不可编辑
+          iframes.forEach((iframe) => {
+            const iframeBody = iframe.contentDocument.body;
+            iframeBody.style.color = '#fff';
+          });
+        } else {
+          setTimeout(() => {
+            richTextThemeStyle(selector, --count);
           }, 500);
         }
       };
