@@ -21,7 +21,7 @@
   import { listenThemeMessage } from '@/utils/theme';
   import { useRouter } from 'vue-router';
   import { PageEnum } from '/@/enums/pageEnum';
-  import { closeCurrentTab } from '@/utils/route';
+  import { closeCurrentTab, sendOfflineMessage } from '@/utils/route';
   import { SysMessage } from '/@/hooks/web/useMessage';
   import 'dayjs/locale/zh-cn';
 
@@ -39,6 +39,8 @@
         const iframePath = window.frameElement.src.split('/#')[1];
         const baseFlag = iframePath == PageEnum.BASE_HOME || iframePath == PageEnum.BASE_HOME + '/';
         const routeFlag = routePath == PageEnum.BASE_HOME || routePath == PageEnum.BASE_HOME + '/';
+        const loginFlag =
+          iframePath == PageEnum.BASE_LOGIN || iframePath == PageEnum.BASE_LOGIN + '/';
         if (iframePath == routePath && baseFlag) {
           SysMessage.getInstance().warning('警告：页签页面不能打开框架页面！');
           nextTick(closeCurrentTab);
@@ -46,12 +48,21 @@
           router.push(iframePath as string);
         } else if (routeFlag) {
           window.location.reload();
+        } else if (loginFlag) {
+          sendOfflineMessage();
         }
         console.info('currentPath: ', iframePath);
         console.info('routePath: ', routePath);
       } else {
         const isLocal = window.location.hostname == 'localhost';
         routePath != PageEnum.BASE_HOME && !isLocal ? router.push(PageEnum.BASE_HOME) : null;
+
+        window.addEventListener('storage', function (e) {
+          if (e?.storageArea?.length === 0 && e?.key === null && e?.newValue === null) {
+            sendOfflineMessage();
+            console.info('listening clear storage ...');
+          }
+        });
       }
     } catch (error) {
       //
