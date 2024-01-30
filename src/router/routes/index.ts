@@ -1092,8 +1092,24 @@ export const SysParameter: AppRouteRecordRaw = {
   component: () => import('/@/views/system/configuration/parameter/index.vue'),
 };
 
+export const SysOrgan: AppRouteRecordRaw = {
+  path: '/framepage/system/rbac/org/index',
+  component: () => import('/@/views/system/rbac/org/index.vue'),
+};
+export const SysFunction: AppRouteRecordRaw = {
+  path: '/framepage/system/rbac/function/index',
+  component: () => import('/@/views/system/rbac/function/index.vue'),
+};
+export const SysPermission: AppRouteRecordRaw = {
+  path: '/framepage/system/rbac/permission/index',
+  component: () => import('/@/views/system/rbac/permission/index.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  SysPermission,
+  SysFunction,
+  SysOrgan,
   SysParameter,
   LoginRoute,
   CockpitOverviewRoute,
