@@ -269,7 +269,9 @@
         });
       });
     }
-    tInstance1.setTableData(tableDataSource1.value);
+    if (tInstance1) {
+      tInstance1?.setTableData(tableDataSource1.value);
+    }
   };
 
   const doCC = async () => {
@@ -290,7 +292,9 @@
         });
       });
     }
-    tInstance2.setTableData(tableDataSource2.value);
+    if (tInstance2) {
+      tInstance2?.setTableData(tableDataSource2.value);
+    }
   };
 
   const doMy = async () => {
@@ -309,7 +313,9 @@
         });
       });
     }
-    tInstance3.setTableData(tableDataSource3.value);
+    if (tInstance3) {
+      tInstance3?.setTableData(tableDataSource3.value);
+    }
   };
 
   const doDone = async () => {
@@ -328,7 +334,9 @@
         });
       });
     }
-    tInstance4.setTableData(tableDataSource4.value);
+    if (tInstance4) {
+      tInstance4?.setTableData(tableDataSource4.value);
+    }
   };
 
   const reloadAll = async () => {
