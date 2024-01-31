@@ -72,7 +72,7 @@
         if (flag) {
           selectedValue.value = String(props.value);
         } else if (props.value == null) {
-          selectedValue.value = '';
+          selectedValue.value = null;
         }
       }
 
