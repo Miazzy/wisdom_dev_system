@@ -136,6 +136,21 @@
     return props.search ? 'h-[calc(100%-82px)]' : 'h-[calc(100%-48px)]';
   });
 
+  // 勾选所有
+  function checkAll() {
+    getTree().checkAll(true);
+  }
+
+  // 获取勾选节点
+  function getCheckedKeys() {
+    let checkedKeys = getTree().getCheckedKeys();
+    let checkedNodes = [];
+    checkedKeys.forEach(item => {
+      checkedNodes.push(getTree().getSelectedNode(item))
+    });
+    return checkedNodes;
+  }
+
   watch(
     () => props.selectedKeys,
     (newValue) => {
@@ -163,7 +178,7 @@
     curExpandedKeys.value = props.expandedKeys;
   });
 
-  defineExpose({ getSelectedTreeNode });
+  defineExpose({ getSelectedTreeNode, checkAll, getCheckedKeys });
 </script>
 <style lang="less" scoped>
   .fit-basic-tree {
