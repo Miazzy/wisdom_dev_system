@@ -237,7 +237,7 @@ export const useUserStore = defineStore({
       const timestamp = Number(time);
       const diff = nowtime - timestamp;
       if (!flag) {
-        if (diff < 100 * 1000) {
+        if (diff < 10 * 1000) {
           diff > 5000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
           return;
         }
