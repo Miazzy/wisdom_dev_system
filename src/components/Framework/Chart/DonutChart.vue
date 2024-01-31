@@ -83,7 +83,7 @@
     radius: { type: Number, default: 0 },
     sliceGap: { type: Number, default: 0.08 },
     showTotal: { type: Boolean, default: true },
-    title: { type: String, default: '总指标' },
+    title: { type: String, default: '' },
     showValue: { type: Boolean, default: true },
   });
 
