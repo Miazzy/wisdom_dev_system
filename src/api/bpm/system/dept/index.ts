@@ -14,7 +14,7 @@ export interface DeptVO {
 
 // 表单API
 export enum DeptApi {
-  GetSimpleDeptList = '/system/dept/list-all-simple',
+  GetSimpleDeptList = '/system/organ/list-all-simple',
   GetDeptPage = '/system/dept/list',
   GetDept = '/system/dept/get?id=',
   CreateDept = '/system/dept/create',
@@ -24,7 +24,10 @@ export enum DeptApi {
 
 // 查询部门（精简)列表
 export const getSimpleDeptList = async (): Promise<DeptVO[]> => {
-  const requestParams = { url: DeptApi.GetSimpleDeptList };
+  const params = {
+    orgKindId: 'dpt',
+  };
+  const requestParams = { url: DeptApi.GetSimpleDeptList, params };
   return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
