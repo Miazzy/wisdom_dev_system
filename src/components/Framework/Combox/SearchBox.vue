@@ -16,6 +16,7 @@
         placeholder="请选择下拉列表中数据..."
         @focus="handlePreventEvent"
         @keydown="handlePreventEvent"
+        @change="handleTextChange"
         @click="toggleDropdown($event)"
       />
       <template #overlay>
@@ -129,6 +130,7 @@
     vfield: { type: String, default: 'name' },
     pagination: { type: [Boolean, Object], default: false },
     callback: { type: Function, default: null },
+    validateFunc: { type: Function, default: null },
   });
 
   const tcolumns = ref([]);
@@ -227,6 +229,7 @@
     try {
       event.stopPropagation(); // 阻止事件冒泡
       showDropdown.value = true;
+      handleValid();
     } catch (error) {
       //
     }
@@ -235,6 +238,19 @@
   // 禁用事件
   const handlePreventEvent = (event) => {
     event.preventDefault();
+  };
+
+  // 处理校验
+  const handleValid = () => {
+    if (props.validateFunc) {
+      props.validateFunc();
+    }
+  };
+
+  // 更新数据
+  const handleTextChange = (e) => {
+    emit('update:value', searchRealText.value);
+    handleValid();
   };
 
   const clearData = () => {
@@ -274,7 +290,7 @@
         keys: searchRealText.value,
         selectedRows,
       });
-
+      handleValid();
       if (props.callback != null) {
         props.callback({ records: searchRealText.value, keys: searchRealText.value, selectedRows });
       }
@@ -388,6 +404,7 @@
           if (props.callback != null) {
             props.callback({ record, index, event });
           }
+          handleValid();
         }
         showDropdown.value = false;
       } catch (error) {
