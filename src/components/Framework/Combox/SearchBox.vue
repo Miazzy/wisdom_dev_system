@@ -250,6 +250,7 @@
   // 更新数据
   const handleTextChange = (e) => {
     emit('update:value', searchRealText.value);
+    emit('change', searchRealText.value, {});
     handleValid();
   };
 
@@ -546,6 +547,20 @@
 <style lang="less" scoped>
   .search-box {
     position: relative;
+  }
+
+  .vben-editable-cell__wrapper {
+    .search-box {
+      .search-dropdown-box {
+        margin: 0;
+        padding: 0 2px 0 4px;
+
+        :deep(.ant-input) {
+          height: 24px !important;
+          margin: 3px 0;
+        }
+      }
+    }
   }
 
   :deep(.ant-dropdown.ant-dropdown-placement-bottomLeft) {
