@@ -31,6 +31,9 @@
     },
     name: { type: Array, default: [] },
     legendData: { type: Array },
+    rotate: { type: Number, default: 0 },
+    fixed: { type: Number, default: 2 },
+    tipsFormat: { type: Function, default: null },
   });
 
   // 设置柱和折线的颜色
@@ -87,6 +90,7 @@
           width: '0.2', //坐标轴线线宽
         },
       },
+      axisLabel: { interval: 0, rotate: props.rotate },
       data: [],
     },
     yAxis: {
@@ -122,15 +126,19 @@
       borderColor: 'transparent',
       appendToBody: true,
       formatter: function (params) {
-        const units = props.data.units;
-        const name = props.name;
-        const first = params?.length > 0&&(params[0].value||params[0].value===0) ? `${name[0]}：${params[0].value} ${units[0]}` : '';
-        try {
-          const second = params?.length > 2&&(params[2].value||params[2].value===0) ? `<br /> ${name[1]}：${params[2].value} ${units[1]}` : '';
-          const third = params?.length > 3&&(params[3].value||params[3].value===0) ? `<br /> ${name[2]}：${params[3].value} ${units[2]}` : '';
-          return first + second + third;
-        } catch (e) {
-          return first;
+        if (props.tipsFormat != null && typeof props.tipsFormat == 'function') {
+          return props.tipsFormat(params);
+        } else {
+          const units = props.data.units;
+          const name = props.name;
+          const first = params?.length > 0&&(params[0].value||params[0].value===0) ? `${name[0]}：${params[0].value} ${units[0]}` : '';
+          try {
+            const second = params?.length > 2&&(params[2].value||params[2].value===0) ? `<br /> ${name[1]}：${params[2].value} ${units[1]}` : '';
+            const third = params?.length > 3&&(params[3].value||params[3].value===0) ? `<br /> ${name[2]}：${params[3].value} ${units[2]}` : '';
+            return first + second + third;
+          } catch (e) {
+            return first;
+          }
         }
       },
       position: function (point, params, dom, rect, size) {
@@ -301,7 +309,7 @@
           formatter: (value) => {
             value.value = value.value;
             value.data = value.data;
-            return value.value == '0.00' ? '' : `${value.value}`;
+            return value.value == '0.00' ? '' : `${parseFloat(value.value).toFixed(props.fixed)}`;
           },
           color: '#FFD200',
         },
