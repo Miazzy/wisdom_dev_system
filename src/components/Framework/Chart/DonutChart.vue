@@ -1,11 +1,17 @@
 <template>
-  <div class="donut-chart-container" :style="`width:${typeof props.width == 'number' ? props.width + 'px' : props.width}; height:${typeof props.height == 'number' ? props.height + 'px' : props.height}`">
+  <div
+    class="donut-chart-container"
+    :style="`width:${typeof props.width == 'number' ? props.width + 'px' : props.width}; height:${
+      typeof props.height == 'number' ? props.height + 'px' : props.height
+    }`"
+  >
     <div class="donut-chart">
       <svg
         :width="pieWidth * 0.75"
         :height="pieHeight * 0.75"
         :viewBox="viewBox"
-        preserveAspectRatio="xMidYMid meet" style="height: 100%;width: 100%;"
+        preserveAspectRatio="xMidYMid meet"
+        style=" width: 100%;height: 100%"
       >
         <!-- 绘制饼状图 -->
         <g :transform="'translate(' + radius + ',' + radius + ')'">
@@ -13,7 +19,8 @@
             <path :d="arc.path" :fill="arc.data.color" />
           </g>
         </g>
-        <text v-if="showTotal"
+        <text
+          v-if="showTotal"
           style="font-size: 0.28rem; dy: 0.05rem"
           :x="(pieWidth * 0.75) / 2 - 14"
           :y="(pieHeight * 0.75) / 2 + 19"
@@ -23,7 +30,8 @@
         >
           {{ totalValue }}
         </text>
-        <text v-if="showTotal"
+        <text
+          v-if="showTotal"
           style="font-size: 0.15rem"
           :x="(pieWidth * 0.75) / 2 - 12"
           :y="(pieHeight * 0.75) / 2 + 45"
@@ -31,7 +39,7 @@
           dominant-baseline="middle"
           fill="white"
         >
-          {{ `总人数` }}
+          {{ props.title }}
         </text>
         <!-- 添加内圈的虚线 -->
         <circle
@@ -56,7 +64,7 @@
       </svg>
     </div>
     <div class="data-list" style="margin: 0.15rem 0 0 -0.05rem">
-      <DonutIndicatorGroup :data="groupList" />
+      <DonutIndicatorGroup :data="groupList" :showValue="props.showValue" />
     </div>
   </div>
 </template>
@@ -69,18 +77,14 @@
   const pieWidth = 300;
   const pieHeight = 200;
   const props = defineProps({
-    data: Array,
+    data: { type: Array, default: [] },
     width: [Number, String],
     height: [Number, String],
-    radius: Number,
-    sliceGap: {
-      type: Number,
-      default: 0.08, // 默认间距值，可以根据需要进行调整
-    },
-    showTotal: {
-      type: Boolean,
-      default: true
-    }
+    radius: { type: Number, default: 0 },
+    sliceGap: { type: Number, default: 0.08 },
+    showTotal: { type: Boolean, default: true },
+    title: { type: String, default: '总指标' },
+    showValue: { type: Boolean, default: true },
   });
 
   const radius = props.radius;
@@ -95,8 +99,6 @@
 
   // 颜色比例尺函数
   const colorScale = d3.scaleOrdinal().range(d3.schemeCategory10);
-
-
 
   // 生成饼状图的路径
   const arcGenerator = d3
@@ -136,7 +138,6 @@
   // 计算 viewBox 属性以保持饼状图居中
   const viewBox = ref(`0 0 ${2 * radius} ${2 * radius}`);
   const totalValue = computed(() => props.data.reduce((acc, curr) => acc + curr.value, 0));
-
 </script>
 
 <style scoped>

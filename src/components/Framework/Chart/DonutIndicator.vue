@@ -3,27 +3,40 @@
     <div class="icon" :style="'background-color: ' + props.color"></div>
     <div class="info">
       <div class="title">{{ props.title }}</div>
-      <div v-if="props.showValue" class="value">{{ values }}</div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { onMounted, ref } from 'vue';
+  import { onMounted, ref, watch } from 'vue';
 
   const props = defineProps({
     color: { type: String, default: 'red' },
     title: { type: String, default: '' },
     value: { type: Number, default: 0 },
-    showValue: { type: Boolean, default: true}
+    showValue: { type: Boolean, default: true },
   });
 
-  const values = ref('');
+  const values = ref();
+  const showValueFlag = ref(false);
+
+  watch(
+    () => props.value,
+    () => {
+      values.value = props.value;
+    },
+  );
+
+  watch(
+    () => props.showValue,
+    () => {
+      showValueFlag.value = props.showValue;
+    },
+  );
 
   onMounted(() => {
-    if(props.showValue) {
-      values.value = props.value.toFixed(2) + '%';
-    }   
+    showValueFlag.value = props.showValue;
+    values.value = props.value;
   });
 </script>
 
@@ -58,12 +71,4 @@
     font-weight: 400;
   }
 
-  .value {
-    width: 100%;
-    height: 0.12rem;
-    color: #FFF;
-    font-family: "Microsoft YaHei";
-    font-size: 0.14rem;
-    font-weight: 400;
-  }
 </style>

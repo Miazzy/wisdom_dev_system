@@ -31,7 +31,7 @@
           dominant-baseline="middle"
           fill="white"
         >
-          {{ `总人数` }}
+          {{ props.title }}
         </text> -->
         <!-- 添加内圈的虚线 -->
         <circle
@@ -71,10 +71,8 @@
     width: [Number, String],
     height: [Number, String],
     radius: Number,
-    sliceGap: {
-      type: Number,
-      default: 0.08, // 默认间距值，可以根据需要进行调整
-    },
+    sliceGap: { type: Number, default: 0.08 }, // 默认间距值，可以根据需要进行调整
+    title: { type: String, default: '总指标' },
   });
 
   const radius = props.radius;
