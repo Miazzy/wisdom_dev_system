@@ -47,7 +47,6 @@ export enum DICT_TYPE {
   INFRA_CODEGEN_SCENE = 'infra_codegen_scene',
   INFRA_FILE_STORAGE = 'infra_file_storage',
 
-
   // ========== BPM 模块 ==========
   BPM_MODEL_CATEGORY = 'bpm_model_category',
   BPM_MODEL_FORM_TYPE = 'bpm_model_form_type',
@@ -140,8 +139,8 @@ export function getDictOptions(dictType: string, valueType?: 'string' | 'number'
           valueType === 'string'
             ? `${dict.value}`
             : valueType === 'boolean'
-            ? `${dict.value}` === 'true'
-            : Number.parseInt(`${dict.value}`),
+              ? `${dict.value}` === 'true'
+              : Number.parseInt(`${dict.value}`),
       });
     });
   }
@@ -184,7 +183,7 @@ export const getIntDictOptions = (key: any) => {
     return type;
   } else if (key === 'bpm_task_assign_rule_type') {
     const type = JSON.parse(
-      `[{"value":10,"label":"角色","colorType":"info","cssClass":""},{"value":20,"label":"部门的成员","colorType":"primary","cssClass":""},{"value":21,"label":"部门的负责人","colorType":"primary","cssClass":""},{"value":22,"label":"岗位","colorType":"success","cssClass":""},{"value":30,"label":"用户","colorType":"info","cssClass":""},{"value":40,"label":"用户组","colorType":"warning","cssClass":""},{"value":50,"label":"自定义脚本","colorType":"danger","cssClass":""}]`,
+      `[{"value":10,"label":"角色","colorType":"info","cssClass":""},{"value":20,"label":"部门的成员","colorType":"primary","cssClass":""},{"value":22,"label":"岗位","colorType":"success","cssClass":""},{"value":30,"label":"用户","colorType":"info","cssClass":""}]`, // ,{"value":21,"label":"部门的负责人","colorType":"primary","cssClass":""},{"value":40,"label":"用户组","colorType":"warning","cssClass":""},{"value":50,"label":"自定义脚本","colorType":"danger","cssClass":""}
     );
     return type;
   } else if (key === 'bpm_model_category') {

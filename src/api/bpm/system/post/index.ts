@@ -13,7 +13,7 @@ export interface PostVO {
 // 表单API
 export enum PostApi {
   GetPostPage = '/system/post/page',
-  GetSimplePostList = '/system/post/list-all-simple',
+  GetSimplePostList = '/system/organ/list-all-simple',
   GetPost = '/system/post/get?id=',
   CreatePost = '/system/post/create',
   UpdatePost = '/system/post/update',
@@ -29,7 +29,10 @@ export const getPostPage = async (params: any) => {
 
 // 获取岗位精简信息列表
 export const getSimplePostList = async (): Promise<PostVO[]> => {
-  const requestParams = { url: PostApi.GetSimplePostList };
+  const params = {
+    orgKindId: 'pos',
+  };
+  const requestParams = { url: PostApi.GetSimplePostList, params };
   return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
