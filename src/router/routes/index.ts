@@ -1096,17 +1096,31 @@ export const SysOrgan: AppRouteRecordRaw = {
   path: '/framepage/system/rbac/org/index',
   component: () => import('/@/views/system/rbac/org/index.vue'),
 };
+
 export const SysFunction: AppRouteRecordRaw = {
   path: '/framepage/system/rbac/function/index',
   component: () => import('/@/views/system/rbac/function/index.vue'),
 };
+
 export const SysPermission: AppRouteRecordRaw = {
   path: '/framepage/system/rbac/permission/index',
   component: () => import('/@/views/system/rbac/permission/index.vue'),
 };
 
+export const SystemDict: AppRouteRecordRaw = {
+  path: '/framepage/system/configuration/dict',
+  component: () => import('/@/views/system/configuration/dict/index.vue'),
+};
+
+export const SysRole: AppRouteRecordRaw = {
+  path: '/framepage/system/rbac/role/index',
+  component: () => import('/@/views/system/rbac/role/index.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  SysRole,
+  SystemDict,
   SysPermission,
   SysFunction,
   SysOrgan,
