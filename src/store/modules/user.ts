@@ -179,13 +179,13 @@ export const useUserStore = defineStore({
         });
         // DICT_LOADING 登录时加载已知的数据字典 加载数据字典集合
         once.pushOnceTask(async () => {
-          const list = [
-            DICT_TYPE.BPM_MODEL_CATEGORY,
-            DICT_TYPE.SYSTEM_USER_SEX,
-            DICT_TYPE.INFRA_CONFIG_TYPE,
-            DICT_TYPE.CERTIFICATE,
-          ];
-          initDictMapInfo(list as []);
+          // const list = [
+          //   DICT_TYPE.BPM_MODEL_CATEGORY,
+          //   DICT_TYPE.SYSTEM_USER_SEX,
+          //   DICT_TYPE.INFRA_CONFIG_TYPE,
+          //   DICT_TYPE.CERTIFICATE,
+          // ];
+          // initDictMapInfo(list as []);
         });
         task.start();
         once.start();

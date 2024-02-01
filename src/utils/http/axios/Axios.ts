@@ -330,6 +330,8 @@ export class VAxios {
     const token = userStore.getAccessToken();
     if (conf && conf.headers && conf.headers.Authorization && token) {
       conf.headers.Authorization = '#{{TOKEN}}'.replace(/#{{TOKEN}}/g, token);
+    } else if (conf && token) {
+      conf.headers = { Authorization: '#{{TOKEN}}'.replace(/#{{TOKEN}}/g, token) };
     }
 
     return new Promise((resolve, reject) => {
