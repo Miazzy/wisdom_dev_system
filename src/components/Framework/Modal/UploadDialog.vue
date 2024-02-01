@@ -116,6 +116,9 @@
   };
 
   const getFiles = async (bizId) => {
+    if (typeof bizId == 'undefined' || bizId == null || bizId == '') {
+      return [];
+    }
     const filelist = await FileApi.getFiles({ bizId });
     return filelist;
   };
