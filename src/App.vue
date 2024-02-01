@@ -58,7 +58,10 @@
         routePath != PageEnum.BASE_HOME && !isLocal ? router.push(PageEnum.BASE_HOME) : null;
 
         window.addEventListener('storage', function (e) {
-          if (e?.storageArea?.length === 0 && e?.key === null && e?.newValue === null) {
+          const hashFlag = window.location.hash && window.location.hash.startsWith('#');
+          const routePath = hashFlag ? window.location.hash.slice(1) : window.location.hash;
+          const loginFlag = routePath == PageEnum.BASE_LOGIN || routePath == PageEnum.BASE_LOGIN + '/';
+          if (!loginFlag && e?.storageArea?.length === 0 && e?.key === null && e?.newValue === null) {
             sendOfflineMessage();
             console.info('listening clear storage ...');
           }
