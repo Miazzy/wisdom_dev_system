@@ -385,6 +385,14 @@
     }
   };
 
+  // 刷新Tab栏菜单
+  const handleRefreshMenuAll = async () => {
+    console.info('start loading refresh');
+    setTimeout(() => {
+      handleCloseTabPage('all');
+    }, 100);
+  };
+
   onMounted(() => {
     paneMap.set(panes.value[0].pageurl, panes.value[0]);
     activeKey.value = panes.value[0].pageurl;
@@ -396,6 +404,7 @@
       panes.value[0].pageurl = pageurl;
     }, 100);
     MsgManager.getInstance().listen('iframe-tabs-message', handleTabMessage);
+    MsgManager.getInstance().listen('iframe-tabs-refresh-all', handleRefreshMenuAll);
     handleActivePath();
     handleResize();
     window.addEventListener('resize', handleReload);

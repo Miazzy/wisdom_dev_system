@@ -19,16 +19,16 @@ import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
 import { doLogout, getUserInfo, loginApi, execRefreshToken } from '/@/api/sys/user';
 import { useI18n } from '/@/hooks/web/useI18n';
-import { useMessage } from '/@/hooks/web/useMessage';
+import { useMessage, SysMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
 import { isArray } from '/@/utils/is';
 import { initDictMapInfo } from '/@/utils/dict';
-import { h } from 'vue';
+import { h, nextTick } from 'vue';
 import { TaskExecutor } from '/@/executor/taskExecutor';
 import { OnceExecutor } from '/@/executor/onceExecutor';
 import { DICT_TYPE } from '@/utils/dict';
 import { createLocalForage } from '@/utils/cache';
-import { SysMessage } from '/@/hooks/web/useMessage';
+import { MsgManager } from '/@/message/MsgManager';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -203,6 +203,10 @@ export const useUserStore = defineStore({
       } else {
         setTimeout(async () => {
           goHome && (await router.push(userInfo?.homePath || PageEnum.BASE_HOME));
+          await nextTick();
+          await nextTick();
+          await nextTick();
+          MsgManager.getInstance().sendMsg('iframe-tabs-refresh-all', {});
         }, 1000);
       }
       return userInfo as GetUserInfoModel;
