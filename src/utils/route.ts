@@ -33,10 +33,49 @@ export const pushAndRefresh = (path: string) => {
 export const pathToUrl = (path, params) => {
   const hasQuery = path.includes('?');
   const paramString = Object.entries(params)
-    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`)
+    .map(([key, value]) => {
+      if (typeof value == 'undefined') {
+        return `${encodeURIComponent(key)}=_undef_`;
+      } else if (value == true) {
+        return `${encodeURIComponent(key)}=_true_`;
+      } else if (value == false) {
+        return `${encodeURIComponent(key)}=_false_`;
+      } else if (value == null) {
+        return `${encodeURIComponent(key)}=_nul_`;
+      } else {
+        return `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`;
+      }
+    })
     .join('&');
   const result = hasQuery ? `${path}&${paramString}` : `${path}?${paramString}`;
   return result;
+};
+
+// 将带参数的url反解析为路径和参数对象
+export const urlToPath = (url?) => {
+  const flag = window.location.hash && window.location.hash.startsWith('#');
+  const originPath = url ? url : (flag ? window.location.hash.slice(1) : window.location.pathname);
+  const [path, queryString] = originPath.split('?');
+  const params = {};
+  if (queryString) {
+    const paramPairs = queryString.split('&');
+    paramPairs.forEach((pair) => {
+      const [key, value] = pair.split('=');
+      const decodedKey = decodeURIComponent(key);
+      if (value === '_undef_') {
+        params[decodedKey] = undefined;
+      } else if (value === '_true_') {
+        params[decodedKey] = true;
+      } else if (value === '_false_') {
+        params[decodedKey] = false;
+      } else if (value === '_nul_') {
+        params[decodedKey] = null;
+      } else {
+        params[decodedKey] = decodeURIComponent(value);
+      }
+    });
+  }
+  return { path, params };
 };
 
 // 获取当前页面信息
