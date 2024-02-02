@@ -2,27 +2,35 @@
   <div
     id="echarts-pie-container"
     class="echarts-pie-container"
-    :style="`width: ${props.width}px; height: ${props.height}px;`"
+    :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${
+      typeof props.height == 'number' ? props.height + 'px' : props.height
+    };`"
   ></div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, watch } from 'vue';
+  import { nextTick, onMounted, watch } from 'vue';
   import * as echarts from 'echarts';
 
   // 定义属性
   const props = defineProps({
     data: { type: Array, default: [] as any[] },
-    width: { type: Number, default: 600 },
-    height: { type: Number, default: 300 },
-    colors: { type: Array, default: [] as any[] },
+    width: { type: [Number, String], default: 375 },
+    height: { type: [Number, String], default: 375 },
+    colors: { type: Array, default: ['#55D187', '#ED6F6F', '#0960bd', '#fc344a', '#47BDAF', '#0065cc', '#94f7f9'] as any[] },
     showLabel: { type: Boolean, default: false },
+    unit: { type: [String], default: '' },
   });
 
   // 监听数据变化
   watch(
     () => props.data,
     () => {
-      createChart();
+      nextTick(() => {
+        createChart();
+      });
+    },
+    {
+      deep: true,
     },
   );
 
@@ -38,29 +46,31 @@
         var top = idx * 33.3;
         return {
           type: 'pie',
-          radius: [35, 60],
+          radius: [40, 85],
           top: top + '%',
-          height: '33.33%',
+          height: '55%',
           left: 'center',
           width: props.width,
           itemStyle: {
             color: function (params) {
               return props.colors[params.dataIndex % props.colors.length];
             },
-            borderColor: '#fff',
+            borderColor: 'transparent',
             borderWidth: 1,
           },
           label: {
             show: props.showLabel,
             alignTo: 'edge',
-            formatter: '{name|{b}}\n{time|{c} 小时}',
+            formatter: `{name|{b}}\n{time|{c} ${props.unit}}`,
             minMargin: 5,
             edgeDistance: 10,
             lineHeight: 15,
+            fontSize: 14,
+            color: '#fefefe',
             rich: {
               time: {
-                fontSize: 10,
-                color: '#999',
+                fontSize: 14,
+                color: '#fefefe',
               },
             },
           },

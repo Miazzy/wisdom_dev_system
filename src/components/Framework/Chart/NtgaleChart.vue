@@ -12,7 +12,7 @@
     data: Array,
     id: { type: String },
     showLabel: { type: Boolean, default: false }, // 是否显示饼图图形旁边的文字标签
-    roseType: { type: [String, Boolean], default: 'area' }, // 是否展示成南丁格尔图，通过半径区分数据大小 radius/area
+    roseType: { type: [String, Boolean], default: 'radius' }, // 是否展示成南丁格尔图，通过半径区分数据大小 radius/area
     radius: {type: Array as PropType<Array<number|string>>, default: [30, 100] }
   });
 
@@ -39,7 +39,7 @@
           data: props.data,
           label: {
             show: props.showLabel,
-            formatter: '{b}: {c}%',
+            formatter: '{b}: {c}',
             overflow: 'break',
             textBorderType: 'none',
             color: '#BAC3C4'
