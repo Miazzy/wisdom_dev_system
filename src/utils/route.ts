@@ -34,13 +34,13 @@ export const pathToUrl = (path, params) => {
   const hasQuery = path.includes('?');
   const paramString = Object.entries(params)
     .map(([key, value]) => {
-      if (typeof value == 'undefined') {
+      if (typeof value === 'undefined') {
         return `${encodeURIComponent(key)}=_undef_`;
-      } else if (value == true) {
+      } else if (value === true) {
         return `${encodeURIComponent(key)}=_true_`;
-      } else if (value == false) {
+      } else if (value === false) {
         return `${encodeURIComponent(key)}=_false_`;
-      } else if (value == null) {
+      } else if (value === null) {
         return `${encodeURIComponent(key)}=_nul_`;
       } else {
         return `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`;
