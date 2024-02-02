@@ -31,6 +31,11 @@
     // 清理组件卸载时的操作
   });
 
+  // 计算气泡文本显示大小
+  const handleTextSize = (value) => {
+    return (Math.sqrt(value) / 8).toFixed(2) + 'rem';
+  };
+
   function createBubbleChart(container, data, width, height, fontSize, fontColor) {
     const svg = d3.select(container).append('svg').attr('width', width).attr('height', height);
 
@@ -62,7 +67,7 @@
       .attr('y', (d) => d.y)
       .attr('text-anchor', 'middle')
       .attr('dy', '.3em')
-      .style('font-size', (d) => d.data.size || fontSize)
+      .style('font-size', (d) => handleTextSize(d.data.size || fontSize))
       .style('fill', (d) => d.data.color || fontColor)
       .text((d) => d.data.name);
   }
