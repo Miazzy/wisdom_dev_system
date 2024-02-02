@@ -1,5 +1,5 @@
 <script lang="tsx">
-  import type { CSSProperties, PropType } from 'vue';
+  import { CSSProperties, PropType, watch } from 'vue';
   import { computed, defineComponent, nextTick, ref, toRaw, unref, watchEffect } from 'vue';
   import type { BasicColumn } from '../../types/table';
   import { CheckOutlined, CloseOutlined, FormOutlined } from '@ant-design/icons-vue';
@@ -188,6 +188,12 @@
         }
       });
 
+      watch(
+        () => props.record,
+        () => {
+          handleInitRecord();
+      });
+
       function handleEdit() {
         if (unref(getRowEditable) || unref(props.column?.editRow)) return;
         ruleMessage.value = '';
@@ -373,32 +379,36 @@
         }
       }
 
-      if (props.record) {
-        initCbs('submitCbs', handleSubmit);
-        initCbs('validCbs', handleSubmitRule);
-        initCbs('cancelCbs', handleCancel);
+      const handleInitRecord = () => {
+        if (props.record) {
+          initCbs('submitCbs', handleSubmit);
+          initCbs('validCbs', handleSubmitRule);
+          initCbs('cancelCbs', handleCancel);
 
-        if (props.column.dataIndex) {
-          if (!props.record.editValueRefs) props.record.editValueRefs = {};
-          props.record.editValueRefs[props.column.dataIndex as any] = currentValueRef;
-        }
-        /* eslint-disable  */
-        props.record.onCancelEdit = () => {
-          isArray(props.record?.cancelCbs) && props.record?.cancelCbs.forEach((fn) => fn());
-        };
-        /* eslint-disable */
-        props.record.onSubmitEdit = async () => {
-          if (isArray(props.record?.submitCbs)) {
-            if (!props.record?.onValid?.()) return;
-            const submitFns = props.record?.submitCbs || [];
-            submitFns.forEach((fn) => fn(false, false));
-            if (table.emit && isFunction(table.emit)) {
-              table.emit?.('edit-row-end');
-            }
-            return true;
+          if (props.column.dataIndex) {
+            if (!props.record.editValueRefs) props.record.editValueRefs = {};
+            props.record.editValueRefs[props.column.dataIndex as any] = currentValueRef;
           }
-        };
+          /* eslint-disable  */
+          props.record.onCancelEdit = () => {
+            isArray(props.record?.cancelCbs) && props.record?.cancelCbs.forEach((fn) => fn());
+          };
+          /* eslint-disable */
+          props.record.onSubmitEdit = async () => {
+            if (isArray(props.record?.submitCbs)) {
+              if (!props.record?.onValid?.()) return;
+              const submitFns = props.record?.submitCbs || [];
+              submitFns.forEach((fn) => fn(false, false));
+              if (table.emit && isFunction(table.emit)) {
+                table.emit?.('edit-row-end');
+              }
+              return true;
+            }
+          };
+        }
       }
+
+      handleInitRecord();
 
       return {
         isEdit,
@@ -408,6 +418,7 @@
         handleSubmit,
         handleChange,
         handleCancel,
+        handleInitRecord,
         elRef,
         getComponent,
         getRule,
