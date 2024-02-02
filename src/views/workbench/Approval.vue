@@ -48,6 +48,7 @@
   import { useUserStore } from '/@/store/modules/user';
   import { addTabPage } from '@/utils/route';
   import { MsgManager } from '/@/message/MsgManager';
+  import { DateTools } from '/@/utils/dateUtil';
 
   const userStore = useUserStore();
   const getUserInfo = userStore.getUserInfo;
@@ -130,12 +131,12 @@
     {
       title: '申请人',
       dataIndex: 'person',
-      width: 120,
+      width: 80,
     },
     {
       title: '申请时间',
       dataIndex: 'time',
-      width: 200,
+      width: 120,
     },
   ];
   const detailTableProps = {
@@ -152,42 +153,10 @@
       dataIndex: 'action',
     },
   };
-  const tableDataSource1 = ref([
-    // {
-    //   title: '升压站楼梯有锈迹',
-    //   flowName: '待处理',
-    //   dept: '江苏如东电站',
-    //   person: '李木林',
-    //   time: '2023-06-28 10:44:06',
-    // },
-  ]);
-  const tableDataSource2 = ref([
-    // {
-    //   title: '升压站楼梯有锈迹',
-    //   flowName: '待阅读',
-    //   dept: '江苏如东电站',
-    //   person: '李木林',
-    //   time: '2023-06-28 10:44:06',
-    // },
-  ]);
-  const tableDataSource3 = ref([
-    // {
-    //   title: '升压站楼梯有锈迹',
-    //   flowName: '我发起',
-    //   dept: '江苏如东电站',
-    //   person: '李木林',
-    //   time: '2023-06-28 10:44:06',
-    // },
-  ]);
-  const tableDataSource4 = ref([
-    // {
-    //   title: '升压站楼梯有锈迹',
-    //   flowName: '已处理',
-    //   dept: '江苏如东电站',
-    //   person: '李木林',
-    //   time: '2023-06-28 10:44:06',
-    // },
-  ]);
+  const tableDataSource1 = ref([]);
+  const tableDataSource2 = ref([]);
+  const tableDataSource3 = ref([]);
+  const tableDataSource4 = ref([]);
   const [registerApprovalTable1, tInstance1] = useTable(
     assign(
       {
@@ -263,7 +232,7 @@
           flowName: element.processInstance.name,
           dept: element.processInstance.deptName,
           person: element.processInstance.startUserNickname,
-          time: element.createTime,
+          time: DateTools.format(element.createTime, 'YYYY-MM-DD hh:mm'),
           viewPath: element.bpmProcessDefinitionRespVO.formCustomCreatePath,
           processInstanceId: element.processInstance.id,
         });
@@ -286,7 +255,7 @@
           flowName: element.processInstance.name,
           dept: element.processInstance.deptName,
           person: element.processInstance.startUserNickname,
-          time: element.createTime,
+          time: DateTools.format(element.createTime, 'YYYY-MM-DD hh:mm'),
           viewPath: element.bpmProcessDefinitionRespVO.formCustomCreatePath,
           processInstanceId: element.processInstance.id,
         });
@@ -307,7 +276,7 @@
           flowName: element.name,
           dept: element.deptName,
           person: getUserInfo.username,
-          time: element.createTime,
+          time: DateTools.format(element.createTime, 'YYYY-MM-DD hh:mm'),
           viewPath: element.bpmProcessDefinitionRespVO.formCustomCreatePath,
           processInstanceId: element.id,
         });
@@ -328,7 +297,7 @@
           flowName: element.processInstance.name,
           dept: element.processInstance.deptName,
           person: element.processInstance.startUserNickname,
-          time: element.createTime,
+          time: DateTools.format(element.createTime, 'YYYY-MM-DD hh:mm'),
           viewPath: element.bpmProcessDefinitionRespVO.formCustomCreatePath,
           processInstanceId: element.processInstance.id,
         });

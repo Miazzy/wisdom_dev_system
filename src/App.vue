@@ -55,7 +55,8 @@
         console.info('routePath: ', routePath);
       } else {
         const isLocal = window.location.hostname == 'localhost';
-        routePath != PageEnum.BASE_HOME && !isLocal ? router.push(PageEnum.BASE_HOME) : null;
+        const isOverview = window.localStorage.getItem('overview-screen-flag');
+        routePath != PageEnum.BASE_HOME && !isLocal && !isOverview ? router.push(PageEnum.BASE_HOME) : null;
 
         window.addEventListener('storage', function (e) {
           const hashFlag = window.location.hash && window.location.hash.startsWith('#');
