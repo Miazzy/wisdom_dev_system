@@ -7,7 +7,8 @@
     </div>
     <div class="middle">
       <!-- <i class="weather-icon iconfont" :class="`icon-${props.weatherIcon}`"></i> -->
-      <SvgIcon class="iconfont" :name="props.weatherIcon" :size="36"> </SvgIcon>
+      <!-- <SvgIcon class="iconfont" :name="props.weatherIcon" :size="36"> </SvgIcon> -->
+      <Icon v-if="props.weatherIcon" class="weather-icon" :icon="disasterIcons[props.weatherIcon]" color="#fefefe" style="font-size: 0.3rem;"></Icon>
     </div>
     <div class="right">
       <div class="warning-type">
@@ -23,11 +24,12 @@
 
 <script lang="ts" setup>
   import { reactive } from 'vue';
-  import { SvgIcon } from '/@/components/Icon';
+  import { Icon } from '/@/components/Icon';
+  import { disasterIcons } from './disasterIcon';
   const props = defineProps({
     stationName: { type: String, default: '天门通力' }, // 电站名
-    weatherIcon: { type: String, default: 'tianqi-leiyu' }, // 天气图标
-    weatherName: { type: String, default: '暴雨' }, // 天气名
+    weatherIcon: { type: String, default: '' }, // 灾害图标
+    weatherName: { type: String, default: '' }, // 灾害名
     warningLevel: { type: String, default: 'red' }, // 预警级别
     warningContent: {
       type: String,
@@ -66,6 +68,7 @@
 
     .middle {
       flex: 1;
+      text-align: center;
     }
 
     .right {
