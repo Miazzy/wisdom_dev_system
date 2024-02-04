@@ -37,14 +37,14 @@
       const flag = checkInIframe();
       const hashFlag = window.location.hash && window.location.hash.startsWith('#');
       let routePath = hashFlag ? window.location.hash.slice(1) : window.location.hash;
-      let iframePath = window.frameElement.src.split('/#')[1];
-      if (iframePath && iframePath.includes('?')) {
-        iframePath = iframePath.split('?')[0];
-      }
       if (routePath && routePath.includes('?')) {
         routePath = routePath.split('?')[0];
       }
       if (flag) {
+        let iframePath = window.frameElement.src.split('/#')[1];
+        if (iframePath && iframePath.includes('?')) {
+          iframePath = iframePath.split('?')[0];
+        }
         const baseFlag = iframePath == PageEnum.BASE_HOME || iframePath == PageEnum.BASE_HOME + '/';
         const routeFlag = routePath == PageEnum.BASE_HOME || routePath == PageEnum.BASE_HOME + '/';
         const loginFlag =
