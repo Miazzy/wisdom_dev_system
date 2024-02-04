@@ -253,7 +253,18 @@
       createChart();
     },
     {
-      deep: true
+      deep: true,
+    }
+  );
+
+  // 监听数据变化
+  watch(
+    () => props.colors,
+    () => {
+      createChart();
+    },
+    {
+      deep: true,
     }
   );
 
