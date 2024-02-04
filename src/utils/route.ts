@@ -54,7 +54,7 @@ export const pathToUrl = (path, params) => {
 // 将带参数的url反解析为路径和参数对象
 export const urlToPath = (url?) => {
   const flag = window.location.hash && window.location.hash.startsWith('#');
-  const originPath = url ? url : (flag ? window.location.hash.slice(1) : window.location.pathname);
+  const originPath = url ? url : flag ? window.location.hash.slice(1) : window.location.pathname;
   const [path, queryString] = originPath.split('?');
   const params = {};
   if (queryString) {
@@ -90,7 +90,11 @@ export const addTabPage = (path: string, name: string = '', params: Object | nul
   const nameMap = userStore.getMenuNameMap;
   const purePath = path.includes('?') ? path.split('?')[0] : path;
   name = name == '' ? nameMap.get(purePath) : name;
-  path = path.startsWith('/framepage') ? path : '/framepage' + path;
+  if (path == '/po/elec/produce/dayReportCreate') {
+    path = '/framepage';
+  } else {
+    path = path.startsWith('/framepage') ? path : '/framepage' + path;
+  }
   path = params == null || typeof params == 'undefined' ? path : pathToUrl(path, params);
   const message = { type: 'addTabPage', data: { id, path, name, params } };
   sendMessage(message);
