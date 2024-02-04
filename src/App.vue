@@ -23,6 +23,7 @@
   import { PageEnum } from '/@/enums/pageEnum';
   import { closeCurrentTab, sendOfflineMessage } from '@/utils/route';
   import { SysMessage } from '/@/hooks/web/useMessage';
+  import { MsgManager } from '/@/message/MsgManager';
   import 'dayjs/locale/zh-cn';
 
   const { getAntdLocale } = useLocale();
@@ -30,6 +31,7 @@
 
   useTitle();
 
+  // 处理路由路径函数
   const handleRoutePath = () => {
     try {
       const flag = checkInIframe();
@@ -89,18 +91,27 @@
   };
 
   // 判断当前页面是否在 iframe 中显示
-  function checkInIframe() {
+  const checkInIframe = () => {
     try {
       return window.self !== window.top;
     } catch (e) {
       return true; // 如果出现错误，假定在 iframe 中显示
     }
-  }
+  };
 
-  onMounted(() => {
-    listenThemeMessage();
+  // 处理 IframePage 函数
+  const handleIframePage = () => {
     setTimeout(() => {
       handleRoutePath();
     }, 150);
+  };
+
+  onMounted(() => {
+    listenThemeMessage();
+    handleIframePage();
+    MsgManager.getInstance().listen('check-iframe-framepage', () => {
+      console.info('listen check iframe page message ...');
+      handleIframePage();
+    });
   });
 </script>

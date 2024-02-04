@@ -18,6 +18,7 @@
   import Menu from './Menu.vue';
   import Content from './Content.vue';
   import { handleRouteGo, listenOfflineMessage } from '/@/utils/route';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const currentModule = ref(null);
   const menuList = ref([]);
@@ -45,6 +46,8 @@
       currentPath.value = menu.url;
       currentMenu.value = menu;
     });
+
+    MsgManager.getInstance().sendMsg('check-iframe-framepage', {});
   };
 
   // 处理页签切换点击函数
@@ -54,6 +57,8 @@
       state.path = key;
       state.menu = menu;
     }
+
+    MsgManager.getInstance().sendMsg('check-iframe-framepage', {});
   };
 
   // 处理浏览器窗口Resize函数
