@@ -36,18 +36,22 @@
       const hashFlag = window.location.hash && window.location.hash.startsWith('#');
       const routePath = hashFlag ? window.location.hash.slice(1) : window.location.hash;
       if (flag) {
-        const iframePath = window.frameElement.src.split('/#')[1];
+        let iframePath = window.frameElement.src.split('/#')[1];
+        if (iframePath && iframePath.includes('?')) {
+          iframePath = iframePath.split('?')[0];
+        }
         const baseFlag = iframePath == PageEnum.BASE_HOME || iframePath == PageEnum.BASE_HOME + '/';
         const routeFlag = routePath == PageEnum.BASE_HOME || routePath == PageEnum.BASE_HOME + '/';
         const loginFlag =
           iframePath == PageEnum.BASE_LOGIN || iframePath == PageEnum.BASE_LOGIN + '/';
-        if (iframePath == routePath && baseFlag) {
+        if (iframePath !== routePath && !baseFlag) {
+          router.push(iframePath as string);
+        } else if (baseFlag) {
           SysMessage.getInstance().warning('警告：页签页面不能打开框架页面！');
           nextTick(closeCurrentTab);
-        } else if (iframePath !== routePath) {
-          router.push(iframePath as string);
         } else if (routeFlag) {
-          window.location.reload();
+          SysMessage.getInstance().warning('警告：页签页面不能打开框架页面...');
+          nextTick(closeCurrentTab);
         } else if (loginFlag) {
           sendOfflineMessage();
         }
@@ -56,13 +60,21 @@
       } else {
         const isLocal = window.location.hostname == 'localhost';
         const isOverview = window.localStorage.getItem('overview-screen-flag');
-        routePath != PageEnum.BASE_HOME && !isLocal && !isOverview ? router.push(PageEnum.BASE_HOME) : null;
+        routePath != PageEnum.BASE_HOME && !isLocal && !isOverview
+          ? router.push(PageEnum.BASE_HOME)
+          : null;
 
         window.addEventListener('storage', function (e) {
           const hashFlag = window.location.hash && window.location.hash.startsWith('#');
           const routePath = hashFlag ? window.location.hash.slice(1) : window.location.hash;
-          const loginFlag = routePath == PageEnum.BASE_LOGIN || routePath == PageEnum.BASE_LOGIN + '/';
-          if (!loginFlag && e?.storageArea?.length === 0 && e?.key === null && e?.newValue === null) {
+          const loginFlag =
+            routePath == PageEnum.BASE_LOGIN || routePath == PageEnum.BASE_LOGIN + '/';
+          if (
+            !loginFlag &&
+            e?.storageArea?.length === 0 &&
+            e?.key === null &&
+            e?.newValue === null
+          ) {
             sendOfflineMessage();
             console.info('listening clear storage ...');
           }

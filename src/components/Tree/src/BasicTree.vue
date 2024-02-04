@@ -222,6 +222,9 @@
             handleBadge();
           }
         },
+        {
+          deep: true,
+        },
       );
 
       const handleBadge = () => {
@@ -256,18 +259,25 @@
       };
 
       const handleTreeData = (data) => {
-        for (let element of data) {
-          const key = 'val_' + getTreeNodeKey(element);
-          const badge = Reflect.get(element, 'badge') || 0;
-          if (Reflect.has(element, 'class')) {
-            element.class = element.class + ' ' + key + ' ';
-          } else {
-            element.class = key;
+        if (data == null) {
+          return;
+        }
+        try {
+          for (let element of data) {
+            const key = 'val_' + getTreeNodeKey(element);
+            const badge = Reflect.get(element, 'badge') || 0;
+            if (Reflect.has(element, 'class')) {
+              element.class = element.class + ' ' + key + ' ';
+            } else {
+              element.class = key;
+            }
+            treeBadgeMap.set(key, badge);
+            if (Reflect.has(element, 'children')) {
+              handleTreeData(Reflect.get(element, 'children'));
+            }
           }
-          treeBadgeMap.set(key, badge);
-          if (Reflect.has(element, 'children')) {
-            handleTreeData(Reflect.get(element, 'children'));
-          }
+        } catch (error) {
+          //
         }
       };
 
