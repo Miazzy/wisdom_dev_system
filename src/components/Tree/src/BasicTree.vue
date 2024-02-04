@@ -1,15 +1,7 @@
 <script lang="tsx">
-  import type { CSSProperties } from 'vue';
-  import type {
-    FieldNames,
-    TreeState,
-    TreeItem,
-    KeyType,
-    CheckKeys,
-    TreeActionType,
-  } from './types/tree';
-
   import {
+    CSSProperties,
+    nextTick,
     defineComponent,
     reactive,
     computed,
@@ -20,6 +12,15 @@
     watch,
     onMounted,
   } from 'vue';
+  import type {
+    FieldNames,
+    TreeState,
+    TreeItem,
+    KeyType,
+    CheckKeys,
+    TreeActionType,
+  } from './types/tree';
+
   import TreeHeader from './components/TreeHeader.vue';
   import { Tree, Spin, Empty } from 'ant-design-vue';
   import { TreeIcon } from './TreeIcon';
@@ -41,6 +42,7 @@
     emits: treeEmits,
     setup(props, { attrs, slots, emit, expose }) {
       const [bem] = createBEM('tree');
+      const treeBadgeMap = new Map<string, any>();
 
       const state = reactive<TreeState>({
         checkStrictly: props.checkStrictly,
@@ -86,6 +88,11 @@
           'onUpdate:selectedKeys': (v: KeyType[]) => {
             state.selectedKeys = v;
             emit('update:selectedKeys', v);
+          },
+          onExpand: (keys, event) => {
+            setTimeout(() => {
+              handleBadge();
+            }, 300);
           },
           onCheck: (v: CheckKeys, e) => {
             let currentValue = toRaw(state.checkedKeys) as KeyType[];
@@ -208,10 +215,61 @@
         () => props.treeData,
         (val) => {
           if (val) {
+            const data = props.treeData as TreeItem[];
+            handleTreeData(data);
+            treeDataRef.value = data as TreeItem[];
             handleSearch(searchState.searchText);
+            handleBadge();
           }
         },
       );
+
+      const handleBadge = () => {
+        const entries = treeBadgeMap.entries();
+        nextTick(() => {
+          for (const [key, value] of entries) {
+            addSpanToNodeByClass(key, value);
+          }
+        });
+      };
+
+      const addSpanToNodeByClass = (containerClass, content) => {
+        if (content === '0' || content === 0) {
+          return;
+        }
+        const targetClass = 'vben-tree__title';
+        const container = document.querySelector(`.${containerClass}`);
+        if (container) {
+          const targetNode = container.querySelector(`.${targetClass}`);
+          if (targetNode && !targetNode.hasAttribute('data-span-added')) {
+            const spanElement = document.createElement('span');
+            spanElement.className = 'notReadNumCls';
+            spanElement.textContent = content;
+            targetNode.appendChild(spanElement);
+            targetNode.setAttribute('data-span-added', 'true');
+          }
+        }
+      };
+
+      const getTreeNodeKey = (element) => {
+        return element[props?.fieldNames?.key || 'key'] || element?.id || element?.key;
+      };
+
+      const handleTreeData = (data) => {
+        for (let element of data) {
+          const key = 'val_' + getTreeNodeKey(element);
+          const badge = Reflect.get(element, 'badge') || 0;
+          if (Reflect.has(element, 'class')) {
+            element.class = element.class + ' ' + key + ' ';
+          } else {
+            element.class = key;
+          }
+          treeBadgeMap.set(key, badge);
+          if (Reflect.has(element, 'children')) {
+            handleTreeData(Reflect.get(element, 'children'));
+          }
+        }
+      };
 
       function handleSearch(searchValue: string) {
         if (searchValue !== searchState.searchText) searchState.searchText = searchValue;
@@ -416,7 +474,17 @@
       expose(instance);
 
       return () => {
-        const { title, helpMessage, toolbar, search, checkable, isShowOperationBtns, canEdit, canAdd, canDelete } = props;
+        const {
+          title,
+          helpMessage,
+          toolbar,
+          search,
+          checkable,
+          isShowOperationBtns,
+          canEdit,
+          canAdd,
+          canDelete,
+        } = props;
         const showTitle = title || toolbar || search || slots.headerTitle || isShowOperationBtns;
         const scrollStyle: CSSProperties = { height: 'calc(100% - 38px)' };
         return (
@@ -461,3 +529,19 @@
     },
   });
 </script>
+<style lang="less" scoped>
+  :deep(.ant-tree-title) {
+    .notReadNumCls {
+      width: 0.85rem;
+      height: 0.85rem;
+      border: 1px solid red;
+      border-radius: 0.85rem;
+      color: red;
+      line-height: 0.775rem;
+      text-align: center;
+      font-size: 0.55rem;
+      margin-left: 0.2rem;
+      padding: 0 0 0 -0.05rem;
+    }
+  }
+</style>
