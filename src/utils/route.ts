@@ -74,6 +74,26 @@ export const urlToPath = (url?) => {
         params[decodedKey] = decodeURIComponent(value);
       }
     });
+  } else {
+    const burl = Array.from(window.parent.document.getElementsByTagName("iframe")).filter(e=>e.classList[0] =='active')[0].src;
+    const params = {};
+    const queryString = burl.split('?')[1];
+    const paramPairs = queryString.split('&');
+    paramPairs.forEach((pair) => {
+      const [key, value] = pair.split('=');
+      const decodedKey = decodeURIComponent(key);
+      if (value === '_undef_') {
+        params[decodedKey] = undefined;
+      } else if (value === '_true_') {
+        params[decodedKey] = true;
+      } else if (value === '_false_') {
+        params[decodedKey] = false;
+      } else if (value === '_nul_') {
+        params[decodedKey] = null;
+      } else {
+        params[decodedKey] = decodeURIComponent(value);
+      }
+    });
   }
   return { path, params };
 };
