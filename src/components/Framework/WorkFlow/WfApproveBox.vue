@@ -65,7 +65,7 @@
     'before',
   ]);
 
-  const isReadOnly = ref<boolean>(false);
+  const isReadOnly = ref<boolean>(true);
 
   const userStore = useUserStore();
   const getUserInfo = toRaw(userStore.getUserInfo);
@@ -193,8 +193,8 @@
     }
     //获取当前流程是否可操作
     const startUserId = data.startUser.id;
-    if (!(startUserId === getUserInfo.userId && processStatus.value == 0)) {
-      isReadOnly.value = true;
+    if (startUserId === getUserInfo.userId && data.formVariables.status == 0) {
+      isReadOnly.value = false;
     }
     isHandle.value = data['status'];
   };
@@ -261,6 +261,7 @@
   onMounted(() => {
     if (!route.query.processInstanceId) {
       isShowBtns.value = true;
+      isReadOnly.value = false;
     }
   });
 </script>
