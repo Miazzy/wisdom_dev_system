@@ -94,12 +94,6 @@
               handleBadge();
             }, 300);
           },
-          onload: (keys, event) => {
-            debugger;
-            setTimeout(() => {
-              handleBadge();
-            }, 300);
-          },
           onCheck: (v: CheckKeys, e) => {
             let currentValue = toRaw(state.checkedKeys) as KeyType[];
             if (isArray(currentValue) && searchState.startSearch) {
