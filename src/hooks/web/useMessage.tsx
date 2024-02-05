@@ -225,7 +225,21 @@ export class SysMessage {
 
   static getInstance() {
     if (!SysMessage.instance) {
-      SysMessage.instance = new SysMessage();
+      const instance = new SysMessage();
+      SysMessage.instance = instance;
+      try {
+        if (!Reflect.has(window.top, 'SysMessage')) {
+          window.top.SysMessage = instance;
+        }
+        if (window.top !== window) {
+          SysMessage.instance = window?.top?.SysMessage ? window?.top?.SysMessage : instance;
+        } else {
+          SysMessage.instance = instance;
+          window.SysMessage = instance;
+        }
+      } catch (error) {
+        //
+      }
     }
     return SysMessage.instance;
   }
