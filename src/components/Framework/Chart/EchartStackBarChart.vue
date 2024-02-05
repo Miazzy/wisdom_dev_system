@@ -2,7 +2,7 @@
   <div
     id="echarts-stackbar-container"
     class="echarts-stackbar-container"
-    :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height};`"
+    :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height}; background-color: ${props.backgroundColor || 'transparent'};`"
   ></div>
 </template>
 <script lang="ts" setup>
@@ -16,6 +16,7 @@
     height: { type: [Number, String], default: 300 },
     colors: Array,
     barWidth: { type: Number, default: 25 },
+    backgroundColor: { type: String, default: 'transparent' },
   });
 
   // 创建图表

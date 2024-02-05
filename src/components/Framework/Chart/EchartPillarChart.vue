@@ -4,10 +4,10 @@
  * @FilePath: \web\src\components\common\powerPillarChart.vue
 -->
 <template>
-  <div :style="`width:${typeof props.width == 'number' ? props.width + 'px' : props.width}; height:${typeof props.height == 'number' ? props.height + 'px' : props.height};`">
+  <div :style="`width:${typeof props.width == 'number' ? props.width + 'px' : props.width}; height:${typeof props.height == 'number' ? props.height + 'px' : props.height}; background-color: ${props.backgroundColor || 'transparent'};`">
     <div
       :id="`chart-pillar-container${random}`"
-      :style="`width:${typeof props.width == 'number' ? props.width + 'px' : props.width}; height:${typeof props.height == 'number' ? props.height + 'px' : props.height};`"
+      :style="`width:${typeof props.width == 'number' ? props.width + 'px' : props.width}; height:${typeof props.height == 'number' ? props.height + 'px' : props.height}; background-color: ${props.backgroundColor || 'transparent'};`"
     ></div>
   </div>
 </template>
@@ -34,6 +34,7 @@
     rotate: { type: Number, default: 0 },
     fixed: { type: Number, default: 2 },
     tipsFormat: { type: Function, default: null },
+    backgroundColor: { type: String, default: 'transparent' },
   });
 
   // 设置柱和折线的颜色
