@@ -35,6 +35,9 @@
     fixed: { type: Number, default: 2 },
     tipsFormat: { type: Function, default: null },
     backgroundColor: { type: String, default: 'transparent' },
+    tipsBgColor: { type: String, default: null },
+    axisColor: { type: String, default: 'rgba(170, 221, 255, .8)' },
+    axisWidth: { type: String, default: '0.2' },
   });
 
   // 设置柱和折线的颜色
@@ -67,7 +70,7 @@
     xAxis: {
       type: 'category',
       nameTextStyle: {
-        color: '#888888', //  字体颜色
+        color: '#333', //  字体颜色
         fontSize: 26, //  字体大小
         fontWeight: 'bolder',
         padding: [10, -800, 66, 0], //标题位置调整 上 右 下 左
@@ -87,8 +90,8 @@
         symbol: ['none', 'none'], //轴线两边的箭头
         symbolSize: [10, 10], //轴线两边的箭头的大小，第一个数字表示宽度（垂直坐标轴方向），第二个数字表示高度（平行坐标轴方向）
         lineStyle: {
-          color: 'rgba(170, 221, 255, .8)', //坐标轴线线的颜色
-          width: '0.2', //坐标轴线线宽
+          color: props.axisColor, //坐标轴线线的颜色
+          width: props.axisWidth, //坐标轴线线宽
         },
       },
       axisLabel: { interval: 0, rotate: props.rotate },
@@ -99,8 +102,8 @@
       splitLine: {
         show: true, //网格线
         lineStyle: {
-          color: 'rgba(170, 221, 255, .8)', //坐标轴线线的颜色
-          width: '0.1', //坐标轴线线宽
+          color: props.axisColor, //坐标轴线线的颜色
+          width: props.axisWidth, //坐标轴线线宽
         },
       },
       axisLine: {
@@ -111,8 +114,8 @@
         symbol: ['none', 'none'], //轴线两边的箭头
         symbolSize: [10, 10], //轴线两边的箭头的大小，第一个数字表示宽度（垂直坐标轴方向），第二个数字表示高度（平行坐标轴方向）
         lineStyle: {
-          color: 'rgba(170, 221, 255, .8)', //坐标轴线线的颜色
-          width: '0.2', //坐标轴线线宽
+          color: props.axisColor, //坐标轴线线的颜色
+          width: props.axisWidth, //坐标轴线线宽
         },
       },
     },
@@ -123,7 +126,7 @@
         color: 'white', //设置文字颜色
       },
       extraCssText: '100px;',
-      backgroundColor: `${barColor[0]}32`,
+      backgroundColor: props.tipsBgColor ? props.tipsBgColor : `${barColor[0]}32`,
       borderColor: 'transparent',
       appendToBody: true,
       formatter: function (params) {
@@ -133,10 +136,11 @@
           const units = props.data.units;
           const name = props.name;
           const first = params?.length > 0&&(params[0].value||params[0].value===0) ? `${name[0]}：${params[0].value} ${units[0]}` : '';
+          const namelabel = params[0].name + '<br />';
           try {
             const second = params?.length > 2&&(params[2].value||params[2].value===0) ? `<br /> ${name[1]}：${params[2].value} ${units[1]}` : '';
             const third = params?.length > 3&&(params[3].value||params[3].value===0) ? `<br /> ${name[2]}：${params[3].value} ${units[2]}` : '';
-            return first + second + third;
+            return namelabel + first + second + third;
           } catch (e) {
             return first;
           }
