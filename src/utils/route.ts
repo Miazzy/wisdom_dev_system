@@ -56,46 +56,48 @@ export const urlToPath = (url?) => {
   const flag = window.location.hash && window.location.hash.startsWith('#');
   const originPath = url ? url : flag ? window.location.hash.slice(1) : window.location.pathname;
   const [path, queryString] = originPath.split('?');
-  const params = {};
-  if (queryString) {
-    const paramPairs = queryString.split('&');
-    paramPairs.forEach((pair) => {
-      const [key, value] = pair.split('=');
-      const decodedKey = decodeURIComponent(key);
-      if (value === '_undef_') {
-        params[decodedKey] = undefined;
-      } else if (value === '_true_') {
-        params[decodedKey] = true;
-      } else if (value === '_false_') {
-        params[decodedKey] = false;
-      } else if (value === '_nul_') {
-        params[decodedKey] = null;
-      } else {
-        params[decodedKey] = decodeURIComponent(value);
-      }
-    });
-  } else {
-    const burl = Array.from(window.parent.document.getElementsByTagName("iframe")).filter(e=>e.classList[0] =='active')[0].src;
-    const params = {};
-    const queryString = burl.split('?')[1];
-    const paramPairs = queryString.split('&');
-    paramPairs.forEach((pair) => {
-      const [key, value] = pair.split('=');
-      const decodedKey = decodeURIComponent(key);
-      if (value === '_undef_') {
-        params[decodedKey] = undefined;
-      } else if (value === '_true_') {
-        params[decodedKey] = true;
-      } else if (value === '_false_') {
-        params[decodedKey] = false;
-      } else if (value === '_nul_') {
-        params[decodedKey] = null;
-      } else {
-        params[decodedKey] = decodeURIComponent(value);
-      }
-    });
+  let params: any = {};
+  try {
+    if (queryString) {
+      const paramPairs = queryString.split('&');
+      params = handleParseParams(paramPairs);
+    } else {
+      const burl = Array.from(window.parent.document.getElementsByTagName("iframe")).filter(e=>e.classList[0] =='active')[0].src;
+      const paramPairs = burl.split('?')[1].split('&');
+      params = handleParseParams(paramPairs);
+    }
+  } catch (error) {
+    //
   }
   return { path, params };
+};
+
+// 解析URL参数函数
+const handleParseParams = (paramPairs) => {
+  try {
+    if (typeof paramPairs === 'undefined' || paramPairs === null || paramPairs === '') {
+      return {};
+    }
+    const params = {};
+    paramPairs.forEach((pair) => {
+      const [key, value] = pair.split('=');
+      const decodedKey = decodeURIComponent(key);
+      if (value === '_undef_') {
+        params[decodedKey] = undefined;
+      } else if (value === '_true_') {
+        params[decodedKey] = true;
+      } else if (value === '_false_') {
+        params[decodedKey] = false;
+      } else if (value === '_nul_') {
+        params[decodedKey] = null;
+      } else {
+        params[decodedKey] = decodeURIComponent(value);
+      }
+    });
+    return params;
+  } catch (error) {
+    return {};
+  }
 };
 
 // 获取当前页面信息
