@@ -1132,8 +1132,14 @@ export const OALeaveDetail: AppRouteRecordRaw = {
   component: () => import('/@/views/hr/manage/oaleave/create.vue'),
 };
 
+export const BasesetIndexStorehHouse: AppRouteRecordRaw = {
+  path: '/framepage/baseset/bi/indexstorehouse',
+  component: () => import('/@/views/baseset/bi/indexstorehouse/index.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  BasesetIndexStorehHouse,
   OALeave,
   OALeaveCreate,
   OALeaveDetail,
