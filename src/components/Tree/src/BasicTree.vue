@@ -94,6 +94,12 @@
               handleBadge();
             }, 300);
           },
+          onload: (keys, event) => {
+            debugger;
+            setTimeout(() => {
+              handleBadge();
+            }, 300);
+          },
           onCheck: (v: CheckKeys, e) => {
             let currentValue = toRaw(state.checkedKeys) as KeyType[];
             if (isArray(currentValue) && searchState.startSearch) {
@@ -219,7 +225,6 @@
             handleTreeData(data);
             treeDataRef.value = data as TreeItem[];
             handleSearch(searchState.searchText);
-            handleBadge();
           }
         },
         {
@@ -351,6 +356,9 @@
         } else if (props.defaultExpandAll) {
           expandAll(true);
         }
+        setTimeout(() => {
+          handleBadge();
+        }, 100);
       });
 
       watchEffect(() => {
