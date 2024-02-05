@@ -1117,8 +1117,26 @@ export const SysRole: AppRouteRecordRaw = {
   component: () => import('/@/views/system/rbac/role/index.vue'),
 };
 
+export const OALeave: AppRouteRecordRaw = {
+  path: '/framepage/hr/manage/oaleave',
+  component: () => import('/@/views/hr/manage/oaleave/index.vue'),
+};
+
+export const OALeaveCreate: AppRouteRecordRaw = {
+  path: '/framepage/hr/manage/OALeaveCreate',
+  component: () => import('/@/views/hr/manage/oaleave/create.vue'),
+};
+
+export const OALeaveDetail: AppRouteRecordRaw = {
+  path: '/framepage/hr/manage/OALeaveCreate',
+  component: () => import('/@/views/hr/manage/oaleave/create.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  OALeave,
+  OALeaveCreate,
+  OALeaveDetail,
   SysRole,
   SystemDict,
   SysPermission,
