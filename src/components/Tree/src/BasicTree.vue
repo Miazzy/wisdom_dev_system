@@ -221,9 +221,6 @@
             handleSearch(searchState.searchText);
           }
         },
-        {
-          deep: true,
-        },
       );
 
       const handleBadge = () => {
@@ -352,7 +349,7 @@
         }
         setTimeout(() => {
           handleBadge();
-        }, 100);
+        }, 1000);
       });
 
       watchEffect(() => {
@@ -546,14 +543,14 @@
     .notReadNumCls {
       width: 0.85rem;
       height: 0.85rem;
+      margin-left: 0.2rem;
+      padding: 0 0 0 -0.05rem;
       border: 1px solid red;
       border-radius: 0.85rem;
       color: red;
+      font-size: 0.55rem;
       line-height: 0.775rem;
       text-align: center;
-      font-size: 0.55rem;
-      margin-left: 0.2rem;
-      padding: 0 0 0 -0.05rem;
     }
   }
 </style>
