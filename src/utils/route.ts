@@ -110,11 +110,7 @@ export const addTabPage = (path: string, name: string = '', params: Object | nul
   const nameMap = userStore.getMenuNameMap;
   const purePath = path.includes('?') ? path.split('?')[0] : path;
   name = name == '' ? nameMap.get(purePath) : name;
-  if (path == '/po/elec/produce/dayReportCreate') {
-    path = '/framepage';
-  } else {
-    path = path.startsWith('/framepage') ? path : '/framepage' + path;
-  }
+  path = path.startsWith('/framepage') ? path : '/framepage' + path;
   path = params == null || typeof params == 'undefined' ? path : pathToUrl(path, params);
   const message = { type: 'addTabPage', data: { id, path, name, params } };
   sendMessage(message);
