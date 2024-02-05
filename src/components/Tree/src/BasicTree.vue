@@ -215,15 +215,14 @@
         () => props.treeData,
         (val) => {
           if (val) {
-            const data = props.treeData as TreeItem[];
-            handleTreeData(data);
-            treeDataRef.value = data as TreeItem[];
+            treeDataRef.value = props.treeData as TreeItem[];
             handleSearch(searchState.searchText);
           }
         },
       );
 
       const handleBadge = () => {
+        handleTreeData(props.treeData);
         const entries = treeBadgeMap.entries();
         nextTick(() => {
           for (const [key, value] of entries) {
@@ -347,9 +346,6 @@
         } else if (props.defaultExpandAll) {
           expandAll(true);
         }
-        setTimeout(() => {
-          handleBadge();
-        }, 1000);
       });
 
       watchEffect(() => {
@@ -408,6 +404,7 @@
         getSearchValue: () => {
           return searchState.searchText;
         },
+        handleBadge,
       };
 
       function renderAction(node: TreeItem) {

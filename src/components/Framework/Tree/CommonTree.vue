@@ -70,6 +70,7 @@
   const curExpandedKeys = ref<any[]>([]);
 
   const basicTreeRef = ref<Nullable<TreeActionType>>(null);
+
   function getTree() {
     const tree = unref(basicTreeRef);
     if (!tree) {
@@ -141,6 +142,11 @@
     getTree().checkAll(true);
   }
 
+  // 勾选所有
+  function loadBadge() {
+    getTree().handleBadge();
+  }
+
   // 获取勾选节点
   function getCheckedKeys() {
     let checkedKeys = getTree().getCheckedKeys();
@@ -178,7 +184,7 @@
     curExpandedKeys.value = props.expandedKeys;
   });
 
-  defineExpose({ getSelectedTreeNode, checkAll, getCheckedKeys });
+  defineExpose({ getSelectedTreeNode, checkAll, getCheckedKeys, loadBadge });
 </script>
 <style lang="less" scoped>
   .fit-basic-tree {
