@@ -395,7 +395,10 @@
       }
       return flag;
     });
-    xdataList.value = list;
+    xdataList.value = list.map((item) => {
+      const { company, dept, key, label, orgId, parentId, parent_node, postion, title, value } = item;
+      return { company, dept, key, label, orgId, parentId, parent_node, postion, title, value };
+    });
   };
 
   // 表格点击事件
