@@ -51,6 +51,9 @@
   const closeModal = () => {
     emit('update:visible', false); // 关闭弹框
     emit('close');
+    if (props.smode == 'simple') {
+      emit('update:visible', false); // 关闭弹框
+    }
   };
 
   const cancel = () => {

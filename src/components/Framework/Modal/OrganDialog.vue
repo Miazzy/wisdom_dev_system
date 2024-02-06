@@ -7,7 +7,7 @@
     :height="props.height"
     @cancel="cancel"
     @confirm="confirm"
-    @close="close"
+    @close="handleClose"
   >
     <div class="dialog-content" :style="`height: calc(${props.height}px - 90px)`">
       <!-- 左侧分类树 -->
@@ -191,10 +191,8 @@
     emit('confirm', data, allNodes.value); // 发送确定事件
   };
 
-  const close = () => {
-    const rule = props?.tfields as fieldType;
-    const data = transformRespData(allNodes.value, rule);
-    emit('close', data); // 发送确定事件
+  const handleClose = () => {
+    emit('cancel'); // 发送取消事件
   };
 
   const updateVisible = ($event) => {
@@ -432,11 +430,6 @@
     (newValue) => {
       if (allNodes.value && newValue && allNodes.value.length != newValue.length) {
         allNodes.value = newValue;
-        const rule = props?.tfields as fieldType;
-        const data = unref(props.tdata as unknown[] as TreeItem[]);
-        treeData.value = transformData(data, rule);
-        treeMap.value = transformMap(data, rule);
-        transformTableData(data, rule, 'top', null);
       }
     },
   );
@@ -447,7 +440,14 @@
       modalVisible.value = newValue;
       if (!newValue) {
         searchText.value = '';
+      } else {
+        if (allNodes.value && props.value && allNodes.value.length != props.value.length) {
+          allNodes.value = props.value;
+        }
       }
+    },
+    {
+      deep: true,
     },
   );
 
