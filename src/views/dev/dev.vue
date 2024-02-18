@@ -38,11 +38,15 @@
       :canAdd="true"
       :canDelete="false"
       :fieldNames="{ key: 'nodeId', title: 'nodeName' }"
+      checkable
       @edit="handleTreeEdit"
       @add="handleTreeAdd"
       @delete="handleTreeDelete"
       @refresh="handleTreeRefresh"
+      ref="myCommonTree"
     />
+
+    <Button @click="handleCancelCheck">取消勾选</Button>
     <div class="" style="width: 100%">
       <span style="float: left"> SearchBox </span>
       <!-- search box -->
@@ -716,6 +720,11 @@
 
     const date = DateTools.format(new Date(), 'YYYY-MM-DD');
   });
+
+  const myCommonTree = ref();
+  const handleCancelCheck = ()=>{
+    myCommonTree.value.cancelCheck();
+  }
 </script>
 <style scoped>
   .search-content {

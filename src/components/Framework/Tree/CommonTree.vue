@@ -25,7 +25,6 @@
       @check="handleCheck"
       :expandedKeys="curExpandedKeys"
       :selectedKeys="curSelectedKeys"
-      :checkedKeys="props.checkedKeys"
       :expandOnSearch="true"
     >
       <template #title="nodeItem">
@@ -63,7 +62,7 @@
     expandedKeys: { type: Array as PropType<string[]>, default: [] }, // 选中的树节点
     selectedKeys: { type: Array as PropType<string[]>, default: [] }, // 选中的树节点
   });
-  const emit = defineEmits(['select', 'edit', 'add', 'delete', 'refresh']);
+  const emit = defineEmits(['select', 'edit', 'add', 'delete', 'refresh', 'check']);
 
   const selectedNode = ref('');
   const curSelectedKeys = ref<any[]>([]);
@@ -141,6 +140,10 @@
   function checkAll() {
     getTree().checkAll(true);
   }
+  // 取消勾选
+  function cancelCheck() {
+    getTree().checkAll(false);
+  }
 
   // 勾选所有
   function loadBadge() {
@@ -184,7 +187,7 @@
     curExpandedKeys.value = props.expandedKeys;
   });
 
-  defineExpose({ getSelectedTreeNode, checkAll, getCheckedKeys, loadBadge });
+  defineExpose({ getSelectedTreeNode, checkAll, getCheckedKeys, loadBadge, cancelCheck });
 </script>
 <style lang="less" scoped>
   .fit-basic-tree {
