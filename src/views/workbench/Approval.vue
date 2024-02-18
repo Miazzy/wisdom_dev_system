@@ -1,5 +1,5 @@
 <template>
-  <a-card title="流程审批" :bordered="false">
+  <a-card title="待办任务" :bordered="false">
     <template #extra>
       <span @click="toMorePage">更多 &gt;</span>
     </template>
@@ -37,6 +37,7 @@
       </a-tabs>
     </div>
   </a-card>
+  <Schedule ref="schedule" />
 </template>
 
 <script lang="ts" setup>
@@ -49,6 +50,7 @@
   import { addTabPage } from '@/utils/route';
   import { MsgManager } from '/@/message/MsgManager';
   import { DateTools } from '/@/utils/dateUtil';
+  import Schedule from '../oa/schedule/Schedule.vue';
 
   const userStore = useUserStore();
   const getUserInfo = userStore.getUserInfo;
@@ -75,6 +77,11 @@
       tab: '已处理',
       count: 0,
     },
+    {
+      key: '5',
+      tab: '日程提醒',
+      count: 0,
+    },
   ]);
   const activeKey = ref('1');
   const handleTabChange = (item) => {
@@ -86,6 +93,8 @@
       doMy();
     } else if (item === '4') {
       doDone();
+    } else if (item === '5') {
+      doSchedule();
     }
   };
 
@@ -102,6 +111,9 @@
     } else if (activeKey.value == '4') {
       // router.push(`/bpm/task/done`);
       addTabPage(`/bpm/task/done`, '已办任务');
+    } else if (activeKey.value == '5') {
+      // router.push(`/bpm/task/done`);
+      addTabPage(`/oa/schedule/index`, '日程提醒');
     }
   };
 
@@ -139,6 +151,31 @@
       width: 120,
     },
   ];
+
+  const tableColumns5: BasicColumn[] = [
+    {
+      title: '提醒',
+      dataIndex: 'content',
+      width: 330,
+      align: 'left',
+      customHeaderCell: (column) => {
+        return {
+          class: 'text-center',
+        };
+      },
+    },
+    {
+      title: '开始时间',
+      dataIndex: 'startTime',
+      width: 100,
+    },
+    {
+      title: '创建人',
+      dataIndex: 'creator',
+      width: 120,
+    },
+  ];
+
   const detailTableProps = {
     pagination: false,
     striped: false,
@@ -157,6 +194,7 @@
   const tableDataSource2 = ref([]);
   const tableDataSource3 = ref([]);
   const tableDataSource4 = ref([]);
+  const tableDataSource5 = ref([]);
   const [registerApprovalTable1, tInstance1] = useTable(
     assign(
       {
@@ -194,13 +232,26 @@
     ),
   );
 
+  const [registerApprovalTable5, tInstance5] = useTable(
+    assign(
+      {
+        dataSource: tableDataSource5,
+        columns: tableColumns5,
+      },
+      detailTableProps,
+    ),
+  );
+
   const tableList = ref([
     registerApprovalTable1,
     registerApprovalTable2,
     registerApprovalTable3,
     registerApprovalTable4,
+    registerApprovalTable5,
   ]);
+
   // 查看
+  const schedule = ref();
   const handleCheck = (record) => {
     if (activeKey.value == '2') {
       TaskApi.updateCcTo(record.processInstanceId).then((res) => {
@@ -212,6 +263,8 @@
           );
         }
       });
+    } else if (activeKey.value == '5') {
+      schedule.value.handleView({ id: record.id, type: record.type });
     } else {
       addTabPage(
         `${record.viewPath}?processInstanceId=${record.processInstanceId}`,
@@ -308,6 +361,28 @@
     }
   };
 
+  const doSchedule = async () => {
+    //日程
+    const getSchedulePage = await TaskApi.getSchedulePage();
+    tableDataSource5.value = [];
+
+    if (getSchedulePage) {
+      tabList.value[4].count = getSchedulePage.length;
+      getSchedulePage.forEach((element) => {
+        tableDataSource5.value.push({
+          content: element.content,
+          id: element.id,
+          type: element.type,
+          startTime: DateTools.format(element.startTime, 'YYYY-MM-DD hh:mm'),
+          creator: element.creator,
+        });
+      });
+    }
+    if (tInstance5) {
+      tInstance5?.setTableData(tableDataSource5.value);
+    }
+  };
+
   const reloadAll = async () => {
     // 后续需要一段时间处理后才能查询到最新数据，建议延时查询
     setTimeout(() => {
@@ -315,6 +390,7 @@
       doCC();
       doMy();
       doDone();
+      doSchedule();
     }, 1500);
   };
 
@@ -322,6 +398,7 @@
   onMounted(async () => {
     doTodo();
     doCC();
+    doSchedule();
     MsgManager.getInstance().listen('workbench-approval', reloadAll);
   });
 </script>

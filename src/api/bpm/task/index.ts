@@ -18,6 +18,7 @@ export enum BpmTaskApi {
   AddCcTo = '/bpm/task/addCcTo',
   GetTodoCCPage = '/bpm/task/todo-cc-page',
   UpdateCcTo = '/bpm/task/updateCcTo?processInstanceId=',
+  GetSchedulePage = '/oa/calendar-schedule/list',
 }
 
 export const getTodoTaskPage = async (params) => {
@@ -27,6 +28,11 @@ export const getTodoTaskPage = async (params) => {
 
 export const getDoneTaskPage = async (params) => {
   const requestParams = { url: BpmTaskApi.GetDoneTaskPage, params };
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
+};
+
+export const getSchedulePage = async (params) => {
+  const requestParams = { url: BpmTaskApi.GetSchedulePage, params };
   return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
 
