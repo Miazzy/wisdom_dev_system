@@ -47,14 +47,14 @@
     });
     if (element) {
       // router.push({ path: element.url, query: { id: item.id } });
-      addTabPage(element.url, '通知公告详情', { id: item.id } );
+      addTabPage(element.url, '通知公告详情', { id: item.id });
     }
   };
 
   const getNoticeAndAnnouncementPage = async () => {
     const noticeAndAnnouncement = await WorkbenchApi.getNoticeAndAnnouncementPage({
       pageNo: 1,
-      pageSize: 10,
+      pageSize: 7,
     });
     if (noticeAndAnnouncement) {
       noticeList.value.splice(0, noticeList.value.length);
