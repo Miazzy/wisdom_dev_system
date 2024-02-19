@@ -195,7 +195,6 @@ const transform: AxiosTransform = {
       (config as Recordable).headers.Authorization = options.authenticationScheme
         ? `${options.authenticationScheme} ${token}`
         : token;
-
       // 代理设置
     }
     return config;
@@ -212,49 +211,57 @@ const transform: AxiosTransform = {
    * @description: 响应错误处理
    */
   responseInterceptorsCatch: (axiosInstance: AxiosInstance, error: any) => {
-    const { t } = useI18n();
-    const errorLogStore = useErrorLogStoreWithOut();
-    errorLogStore.addAjaxErrorInfo(error);
-    const { response, code, message, config } = error || {};
-    const errorMessageMode = config?.requestOptions?.errorMessageMode || 'none';
-    const msg: string = response?.data?.error?.message ?? '';
-    const err: string = error?.toString?.() ?? '';
-    let errMessage = '';
-
-    if (axios.isCancel(error)) {
-      return Promise.reject(error);
-    }
-
     try {
-      if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
-        errMessage = t('sys.api.apiTimeoutMessage');
-      }
-      if (err?.includes('Network Error')) {
-        errMessage = t('sys.api.networkExceptionMsg');
-      }
+      const { t } = useI18n();
+      const errorLogStore = useErrorLogStoreWithOut();
+      errorLogStore.addAjaxErrorInfo(error);
+      const { response, code, message, config } = error || {};
+      const errorMessageMode = config?.requestOptions?.errorMessageMode || 'none';
+      const msg: string = response?.data?.error?.message ?? '';
+      const err: string = error?.toString?.() ?? '';
+      let errMessage = '';
 
-      if (errMessage) {
-        if (errorMessageMode === 'modal') {
-          createErrorModal({ title: t('sys.api.errorTip'), content: errMessage });
-        } else if (errorMessageMode === 'message') {
-          createMessage.error(errMessage);
-        }
+      if (axios.isCancel(error)) {
         return Promise.reject(error);
       }
-    } catch (error) {
-      throw new Error(error as unknown as string);
+
+      try {
+        if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
+          errMessage = t('sys.api.apiTimeoutMessage');
+        }
+        if (err?.includes('Network Error')) {
+          errMessage = t('sys.api.networkExceptionMsg');
+        }
+
+        if (errMessage) {
+          if (errorMessageMode === 'modal') {
+            createErrorModal({ title: t('sys.api.errorTip'), content: errMessage });
+          } else if (errorMessageMode === 'message') {
+            createMessage.error(errMessage);
+          }
+          return Promise.reject(error);
+        }
+      } catch (error) {
+        throw new Error(error as unknown as string);
+      }
+
+      checkStatus(error?.response?.status, msg, errorMessageMode);
+
+      try {
+        // 添加自动重试机制 保险起见 只针对GET请求
+        const retryRequest = new AxiosRetry();
+        const { isOpenRetry } = config.requestOptions.retryRequest;
+        config.method?.toUpperCase() === RequestEnum.GET &&
+          isOpenRetry &&
+          // @ts-ignore
+          retryRequest.retry(axiosInstance, error);
+      } catch (e) {
+        // e
+      }
+      return Promise.reject(error);
+    } catch (e) {
+      return Promise.reject(error);
     }
-
-    checkStatus(error?.response?.status, msg, errorMessageMode);
-
-    // 添加自动重试机制 保险起见 只针对GET请求
-    const retryRequest = new AxiosRetry();
-    const { isOpenRetry } = config.requestOptions.retryRequest;
-    config.method?.toUpperCase() === RequestEnum.GET &&
-      isOpenRetry &&
-      // @ts-ignore
-      retryRequest.retry(axiosInstance, error);
-    return Promise.reject(error);
   },
 };
 
