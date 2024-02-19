@@ -2,7 +2,7 @@
   <EditTableHeaderCell v-if="getIsEdit">
     {{ getTitle }}
   </EditTableHeaderCell>
-  <span v-else>{{ getTitle }}</span>
+  <span v-else style="display: block" :style="`text-align: ${headAlign};`">{{ getTitle }}</span>
   <BasicHelp v-if="getHelpMessage" :text="getHelpMessage" :class="`${prefixCls}__help`" />
 </template>
 <script lang="ts">
@@ -31,8 +31,9 @@
       const getIsEdit = computed(() => !!props.column?.edit);
       const getTitle = computed(() => props.column?.customTitle || props.column?.title);
       const getHelpMessage = computed(() => props.column?.helpMessage);
+      const headAlign = props.column?.headAlign || props.column?.align || 'left';
 
-      return { prefixCls, getIsEdit, getTitle, getHelpMessage };
+      return { prefixCls, getIsEdit, getTitle, getHelpMessage, headAlign };
     },
   });
 </script>

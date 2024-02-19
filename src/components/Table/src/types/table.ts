@@ -427,7 +427,7 @@ export interface BasicColumn extends ColumnProps<Recordable> {
   //
   flag?: 'INDEX' | 'DEFAULT' | 'CHECKBOX' | 'RADIO' | 'ACTION';
   customTitle?: VueNode;
-
+  headAlign?: 'center' | 'left' | 'right';
   slots?: Recordable;
 
   // Whether to hide the column by default, it can be displayed in the column configuration
