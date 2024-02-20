@@ -254,9 +254,18 @@ export function useDataSource(
     return findRow(dataSourceRef.value);
   }
 
+  const addMissingColumns = (item: Recordable, columns) => {
+    columns.forEach((column: any) => {
+      if (!Reflect.has(item, column.dataIndex)) {
+        item[column.dataIndex] = null;
+      }
+    });
+  };
+
   async function fetch(opt?: FetchParams) {
     const {
       api,
+      columns,
       searchInfo,
       defSort,
       fetchSetting,
@@ -323,6 +332,12 @@ export function useDataSource(
       if (afterFetch && isFunction(afterFetch)) {
         resultItems = (await afterFetch(resultItems)) || resultItems;
       }
+
+      // 添加缺失字段
+      resultItems.forEach((item) => {
+        addMissingColumns(item, columns);
+      });
+
       dataSourceRef.value = resultItems;
       setPagination({
         total: resultTotal || 0,
