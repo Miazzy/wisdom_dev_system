@@ -126,6 +126,8 @@
   import { createOaLeave, getOaLeave } from '@/api/hr/oaleave';
   import * as ProcessInstanceApi from '@/api/bpm/processInstance';
   import * as FileApi from '@/api/infra/file';
+  import { closeCurrentTab } from '@/utils/route';
+  import { MsgManager } from '/@/message/MsgManager';
 
   defineOptions({ name: 'OALeaveCreate' });
 
@@ -196,9 +198,15 @@
       const formData = toRaw(formState);
       formData['status'] = status;
       console.log('formData', formData);
-      await createOaLeave(formData);
+      const res = await createOaLeave(formData);
       success(status == 1 ? '提交成功。' : '保存成功');
-      router.push('/hr/manage/oaleave');
+      if (status == 1) {
+        setTimeout(() => {
+          closeCurrentTab();
+          MsgManager.getInstance().sendMsg('oaleave-page', {});
+        }, 1000);
+      } else {
+      }
     } catch (error) {
       console.log('error', error);
     } finally {

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+  import { onMounted } from 'vue';
   import { ElMessageBox } from 'element-plus';
   import { columns, searchFormSchema } from './oaLeave.data';
   import { useI18n } from '@/hooks/web/useI18n';
@@ -7,13 +8,13 @@
   import { BasicTable, useTable, TableAction } from '@/components/Table';
   import { exportOaLeave, getOaLeavePage } from '@/api/hr/oaleave';
   import { cancelProcessInstance } from '@/api/bpm/processInstance';
-  import { useRouter } from 'vue-router';
   import { exportExcelFile } from '@/utils/file/download';
+  import { addTabPage } from '@/utils/route';
+  import { MsgManager } from '/@/message/MsgManager';
 
   defineOptions({ name: 'OaLeave' });
 
   const { t } = useI18n();
-  const router = useRouter();
   const { createConfirm, createMessage } = useMessage();
 
   const [registerTable, { getForm, reload }] = useTable({
@@ -47,7 +48,7 @@
 
   /** 添加操作 */
   function handleCreate() {
-    router.push(`/hr/manage/OALeaveCreate`);
+    addTabPage('/hr/manage/OALeaveCreate', '添加请假');
   }
 
   /** 取消请假操作 */
@@ -66,8 +67,14 @@
 
   /** 审批进度 */
   function handleProcessDetail(record: any) {
-    router.push(`/hr/manage/OALeaveDetail?processInstanceId=${record.processInstanceId}`);
+    addTabPage('/hr/manage/OALeaveCreate', '请假详情', {
+      processInstanceId: record.processInstanceId,
+    });
   }
+
+  onMounted(() => {
+    MsgManager.getInstance().listen('oaleave-page', reload);
+  });
 </script>
 <template>
   <div>

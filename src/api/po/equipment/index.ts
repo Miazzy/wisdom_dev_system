@@ -42,5 +42,8 @@ export function deleteEquipment(id: number) {
 
 // 导出设备物资台账 Excel
 export function exportEquipment(params) {
-  return defHttp.download({ url: '/po/equipment/export-excel', params }, '设备物资台账.xls');
+  return defHttp.download(
+    { url: '/po/equipment/export-excel', params },
+    { isReturnNativeResponse: true },
+  );
 }
