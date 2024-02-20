@@ -107,12 +107,16 @@
       text-align: center !important;
     }
     .table-box {
-      height: 100%;
+      height: 286px;
+      overflow: hidden;
       .blue-text {
         color: rgba(24, 144, 255, 0.85);
       }
       .yellow-text {
         color: rgba(239, 189, 71, 0.85);
+      }
+      :deep(.ant-table-body) {
+        height: 248px;
       }
     }
   }
