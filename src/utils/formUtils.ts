@@ -8,6 +8,7 @@ export const setReactiveValues = (fstate, data: Object) => {
   }
 };
 
+// 滚动到相应form表单校验失败的位置
 export const scrollToInValidField = (formInstance, fields, index = 0) => {
   if (fields && fields.errorFields) {
     try {
