@@ -29,4 +29,4 @@ export const scrollToInValidField = (formInstance, fields, index = 0) => {
       //
     }
   }
-}
+};
