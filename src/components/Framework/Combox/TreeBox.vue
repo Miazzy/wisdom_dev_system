@@ -540,10 +540,10 @@
 
   .search-panel {
     position: relative;
-    border-right: 1px solid #f0f0f0;
+    /* border-right: 1px solid #f0f0f0;
     border-bottom: 1px solid #f0f0f0;
     border-left: 1px solid #f0f0f0;
-    background: #fefefe;
+    background: #fefefe; */
 
     .search-popup-subcontent {
       margin: 0 5px 1px;
@@ -558,7 +558,7 @@
       position: absolute;
       top: 5px;
       right: 0;
-      background: #fefefe;
+      background: transparent;
       color: #cecece;
 
       &:hover {
@@ -571,7 +571,7 @@
       position: absolute;
       top: 5px;
       right: 40px;
-      background: #fefefe;
+      background: transparent;
       color: #cecece;
 
       &:hover {
