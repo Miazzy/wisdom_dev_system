@@ -182,3 +182,12 @@ export const mutable = <T extends readonly any[] | Record<string, unknown>>(val:
   val as Mutable<typeof val>;
 
 export const componentSize = ['large', 'medium', 'small', 'mini'] as const;
+
+// 添加缺失字段
+export const addMissingColumns = (item: any, columns) => {
+  columns.forEach((column: any) => {
+    if (!Reflect.has(item, column.dataIndex)) {
+      item[column.dataIndex] = null;
+    }
+  });
+};
