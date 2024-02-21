@@ -69,6 +69,7 @@
   import { getAuthCache } from '/@/utils/auth';
   import { TOKEN_KEY } from '/@/enums/cacheEnum';
   import { useUserStore } from '/@/store/modules/user';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const menuList = ref<any[]>([]);
   const systemTheme = ref('');
@@ -115,6 +116,11 @@
   const handleCollapsed = () => {
     systemCollapsed.value = !systemCollapsed.value;
     systemCollClass.value = systemCollapsed.value ? 'collapsed' : 'expand';
+    if (systemCollapsed.value) {
+      MsgManager.getInstance().sendMsg('system-menu-collapse', { status: 'collapsed' });
+    } else {
+      MsgManager.getInstance().sendMsg('system-menu-collapse', { status: 'expand' });
+    }
     if (systemCollClass.value == 'expand') {
       setTimeout(() => {
         systemCollClass.value = '';

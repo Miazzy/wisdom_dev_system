@@ -1,7 +1,7 @@
 <template>
   <main class="app-content">
-    <div class="vben-multiple-tabs">
-      <div class="tabs-content" :style="contentWidth">
+    <div class="vben-multiple-tabs" :class="screenClass + '-tabs'">
+      <div v-show="!screenFlag" class="tabs-content" :class="screenClass" :style="contentWidth">
         <a-dropdown :trigger="['contextmenu']">
           <a-tabs
             v-model:activeKey="activeKey"
@@ -45,6 +45,7 @@
           </template>
         </a-dropdown>
         <div class="tabs-buttons">
+          <Icon :icon="'octicon:screen-full-24'" size="15" @click="handleScreenTabPage" />
           <Icon :icon="'icons8:refresh'" size="15" @click="handleRefreshTabPage" />
           <a-dropdown :trigger="trigger">
             <Icon :icon="'codicon:fold-down'" size="13" />
@@ -70,10 +71,23 @@
           </a-dropdown>
         </div>
       </div>
-      <div class="iframe-content" :class="contentClass" :style="contentWidth">
+      <div class="iframe-content" :class="contentClass + ' ' + screenClass" :style="contentWidth">
+        <Icon
+          v-if="screenFlag"
+          class="screen-icon"
+          :icon="'iconamoon:screen-normal-thin'"
+          size="18"
+          @click="handleScreenTabPage"
+        />
         <template v-for="pane in panes">
           <div v-show="pane.status" class="content" :style="contentStyle">
-            <iframe v-if="pane.show" :key="pane.key" :src="pane.pageurl" :class="`${pane.status ? 'active' : 'disactive'}`" :style="iframeWidth"></iframe>
+            <iframe
+              v-if="pane.show"
+              :key="pane.key"
+              :src="pane.pageurl"
+              :class="`${pane.status ? 'active' : 'disactive'}`"
+              :style="iframeWidth"
+            ></iframe>
           </div>
         </template>
       </div>
@@ -114,6 +128,8 @@
   const iframeWidth = ref('width: 100%; height: 100%');
   const instance = getCurrentInstance();
   const menuTabMargin = ref(275);
+  const screenFlag = ref(false);
+  const screenClass = ref('');
 
   const handleTabChange = (key, options: any = null) => {
     activeKey.value = key;
@@ -136,7 +152,7 @@
   const handleResize = () => {
     setTimeout(() => {
       if (window.screen.availWidth <= 1440 || window.outerWidth <= 1440) {
-        tabWidth.value = window.outerWidth - menuTabMargin.value + 'px';
+        tabWidth.value = window.outerWidth - menuTabMargin.value - 25 + 'px';
         contentClass.value = '';
         contentStyle.value = '';
         contentWidth.value = '';
@@ -147,13 +163,13 @@
       const swidth = window.screen.availWidth;
       const flag = owidth === swidth;
       if (!flag) {
-        tabWidth.value = window.outerWidth - menuTabMargin.value + 'px';
+        tabWidth.value = window.outerWidth - menuTabMargin.value - 25 + 'px';
         contentClass.value = 'layout-xscroll';
-        contentStyle.value = `width: ${swidth - 190}px;`;
-        contentWidth.value = `width: ${owidth - 190}px;`;
+        contentStyle.value = `width: ${swidth - 220}px;`;
+        contentWidth.value = `width: ${owidth - 220}px;`;
         iframeWidth.value = 'width: calc(100% - 30px); height: 100%;';
       } else {
-        tabWidth.value = window.outerWidth - menuTabMargin.value + 'px';
+        tabWidth.value = window.outerWidth - menuTabMargin.value - 25 + 'px';
         contentClass.value = '';
         contentStyle.value = '';
         contentWidth.value = '';
@@ -267,6 +283,24 @@
           pane.show = true;
         });
       }
+    }
+  };
+
+  // 处理Tab栏放大屏幕函数
+  const handleScreenTabPage = () => {
+    if (screenClass.value == '') {
+      screenFlag.value = true;
+      screenClass.value = 'iframe-screen';
+      MsgManager.getInstance().sendMsg('iframe-screen', { status: 'on' });
+    } else {
+      screenFlag.value = false;
+      screenClass.value = '';
+      MsgManager.getInstance().sendMsg('iframe-screen', { status: 'off' });
+    }
+    if (activeKey.value.includes('/framepage/cockpit/')) {
+      nextTick(() => {
+        handleRefreshTabPage();
+      });
     }
   };
 
@@ -393,6 +427,17 @@
     }, 100);
   };
 
+  // 处理菜单折叠函数
+  const handleMenuCollapsed = (message) => {
+    const { status } = message;
+    if (status === 'collapsed') {
+      menuTabMargin.value = 115;
+    } else if (status === 'expand') {
+      menuTabMargin.value = 275;
+    }
+    handleResize();
+  };
+
   onMounted(() => {
     paneMap.set(panes.value[0].pageurl, panes.value[0]);
     activeKey.value = panes.value[0].pageurl;
@@ -405,8 +450,10 @@
     }, 100);
     MsgManager.getInstance().listen('iframe-tabs-message', handleTabMessage);
     MsgManager.getInstance().listen('iframe-tabs-refresh-all', handleRefreshMenuAll);
+    MsgManager.getInstance().listen('system-menu-collapse', handleMenuCollapsed);
     handleActivePath();
     handleResize();
+    screenFlag.value = false;
     window.addEventListener('resize', handleReload);
   });
 </script>
@@ -414,13 +461,15 @@
   .theme1 {
     .app-content {
       .tabs-content {
+        border-bottom: 1px solid transparent;
+
         .ant-tabs {
           background-color: transparent;
         }
-        border-bottom: 1px solid transparent;
+
         .tabs-buttons {
           span {
-            border-left: 1px solid rgba(255, 255, 255, 0.16);
+            border-left: 1px solid rgb(255 255 255 / 16%);
           }
         }
       }
@@ -431,6 +480,7 @@
     .app-content {
       .tabs-content {
         border-bottom: 1px solid #f0f0f0;
+
         .tabs-buttons {
           span {
             border-left: 1px solid #f0f0f0;
@@ -443,6 +493,7 @@
 <style lang="less" scoped>
   .app-content {
     flex: 1;
+
     /* padding: 0.1rem 0 0.2rem 0.2rem; */
 
     :deep(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
@@ -459,6 +510,10 @@
 
     .vben-multiple-tabs {
       position: relative;
+
+      &.iframe-screen-tabs {
+        background: transparent;
+      }
     }
 
     .tabs-content {
@@ -468,7 +523,7 @@
       justify-content: left;
 
       .tabs-buttons {
-        width: 60px;
+        width: 90px;
 
         span {
           display: inline-flex;
@@ -479,8 +534,20 @@
     }
 
     .iframe-content {
+      position: relative;
       width: 100%;
       height: calc(100vh - 85px);
+
+      .screen-icon {
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
+        color: transparent;
+
+        &:hover {
+          color: #333;
+        }
+      }
 
       .content {
         width: 100%;
@@ -491,10 +558,29 @@
           height: 100%;
         }
       }
+
+      &.iframe-screen {
+        height: calc(100vh);
+      }
     }
+
     .layout-xscroll {
       overflow-x: scroll !important;
       overflow-y: hidden;
+    }
+  }
+
+  .theme1 {
+    .app-content {
+      .iframe-content {
+        .screen-icon {
+          color: transparent;
+
+          &:hover {
+            color: #ccc;
+          }
+        }
+      }
     }
   }
 </style>

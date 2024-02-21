@@ -1,8 +1,8 @@
 <template>
   <div class="main-layout">
-    <Header @click="handleModuleClick" />
+    <Header v-show="!screenFlag" @click="handleModuleClick" />
     <div class="main-content">
-      <Menu :menus="menuList" @click="handleMenuClick" :theme="systemTheme" />
+      <Menu v-show="!screenFlag" :menus="menuList" @click="handleMenuClick" :theme="systemTheme" />
       <Content
         :path="currentPath"
         :menu="currentMenu"
@@ -32,6 +32,7 @@
     menu: null,
   });
   const instance = getCurrentInstance();
+  const screenFlag = ref(false);
 
   // 处理顶部模块点击函数
   const handleModuleClick = (cmodule, menus) => {
@@ -94,6 +95,16 @@
     }
   };
 
+  // 处理屏幕消息
+  const handleScreenMessage = (message) => {
+    const { status } = message;
+    if (status == 'on') {
+      screenFlag.value = true;
+    } else if (status == 'off') {
+      screenFlag.value = false;
+    }
+  };
+
   // Mounted时加载函数
   onMounted(() => {
     systemTheme.value = 'light';
@@ -101,6 +112,7 @@
     handleResize();
     listenOfflineMessage();
     window.addEventListener('resize', handleReload);
+    MsgManager.getInstance().listen('iframe-screen', handleScreenMessage);
   });
 </script>
 <style lang="less">
