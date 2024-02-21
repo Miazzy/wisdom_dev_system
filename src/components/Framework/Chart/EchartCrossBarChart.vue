@@ -15,6 +15,7 @@
     names: { type: Array },
     category: { type: Array },
     ybgcolor: { type: String },
+    rotate: { type: Number, default: 0 },
   });
 
   const random = parseInt(Math.random() * 10000000);
@@ -77,6 +78,8 @@
           color: 'rgba(170, 221, 255, .8)', // 设置文本颜色
           fontSize: 14, // 设置字体大小
           fontFamily: 'Arial', // 设置字体样式
+          interval: 0,
+          rotate: 0,
         },
         splitLine: {
           show: true, // 控制网格线显示与隐藏
@@ -113,6 +116,8 @@
           color: 'rgba(170, 221, 255, .8)', // 设置文本颜色
           fontSize: 14, // 设置字体大小
           fontFamily: 'Arial', // 设置字体样式
+          interval: 0,
+          rotate: props.rotate,
         },
         splitLine: {
           show: false,
