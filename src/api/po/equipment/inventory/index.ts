@@ -25,6 +25,22 @@ export function deleteEquipmentInventory(id: number) {
   return defHttp.delete({ url: '/po/equipment-inventory/delete?id=' + id });
 }
 
+// 获得出库入库审批中流程
+export function getWarehousingAndOutboundProcessExists() {
+  return defHttp.get(
+    { url: '/po/equipment-inventory/getWarehousingAndOutboundProcessExists' },
+    { isOnlyResult: true },
+  );
+}
+
+// 获得盘点审批中流程
+export function getInventoryProcessExists() {
+  return defHttp.get(
+    { url: '/po/equipment-inventory/getInventoryProcessExists' },
+    { isOnlyResult: true },
+  );
+}
+
 // 导出库存盘点单 Excel
 export function exportEquipmentInventory(params) {
   return defHttp.download(
