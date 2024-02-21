@@ -18,8 +18,9 @@
     colors: { type: Array },
     name: { type: Array },
     category: { type: Array },
-    ybgcolor: { type: String },
+    ybgcolor: { type: String, default: '#01B7D7' },
     rotate: { type: Number, default: 0 },
+    txtColor: { type: String, default: 'rgba(170, 221, 255, 0.8)' },
   });
 
   const random = parseInt(Math.random() * 10000000);
@@ -31,7 +32,9 @@
   watch(
     () => props.data,
     () => {
-      createChart();
+      setTimeout(() => {
+        createChart();
+      }, 100);
     },
     {
       deep: true,
@@ -86,8 +89,7 @@
             padding: [10, -800, 66, 0], //标题位置调整 上 右 下 左
           },
           axisLabel: {
-            // 设置 x 轴刻度文本样式
-            color: 'rgba(170, 221, 255, .8)', // 设置文本颜色
+            color: props.txtColor, // 设置文本颜色
             fontSize: 14, // 设置字体大小
             fontFamily: 'Arial', // 设置字体样式
             interval: 0,
@@ -96,7 +98,7 @@
           splitLine: {
             show: false,
             lineStyle: {
-              color: ybgcolor.value, // 设置Y轴刻度线颜色
+              color: props.ybgcolor, // 设置Y轴刻度线颜色
             },
           },
           axisTick: {
@@ -110,7 +112,7 @@
             symbol: ['none', 'none'], //轴线两边的箭头
             symbolSize: [10, 10], //轴线两边的箭头的大小，第一个数字表示宽度（垂直坐标轴方向），第二个数字表示高度（平行坐标轴方向）
             lineStyle: {
-              color: 'rgba(170, 221, 255, .8)', //坐标轴线线的颜色
+              color: props.txtColor, //坐标轴线线的颜色
               width: '0.1', //坐标轴线线宽
             },
           },
@@ -120,19 +122,15 @@
         {
           type: 'value',
           name: '',
-          // min: props.yAxis.min,
-          // max: props.yAxis.max,
-          // interval: props.yAxis.interval,
           axisLabel: {
-            // 设置 y 轴刻度文本样式
-            color: 'rgba(170, 221, 255, .8)', // 设置文本颜色
+            color: props.txtColor, // 设置文本颜色
             fontSize: 14, // 设置字体大小
             fontFamily: 'Arial', // 设置字体样式
           },
           splitLine: {
             show: true, // 控制网格线显示与隐藏
             lineStyle: {
-              color: ybgcolor.value, // 设置Y轴刻度线颜色
+              color: props.ybgcolor, // 设置Y轴刻度线颜色
             },
           },
           axisLine: {
@@ -142,7 +140,7 @@
             symbol: ['none', 'none'], //轴线两边的箭头
             symbolSize: [10, 10], //轴线两边的箭头的大小，第一个数字表示宽度（垂直坐标轴方向），第二个数字表示高度（平行坐标轴方向）
             lineStyle: {
-              color: 'rgba(170, 221, 255, .8)', //坐标轴线线的颜色
+              color: props.txtColor, //坐标轴线线的颜色
               width: '0.2', //坐标轴线线宽
             },
           },
@@ -268,7 +266,7 @@
         x: 'right',
         y: '10%',
         textStyle: {
-          color: 'rgba(255, 255, 255, 0.6)',
+          color: props.txtColor,
         },
         itemWidth: 14,
         itemHeight: 10,
