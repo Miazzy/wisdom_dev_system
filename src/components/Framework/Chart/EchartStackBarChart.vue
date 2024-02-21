@@ -76,6 +76,13 @@
             show: false, //是否展示刻度线
             inside: false, //刻度线朝内还是朝外
           },
+          axisLabel: {
+            color: 'rgba(170, 221, 255, .8)', // 设置文本颜色
+            fontSize: 14, // 设置字体大小
+            fontFamily: 'Arial', // 设置字体样式
+            interval: 0,
+            rotate: props.rotate,
+          },
           axisLine: {
             show: ' ', //是否显示坐标轴轴线
             onZero: ' ', //X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度

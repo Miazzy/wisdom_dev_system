@@ -94,7 +94,13 @@
           width: props.axisWidth, //坐标轴线线宽
         },
       },
-      axisLabel: { interval: 0, rotate: props.rotate },
+      axisLabel: {
+        color: 'rgba(170, 221, 255, .8)', // 设置文本颜色
+        fontSize: 14, // 设置字体大小
+        fontFamily: 'Arial', // 设置字体样式
+        interval: 0,
+        rotate: props.rotate,
+      },
       data: [],
     },
     yAxis: {

@@ -16,6 +16,7 @@
     height: Number,
     colors: Array,
     legendData: Array,
+    rotate: { type: Number, default: 0 },
   });
 
   // 将 props 解构
@@ -79,6 +80,13 @@
       xAxis: {
         type: 'category',
         data: data.value.categories,
+        axisLabel: {
+          color: 'rgba(170, 221, 255, .8)', // 设置文本颜色
+          fontSize: 14, // 设置字体大小
+          fontFamily: 'Arial', // 设置字体样式
+          interval: 0,
+          rotate: props.rotate,
+        },
       },
       yAxis: {
         type: 'value',
