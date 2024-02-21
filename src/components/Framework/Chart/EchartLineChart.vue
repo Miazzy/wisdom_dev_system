@@ -10,6 +10,7 @@
     height: { type: Number, default: 300 },
     data: { type: Object, default: {} },
     smooth: { type: Boolean, default: false },
+    rotate: { type: Number, default: 0 },
   });
   const chartRef = ref<HTMLDivElement | null>(null);
   const { setOptions, echarts } = useECharts(chartRef as Ref<HTMLDivElement>);
@@ -75,6 +76,13 @@
       },
       axisTick: {
         show: false,
+      },
+      axisLabel: {
+        color: 'rgba(170, 221, 255, .8)', // 设置文本颜色
+        fontSize: 14, // 设置字体大小
+        fontFamily: 'Arial', // 设置字体样式
+        interval: 0,
+        rotate: props.rotate,
       },
     },
     yAxis: [

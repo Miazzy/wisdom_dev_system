@@ -21,6 +21,7 @@
     axisColor: { type: String, default: 'rgba(170, 221, 255, .8)' },
     axisWidth: { type: String, default: '0.2' },
     legendColor: { type: String, default: 'rgba(255, 255, 255, 0.6)' },
+    rotate: { type: Number, default: 0 },
   });
 
   // 创建图表
