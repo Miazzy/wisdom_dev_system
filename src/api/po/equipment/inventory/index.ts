@@ -48,3 +48,8 @@ export function exportEquipmentInventory(params) {
     '库存盘点单.xls',
   );
 }
+
+// 获得流程默认信息
+export function getDefaultValues() {
+  return defHttp.get({ url: '/po/equipment-inventory/getDefaultValues' }, { isOnlyResult: true });
+}

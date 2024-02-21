@@ -221,8 +221,9 @@
   watch(
     () => props.processInstanceId,
     (newValue, prevValue) => {
-      processInstanceId.value = props.processInstanceId;
-      if (processInstanceId.value.length != 0) {
+      if (props.processInstanceId) {
+        processInstanceId.value = props.processInstanceId;
+
         getTaskListByProcessInstanceId();
         getProcessInstance();
         isShowBtns.value = true;
