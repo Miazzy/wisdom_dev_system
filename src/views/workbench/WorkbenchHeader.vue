@@ -5,13 +5,23 @@
         <img class="user-icon-img" src="../../assets/images/header.jpg" />
       </div>
       <div class="info-box">
-        <p class="black-text">上午好，卢晓冬，开始您一天的工作吧！</p>
+        <p class="black-text">上午好，{{ getLoginName() }}，开始您一天的工作吧！</p>
         <p class="grey-text">今日晴，20℃ - 32℃！</p>
       </div>
     </div>
   </a-card>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+  import { toRaw } from 'vue';
+  import { useUserStore } from '/@/store/modules/user';
+
+  const userStore = useUserStore();
+  const getUserInfo = toRaw(userStore.getUserInfo);
+
+  const getLoginName = () => {
+    return getUserInfo.username;
+  };
+</script>
 <style lang="less" scoped>
   .workbench-header {
     height: 72px;
