@@ -1142,8 +1142,14 @@ export const OAScheduleList: AppRouteRecordRaw = {
   component: () => import('/@/views/oa/schedule/index.vue'),
 };
 
+export const SysOrgType: AppRouteRecordRaw = {
+  path: '/framepage/system/configuration/orgType',
+  component: () => import('/@/views/system/configuration/orgType/orgType.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  SysOrgType,
   OAScheduleList,
   BasesetIndexStorehHouse,
   OALeave,
