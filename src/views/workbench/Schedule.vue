@@ -14,22 +14,23 @@
       <Schedule ref="schedule" />
     </template>
     <div class="card-content">
-      <a-calendar v-model:value="value" @panelChange="onPanelChange" :fullscreen="false">
-        <!-- <template #dateFullCellRender="{ current }">
-          <div class="calendar-cell">
-            <div class="date"> {{ current.date() }}</div>
-            <div class="detail">
-              <div class="lunar-date">会议</div>
-              <div class="status">日程</div>
-            </div>
-          </div>
-        </template> -->
+      <a-calendar
+        v-model:value="value"
+        @panel-change="onPanelChange"
+        @select="select"
+        :fullscreen="false"
+      >
         <template #dateCellRender="{ current }">
-          <ul class="events">
-            <li v-for="item in getListData(current)" :key="item.content">
-              <a-badge :status="item.type" :text="item.content" />
-            </li>
-          </ul>
+          <a-popover title="日程会议" trigger="click">
+            <template #content>
+              <p>{{ Content }}</p>
+            </template>
+            <ul class="events">
+              <li v-for="item in getListData(current)" :key="item.content">
+                <a-badge :status="item.type" :text="item.content" />
+              </li>
+            </ul>
+          </a-popover>
         </template>
       </a-calendar>
     </div>
@@ -55,8 +56,9 @@
       },
       {},
     );
-
+  const visible = ref<boolean>(false);
   const list = ref([]);
+  const Content = ref<string>();
   const getListData = (value: Dayjs) => {
     let dt = value.toDate();
     let year = dt.getFullYear();
@@ -94,6 +96,24 @@
 
   const onPanelChange = (value: Dayjs, mode: string) => {
     console.log(value, mode);
+  };
+
+  const getSchedule = (params) =>
+    defHttp.get(
+      {
+        url: '/oa/calendar-schedule/getTodaySchedule',
+        params,
+      },
+      {},
+    );
+
+  const select = (value: Dayjs) => {
+    getSchedule({ date: value.toDate().toDateString() })
+      .then((data) => {
+        Content.value = data.result;
+        visible.value = true;
+      })
+      .catch(() => {});
   };
 </script>
 
