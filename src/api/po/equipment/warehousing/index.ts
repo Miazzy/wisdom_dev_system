@@ -32,3 +32,8 @@ export function exportEquipmentWarehousing(params) {
     '设备入库单.xls',
   );
 }
+
+// 获得流程默认信息
+export function getDefaultValues() {
+  return defHttp.get({ url: '/po/equipment-warehousing/getDefaultValues' }, { isOnlyResult: true });
+}
