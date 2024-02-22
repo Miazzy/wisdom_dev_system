@@ -163,6 +163,7 @@
       :multiple="`multiple`"
       :type="DICT_TYPE.SYSTEM_USER_SEX"
       :width="220"
+      :maxTagCount="1"
       style="margin-left: 5px"
       @change="handleDictSelectBoxChange"
     />

@@ -6,10 +6,11 @@
     allow-clear
     :mode="props.multiple"
     :disabled="props.disabled"
-    placeholder="请选择数据..."
+    :maxTagCount="props.maxTagCount"
     :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}`"
     :options="options"
     :filter-option="filterOption"
+    placeholder="请选择数据..."
     @change="handleChange"
   />
   <span v-if="props.vmode == 'view'">{{ findOption(props.value) }}</span>
@@ -39,6 +40,7 @@
     delaytimes: { type: Number, default: 900 },
     multiple: { type: String, default: 'combobox' },
     callback: { type: Function, default: null },
+    maxTagCount: { type: Number, default: 10 },
   });
 
   // 选中下拉框选项事件函数
