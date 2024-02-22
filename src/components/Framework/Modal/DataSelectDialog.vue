@@ -3,9 +3,6 @@
     <div class="dialog-content" :style="`height: calc(${props.height}px - 90px)`">
       <!-- 左侧分类树 -->
       <div class="category-tree">
-        <!-- <span class="category-title">
-          <span>组织结构</span>
-        </span> -->
         <div class="category-content" :style="`height: calc(${props.height}px - 130px)`">
           <div class="category-search-box" style="position: relative">
             <span class="search-title" style="">搜索</span>
@@ -19,7 +16,8 @@
           </div>
           <div class="tree-value" :style="`height: calc(${props.height}px - 180px);`">
             <!-- 基础Tree组件 -->
-            <a-tree v-if="searchText.length <= 0" :tree-data="treeData" show-icon :default-expand-all="false" @select="handleSelect">
+            <a-tree v-if="searchText.length <= 0" :tree-data="treeData" show-icon :default-expand-all="false" checkable checkStrictly :selectable="false" v-model:checkedKeys="checkedKeys" @check="handleCheck">
+              <!-- @select="handleSelect" -->
               <template #switcherIcon="{ switcherCls }">
                 <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
               </template>
@@ -37,22 +35,9 @@
 
       <!-- 右侧表格 -->
       <div class="employee-table">
-        <!-- <span class="employee-title">
-          <span>被选人员</span>
-        </span> -->
         <div class="employee-content">
           <div position="center" class="layout-content" :style="`height: calc(${props.height}px - 120px);`">
             <div class="component-wrap">
-              <!-- <template :key="index" v-for="(item, index) of allNodes">
-                <a class="component-item">
-                  <span class="ui-component-text" :title="item[props.tfields.title]">
-                    {{ item[props.tfields.title] }}
-                  </span>
-                  <i class="icon-close">
-                    <Icon icon="typcn:delete" size="18" @click="handleDeleteNode(item, index)" />
-                  </i>
-                </a>
-              </template> -->
               <a-table size="small" :columns="selectedDataColumns" :data-source="allNodes" :pagination="false" :scroll="{ y: props.height - 170 }"
               :style="`height: calc(${props.height}px - 130px);overflow-x: hidden;`">
                 <template #bodyCell="{ record, index, column}">
@@ -88,6 +73,8 @@
   const treeData = ref([]);
   const searchText = ref('');
   const selectedNode = ref(null);
+  const checkedKeys = ref(null);
+  const checkedNodes = ref([]);
   const allNodes = ref<any>([]);
   const treeMap = ref<any>();
   const tdataList = ref<any>([]);
@@ -168,40 +155,40 @@
     selectedNode.value = node;
   };
 
-  const handleNode = () => {
-    const snode = selectedNode.value || {};
-    console.log('snode', snode);
-    if (typeof allNodes.value == 'undefined' || allNodes.value == null) {
-      allNodes.value = [];
-    }
-    const findex = allNodes.value
-      ? allNodes.value.findIndex((x) => {
-          return (
-            x[props.tfields.key] === snode[props.tfields.key] &&
-            x[props.tfields.title] === snode[props.tfields.title]
-          );
-        })
-      : -1;
-    if (findex < 0) {
-      // 将选中节点推入allNodes节点中
-      allNodes.value.push(selectedNode.value);
-      // 去除掉nodeId相同的节点
-      const list = allNodes.value.filter((node, index, list) => {
-        const findIndexValue = list.findIndex((x) => {
-          return (
-            x[props.tfields.key] === node[props.tfields.key] &&
-            x[props.tfields.title] === node[props.tfields.title]
-          );
-        });
-        return findIndexValue === index;
-      });
-      allNodes.value = list;
-    } else {
-      // message.warning(props.message.double);
-      SysMessage.getInstance().warning(props.message.double);
-    }
-    emit('update:value', allNodes.value);
-  };
+  // const handleNode = () => {
+  //   const snode = selectedNode.value || {};
+  //   console.log('snode', snode);
+  //   if (typeof allNodes.value == 'undefined' || allNodes.value == null) {
+  //     allNodes.value = [];
+  //   }
+  //   const findex = allNodes.value
+  //     ? allNodes.value.findIndex((x) => {
+  //         return (
+  //           x[props.tfields.key] === snode[props.tfields.key] &&
+  //           x[props.tfields.title] === snode[props.tfields.title]
+  //         );
+  //       })
+  //     : -1;
+  //   if (findex < 0) {
+  //     // 将选中节点推入allNodes节点中
+  //     allNodes.value.push(selectedNode.value);
+  //     // 去除掉nodeId相同的节点
+  //     const list = allNodes.value.filter((node, index, list) => {
+  //       const findIndexValue = list.findIndex((x) => {
+  //         return (
+  //           x[props.tfields.key] === node[props.tfields.key] &&
+  //           x[props.tfields.title] === node[props.tfields.title]
+  //         );
+  //       });
+  //       return findIndexValue === index;
+  //     });
+  //     allNodes.value = list;
+  //   } else {
+  //     // message.warning(props.message.double);
+  //     SysMessage.getInstance().warning(props.message.double);
+  //   }
+  //   emit('update:value', allNodes.value);
+  // };
 
   const handleDelete = () => {
     if (allNodes.value && allNodes.value.length > 0) {
@@ -221,6 +208,7 @@
 
   const handleDeleteNode = (item, index) => {
     allNodes.value = allNodes.value.filter((node, tindex) => tindex !== index);
+    checkedKeys.value.checked = checkedKeys.value.checked.filter(key => key !== item.key);
     emit('update:value', allNodes.value);
   };
 
@@ -386,6 +374,14 @@
       event.preventDefault();
     }
   };
+
+
+  const handleCheck = (checkedKeys, e) => {
+    checkedNodes.value = e.checkedNodes;
+  }
+  const handleNode = () => {
+    allNodes.value = checkedNodes.value;
+  }
 
   // 右侧表格
   const selectedDataColumns = ref([
