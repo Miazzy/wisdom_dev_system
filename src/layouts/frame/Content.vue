@@ -450,6 +450,7 @@
     }, 100);
     MsgManager.getInstance().listen('iframe-tabs-message', handleTabMessage);
     MsgManager.getInstance().listen('iframe-tabs-refresh-all', handleRefreshMenuAll);
+    MsgManager.getInstance().listen('iframe-screen-emit', handleScreenTabPage);
     MsgManager.getInstance().listen('system-menu-collapse', handleMenuCollapsed);
     handleActivePath();
     handleResize();

@@ -2,6 +2,9 @@
   <div class="header">
     <div class="title"> {{ props.title }} </div>
     <div class="info">
+      <button class="settings">
+        <Icon icon="octicon:screen-full-24" color="#32afff" style="cursor: pointer;font-size:0.28rem;" @click="handleScreen"/>
+      </button>
       <span class="time">
         <DigitalClock />
       </span>
@@ -20,10 +23,19 @@
   import DigitalClock from '/@/components/Framework/Chart/DigitalClock.vue';
   import WeatherDisplay from '/@/components/Framework/Chart/WeatherDisplay.vue';
   import Icon from '@/components/Icon/Icon.vue';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const props = defineProps({
     title: { type: String, default: '' }, // 列定义
     date: { type: String, default: '' }, // 表格数据
+  });
+
+  const handleScreen = () => {
+    MsgManager.getInstance().sendMsg('iframe-screen-emit', {});
+  };
+
+  onMounted(() => {
+    
   });
 </script>
 <style>
