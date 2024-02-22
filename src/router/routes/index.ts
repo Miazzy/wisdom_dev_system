@@ -1147,8 +1147,14 @@ export const SysOrgType: AppRouteRecordRaw = {
   component: () => import('/@/views/system/configuration/orgType/orgType.vue'),
 };
 
+export const BiReportFormPreview: AppRouteRecordRaw = {
+  path: '/framepage/bi/reportform/preview/index',
+  component: () => import('/@/views/bi/reportform/preview/index.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  BiReportFormPreview,
   SysOrgType,
   OAScheduleList,
   BasesetIndexStorehHouse,
