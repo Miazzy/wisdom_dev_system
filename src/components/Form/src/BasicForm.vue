@@ -25,7 +25,7 @@
         </FormItem>
       </template>
 
-      <FormAction v-bind="getFormActionBindProps" @toggle-advanced="handleToggleAdvanced">
+      <FormAction v-bind="getFormActionBindProps" @toggle-advanced="handleActionToggleAdvanced">
         <template
           #[item]="data"
           v-for="item in ['resetBefore', 'submitBefore', 'advanceBefore', 'advanceAfter']"
@@ -151,6 +151,11 @@
         formModel,
         defaultValueRef,
       });
+
+      const handleActionToggleAdvanced = () => {
+        emit('toggle-advanced');
+        handleToggleAdvanced();
+      };
 
       const { handleFormValues, initDefault } = useFormValues({
         getProps,
@@ -287,6 +292,7 @@
       return {
         getBindValue,
         handleToggleAdvanced,
+        handleActionToggleAdvanced,
         handleEnterPress,
         formModel,
         defaultValueRef,
