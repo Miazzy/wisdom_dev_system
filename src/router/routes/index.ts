@@ -1152,8 +1152,14 @@ export const BiReportFormPreview: AppRouteRecordRaw = {
   component: () => import('/@/views/bi/reportform/preview/index.vue'),
 };
 
+export const BiReportForm: AppRouteRecordRaw = {
+  path: '/framepage/bi/reportform/index',
+  component: () => import('/@/views/bi/reportform/index.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  BiReportForm,
   BiReportFormPreview,
   SysOrgType,
   OAScheduleList,
