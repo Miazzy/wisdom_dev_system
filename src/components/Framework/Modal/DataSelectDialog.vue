@@ -1,62 +1,72 @@
 <template>
-  <Dialog :title="title" :visible="modalVisible" @update:visible="updateVisible" :width="props.width" :height="props.height" @cancel="cancel" @confirm="confirm" @close="handleClose">
-    <div class="dialog-content" :style="`height: calc(${props.height}px - 90px)`">
-      <!-- 左侧分类树 -->
-      <div class="category-tree">
-        <div class="category-content" :style="`height: calc(${props.height}px - 130px)`">
-          <div class="category-search-box" style="position: relative">
-            <span class="search-title" style="">搜索</span>
-            <a-input-search v-model:value="searchText" class="search-input" placeholder="请输入搜索内容" enter-button @change="handleSearch" @search="handleSearch" @keydown.prevent.enter="preventEnter" />
-            <span class="search-icon" style="left: 300px">
-              <Icon icon="mdi:arrow-up" color="#333" size="22" class="rotate-left" @click="handleNode" />
-            </span>
-            <span class="search-icon" style="left: 340px">
-              <Icon icon="material-symbols:delete-outline" color="#333" size="22" @click="handleDelete" />
-            </span>
-          </div>
-          <div class="tree-value" :style="`height: calc(${props.height}px - 180px);`">
-            <!-- 基础Tree组件 -->
-            <a-tree v-if="searchText.length <= 0" :tree-data="treeData" show-icon :default-expand-all="false" checkable checkStrictly :selectable="false" v-model:checkedKeys="checkedKeys" @check="handleCheck">
-              <!-- @select="handleSelect" -->
-              <template #switcherIcon="{ switcherCls }">
-                <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
-              </template>
-              <template #icon="{ key, isLeaf }">
-                <Icon v-if="isLeaf && !isTopNode(key)" :icon="props.ticons.leaf" color="#333" size="14" />
-                <Icon v-if="!isLeaf && !isTopNode(key)" :icon="props.ticons.middle" color="#333" size="14" />
-              </template>
-            </a-tree>
+  <Dialog :title="title" :visible="modalVisible" @update:visible="updateVisible" :width="props.width" :height="props.height" @close="handleClose">
+    <template #default>
+      <div class="dialog-content" :style="`height: calc(${props.height}px - 90px)`">
+        <!-- 左侧分类树 -->
+        <div class="category-tree">
+          <div class="category-content" :style="`height: calc(${props.height}px - 130px)`">
+            <div class="category-search-box" style="position: relative">
+              <span class="search-title" style="">搜索</span>
+              <a-input-search v-model:value="searchText" class="search-input" placeholder="请输入搜索内容" enter-button @change="handleSearch" @search="handleSearch" @keydown.prevent.enter="preventEnter" />
+              <span class="search-icon" style="left: 300px">
+                <Icon icon="mdi:arrow-up" color="#333" size="22" class="rotate-left" @click="handleNode" />
+              </span>
+              <span class="search-icon" style="left: 340px">
+                <Icon icon="material-symbols:delete-outline" color="#333" size="22" @click="handleDelete" />
+              </span>
+            </div>
+            <div class="tree-value" :style="`height: calc(${props.height}px - 180px);`">
+              <!-- 基础Tree组件 -->
+              <a-tree v-if="searchText.length <= 0" :tree-data="treeData" show-icon :default-expand-all="false" checkable checkStrictly :selectable="false" v-model:checkedKeys="checkedKeys"
+                @check="handleCheck">
+                <template #switcherIcon="{ switcherCls }">
+                  <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
+                </template>
+                <template #icon="{ key, isLeaf }">
+                  <Icon v-if="isLeaf && !isTopNode(key)" :icon="props.ticons.leaf" color="#333" size="14" />
+                  <Icon v-if="!isLeaf && !isTopNode(key)" :icon="props.ticons.middle" color="#333" size="14" />
+                </template>
+              </a-tree>
 
-            <a-table v-if="searchText.length > 0" size="small" :columns="scolumns" :data-source="xdataList" :pagination="false" :scroll="{ x: (props.width - 30) / 2, y: props.height - 220 }"
-              style="overflow-x: hidden" :customRow="handleTableClick" />
+              <a-table v-if="searchText.length > 0" size="small" :columns="scolumns" :data-source="xdataList" :pagination="false" :scroll="{ x: (props.width - 30) / 2, y: props.height - 220 }"
+                style="overflow-x: hidden" :customRow="handleTableClick" />
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- 右侧表格 -->
-      <div class="employee-table">
-        <div class="employee-content">
-          <div position="center" class="layout-content" :style="`height: calc(${props.height}px - 120px);`">
-            <div class="component-wrap">
-              <a-table size="small" :columns="selectedDataColumns" :data-source="allNodes" :pagination="false" :scroll="{ y: props.height - 170 }"
-              :style="`height: calc(${props.height}px - 130px);overflow-x: hidden;`">
-                <template #bodyCell="{ record, index, column}">
-                  <template v-if="column.dataIndex === 'index'">
-                    <span>{{index + 1}}</span>
+        <!-- 右侧表格 -->
+        <div class="employee-table">
+          <div class="employee-content">
+            <div position="center" class="layout-content" :style="`height: calc(${props.height}px - 120px);`">
+              <div class="component-wrap">
+                <a-table size="small" :columns="selectedDataColumns" :data-source="allNodes" :pagination="false" :scroll="{ y: props.height - 170 }"
+                  :style="`height: calc(${props.height}px - 130px);overflow-x: hidden;`">
+                  <template #bodyCell="{ record, index, column}">
+                    <template v-if="column.dataIndex === 'index'">
+                      <span>{{index + 1}}</span>
+                    </template>
+                    <template v-else-if="column.dataIndex === 'sort'">
+                      <Icon icon="ant-design:drag-outlined" size="12" />
+                    </template>
+                    <template v-else-if="column.dataIndex === 'action'">
+                      <a>
+                        <Icon icon="ant-design:delete-filled" size="12" color="#ED6F6F" @click="handleDeleteNode(record, index)" />
+                      </a>
+                    </template>
                   </template>
-                  <template v-else-if="column.dataIndex === 'sort'">
-                    <Icon icon="ant-design:drag-outlined" size="12" />
-                  </template>
-                  <template v-else-if="column.dataIndex === 'action'">
-                    <a><Icon icon="ant-design:delete-filled" size="12" color="#ED6F6F" @click="handleDeleteNode(record, index)" /></a>
-                  </template>
-                </template>
-              </a-table>
+                </a-table>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </template>
+
+    <template #footer>
+      <a-button v-if="extraFooterBtn" class="btn-margin" type="primary" @click="handleExtra">{{extraFooterBtn}}</a-button>
+      <a-button class="btn-margin" @click="cancel">取消</a-button>
+      <a-button class="btn-margin" type="primary" @click="confirm">确定</a-button>
+    </template>
   </Dialog>
 </template>
 
@@ -115,9 +125,13 @@
         delete: '请您确认是否删除所有勾选节点？',
       } as messageType,
     },
+    extraFooterBtn: {
+      type: String,
+      default: ''
+    }, // 自定义的其他操作按钮
   });
 
-  const emit = defineEmits(['update:visible', 'update:value', 'cancel', 'confirm', 'close']); // 定义事件
+  const emit = defineEmits(['update:visible', 'update:value', 'cancel', 'confirm', 'close', 'extra']); // 定义事件
 
   const scolumns = ref([
     { title: '名称', dataIndex: 'title', key: 'title', fixed: true, width: 80 },
@@ -139,6 +153,10 @@
   const handleClose = () => {
     emit('cancel'); // 发送取消事件
   };
+
+  const handleExtra = () => {
+    emit('extra');
+  } // 自定义其他操作按钮事件
 
   const updateVisible = ($event) => {
     modalVisible.value = $event;
@@ -208,7 +226,7 @@
 
   const handleDeleteNode = (item, index) => {
     allNodes.value = allNodes.value.filter((node, tindex) => tindex !== index);
-    checkedKeys.value.checked = checkedKeys.value.checked.filter(key => key !== item.key);
+    checkedKeys.value.checked = checkedKeys.value.checked.filter((key) => key !== item.key);
     emit('update:value', allNodes.value);
   };
 
@@ -375,18 +393,17 @@
     }
   };
 
-
   const handleCheck = (checkedKeys, e) => {
     checkedNodes.value = e.checkedNodes;
-  }
+  };
   const handleNode = () => {
     allNodes.value = checkedNodes.value;
-  }
+  };
 
   // 右侧表格
   const selectedDataColumns = ref([
     { title: '序号', dataIndex: 'index', key: 'index', width: 60 },
-    { title: '名称', dataIndex: 'title', key: 'title' },
+    { title: '名称', dataIndex: props.tfields.title, key: props.tfields.title },
     { title: '排序', dataIndex: 'sort', key: 'sort', width: 80 },
     { title: '操作', dataIndex: 'action', key: 'action', width: 80 },
   ]);
@@ -611,5 +628,9 @@
         }
       }
     }
+  }
+
+  .btn-margin {
+    margin: 1px 0 1px 10px;
   }
 </style>
