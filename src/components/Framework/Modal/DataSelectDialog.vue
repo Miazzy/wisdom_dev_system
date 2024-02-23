@@ -83,7 +83,7 @@
   const treeData = ref([]);
   const searchText = ref('');
   const selectedNode = ref(null);
-  const checkedKeys = ref(null);
+  const checkedKeys = ref({});
   const checkedNodes = ref([]);
   const allNodes = ref<any>([]);
   const treeMap = ref<any>();
@@ -127,7 +127,7 @@
     },
     extraFooterBtn: {
       type: String,
-      default: ''
+      default: '',
     }, // 自定义的其他操作按钮
   });
 
@@ -156,7 +156,7 @@
 
   const handleExtra = () => {
     emit('extra');
-  } // 自定义其他操作按钮事件
+  }; // 自定义其他操作按钮事件
 
   const updateVisible = ($event) => {
     modalVisible.value = $event;
@@ -226,7 +226,12 @@
 
   const handleDeleteNode = (item, index) => {
     allNodes.value = allNodes.value.filter((node, tindex) => tindex !== index);
-    checkedKeys.value.checked = checkedKeys.value.checked.filter((key) => key !== item.key);
+    if(item.key) {
+      checkedKeys.value.checked = checkedKeys.value.checked.filter((key) => key !== item.key);
+    } else {
+      checkedKeys.value.checked =  getCheckedKeysByValues(treeData.value, getValueArr(allNodes.value));
+    }
+    
     emit('update:value', allNodes.value);
   };
 
@@ -409,6 +414,31 @@
   ]);
   const selectedDataList = ref<any>([]);
 
+  const getValueArr = (data) => {
+    let valueArr = [];
+    if (data?.length) {
+      data.forEach((item) => {
+        valueArr.push(item.value);
+      });
+    }
+
+    return valueArr;
+  };
+  const getCheckedKeysByValues = (treeData, valueArr) => {
+    let keyArr = []; 
+    if (valueArr?.length) {
+      treeData.forEach((item) => {
+        if (valueArr.includes(item.value)) {
+          keyArr.push(item.key);
+        }
+        if(item.children?.length) {
+          keyArr.push(...getCheckedKeysByValues(item.children, valueArr));
+        }
+      });
+    }
+    return keyArr;
+  };
+
   watch(
     () => props.value,
     (newValue) => {
@@ -443,6 +473,8 @@
       treeData.value = transformData(data, rule);
       treeMap.value = transformMap(data, rule);
       transformTableData(data, rule, 'top', null);
+      checkedKeys.value.checked = getCheckedKeysByValues(treeData.value, getValueArr(props.value));
+      // checkedNodes.value = getCheckedNodesByValues(treeData.value, getValueArr(props.value));
     },
   );
 
