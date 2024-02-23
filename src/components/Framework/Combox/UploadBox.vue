@@ -89,7 +89,7 @@
   const bizFileId = ref('');
 
   // 定义emits
-  const emit = defineEmits(['update:value', 'change', 'cancel', 'confirm']);
+  const emit = defineEmits(['update:value', 'change', 'cancel', 'confirm', 'loaded']);
 
   // 打开弹框函数
   const handleOpenUpDialog = () => {
@@ -196,6 +196,7 @@
       filelist.value = await getFiles(bizId);
       bizFileId.value = bizId;
       emit('update:value', filelist.value);
+      emit('loaded', filelist.value);
       if (props.callback != null) {
         props.callback(filelist.value);
       }

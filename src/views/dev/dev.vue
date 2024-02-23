@@ -265,10 +265,20 @@
 
     <!-- <NtgaleChart /> -->
 
-    <Table 
-      :table-css-style="{ width: '800px', height: 'auto' }"
-      :data="tableDataSource" 
-      :columns="tableColumns" />
+    <Table
+      :table-css-style="{ width: '1200px', margin: '5px 0px 5px 0px', height: 'auto' }"
+      :data="tableDataSource"
+      :columns="tableColumns"
+    />
+
+    <div style="width: 1200px; height: 400px; margin: 5px 0px 20px 0px">
+      <UploadTable
+        :rows="uploadRows"
+        :colwidths="uploadColWidths"
+        :application="`baseset`"
+        :module="`oaleave`"
+      />
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -292,6 +302,7 @@
   import ApprovalDrawer from '/@/components/Framework/ApprovalDrawer/ApprovalDrawer.vue';
   import CategoryDialog from '/@/components/Framework/Modal/CategoryDialog.vue';
   import Table from '/@/components/Framework/Table/Table.vue';
+  import UploadTable from '/@/components/Framework/Table/UploadTable.vue';
   import OrganDialog from '@/components/Framework/Modal/OrganDialog.vue';
   import UploadDialog from '@/components/Framework/Modal/UploadDialog.vue';
   import XButton from '@/components/Framework/XButton/XButton.vue';
@@ -349,6 +360,26 @@
   const searchSelectText = ref('');
   const searchBoxSearchText = ref('');
   const uuidVal = ref('');
+
+  const uploadRows = ref<any[]>([]);
+  const uploadColWidths = ref<string[]>([]);
+  uploadRows.value = [
+    {
+      filetype: '营业执照证件',
+      fnamelist: '',
+      bizId: 'test-row-0001',
+      maxCount: 2,
+      maxSize: 1024 * 1024 * 20,
+    },
+    {
+      filetype: '经营合规证书',
+      fnamelist: '',
+      bizId: 'test-row-0002',
+      maxCount: 1,
+      maxSize: 1024 * 1024 * 20,
+    },
+  ];
+  uploadColWidths.value = ['15%', '70%', '15%'];
 
   const billTitleOptions = reactive<any>({});
   billTitleOptions.title = '电站填报';
