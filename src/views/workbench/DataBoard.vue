@@ -1,7 +1,7 @@
 <template>
-  <a-card title="数据看板" :bordered="false" @click="handleOpenDialog()">
+  <a-card title="数据看板" :bordered="false">
     <template #extra>
-      <Icon icon="ion:settings-outline" :size="17" />
+      <Icon icon="ion:settings-outline" :size="17" @click="handleOpenDialog()" />
     </template>
     <div class="card-content">
       <!-- <div class="data-board-item">
@@ -51,7 +51,7 @@
         formState.dataBoard = [];
         rsp.forEach((e) => {
           formState.dataBoard.push({
-            value: e.id,
+            value: e.parentId,
             label: e.name,
             parentId: e.parentId,
             name: e.name,
