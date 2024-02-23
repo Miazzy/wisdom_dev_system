@@ -38,7 +38,7 @@
 
   const toMorePage = () => {
     // router.push(`/oa/info/officedoc/index`);
-    addTabPage(`/oa/info/officedoc/index`, '通知公告');
+    addTabPage(`/oa/info/query/index`, '信息查询');
   };
 
   const toNotice = (item) => {
