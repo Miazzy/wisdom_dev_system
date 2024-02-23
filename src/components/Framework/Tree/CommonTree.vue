@@ -126,7 +126,9 @@
   watch(
     () => props.value,
     (newValue) => {
-      treeData.value = newValue as unknown as TreeItem[];
+      if (newValue) { // 当监听到的数据为null时，不能进行设置，否则存在null时报错导致后续无法渲染
+        treeData.value = newValue as unknown as TreeItem[];
+      }
     },
   );
 

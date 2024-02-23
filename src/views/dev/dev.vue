@@ -264,6 +264,11 @@
     <EchartPillarChart :data="pchartData" /> -->
 
     <!-- <NtgaleChart /> -->
+
+    <Table 
+      :table-css-style="{ width: '800px', height: 'auto' }"
+      :data="tableDataSource" 
+      :columns="tableColumns" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -286,6 +291,7 @@
   import { useDrawer } from '/@/components/Drawer';
   import ApprovalDrawer from '/@/components/Framework/ApprovalDrawer/ApprovalDrawer.vue';
   import CategoryDialog from '/@/components/Framework/Modal/CategoryDialog.vue';
+  import Table from '/@/components/Framework/Table/Table.vue';
   import OrganDialog from '@/components/Framework/Modal/OrganDialog.vue';
   import UploadDialog from '@/components/Framework/Modal/UploadDialog.vue';
   import XButton from '@/components/Framework/XButton/XButton.vue';
@@ -499,6 +505,51 @@
     { name: '重庆市', value: 0 },
     { name: '香港特别行政区', value: 0 },
     { name: '澳门特别行政区', value: 0 },
+  ];
+
+  const tableDataSource = ref<any[]>([]);
+  const tableColumns = ref<any[]>([]);
+
+  tableDataSource.value = [
+    {
+      key: '1',
+      name: '胡彦斌',
+      age: 32,
+      address: '西湖区湖底公园1号',
+    },
+    {
+      key: '2',
+      name: '胡彦祖',
+      age: 42,
+      address: '西湖区湖底公园1号',
+    },
+  ];
+
+  tableColumns.value = [
+    {
+      title: '姓名',
+      dataIndex: 'name',
+      key: 'name',
+      width: '30%',
+      halign: 'center',
+      talign: 'center',
+    },
+    {
+      title: '年龄',
+      dataIndex: 'age',
+      key: 'age',
+      width: '10%',
+      halign: 'center',
+      talign: 'center',
+    },
+    {
+      title: '住址',
+      dataIndex: 'address',
+      key: 'address',
+      width: '40%',
+      halign: 'center',
+      talign: 'left',
+    },
   ];
 
   // 查询左侧电站树数据
@@ -723,9 +774,9 @@
   });
 
   const myCommonTree = ref();
-  const handleCancelCheck = ()=>{
+  const handleCancelCheck = () => {
     myCommonTree.value.cancelCheck();
-  }
+  };
 </script>
 <style scoped>
   .search-content {
