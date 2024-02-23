@@ -1157,8 +1157,14 @@ export const BiReportForm: AppRouteRecordRaw = {
   component: () => import('/@/views/bi/reportform/index.vue'),
 };
 
+export const CodeBuildRule: AppRouteRecordRaw = {
+  path: '/framepage/system/configuration/codeBuildRule',
+  component: () => import('/@/views/system/configuration/codeBuildRule/index.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  CodeBuildRule,
   BiReportForm,
   BiReportFormPreview,
   SysOrgType,

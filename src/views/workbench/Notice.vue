@@ -47,7 +47,11 @@
     });
     if (element) {
       // router.push({ path: element.url, query: { id: item.id } });
-      addTabPage(element.url, '通知公告详情', { id: item.id });
+      addTabPage(element.url, '通知公告详情', { processInstanceId: item.processInstanceId });
+
+      setTimeout(() => {
+        getNoticeAndAnnouncementPage();
+      }, 10000);
     }
   };
 
@@ -60,7 +64,7 @@
       noticeList.value.splice(0, noticeList.value.length);
       noticeAndAnnouncement.list.forEach((e) => {
         noticeList.value.push({
-          id: e.id,
+          processInstanceId: e.processInstanceId,
           title: e.subject,
           dept: e.deptName,
           person: e.personMemberName,
