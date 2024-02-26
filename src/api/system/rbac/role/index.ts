@@ -18,6 +18,8 @@ export enum Api {
   AUTHORIZE_PAGE_URL = '/system/role/authorize/page',
   AUTHORIZE_LIST_URL = '/system/role/authorize/list',
   AUTHORIZE_EXPORT_EXCEL_URL = '/system/role/authorize/export-excel',
+  DATA_PERMISSION_CREATE_URL = '/system/role/data-permission/create',
+  DATA_PERMISSION_GET_URL = '/system/role/data-permission/get',
 }
 
 // 添加角色管理
@@ -189,6 +191,25 @@ export const exportAuthorizeExcel = (params) =>
       url: Api.AUTHORIZE_EXPORT_EXCEL_URL,
       params,
       responseType: 'blob',
+    },
+    { isOnlyResult: true },
+  );
+
+// 保存角色数据权限
+export const saveDataPermission = (params) =>
+  defHttp.post(
+    {
+      url: Api.DATA_PERMISSION_CREATE_URL,
+      params,
+    },
+    {},
+  );
+
+// 获取角色数据权限
+export const getDataPermissionByRoleId = (roleId: string) =>
+  defHttp.get(
+    {
+      url: `${Api.DATA_PERMISSION_GET_URL}?roleId=${roleId}`,
     },
     { isOnlyResult: true },
   );
