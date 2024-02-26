@@ -9,7 +9,11 @@
         >
           <span>{{ column.title }}</span>
         </th>
-        <th v-if="toperable" :style="{ width: tactioncolumn.width, textAlign: tactioncolumn.halign }">操作</th>
+        <th
+          v-if="toperable"
+          :style="{ width: tactioncolumn.width, textAlign: tactioncolumn.halign }"
+          >操作</th
+        >
       </tr>
     </thead>
     <tbody>
@@ -19,10 +23,7 @@
           :key="column.key"
           :style="{ width: column.width, textAlign: column.talign }"
         >
-          <template v-if="column.dataIndex !== 'filelist'">
-            <span>{{ item[column.dataIndex] }}</span>
-          </template>
-          <template v-else-if="column.dataIndex === 'filelist'">
+          <template v-if="column.dataIndex === 'filelist'">
             <template v-for="file in item.filelist" :key="`${file.id}`">
               <div class="ant-upload-list-item">
                 <span role="img" aria-label="paper-clip" class="anticon anticon-paper-clip">
@@ -41,14 +42,39 @@
                 </span>
               </div>
             </template>
+            <template v-if="item['required'] && item.showReqTips && item.filelist && item.filelist.length == 0">
+              <span class="file-alert">
+                <a-alert message="请上传本行附件信息" type="error" show-icon />
+              </span>
+            </template>
+          </template>
+          <template v-else-if="column.dataIndex === 'filetype'">
+            <span class="file-type">
+              <span class="required"> {{ item['required'] ? '*' : ' ' }}</span>
+              <span class="text">{{ item[column.dataIndex] }}</span>
+            </span>
+          </template>
+          <template v-else-if="column.dataIndex !== 'filelist'">
+            <span>{{ item[column.dataIndex] }}</span>
           </template>
         </td>
-        <td v-if="toperable" :style="{ width: tactioncolumn.width, textAlign: tactioncolumn.halign }">
+        <td
+          v-if="toperable"
+          :style="{ width: tactioncolumn.width, textAlign: tactioncolumn.halign }"
+        >
           <slot name="actions" :item="item">
             <UploadBox
               v-model:value="item.filelist"
-              @loaded="(list) => { handleFileItemLoaded(item, list) }"
-              @change="(list) => { handleFileItemLoaded(item, list) }"
+              @loaded="
+                (list) => {
+                  handleFileItemLoaded(item, list);
+                }
+              "
+              @change="
+                (list) => {
+                  handleFileItemLoaded(item, list);
+                }
+              "
               :vmode="'edit'"
               :width="800"
               :height="550"
@@ -81,7 +107,10 @@
     application: { type: String, default: '' },
     module: { type: String, default: '' },
     message: { type: String, default: '' },
-    format: { type: String, default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4' },
+    format: {
+      type: String,
+      default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4',
+    },
   });
 
   // 定义emits
@@ -99,10 +128,27 @@
 
   const handleFileItemLoaded = (item, list) => {
     emit('change', item, list);
+    if (item?.filelist?.length > 0) {
+      delete item.showReqTips;
+    }
   };
 
   const preview = (url) => {
     props.viewFunction(url);
+  };
+
+  const validate = () => {
+    for (const item of tdata.value) {
+      if (item.filelist && item.filelist.length == 0) {
+        item.showReqTips = true;
+      }
+    }
+  };
+
+  const handleClearTips = () => {
+    for (const item of tdata.value) {
+      delete item.showReqTips;
+    }
   };
 
   watch(
@@ -161,6 +207,11 @@
     },
   );
 
+  defineExpose({
+    validate,
+    handleClearTips,
+  });
+
   onMounted(() => {
     tdata.value = props.data;
     tcolumns.value = props.columns;
@@ -179,11 +230,38 @@
     width: 100%;
     border-collapse: collapse;
 
-    th, td {
+    th,
+    td {
       height: 38px;
-      border: 1px solid #ddd;
       padding: 4px 2px;
+      border: 1px solid #ddd;
       text-align: left;
+
+      .file-type {
+        display: block;
+        position: relative;
+        text-align: left;
+        height: 35px;
+        line-height: 35px;
+
+        .required {
+          position: absolute;
+          left: 0px;
+          color: red;
+        }
+
+        .text {
+          position: absolute;
+          left: 10px;
+        }
+      }
+
+      .file-alert {
+        :deep(.ant-alert-message) {
+          text-align: left;
+          color: rgb(230, 68, 68);
+        }
+      }
     }
 
     th {
@@ -200,16 +278,16 @@
 
     .anticon.anticon-paper-clip {
       position: absolute;
-      cursor: pointer;
-      left: 5px;
       top: 2px;
+      left: 5px;
+      cursor: pointer;
     }
 
     span.file-text {
       position: absolute;
-      cursor: pointer;
+      top: 0;
       left: 8px;
-      top: 0px;
+      cursor: pointer;
     }
   }
 </style>

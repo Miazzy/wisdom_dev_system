@@ -1,5 +1,6 @@
 <template>
   <Table
+    ref="uploadTable"
     :operable="true"
     :table-css-style="csstyle"
     :data="trows"
@@ -22,6 +23,7 @@
     height: { type: String, default: 'auto' }, // 弹框高度
     rows: { type: Array }, // 附件行数据
     colwidths: { type: Array }, // 附件字段列宽数据
+    viewFunction: { type: Function, default: () => {} },
     application: { type: String, default: '' },
     module: { type: String, default: '' },
     message: { type: String, default: '' },
@@ -35,6 +37,7 @@
   const tmessage = ref('');
   const tformat = ref('');
   const csstyle = ref({ width: props.width, height: props.height });
+  const uploadTable = ref();
 
   tcolumns.value = [
     {
@@ -97,6 +100,19 @@
       tformat.value = props.format;
     },
   );
+
+  const validate = () => {
+    uploadTable.value?.validate();
+  };
+
+  const handleClearTips = () => {
+    uploadTable.value?.handleClearTips();
+  };
+
+  defineExpose({
+    validate,
+    handleClearTips,
+  });
 
   onMounted(() => {
     trows.value = props.rows as any[];

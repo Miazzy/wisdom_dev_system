@@ -273,6 +273,7 @@
 
     <div style="width: 1200px; height: 400px; margin: 5px 0px 20px 0px">
       <UploadTable
+        ref="uploadTable"
         :rows="uploadRows"
         :colwidths="uploadColWidths"
         :application="`baseset`"
@@ -361,25 +362,37 @@
   const searchBoxSearchText = ref('');
   const uuidVal = ref('');
 
+  const uploadTable = ref();
   const uploadRows = ref<any[]>([]);
   const uploadColWidths = ref<string[]>([]);
   uploadRows.value = [
     {
       filetype: '营业执照证件',
       fnamelist: '',
-      bizId: 'test-row-0001',
+      bizId: 'test-row-00028341',
       maxCount: 2,
-      maxSize: 1024 * 1024 * 20,
+      maxSize: 1024 * 1024 * 4096,
+      required: false,
     },
     {
       filetype: '经营合规证书',
       fnamelist: '',
-      bizId: 'test-row-0002',
+      bizId: 'test-row-0002333',
       maxCount: 1,
-      maxSize: 1024 * 1024 * 20,
+      maxSize: 1024 * 1024 * 4096,
+      required: true,
+      // type: '': Number | Date | String ,
+      format: 'YYYY-MM-DD', // 'date / time / datetime'
     },
   ];
   uploadColWidths.value = ['15%', '70%', '15%'];
+
+  const validate = () => {
+    uploadTable.value?.validate();
+  };
+  const handleClearTips = () => {
+    uploadTable.value?.handleClearTips();
+  };
 
   const billTitleOptions = reactive<any>({});
   billTitleOptions.title = '电站填报';
@@ -772,6 +785,7 @@
       selectedValue.value = [];
       selectedSValue.value = '';
       radioGroupValue.value = '';
+      validate();
     }, 5000);
 
     organValue.value = JSON.parse(
