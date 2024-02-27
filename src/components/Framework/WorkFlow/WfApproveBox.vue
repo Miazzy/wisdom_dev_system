@@ -260,7 +260,7 @@
     },
   );
   onMounted(() => {
-    if (!route.query.processInstanceId) {
+    if (!route.query.processInstanceId && !route.query.id) {
       isShowBtns.value = true;
       isReadOnly.value = false;
     }
