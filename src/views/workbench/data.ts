@@ -7,6 +7,8 @@ enum Api {
 
   getDataBoardUrl = '/oa/data-board/get',
 
+  getDataBoardResultUrl = '/oa/data-board/get-data',
+
   // ########################快捷导航########################
   getMenuTreeUrl = '/system/auth/list-menus',
 
@@ -25,6 +27,9 @@ export const saveDataBoard = (params) =>
 //查询数据
 export const getDataBoard = (params) =>
   defHttp.get({ url: Api.getDataBoardUrl, params }, { isOnlyResult: true });
+
+export const getDataBoardResult = (params) =>
+  defHttp.get({ url: Api.getDataBoardResultUrl, params }, { isOnlyResult: true });
 
 // ########################快捷导航########################
 //获取树数据

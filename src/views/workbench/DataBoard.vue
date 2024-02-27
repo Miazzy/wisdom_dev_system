@@ -8,9 +8,9 @@
         <div class="label-text">并网容量(MWp)</div>
         <div class="value-text">563.33161</div>
       </div> -->
-      <div class="data-board-item" v-for="(n, index) in formState.dataBoard" :key="index">
-        <div class="label-text">{{ n.fullName }}</div>
-        <div class="value-text">{{ 11111 }}</div>
+      <div class="data-board-item" v-for="(n, index) in formState.dataResult" :key="index">
+        <div class="label-text">{{ n.label }}</div>
+        <div class="value-text">{{ n.value }}</div>
       </div>
     </div>
   </a-card>
@@ -32,12 +32,13 @@
   import Icon from '@/components/Icon/Icon.vue';
   import DataSelectDialog from '@/components/Framework/Modal/DataSelectDialog.vue';
   import { TreeSelectProps, message } from 'ant-design-vue';
-  import { getIndexTreeData, saveDataBoard, getDataBoard } from './data';
+  import { getIndexTreeData, saveDataBoard, getDataBoard, getDataBoardResult } from './data';
 
   const openDialog = ref(false);
   const indexTreeData = ref<TreeSelectProps['treeData']>();
   const formState: any = reactive({
     dataBoard: [],
+    dataResult: [],
   });
 
   onMounted(async () => {
@@ -46,6 +47,7 @@
 
   //当前登录人的数据看板设置
   const queryDataBoardByUserId = async () => {
+    //弹框回显
     await getDataBoard({}).then((rsp) => {
       if (rsp) {
         formState.dataBoard = [];
@@ -56,6 +58,18 @@
             parentId: e.parentId,
             name: e.name,
             fullName: e.fullName,
+          });
+        });
+      }
+    });
+    //工作台数据展示
+    await getDataBoardResult({}).then((rsp) => {
+      if (rsp) {
+        formState.dataResult = [];
+        rsp.forEach((e) => {
+          formState.dataResult.push({
+            value: e.value,
+            label: e.name,
           });
         });
       }
