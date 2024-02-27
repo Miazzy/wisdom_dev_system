@@ -5,13 +5,13 @@
     </template>
     <div class="card-content">
       <a-carousel :after-change="onChange" dotsClass="carousel-dots">
-        <div class="nav-page" v-for="(pageItem, pageIndex) in formState.menuBoard" :key="pageIndex">
+        <div class="nav-page" v-for="(pageItem, pageIndex) in menuBoard" :key="pageIndex">
           <div class="nav-item-container">
             <div class="nav-item" v-for="(n, index) in pageItem" :key="index" @click="toPath(n)">
               <div class="nav-icon-box" :style="{ backgroundColor: colors[index] }">
                 <Icon :icon="n.icon" :size="32" />
               </div>
-              <div class="nav-label">{{ n.label }}</div>
+              <div class="nav-label">{{ n.name }}</div>
             </div>
           </div>
         </div>
@@ -38,13 +38,15 @@
   // import { useRouter } from 'vue-router';
   import { TreeSelectProps, message } from 'ant-design-vue';
   import { addTabPage } from '@/utils/route';
-  import { getMenuTreeData, saveMenuBoard, getMenuBoard } from './data';
+  import { getMenuTreeData, saveMenuBoard, getMenuBoard, getMenuBoardResult } from './data';
 
   // const router = useRouter();
   const openDialog = ref(false);
   const menuTreeData = ref<TreeSelectProps['treeData']>();
+
+  const menuBoard = ref([]);
+
   const formState: any = reactive({
-    menuBoard: [],
     menuBoardDetail: [],
   });
 
@@ -143,6 +145,24 @@
 
   //当前登录人的数据设置
   const queryMenuBoardByUserId = async () => {
+    await getMenuBoardResult({}).then((rsp) => {
+      if (rsp) {
+        menuBoard.value = rsp;
+        // formState.tempData = [];
+        // rsp.forEach((e) => {
+        //   formState.tempData.push({
+        //     value: e.parentId,
+        //     label: e.name,
+        //     parentId: e.parentId,
+        //     name: e.name,
+        //     icon: e.icon,
+        //     url: e.url,
+        //   });
+        // });
+        // formState.menuBoard.push(formState.tempData);
+      }
+    });
+
     await getMenuBoard({}).then((rsp) => {
       if (rsp) {
         formState.menuBoardDetail = [];

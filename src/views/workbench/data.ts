@@ -15,6 +15,8 @@ enum Api {
   saveMenuBoardUrl = '/oa/menu-board/save',
 
   getMenuBoardUrl = '/oa/menu-board/get',
+
+  getMenuBoardResultUrl = '/oa/menu-board/get-data',
 }
 
 //获取树数据
@@ -42,3 +44,6 @@ export const saveMenuBoard = (params) =>
 //查询数据
 export const getMenuBoard = (params) =>
   defHttp.get({ url: Api.getMenuBoardUrl, params }, { isOnlyResult: true });
+
+export const getMenuBoardResult = (params) =>
+  defHttp.get({ url: Api.getMenuBoardResultUrl, params }, { isOnlyResult: true });
