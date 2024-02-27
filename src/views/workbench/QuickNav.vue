@@ -191,7 +191,9 @@
     const list: TreeSelectProps['treeData'] = [];
     for (let i = 0; i < data.length; i++) {
       const item = data[i];
-
+      if (item.openWindowModel == 'hidden') {
+        continue;
+      }
       const treeNode: TreeSelectProps['treeData'][number] = {
         label: item.name,
         value: item.id,
@@ -228,11 +230,11 @@
           menuId: e.value,
         });
       });
-      saveMenuBoard(dataList).then(() => {
-        message.success('操作成功');
-        queryMenuBoardByUserId();
-      });
     }
+    saveMenuBoard(dataList).then(() => {
+      message.success('操作成功');
+      queryMenuBoardByUserId();
+    });
   };
 
   const onChange = (current: number) => {
