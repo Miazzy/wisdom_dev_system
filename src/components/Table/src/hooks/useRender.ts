@@ -8,6 +8,15 @@ import { Icon } from '@/components/Icon';
 import { JsonPreview } from '@/components/CodeEditor';
 import { addTabPage } from '@/utils/route';
 
+const statusColor = {
+  0: '#dc0000', // 草稿
+  1: '#338ed1', // 处理中
+  2: '#30ca5a', // 通过
+  3: '#929292', // 不通过
+  4: '#929292', // 已取消
+  5: '#929292', // 已终止
+  6: '#fda941', // 退回/驳回
+};
 export const useRender = {
   /**
    * 渲染图片
@@ -77,6 +86,15 @@ export const useRender = {
   renderTag: (text: string | number, color?: string) => {
     if (color) return h(Tag, { color }, () => text);
     else return h(Tag, {}, () => text);
+  },
+  /**
+   * 渲染流程状态
+   * @param status 状态
+   * @param statusText 状态文本
+   * @returns 标签
+   */
+  renderFlowStatus: (status: number, statusText: string) => {
+    return useRender.renderTag(statusText, statusColor[status]);
   },
   /**
    * 渲染多标签
