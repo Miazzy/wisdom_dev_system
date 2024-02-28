@@ -123,11 +123,11 @@
           indexStorehouseId: e.value,
         });
       });
-      saveDataBoard(dataList).then(() => {
-        message.success('操作成功');
-        queryDataBoardByUserId();
-      });
     }
+    saveDataBoard(dataList).then(() => {
+      message.success('操作成功');
+      queryDataBoardByUserId();
+    });
   };
 </script>
 

@@ -148,18 +148,6 @@
     await getMenuBoardResult({}).then((rsp) => {
       if (rsp) {
         menuBoard.value = rsp;
-        // formState.tempData = [];
-        // rsp.forEach((e) => {
-        //   formState.tempData.push({
-        //     value: e.parentId,
-        //     label: e.name,
-        //     parentId: e.parentId,
-        //     name: e.name,
-        //     icon: e.icon,
-        //     url: e.url,
-        //   });
-        // });
-        // formState.menuBoard.push(formState.tempData);
       }
     });
 
@@ -176,7 +164,6 @@
             url: e.url,
           });
         });
-        formState.menuBoard.push(formState.menuBoardDetail);
       }
     });
   };
