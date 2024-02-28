@@ -9,6 +9,7 @@ import { isArray, isBoolean, isFunction, isMap, isString } from '/@/utils/is';
 import { cloneDeep, isEqual } from 'lodash-es';
 import { formatToDate } from '/@/utils/dateUtil';
 import { ACTION_COLUMN_FLAG, DEFAULT_ALIGN, INDEX_COLUMN_FLAG, PAGE_SIZE } from '../const';
+import { formatNumber, formatMoney } from '/@/utils/formatUtil';
 
 function handleItem(item: BasicColumn, ellipsis: boolean) {
   const { key, dataIndex, children } = item;
@@ -322,6 +323,34 @@ export function formatCell(text: string, format: CellFormat, record: Recordable,
     // Map
     if (isMap(format)) {
       return format.get(text);
+    }
+
+    if (typeof format === 'object' && format.type) {
+      if (format.type === 'Text') {
+        // 文本
+        return text;
+      }
+      if (format.type === 'Date' && format.format) {
+        // 日期
+        const dateFormatTypes = {
+          date: 'YYYY-MM-DD',
+          datetime: 'YYYY-MM-DD HH:mm:ss',
+          time: 'HH:mm:ss',
+          datestime: 'YYYY-MM-DD HH:mm',
+          stime: 'HH:mm',
+        };
+        return formatToDate(text, dateFormatTypes[format.format]);
+      }
+      if (format.type === 'Number' && format.format) {
+        // 数字
+        let formatStr = format.format;
+        return formatNumber(text, formatStr);
+      }
+      if (format.type === 'Money' && format.format) {
+        // 金额
+        let formatStr = format.format;
+        return formatMoney(text, formatStr);
+      }
     }
   } catch (error) {
     return text;
