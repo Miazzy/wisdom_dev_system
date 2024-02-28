@@ -161,15 +161,17 @@
       }
       const owidth = window.outerWidth;
       const swidth = window.screen.availWidth;
-      const flag = owidth === swidth;
+      const cwidth = document.body.clientWidth;
+
+      const flag = cwidth === swidth;
       if (!flag) {
-        tabWidth.value = window.outerWidth - menuTabMargin.value - 25 + 'px';
+        tabWidth.value = cwidth - menuTabMargin.value - 25 + 'px';
         contentClass.value = 'layout-xscroll';
-        contentStyle.value = `width: ${swidth - 220}px;`;
-        contentWidth.value = `width: ${owidth - 220}px;`;
-        iframeWidth.value = 'width: calc(100% - 30px); height: 100%;';
+        contentStyle.value = `width: ${cwidth - 220}px;`;
+        contentWidth.value = `width: ${cwidth - 220}px;`;
+        iframeWidth.value = 'width: 100%; height: 100%;';
       } else {
-        tabWidth.value = window.outerWidth - menuTabMargin.value - 25 + 'px';
+        tabWidth.value = cwidth - menuTabMargin.value - 25 + 'px';
         contentClass.value = '';
         contentStyle.value = '';
         contentWidth.value = '';
