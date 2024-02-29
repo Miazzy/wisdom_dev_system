@@ -1007,6 +1007,11 @@ export const BpmWftaskDone: AppRouteRecordRaw = {
   component: () => import('/@/views/bpm/manage/task/done/index.vue'),
 };
 
+export const BpmTaskOperation: AppRouteRecordRaw = {
+  path: '/framepage/bpm/task/operation',
+  component: () => import('/@/views/bpm/manage/task/operation/index.vue'),
+};
+
 export const BasesetMonitorAreaSet: AppRouteRecordRaw = {
   path: '/framepage/baseset/monitor/area',
   component: () => import('/@/views/baseset/monitor/area/areaSet.vue'),
@@ -1359,6 +1364,7 @@ export const basicRoutes = [
   BpmWfprocessInstance,
   BpmWftaskTodo,
   BpmWftaskDone,
+  BpmTaskOperation,
   BasesetMonitorAreaSet,
   BasesetMonitorModelSet,
   BasesetMonitorDeviceSet,

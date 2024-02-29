@@ -27,6 +27,9 @@ export enum BpmProInstanceApi {
   CancelProcessInstance = '/bpm/process-instance/cancel',
   GetProcessInstance = '/bpm/process-instance/get?id=',
   AbortProcessInstance = '/bpm/process-instance/abort?id=',
+  GetFallbackNode = '/bpm/process-instance/getFallbackNode',
+  BackTask = '/bpm/process-instance/back?taskId=',
+  ReplenishTask = '/bpm/process-instance/replenish?taskId=',
 }
 
 export const getMyProcessInstancePage = async (params) => {
@@ -35,7 +38,7 @@ export const getMyProcessInstancePage = async (params) => {
 };
 
 export const createProcessInstance = async (data) => {
-  const requestParams = { url: BpmProInstanceApi.MyProcessInstancePage, data };
+  const requestParams = { url: BpmProInstanceApi.CreateProcessInstance, data };
   return defHttp.post<any>(requestParams, {});
 };
 
@@ -53,5 +56,24 @@ export const getProcessInstance = async (id: string) => {
 //终止流程实例
 export const abortProcessInstance = async (data) => {
   const requestParams = { url: BpmProInstanceApi.AbortProcessInstance, data };
+  return defHttp.post<any>(requestParams, {});
+};
+
+export const getFallbackNode = async (params) => {
+  const requestParams = { url: BpmProInstanceApi.GetFallbackNode, params };
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
+};
+
+export const backTask = async (params) => {
+  const requestParams = {
+    url: BpmProInstanceApi.BackTask + params.taskId + '&targetKey=' + params.targetKey,
+  };
+  return defHttp.post<any>(requestParams, {});
+};
+
+export const replenishTask = async (params) => {
+  const requestParams = {
+    url: BpmProInstanceApi.ReplenishTask + params.taskId + '&targetKey=' + params.targetKey,
+  };
   return defHttp.post<any>(requestParams, {});
 };

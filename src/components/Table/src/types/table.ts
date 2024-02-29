@@ -411,7 +411,8 @@ export interface BasicTableProps<T = any> {
 export type CellFormat =
   | string
   | ((text: string, record: Recordable, index: number) => string | number)
-  | Map<string | number, any>;
+  | Map<string | number, any>
+  | { type: 'Text' | 'Number' | 'Date' | 'Money', format: string };
 
 // @ts-ignore
 export interface BasicColumn extends ColumnProps<Recordable> {

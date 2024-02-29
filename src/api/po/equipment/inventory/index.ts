@@ -26,17 +26,20 @@ export function deleteEquipmentInventory(id: number) {
 }
 
 // 获得出库入库审批中流程
-export function getWarehousingAndOutboundProcessExists() {
+export function getWarehousingAndOutboundProcessExists(warehouseId) {
   return defHttp.get(
-    { url: '/po/equipment-inventory/getWarehousingAndOutboundProcessExists' },
+    {
+      url:
+        '/po/equipment-inventory/getWarehousingAndOutboundProcessExists?warehouseId=' + warehouseId,
+    },
     { isOnlyResult: true },
   );
 }
 
 // 获得盘点审批中流程
-export function getInventoryProcessExists() {
+export function getInventoryProcessExists(warehouseId) {
   return defHttp.get(
-    { url: '/po/equipment-inventory/getInventoryProcessExists' },
+    { url: '/po/equipment-inventory/getInventoryProcessExists?warehouseId=' + warehouseId },
     { isOnlyResult: true },
   );
 }

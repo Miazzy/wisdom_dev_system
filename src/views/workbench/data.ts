@@ -7,12 +7,16 @@ enum Api {
 
   getDataBoardUrl = '/oa/data-board/get',
 
+  getDataBoardResultUrl = '/oa/data-board/get-data',
+
   // ########################快捷导航########################
   getMenuTreeUrl = '/system/auth/list-menus',
 
   saveMenuBoardUrl = '/oa/menu-board/save',
 
   getMenuBoardUrl = '/oa/menu-board/get',
+
+  getMenuBoardResultUrl = '/oa/menu-board/get-data',
 }
 
 //获取树数据
@@ -26,6 +30,9 @@ export const saveDataBoard = (params) =>
 export const getDataBoard = (params) =>
   defHttp.get({ url: Api.getDataBoardUrl, params }, { isOnlyResult: true });
 
+export const getDataBoardResult = (params) =>
+  defHttp.get({ url: Api.getDataBoardResultUrl, params }, { isOnlyResult: true });
+
 // ########################快捷导航########################
 //获取树数据
 export const getMenuTreeData = (params) => defHttp.get({ url: Api.getMenuTreeUrl, params });
@@ -37,3 +44,6 @@ export const saveMenuBoard = (params) =>
 //查询数据
 export const getMenuBoard = (params) =>
   defHttp.get({ url: Api.getMenuBoardUrl, params }, { isOnlyResult: true });
+
+export const getMenuBoardResult = (params) =>
+  defHttp.get({ url: Api.getMenuBoardResultUrl, params }, { isOnlyResult: true });
