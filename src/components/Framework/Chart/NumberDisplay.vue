@@ -7,7 +7,7 @@
         <span
           v-show="props?.subtitle?.mvalue"
           class="arrow"
-          :class="props?.subtitle?.mvalue?.startsWith('-') ? 'arrow-negative' : 'arrow-positive'"
+          :class="handleTextClass(props?.subtitle?.mvalue)"
         >
           {{ props.subtitle.mvalue }}
         </span>
@@ -17,7 +17,7 @@
         <span
           v-show="props?.subtitle?.svalue"
           class="arrow"
-          :class="props?.subtitle?.svalue?.startsWith('-') ? 'arrow-negative' : 'arrow-positive'"
+          :class="handleTextClass(props?.subtitle?.svalue)"
           >{{ props.subtitle.svalue }}</span
         >
       </div>
@@ -56,8 +56,24 @@
   // 将数字拆分成个位数字的数组
   const digitArray = ref([]);
 
+  const handleTextClass = (text) => {
+    if (typeof text == 'string') {
+      return text.startsWith('-') ? 'arrow-negative' : 'arrow-positive';
+    } else if (typeof text == 'number') {
+      return text < 0 ? 'arrow-negative' : 'arrow-positive';
+    }
+    return 'arrow-positive';
+  };
+
   watch(
     () => props.value,
+    () => {
+      digitArray.value = String(props.value).split('').map(String) as never[];
+    },
+  );
+
+  watch(
+    () => props.subtitle,
     () => {
       digitArray.value = String(props.value).split('').map(String) as never[];
     },
