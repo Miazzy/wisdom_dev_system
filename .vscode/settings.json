@@ -169,6 +169,9 @@
       ".eslintrc.js": ".eslintignore,.prettierignore,.stylelintignore,.commitlintrc.js,.prettierrc.js,.stylelintrc.js"
     },
     "terminal.integrated.scrollback": 10000,
-    "vue.codeActions.enabled": false
+    "vue.codeActions.enabled": false,
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
   }
   

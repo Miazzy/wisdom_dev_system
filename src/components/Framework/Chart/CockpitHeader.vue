@@ -53,7 +53,11 @@
             <div class="search-choice-b">
               <div class="iframe-search-daterange">
                 <div class="button-content radio-group">
-                  <a-radio-group v-model:value="dateType" size="small">
+                  <a-radio-group
+                    v-model:value="dateType"
+                    size="small"
+                    @change="handleDateTypeChange"
+                  >
                     <a-radio-button value="上月">上月</a-radio-button>
                     <a-radio-button value="本月">本月</a-radio-button>
                     <a-radio-button value="本年">本年</a-radio-button>
@@ -65,6 +69,7 @@
                     style="width: 200px"
                     picker="month"
                     size="small"
+                    @change="handleDateRangeChange"
                   >
                     <template #suffixIcon>
                       <Icon
@@ -85,6 +90,7 @@
 </template>
 
 <script lang="ts" setup>
+  import dayjs from 'dayjs';
   import { ref, onMounted, defineProps, watch } from 'vue';
   import DigitalClock from '/@/components/Framework/Chart/DigitalClock.vue';
   import WeatherDisplay from '/@/components/Framework/Chart/WeatherDisplay.vue';
@@ -95,6 +101,9 @@
     title: { type: String, default: '' }, // 列定义
     date: { type: String, default: '' }, // 表格数据
   });
+
+  // 定义emits
+  const emit = defineEmits(['dateChange']);
 
   const drawerWidth = ref(450);
   const placement = ref('right');
@@ -126,91 +135,66 @@
     visible.value = false;
   };
 
+  const handleDateTypeChange = () => {
+    if (dateType.value == '上月') {
+      const date = dayjs().subtract(1, 'month');
+      dateRange.value = [date, date];
+    } else if (dateType.value == '本月') {
+      const date = dayjs();
+      dateRange.value = [date, date];
+    } else if (dateType.value == '本年') {
+      const startDate = dayjs().startOf('year');
+      const endDate = dayjs().endOf('year');
+      dateRange.value = [startDate, endDate];
+    }
+    handleDateRangeChange();
+  };
+
+  const handleDateRangeChange = () => {
+    const startDate = dateRange.value[0].format('YYYY-MM');
+    const endDate = dateRange.value[1].format('YYYY-MM');
+    emit('dateChange', [startDate, endDate], dateType.value);
+  };
+
   onMounted(() => {
     drawerStyle.value = colorOptions.blue;
     contentWrapperStyle.value = colorOptions.transparent;
     maskStyle.value = colorOptions.transparent;
+    dateType.value = '上月';
+    handleDateTypeChange();
   });
 </script>
-<style>
-  @font-face {
-    font-family: Digital;
-    font-style: normal;
-    font-weight: normal;
-    src: url('../../../assets/fonts/DSDIGI.ttf') format('truetype');
-  }
-
+<style lang="less">
   .ant-drawer-content {
     background: transparent;
   }
 
-  .ant-radio-button-wrapper:first-child,
-  .ant-radio-button-wrapper:last-child {
-    border-right: 1px solid #0866e0;
-    border-left: 1px solid #0866e0;
-  }
+  .ant-picker-dropdown {
+    .ant-picker-range-wrapper {
+      .ant-picker-panel-container {
+        .ant-picker-panel {
+          border-width: 0;
+        }
 
-  .ant-radio-group-small .ant-radio-button-wrapper {
-    height: 24px;
-    padding: 0 8px;
-    line-height: 22px;
-  }
+        .ant-picker-month-panel {
+          display: flex;
+          flex-direction: column;
+          width: 280px;
+          background: rgba(0, 44, 90, 0.9);
+        }
 
-  .ant-radio-button-wrapper {
-    display: inline-block;
-    position: relative;
-    margin: 0;
-    transition:
-      color 0.3s,
-      background 0.3s,
-      border-color 0.3s,
-      box-shadow 0.3s;
-    border: 1px solid #0866e0;
-    border-radius: 0;
-    background: transparent;
-    color: #fefefe;
-    font-size: 12px;
-    cursor: pointer;
-  }
+        .ant-picker-header {
+          display: flex;
+          padding: 0 8px;
+          border-bottom: 1px solid #0070a055;
+          color: rgba(0, 0, 0, 0.85);
 
-  .ant-radio-button-wrapper:not(:first-child)::before {
-    content: '';
-    display: block;
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    box-sizing: content-box;
-    width: 1px;
-    height: 100%;
-    padding: 1px 0;
-    transition: background-color 0.3s;
-    background-color: #0866e0;
-  }
-
-  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):focus-within {
-    border: 1px solid #0866e0;
-    box-shadow: none;
-  }
-
-  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):focus-within::before {
-    content: '';
-    display: block;
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    box-sizing: content-box;
-    width: 1px;
-    height: 100%;
-    padding: 1px 0;
-    transition: background-color 0.3s;
-    background-color: #0866e0;
-  }
-
-  .ant-radio-button-wrapper-checked {
-    margin: 0;
-    padding: 0;
-    border: none;
-    box-shadow: none;
+          button {
+            color: rgba(255, 255, 255, 0.75);
+          }
+        }
+      }
+    }
   }
 
   .ant-picker {
@@ -232,40 +216,165 @@
     font-variant: tabular-nums;
     list-style: none;
     font-feature-settings: tnum;
+
+    .ant-picker-input {
+      input {
+        display: inline-block;
+        position: relative;
+        flex: auto;
+        width: 100%;
+        min-width: 0;
+        min-width: 1px;
+        height: auto;
+        padding: 4px 11px;
+        padding: 0;
+        transition: all 0.3s;
+        border: 1px solid #d9d9d9;
+        border: 0;
+        border-radius: 2px;
+        background: transparent;
+        background-image: none;
+        color: #fefefe;
+
+        &::placeholder {
+          color: #fefefef0;
+        }
+      }
+    }
   }
 
-  .ant-picker-input > input {
-    display: inline-block;
-    position: relative;
-    flex: auto;
-    width: 100%;
-    min-width: 0;
-    min-width: 1px;
-    height: auto;
-    padding: 4px 11px;
-    padding: 0;
-    transition: all 0.3s;
-    border: 1px solid #d9d9d9;
-    border: 0;
-    border-radius: 2px;
-    background: transparent;
-    background-color: #fff;
-    background-image: none;
+  .ant-radio-group-small {
+    .ant-radio-button-wrapper {
+      display: inline-block;
+      position: relative;
+      height: 24px;
+      margin: 0;
+      padding: 0 8px;
+      transition:
+        color 0.3s,
+        background 0.3s,
+        border-color 0.3s,
+        box-shadow 0.3s;
+      border: 1px solid #0866e0;
+      border-radius: 0;
+      background: transparent;
+      color: #a0a0a0;
+      font-size: 12px;
+      line-height: 22px;
+      cursor: pointer;
+
+      &:first-child,
+      &:last-child {
+        border-right: 1px solid #0866e0;
+        border-left: 1px solid #0866e0;
+      }
+
+      &:not(:first-child)::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        box-sizing: content-box;
+        width: 1px;
+        height: 100%;
+        padding: 1px 0;
+        transition: background-color 0.3s;
+        background-color: #0866e0;
+      }
+
+      &.ant-radio-button-wrapper-checked {
+        display: inline-block;
+        position: relative;
+        height: 24px;
+        margin: 0;
+        padding: 0 8px;
+        transition:
+          color 0.3s,
+          background 0.3s,
+          border-color 0.3s,
+          box-shadow 0.3s;
+        border: 1px solid #0866e0;
+        border-radius: 0;
+        background: transparent;
+        color: #fefefe;
+        font-size: 12px;
+        line-height: 22px;
+        cursor: pointer;
+
+        .ant-radio-button {
+          color: #fefefe;
+          box-shadow: 1px 1px 10px #0070a0fe;
+        }
+
+        &:not(.ant-radio-button-wrapper-disabled):focus-within {
+          border: 1px solid #0866e0;
+          box-shadow: none;
+        }
+
+        &:not(.ant-radio-button-wrapper-disabled):focus-within::before {
+          content: '';
+          display: block;
+          position: absolute;
+          top: -1px;
+          left: -1px;
+          box-sizing: content-box;
+          width: 1px;
+          height: 100%;
+          padding: 1px 0;
+          transition: background-color 0.3s;
+          background-color: #0866e0;
+        }
+      }
+    }
+  }
+
+  .ant-picker-cell {
+    .ant-picker-cell-inner {
+      color: #fefefe;
+
+      &:hover {
+        background: transparent;
+      }
+    }
+
+    &.ant-picker-cell-in-view.ant-picker-cell-in-range {
+      &::before {
+        background: #0960bd;
+      }
+    }
+
+    &.ant-picker-cell-in-view.ant-picker-cell-range-start {
+      &:not(.ant-picker-cell-range-start-single)::before {
+        background: #0960bd;
+      }
+    }
+
+    &.ant-picker-cell-in-view.ant-picker-cell-range-end {
+      &:not(.ant-picker-cell-range-end-single)::before {
+        background: #0960bd;
+      }
+    }
+  }
+
+  .anticon {
     color: #fefefe;
   }
 
-  .ant-picker-separator {
-    display: inline-block;
-    position: relative;
-    width: 1em;
-    height: 16px;
-    color: #fefefe;
-    font-size: 16px;
-    vertical-align: top;
-    cursor: default;
+  .ant-picker-header-view {
+    button {
+      color: #fefefe;
+    }
   }
 </style>
 <style lang="less" scoped>
+  @font-face {
+    font-family: Digital;
+    font-style: normal;
+    font-weight: normal;
+    src: url('../../../assets/fonts/DSDIGI.ttf') format('truetype');
+  }
+
   body {
     .screen-drawer-content {
       position: relative;
