@@ -4,6 +4,7 @@
     v-model:value="radioValue"
     name="radioGroup"
     @change="change"
+    :disabled="disabled"
   >
     <template v-if="props.rtype != 'button'">
       <a-radio
@@ -42,6 +43,7 @@
   const dictStore = useDictStoreWithOut();
   const options = ref<SelectProps['options']>([]);
   const radioValue = ref('');
+  const disabled = ref(false);
 
   const props = defineProps({
     vmode: { type: String, default: 'edit' },
@@ -50,6 +52,7 @@
     value: { type: String, default: null },
     delaytimes: { type: Number, default: 900 },
     rtype: { type: String, default: 'radio' }, // radio vertical button
+    disabled: { type: Boolean, default: false },
   });
 
   const verticalStyle = reactive({
@@ -86,12 +89,20 @@
     },
   );
 
+  watch(
+    () => props.disabled,
+    () => {
+      disabled.value = props.disabled;
+    },
+  );
+
   // 启动加载
   onMounted(async () => {
     // 在组件挂载后，通过后端接口获取数据字段的数据
     try {
       const { type } = props;
       let cache = await ls.fget(DICT_DATA__KEY + type);
+      disabled.value = props.disabled;
       if (!cache) {
         if (props.mode !== 'group') {
           // 调用后端接口获取数据

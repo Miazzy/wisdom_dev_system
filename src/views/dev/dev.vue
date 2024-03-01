@@ -73,9 +73,9 @@
 
     <br /><br />
 
-    <DictRadioGroup v-model:value="radioGroupValue" :type="DICT_TYPE.BPM_MODEL_CATEGORY" rtype="radio" />
-    <DictRadioGroup v-model:value="radioGroupValue" :type="DICT_TYPE.SYSTEM_USER_SEX" rtype="vertical" />
-    <DictRadioGroup v-model:value="radioGroupValue" :type="DICT_TYPE.INFRA_CONFIG_TYPE" rtype="button" />
+    <DictRadioGroup v-model:value="radioGroupValue" :type="DICT_TYPE.BPM_MODEL_CATEGORY" rtype="radio"  :disabled="disabled" />
+    <DictRadioGroup v-model:value="radioGroupValue" :type="DICT_TYPE.SYSTEM_USER_SEX" rtype="vertical"  :disabled="disabled" />
+    <DictRadioGroup v-model:value="radioGroupValue" :type="DICT_TYPE.INFRA_CONFIG_TYPE" rtype="button"  :disabled="disabled" />
 
     <XButton preIcon="ep:folder-opened" title="打开文件" />
     <XTextButton preIcon="ep:folder-opened" title="打开文件" />
@@ -205,6 +205,7 @@
 
   const userInfo = userStore.getUserInfo;
   const username = userInfo?.username;
+  const disabled = ref(false);
 
   const { pushCloseTab, updatePath, closeCurrentPage } = useTabs();
 
@@ -650,6 +651,7 @@
       selectedValue.value = [];
       selectedSValue.value = '';
       radioGroupValue.value = '';
+      disabled.value = !disabled.value;
       validate();
     }, 5000);
 
