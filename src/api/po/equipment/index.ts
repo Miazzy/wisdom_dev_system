@@ -47,3 +47,11 @@ export function exportEquipment(params) {
     { isReturnNativeResponse: true },
   );
 }
+
+// 根据物料ID查询是否存在物资
+export function getExistEquipment(materialId) {
+  return defHttp.get(
+    { url: '/po/equipment/list?materialId=' + materialId },
+    { isOnlyResult: true },
+  );
+}
