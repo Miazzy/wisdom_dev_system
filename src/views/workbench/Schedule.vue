@@ -23,7 +23,7 @@
         <template #dateCellRender="{ current }">
           <a-popover title="日程会议" trigger="click">
             <template #content>
-              <p>{{ Content }}</p>
+              <p style="white-space: pre-wrap">{{ Content }}</p>
             </template>
             <ul class="events">
               <li v-for="item in getListData(current)" :key="item.content">
