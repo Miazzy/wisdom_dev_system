@@ -29,8 +29,24 @@ export function operationPerson(params) {
 export function workOrder(params) {
   return defHttp.post({ url: '/da/home-page/workOrder', params }, { isOnlyResult: true });
 }
+export function inspection(params) {
+  return defHttp.post({ url: '/da/home-page/inspection', params }, { isOnlyResult: true });
+}
+export function twoTicket(params) {
+  return defHttp.post({ url: '/da/home-page/twoTicket', params }, { isOnlyResult: true });
+}
 
 // 安全运行
 export function safeResp(params) {
   return defHttp.post({ url: '/da/home-page/safeResp', params }, { isOnlyResult: true });
+}
+export function safeCheck(params) {
+  return defHttp.post({ url: '/da/home-page/safeCheck', params }, { isOnlyResult: true });
+}
+export function safeTools(params) {
+  return defHttp.post({ url: '/da/home-page/safeTools', params }, { isOnlyResult: true });
+}
+// 其他信息
+export function otherInfo(params) {
+  return defHttp.post({ url: '/da/home-page/otherInfo', params }, { isOnlyResult: true });
 }
