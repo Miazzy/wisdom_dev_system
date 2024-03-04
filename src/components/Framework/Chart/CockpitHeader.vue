@@ -165,6 +165,13 @@
   });
 </script>
 <style lang="less">
+  @font-face {
+    font-family: Digital;
+    font-style: normal;
+    font-weight: normal;
+    src: url('../../../assets/fonts/DSDIGI.ttf') format('truetype');
+  }
+
   .ant-drawer-content {
     background: transparent;
   }
@@ -368,13 +375,6 @@
   }
 </style>
 <style lang="less" scoped>
-  @font-face {
-    font-family: Digital;
-    font-style: normal;
-    font-weight: normal;
-    src: url('../../../assets/fonts/DSDIGI.ttf') format('truetype');
-  }
-
   body {
     .screen-drawer-content {
       position: relative;
