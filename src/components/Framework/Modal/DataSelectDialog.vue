@@ -9,10 +9,10 @@
               <span class="search-title" style="">搜索</span>
               <a-input-search v-model:value="searchText" class="search-input" placeholder="请输入搜索内容" enter-button @change="handleSearch" @search="handleSearch" @keydown.prevent.enter="preventEnter" />
               <span class="search-icon" style="left: 300px">
-                <Icon icon="mdi:arrow-up" color="#333" size="22" class="rotate-left" @click="handleNode" />
+                <Icon icon="mdi:arrow-up" size="22" class="rotate-left" @click="handleNode" />
               </span>
               <span class="search-icon" style="left: 340px">
-                <Icon icon="material-symbols:delete-outline" color="#333" size="22" @click="handleDelete" />
+                <Icon icon="material-symbols:delete-outline" size="22" @click="handleDelete" />
               </span>
             </div>
             <div class="tree-value" :style="`height: calc(${props.height}px - 180px);`">
@@ -20,11 +20,11 @@
               <a-tree v-if="searchText.length <= 0" :tree-data="treeData" show-icon :default-expand-all="false" checkable checkStrictly :selectable="false" v-model:checkedKeys="checkedKeys"
                 @check="handleCheck">
                 <template #switcherIcon="{ switcherCls }">
-                  <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
+                  <Icon :icon="props.ticons.parent" size="14" :class="switcherCls" />
                 </template>
                 <template #icon="{ key, isLeaf }">
-                  <Icon v-if="isLeaf && !isTopNode(key)" :icon="props.ticons.leaf" color="#333" size="14" />
-                  <Icon v-if="!isLeaf && !isTopNode(key)" :icon="props.ticons.middle" color="#333" size="14" />
+                  <Icon v-if="isLeaf && !isTopNode(key)" :icon="props.ticons.leaf" size="14" />
+                  <Icon v-if="!isLeaf && !isTopNode(key)" :icon="props.ticons.middle" size="14" />
                 </template>
               </a-tree>
 
@@ -494,7 +494,7 @@
   .category-tree {
     width: 50%;
     padding: 10px;
-    border-right: 1px solid #ebebeb; /* 右侧加上分割线 */
+    
     text-align: left;
 
     span.category-title {
@@ -517,7 +517,6 @@
       div.category-search-box {
         width: 100%;
         height: 45px;
-        border-bottom: 1px solid #f0f0f0;
 
         .search-title {
           height: 45px;
@@ -539,8 +538,7 @@
           width: 36px;
           height: 35px;
           margin: 0 3px;
-          padding-top: 2px;
-          border: 1px solid rgb(240 240 240);
+          padding-top: 2px;          
           border-radius: 4px;
           line-height: 35px;
           text-align: center;
