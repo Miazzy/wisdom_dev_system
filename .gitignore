@@ -1,4 +1,4 @@
-﻿node_modules
+﻿
 .DS_Store
 dist
 .cache
@@ -32,7 +32,6 @@ package-lock.json
 pnpm-lock.yaml
 
 .history
-
 
 # 前端框架 - 多项目 - 权限分离 - 目录忽略
 src/views/dashboard
