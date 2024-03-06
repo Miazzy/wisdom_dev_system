@@ -15,3 +15,8 @@ export enum TimeInterval {
   FIVE_HOUR = 3600000 * 5,
   TEN_HOUR = 3600000 * 10,
 }
+
+// 配置信息
+export const Config = {
+  RENDER_ENGINE_URL: 'http://localhost:5175/',
+};
