@@ -154,6 +154,7 @@
     const startDate = dateRange.value[0].format('YYYY-MM');
     const endDate = dateRange.value[1].format('YYYY-MM');
     emit('dateChange', [startDate, endDate], dateType.value);
+    sessionStorage.setItem('screen-date-set', JSON.stringify({startDate, endDate, dateType: 'month'}));
   };
 
   onMounted(() => {
