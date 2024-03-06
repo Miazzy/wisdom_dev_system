@@ -145,6 +145,8 @@ export interface GlobConfig {
   uploadUrl?: string;
   //  Service interface url prefix
   urlPrefix?: string;
+  // render url
+  renderUrl?: string;
   // Project abbreviation
   shortName: string;
   // Ohter properties
@@ -161,6 +163,8 @@ export interface GlobEnvConfig {
   VITE_GLOB_UPLOAD_URL?: string;
   // China map data
   VITE_ECHARTS_CHINA_MAP_ALL_DATA?: string;
+  // Render Engine URL
+  VITE_2D_RENDER_ENGINE_URL?: string;
 }
 
 export interface ApiAttrs {

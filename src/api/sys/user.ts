@@ -82,3 +82,11 @@ export function checkToken(token) {
   const options = { isOnlyResult: true };
   return defHttp.post<any>(requestParams, options);
 }
+
+/*
+ * @description: get organ tree
+ */
+export function getTreeData(params) {
+  const requestParams = { url: SystemAuthApi.OrgStationTree, params };
+  return defHttp.post(requestParams, { isOnlyResult: true });
+}

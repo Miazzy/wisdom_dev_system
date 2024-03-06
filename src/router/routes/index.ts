@@ -977,6 +977,11 @@ export const DevPage: AppRouteRecordRaw = {
   component: () => import('/@/views/dev/dev.vue'),
 };
 
+export const Meta2dRenderPage: AppRouteRecordRaw = {
+  path: '/framepage/monitor/wiringDiagram/meta2d',
+  component: () => import('/@/views/monitor/wiringDiagram/meta2d.vue'),
+};
+
 export const BpmWftaskAssignRule: AppRouteRecordRaw = {
   path: '/framepage/bpm/manage/wftaskAssignRule',
   component: () => import('/@/views/bpm/manage/taskAssignRule/index.vue'),
@@ -1357,6 +1362,7 @@ export const basicRoutes = [
   OaAddressbook,
   OaWorkbench,
   DevPage,
+  Meta2dRenderPage,
   BpmWorkflow,
   BpmWftaskAssignRule,
   BpmWfdefinition,

@@ -1,0 +1,2 @@
+export * from "/Users/zhaoziyu/Workspace/TW-Workspace/集维/ygwl-framework/internal/eslint-config/src/index";
+export { default } from "/Users/zhaoziyu/Workspace/TW-Workspace/集维/ygwl-framework/internal/eslint-config/src/index";

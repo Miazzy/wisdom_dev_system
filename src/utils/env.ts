@@ -35,6 +35,7 @@ export function getAppEnvConfig() {
     VITE_GLOB_API_URL_PREFIX,
     VITE_GLOB_UPLOAD_URL,
     VITE_ECHARTS_CHINA_MAP_ALL_DATA,
+    VITE_2D_RENDER_ENGINE_URL,
   } = ENV;
 
   return {
@@ -43,6 +44,7 @@ export function getAppEnvConfig() {
     VITE_GLOB_API_URL_PREFIX,
     VITE_GLOB_UPLOAD_URL,
     VITE_ECHARTS_CHINA_MAP_ALL_DATA,
+    VITE_2D_RENDER_ENGINE_URL,
   };
 }
 
