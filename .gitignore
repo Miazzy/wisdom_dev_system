@@ -1,14 +1,21 @@
 ﻿node_modules
-.DS_Store
 dist
 .cache
 .turbo
+.DS_Store
 
-tests/server/static
-tests/server/static/upload
+**/**/dist
+**/**/.cache
+**/**/.turbo
+**/**/.DS_Store
 
-.local
+internal/**/.turbo
+internal/**/dist
+internal/**/node_modules
+packages/**/node_modules
+
 # local env files
+.local
 .env.local
 .env.*.local
 .eslintcache
