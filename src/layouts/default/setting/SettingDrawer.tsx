@@ -192,8 +192,8 @@ export default defineComponent({
         {unref(getShowDarkModeToggle) && <Divider>{() => t('layout.setting.darkMode')}</Divider>}
         {unref(getShowDarkModeToggle) && <AppDarkModeToggle class="mx-auto" />}
         {renderTheme()}
-        <Divider>{() => t('layout.setting.navMode')}</Divider>
-        {renderSidebar()}
+        {/* <Divider>{() => t('layout.setting.navMode')}</Divider>
+        {renderSidebar()} */}
         {/* <Divider>{() => t('layout.setting.sysTheme')}</Divider>
         {renderMainTheme()}
         <Divider>{() => t('layout.setting.headerTheme')}</Divider>

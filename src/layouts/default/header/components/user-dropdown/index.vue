@@ -12,12 +12,12 @@
     <template #overlay>
       <Menu @click="handleMenuClick">
         <MenuItem key="lock" :text="truncateName(getUserInfo.realName)" icon="ph:user-thin" />
-        <MenuItem
+        <!-- <MenuItem
           v-if="getUseLockPage"
           key="lock"
           :text="t('layout.header.tooltipLock')"
           icon="ion:lock-closed-outline"
-        />
+        /> -->
         <MenuItem
           key="logout"
           :text="t('layout.header.dropdownItemLoginOut')"
