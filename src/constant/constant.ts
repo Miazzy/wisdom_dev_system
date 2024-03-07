@@ -18,5 +18,5 @@ export enum TimeInterval {
 
 // 配置信息
 export const Config = {
-  RENDER_ENGINE_URL: 'http://localhost:5175/',
+  RENDER_ENGINE_URL: 'http://139.9.148.32:9090/',
 };
