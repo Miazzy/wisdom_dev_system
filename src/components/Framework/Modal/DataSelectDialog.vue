@@ -418,17 +418,19 @@
     let valueArr = [];
     if (data?.length) {
       data.forEach((item) => {
-        valueArr.push(item.value);
+        valueArr.push(item[props.tfields.key]);
       });
     }
 
     return valueArr;
   };
   const getCheckedKeysByValues = (treeData, valueArr) => {
+    console.log(333, valueArr);
+    console.log(444, treeData);
     let keyArr = []; 
     if (valueArr?.length) {
       treeData.forEach((item) => {
-        if (valueArr.includes(item.value)) {
+        if (valueArr.includes(item[props.tfields.key])) {
           keyArr.push(item.key);
         }
         if(item.children?.length) {
@@ -473,8 +475,8 @@
       treeData.value = transformData(data, rule);
       treeMap.value = transformMap(data, rule);
       transformTableData(data, rule, 'top', null);
+      console.log(222, props.value);
       checkedKeys.value.checked = getCheckedKeysByValues(treeData.value, getValueArr(props.value));
-      // checkedNodes.value = getCheckedNodesByValues(treeData.value, getValueArr(props.value));
     },
   );
 
