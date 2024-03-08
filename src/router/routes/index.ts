@@ -1172,8 +1172,14 @@ export const CodeBuildRule: AppRouteRecordRaw = {
   component: () => import('/@/views/system/configuration/codeBuildRule/index.vue'),
 };
 
+export const BaseWiringDiagram: AppRouteRecordRaw = {
+  path: '/framepage/baseset/monitor/wiringdiagram/index',
+  component: () => import('/@/views/baseset/monitor/wiringdiagram/wiringdiagram.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  BaseWiringDiagram,
   CodeBuildRule,
   BiReportForm,
   BiReportFormPreview,
