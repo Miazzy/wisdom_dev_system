@@ -42,7 +42,11 @@
                 </span>
               </div>
             </template>
-            <template v-if="item['required'] && item.showReqTips && item.filelist && item.filelist.length == 0">
+            <template
+              v-if="
+                item['required'] && item.showReqTips && item.filelist && item.filelist.length == 0
+              "
+            >
               <span class="file-alert">
                 <a-alert message="请上传本行附件信息" type="error" show-icon />
               </span>
@@ -83,6 +87,7 @@
               :application="tapplication"
               :module="tmodule"
               :bizId="item.bizId"
+              :fileKindId="item.fileKindId"
             />
           </slot>
         </td>
@@ -240,13 +245,13 @@
       .file-type {
         display: block;
         position: relative;
-        text-align: left;
         height: 35px;
         line-height: 35px;
+        text-align: left;
 
         .required {
           position: absolute;
-          left: 0px;
+          left: 0;
           color: red;
         }
 
@@ -258,8 +263,8 @@
 
       .file-alert {
         :deep(.ant-alert-message) {
+          color: rgb(230 68 68);
           text-align: left;
-          color: rgb(230, 68, 68);
         }
       }
     }

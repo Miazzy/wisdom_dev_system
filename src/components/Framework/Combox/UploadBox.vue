@@ -3,7 +3,7 @@
     <Button
       v-if="props.vmode == 'edit' || props.vmode == 'box'"
       @click="handleOpenUpDialog"
-      style="margin: 0px 10px 0px 0px"
+      style="margin: 0 10px 0 0"
     >
       <Icon icon="material-symbols-light:upload" />
       {{ props.tname }}
@@ -45,6 +45,7 @@
       :application="props.application"
       :module="props.module"
       :bizId="bizFileId"
+      :fileKindId="props.fileKindId"
       :tmessage="tmessage"
       @change="handleUploadOver"
       @cancel="handleUploadCancel"
@@ -74,6 +75,7 @@
     application: { type: String, default: '' },
     module: { type: String, default: '' },
     bizId: { type: [String, Function, Object], default: '' },
+    fileKindId: { type: String, default: '' },
     tmessage: {
       type: String,
       default:
