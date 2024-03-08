@@ -16,7 +16,7 @@
         <!-- 绘制饼状图 -->
         <g :transform="'translate(' + radius + ',' + radius + ')'">
           <g v-for="(arc, index) in arcs" :key="index" class="arc">
-            <path :d="arc.path" :fill="arc.data.color" />
+            <path :d="arc.path" :fill="arc.data.color" @click="handleClick(index)" />
           </g>
         </g>
         <text
@@ -119,6 +119,12 @@
       path: arcGenerator(arc),
     }));
   };
+
+  const emit = defineEmits(['clickItem']);
+
+  const handleClick = (index)=>{
+    emit('clickItem', groupList.value[index]);
+  }
 
   watch(
     () => props.data,
