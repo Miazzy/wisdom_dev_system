@@ -1177,8 +1177,32 @@ export const BaseWiringDiagram: AppRouteRecordRaw = {
   component: () => import('/@/views/baseset/monitor/wiringdiagram/wiringdiagram.vue'),
 };
 
+export const OaScheduleWorkMenu: AppRouteRecordRaw = {
+  path: '/framepage/oa/schedule/work/menu/index',
+  component: () => import('/@/views/oa/schedule/work/menu/index.vue'),
+};
+
+export const OaScheduleWorkIndex: AppRouteRecordRaw = {
+  path: '/framepage/oa/schedule/work/schedule/index',
+  component: () => import('/@/views/oa/schedule/work/schedule/index.vue'),
+};
+
+export const OaScheduleWorkCreate: AppRouteRecordRaw = {
+  path: '/framepage/oa/schedule/work/schedule/create',
+  component: () => import('/@/views/oa/schedule/work/schedule/create.vue'),
+};
+
+export const OaScheduleWorkRecord: AppRouteRecordRaw = {
+  path: '/framepage/oa/schedule/work/record/index',
+  component: () => import('/@/views/oa/schedule/work/record/index.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  OaScheduleWorkRecord,
+  OaScheduleWorkCreate,
+  OaScheduleWorkIndex,
+  OaScheduleWorkMenu,
   BaseWiringDiagram,
   CodeBuildRule,
   BiReportForm,
