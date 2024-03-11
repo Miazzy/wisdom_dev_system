@@ -2,7 +2,7 @@
   <div :id="`echarts-crossbar-container${random}`" class="echarts-crossbar-container" :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height};`"></div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, toRefs, watch } from 'vue';
+  import { onMounted, toRefs, watch, nextTick } from 'vue';
   import * as echarts from 'echarts';
 
   // 定义属性
@@ -184,9 +184,18 @@
     option && myChart.setOption(option);
   };
 
+  const emit = defineEmits(['clickItem']);
+
   // 创建地图并绘制点位
   onMounted(() => {
     createChart();
+    nextTick(()=>{
+      var chartDom = document.getElementById('echarts-crossbar-container' + random);
+      let myChart = echarts.getInstanceByDom(chartDom);
+      myChart.on('click', (params)=> {
+        emit('clickItem', params);
+      })
+    })
   });
 </script>
 <style>

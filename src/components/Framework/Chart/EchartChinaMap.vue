@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, onMounted, watch, onBeforeUnmount } from 'vue';
+  import { ref, onMounted, watch, onBeforeUnmount, nextTick } from 'vue';
   import * as echarts from 'echarts';
   import 'echarts/extension/bmap/bmap';
   import { getChinaJsonData } from '@/api/echarts/map';
@@ -216,10 +216,19 @@
     window.removeEventListener('resize', chartSize);
   };
 
+  const emit = defineEmits(['clickItem']);
+
   // 创建地图并绘制点位
   onMounted(() => {
     createChart();
     onWinResize();
+    nextTick(() => {
+      let chartDom = document.getElementById(props.mapID);
+      let myChart = echarts.getInstanceByDom(chartDom);
+      myChart.on('click', (params) => {
+        emit('clickItem', params);
+      });
+    });
   });
 
   onBeforeUnmount(() => {

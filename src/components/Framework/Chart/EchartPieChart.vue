@@ -99,9 +99,18 @@
     option && myChart.setOption(option);
   };
 
+  const emit = defineEmits(['clickItem']);
+
   // 创建地图并绘制点位
   onMounted(() => {
     createChart();
+    nextTick(()=>{
+      const chartDom = document.getElementById('echarts-pie-container');
+      let myChart = echarts.getInstanceByDom(chartDom);
+      myChart.on('click', (params)=> {
+        emit('clickItem', params);
+      })
+    })
   });
 </script>
 <style>

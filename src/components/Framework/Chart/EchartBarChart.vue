@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, onMounted, watch, toRefs } from 'vue';
+  import { ref, onMounted, watch, toRefs, nextTick } from 'vue';
   import * as echarts from 'echarts';
 
   // 定义属性
@@ -32,9 +32,18 @@
     }
   });
 
+  const emit = defineEmits(['clickItem']);
+
   // 创建柱状图和折线图
   onMounted(() => {
     createChart();
+    nextTick(()=>{
+      const chartDom = document.querySelector('.echarts-container');
+      let myChart = echarts.getInstanceByDom(chartDom);
+      myChart.on('click', (params)=> {
+        emit('clickItem', params);
+      })
+    })
   });
 
   // 创建 ECharts 图表

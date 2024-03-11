@@ -2,7 +2,7 @@
   <div ref="chartRef" :style="{ height: `${props.height}px`, width: `${props.width}px` }"></div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, reactive, ref, Ref, watch } from 'vue';
+  import { onMounted, reactive, ref, Ref, watch, nextTick } from 'vue';
   import { useECharts } from '/@/hooks/web/useECharts';
 
   const props = defineProps({
@@ -15,7 +15,7 @@
     customTooltipFormatter: { type: [Function, null], default: null }, // 自定义tooltip格式化
   });
   const chartRef = ref<HTMLDivElement | null>(null);
-  const { setOptions, echarts } = useECharts(chartRef as Ref<HTMLDivElement>);
+  const { setOptions, echarts, getInstance } = useECharts(chartRef as Ref<HTMLDivElement>);
 
   const colorList = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de'];
   const getSeriesList = () => {
@@ -169,8 +169,17 @@
       deep: true,
     },
   );
+
+  const emit = defineEmits(['clickItem']);
+
   onMounted(() => {
     setChartOptions(chartOption);
+    nextTick(()=>{
+      let myChart = getInstance();
+      myChart.on('click', (params)=> {
+        emit('clickItem', params);
+      })
+    })
   });
 </script>
 <style lang="less">

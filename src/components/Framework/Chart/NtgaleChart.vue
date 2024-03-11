@@ -68,7 +68,7 @@
     nextTick(()=>{
       const chartDom = document.getElementById(props.id);
       let myChart = echarts.getInstanceByDom(chartDom);
-      myChart.on('click','series', (params)=> {
+      myChart.on('click', (params)=> {
         emit('clickItem', params);
       })
     })

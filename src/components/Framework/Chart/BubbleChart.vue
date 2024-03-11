@@ -27,6 +27,8 @@
   const { data, width, height, fontSize, fontColor } = toRefs(props);
   const chart = ref(null);
 
+  const emit = defineEmits(['clickItem']);
+
   onUnmounted(() => {
     // 清理组件卸载时的操作
   });
@@ -56,7 +58,11 @@
         return d3.color(color).copy({ opacity: 0.075 });
       })
       .style('stroke', (d) => d.data.color)
-      .style('stroke-width', '2px');
+      .style('stroke-width', '2px')
+      .style('cursor', 'pointer')
+      .on('click', (n, i)=>{
+        emit('clickItem', i);
+      });
 
     svg
       .selectAll('text')
@@ -69,7 +75,11 @@
       .attr('dy', '.3em')
       .style('font-size', (d) => handleTextSize(d.data.size || fontSize))
       .style('fill', (d) => d.data.color || fontColor)
-      .text((d) => d.data.name);
+      .style('cursor', 'pointer')
+      .text((d) => d.data.name)
+      .on('click', (n, i)=>{
+        emit('clickItem', i);
+      });
   }
 
   watch(
