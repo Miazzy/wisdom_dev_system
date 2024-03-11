@@ -92,6 +92,7 @@
   }
 
   onMounted(async () => {
+    readData();
     MsgManager.getInstance().listen('setMeeting', function () {
       setTimeout(() => {
         readData();
