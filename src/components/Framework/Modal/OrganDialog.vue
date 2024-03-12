@@ -28,18 +28,12 @@
               @keydown.prevent.enter="preventEnter"
             />
             <span class="search-icon" style="left: 300px">
-              <Icon
-                icon="mdi:arrow-up"
-                color="#333"
-                size="22"
-                class="rotate-left"
-                @click="handleNode"
-              />
+              <Icon icon="mdi:arrow-up" size="22" class="rotate-left" @click="handleNode" />
             </span>
             <span class="search-icon" style="left: 340px">
               <Icon
                 icon="material-symbols:delete-outline"
-                color="#333"
+                class="icon-delete"
                 size="22"
                 @click="handleDelete"
               />
@@ -490,7 +484,27 @@
     allNodes.value = props.value;
   });
 </script>
+<style lang="less">
+  [data-theme='dark'] {
+    .theme1 {
+      .category-tree {
+        div.category-content {
+          div.category-search-box {
+            .search-icon {
+              .rotate-left {
+                color: #f0f0f0 !important;
+              }
 
+              .icon-delete {
+                color: #f0f0f0 !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
 <style lang="less" scoped>
   .dialog-content {
     display: flex; /* 使用 flex 布局 */
@@ -555,6 +569,11 @@
 
           .app-iconify.anticon.rotate-left {
             transform: rotate(90deg);
+            color: #303030;
+          }
+
+          .icon-delete {
+            color: #303030;
           }
         }
       }
