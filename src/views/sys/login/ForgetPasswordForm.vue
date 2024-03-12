@@ -3,29 +3,21 @@
     <LoginFormTitle class="enter-x" />
     <Form class="p-4 enter-x" :model="formData" :rules="getFormRules" ref="formRef">
       <FormItem name="account" class="enter-x">
-        <Input
-          size="large"
-          v-model:value="formData.account"
-          :placeholder="t('sys.login.userName')"
-        />
+        <Input v-model:value="formData.account" :placeholder="t('sys.login.userName')" />
       </FormItem>
 
       <FormItem name="mobile" class="enter-x">
-        <Input size="large" v-model:value="formData.mobile" :placeholder="t('sys.login.mobile')" />
+        <Input v-model:value="formData.mobile" :placeholder="t('sys.login.mobile')" />
       </FormItem>
       <FormItem name="sms" class="enter-x">
-        <CountdownInput
-          size="large"
-          v-model:value="formData.sms"
-          :placeholder="t('sys.login.smsCode')"
-        />
+        <CountdownInput v-model:value="formData.sms" :placeholder="t('sys.login.smsCode')" />
       </FormItem>
 
       <FormItem class="enter-x">
-        <Button type="primary" size="large" block @click="handleReset" :loading="loading">
+        <Button type="primary" block @click="handleReset" :loading="loading">
           {{ t('common.resetText') }}
         </Button>
-        <Button size="large" block class="mt-4" @click="handleBackLogin">
+        <Button block class="mt-4" @click="handleBackLogin">
           {{ t('sys.login.backSignIn') }}
         </Button>
       </FormItem>
