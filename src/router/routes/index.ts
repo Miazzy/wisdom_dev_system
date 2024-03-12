@@ -1202,8 +1202,19 @@ export const OaInfoOfficedocView: AppRouteRecordRaw = {
   component: () => import('/@/views/oa/info/officedoc/view.vue'),
 };
 
+export const PoInspectionpause: AppRouteRecordRaw = {
+  path: '/framepage/po/inspection/inspectionpause',
+  component: () => import('/@/views/po/inspection/inspectionpause/index.vue'),
+};
+export const PoInspectionpauseCreate: AppRouteRecordRaw = {
+  path: '/framepage/po/inspection/inspectionpause/create',
+  component: () => import('/@/views/po/inspection/inspectionpause/create.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  PoInspectionpause,
+  PoInspectionpauseCreate,
   OaInfoOfficedocView,
   OaScheduleWorkRecord,
   OaScheduleWorkCreate,
