@@ -231,6 +231,16 @@
 </script>
 
 <style lang="less" scoped>
+  [data-theme='dark'] {
+    .theme1 {
+      .table {
+        th {
+          background-color: transparent;
+        }
+      }
+    }
+  }
+
   .table {
     width: 100%;
     border-collapse: collapse;
