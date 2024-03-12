@@ -9,7 +9,7 @@
           <div class="nav-item-container">
             <div class="nav-item" v-for="(n, index) in pageItem" :key="index" @click="toPath(n)">
               <div class="nav-icon-box" :style="{ backgroundColor: colors[index] }">
-                <Icon :icon="n.icon" :size="32" />
+                <Icon :icon="n.icon || 'ion:logo-windows'" :size="32" />
               </div>
               <div class="nav-label">{{ n.name }}</div>
             </div>
