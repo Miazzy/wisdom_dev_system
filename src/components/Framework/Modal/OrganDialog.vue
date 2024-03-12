@@ -101,8 +101,8 @@
             <div class="component-wrap">
               <template :key="index" v-for="(item, index) of allNodes">
                 <a class="component-item">
-                  <span class="ui-component-text" :title="item[props.tfields.title]">
-                    {{ item[props.tfields.title] }}
+                  <span class="ui-component-text" :title="handleSNodeText(item)">
+                    {{ handleSNodeText(item) }}
                   </span>
                   <i class="icon-close">
                     <Icon icon="typcn:delete" size="18" @click="handleDeleteNode(item, index)" />
@@ -205,6 +205,14 @@
     return !!treeMap.value.get(key);
   };
 
+  const handleSNodeText = (node) => {
+    return node[props.tfields.title] || node['title'] || node['label'];
+  };
+
+  const handleSNodeId = (node) => {
+    return node[props.tfields.key] || node['value'] || node['key'];
+  };
+
   const handleSelect = (nodeKey, event) => {
     const node = event.node;
     selectedNode.value = node;
@@ -217,26 +225,17 @@
     }
     const findex = allNodes.value
       ? allNodes.value.findIndex((x) => {
-          return (
-            x[props.tfields.key] === snode[props.tfields.key] &&
-            x[props.tfields.title] === snode[props.tfields.title]
-          );
+          const idFlag = handleSNodeId(x) === handleSNodeId(snode);
+          const textFlag = handleSNodeText(x) === handleSNodeText(snode);
+          return idFlag && textFlag;
         })
       : -1;
     if (findex < 0) {
       // 将选中节点推入allNodes节点中
-      allNodes.value.push(selectedNode.value);
-      // 去除掉nodeId相同的节点
-      const list = allNodes.value.filter((node, index, list) => {
-        const findIndexValue = list.findIndex((x) => {
-          return (
-            x[props.tfields.key] === node[props.tfields.key] &&
-            x[props.tfields.title] === node[props.tfields.title]
-          );
-        });
-        return findIndexValue === index;
-      });
-      allNodes.value = list;
+      const keys = allNodes.value.map((x) => x.value);
+      if (!keys.includes(snode.value)) {
+        allNodes.value.push(selectedNode.value);
+      }
     } else {
       // message.warning(props.message.double);
       SysMessage.getInstance().warning(props.message.double);
@@ -281,13 +280,23 @@
       const newItem = {};
       for (const key in item) {
         if (key in rules) {
-          if (rules[key] == 'title' || rules[key] == 'dept' || rules[key] == 'postion') {
+          if (rules[key] == 'dept' || rules[key] == 'postion') {
             newItem[rules[key]] = item[key];
             newItem[key] = item[key];
+          } else if (rules[key] == 'id') {
+            newItem[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key];
+            newItem[key] = item[key];
+          } else if (rules[key] == 'title') {
+            newItem[rules[key]] = item[key];
+            newItem[key] = item[key];
+            newItem['label'] = item[key];
           } else if (rules[key] == 'key') {
             newItem[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key];
             newItem[key] = item[key];
+            newItem['value'] = item[key];
           }
+        } else {
+          newItem[key] = item[key];
         }
       }
       return newItem;
@@ -303,15 +312,20 @@
       const newObj = {};
       for (const key in item) {
         if (key in rules) {
-          if (rules[key] == 'title' || rules[key] == 'dept' || rules[key] == 'postion') {
+          if (rules[key] == 'dept' || rules[key] == 'postion') {
             newObj[rules[key]] = item[key];
             newObj[key] = item[key];
+          } else if (rules[key] == 'title') {
+            newObj[rules[key]] = item[key];
+            newObj[key] = item[key];
+            newObj['label'] = item[key];
           } else if (rules[key] == 'id') {
             newObj[key] = parseInt(Math.random() * 100) + '@' + item[key];
             newObj[key] = item[key];
           } else if (rules[key] == 'key') {
             newObj[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key];
             newObj[key] = item[key];
+            newObj['value'] = item[key];
           }
         }
         newObj[key] = item[key];
@@ -347,15 +361,20 @@
       const newItem = {};
       for (const key in item) {
         if (key in rules) {
-          if (rules[key] == 'title' || rules[key] == 'dept' || rules[key] == 'postion') {
+          if (rules[key] == 'dept' || rules[key] == 'postion') {
             newItem[rules[key]] = item[key];
             newItem[key] = item[key];
           } else if (rules[key] == 'id') {
             newItem[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key];
             newItem[key] = item[key];
+          } else if (rules[key] == 'title') {
+            newItem[rules[key]] = item[key];
+            newItem[key] = item[key];
+            newItem['label'] = item[key];
           } else if (rules[key] == 'key') {
             newItem[rules[key]] = parseInt(Math.random() * 100) + '@' + item[key];
             newItem[key] = item[key];
+            newItem['value'] = item[key];
           }
         } else {
           newItem[key] = item[key];
@@ -396,7 +415,8 @@
       return flag;
     });
     xdataList.value = list.map((item) => {
-      const { company, dept, key, label, orgId, parentId, parent_node, postion, title, value } = item;
+      const { company, dept, key, label, orgId, parentId, parent_node, postion, title, value } =
+        item;
       return { company, dept, key, label, orgId, parentId, parent_node, postion, title, value };
     });
   };
@@ -535,7 +555,6 @@
 
           .app-iconify.anticon.rotate-left {
             transform: rotate(90deg);
-            transform: rotate(90deg);
           }
         }
       }
@@ -543,18 +562,23 @@
       div.tree-value {
         margin: 10px 0 0;
         overflow-y: scroll;
+
         :deep(.ant-table-pagination.ant-pagination) {
           margin: 10px 0 0;
         }
+
         :deep(.ant-table-body) {
           height: 100vh;
         }
+
         :deep(.ant-table-body .ant-table-row.selected) {
           background: var(--el-color-primary-light-8);
         }
+
         :deep(.ant-table-body .ant-table-row.selected td) {
           background: var(--el-color-primary-light-8);
         }
+
         :deep(.ant-table-body) {
           overflow-x: hidden;
         }
