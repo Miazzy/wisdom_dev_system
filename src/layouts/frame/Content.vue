@@ -494,6 +494,20 @@
   }
 </style>
 <style lang="less" scoped>
+  .theme1 {
+    .tabs-content {
+      border-bottom: 1px solid rgba(222, 222, 222, 0.03);
+    }
+  }
+
+  .ant-tabs-top {
+    :deep(.ant-tabs-nav) {
+      &::before {
+        border-bottom: 0 solid transparent;
+      }
+    }
+  }
+
   .app-content {
     flex: 1;
 
