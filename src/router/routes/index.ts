@@ -1197,8 +1197,14 @@ export const OaScheduleWorkRecord: AppRouteRecordRaw = {
   component: () => import('/@/views/oa/schedule/work/record/index.vue'),
 };
 
+export const OaInfoOfficedocView: AppRouteRecordRaw = {
+  path: '/framepage/oa/info/officedoc/view',
+  component: () => import('/@/views/oa/info/officedoc/view.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  OaInfoOfficedocView,
   OaScheduleWorkRecord,
   OaScheduleWorkCreate,
   OaScheduleWorkIndex,
