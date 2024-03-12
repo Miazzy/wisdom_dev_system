@@ -493,6 +493,12 @@
     }
   }
 </style>
+<style>
+  .ant-tabs-nav-list div.ant-tabs-tab:last-child {
+    padding-right: 6px;
+    border-radius: 0;
+  }
+</style>
 <style lang="less" scoped>
   .theme1 {
     .tabs-content {
@@ -512,6 +518,18 @@
     flex: 1;
 
     /* padding: 0.1rem 0 0.2rem 0.2rem; */
+
+    .ant-tabs {
+      &.ant-tabs-card {
+        .ant-tabs-nav {
+          :deep(.ant-tabs-tab) {
+            &:last-child {
+              padding-right: 5px;
+            }
+          }
+        }
+      }
+    }
 
     :deep(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
       color: #fefefe;
