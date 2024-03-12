@@ -27,6 +27,9 @@
       :selectedKeys="curSelectedKeys"
       :expandOnSearch="true"
     >
+      <template #headerTitle>
+        <span class="vben-basic-title" :title="title">{{title}}</span>
+      </template>
       <template #title="nodeItem">
         <a-tooltip v-if="nodeItem[fieldNames.title || 'title'].length > 9">
           <template #title>{{ nodeItem[fieldNames.title || 'title'] }}</template>
@@ -233,6 +236,10 @@
     }
     :deep(.vben-tree-header .ant-input-group-addon) {
       display: none;
+    }
+    .vben-basic-title {
+      padding-left: 7px;
+      cursor: pointer;
     }
   }
 </style>
