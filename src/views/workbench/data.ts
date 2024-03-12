@@ -47,3 +47,20 @@ export const getMenuBoard = (params) =>
 
 export const getMenuBoardResult = (params) =>
   defHttp.get({ url: Api.getMenuBoardResultUrl, params }, { isOnlyResult: true });
+
+// ########################工作安排########################
+export const getWorkRecord = (workScheduleId: string, stationId: string) =>
+  defHttp.get(
+    { url: `/oa/work-record/get?workScheduleId=${workScheduleId}&stationId=${stationId}` },
+    { isOnlyResult: true },
+  );
+
+export const getWorkRecordPage = (params) =>
+  defHttp.get({ url: '/oa/work-record/page', params }, { isOnlyResult: true });
+
+export const saveWorkRecord = (params) => {
+  if (!params.id) {
+    return defHttp.post({ url: '/oa/work-record/create', params }, { isOnlyResult: true });
+  }
+  return defHttp.put({ url: '/oa/work-record/update', params }, { isOnlyResult: true });
+};

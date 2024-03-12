@@ -6,7 +6,7 @@
   ></div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, watch } from 'vue';
+  import { onMounted, watch, nextTick } from 'vue';
   import * as echarts from 'echarts';
 
   // 定义属性
@@ -281,9 +281,19 @@
     }
   );
 
+  const emit = defineEmits(['clickItem']);
+
+
   // 创建地图并绘制点位
   onMounted(() => {
     createChart();
+    nextTick(()=>{
+      var chartDom = document.getElementById('echarts-stackbar-container');
+      let myChart = echarts.getInstanceByDom(chartDom);
+      myChart.on('click', (params)=> {
+        emit('clickItem', params);
+      })
+    })
   });
 </script>
 <style>

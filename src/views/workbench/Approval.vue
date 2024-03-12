@@ -400,6 +400,7 @@
     doCC();
     doSchedule();
     MsgManager.getInstance().listen('workbench-approval', reloadAll);
+    MsgManager.getInstance().listen('setMeeting', doSchedule);
   });
 </script>
 

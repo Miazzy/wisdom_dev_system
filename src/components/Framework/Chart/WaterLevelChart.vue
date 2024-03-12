@@ -16,14 +16,14 @@
       ></div>
       <div
         class="circle-0"
-        :style="`width: ${typeof props.circle.width == 'number' ? props.circle.width + 'px' : props.circle.width}; height: ${typeof props.circle.height == 'number' ? props.circle.height + 'px' : props.circle.height};`"
+        :style="`width: ${typeof props.circle.width == 'number' ? props.circle.width + 'px' : props.circle.width}; height: ${typeof props.circle.height == 'number' ? props.circle.height + 'px' : props.circle.height}; cursor: pointer;`" @click="handleClick"
       ></div>
     </div>
   </div>
 </template>
 
 <script setup>
-  import { onMounted, watch } from 'vue';
+  import { onMounted, watch, nextTick } from 'vue';
   import * as echarts from 'echarts';
   import 'echarts-liquidfill';
 
@@ -101,6 +101,13 @@
     }
     chart.setOption(getChartOptions());
   };
+
+  const emit = defineEmits(['clickItem'])
+
+  const handleClick = ()=> {
+    let chartOptions = getChartOptions();
+    emit('clickItem', chartOptions.series[0])
+  }
 
   watch(
     () => props.data,

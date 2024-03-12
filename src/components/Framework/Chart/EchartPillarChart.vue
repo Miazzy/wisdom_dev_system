@@ -12,7 +12,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted, onUnmounted, watch } from 'vue';
+  import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue';
   import * as echarts from 'echarts';
 
   const random = parseInt(Math.random() * 10000000);
@@ -501,6 +501,8 @@
     }
   };
 
+  const emit = defineEmits(['clickItem']);
+
   watch(
     () => props.data,
     () => {
@@ -514,6 +516,13 @@
   onMounted(() => {
     setupBarShape();
     setupData();
+    nextTick(()=>{
+      const chartDom = document.getElementById('chart-pillar-container' + random);
+      let myChart = echarts.getInstanceByDom(chartDom);
+      myChart.on('click', (params)=> {
+        emit('clickItem', params);
+      })
+    })
   });
   onUnmounted(() => {});
 </script>

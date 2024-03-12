@@ -1172,8 +1172,44 @@ export const CodeBuildRule: AppRouteRecordRaw = {
   component: () => import('/@/views/system/configuration/codeBuildRule/index.vue'),
 };
 
+export const BaseWiringDiagram: AppRouteRecordRaw = {
+  path: '/framepage/baseset/monitor/wiringdiagram/index',
+  component: () => import('/@/views/baseset/monitor/wiringdiagram/wiringdiagram.vue'),
+};
+
+export const OaScheduleWorkMenu: AppRouteRecordRaw = {
+  path: '/framepage/oa/schedule/work/menu/index',
+  component: () => import('/@/views/oa/schedule/work/menu/index.vue'),
+};
+
+export const OaScheduleWorkIndex: AppRouteRecordRaw = {
+  path: '/framepage/oa/schedule/work/schedule/index',
+  component: () => import('/@/views/oa/schedule/work/schedule/index.vue'),
+};
+
+export const OaScheduleWorkCreate: AppRouteRecordRaw = {
+  path: '/framepage/oa/schedule/work/schedule/create',
+  component: () => import('/@/views/oa/schedule/work/schedule/create.vue'),
+};
+
+export const OaScheduleWorkRecord: AppRouteRecordRaw = {
+  path: '/framepage/oa/schedule/work/record/index',
+  component: () => import('/@/views/oa/schedule/work/record/index.vue'),
+};
+
+export const OaInfoOfficedocView: AppRouteRecordRaw = {
+  path: '/framepage/oa/info/officedoc/view',
+  component: () => import('/@/views/oa/info/officedoc/view.vue'),
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  OaInfoOfficedocView,
+  OaScheduleWorkRecord,
+  OaScheduleWorkCreate,
+  OaScheduleWorkIndex,
+  OaScheduleWorkMenu,
+  BaseWiringDiagram,
   CodeBuildRule,
   BiReportForm,
   BiReportFormPreview,

@@ -41,6 +41,7 @@
   import { Dayjs } from 'dayjs';
   import Schedule from '../oa/schedule/Schedule.vue';
   import { defHttp } from '/@/utils/http/axios';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const schedule = ref();
   function handleClickMenu({ key }) {
@@ -74,7 +75,7 @@
     return listData || [];
   };
 
-  onMounted(async () => {
+  async function readData() {
     let startDate = document
       .querySelector(
         '.ant-picker-calendar .ant-picker-date-panel tr:first-child .ant-picker-cell:first-child',
@@ -88,10 +89,15 @@
 
     let data = await getAlldaySchedule({ startDate: startDate, endDate: endDate });
     list.value = data.result;
-    // .then((data) => {
-    //   list.value = data.result;
-    //   debugger;
-    // });
+  }
+
+  onMounted(async () => {
+    readData();
+    MsgManager.getInstance().listen('setMeeting', function () {
+      setTimeout(() => {
+        readData();
+      }, 100);
+    });
   });
 
   const onPanelChange = (value: Dayjs, mode: string) => {

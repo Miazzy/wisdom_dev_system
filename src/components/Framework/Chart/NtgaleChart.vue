@@ -1,10 +1,11 @@
 <template>
-  <div :id="props.id" ref="chart" :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height};`"></div>
+  <div :id="props.id" ref="chart"
+    :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height};`"></div>
 </template>
 
 <script lang="ts" setup>
   import * as echarts from 'echarts';
-  import { onMounted, watch, PropType } from 'vue';
+  import { onMounted, watch, PropType, nextTick } from 'vue';
 
   const props = defineProps({
     width: { type: [Number, String], default: 600 },
@@ -13,8 +14,11 @@
     id: { type: String },
     showLabel: { type: Boolean, default: false }, // 是否显示饼图图形旁边的文字标签
     roseType: { type: [String, Boolean], default: 'radius' }, // 是否展示成南丁格尔图，通过半径区分数据大小 radius/area
-    radius: {type: Array as PropType<Array<number|string>>, default: [30, 100] }
+    radius: {type: Array as PropType<Array<number|string>>, default: [30, 100] },
+    labelFormatter: { type: [String, Function], default: '{b}: {c}' }
   });
+
+  const emit = defineEmits(['clickItem'])
 
   const setupData = () => {
     const chartDom = document.getElementById(props.id);
@@ -39,7 +43,7 @@
           data: props.data,
           label: {
             show: props.showLabel,
-            formatter: '{b}: {c}',
+            formatter: props.labelFormatter,
             overflow: 'break',
             textBorderType: 'none',
             color: '#BAC3C4'
@@ -62,5 +66,13 @@
 
   onMounted(() => {
     setupData();
+    nextTick(()=>{
+      const chartDom = document.getElementById(props.id);
+      let myChart = echarts.getInstanceByDom(chartDom);
+      myChart.on('click', (params)=> {
+        emit('clickItem', params);
+      })
+    })
+    console.log(111, props.labelFormatter);
   });
 </script>

@@ -85,8 +85,12 @@
     application: { type: String, default: '' },
     module: { type: String, default: '' },
     bizId: { type: String, default: '' },
+    fileKindId: { type: String, default: '' },
     tmessage: { type: String, default: '' },
-    format: { type: String, default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4' },
+    format: {
+      type: String,
+      default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4',
+    },
   });
 
   const emit = defineEmits([
@@ -156,7 +160,9 @@
     }
     // 检查上传的文件大小是否超限
     if (file.size > props.maxSize) {
-      SysMessage.getInstance().warning(`文件大小超过最大限度${Math.floor(props.maxSize / 1048576)}MB`);
+      SysMessage.getInstance().warning(
+        `文件大小超过最大限度${Math.floor(props.maxSize / 1048576)}MB`,
+      );
       return false;
     }
     // 上传文件不能为空
@@ -189,6 +195,7 @@
     formData.append('application', props.application); //附件上传必须携带参数：应用
     formData.append('module', props.module); //附件上传必须携带参数：模块
     formData.append('bizId', props.bizId); //附件上传必须携带参数：业务ID
+    formData.append('fileKindId', props.fileKindId); //文件配置类型编码(表格配置附件必须携带)
     if (!props.bizId) {
       SysMessage.getInstance().warning(`bizId不能为空`);
       return false;
@@ -240,7 +247,7 @@
     async (newValue, oldValue) => {
       modalVisible.value = newValue;
       if (newValue != oldValue && newValue == true) {
-        if(props.value != null && props.value.length > 0){
+        if (props.value != null && props.value.length > 0) {
           fileList.value = props.value;
         } else {
           fileList.value = await FileApi.getFiles({ bizId: props.bizId });
@@ -267,8 +274,8 @@
 
     .top-content {
       height: 100px;
-      border: 0px solid #f0f0f0;
       margin-bottom: 5px;
+      border: 0 solid #f0f0f0;
       color: #0960bd;
     }
 
@@ -284,17 +291,18 @@
       .main-content {
         flex: 1;
         height: auto;
-        border: 1px solid rgba(217,217,217,.16);
+        border: 1px solid rgb(217 217 217 / 16%);
       }
     }
   }
 
   :deep(.modal-footer) {
     height: 60px;
-    padding: 5px 0px 10px 0px;
+    padding: 5px 0 10px;
     line-height: 60px;
     text-align: right;
   }
+
   :deep(.modal-footer .footer-button) {
     position: absolute;
     top: 2px;
@@ -303,8 +311,8 @@
   }
 
   :deep(.modal-footer .footer-button button) {
-    padding: 0px 12px 0px 12px;
-    margin: 0px 12px 0px 0px;
+    margin: 0 12px 0 0;
+    padding: 0 12px;
   }
 
   :deep(
@@ -320,9 +328,11 @@
   :deep(.ant-alert-content) {
     text-align: left;
   }
+
   :deep(.ant-upload-list) {
     margin-top: -15px;
   }
+
   :deep(.ant-alert-with-description .ant-alert-message) {
     color: #0960bd;
   }
