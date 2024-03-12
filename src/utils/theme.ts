@@ -2,10 +2,12 @@ import { MsgManager } from '/@/message/MsgManager';
 import { useRootSetting } from '/@/hooks/setting/useRootSetting';
 import { ThemeEnum } from '/@/enums/appEnum';
 import { updateDarkTheme } from '/@/logics/theme/dark';
+import { useUserStoreWithOut } from '/@/store/modules/user';
 
 const THEME_MESSAGE = 'theme-message';
 const THEME_MODE = 'theme-mode';
 const { setDarkMode } = useRootSetting();
+const userStore = useUserStoreWithOut();
 
 // 刷新指定TabPage页面函数（iframe模式）
 export const reloadTheme = (attr, className) => {
@@ -33,6 +35,7 @@ export const listenThemeMessage = () => {
   MsgManager.getInstance().listen(THEME_MESSAGE, (message) => {
     const { attr, className } = message;
     reloadTheme(attr, className);
+    userStore.setTheme(className);
   });
   MsgManager.getInstance().listen(THEME_MODE, (message) => {
     const { mode } = message;

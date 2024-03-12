@@ -1,6 +1,9 @@
 // token key
 export const TOKEN_KEY = 'TOKEN__';
 
+// theme key
+export const THEME_KEY = 'THEME_KEY__';
+
 // organ tree key
 export const ORGAN_TREE_KEY = 'ORGAN_TREE_KEY__';
 

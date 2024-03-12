@@ -7,6 +7,7 @@ import { PageEnum } from '/@/enums/pageEnum';
 import {
   ROLES_KEY,
   TOKEN_KEY,
+  THEME_KEY,
   USER_INFO_KEY,
   REFRESH_TOKEN_KEY,
   MENU_LIST_KEY,
@@ -66,6 +67,8 @@ export const useUserStore = defineStore({
     lastUpdateTime: 0,
     // organ tree
     organTree: '',
+    // theme
+    theme: '',
   }),
   getters: {
     getUserInfo(state): UserInfo {
@@ -73,6 +76,9 @@ export const useUserStore = defineStore({
     },
     getToken(state): string {
       return state.token || getAuthCache<string>(TOKEN_KEY);
+    },
+    getTheme(state): string {
+      return state.theme || getAuthCache<string>(THEME_KEY);
     },
     getOrganTree(state): any {
       const tree = state?.organTree || getAuthCache<string>(ORGAN_TREE_KEY);
@@ -112,8 +118,12 @@ export const useUserStore = defineStore({
       return this.token;
     },
     setToken(info: string | undefined) {
-      this.token = info ? info : ''; // for null or undefined value
+      this.token = info ? info : '';
       setAuthCache(TOKEN_KEY, info);
+    },
+    setTheme(theme: string | undefined) {
+      this.theme = theme ? theme : ''; // for null or undefined value
+      setAuthCache(THEME_KEY, theme);
     },
     setOgranTree(info: Object) {
       this.organTree = info ? JSON.stringify(info) : ''; // for null or undefined value
