@@ -10,7 +10,7 @@
       <!-- <Button @click="handleCollect" v-if="processStatus != 0">收藏</Button> -->
       <Button
         @click="handleOpenApprovalDrawer"
-        v-if="!isNewProcessType && processStatus && processStatus !== 0"
+        v-if="processStatus && processStatus !== 0"
         type="primary"
         >审批</Button
       >
@@ -226,9 +226,11 @@
     () => props.processStatus,
     (newValue, prevValue) => {
       processStatus.value = props.processStatus;
-      if (newValue === 0 && prevValue === '') { // status: '' => 0, 表示在新增状态
+      if (newValue === 0 && prevValue === '') {
+        // status: '' => 0, 表示在新增状态
         processType.value = ProcessType.NEW;
-      } else if (newValue !== 0 && prevValue === '') { // status: '' => 1,2,3..., 表示在审批状态
+      } else if (newValue !== 0 && prevValue === '') {
+        // status: '' => 1,2,3..., 表示在审批状态
         processType.value = ProcessType.VIEW;
       }
     },
