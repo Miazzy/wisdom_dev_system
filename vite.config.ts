@@ -1,6 +1,9 @@
 import { defineApplicationConfig } from '@vben/vite-config';
 
 export default defineApplicationConfig({
+  build: {
+    sourcemap: false, // 关闭sourcemap
+  },
   overrides: {
     optimizeDeps: {
       include: [
