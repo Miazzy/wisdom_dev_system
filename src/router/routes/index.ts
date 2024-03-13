@@ -96,6 +96,13 @@ export const LoginRoute: AppRouteRecordRaw = {
   },
 };
 
+// 缓存页面
+export const CachePage: AppRouteRecordRaw = {
+  path: '/framepage/cachepage',
+  name: 'CachePage',
+  component: () => import('/@/views/sys/iframe/FrameBlank.vue'),
+};
+
 // 总览驾驶舱路由
 export const CockpitOverviewRoute: AppRouteRecordRaw = {
   path: '/framepage/cockpit/overview',
@@ -1237,6 +1244,7 @@ export const basicRoutes = [
   SysOrgan,
   SysParameter,
   LoginRoute,
+  CachePage,
   CockpitOverviewRoute,
   CockpitOperationRoute,
   CockpitPropertyRoute,
