@@ -39,13 +39,15 @@ export const useAppStore = defineStore({
     getPageLoading(state): boolean {
       return state.pageLoading;
     },
+
     getDarkMode(state): 'light' | 'dark' | string {
       const htmlRoot = window.parent.document.getElementById('htmlRoot');
-      let htmlTheme='';
+      let htmlTheme = '';
       if (htmlRoot?.getAttribute('data-theme')) {
-        htmlTheme = htmlRoot.getAttribute('data-theme')||'';
+        htmlTheme = htmlRoot.getAttribute('data-theme') || '';
       }
-      return state.darkMode || localStorage.getItem(APP_DARK_MODE_KEY) || htmlTheme || darkMode;
+      const theme = state.darkMode || localStorage.getItem(APP_DARK_MODE_KEY) || htmlTheme || darkMode;
+      return theme;
     },
 
     getBeforeMiniInfo(state): BeforeMiniState {
@@ -59,12 +61,15 @@ export const useAppStore = defineStore({
     getHeaderSetting(): HeaderSetting {
       return this.getProjectConfig.headerSetting;
     },
+
     getMenuSetting(): MenuSetting {
       return this.getProjectConfig.menuSetting;
     },
+
     getTransitionSetting(): TransitionSetting {
       return this.getProjectConfig.transitionSetting;
     },
+
     getMultiTabsSetting(): MultiTabsSetting {
       return this.getProjectConfig.multiTabsSetting;
     },
@@ -87,6 +92,7 @@ export const useAppStore = defineStore({
       this.projectConfig = deepMerge(this.projectConfig || {}, config) as ProjectConfig;
       Persistent.setLocal(PROJ_CFG_KEY, this.projectConfig);
     },
+
     setMenuSetting(setting: Partial<MenuSetting>): void {
       this.projectConfig!.menuSetting = deepMerge(this.projectConfig!.menuSetting, setting);
       Persistent.setLocal(PROJ_CFG_KEY, this.projectConfig);
@@ -96,6 +102,7 @@ export const useAppStore = defineStore({
       resetRouter();
       Persistent.clearAll();
     },
+
     async setPageLoadingAction(loading: boolean): Promise<void> {
       if (loading) {
         clearTimeout(timeId);
