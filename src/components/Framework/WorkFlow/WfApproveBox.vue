@@ -2,13 +2,15 @@
   <div class="workflow-approve-box">
     <!-- 审批按钮 -->
     <div class="button-content" style="" v-show="isShowBtns">
-      <Button @click="handleSubmit" v-if="!isReadOnly" type="primary">提交</Button>
-      <Button @click="handleSave" v-if="!isReadOnly">保存</Button>
+      <Button @click="handleSubmit" v-if="isNewProcessType && !isReadOnly" type="primary"
+        >提交</Button
+      >
+      <Button @click="handleSave" v-if="isNewProcessType && !isReadOnly">保存</Button>
 
       <!-- <Button @click="handleCollect" v-if="processStatus != 0">收藏</Button> -->
       <Button
         @click="handleOpenApprovalDrawer"
-        v-if="processStatus && processStatus !== 0"
+        v-if="!isNewProcessType && processStatus && processStatus !== 0"
         type="primary"
         >审批</Button
       >
@@ -35,7 +37,7 @@
 </template>
 <script lang="ts" setup>
   import { assign, forEach } from 'min-dash';
-  import { watch, toRaw, ref, onMounted, unref } from 'vue';
+  import { watch, toRaw, ref, onMounted, unref, computed } from 'vue';
   import { message, Button } from 'ant-design-vue';
   import { useDrawer } from '/@/components/Drawer';
   import { propTypes } from '@/utils/propTypes';
@@ -72,7 +74,7 @@
 
   const props = defineProps({
     processInstanceId: propTypes.string.def(''),
-    processStatus: propTypes.number.def(undefined),
+    processStatus: { type: [Number, String], default: '' },
     mode: { type: String as PropType<Modes>, default: 'default' },
     businessStatus: { type: String, default: '' },
     listenMessage: { type: String, default: 'workflow-task-done' },
@@ -82,14 +84,25 @@
     approvalDrawerRegister,
     { openDrawer: openApprovalDrawer, closeDrawer: closeApprovalDrawer },
   ] = useDrawer();
+
+  enum ProcessType {
+    NEW = 'new',
+    VIEW = 'view',
+  }
+
   const approveDataList = ref([]);
   const processInstanceId = ref(null);
   const processStatus = ref();
+  const processType = ref(ProcessType.NEW);
 
   // 打开流程审批抽屉
   function handleOpenApprovalDrawer() {
     openApprovalDrawer(true);
   }
+
+  const isNewProcessType = computed(() => {
+    return processType.value === ProcessType.NEW;
+  });
 
   const handleAgree = async (flowData) => {
     // emit('agree', flowData);
@@ -151,7 +164,6 @@
   // 业务的保存
   const handleSave = () => {
     emit('save');
-
     sendMsg();
   };
 
@@ -212,8 +224,13 @@
 
   watch(
     () => props.processStatus,
-    (newValue) => {
+    (newValue, prevValue) => {
       processStatus.value = props.processStatus;
+      if (newValue === 0 && prevValue === '') { // status: '' => 0, 表示在新增状态
+        processType.value = ProcessType.NEW;
+      } else if (newValue !== 0 && prevValue === '') { // status: '' => 1,2,3..., 表示在审批状态
+        processType.value = ProcessType.VIEW;
+      }
     },
     { immediate: true },
   );
@@ -223,7 +240,6 @@
     (newValue, prevValue) => {
       if (props.processInstanceId) {
         processInstanceId.value = props.processInstanceId;
-
         getTaskListByProcessInstanceId();
         getProcessInstance();
         isShowBtns.value = true;
