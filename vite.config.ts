@@ -1,10 +1,19 @@
+import { defineConfig } from 'vite';
 import { defineApplicationConfig } from '@vben/vite-config';
 
-export default defineApplicationConfig({
+// 自定义Vite配置
+const customConfig = defineConfig({
   build: {
     sourcemap: false, // 关闭sourcemap
   },
+});
+
+export default defineApplicationConfig({
+  ...customConfig, // 自定义配置
   overrides: {
+    build: {
+      sourcemap: false, // 关闭sourcemap
+    },
     optimizeDeps: {
       include: [
         'echarts/core',
