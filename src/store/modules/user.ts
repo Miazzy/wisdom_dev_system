@@ -2,6 +2,7 @@ import type { UserInfo, User } from '/#/store';
 import type { ErrorMessageMode } from '/#/axios';
 import { defineStore } from 'pinia';
 import { store } from '/@/store';
+import { ThemeEnum } from '/@/enums/appEnum';
 import { RoleEnum } from '/@/enums/roleEnum';
 import { PageEnum } from '/@/enums/pageEnum';
 import {
@@ -30,6 +31,7 @@ import { OnceExecutor } from '/@/executor/onceExecutor';
 import { DICT_TYPE } from '@/utils/dict';
 import { createLocalForage } from '@/utils/cache';
 import { MsgManager } from '/@/message/MsgManager';
+import { darkMode } from '/@/settings/designSetting';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -270,7 +272,7 @@ export const useUserStore = defineStore({
         try {
           window.sessionStorage.clear(); // 清空sessionStorage和localStorage缓存
           // 退出登录不清本地深浅模式缓存
-          const darkMode = window.localStorage.getItem(APP_DARK_MODE_KEY) || 'light';
+          const darkMode = window.localStorage.getItem(APP_DARK_MODE_KEY) || darkMode;
           const rememberInfo = window.localStorage.getItem('REMEMBER_ME_INFO') || '';
           window.localStorage.clear(); // 清空sessionStorage和localStorage缓存
           window.localStorage.setItem(APP_DARK_MODE_KEY, darkMode);
