@@ -2,6 +2,7 @@ import { ThemeEnum } from '../enums/appEnum';
 
 export const prefixCls = 'vben';
 
+// 设置默认黑暗模式 模式主题
 export const darkMode = ThemeEnum.DARK;
 
 // app theme preset color
