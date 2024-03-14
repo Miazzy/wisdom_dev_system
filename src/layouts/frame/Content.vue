@@ -506,6 +506,12 @@
     }
   }
 
+  .theme3 {
+    .tabs-content {
+      border-bottom: 0.01rem solid #f9f9f9;
+    }
+  }
+
   .ant-tabs-top {
     :deep(.ant-tabs-nav) {
       &::before {
