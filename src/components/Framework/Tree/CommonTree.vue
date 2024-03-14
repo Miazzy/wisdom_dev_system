@@ -5,7 +5,7 @@
  * @FilePath: \ygwl-framework\src\components\Framework\Tree\CommonTree.vue
 -->
 <template>
-  <div class="overflow-hidden bg-white" :class="$attrs.class" style="margin: 10px 0 10px 10px">
+  <div class="overflow-hidden bg-white" :class="$attrs.class" :style="props.treeStyle">
     <BasicTree
       :title="title"
       :toolbar="toolbar"
@@ -64,6 +64,7 @@
     }, // 配置树的key和title取值字段名，例如{ key: 'nodeId', title: 'nodeName' }
     expandedKeys: { type: Array as PropType<string[]>, default: [] }, // 选中的树节点
     selectedKeys: { type: Array as PropType<string[]>, default: [] }, // 选中的树节点
+    treeStyle: { type: String, default: 'margin: 10px 0 10px 10px' },
   });
   const emit = defineEmits(['select', 'edit', 'add', 'delete', 'refresh', 'check']);
 
