@@ -76,7 +76,7 @@
           v-if="screenFlag"
           class="screen-icon"
           :icon="'iconamoon:screen-normal-thin'"
-          size="18"
+          size="26"
           @click="handleScreenTabPage"
         />
         <template v-for="pane in panes">
@@ -586,6 +586,7 @@
         color: transparent;
 
         &:hover {
+          background: #fefefe;
           color: #333;
         }
       }
@@ -618,7 +619,8 @@
           color: transparent;
 
           &:hover {
-            color: #ccc;
+            background: #000;
+            color: #fff;
           }
         }
       }
