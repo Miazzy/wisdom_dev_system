@@ -235,12 +235,12 @@
     .theme1 {
       .table {
         th {
-          border: 1px solid rgba(50, 66, 74, 0.93);
+          border: 1px solid rgba(255, 255, 255, 0.15);
           background-color: transparent;
         }
 
         td {
-          border: 1px solid rgba(50, 66, 74, 0.93);
+          border: 1px solid rgba(255, 255, 255, 0.15);
           background-color: transparent;
         }
       }
