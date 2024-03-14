@@ -2,7 +2,9 @@
   <div class="modal-mask" v-if="visible">
     <div class="modal-container" :style="{ width: width + 'px', height: height + 'px' }">
       <div class="modal-header">
-        <span :style="`font-size: ${props.tsize}px; font-weight: ${props.tweight};`">{{ title }}</span>
+        <span :style="`font-size: ${props.tsize}px; font-weight: ${props.tweight};`">{{
+          title
+        }}</span>
         <button class="modal-close" @click="closeModal">×</button>
       </div>
 
@@ -28,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, defineProps, defineEmits, computed } from 'vue';
+  import { ref, defineProps, defineEmits, computed, watch } from 'vue';
 
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
@@ -71,6 +73,33 @@
   const bodyHeight = computed(() => {
     return props.height - props.pheight; // 64 是 header 和 footer 的高度之和
   });
+
+  // 禁用事件回调函数
+  const callback = function (event) {
+    event.preventDefault();
+  };
+
+  // 禁止页面滚动事件
+  const disableScroll = () => {
+    document.body.addEventListener('mousewheel', callback, { passive: false });
+  };
+
+  // 恢复页面滚动事件
+  const enableScroll = () => {
+    document.body.removeEventListener('mousewheel', callback, { passive: false });
+  };
+
+  // 监听当前Dialog是否显示
+  watch(
+    () => props.visible,
+    (value) => {
+      if (value) {
+        disableScroll();
+      } else {
+        enableScroll();
+      }
+    },
+  );
 </script>
 
 <style lang="less" scoped>
@@ -89,13 +118,13 @@
 
   .modal-container {
     width: 400px;
-    max-width: 80%;    
+    max-width: 80%;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
     text-align: center;
   }
 
-  .modal-header {    
+  .modal-header {
     position: relative;
     height: 45px;
     padding: 0 5px 0 10px;
