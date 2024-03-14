@@ -49,24 +49,25 @@
   }
 
   .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    border: 1px solid rgb(255 255 255 / 16%);
     border-bottom: none;
     color: #c9d1d9;
   }
 
   .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-active {
-    background: rgba(10, 36, 74, 0.7);
+    background: rgb(10 36 74 / 70%);
   }
 
   .ant-checkbox-inner {
     border: 1px solid rgb(255 255 255 / 16%) !important;
   }
+
   .ant-checkbox-disabled .ant-checkbox-inner {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgb(255 255 255 / 8%);
   }
 
   .ant-tabs {
-    background-color: rgba(10, 36, 74, 0.7);
+    background-color: rgb(10 36 74 / 70%);
     color: #fff;
   }
 
@@ -88,9 +89,11 @@
     border: 1px solid rgb(255 255 255 / 16%);
     background-color: rgb(7 59 109 / 50%);
   }
+
   .ant-input-affix-wrapper {
-    background: rgba(7, 59, 109, 0.5);
-    border-color: rgba(255, 255, 255, 0.16);
+    border-color: rgb(255 255 255 / 16%);
+    background: rgb(7 59 109 / 50%);
+
     & > input.ant-input {
       border: none;
       background-color: transparent;
@@ -101,7 +104,7 @@
   .ant-btn {
     border: 1px solid transparent;
     border-color: rgb(255 255 255 / 16%);
-    background-color: rgba(7, 59, 109, 0.5);
+    background-color: rgb(7 59 109 / 50%);
     color: rgb(255 255 255 / 85%);
   }
 
@@ -115,21 +118,24 @@
     border-color: transparent;
     background: 0 0;
     color: rgb(24 144 255 / 85%);
+
     &.ant-btn-dangerous {
-      color: rgba(255, 77, 79, 0.85);
+      color: rgb(255 77 79 / 85%);
     }
   }
 
   // ant-form
   .ant-form {
-    color: rgba(255, 255, 255, 0.85);
-    background-color: rgba(10, 36, 74, 0.7);
+    background-color: rgb(10 36 74 / 70%);
+    color: rgb(255 255 255 / 85%);
+
     & > .ant-card {
       background-color: transparent;
     }
   }
+
   .ant-form-item-label > label {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgb(255 255 255 / 85%);
   }
 
   // a-table
@@ -142,9 +148,9 @@
     color: rgb(255 255 255 / 85%);
 
     .ant-table-thead > tr > th {
+      border-bottom-color: rgb(255 255 255 / 10%);
       background-color: #073b6d;
       color: rgb(255 255 255 / 85%);
-      border-bottom-color: rgba(255, 255, 255, 0.1);
     }
   }
 
@@ -236,21 +242,25 @@
     > tfoot
     > tr
     > td {
-    border-right-color: rgba(255, 255, 255, 0.1);
+    border-right-color: rgb(255 255 255 / 10%);
+
     &.ant-table-cell-fix-right-first::after {
       border-right-color: transparent;
     }
   }
+
   .ant-table.ant-table-bordered > .ant-table-container {
-    background-color: rgba(7, 59, 109, 0.2);
-    border-left-color: rgba(255, 255, 255, 0.1);
+    border-left-color: rgb(255 255 255 / 10%);
+    background-color: rgb(7 59 109 / 20%);
   }
+
   .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table,
   .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table {
-    border-top-color: rgba(255, 255, 255, 0.1);
+    border-top-color: rgb(255 255 255 / 10%);
   }
+
   .ant-table-tbody > tr > td {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
+    border-bottom-color: rgb(255 255 255 / 10%);
   }
 
   .ant-table-body td,
@@ -283,17 +293,21 @@
   .ant-table-body .vben-basic-table-row__striped td {
     background-color: #073b6d;
   }
+
   .vben-basic-table-title {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgb(255 255 255 / 85%);
   }
+
   .vben-basic-table-header__toolbar .ant-divider-vertical {
-    border-left: 2px solid rgba(255, 255, 255, 0.85);
+    border-left: 2px solid rgb(255 255 255 / 85%);
   }
+
   .vben-basic-table-form-container .ant-form {
-    background-color: rgba(10, 36, 74, 0.7);
+    background-color: rgb(10 36 74 / 70%);
   }
+
   .vben-basic-table .ant-table-wrapper {
-    background-color: rgba(10, 36, 74, 0.7);
+    background-color: rgb(10 36 74 / 70%);
   }
 
   // a-radio
@@ -381,7 +395,7 @@
   }
 
   .fit-basic-tree .ant-tree {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgb(255 255 255 / 85%);
   }
 
   .bg-white {
@@ -390,65 +404,79 @@
 
   // ant-pagination
   .ant-pagination {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgb(255 255 255 / 85%);
+
     .ant-select {
-      color: rgba(255, 255, 255, 0.85);
+      color: rgb(255 255 255 / 85%);
+
       &:not(.ant-select-customize-input) .ant-select-selector {
         background-color: transparent;
       }
     }
   }
+
   .ant-pagination.mini .ant-pagination-item {
+    border: 1px solid rgb(255 255 255 / 16%);
     background-color: transparent !important;
-    border: 1px solid rgba(255, 255, 255, 0.16);
   }
+
   .ant-pagination.mini .ant-pagination-item-active {
-    background-color: #1890ff !important;
     border-color: #1890ff;
+    background-color: #1890ff !important;
   }
+
   .ant-pagination.mini .ant-pagination-item-active a {
     color: #fefefe !important;
   }
+
   .ant-pagination.mini .ant-pagination-item a {
-    color: rgba(255, 255, 255, 0.85) !important;
+    color: rgb(255 255 255 / 85%) !important;
   }
+
   .ant-pagination.mini .ant-pagination-prev,
   .ant-pagination.mini .ant-pagination-next {
+    border: 1px solid rgb(255 255 255 / 16%);
     background-color: transparent !important;
     color: #d9d9d9;
-    border: 1px solid rgba(255, 255, 255, 0.16);
   }
+
   .ant-pagination.mini .ant-select-arrow {
     color: #d9d9d9 !important;
   }
+
   .ant-pagination-options-quick-jumper input {
-    border-color: rgba(255, 255, 255, 0.16);
-    color: rgba(255, 255, 255, 0.85);
+    border-color: rgb(255 255 255 / 16%);
+    color: rgb(255 255 255 / 85%);
   }
 
   .ant-drawer-content {
     background-color: #032748;
+
     .ant-tabs {
       background-color: transparent;
     }
   }
+
   .ant-drawer-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    border-bottom: 1px solid rgb(255 255 255 / 16%);
     background: transparent;
-    color: rgba(255, 255, 255, 0.85);
+    color: rgb(255 255 255 / 85%);
+
     .vben-basic-title {
-      color: rgba(255, 255, 255, 0.85);
+      color: rgb(255 255 255 / 85%);
     }
   }
+
   .vben-basic-drawer .ant-drawer-body {
     background-color: transparent;
   }
 
   .ant-card {
-    background-color: rgba(10, 36, 74, 0.7);
+    background-color: rgb(10 36 74 / 70%);
   }
+
   .ant-card-head {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgb(255 255 255 / 85%);
   }
 
   // 流程审批弹框
@@ -457,8 +485,8 @@
       .flow-item-left {
         .circle-out {
           .circle-inner-text.gray {
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgb(255 255 255 / 40%);
+            color: rgb(255 255 255 / 40%);
           }
         }
 
@@ -472,24 +500,30 @@
         .node-name-text {
           color: #fff;
         }
+
         .node-time-text {
-          color: #fff;
           opacity: 0.4;
+          color: #fff;
         }
+
         .person-text {
-          color: #fff;
           opacity: 0.8;
-        }
-        .comment-text {
           color: #fff;
-          opacity: 0.6;
         }
+
+        .comment-text {
+          opacity: 0.6;
+          color: #fff;
+        }
+
         .fit-comment-textarea.ant-input {
-          background-color: rgba(247, 247, 247, 0.04);
           border: none;
+          background-color: rgb(247 247 247 / 4%);
+
           &::placeholder {
-            color: rgba(255, 255, 255, 0.3);
+            color: rgb(255 255 255 / 30%);
           }
+
           &:focus {
             box-shadow: none;
           }
@@ -499,8 +533,8 @@
   }
 
   .vben-basic-drawer-footer {
+    border-top-color: rgb(255 255 255 / 16%);
     background-color: transparent;
-    border-top-color: rgba(255, 255, 255, 0.16);
   }
 
   .tab-table-div {
@@ -516,7 +550,7 @@
   }
 
   .ant-modal .ant-table.ant-table-bordered .ant-table-container {
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgb(255 255 255 / 10%);
   }
 
   .ant-modal .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table {
@@ -524,12 +558,12 @@
   }
 
   .ant-modal .ant-table.ant-table-small thead > tr > th {
+    border-bottom-color: rgb(255 255 255 / 10%);
     background-color: #073b6d;
-    border-bottom-color: rgba(255, 255, 255, 0.1);
   }
 
   .ant-modal .ant-table tbody > tr > td {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
+    border-bottom-color: rgb(255 255 255 / 10%);
     background-color: #002f5c;
   }
 
@@ -543,15 +577,40 @@
 
   // vben-basic-column-setting
   .vben-basic-column-setting__fixed-left:not(.disabled), .vben-basic-column-setting__fixed-right:not(.disabled) {
-    color: rgba(255,255,255, 0.6);
+    color: rgb(255 255 255 / 60%);
   }
 
   .vben-app-search-modal-content {
-    background-color: #002f5c;
+    background-color: #002f5cfe;
+
+    .vben-app-search-modal-list__item {
+      background-color: transparent;
+      box-shadow: 0 1px 3px 0 #557faff0;
+
+      .vben-app-search-modal-list__item-icon {
+        color: #557faff0;
+
+        &.app-iconify {
+          color: #557faff0;
+        }
+      }
+
+      .vben-app-search-modal-list__item-text {
+        color: #557faff0;
+      }
+    }
 
     .vben-app-search-footer {
       border-top: 1px solid #335f9f50;
-      background-color: #002f5c;
+      background-color: #002f5cfe;
+
+      span {
+        color: #557faff0;
+        
+        &.vben-app-search-footer-item {
+          box-shadow: inset 0 -2px 0 0 #557faf90, inset 0 0 1px 1px #557faff0, 0 1px 2px 1px #557faf30;
+        }
+      }
     }
   }
 }
@@ -614,21 +673,22 @@
   }
 
   .vben-multiple-tabs {
+    border-bottom-color: rgb(10 36 74 / 70%);
+    // border-bottom: none;
+    background-color: rgb(10 36 74 / 70%);
+
     & > .ant-tabs {
       background-color: transparent;
     }
-    // border-bottom: none;
-    background-color: rgb(10 36 74 / 70%);
-    border-bottom-color: rgb(10 36 74 / 70%);
     // box-shadow: 0 0 5px 0 rgb(12 6 14 / 10%);
 
     .ant-tabs.ant-tabs-card .ant-tabs-nav {
       background-color: transparent;
 
       .ant-tabs-tab {
-        background-color: transparent;
         // color: #fff;
-        border: 1px solid rgba(253, 253, 253, 0.12);
+        border: 1px solid rgb(253 253 253 / 12%);
+        background-color: transparent;
 
         &:not(.ant-tabs-tab-active):hover {
           color: #1890ff;
@@ -859,7 +919,7 @@
   }
 
   .ant-tabs-top > .ant-tabs-nav::before {
-    border-bottom-color: rgba(255, 255, 255, 0.16);
+    border-bottom-color: rgb(255 255 255 / 16%);
   }
 
   // framework-modal
@@ -938,11 +998,11 @@
     }
 
     div.category-content div.category-search-box {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+      border-bottom: 1px solid rgb(255 255 255 / 16%);
     }
 
     div.category-content div.category-search-box .search-icon {
-      border: 1px solid rgba(255, 255, 255, 0.16);
+      border: 1px solid rgb(255 255 255 / 16%);
     }
   }
 
@@ -1015,27 +1075,33 @@
   // }
   // 流程表单
   .process-box {
-    background-color: rgba(10, 36, 74, 0.7);
+    background-color: rgb(10 36 74 / 70%);
+
     .header-box {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+      border-bottom: 1px solid rgb(255 255 255 / 16%);
+
       .header-left {
-        color: rgba(255, 255, 255, 0.85);
+        color: rgb(255 255 255 / 85%);
       }
     }
+
     .ant-form {
       background-color: transparent;
     }
+
     .vben-basic-table .ant-table-wrapper {
       background-color: transparent;
     }
   }
+
   .bill-title-box {
     .bill-title {
-      color: rgba(255, 255, 255, 0.85);
+      color: rgb(255 255 255 / 85%);
     }
+
     .bill-info-box {
       .bill-info-item {
-        color: rgba(254, 254, 254, 0.3);
+        color: rgb(254 254 254 / 30%);
       }
     }
   }
@@ -1043,108 +1109,132 @@
   // 工作台
   .workbench {
     .ant-card-head {
-      border-bottom-color: rgba(234, 234, 234, 0.16);
+      border-bottom-color: rgb(234 234 234 / 16%);
     }
+
     .ant-card-extra {
-      color: rgba(255, 255, 255, 0.5);
+      color: rgb(255 255 255 / 50%);
     }
+
     .workbench-header {
       .info-box {
         .black-text {
           color: #fff;
         }
+
         .grey-text {
-          color: rgba(255, 255, 255, 0.5);
+          color: rgb(255 255 255 / 50%);
         }
       }
     }
+
     .data-board-item {
-      background-color: rgba(7, 59, 109, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.16);
+      border: 1px solid rgb(255 255 255 / 16%);
+      background-color: rgb(7 59 109 / 20%);
+
       .label-text {
-        color: rgba(255, 255, 255, 0.7);
+        color: rgb(255 255 255 / 70%);
       }
+
       .value-text {
         color: #fff;
       }
+
       .pLabel-text {
-        color: rgba(255, 255, 255, 0.5);
+        color: rgb(255 255 255 / 50%);
       }
     }
+
     .nav-icon-box {
       .app-iconify.anticon {
         color: #fff;
       }
     }
+
     .nav-label {
       color: #fff;
     }
+
     .carousel-dots > li {
-      background-color: rgba(255, 255, 255, 0.08);
+      background-color: rgb(255 255 255 / 8%);
     }
+
     .card-content {
       .ant-tabs {
         background-color: transparent;
       }
+
       .tab-text {
         color: #fff;
       }
+
       .ant-tabs-tab-active .tab-text {
         color: #1890ff;
       }
     }
+
     .ant-badge-count {
       background: #ff4d4f;
       box-shadow: none;
     }
+
     .ant-picker-calendar {
       background-color: transparent;
     }
 
     .ant-picker-calendar .ant-picker-panel {
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgb(255 255 255 / 10%);
+      border-left: 1px solid rgb(255 255 255 / 10%);
       background: transparent;
     }
+
     .ant-picker-calendar-mini .ant-picker-content {
       th {
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        border-right: 1px solid rgb(255 255 255 / 10%);
+        border-bottom: 1px solid rgb(255 255 255 / 10%);
       }
+
       .ant-picker-cell {
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        border-right: 1px solid rgb(255 255 255 / 10%);
+        border-bottom: 1px solid rgb(255 255 255 / 10%);
       }
     }
+
     .notice-item {
       .item-dot {
         background: #1890FF;
       }
+
       .title-text {
-        color: rgba(255, 255, 255, 0.97);
+        color: rgb(255 255 255 / 97%);
+
         &.isRead {
-          color: rgba(255, 255, 255, 0.5);
+          color: rgb(255 255 255 / 50%);
         }
       }
+
       .dept-text,
       .person-text {
-        color: rgba(255, 255, 255, 0.7);
+        color: rgb(255 255 255 / 70%);
       }
+
       .time-text {
-        color: rgba(255, 255, 255, 0.5);
+        color: rgb(255 255 255 / 50%);
       }
     }
   }
 
   .tab-button-div {
-    background-color: rgba(10, 36, 74, 0.7);
+    background-color: rgb(10 36 74 / 70%);
+
     & > .ant-form {
       background-color: transparent;
     }
   }
 
   .tab-table-div {
-    background-color: rgba(10, 36, 74, 0.7);
+    background-color: rgb(10 36 74 / 70%);
+
     > .ant-tabs {
       background-color: transparent;
     }
