@@ -4,7 +4,7 @@ import '@/components/VxeTable/src/css/index.scss';
 import 'ant-design-vue/dist/antd.less';
 import 'virtual:svg-icons-register';
 import { createApp } from 'vue';
-// import ElementPlus from 'element-plus';
+import ElementPlus from 'element-plus';
 import Antd from 'ant-design-vue';
 import { registerGlobComp } from '@/components/registerGlobComp';
 import { setupGlobDirectives } from '@/directives';
@@ -20,7 +20,7 @@ async function bootstrap() {
   const app = createApp(App);
 
   // 先全局注册组件，后期优化
-  // app.use(ElementPlus);
+  app.use(ElementPlus);
   app.use(Antd);
 
   // Configure store
