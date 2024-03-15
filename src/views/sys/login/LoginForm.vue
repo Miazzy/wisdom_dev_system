@@ -31,7 +31,7 @@
           </Checkbox>
         </FormItem>
       </ACol>
-      <ACol :span="12">
+      <ACol :span="12" class="forget-password">
         <FormItem :style="{ 'text-align': 'right' }">
           <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">
             {{ t('sys.login.forgetPassword') }}
@@ -133,3 +133,10 @@
     handleLoadAccount();
   });
 </script>
+<style lang="less" scoped>
+  .enter-x {
+    .forget-password {
+      display: none;
+    }
+  }
+</style>
