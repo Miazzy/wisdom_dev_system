@@ -1,7 +1,7 @@
 <template>
   <a-card title="日程安排" :bordered="false">
     <template #extra>
-      <a-dropdown>
+      <a-dropdown v-model:visible="dropdownVisible" :trigger="['click']">
         <template #overlay>
           <a-menu @click="handleClickMenu">
             <a-menu-item key="meeting">会议提醒</a-menu-item>
@@ -9,7 +9,7 @@
           </a-menu>
         </template>
         <!-- <a-button type="primary"> 导入 </a-button> -->
-        <span>新增 &gt;</span>
+        <span @click.prevent>新增 &gt;</span>
       </a-dropdown>
       <Schedule ref="schedule" />
     </template>
@@ -37,15 +37,19 @@
   </a-card>
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, nextTick } from 'vue';
   import { Dayjs } from 'dayjs';
   import Schedule from '../oa/schedule/Schedule.vue';
   import { defHttp } from '/@/utils/http/axios';
   import { MsgManager } from '/@/message/MsgManager';
 
   const schedule = ref();
+  const dropdownVisible = ref(false);
   function handleClickMenu({ key }) {
-    schedule.value.handleClickMenu(key);
+    dropdownVisible.value = false;
+    setTimeout(() => {
+      schedule.value.handleClickMenu(key);
+    }, 300);
   }
   const value = ref<Dayjs>();
 
