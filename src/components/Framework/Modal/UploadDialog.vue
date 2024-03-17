@@ -81,7 +81,7 @@
     height: { type: Number, default: 500 }, // 弹框高度
     tdata: { type: Array }, // 附件数据
     maxCount: { type: Number, default: 10 },
-    maxSize: { type: Number, default: 1024 * 1024 * 20 },
+    maxSize: { type: Number, default: 104857600 }, // 100M
     application: { type: String, default: '' },
     module: { type: String, default: '' },
     bizId: { type: String, default: '' },

@@ -71,7 +71,7 @@
     type: { type: String, default: '' },
     value: { type: [String, Array], default: null },
     maxCount: { type: [Number], default: 10 },
-    maxSize: { type: [Number], default: 100 * 1024 * 1024 },
+    maxSize: { type: [Number], default: 104857600 }, // 100M
     application: { type: String, default: '' },
     module: { type: String, default: '' },
     bizId: { type: [String, Function, Object], default: '' },

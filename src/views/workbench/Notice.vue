@@ -31,8 +31,8 @@
   // const router = useRouter();
 
   const urls: any = ref([
-    { key: 'notice', url: '/oa/info/infonotice/create' },
-    { key: 'announcement', url: '/oa/info/officedoc/create' },
+    { key: 'notice', url: 'oa/info/officedoc/view?module=infoNotice' },
+    { key: 'announcement', url: 'oa/info/officedoc/view?module=officeDoc' },
   ]);
   const noticeList = ref([]);
 
@@ -47,7 +47,7 @@
     });
     if (element) {
       // router.push({ path: element.url, query: { id: item.id } });
-      addTabPage(element.url, '通知公告详情', { processInstanceId: item.processInstanceId });
+      addTabPage(element.url, '通知公告详情', { bizId: item.id });
 
       setTimeout(() => {
         getNoticeAndAnnouncementPage();
@@ -64,7 +64,7 @@
       noticeList.value.splice(0, noticeList.value.length);
       noticeAndAnnouncement.list.forEach((e) => {
         noticeList.value.push({
-          processInstanceId: e.processInstanceId,
+          id: e.id,
           title: e.subject,
           dept: e.deptName,
           person: e.personMemberName,
@@ -86,44 +86,50 @@
   .card-content {
     height: 318px;
     padding-top: 2px;
+
     .notice-item {
       display: flex;
       align-items: center;
       font-size: 14px;
       line-height: 42px;
+
       .item-dot {
         width: 5px;
         height: 5px;
         border-radius: 50%;
       }
+
       .title-text {
         width: 67%;
-        opacity: 0.97;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
         padding: 0 14px;
+        overflow: hidden;
+        opacity: 0.97;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         cursor: pointer;
       }
+
       .dept-text {
-        padding-right: 14px;
         width: 12%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .person-text {
         padding-right: 14px;
-        width: 7%;
-        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
       }
+
+      .person-text {
+        width: 7%;
+        padding-right: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
       .time-text {
         width: 14%;
-        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }

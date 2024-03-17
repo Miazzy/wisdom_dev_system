@@ -201,9 +201,7 @@
           >
         </div>
         <div class="flow-row-3">
-          <div v-if="item.reason && !editAuthority(item)" class="comment-text">{{
-            item.reason
-          }}</div>
+          <div v-if="item.reason" class="comment-text">{{ item.reason }}</div>
           <Textarea
             v-if="props.type === 'approval' && item.result === 1 && editAuthority(item)"
             class="fit-comment-textarea"
