@@ -79,7 +79,7 @@
           size="26"
           @click="handleScreenTabPage"
         />
-        <div v-if="props.mode === 'multi'">
+        <div v-if="props.mode === 'multi'" class="content" :style="contentStyle">
           <template v-for="pane in panes">
             <div v-show="pane.status" class="content" :style="contentStyle">
               <iframe
@@ -312,7 +312,7 @@
     setTimeout(() => {
       activePane.value.pageurl = key;
       MsgManager.getInstance().sendMsg('iframe-url-change', { url: key });
-    }, 100);
+    }, 150);
   };
 
   // 处理刷新当前页面的函数

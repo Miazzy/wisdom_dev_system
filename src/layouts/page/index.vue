@@ -3,9 +3,7 @@
     <RouterView>
       <template #default="{ Component, route }">
         <template v-if="handleIsCachedComponent(Component, route, 'reverse')">
-          <keep-alive>
-            <component :is="handleComponent(Component, route)" :key="routeKey" />
-          </keep-alive>
+          <component :is="handleComponent(Component, route)" :key="routeKey" />
         </template>
         <template v-else>
           <keep-alive>

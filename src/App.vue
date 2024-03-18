@@ -7,13 +7,11 @@
 <template>
   <ConfigProvider :locale="getAntdLocale" :autoInsertSpaceInButton="false">
     <AppProvider>
-      <keep-alive>
-        <RouterView v-slot="{ Component }">
-          <keep-alive>
-            <component :is="Component" />
-          </keep-alive>
-        </RouterView>
-      </keep-alive>
+      <RouterView v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </RouterView>
     </AppProvider>
   </ConfigProvider>
 </template>
