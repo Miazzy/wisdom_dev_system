@@ -105,42 +105,42 @@ export const CockpitOverviewRoute: AppRouteRecordRaw = {
   path: '/framepage/cockpit/overview',
   name: 'CockpitOverview',
   component: () => import('/@/views/da/cockpit/overview/Overview.vue'),
-  meta: { keepAlive: true },
+  meta: { keepAlive: false },
 };
 
 // 运维驾驶舱路由
 export const CockpitOperationRoute: AppRouteRecordRaw = {
   path: '/framepage/cockpit/operation',
   component: () => import('/@/views/da/cockpit/operation/Operation.vue'),
-  meta: { keepAlive: true },
+  meta: { keepAlive: false },
 };
 
 // 资产驾驶舱路由
 export const CockpitPropertyRoute: AppRouteRecordRaw = {
   path: '/framepage/cockpit/property',
   component: () => import('/@/views/da/cockpit/property/Property.vue'),
-  meta: { keepAlive: true },
+  meta: { keepAlive: false },
 };
 
 // 安全驾驶舱路由
 export const CockpitSecurityRoute: AppRouteRecordRaw = {
   path: '/framepage/cockpit/security',
   component: () => import('/@/views/da/cockpit/security/Security.vue'),
-  meta: { keepAlive: true },
+  meta: { keepAlive: false },
 };
 
 // 综合驾驶舱路由
 export const CockpitCompositionRoute: AppRouteRecordRaw = {
   path: '/framepage/cockpit/composition',
   component: () => import('/@/views/da/cockpit/composition/Composition.vue'),
-  meta: { keepAlive: true },
+  meta: { keepAlive: false },
 };
 
 // 安全驾驶舱路由
 export const CockpitPowerRoute: AppRouteRecordRaw = {
   path: '/framepage/cockpit/power',
   component: () => import('/@/views/da/cockpit/power/Power.vue'),
-  meta: { keepAlive: true },
+  meta: { keepAlive: false },
 };
 
 // 集团运营大屏
@@ -148,14 +148,15 @@ export const GroupOperationRoute: AppRouteRecordRaw = {
   path: '/groupOperation',
   name: 'GroupOperation',
   component: () => import('/@/views/da/groupOperation/GroupOperation.vue'),
-  meta: { title: '集团运营', keepAlive: true },
+  meta: { title: '集团运营', keepAlive: false },
 };
+
 // 电站运营大屏
 export const StationOperationRoute: AppRouteRecordRaw = {
   path: '/stationOperation',
   name: 'StationOperation',
   component: () => import('/@/views/da/stationOperation/StationOperation.vue'),
-  meta: { title: '电站运营', keepAlive: true },
+  meta: { title: '电站运营', keepAlive: false },
 };
 
 // 电站运营大屏
@@ -878,13 +879,13 @@ export const PoAssessEvaluationReport: AppRouteRecordRaw = {
 export const GroupOperation: AppRouteRecordRaw = {
   path: '/framepage/groupOperation',
   component: () => import('/@/views/da/groupOperation/GroupOperation.vue'),
-  meta: { keepAlive: true },
+  meta: { keepAlive: false },
 };
 
 export const StationOperation: AppRouteRecordRaw = {
   path: '/framepage/stationOperation',
   component: () => import('/@/views/da/stationOperation/StationOperation.vue'),
-  meta: { keepAlive: true },
+  meta: { keepAlive: false },
 };
 
 export const BiCapacityStatistics: AppRouteRecordRaw = {
