@@ -20,9 +20,14 @@ class Subject {
 
   // 通知观察者
   notifyObservers(channelName, message) {
+    const startTime = Date.now();
+
     for (const observer of this.observers) {
       observer.update(channelName, message);
     }
+
+    const endTime = Date.now();
+    console.info('MsgManager.notifyObservers 耗时：', endTime - startTime);
   }
 }
 
