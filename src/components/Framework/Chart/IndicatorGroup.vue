@@ -16,7 +16,6 @@
   const emit = defineEmits(['clickItem']);
 
   const handleClick = (item) => {
-    console.log(222, item);
     emit('clickItem', item);
   }
 </script>
