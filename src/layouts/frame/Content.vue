@@ -79,17 +79,28 @@
           size="26"
           @click="handleScreenTabPage"
         />
-        <template v-for="pane in panes">
-          <div v-show="pane.status" class="content" :style="contentStyle">
-            <iframe
-              v-if="pane.show"
-              :key="pane.key"
-              :src="pane.pageurl"
-              :class="`${pane.status ? 'active' : 'disactive'}`"
-              :style="iframeWidth"
-            ></iframe>
-          </div>
-        </template>
+        <div v-if="props.mode === 'multi'">
+          <template v-for="pane in panes">
+            <div v-show="pane.status" class="content" :style="contentStyle">
+              <iframe
+                v-if="pane.show"
+                :key="pane.key"
+                :src="pane.pageurl"
+                :class="`${pane.status ? 'active' : 'disactive'}`"
+                :style="iframeWidth"
+              ></iframe>
+            </div>
+          </template>
+        </div>
+        <div v-else-if="props.mode === 'single'" class="content" :style="contentStyle">
+          <iframe
+            :src="activePane.pageurl"
+            :panekey="activeKey"
+            :pageurl="activePane.pageurl"
+            :class="`${activePane.status ? 'active' : 'disactive'}`"
+            :style="iframeWidth"
+          ></iframe>
+        </div>
       </div>
     </div>
   </main>
@@ -104,11 +115,13 @@
   const props = defineProps({
     path: { type: String, default: null },
     menu: { type: Object, default: null },
+    mode: { type: String, default: 'single' },
   });
 
   const userStore = useUserStore();
   const emit = defineEmits(['change']);
   const pageurl = '/#/framepage/workbench';
+  const cacheurl = '/#/framepage/cachepage';
   const workbench = {
     title: '工作台',
     key: 'workbench',
@@ -116,6 +129,14 @@
     show: true,
     status: true,
     pageurl: pageurl,
+  };
+  const cachepage = {
+    title: '缓存',
+    key: 'cachepage',
+    closable: false,
+    show: true,
+    status: true,
+    pageurl: cacheurl,
   };
   const panes = ref<any[]>([workbench]);
   const paneMap = new Map();
@@ -130,6 +151,7 @@
   const menuTabMargin = ref(275);
   const screenFlag = ref(false);
   const screenClass = ref('');
+  const activePane = ref(cachepage); // Single-Iframe-Mode
 
   // 处理Tab栏页签变更
   const handleTabChange = (key, options: any = null) => {
@@ -139,8 +161,25 @@
       if (options && pane.pageurl === key) {
         pane.id = options.id;
       }
+      // Single-Iframe-Mode
+      if (pane.status) {
+        handleActivePane(pane);
+        handleUrlChange(key);
+      }
     }
     handleActivePath();
+  };
+
+  // 处理当前激活状态Pane函数
+  const handleActivePane = (pane) => {
+    // Single-Iframe-Mode
+    if (pane.status) {
+      activePane.value.pageurl = pane.pageurl;
+      activePane.value.key = pane.key;
+      activePane.value.title = pane.title;
+      activePane.value.closable = pane.closable;
+      activePane.value.status = pane.status;
+    }
   };
 
   // Tab栏关闭页签操作等
@@ -161,7 +200,6 @@
         iframeWidth.value = 'width: 100%; height: 100%;';
         return;
       }
-      const owidth = window.outerWidth;
       const swidth = window.screen.availWidth;
       const cwidth = document.body.clientWidth;
 
@@ -230,21 +268,6 @@
     handleActivePath();
   };
 
-  watch(
-    () => props.path,
-    () => {
-      const path = handlePath(props.path);
-      if (props.path == '') {
-        return;
-      }
-      if (paneMap.has(path)) {
-        handleTabChange(path, props.menu);
-      } else {
-        handleNewTabPage(props.path, props.menu.name, props.menu);
-      }
-    },
-  );
-
   // 处理路径函数
   const handlePath = (value) => {
     const path = value.startsWith('/') ? value : '/' + value;
@@ -261,23 +284,35 @@
     let tempKey = path.replace('/da/', '/');
     tempKey = tempKey.startsWith('/framepage') ? tempKey : '/framepage' + tempKey;
     const key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
+    activePane.value.pageurl = cacheurl; // Single-Iframe-Mode
     activeKey.value = key;
     if (!paneMap.has(key)) {
-      paneMap.set(key, menu || props.menu);
-      panes.value.push({
+      const pane = {
         id: id,
         title: name || props.menu.name,
         show: true,
         closable: true,
         status: true,
         pageurl: key,
-      });
+      };
+      paneMap.set(key, menu || props.menu);
+      panes.value.push(pane);
     }
     for (let pane of panes.value) {
       pane.key = pane.key ? pane.key : new Date().getTime();
       pane.status = pane.pageurl === key;
     }
+    handleUrlChange(key);
     handleActivePath();
+  };
+
+  // 处理URL变更的函数
+  const handleUrlChange = (key) => {
+    // Single-Iframe-Mode
+    setTimeout(() => {
+      activePane.value.pageurl = key;
+      MsgManager.getInstance().sendMsg('iframe-url-change', { url: key });
+    }, 100);
   };
 
   // 处理刷新当前页面的函数
@@ -448,6 +483,21 @@
     handleResize();
   };
 
+  watch(
+    () => props.path,
+    () => {
+      const path = handlePath(props.path);
+      if (props.path == '') {
+        return;
+      }
+      if (paneMap.has(path)) {
+        handleTabChange(path, props.menu);
+      } else {
+        handleNewTabPage(props.path, props.menu.name, props.menu);
+      }
+    },
+  );
+
   onMounted(() => {
     paneMap.set(panes.value[0].pageurl, panes.value[0]);
     activeKey.value = panes.value[0].pageurl;
@@ -457,6 +507,7 @@
     setTimeout(() => {
       panes.value[0].show = true;
       panes.value[0].pageurl = pageurl;
+      activePane.value.pageurl = pageurl;
     }, 100);
     MsgManager.getInstance().listen('iframe-tabs-message', handleTabMessage);
     MsgManager.getInstance().listen('iframe-tabs-refresh-all', handleRefreshMenuAll);

@@ -7,7 +7,13 @@
 <template>
   <ConfigProvider :locale="getAntdLocale" :autoInsertSpaceInButton="false">
     <AppProvider>
-      <RouterView />
+      <keep-alive>
+        <RouterView v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </RouterView>
+      </keep-alive>
     </AppProvider>
   </ConfigProvider>
 </template>
@@ -112,6 +118,14 @@
     MsgManager.getInstance().listen('check-iframe-framepage', () => {
       console.info('listen check iframe page message ...');
       handleIframePage();
+    });
+    // Single-Iframe-Mode
+    MsgManager.getInstance().listen('iframe-url-change', (message) => {
+      if (checkInIframe()) {
+        let { url } = message;
+        url = url.replace('/#/', '/');
+        router.push(url as string);
+      }
     });
   });
 </script>
