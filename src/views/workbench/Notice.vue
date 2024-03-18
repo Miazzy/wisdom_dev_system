@@ -31,13 +31,12 @@
   // const router = useRouter();
 
   const urls: any = ref([
-    { key: 'notice', url: 'oa/info/officedoc/view?module=infoNotice' },
-    { key: 'announcement', url: 'oa/info/officedoc/view?module=officeDoc' },
+    { key: 'notice', url: '/oa/info/officedoc/view' },
+    { key: 'announcement', url: '/oa/info/officedoc/view' },
   ]);
   const noticeList = ref([]);
 
   const toMorePage = () => {
-    // router.push(`/oa/info/officedoc/index`);
     addTabPage(`/oa/info/query/index`, '信息查询');
   };
 
@@ -46,8 +45,11 @@
       return e?.key === item.businessType;
     });
     if (element) {
-      // router.push({ path: element.url, query: { id: item.id } });
-      addTabPage(element.url, '通知公告详情', { bizId: item.id });
+      var params = {
+        bizId: item.id,
+        module: element.businessType == 'notice' ? 'infoNotice' : 'officeDoc',
+      };
+      addTabPage(element.url, '通知公告详情', params);
 
       setTimeout(() => {
         getNoticeAndAnnouncementPage();
