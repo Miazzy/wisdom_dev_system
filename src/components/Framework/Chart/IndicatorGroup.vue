@@ -1,6 +1,6 @@
 <template>
   <div class="indicator-group">
-    <div class="indicator-item" v-for="(item, index) in props.data" :key="index">
+    <div class="indicator-item" v-for="(item, index) in props.data" :key="index" @click="handleClick(item)">
       <div class="value-text">{{ item.value }}</div>
       <div class="label-text">{{ item.label }}</div>
     </div>
@@ -13,6 +13,11 @@
   const props = defineProps({
     data: Array,
   });
+  const emit = defineEmits(['clickItem']);
+
+  const handleClick = (item) => {
+    emit('clickItem', item);
+  }
 </script>
 
 <style lang="less" scoped>
@@ -24,6 +29,7 @@
     .indicator-item {
       line-height: 1;
       text-align: center;
+      cursor: pointer;
 
       .value-text {
         margin-bottom: 0.1rem;
