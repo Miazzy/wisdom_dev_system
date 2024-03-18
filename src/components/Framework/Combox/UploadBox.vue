@@ -74,7 +74,7 @@
     maxSize: { type: [Number], default: 104857600 }, // 100M
     application: { type: String, default: '' },
     module: { type: String, default: '' },
-    bizId: { type: [String, Function, Object], default: '' },
+    bizId: { type: [String, Function, Object], default: '-1' },
     fileKindId: { type: String, default: '' },
     tmessage: {
       type: String,
@@ -120,7 +120,7 @@
   const getBizId = () => {
     try {
       if (typeof props.bizId == 'string') {
-        return props.bizId;
+        return props.bizId || '-1';
       } else if (typeof props.bizId == 'function') {
         return props.bizId();
       } else if (typeof props.bizId == 'object') {
