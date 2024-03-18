@@ -16,23 +16,6 @@ Jiwei-Admin 是渔光物联公司的中后台管理系统。使用了最新的`v
 - **权限** 内置完善的动态路由权限生成方案
 - **组件** 二次封装了多个常用的组件
 
-## 预览
-
-- [Jiwei Admin](https://uat.ygwl.net/) - 完整版中文站点
-
-#### 白色主题
-![白色主题](document/images/theme.white.png)
-#### 深蓝主题
-![深蓝主题](document/images/theme.blue.png)
-#### 深青主题
-![深青主题](document/images/theme.green.png)
-
-测试账号: vben/123456
-
-## 文档
-
-[文档地址](https://uat.ygwl.net/)
-
 ## 准备
 
 - [node](http://nodejs.org/) 和 [git](https://git-scm.com/) -项目开发环境
@@ -74,12 +57,6 @@ pnpm build
 pnpm run build --mode production
 ```
 
-- 大屏
-
-```bash
-大屏：https://lanhuapp.com/link/#/invite?sid=lxiLGWza
-```
-
 **Pull Request:**
 
 1. Fork 代码!
@@ -112,7 +89,7 @@ pnpm run build --mode production
 
 支持现代浏览器, 不支持 IE
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt=" Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt=" Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
+| [](http://godban.github.io/browsers-support-badges/)</br>IE | [](http://godban.github.io/browsers-support-badges/)</br>Edge | [](http://godban.github.io/browsers-support-badges/)</br>Firefox | [](http://godban.github.io/browsers-support-badges/)</br>Chrome | [](http://godban.github.io/browsers-support-badges/)</br>Safari |
 | :-: | :-: | :-: | :-: | :-: |
 | not support | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
 

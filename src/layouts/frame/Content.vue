@@ -79,17 +79,28 @@
           size="26"
           @click="handleScreenTabPage"
         />
-        <template v-for="pane in panes">
-          <div v-show="pane.status" class="content" :style="contentStyle">
-            <iframe
-              v-if="pane.show"
-              :key="pane.key"
-              :src="pane.pageurl"
-              :class="`${pane.status ? 'active' : 'disactive'}`"
-              :style="iframeWidth"
-            ></iframe>
-          </div>
-        </template>
+        <div v-if="props.mode === 'multi'" class="content" :style="contentStyle">
+          <template v-for="pane in panes">
+            <div v-show="pane.status" class="content" :style="contentStyle">
+              <iframe
+                v-if="pane.show"
+                :key="pane.key"
+                :src="pane.pageurl"
+                :class="`${pane.status ? 'active' : 'disactive'}`"
+                :style="iframeWidth"
+              ></iframe>
+            </div>
+          </template>
+        </div>
+        <div v-else-if="props.mode === 'single'" class="content" :style="contentStyle">
+          <iframe
+            :src="activePane.pageurl"
+            :panekey="activeKey"
+            :pageurl="activePane.pageurl"
+            :class="`${activePane.status ? 'active' : 'disactive'}`"
+            :style="iframeWidth"
+          ></iframe>
+        </div>
       </div>
     </div>
   </main>
@@ -104,11 +115,13 @@
   const props = defineProps({
     path: { type: String, default: null },
     menu: { type: Object, default: null },
+    mode: { type: String, default: 'single' },
   });
 
   const userStore = useUserStore();
   const emit = defineEmits(['change']);
   const pageurl = '/#/framepage/workbench';
+  const cacheurl = '/#/framepage/cachepage';
   const workbench = {
     title: '工作台',
     key: 'workbench',
@@ -116,6 +129,14 @@
     show: true,
     status: true,
     pageurl: pageurl,
+  };
+  const cachepage = {
+    title: '缓存',
+    key: 'cachepage',
+    closable: false,
+    show: true,
+    status: true,
+    pageurl: cacheurl,
   };
   const panes = ref<any[]>([workbench]);
   const paneMap = new Map();
@@ -130,7 +151,9 @@
   const menuTabMargin = ref(275);
   const screenFlag = ref(false);
   const screenClass = ref('');
+  const activePane = ref(cachepage); // Single-Iframe-Mode
 
+  // 处理Tab栏页签变更
   const handleTabChange = (key, options: any = null) => {
     activeKey.value = key;
     for (let pane of panes.value) {
@@ -138,10 +161,28 @@
       if (options && pane.pageurl === key) {
         pane.id = options.id;
       }
+      // Single-Iframe-Mode
+      if (pane.status) {
+        handleActivePane(pane);
+        handleUrlChange(key);
+      }
     }
     handleActivePath();
   };
 
+  // 处理当前激活状态Pane函数
+  const handleActivePane = (pane) => {
+    // Single-Iframe-Mode
+    if (pane.status) {
+      activePane.value.pageurl = pane.pageurl;
+      activePane.value.key = pane.key;
+      activePane.value.title = pane.title;
+      activePane.value.closable = pane.closable;
+      activePane.value.status = pane.status;
+    }
+  };
+
+  // Tab栏关闭页签操作等
   const handleTabEdit = (targetKey: string | MouseEvent, action: string) => {
     if (action === 'remove') {
       handleRemoveItem(targetKey as string);
@@ -159,7 +200,6 @@
         iframeWidth.value = 'width: 100%; height: 100%;';
         return;
       }
-      const owidth = window.outerWidth;
       const swidth = window.screen.availWidth;
       const cwidth = document.body.clientWidth;
 
@@ -180,6 +220,7 @@
     }, 100);
   };
 
+  // 处理删除页签元素函数
   const handleRemoveItem = (targetKey: string) => {
     let lastIndex = 0;
     panes.value.forEach((pane, i) => {
@@ -202,6 +243,7 @@
     handleActivePath();
   };
 
+  // 通过ID删除页签元素
   const handleRemoveItemById = (id: string) => {
     let lastIndex = 0;
     let targetKey = '';
@@ -226,21 +268,7 @@
     handleActivePath();
   };
 
-  watch(
-    () => props.path,
-    () => {
-      const path = handlePath(props.path);
-      if (props.path == '') {
-        return;
-      }
-      if (paneMap.has(path)) {
-        handleTabChange(path, props.menu);
-      } else {
-        handleNewTabPage(props.path, props.menu.name, props.menu);
-      }
-    },
-  );
-
+  // 处理路径函数
   const handlePath = (value) => {
     const path = value.startsWith('/') ? value : '/' + value;
     let tempKey = path.replace('/da/', '/');
@@ -249,29 +277,42 @@
     return key;
   };
 
+  // 处理新增Tab页签Page的函数
   const handleNewTabPage = (value, name, menu) => {
     const path = value.startsWith('/') ? value : '/' + value;
     const id = menu && menu?.id && Reflect.has(menu, 'id') ? menu?.id : buildUUID();
     let tempKey = path.replace('/da/', '/');
     tempKey = tempKey.startsWith('/framepage') ? tempKey : '/framepage' + tempKey;
     const key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
+    activePane.value.pageurl = cacheurl; // Single-Iframe-Mode
     activeKey.value = key;
     if (!paneMap.has(key)) {
-      paneMap.set(key, menu || props.menu);
-      panes.value.push({
+      const pane = {
         id: id,
         title: name || props.menu.name,
         show: true,
         closable: true,
         status: true,
         pageurl: key,
-      });
+      };
+      paneMap.set(key, menu || props.menu);
+      panes.value.push(pane);
     }
     for (let pane of panes.value) {
       pane.key = pane.key ? pane.key : new Date().getTime();
       pane.status = pane.pageurl === key;
     }
+    handleUrlChange(key);
     handleActivePath();
+  };
+
+  // 处理URL变更的函数
+  const handleUrlChange = (key) => {
+    // Single-Iframe-Mode
+    setTimeout(() => {
+      activePane.value.pageurl = key;
+      MsgManager.getInstance().sendMsg('iframe-url-change', { url: key });
+    }, 150);
   };
 
   // 处理刷新当前页面的函数
@@ -362,11 +403,13 @@
     handleActivePath();
   };
 
+  // 处理激活当前路由函数
   const handleActivePath = () => {
     userStore.setCurrentPath(activeKey.value);
     emit('change', activeKey.value, paneMap.get(activeKey.value));
   };
 
+  // 处理推送Tab栏消息函数
   const handleTabMessage = (event) => {
     const message = Reflect.has(event, 'type') && Reflect.has(event, 'data') ? event : event.data;
     const { data } = message;
@@ -440,6 +483,21 @@
     handleResize();
   };
 
+  watch(
+    () => props.path,
+    () => {
+      const path = handlePath(props.path);
+      if (props.path == '') {
+        return;
+      }
+      if (paneMap.has(path)) {
+        handleTabChange(path, props.menu);
+      } else {
+        handleNewTabPage(props.path, props.menu.name, props.menu);
+      }
+    },
+  );
+
   onMounted(() => {
     paneMap.set(panes.value[0].pageurl, panes.value[0]);
     activeKey.value = panes.value[0].pageurl;
@@ -449,6 +507,7 @@
     setTimeout(() => {
       panes.value[0].show = true;
       panes.value[0].pageurl = pageurl;
+      activePane.value.pageurl = pageurl;
     }, 100);
     MsgManager.getInstance().listen('iframe-tabs-message', handleTabMessage);
     MsgManager.getInstance().listen('iframe-tabs-refresh-all', handleRefreshMenuAll);
@@ -502,7 +561,7 @@
 <style lang="less" scoped>
   .theme1 {
     .tabs-content {
-      border-bottom: 1px solid rgba(222, 222, 222, 0.03);
+      border-bottom: 1px solid rgb(222 222 222 / 3%);
     }
   }
 

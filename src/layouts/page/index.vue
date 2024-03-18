@@ -1,16 +1,18 @@
 <template>
-  <RouterView>
-    <template #default="{ Component, route }">
-      <template v-if="handleIsCachedComponent(Component, route, 'reverse')">
-        <component :is="handleComponent(Component, route)" :key="routeKey" />
-      </template>
-      <template v-else >
-        <keep-alive>
+  <keep-alive>
+    <RouterView>
+      <template #default="{ Component, route }">
+        <template v-if="handleIsCachedComponent(Component, route, 'reverse')">
           <component :is="handleComponent(Component, route)" :key="routeKey" />
-        </keep-alive>
+        </template>
+        <template v-else>
+          <keep-alive>
+            <component :is="handleComponent(Component, route)" :key="routeKey" />
+          </keep-alive>
+        </template>
       </template>
-    </template>
-  </RouterView>
+    </RouterView>
+  </keep-alive>
   <FrameLayout v-if="getCanEmbedIFramePage" />
 </template>
 
