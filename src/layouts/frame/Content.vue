@@ -131,6 +131,7 @@
   const screenFlag = ref(false);
   const screenClass = ref('');
 
+  // 处理Tab栏页签变更
   const handleTabChange = (key, options: any = null) => {
     activeKey.value = key;
     for (let pane of panes.value) {
@@ -142,6 +143,7 @@
     handleActivePath();
   };
 
+  // Tab栏关闭页签操作等
   const handleTabEdit = (targetKey: string | MouseEvent, action: string) => {
     if (action === 'remove') {
       handleRemoveItem(targetKey as string);
@@ -180,6 +182,7 @@
     }, 100);
   };
 
+  // 处理删除页签元素函数
   const handleRemoveItem = (targetKey: string) => {
     let lastIndex = 0;
     panes.value.forEach((pane, i) => {
@@ -202,6 +205,7 @@
     handleActivePath();
   };
 
+  // 通过ID删除页签元素
   const handleRemoveItemById = (id: string) => {
     let lastIndex = 0;
     let targetKey = '';
@@ -241,6 +245,7 @@
     },
   );
 
+  // 处理路径函数
   const handlePath = (value) => {
     const path = value.startsWith('/') ? value : '/' + value;
     let tempKey = path.replace('/da/', '/');
@@ -249,6 +254,7 @@
     return key;
   };
 
+  // 处理新增Tab页签Page的函数
   const handleNewTabPage = (value, name, menu) => {
     const path = value.startsWith('/') ? value : '/' + value;
     const id = menu && menu?.id && Reflect.has(menu, 'id') ? menu?.id : buildUUID();
@@ -362,11 +368,13 @@
     handleActivePath();
   };
 
+  // 处理激活当前路由函数
   const handleActivePath = () => {
     userStore.setCurrentPath(activeKey.value);
     emit('change', activeKey.value, paneMap.get(activeKey.value));
   };
 
+  // 处理推送Tab栏消息函数
   const handleTabMessage = (event) => {
     const message = Reflect.has(event, 'type') && Reflect.has(event, 'data') ? event : event.data;
     const { data } = message;
@@ -502,7 +510,7 @@
 <style lang="less" scoped>
   .theme1 {
     .tabs-content {
-      border-bottom: 1px solid rgba(222, 222, 222, 0.03);
+      border-bottom: 1px solid rgb(222 222 222 / 3%);
     }
   }
 
