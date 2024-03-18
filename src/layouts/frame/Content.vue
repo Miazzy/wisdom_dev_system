@@ -154,7 +154,7 @@
   const activePane = ref(cachepage); // Single-Iframe-Mode
 
   // 处理Tab栏页签变更
-  const handleTabChange = (key, options: any = null) => {
+  const handleTabChange = async (key, options: any = null) => {
     activeKey.value = key;
     for (let pane of panes.value) {
       pane.status = pane.pageurl === key;
@@ -163,8 +163,10 @@
       }
       // Single-Iframe-Mode
       if (pane.status) {
-        handleActivePane(pane);
-        handleUrlChange(key);
+        setTimeout(() => {
+          handleActivePane(pane);
+          handleUrlChange(key);
+        }, 0);
       }
     }
     handleActivePath();

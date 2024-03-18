@@ -7,10 +7,15 @@
 <template>
   <ConfigProvider :locale="getAntdLocale" :autoInsertSpaceInButton="false">
     <AppProvider>
-      <RouterView v-slot="{ Component }">
-        <keep-alive>
+      <RouterView v-slot="{ Component, route }">
+        <template v-if="handleRoute(route)">
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </template>
+        <template v-else>
           <component :is="Component" />
-        </keep-alive>
+        </template>
       </RouterView>
     </AppProvider>
   </ConfigProvider>
@@ -34,6 +39,10 @@
   const router = useRouter();
 
   useTitle();
+
+  const handleRoute = (route) => {
+    return route.meta.keepAlive || true;
+  };
 
   // 处理路由路径函数
   const handleRoutePath = () => {
@@ -120,9 +129,14 @@
     // Single-Iframe-Mode
     MsgManager.getInstance().listen('iframe-url-change', (message) => {
       if (checkInIframe()) {
-        let { url } = message;
-        url = url.replace('/#/', '/');
-        router.push(url as string);
+        try {
+          debugger;
+          let { url } = message;
+          url = url.replace('/#/', '/');
+          router.push(url as string);
+        } catch (error) {
+          //
+        }
       }
     });
   });
