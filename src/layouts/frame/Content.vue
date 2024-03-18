@@ -154,17 +154,12 @@
   const activePane = ref(cachepage); // Single-Iframe-Mode
 
   // 处理Tab栏页签变更
-  const handleTabChange = (key, options: any = null) => {
+  const handleTabChange = async (key, options: any = null) => {
     activeKey.value = key;
     for (let pane of panes.value) {
       pane.status = pane.pageurl === key;
       if (options && pane.pageurl === key) {
         pane.id = options.id;
-      }
-      // Single-Iframe-Mode
-      if (pane.status) {
-        handleActivePane(pane);
-        handleUrlChange(key);
       }
     }
     handleActivePath();
@@ -302,7 +297,6 @@
       pane.key = pane.key ? pane.key : new Date().getTime();
       pane.status = pane.pageurl === key;
     }
-    handleUrlChange(key);
     handleActivePath();
   };
 
@@ -406,6 +400,7 @@
   // 处理激活当前路由函数
   const handleActivePath = () => {
     userStore.setCurrentPath(activeKey.value);
+    handleUrlChange(activeKey.value);
     emit('change', activeKey.value, paneMap.get(activeKey.value));
   };
 
