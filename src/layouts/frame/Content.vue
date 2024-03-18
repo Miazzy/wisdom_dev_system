@@ -161,13 +161,6 @@
       if (options && pane.pageurl === key) {
         pane.id = options.id;
       }
-      // Single-Iframe-Mode
-      if (pane.status) {
-        setTimeout(() => {
-          handleActivePane(pane);
-          handleUrlChange(key);
-        }, 0);
-      }
     }
     handleActivePath();
   };
@@ -304,7 +297,6 @@
       pane.key = pane.key ? pane.key : new Date().getTime();
       pane.status = pane.pageurl === key;
     }
-    handleUrlChange(key);
     handleActivePath();
   };
 
@@ -408,6 +400,7 @@
   // 处理激活当前路由函数
   const handleActivePath = () => {
     userStore.setCurrentPath(activeKey.value);
+    handleUrlChange(activeKey.value);
     emit('change', activeKey.value, paneMap.get(activeKey.value));
   };
 
