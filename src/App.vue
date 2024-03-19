@@ -130,7 +130,6 @@
     MsgManager.getInstance().listen('iframe-url-change', (message) => {
       if (checkInIframe()) {
         try {
-          debugger;
           let { url } = message;
           url = url.replace('/#/', '/');
           router.push(url as string);
