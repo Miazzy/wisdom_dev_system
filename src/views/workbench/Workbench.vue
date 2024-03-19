@@ -19,9 +19,7 @@
       </a-col>
       <a-col :span="8">
         <!-- 日程安排 -->
-        <div style="height: auto; overflow-y: auto">
-          <Schedule />
-        </div>
+        <Schedule />
       </a-col>
       <a-col :span="16">
         <!-- 通知公告 -->

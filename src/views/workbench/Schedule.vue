@@ -13,7 +13,7 @@
       </a-dropdown>
       <Schedule ref="schedule" />
     </template>
-    <div class="card-content">
+    <div class="card-content" style="height: 360px; overflow-y: auto">
       <a-calendar
         v-model:value="value"
         @panel-change="onPanelChange"
@@ -36,6 +36,7 @@
     </div>
   </a-card>
 </template>
+
 <script lang="ts" setup>
   import { ref, onMounted, nextTick } from 'vue';
   import { Dayjs } from 'dayjs';
