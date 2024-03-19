@@ -7,7 +7,7 @@
 <template>
   <ConfigProvider :locale="getAntdLocale" :autoInsertSpaceInButton="false">
     <AppProvider>
-      <RouterView v-slot="{ Component, route }">
+      <RouterView v-if="isRouterAlive" v-slot="{ Component, route }">
         <template v-if="handleRoute(route)">
           <keep-alive>
             <component :is="Component" />
@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { onMounted, nextTick } from 'vue';
+  import { onMounted, nextTick, ref } from 'vue';
   import { ConfigProvider } from 'ant-design-vue';
   import { AppProvider } from '@/components/Application';
   import { useTitle } from '@/hooks/web/useTitle';
@@ -37,9 +37,19 @@
 
   const { getAntdLocale } = useLocale();
   const router = useRouter();
+  const isRouterAlive = ref(true);
 
   useTitle();
 
+  // 重新载入函数
+  const reload = () => {
+    isRouterAlive.value = false;
+    nextTick(() => {
+      isRouterAlive.value = true;
+    });
+  };
+
+  // 处理route函数
   const handleRoute = (route) => {
     return route.meta.keepAlive || true;
   };
@@ -130,9 +140,14 @@
     MsgManager.getInstance().listen('iframe-url-change', (message) => {
       if (checkInIframe()) {
         try {
-          let { url } = message;
+          let { url, loading } = message;
           url = url.replace('/#/', '/');
           router.push(url as string);
+          if (loading) {
+            nextTick(async () => {
+              reload();
+            });
+          }
         } catch (error) {
           //
         }

@@ -46,7 +46,7 @@
         </a-dropdown>
         <div class="tabs-buttons">
           <Icon :icon="'octicon:screen-full-24'" size="15" @click="handleScreenTabPage" />
-          <Icon :icon="'icons8:refresh'" size="15" @click="handleRefreshTabPage" />
+          <Icon :icon="'icons8:refresh'" :spin="loading" size="15" @click="handleRefreshTabPage"  />
           <a-dropdown :trigger="trigger">
             <Icon :icon="'codicon:fold-down'" size="13" />
             <template #overlay>
@@ -118,6 +118,7 @@
     mode: { type: String, default: 'single' },
   });
 
+  const loading = ref(false);
   const userStore = useUserStore();
   const emit = defineEmits(['change']);
   const pageurl = '/#/framepage/workbench';
@@ -301,16 +302,17 @@
   };
 
   // 处理URL变更的函数
-  const handleUrlChange = (key) => {
+  const handleUrlChange = (key, loading = false) => {
     // Single-Iframe-Mode
     setTimeout(() => {
       activePane.value.pageurl = key;
-      MsgManager.getInstance().sendMsg('iframe-url-change', { url: key });
+      MsgManager.getInstance().sendMsg('iframe-url-change', { url: key, loading });
     }, 150);
   };
 
   // 处理刷新当前页面的函数
   const handleRefreshTabPage = () => {
+    loading.value = true;
     for (let pane of panes.value) {
       if (activeKey.value == pane.pageurl) {
         pane.show = false;
@@ -318,9 +320,20 @@
         nextTick(() => {
           pane.key = new Date().getTime();
           pane.show = true;
+          handleUrlChange(calcUrlRandom(activeKey.value), loading.value);
         });
+        setTimeout(() => {
+          loading.value = false;
+        }, 1200);
       }
     }
+  };
+
+  // 计算URL随机参数
+  const calcUrlRandom = (url) => {
+    const paramStr = `random_${Math.floor(Math.random() * 1000)}=${Math.floor(Math.random() * 10000000)}`;
+    url = url?.includes('?') ? url + '&' + paramStr : url + '?' + paramStr;
+    return url;
   };
 
   // 处理Tab栏放大屏幕函数
