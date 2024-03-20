@@ -55,6 +55,7 @@ export enum ProfileApi {
   UpdateUserProfile = '/system/user/profile/update',
   UpdateUserPassword = '/system/user/profile/update-password',
   UploadAvatar = '/system/user/profile/update-avatar',
+  GetSimpleProfile = '/system/user/profile/getUserProfile',
 }
 
 // 查询用户个人信息
@@ -80,4 +81,10 @@ export const updateUserPassword = (oldPassword: string, newPassword: string) => 
 export const uploadAvatar = (data) => {
   const requestParams = { url: ProfileApi.UploadAvatar, data };
   return defHttp.put<any>(requestParams, {});
+};
+
+// 查询用户个人信息
+export const getSimpleProfile = () => {
+  const requestParams = { url: ProfileApi.GetSimpleProfile };
+  return defHttp.get<any>(requestParams, {});
 };
