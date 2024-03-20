@@ -25,6 +25,7 @@
     :height="600"
     @cancel="receiverCancel"
     @confirm="receiverConfirm"
+    :max="30"
   />
 </template>
 <script lang="ts" setup>

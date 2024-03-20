@@ -78,6 +78,7 @@
   import { Modal } from 'ant-design-vue';
   import { SysMessage } from '/@/hooks/web/useMessage';
   import { getOrganTree } from '/@/api/sys/user';
+  import { message } from 'ant-design-vue';
 
   const modalVisible = ref(false);
   const treeData = ref([]);
@@ -129,6 +130,7 @@
       type: String,
       default: '',
     }, // 自定义的其他操作按钮
+    max: { type: Number, default: 99 }, // 最多可选的数据个数
   });
 
   const emit = defineEmits(['update:visible', 'update:value', 'cancel', 'confirm', 'close', 'extra']); // 定义事件
@@ -145,6 +147,10 @@
   };
 
   const confirm = () => {
+    if(props.max && allNodes.value?.length > props.max) {
+      message.warning(`最多选择${props.max}个！`)
+      return
+    }
     const rule = props?.tfields as fieldType;
     const data = transformRespData(allNodes.value, rule);
     emit('confirm', data, allNodes.value); // 发送确定事件
