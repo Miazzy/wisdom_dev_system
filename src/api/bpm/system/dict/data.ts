@@ -7,7 +7,8 @@ export enum DictDataApi {
 
 // 查询字典数据列表
 export const getDictDataMap = (params: any) => {
-  const requestParams = { url: DictDataApi.GetDictDataMap, params };
+  // 接口偶发报错，自动重新请求一次
+  const requestParams = { url: DictDataApi.GetDictDataMap, params, requestOptions: {retryRequest: { count: 1}} };
   return defHttp.get<any>(requestParams, {});
 };
 
