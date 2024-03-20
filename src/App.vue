@@ -3,7 +3,7 @@
     <AppProvider>
       <RouterView v-if="isRouterAlive" v-slot="{ Component, route }">
         <template v-if="handleRoute(route)">
-          <KeepAlive :max="1000">
+          <KeepAlive :include="handleCache(caches)" :max="1000">
             <component :is="Component" :key="handleRouteKey(route)" :name="handleRouteKey(route)" />
           </KeepAlive>
         </template>
@@ -27,11 +27,15 @@
   import { closeCurrentTab, sendOfflineMessage } from '@/utils/route';
   import { SysMessage } from '/@/hooks/web/useMessage';
   import { MsgManager } from '/@/message/MsgManager';
+  import { useRouteCache } from '@/hooks/web/useRouteCache';
   import 'dayjs/locale/zh-cn';
 
   const { getAntdLocale } = useLocale();
   const router = useRouter();
   const isRouterAlive = ref(true);
+
+  // 收集已打开路由tabs的缓存
+  const { caches, collectCaches } = useRouteCache();
 
   useTitle();
 
@@ -46,6 +50,11 @@
   // 处理route函数
   const handleRoute = (route) => {
     return route.meta.keepAlive;
+  };
+
+  // 获取缓存数据函数
+  const handleCache = (caches) => {
+    return caches.value;
   };
 
   // 处理route函数
@@ -103,7 +112,6 @@
             e?.newValue === null
           ) {
             sendOfflineMessage();
-            console.info('listening clear storage ...');
           }
         });
       }
@@ -117,7 +125,7 @@
     try {
       return window.self !== window.top;
     } catch (e) {
-      return true; // 如果出现错误，假定在 iframe 中显示
+      return true;
     }
   };
 
@@ -125,32 +133,41 @@
   const handleIframePage = () => {
     setTimeout(() => {
       handleRoutePath();
-    }, 150);
+    }, 100);
+  };
+
+  // 处理路由变化函数
+  const handleRouteChange = (message) => {
+    try {
+      if (!checkInIframe()) {
+        return;
+      }
+      let { url, loading } = message;
+      url = url.replace('/#/', '/');
+      router.push(url as string);
+      if (loading) {
+        nextTick(async () => {
+          reload();
+        });
+      }
+    } catch (error) {
+      //
+    }
   };
 
   onMounted(() => {
+    collectCaches();
     listenThemeMessage();
     handleIframePage();
+
+    // 监听check-iframe-framepage消息
     MsgManager.getInstance().listen('check-iframe-framepage', () => {
-      console.info('listen check iframe page message ...');
       handleIframePage();
     });
+
     // Single-Iframe-Mode
     MsgManager.getInstance().listen('iframe-url-change', (message) => {
-      if (checkInIframe()) {
-        try {
-          let { url, loading } = message;
-          url = url.replace('/#/', '/');
-          router.push(url as string);
-          if (loading) {
-            nextTick(async () => {
-              reload();
-            });
-          }
-        } catch (error) {
-          //
-        }
-      }
+      handleRouteChange(message);
     });
   });
 </script>

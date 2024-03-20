@@ -4,6 +4,7 @@
     <div class="info">
       <button class="settings">
         <Icon
+          v-if="screenIconFlag"
           icon="octicon:screen-full-24"
           color="#32afff"
           style="font-size: 0.28rem; cursor: pointer"
@@ -109,6 +110,7 @@
   const placement = ref('right');
   const visible = ref(false);
   const closable = ref(false);
+  const screenIconFlag = ref(false);
   const drawerStyle = ref();
   const contentWrapperStyle = ref();
   const maskStyle = ref();
