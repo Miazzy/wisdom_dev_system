@@ -34,6 +34,7 @@ export enum BpmModelApi {
   CreateModel = '/bpm/model/create',
   DeleteModel = '/bpm/model/delete?id=',
   DeployModel = '/bpm/model/deploy?id=',
+  GetExistActReModel = '/bpm/model/getExistActReModel?category=',
 }
 
 export const getModelPage = async (params) => {
@@ -71,4 +72,9 @@ export const deleteModel = async (id: number) => {
 export const deployModel = async (id: number) => {
   const requestParams = { url: BpmModelApi.DeployModel + id };
   return defHttp.post<any>(requestParams, {});
+};
+
+export const getExistActReModel = async (category) => {
+  const requestParams = { url: BpmModelApi.GetExistActReModel + category };
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
