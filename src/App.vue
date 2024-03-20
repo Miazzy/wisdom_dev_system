@@ -3,7 +3,7 @@
     <AppProvider>
       <RouterView v-if="isRouterAlive" v-slot="{ Component, route }">
         <template v-if="handleRoute(route)">
-          <KeepAlive :max="100">
+          <KeepAlive :max="1000">
             <component :is="Component" :key="handleRouteKey(route)" :name="handleRouteKey(route)" />
           </KeepAlive>
         </template>
