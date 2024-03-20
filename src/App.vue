@@ -1,20 +1,14 @@
-<!--
- * @Description: 
- * @Date: 2023-09-12 09:04:31
- * @LastEditTime: 2023-09-16 17:10:02
- * @FilePath: \ygwl-framework\src\App.vue
--->
 <template>
   <ConfigProvider :locale="getAntdLocale" :autoInsertSpaceInButton="false">
     <AppProvider>
       <RouterView v-if="isRouterAlive" v-slot="{ Component, route }">
         <template v-if="handleRoute(route)">
-          <keep-alive>
-            <component :is="Component" />
-          </keep-alive>
+          <KeepAlive :max="100">
+            <component :is="Component" :key="handleRouteKey(route)" :name="handleRouteKey(route)" />
+          </KeepAlive>
         </template>
         <template v-else>
-          <component :is="Component" />
+          <component :is="Component" :key="handleRouteKey(route)" :name="handleRouteKey(route)" />
         </template>
       </RouterView>
     </AppProvider>
@@ -51,7 +45,12 @@
 
   // 处理route函数
   const handleRoute = (route) => {
-    return route.meta.keepAlive || true;
+    return route.meta.keepAlive;
+  };
+
+  // 处理route函数
+  const handleRouteKey = (route) => {
+    return route.fullPath;
   };
 
   // 处理路由路径函数
