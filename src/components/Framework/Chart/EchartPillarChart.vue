@@ -35,7 +35,8 @@
     fixed: { type: Number, default: 2 },
     tipsFormat: { type: Function, default: null },
     backgroundColor: { type: String, default: 'transparent' },
-    tipsBgColor: { type: String, default: null },
+    tipsBgColor: { type: String, default: '' },
+    tipsTextColor: { type: String, default: '' },
     axisColor: { type: String, default: 'rgba(170, 221, 255, .8)' },
     axisWidth: { type: String, default: '0.2' },
   });
@@ -129,10 +130,10 @@
       trigger: 'axis',
       align: 'left',
       textStyle: {
-        color: 'white', //设置文字颜色
+        color: props.tipsTextColor ? props.tipsTextColor : '#fff', //设置文字颜色
       },
       extraCssText: '100px;',
-      backgroundColor: props.tipsBgColor ? props.tipsBgColor : `${barColor[0]}32`,
+      backgroundColor: props.tipsBgColor ? props.tipsBgColor : 'rgb(50,175,255, 15%)',
       borderColor: 'transparent',
       // appendToBody: true,
       formatter: function (params) {

@@ -17,7 +17,8 @@
     colors: Array,
     barWidth: { type: Number, default: 25 },
     backgroundColor: { type: String, default: 'transparent' },
-    tipsBgColor: { type: String, default: null },
+    tipsBgColor: { type: String, default: '' },
+    tipsTextColor: { type: String, default: '' },
     axisColor: { type: String, default: 'rgba(170, 221, 255, .8)' },
     axisWidth: { type: String, default: '0.2' },
     legendColor: { type: String, default: 'rgba(255, 255, 255, 0.6)' },
@@ -52,6 +53,11 @@
         axisPointer: {
           type: 'shadow',
         },
+        backgroundColor: props.tipsBgColor ? props.tipsBgColor : 'rgb(50,175,255, 15%)',
+        textStyle: {
+          color: props.tipsTextColor ? props.tipsTextColor : '#fff', //设置文字颜色       
+        },
+        borderColor: 'transparent',
       },
       grid: {
         left: '3%',
