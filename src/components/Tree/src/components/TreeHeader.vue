@@ -1,6 +1,6 @@
 <template>
   <div :class="bem()" class="fit-tree-header" ref="treeHeaderRef">
-    <div class="flex px-2 py-3 items-center bg-[#F5F5F5]">
+    <div class="flex items-center bg-[#F5F5F5]" style="padding: 12px 8px;">
       <slot name="headerTitle" v-if="slots.headerTitle"></slot>
       <BasicTitle :helpMessage="helpMessage" v-if="!slots.headerTitle && title">
       {{ title }}
