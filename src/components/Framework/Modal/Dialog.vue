@@ -37,7 +37,8 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, defineProps, defineEmits, computed, watch, nextTick } from 'vue';
+  import { ref, defineProps, defineEmits, computed, watch, nextTick, onMounted } from 'vue';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
@@ -136,6 +137,14 @@
       }
     },
   );
+
+  onMounted(() => {
+    // 监听check-iframe-framepage消息
+    MsgManager.getInstance().listen('iframe-dialog-close', () => {
+      closeModal();
+      enableScroll();
+    });
+  });
 </script>
 
 <style lang="less" scoped>

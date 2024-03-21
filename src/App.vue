@@ -153,6 +153,9 @@
       if (!checkInIframe()) {
         return;
       }
+      // 通知关闭窗口
+      MsgManager.getInstance().sendMsg('iframe-dialog-close', {});
+
       let { url, loading, panes } = message;
       const urls = panes.map((element) => element.pageurl.replace('/#/', '/'));
       url = url.replace('/#/', '/');
