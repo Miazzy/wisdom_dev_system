@@ -339,6 +339,7 @@
     }
   };
 
+  // 判断Map中是否存在此Key值的函数
   const handleKeyExist = (paneMap, key) => {
     const keysArray = Array.from(paneMap.keys());
     const result = keysArray.find((tkey) => removeUrlRandom(tkey) === removeUrlRandom(key));

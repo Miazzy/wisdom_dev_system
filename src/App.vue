@@ -3,7 +3,7 @@
     <AppProvider>
       <RouterView v-slot="{ Component, route }">
         <template v-if="handleRoute(route)">
-          <KeepAlive :max="100">
+          <KeepAlive :max="1000">
             <component
               ref="componentRef"
               :is="Component"
@@ -153,7 +153,6 @@
       if (!checkInIframe()) {
         return;
       }
-      debugger;
       let { url, loading, panes } = message;
       const urls = panes.map((element) => element.pageurl.replace('/#/', '/'));
       url = url.replace('/#/', '/');
