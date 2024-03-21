@@ -134,7 +134,7 @@
       extraCssText: '100px;',
       backgroundColor: props.tipsBgColor ? props.tipsBgColor : `${barColor[0]}32`,
       borderColor: 'transparent',
-      appendToBody: true,
+      // appendToBody: true,
       formatter: function (params) {
         if (props.tipsFormat != null && typeof props.tipsFormat == 'function') {
           return props.tipsFormat(params);
