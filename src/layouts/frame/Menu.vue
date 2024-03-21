@@ -14,7 +14,6 @@
           <a-sub-menu :key="menu?.id">
             <template #icon>
               <Icon :icon="menu.icon" size="16" />
-              <!--  :color="iconColor" -->
             </template>
             <template #title>{{ menu.name }}</template>
             <template v-for="item in menu.children">
@@ -50,7 +49,6 @@
           <a-menu-item :key="handleMenuItemId(menu)">
             <template #icon>
               <Icon :icon="menu.icon" size="16" />
-              <!-- :color="iconColor" -->
             </template>
             {{ menu.name }}
           </a-menu-item>

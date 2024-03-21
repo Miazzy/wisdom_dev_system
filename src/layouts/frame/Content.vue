@@ -161,6 +161,7 @@
       pane.status = removeUrlRandom(pane.pageurl) === removeUrlRandom(key);
       if (options && pane.status) {
         pane.id = options.id;
+        activeKey.value = pane.pageurl;
       }
     }
     handleActivePath();
@@ -342,7 +343,11 @@
   // 判断Map中是否存在此Key值的函数
   const handleKeyExist = (paneMap, key) => {
     const keysArray = Array.from(paneMap.keys());
-    const result = keysArray.find((tkey) => removeUrlRandom(tkey) === removeUrlRandom(key));
+    const result = keysArray.find((tkey) => {
+      const resultA = removeUrlRandom(tkey);
+      const resultB = removeUrlRandom(key);
+      return resultA == resultB;
+    });
     return result ? true : false;
   };
 
@@ -359,7 +364,10 @@
 
   // 移除URL参数中随机数
   const removeUrlRandom = (url) => {
-    return url.replace(/([\?&])_random_=[^&]*&?/, '$1').replace(/&$/, '');
+    return url
+      .replace(/([\?&])_random_=[^&]*&?/, '$1')
+      .replace(/&$/, '')
+      .replace(/\?$/, '');
   };
 
   // 处理Tab栏放大屏幕函数
@@ -524,7 +532,7 @@
       if (props.path == '') {
         return;
       }
-      if (paneMap.has(path)) {
+      if (handleKeyExist(paneMap, path)) {
         handleTabChange(path, props.menu);
       } else {
         handleNewTabPage(props.path, props.menu.name, props.menu);
