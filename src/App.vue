@@ -1,6 +1,11 @@
 <template>
   <ConfigProvider :locale="getAntdLocale" :autoInsertSpaceInButton="false">
     <AppProvider>
+      <teleport to="body">
+        <div class="modal-mask" v-if="visible" @mousewheel.prevent>
+          <div class="modal-mask-container" @mousewheel.prevent></div>
+        </div>
+      </teleport>
       <RouterView v-slot="{ Component, route }">
         <template v-if="handleRoute(route)">
           <KeepAlive :max="1000">
@@ -42,7 +47,8 @@
   const instance = getCurrentInstance();
 
   // 收集已打开路由tabs的缓存
-  const { caches, collectCaches, removeCache } = useRouteCache();
+  const { caches, collectCaches } = useRouteCache();
+  const visible = ref(false);
 
   useTitle();
 
@@ -156,8 +162,7 @@
       // 通知关闭窗口
       MsgManager.getInstance().sendMsg('iframe-dialog-close', {});
 
-      let { url, loading, panes } = message;
-      const urls = panes.map((element) => element.pageurl.replace('/#/', '/'));
+      let { url, loading } = message; // const urls = panes.map((element) => element.pageurl.replace('/#/', '/'));
       url = url.replace('/#/', '/');
       caches.value.includes(url) ? null : (loading = true);
       router.push(url as string);
@@ -167,11 +172,6 @@
           reload();
         });
       }
-      caches.value.filter((url) => {
-        if (!urls.includes(url)) {
-          removeCache(url);
-        }
-      });
     } catch (error) {
       //
     }
@@ -191,5 +191,46 @@
     MsgManager.getInstance().listen('iframe-url-change', (message) => {
       handleRouteChange(message);
     });
+
+    // 监听是否打开Dialog
+    MsgManager.getInstance().listen('modal-open', (message) => {
+      if (checkInIframe()) {
+        return;
+      }
+      debugger;
+      const { type } = message;
+      if (type == 'open') {
+        visible.value = true;
+      } else if (type == 'remove') {
+        visible.value = false;
+      }
+    });
   });
 </script>
+<style lang="less" scoped>
+  .modal-mask {
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0 0 0 / 15%);
+
+    .modal-mask-container {
+      display: flex;
+      position: absolute;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      background-color: rgb(0 0 0 / 15%);
+    }
+  }
+</style>

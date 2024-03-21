@@ -116,6 +116,7 @@
     appDom.addEventListener('mousewheel', callback, { passive: false });
     nextTick(() => {
       appDom.classList.add('modal-open');
+      MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
     });
   };
 
@@ -123,6 +124,7 @@
   const enableScroll = () => {
     appDom.removeEventListener('mousewheel', callback, { passive: false });
     appDom.classList.remove('modal-open');
+    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
     restoreScrollPosition();
   };
 

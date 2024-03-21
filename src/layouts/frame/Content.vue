@@ -71,36 +71,36 @@
           </a-dropdown>
         </div>
       </div>
-      <div class="iframe-content" :class="contentClass + ' ' + screenClass" :style="contentWidth">
-        <Icon
-          v-if="screenFlag"
-          class="screen-icon"
-          :icon="'iconamoon:screen-normal-thin'"
-          size="26"
-          @click="handleScreenTabPage"
-        />
-        <div v-if="props.mode === 'multi'" class="content" :style="contentStyle">
-          <template v-for="pane in panes">
-            <div v-show="pane.status" class="content" :style="contentStyle">
-              <iframe
-                v-if="pane.show"
-                :key="pane.key"
-                :src="pane.pageurl"
-                :class="`${pane.status ? 'active' : 'disactive'}`"
-                :style="iframeWidth"
-              ></iframe>
-            </div>
-          </template>
-        </div>
-        <div v-else-if="props.mode === 'single'" class="content" :style="contentStyle">
-          <iframe
-            :src="activePane.pageurl"
-            :panekey="activeKey"
-            :pageurl="activePane.pageurl"
-            :class="`${activePane.status ? 'active' : 'disactive'}`"
-            :style="iframeWidth"
-          ></iframe>
-        </div>
+    </div>
+    <div class="iframe-content" :class="contentClass + ' ' + screenClass" :style="contentWidth">
+      <Icon
+        v-if="screenFlag"
+        class="screen-icon"
+        :icon="'iconamoon:screen-normal-thin'"
+        size="26"
+        @click="handleScreenTabPage"
+      />
+      <div v-if="props.mode === 'multi'" class="content" :style="contentStyle">
+        <template v-for="pane in panes">
+          <div v-show="pane.status" class="content" :style="contentStyle">
+            <iframe
+              v-if="pane.show"
+              :key="pane.key"
+              :src="pane.pageurl"
+              :class="`${pane.status ? 'active' : 'disactive'}`"
+              :style="iframeWidth"
+            ></iframe>
+          </div>
+        </template>
+      </div>
+      <div v-else-if="props.mode === 'single'" class="content" :style="contentStyle">
+        <iframe
+          :src="activePane.pageurl"
+          :panekey="activeKey"
+          :pageurl="activePane.pageurl"
+          :class="`${activePane.status ? 'active' : 'disactive'}`"
+          :style="iframeWidth"
+        ></iframe>
       </div>
     </div>
   </main>
@@ -677,6 +677,7 @@
 
     .iframe-content {
       position: relative;
+      z-index: 10000 !important;
       width: 100%;
       height: calc(100vh - 85px);
 
@@ -693,16 +694,19 @@
       }
 
       .content {
+        z-index: 10000 !important;
         width: 100%;
         height: 100%;
 
         iframe {
+          z-index: 10000 !important;
           width: 100%;
           height: 100%;
         }
       }
 
       &.iframe-screen {
+        z-index: 10000 !important;
         height: calc(100vh);
       }
     }
