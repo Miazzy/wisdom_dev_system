@@ -131,25 +131,27 @@
       default: '',
     }, // 自定义的其他操作按钮
     max: { type: Number, default: 99 }, // 最多可选的数据个数
+    scolumns: {
+      type: Array,
+      default: [
+        { title: '名称', dataIndex: 'title', key: 'title', fixed: true, width: 80 },
+        { title: '公司', dataIndex: 'company', key: 'company', fixed: false, width: 200 },
+        { title: '部门', dataIndex: 'dept', key: 'dept', fixed: false, width: 150 },
+        { title: '岗位', dataIndex: 'postion', key: 'postion', fixed: false, width: 150 },
+      ],
+    },
   });
 
   const emit = defineEmits(['update:visible', 'update:value', 'cancel', 'confirm', 'close', 'extra']); // 定义事件
-
-  const scolumns = ref([
-    { title: '名称', dataIndex: 'title', key: 'title', fixed: true, width: 80 },
-    { title: '公司', dataIndex: 'company', key: 'company', fixed: false, width: 200 },
-    { title: '部门', dataIndex: 'dept', key: 'dept', fixed: false, width: 150 },
-    { title: '岗位', dataIndex: 'postion', key: 'postion', fixed: false, width: 150 },
-  ]);
 
   const cancel = () => {
     emit('cancel'); // 发送取消事件
   };
 
   const confirm = () => {
-    if(props.max && allNodes.value?.length > props.max) {
-      message.warning(`最多选择${props.max}个！`)
-      return
+    if (props.max && allNodes.value?.length > props.max) {
+      message.warning(`最多选择${props.max}个！`);
+      return;
     }
     const rule = props?.tfields as fieldType;
     const data = transformRespData(allNodes.value, rule);
@@ -232,12 +234,12 @@
 
   const handleDeleteNode = (item, index) => {
     allNodes.value = allNodes.value.filter((node, tindex) => tindex !== index);
-    if(item.key) {
+    if (item.key) {
       checkedKeys.value.checked = checkedKeys.value.checked.filter((key) => key !== item.key);
     } else {
-      checkedKeys.value.checked =  getCheckedKeysByValues(treeData.value, getValueArr(allNodes.value));
+      checkedKeys.value.checked = getCheckedKeysByValues(treeData.value, getValueArr(allNodes.value));
     }
-    
+
     emit('update:value', allNodes.value);
   };
 
@@ -431,15 +433,13 @@
     return valueArr;
   };
   const getCheckedKeysByValues = (treeData, valueArr) => {
-    console.log(333, valueArr);
-    console.log(444, treeData);
-    let keyArr = []; 
+    let keyArr = [];
     if (valueArr?.length) {
       treeData.forEach((item) => {
         if (valueArr.includes(item[props.tfields.key])) {
           keyArr.push(item.key);
         }
-        if(item.children?.length) {
+        if (item.children?.length) {
           keyArr.push(...getCheckedKeysByValues(item.children, valueArr));
         }
       });
@@ -481,7 +481,6 @@
       treeData.value = transformData(data, rule);
       treeMap.value = transformMap(data, rule);
       transformTableData(data, rule, 'top', null);
-      console.log(222, props.value);
       checkedKeys.value.checked = getCheckedKeysByValues(treeData.value, getValueArr(props.value));
     },
   );
@@ -502,7 +501,7 @@
   .category-tree {
     width: 50%;
     padding: 10px;
-    
+
     text-align: left;
 
     span.category-title {
@@ -546,7 +545,7 @@
           width: 36px;
           height: 35px;
           margin: 0 3px;
-          padding-top: 2px;          
+          padding-top: 2px;
           border-radius: 4px;
           line-height: 35px;
           text-align: center;
