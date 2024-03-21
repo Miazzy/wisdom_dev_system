@@ -16,6 +16,8 @@
     category: { type: Array },
     ybgcolor: { type: String },
     rotate: { type: Number, default: 0 },
+    tipsBgColor: { type: String, default: '' },
+    tipsTextColor: { type: String, default: '' },
   });
 
   const random = parseInt(Math.random() * 10000000);
@@ -54,6 +56,11 @@
         axisPointer: {
           type: 'shadow',
         },
+        backgroundColor: props.tipsBgColor ? props.tipsBgColor : 'rgb(50,175,255, 15%)',
+        textStyle: {
+          color: props.tipsTextColor ? props.tipsTextColor : '#fff', //设置文字颜色       
+        },
+        borderColor: 'transparent',
       },
       legend: {
         x: 'right',

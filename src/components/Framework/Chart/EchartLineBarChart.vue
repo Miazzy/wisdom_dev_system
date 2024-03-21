@@ -23,6 +23,8 @@
     ybgcolor: { type: String, default: '#01B7D7' },
     rotate: { type: Number, default: 0 },
     txtColor: { type: String, default: 'rgba(170, 221, 255, 0.8)' },
+    tipsBgColor: { type: String, default: '' },
+    tipsTextColor: { type: String, default: '' },
   });
 
   const random = parseInt(Math.random() * 10000000);
@@ -76,6 +78,11 @@
             color: '#999',
           },
         },
+        backgroundColor: props.tipsBgColor ? props.tipsBgColor : 'rgb(50,175,255, 15%)',
+        textStyle: {
+          color: props.tipsTextColor ? props.tipsTextColor : '#fff', //设置文字颜色       
+        },
+        borderColor: 'transparent',
       },
       xAxis: [
         {
