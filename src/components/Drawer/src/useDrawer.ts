@@ -20,6 +20,7 @@ import { isFunction } from '/@/utils/is';
 import { tryOnUnmounted } from '@vueuse/core';
 import { isEqual } from 'lodash-es';
 import { error } from '/@/utils/log';
+import { MsgManager } from '/@/message/MsgManager';
 
 const dataTransferRef = reactive<any>({});
 
@@ -74,6 +75,7 @@ export function useDrawer(): UseDrawerReturnType {
     }),
 
     openDrawer: <T = any>(visible = true, data?: T, openOnSet = true): void => {
+      MsgManager.getInstance().sendMsg('drawer-open', { type: 'open' });
       getInstance()?.setDrawerProps({
         visible: visible,
       });
@@ -90,6 +92,7 @@ export function useDrawer(): UseDrawerReturnType {
       }
     },
     closeDrawer: () => {
+      MsgManager.getInstance().sendMsg('drawer-open', { type: 'remove' });
       getInstance()?.setDrawerProps({ visible: false });
     },
   };

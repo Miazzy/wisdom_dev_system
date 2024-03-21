@@ -160,13 +160,11 @@
         return;
       }
       // 通知关闭窗口
-      MsgManager.getInstance().sendMsg('iframe-dialog-close', {});
-
+      // MsgManager.getInstance().sendMsg('iframe-dialog-close', {});
       let { url, loading } = message; // const urls = panes.map((element) => element.pageurl.replace('/#/', '/'));
       url = url.replace('/#/', '/');
       caches.value.includes(url) ? null : (loading = true);
       router.push(url as string);
-
       if (loading) {
         nextTick(async () => {
           reload();
@@ -174,6 +172,19 @@
       }
     } catch (error) {
       //
+    }
+  };
+
+  // 处理是否显示隐藏Mask函数
+  const handleMask = (message) => {
+    if (checkInIframe()) {
+      return;
+    }
+    const { type } = message;
+    if (type == 'open') {
+      visible.value = true;
+    } else if (type == 'remove') {
+      visible.value = false;
     }
   };
 
@@ -194,15 +205,11 @@
 
     // 监听是否打开Dialog
     MsgManager.getInstance().listen('modal-open', (message) => {
-      if (checkInIframe()) {
-        return;
-      }
-      const { type } = message;
-      if (type == 'open') {
-        visible.value = true;
-      } else if (type == 'remove') {
-        visible.value = false;
-      }
+      handleMask(message);
+    });
+    // 监听是否打开Drawer
+    MsgManager.getInstance().listen('drawer-open', (message) => {
+      handleMask(message);
     });
   });
 </script>

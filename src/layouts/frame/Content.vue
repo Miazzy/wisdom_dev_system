@@ -72,7 +72,11 @@
         </div>
       </div>
     </div>
-    <div class="iframe-content" :class="contentClass + ' ' + screenClass + iframeClass" :style="contentWidth">
+    <div
+      class="iframe-content"
+      :class="contentClass + ' ' + screenClass + iframeClass"
+      :style="contentWidth"
+    >
       <Icon
         v-if="screenFlag"
         class="screen-icon"
@@ -535,6 +539,19 @@
     }
   };
 
+  // 设置Mask的ZIndex样式函数
+  const handleMaskZindex = (message) => {
+    if (checkInIframe()) {
+      return;
+    }
+    const { type } = message;
+    if (type == 'open') {
+      iframeClass.value = 'mask-zindex';
+    } else if (type == 'remove') {
+      iframeClass.value = '';
+    }
+  };
+
   watch(
     () => props.path,
     () => {
@@ -572,15 +589,11 @@
 
     // 监听是否打开Dialog
     MsgManager.getInstance().listen('modal-open', (message) => {
-      if (checkInIframe()) {
-        return;
-      }
-      const { type } = message;
-      if (type == 'open') {
-        iframeClass.value = 'mask-zindex';
-      } else if (type == 'remove') {
-        iframeClass.value = '';
-      }
+      handleMaskZindex(message);
+    });
+    // 监听是否打开Drawer
+    MsgManager.getInstance().listen('drawer-open', (message) => {
+      handleMaskZindex(message);
     });
   });
 </script>
