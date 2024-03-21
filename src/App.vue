@@ -197,7 +197,6 @@
       if (checkInIframe()) {
         return;
       }
-      debugger;
       const { type } = message;
       if (type == 'open') {
         visible.value = true;
