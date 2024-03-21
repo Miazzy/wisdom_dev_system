@@ -19,17 +19,8 @@
     </div>
   </a-card>
 
-  <DataSelectDialog
-    title="快捷导航设置"
-    v-model:visible="openDialog"
-    :value="formState.menuBoardDetail"
-    :tdata="menuTreeData"
-    :tfields="{ key: 'value', title: 'label' }"
-    :width="800"
-    :height="600"
-    @cancel="receiverCancel"
-    @confirm="receiverConfirm"
-  />
+  <DataSelectDialog title="快捷导航设置" v-model:visible="openDialog" :value="formState.menuBoardDetail" :tdata="menuTreeData" :tfields="{ key: 'value', title: 'label' }" :width="800" :height="600"
+    :scolumns="menuTableColumn" @cancel="receiverCancel" @confirm="receiverConfirm" />
 </template>
 <script lang="ts" setup>
   import Icon from '@/components/Icon/Icon.vue';
@@ -43,6 +34,11 @@
   // const router = useRouter();
   const openDialog = ref(false);
   const menuTreeData = ref<TreeSelectProps['treeData']>();
+  const menuTableColumn = ref([
+    { title: '名称', dataIndex: 'title' },
+    { title: '所属功能', dataIndex: 'function'},
+    { title: '模块', dataIndex: 'module' },
+  ]);
 
   const menuBoard = ref([]);
 
