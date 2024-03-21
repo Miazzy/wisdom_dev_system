@@ -59,14 +59,7 @@ export function initAppConfigStore() {
     themeName = darkMode === ThemeEnum.DARK ? 'theme1' : 'theme3';
     localStorage.setItem('THEME', themeName);
   }
-
-  const startTime = Date.now();
-
   sendThemeMessage('class', `${themeName} my-layout`);
-
-  const endTime = Date.now();
-  console.info('initAppConfigStore-sendThemeMessage 耗时：', endTime - startTime);
-
   setTimeout(() => {
     clearObsoleteStorage();
   }, 16);
