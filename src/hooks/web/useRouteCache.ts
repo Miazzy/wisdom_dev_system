@@ -32,7 +32,9 @@ export function useRouteCache() {
       return;
     }
     if (!componentName || caches.value.includes(componentName)) return;
-    caches.value.push(componentName);
+    setTimeout(() => {
+      caches.value.push(componentName);
+    }, 150);
   }
 
   // 移除缓存的路由组件

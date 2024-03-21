@@ -46,7 +46,7 @@
         </a-dropdown>
         <div class="tabs-buttons">
           <Icon :icon="'octicon:screen-full-24'" size="15" @click="handleScreenTabPage" />
-          <Icon :icon="'icons8:refresh'" :spin="loading" size="15" @click="handleRefreshTabPage"  />
+          <Icon :icon="'icons8:refresh'" :spin="loading" size="15" @click="handleRefreshTabPage" />
           <a-dropdown :trigger="trigger">
             <Icon :icon="'codicon:fold-down'" size="13" />
             <template #overlay>
@@ -158,8 +158,8 @@
   const handleTabChange = async (key, options: any = null) => {
     activeKey.value = key;
     for (let pane of panes.value) {
-      pane.status = pane.pageurl === key;
-      if (options && pane.pageurl === key) {
+      pane.status = removeUrlRandom(pane.pageurl) === removeUrlRandom(key);
+      if (options && pane.status) {
         pane.id = options.id;
       }
     }
@@ -279,24 +279,30 @@
     const id = menu && menu?.id && Reflect.has(menu, 'id') ? menu?.id : buildUUID();
     let tempKey = path.replace('/da/', '/');
     tempKey = tempKey.startsWith('/framepage') ? tempKey : '/framepage' + tempKey;
-    const key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
+    let key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
     activePane.value.pageurl = cacheurl; // Single-Iframe-Mode
-    activeKey.value = key;
-    if (!paneMap.has(key)) {
+
+    if (!handleKeyExist(paneMap, key)) {
+      const nkey: string = calcUrlRandom(key);
       const pane = {
         id: id,
         title: name || props.menu.name,
         show: true,
         closable: true,
         status: true,
-        pageurl: key,
+        pageurl: nkey,
       };
-      paneMap.set(key, menu || props.menu);
+      paneMap.set(nkey, menu || props.menu);
       panes.value.push(pane);
+      activeKey.value = nkey;
     }
+
     for (let pane of panes.value) {
       pane.key = pane.key ? pane.key : new Date().getTime();
-      pane.status = pane.pageurl === key;
+      pane.status = removeUrlRandom(pane.pageurl) === removeUrlRandom(key);
+      if (pane.status) {
+        activeKey.value = pane.pageurl;
+      }
     }
     handleActivePath();
   };
@@ -306,7 +312,11 @@
     // Single-Iframe-Mode
     setTimeout(() => {
       activePane.value.pageurl = key;
-      MsgManager.getInstance().sendMsg('iframe-url-change', { url: key, loading });
+      MsgManager.getInstance().sendMsg('iframe-url-change', {
+        url: key,
+        loading,
+        panes: panes.value,
+      });
     }, 150);
   };
 
@@ -329,11 +339,26 @@
     }
   };
 
-  // 计算URL随机参数
-  const calcUrlRandom = (url) => {
-    const paramStr = `random_${Math.floor(Math.random() * 1000)}=${Math.floor(Math.random() * 10000000)}`;
-    url = url?.includes('?') ? url + '&' + paramStr : url + '?' + paramStr;
-    return url;
+  const handleKeyExist = (paneMap, key) => {
+    const keysArray = Array.from(paneMap.keys());
+    const result = keysArray.find((tkey) => removeUrlRandom(tkey) === removeUrlRandom(key));
+    return result ? true : false;
+  };
+
+  // 给url添加random函数
+  const calcUrlRandom = (url: string): string => {
+    const randomValue = Math.floor(Math.random() * 10000000);
+    const paramStr = `_random_=${randomValue}`;
+    if (url?.includes('_random_')) {
+      return url.replace(/_random_=[^&]*/, paramStr); // 替换_random_的值
+    } else {
+      return url?.includes('?') ? url + '&' + paramStr : url + '?' + paramStr; // 添加_random_参数
+    }
+  };
+
+  // 移除URL参数中随机数
+  const removeUrlRandom = (url) => {
+    return url.replace(/([\?&])_random_=[^&]*&?/, '$1').replace(/&$/, '');
   };
 
   // 处理Tab栏放大屏幕函数

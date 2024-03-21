@@ -1,10 +1,15 @@
 <template>
   <ConfigProvider :locale="getAntdLocale" :autoInsertSpaceInButton="false">
     <AppProvider>
-      <RouterView v-if="isRouterAlive" v-slot="{ Component, route }">
+      <RouterView v-slot="{ Component, route }">
         <template v-if="handleRoute(route)">
-          <KeepAlive :include="handleCache(caches)" :max="1000">
-            <component :is="Component" :key="handleRouteKey(route)" :name="handleRouteKey(route)" />
+          <KeepAlive :max="100">
+            <component
+              ref="componentRef"
+              :is="Component"
+              :key="handleRouteKey(route)"
+              :name="handleRouteKey(route)"
+            />
           </KeepAlive>
         </template>
         <template v-else>
@@ -16,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { onMounted, nextTick, ref } from 'vue';
+  import { onMounted, nextTick, ref, getCurrentInstance } from 'vue';
   import { ConfigProvider } from 'ant-design-vue';
   import { AppProvider } from '@/components/Application';
   import { useTitle } from '@/hooks/web/useTitle';
@@ -33,9 +38,11 @@
   const { getAntdLocale } = useLocale();
   const router = useRouter();
   const isRouterAlive = ref(true);
+  const componentRef = ref();
+  const instance = getCurrentInstance();
 
   // 收集已打开路由tabs的缓存
-  const { caches, collectCaches } = useRouteCache();
+  const { caches, collectCaches, removeCache } = useRouteCache();
 
   useTitle();
 
@@ -43,6 +50,15 @@
   const reload = () => {
     isRouterAlive.value = false;
     nextTick(() => {
+      try {
+        if (instance?.proxy) {
+          nextTick(() => {
+            instance?.proxy?.$forceUpdate();
+          });
+        }
+      } catch (error) {
+        console.error('Force Update Error:', error);
+      }
       isRouterAlive.value = true;
     });
   };
@@ -50,11 +66,6 @@
   // 处理route函数
   const handleRoute = (route) => {
     return route.meta.keepAlive;
-  };
-
-  // 获取缓存数据函数
-  const handleCache = (caches) => {
-    return caches.value;
   };
 
   // 处理route函数
@@ -142,14 +153,23 @@
       if (!checkInIframe()) {
         return;
       }
-      let { url, loading } = message;
+      debugger;
+      let { url, loading, panes } = message;
+      const urls = panes.map((element) => element.pageurl.replace('/#/', '/'));
       url = url.replace('/#/', '/');
+      caches.value.includes(url) ? null : (loading = true);
       router.push(url as string);
+
       if (loading) {
         nextTick(async () => {
           reload();
         });
       }
+      caches.value.filter((url) => {
+        if (!urls.includes(url)) {
+          removeCache(url);
+        }
+      });
     } catch (error) {
       //
     }
