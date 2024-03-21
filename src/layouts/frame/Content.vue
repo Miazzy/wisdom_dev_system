@@ -72,7 +72,7 @@
         </div>
       </div>
     </div>
-    <div class="iframe-content" :class="contentClass + ' ' + screenClass" :style="contentWidth">
+    <div class="iframe-content" :class="contentClass + ' ' + screenClass + iframeClass" :style="contentWidth">
       <Icon
         v-if="screenFlag"
         class="screen-icon"
@@ -153,6 +153,7 @@
   const screenFlag = ref(false);
   const screenClass = ref('');
   const activePane = ref(cachepage); // Single-Iframe-Mode
+  const iframeClass = ref('');
 
   // 处理Tab栏页签变更
   const handleTabChange = async (key, options: any = null) => {
@@ -525,6 +526,15 @@
     handleResize();
   };
 
+  // 判断当前页面是否在 iframe 中显示
+  const checkInIframe = () => {
+    try {
+      return window.self !== window.top;
+    } catch (e) {
+      return true;
+    }
+  };
+
   watch(
     () => props.path,
     () => {
@@ -559,6 +569,19 @@
     handleResize();
     screenFlag.value = false;
     window.addEventListener('resize', handleReload);
+
+    // 监听是否打开Dialog
+    MsgManager.getInstance().listen('modal-open', (message) => {
+      if (checkInIframe()) {
+        return;
+      }
+      const { type } = message;
+      if (type == 'open') {
+        iframeClass.value = 'mask-zindex';
+      } else if (type == 'remove') {
+        iframeClass.value = '';
+      }
+    });
   });
 </script>
 <style lang="less">
@@ -677,9 +700,12 @@
 
     .iframe-content {
       position: relative;
-      z-index: 10000 !important;
       width: 100%;
       height: calc(100vh - 85px);
+
+      &.mask-zindex {
+        z-index: 10000 !important;
+      }
 
       .screen-icon {
         position: absolute;
@@ -694,19 +720,20 @@
       }
 
       .content {
-        z-index: 10000 !important;
         width: 100%;
         height: 100%;
 
-        iframe {
+        &.mask-zindex {
           z-index: 10000 !important;
+        }
+
+        iframe {
           width: 100%;
           height: 100%;
         }
       }
 
       &.iframe-screen {
-        z-index: 10000 !important;
         height: calc(100vh);
       }
     }
