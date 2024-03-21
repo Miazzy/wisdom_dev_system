@@ -57,6 +57,15 @@ export function useDrawer(): UseDrawerReturnType {
     };
   }
 
+  // 判断当前页面是否在 iframe 中显示
+  const checkInIframe = () => {
+    try {
+      return window.self !== window.top;
+    } catch (e) {
+      return true;
+    }
+  };
+
   const getInstance = () => {
     const instance = unref(drawer);
     if (!instance) {
@@ -75,7 +84,9 @@ export function useDrawer(): UseDrawerReturnType {
     }),
 
     openDrawer: <T = any>(visible = true, data?: T, openOnSet = true): void => {
-      MsgManager.getInstance().sendMsg('drawer-open', { type: 'open' });
+      if (checkInIframe()) {
+        MsgManager.getInstance().sendMsg('drawer-open', { type: 'open' });
+      }
       getInstance()?.setDrawerProps({
         visible: visible,
       });
@@ -92,7 +103,9 @@ export function useDrawer(): UseDrawerReturnType {
       }
     },
     closeDrawer: () => {
-      MsgManager.getInstance().sendMsg('drawer-open', { type: 'remove' });
+      if (checkInIframe()) {
+        MsgManager.getInstance().sendMsg('drawer-open', { type: 'remove' });
+      }
       getInstance()?.setDrawerProps({ visible: false });
     },
   };

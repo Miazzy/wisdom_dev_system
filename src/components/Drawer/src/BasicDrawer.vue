@@ -53,6 +53,7 @@
   import { basicProps } from './props';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useAttrs } from '@vben/hooks';
+  import { MsgManager } from '/@/message/MsgManager';
 
   export default defineComponent({
     components: { Drawer, ScrollContainer, DrawerFooter, DrawerHeader },
@@ -79,6 +80,15 @@
       const getMergeProps = computed((): DrawerProps => {
         return deepMerge(toRaw(props), unref(propsRef)) as any;
       });
+
+      // 判断当前页面是否在 iframe 中显示
+      const checkInIframe = () => {
+        try {
+          return window.self !== window.top;
+        } catch (e) {
+          return true;
+        }
+      };
 
       const getProps = computed((): DrawerProps => {
         const opt = {
@@ -160,6 +170,9 @@
           const res = await closeFunc();
           visibleRef.value = !res;
           return;
+        }
+        if (checkInIframe()) {
+          MsgManager.getInstance().sendMsg('drawer-open', { type: 'remove' });
         }
         visibleRef.value = false;
       }
