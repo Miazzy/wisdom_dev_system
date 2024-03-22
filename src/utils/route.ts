@@ -107,12 +107,14 @@ export const getCurrentPageInfo = () => {
 
 // 新增TabPage页面函数（iframe模式）
 export const addTabPage = (path: string, name: string = '', params: Object | null = null) => {
+  debugger;
   const id = buildUUID();
   const userStore = useUserStore();
   const nameMap = userStore.getMenuNameMap;
   const purePath = path.includes('?') ? path.split('?')[0] : path;
   name = name == '' ? nameMap.get(purePath) : name;
-  path = path.startsWith('/framepage') ? path : '/framepage' + path;
+  path.replace('/framepage', '/frame');
+  path = path.startsWith('/frame') ? path : '/frame' + path;
   path = params == null || typeof params == 'undefined' ? path : pathToUrl(path, params);
   const message = { type: 'addTabPage', data: { id, path, name, params } };
   sendMessage(message);
@@ -132,7 +134,8 @@ export const addTabAndClose = (
   const nameMap = userStore.getMenuNameMap;
   const purePath = path.includes('?') ? path.split('?')[0] : path;
   name = name == '' ? nameMap.get(purePath) : name;
-  path = path.startsWith('/framepage') ? path : '/framepage' + path;
+  path.replace('/framepage', '/frame');
+  path = path.startsWith('/frame') ? path : '/frame' + path;
   path = params == null || typeof params == 'undefined' ? path : pathToUrl(path, params);
   const message = { type: 'addTabAndClose', data: { id, path, name, params, closeID, refresh } };
   sendMessage(message);
@@ -174,7 +177,7 @@ export const handleRouteGo = () => {
   const go = useGo();
   const flag = window.location.hash && window.location.hash.startsWith('#');
   const path = flag ? window.location.hash.slice(1) : window.location.hash;
-  if (!['/framepage', '/login'].includes(path)) {
+  if (!['/framepage', '/frame', '/login'].includes(path)) {
     go(path);
   }
 };

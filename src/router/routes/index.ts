@@ -94,7 +94,7 @@ export const LoginRoute: AppRouteRecordRaw = {
 
 // 缓存页面
 export const CachePage: AppRouteRecordRaw = {
-  path: '/framepage/cachepage',
+  path: '/frame/cachepage',
   name: 'CachePage',
   component: () => import('/@/views/sys/iframe/FrameBlank.vue'),
   meta: { keepAlive: true },
@@ -102,7 +102,7 @@ export const CachePage: AppRouteRecordRaw = {
 
 // 总览驾驶舱路由
 export const CockpitOverviewRoute: AppRouteRecordRaw = {
-  path: '/framepage/cockpit/overview',
+  path: '/frame/cockpit/overview',
   name: 'CockpitOverview',
   component: () => import('/@/views/da/cockpit/overview/Overview.vue'),
   meta: { keepAlive: false },
@@ -110,35 +110,35 @@ export const CockpitOverviewRoute: AppRouteRecordRaw = {
 
 // 运维驾驶舱路由
 export const CockpitOperationRoute: AppRouteRecordRaw = {
-  path: '/framepage/cockpit/operation',
+  path: '/frame/cockpit/operation',
   component: () => import('/@/views/da/cockpit/operation/Operation.vue'),
   meta: { keepAlive: false },
 };
 
 // 资产驾驶舱路由
 export const CockpitPropertyRoute: AppRouteRecordRaw = {
-  path: '/framepage/cockpit/property',
+  path: '/frame/cockpit/property',
   component: () => import('/@/views/da/cockpit/property/Property.vue'),
   meta: { keepAlive: false },
 };
 
 // 安全驾驶舱路由
 export const CockpitSecurityRoute: AppRouteRecordRaw = {
-  path: '/framepage/cockpit/security',
+  path: '/frame/cockpit/security',
   component: () => import('/@/views/da/cockpit/security/Security.vue'),
   meta: { keepAlive: false },
 };
 
 // 综合驾驶舱路由
 export const CockpitCompositionRoute: AppRouteRecordRaw = {
-  path: '/framepage/cockpit/composition',
+  path: '/frame/cockpit/composition',
   component: () => import('/@/views/da/cockpit/composition/Composition.vue'),
   meta: { keepAlive: false },
 };
 
 // 安全驾驶舱路由
 export const CockpitPowerRoute: AppRouteRecordRaw = {
-  path: '/framepage/cockpit/power',
+  path: '/frame/cockpit/power',
   component: () => import('/@/views/da/cockpit/power/Power.vue'),
   meta: { keepAlive: false },
 };
@@ -168,6 +168,14 @@ export const FrameWorkbench: AppRouteRecordRaw = {
 };
 
 // 框架页面
+export const Frame: AppRouteRecordRaw = {
+  path: '/frame',
+  name: 'Frame',
+  component: () => import('/@/layouts/frame/MainLayout.vue'),
+  meta: { title: '工作台', keepAlive: true },
+};
+
+// 框架页面
 export const FramePage: AppRouteRecordRaw = {
   path: '/framepage',
   name: 'FramePage',
@@ -176,19 +184,19 @@ export const FramePage: AppRouteRecordRaw = {
 };
 
 export const PvSubareaOverview: AppRouteRecordRaw = {
-  path: '/framepage/monitor/pvarea/subareaoverview',
+  path: '/frame/monitor/pvarea/subareaoverview',
   component: () => import('/@/views/monitor/PVArea/subareaOverview/subareaOverview.vue'),
   meta: { keepAlive: true },
 };
 
 export const PvInverterOverview: AppRouteRecordRaw = {
-  path: '/framepage/monitor/PVArea/inverterOverview',
+  path: '/frame/monitor/PVArea/inverterOverview',
   component: () => import('/@/views/monitor/PVArea/inverterOverview/inverterOverview.vue'),
   meta: { keepAlive: true },
 };
 
 export const PvTransformerSubstationOverview: AppRouteRecordRaw = {
-  path: '/framepage/monitor/PVArea/boxTransformerSubstationOverview',
+  path: '/frame/monitor/PVArea/boxTransformerSubstationOverview',
   component: () =>
     import(
       '/@/views/monitor/PVArea/boxTransformerSubstationOverview/boxTransformerSubstationOverview.vue'
@@ -197,1226 +205,1226 @@ export const PvTransformerSubstationOverview: AppRouteRecordRaw = {
 };
 
 export const PvGroupSeriesOverview: AppRouteRecordRaw = {
-  path: '/framepage/monitor/PVArea/groupSeriesOverview',
+  path: '/frame/monitor/PVArea/groupSeriesOverview',
   component: () => import('/@/views/monitor/PVArea/groupSeriesOverview/groupSeriesOverview.vue'),
   meta: { keepAlive: true },
 };
 
 export const PvBoosterStationOverview: AppRouteRecordRaw = {
-  path: '/framepage/monitor/boosterStation/boosterStationOverview',
+  path: '/frame/monitor/boosterStation/boosterStationOverview',
   component: () =>
     import('/@/views/monitor/boosterStation/boosterStationOverview/boosterStationOverview.vue'),
   meta: { keepAlive: true },
 };
 
 export const PvFaultWarning: AppRouteRecordRaw = {
-  path: '/framepage/monitor/faultWarning',
+  path: '/frame/monitor/faultWarning',
   component: () => import('/@/views/monitor/faultWarning/faultWarning.vue'),
   meta: { keepAlive: true },
 };
 
 export const PvEnergyStorage: AppRouteRecordRaw = {
-  path: '/framepage/monitor/energyStorage',
+  path: '/frame/monitor/energyStorage',
   component: () => import('/@/views/monitor/energyStorage/energyStorageMonitor.vue'),
   meta: { keepAlive: true },
 };
 
 export const PvAreaRealTimeAnalysis: AppRouteRecordRaw = {
-  path: '/framepage/monitor/realTimeAnalysis/areaRealTimeAnalysis',
+  path: '/frame/monitor/realTimeAnalysis/areaRealTimeAnalysis',
   component: () => import('/@/views/monitor/realTimeAnalysis/areaRealTimeAnalysis.vue'),
   meta: { keepAlive: true },
 };
 
 export const PvInverterRealTimeAnalysis: AppRouteRecordRaw = {
-  path: '/framepage/monitor/realTimeAnalysis/inverterRealTimeAnalysis',
+  path: '/frame/monitor/realTimeAnalysis/inverterRealTimeAnalysis',
   component: () => import('/@/views/monitor/realTimeAnalysis/inverterRealTimeAnalysis.vue'),
   meta: { keepAlive: true },
 };
 
 export const PvDispersionRatioRealTimeAnalysis: AppRouteRecordRaw = {
-  path: '/framepage/monitor/realTimeAnalysis/dispersionRatioRealTimeAnalysis',
+  path: '/frame/monitor/realTimeAnalysis/dispersionRatioRealTimeAnalysis',
   component: () => import('/@/views/monitor/realTimeAnalysis/dispersionRatioRealTimeAnalysis.vue'),
   meta: { keepAlive: true },
 };
 
 export const PvGroupSeriesRealTimeAnalysis: AppRouteRecordRaw = {
-  path: '/framepage/monitor/realTimeAnalysis/groupSeriesRealTimeAnalysis',
+  path: '/frame/monitor/realTimeAnalysis/groupSeriesRealTimeAnalysis',
   component: () => import('/@/views/monitor/realTimeAnalysis/groupSeriesRealTimeAnalysis.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoElecProduceIndex: AppRouteRecordRaw = {
-  path: '/framepage/po/elec/produce/index',
+  path: '/frame/po/elec/produce/index',
   component: () => import('/@/views/po/elec/produce/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoElecProduceDayReportCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/elec/produce/dayReportCreate',
+  path: '/frame/po/elec/produce/dayReportCreate',
   component: () => import('/@/views/po/elec/produce/dayReportCreate.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoElecProduceWeekReportCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/elec/produce/weekReportCreate',
+  path: '/frame/po/elec/produce/weekReportCreate',
   component: () => import('/@/views/po/elec/produce/weekReportCreate.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoElecProduceMonthReportCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/elec/produce/monthReportCreate',
+  path: '/frame/po/elec/produce/monthReportCreate',
   component: () => import('/@/views/po/elec/produce/monthReportCreate.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoElecProduceYearReportCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/elec/produce/yearReportCreate',
+  path: '/frame/po/elec/produce/yearReportCreate',
   component: () => import('/@/views/po/elec/produce/yearReportCreate.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoElecSettlementElectricity: AppRouteRecordRaw = {
-  path: '/framepage/po/elec/settlementelec/settlementElectricity',
+  path: '/frame/po/elec/settlementelec/settlementElectricity',
   component: () => import('/@/views/po/elec/settlementelec/settlementElectricity.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoElecSettlementElecModal: AppRouteRecordRaw = {
-  path: '/framepage/po/elec/settlementelec/setElecCreate',
+  path: '/frame/po/elec/settlementelec/setElecCreate',
   component: () => import('/@/views/po/elec/settlementelec/settlemenElecModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoElecSettlementElecSetElecDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/elec/settlementelec/setElecDetail',
+  path: '/frame/po/elec/settlementelec/setElecDetail',
   component: () => import('/@/views/po/elec/settlementelec/settlemenElecModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoPlannedElectricity: AppRouteRecordRaw = {
-  path: '/framepage/po/elec/settlementelec/plannedElectricity',
+  path: '/frame/po/elec/settlementelec/plannedElectricity',
   component: () => import('/@/views/po/elec/plannedelectricity/plannedElectricity.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoPlannedElecCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/elec/plannedelec/plannedElecCreate',
+  path: '/frame/po/elec/plannedelec/plannedElecCreate',
   component: () => import('/@/views/po/elec/plannedelectricity/plannedElecModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoPlannedElecDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/elec/plannedelec/plannedElecDetail',
+  path: '/frame/po/elec/plannedelec/plannedElecDetail',
   component: () => import('/@/views/po/elec/plannedelectricity/plannedElecModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafechecktemplate: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/safechecktemplate',
+  path: '/frame/po/safety/safechecktemplate',
   component: () => import('/@/views/po/safety/safechecktemplate/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafechecktemplateCreateOrUpdate: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/safechecktemplate/create',
+  path: '/frame/po/safety/safechecktemplate/create',
   component: () => import('/@/views/po/safety/safechecktemplate/createOrUpdate.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafecheckissue: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/safecheckissue',
+  path: '/frame/po/safety/safecheckissue',
   component: () => import('/@/views/po/safety/safecheckissue/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafecheckissueCreateOrUpdate: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/safecheckissue/create',
+  path: '/frame/po/safety/safecheckissue/create',
   component: () => import('/@/views/po/safety/safecheckissue/createOrUpdate.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafecheckexecutionCheckType1: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/safecheckexecution/checkType__1',
+  path: '/frame/po/safety/safecheckexecution/checkType__1',
   component: () => import('/@/views/po/safety/safecheckexecution/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafecheckexecutionCreateCheckType1: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/safecheckexecution/create/checkType__1',
+  path: '/frame/po/safety/safecheckexecution/create/checkType__1',
   component: () => import('/@/views/po/safety/safecheckexecution/createOrUpdate.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafecheckexecutionCheckType2: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/safecheckexecution/checkType__2',
+  path: '/frame/po/safety/safecheckexecution/checkType__2',
   component: () => import('/@/views/po/safety/safecheckexecution/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafecheckexecutionCreateCheckType2: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/safecheckexecution/create/checkType__2',
+  path: '/frame/po/safety/safecheckexecution/create/checkType__2',
   component: () => import('/@/views/po/safety/safecheckexecution/createOrUpdate.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafecheckexecution: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/safecheckexecution',
+  path: '/frame/po/safety/safecheckexecution',
   component: () => import('/@/views/po/safety/safecheckexecution/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafecheckexecutionCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/safecheckexecution/create',
+  path: '/frame/po/safety/safecheckexecution/create',
   component: () => import('/@/views/po/safety/safecheckexecution/createOrUpdate.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoVehicleexecution: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/vehicleexecution',
+  path: '/frame/po/safety/vehicleexecution',
   component: () => import('/@/views/po/safety/vehicleexecution/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoVehicleexecutionCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/vehicleexecution/create',
+  path: '/frame/po/safety/vehicleexecution/create',
   component: () => import('/@/views/po/safety/vehicleexecution/createOrUpdate.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafetyFiles: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/safetyFiles',
+  path: '/frame/po/safety/safetyFiles',
   component: () => import('/@/views/po/safety/safetyfiles/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafetyFilesCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/safetyfiles/create',
+  path: '/frame/po/safety/safetyfiles/create',
   component: () => import('/@/views/po/safety/safetyfiles/SafetyFilesModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafetyFilesDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/safetyfiles/detail',
+  path: '/frame/po/safety/safetyfiles/detail',
   component: () => import('/@/views/po/safety/safetyfiles/SafetyFilesModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoEmergencydrill: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/emergencydrill',
+  path: '/frame/po/safety/emergencydrill',
   component: () => import('/@/views/po/safety/emergencydrill/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoEmergencydrillCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/emergencydrill/create',
+  path: '/frame/po/safety/emergencydrill/create',
   component: () => import('/@/views/po/safety/emergencydrill/emergencyDrillModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoEmergencydrillDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/safety/emergencydrill/detail',
+  path: '/frame/po/safety/emergencydrill/detail',
   component: () => import('/@/views/po/safety/emergencydrill/emergencyDrillModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafetyAccident: AppRouteRecordRaw = {
-  path: '/framepage/po/safetyAccident',
+  path: '/frame/po/safetyAccident',
   component: () => import('/@/views/po/safety/safetyaccident/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafetyAccidentCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/safetyAccident/create',
+  path: '/frame/po/safetyAccident/create',
   component: () => import('/@/views/po/safety/safetyaccident/safetyAccidentModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafetyAccidentDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/safetyAccident/detail',
+  path: '/frame/po/safetyAccident/detail',
   component: () => import('/@/views/po/safety/safetyaccident/safetyAccidentModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafetytoolsscrap: AppRouteRecordRaw = {
-  path: '/framepage/po/safetytools/safetytoolsscrap',
+  path: '/frame/po/safetytools/safetytoolsscrap',
   component: () => import('/@/views/po/safetytools/safetytoolsscrap/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafetytoolsscrapCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/safetytools/safetytoolsscrap/create',
+  path: '/frame/po/safetytools/safetytoolsscrap/create',
   component: () => import('/@/views/po/safetytools/safetytoolsscrap/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafetytoolscheck: AppRouteRecordRaw = {
-  path: '/framepage/po/safetytools/safetytoolscheck',
+  path: '/frame/po/safetytools/safetytoolscheck',
   component: () => import('/@/views/po/safetytools/safetytoolscheck/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafetytoolscheckCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/safetytools/safetytoolscheck/create',
+  path: '/frame/po/safetytools/safetytoolscheck/create',
   component: () => import('/@/views/po/safetytools/safetytoolscheck/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafetytools: AppRouteRecordRaw = {
-  path: '/framepage/po/safetytools/safetytools',
+  path: '/frame/po/safetytools/safetytools',
   component: () => import('/@/views/po/safetytools/safetytools/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafetytoolsCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/safetytools/safetytools/create',
+  path: '/frame/po/safetytools/safetytools/create',
   component: () => import('/@/views/po/safetytools/safetytools/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafetyRespAgreement: AppRouteRecordRaw = {
-  path: '/framepage/po/safetyRespAgreement',
+  path: '/frame/po/safetyRespAgreement',
   component: () => import('/@/views/po/safety/safetyrespagreement/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafetyRespAgreementCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/safetyRespAgreement/create',
+  path: '/frame/po/safetyRespAgreement/create',
   component: () => import('/@/views/po/safety/safetyrespagreement/safetyRespAgreementModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSafetyRespAgreementDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/safetyRespAgreement/detail',
+  path: '/frame/po/safetyRespAgreement/detail',
   component: () => import('/@/views/po/safety/safetyrespagreement/safetyRespAgreementModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoOperationticket: AppRouteRecordRaw = {
-  path: '/framepage/po/ticket/operationticket/index',
+  path: '/frame/po/ticket/operationticket/index',
   component: () => import('/@/views/po/ticket/operationticket/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoOperationticketCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/ticket/operationticket/create',
+  path: '/frame/po/ticket/operationticket/create',
   component: () => import('/@/views/po/ticket/operationticket/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoFirstworkticket: AppRouteRecordRaw = {
-  path: '/framepage/po/ticket/firstworkticket/index',
+  path: '/frame/po/ticket/firstworkticket/index',
   component: () => import('/@/views/po/ticket/firstworkticket/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoFirstworkticketCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/ticket/firstworkticket/create',
+  path: '/frame/po/ticket/firstworkticket/create',
   component: () => import('/@/views/po/ticket/firstworkticket/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSecondworkticket: AppRouteRecordRaw = {
-  path: '/framepage/po/ticket/secondworkticket/index',
+  path: '/frame/po/ticket/secondworkticket/index',
   component: () => import('/@/views/po/ticket/secondworkticket/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSecondworkticketCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/ticket/secondworkticket/create',
+  path: '/frame/po/ticket/secondworkticket/create',
   component: () => import('/@/views/po/ticket/secondworkticket/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoInspectionplan: AppRouteRecordRaw = {
-  path: '/framepage/po/inspection/inspectionplan',
+  path: '/frame/po/inspection/inspectionplan',
   component: () => import('/@/views/po/inspection/inspectionplan/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoInspectionplanCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/inspection/inspectionplan/create',
+  path: '/frame/po/inspection/inspectionplan/create',
   component: () => import('/@/views/po/inspection/inspectionplan/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoInspectionexecution: AppRouteRecordRaw = {
-  path: '/framepage/po/inspection/inspectionexecution',
+  path: '/frame/po/inspection/inspectionexecution',
   component: () => import('/@/views/po/inspection/inspectionexecution/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoInspectionexecutionCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/inspection/inspectionexecution/create',
+  path: '/frame/po/inspection/inspectionexecution/create',
   component: () => import('/@/views/po/inspection/inspectionexecution/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSupervision: AppRouteRecordRaw = {
-  path: '/framepage/po/supervision/index',
+  path: '/frame/po/supervision/index',
   component: () => import('/@/views/po/supervision/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSupervisionCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/supervision/create',
+  path: '/frame/po/supervision/create',
   component: () => import('/@/views/po/supervision/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoSupervisionDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/supervision/detail',
+  path: '/frame/po/supervision/detail',
   component: () => import('/@/views/po/supervision/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoDanger: AppRouteRecordRaw = {
-  path: '/framepage/po/danger/index',
+  path: '/frame/po/danger/index',
   component: () => import('/@/views/po/danger/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoDangerCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/danger/create',
+  path: '/frame/po/danger/create',
   component: () => import('/@/views/po/danger/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoDangerDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/danger/detail',
+  path: '/frame/po/danger/detail',
   component: () => import('/@/views/po/danger/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoFault: AppRouteRecordRaw = {
-  path: '/framepage/po/fault/index',
+  path: '/frame/po/fault/index',
   component: () => import('/@/views/po/fault/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoFaultCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/fault/create',
+  path: '/frame/po/fault/create',
   component: () => import('/@/views/po/fault/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoFaultDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/fault/detail',
+  path: '/frame/po/fault/detail',
   component: () => import('/@/views/po/fault/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoWorkorder: AppRouteRecordRaw = {
-  path: '/framepage/po/workorder/index',
+  path: '/frame/po/workorder/index',
   component: () => import('/@/views/po/workorder/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoWorkorderCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/workorder/create',
+  path: '/frame/po/workorder/create',
   component: () => import('/@/views/po/workorder/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoPowerCutPlan: AppRouteRecordRaw = {
-  path: '/framepage/po/powerCutPlan/index',
+  path: '/frame/po/powerCutPlan/index',
   component: () => import('/@/views/po/powercutplan/powerCutPlan.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoPowerCutPlanCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/powerCutPlan/create',
+  path: '/frame/po/powerCutPlan/create',
   component: () => import('/@/views/po/powercutplan/powerCutPlanModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoPowerCutPlanDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/powerCutPlan/detail',
+  path: '/frame/po/powerCutPlan/detail',
   component: () => import('/@/views/po/powercutplan/powerCutPlanModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoAssessTemplate: AppRouteRecordRaw = {
-  path: '/framepage/po/assess/template/index',
+  path: '/frame/po/assess/template/index',
   component: () => import('/@/views/po/assess/template/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoAssessTemplateCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/assess/template/create',
+  path: '/frame/po/assess/template/create',
   component: () => import('/@/views/po/assess/template/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoAssessFilling: AppRouteRecordRaw = {
-  path: '/framepage/po/assess/filling/index',
+  path: '/frame/po/assess/filling/index',
   component: () => import('/@/views/po/assess/filling/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoAssessFillingCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/assess/filling/create',
+  path: '/frame/po/assess/filling/create',
   component: () => import('/@/views/po/assess/filling/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoEquipment: AppRouteRecordRaw = {
-  path: '/framepage/po/equipment/index',
+  path: '/frame/po/equipment/index',
   component: () => import('/@/views/po/equipment/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoEquipmentCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/equipment/create',
+  path: '/frame/po/equipment/create',
   component: () => import('/@/views/po/equipment/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoEquipmentDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/equipment/detail',
+  path: '/frame/po/equipment/detail',
   component: () => import('/@/views/po/equipment/detail.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoEquipmentWarehousing: AppRouteRecordRaw = {
-  path: '/framepage/po/equipment/warehousing/index',
+  path: '/frame/po/equipment/warehousing/index',
   component: () => import('/@/views/po/equipment/warehousing/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoEquipmentWarehousingCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/equipment/warehousing/create',
+  path: '/frame/po/equipment/warehousing/create',
   component: () => import('/@/views/po/equipment/warehousing/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoEquipmentWarehousingDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/equipment/warehousing/detail',
+  path: '/frame/po/equipment/warehousing/detail',
   component: () => import('/@/views/po/equipment/warehousing/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoEquipmentOutbound: AppRouteRecordRaw = {
-  path: '/framepage/po/equipment/outbound/index',
+  path: '/frame/po/equipment/outbound/index',
   component: () => import('/@/views/po/equipment/outbound/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoEquipmentOutboundCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/equipment/outbound/create',
+  path: '/frame/po/equipment/outbound/create',
   component: () => import('/@/views/po/equipment/outbound/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoEquipmentOutboundDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/equipment/outbound/detail',
+  path: '/frame/po/equipment/outbound/detail',
   component: () => import('/@/views/po/equipment/outbound/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoEquipmentInventory: AppRouteRecordRaw = {
-  path: '/framepage/po/equipment/inventory/index',
+  path: '/frame/po/equipment/inventory/index',
   component: () => import('/@/views/po/equipment/inventory/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoEquipmentInventoryCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/equipment/inventory/create',
+  path: '/frame/po/equipment/inventory/create',
   component: () => import('/@/views/po/equipment/inventory/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoEquipmentInventoryDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/equipment/inventory/detail',
+  path: '/frame/po/equipment/inventory/detail',
   component: () => import('/@/views/po/equipment/inventory/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoInPersoncertificate: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/personcertificate',
+  path: '/frame/po/integrated/personcertificate',
   component: () => import('/@/views/po/integrated/personcertificate/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoInPersoncertificateCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/personcertificate/create',
+  path: '/frame/po/integrated/personcertificate/create',
   component: () => import('/@/views/po/integrated/personcertificate/certificateDrawer.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoIntegratedTraining: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/training',
+  path: '/frame/po/integrated/training',
   component: () => import('/@/views/po/integrated/training/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoIntegratedTrainingCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/training/create',
+  path: '/frame/po/integrated/training/create',
   component: () => import('/@/views/po/integrated/training/trainingCreate.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoIntegratedInfoarchive: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/infoarchive',
+  path: '/frame/po/integrated/infoarchive',
   component: () => import('/@/views/po/integrated/infoarchive/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoIntegratedInfoarchiveCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/infoarchive/create',
+  path: '/frame/po/integrated/infoarchive/create',
   component: () => import('/@/views/po/integrated/infoarchive/infoarchiveCreate.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoIntegratedVehicle: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/vehicle/index',
+  path: '/frame/po/integrated/vehicle/index',
   component: () => import('/@/views/po/integrated/vehicle/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoIntegratedVehicleCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/vehicle/create',
+  path: '/frame/po/integrated/vehicle/create',
   component: () => import('/@/views/po/integrated/vehicle/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoIntegratedContract: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/contract',
+  path: '/frame/po/integrated/contract',
   component: () => import('/@/views/po/integrated/contract/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoIntegratedContractCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/contract/create',
+  path: '/frame/po/integrated/contract/create',
   component: () => import('/@/views/po/integrated/contract/contractModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoIntegratedContractDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/contract/detail',
+  path: '/frame/po/integrated/contract/detail',
   component: () => import('/@/views/po/integrated/contract/contractModal.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoIntegratedKnowledge: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/knowledge',
+  path: '/frame/po/integrated/knowledge',
   component: () => import('/@/views/po/integrated/knowledge/knowledge.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoIntegratedKnowledgeCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/knowledge/create',
+  path: '/frame/po/integrated/knowledge/create',
   component: () => import('/@/views/po/integrated/knowledge/knowledgeDrawer.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoIntegratedKnowledgeDetail: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/knowledge/detail',
+  path: '/frame/po/integrated/knowledge/detail',
   component: () => import('/@/views/po/integrated/knowledge/knowledgeDrawer.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoAssessEvaluation: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/assessmentevaluation/index',
+  path: '/frame/po/integrated/assessmentevaluation/index',
   component: () => import('/@/views/po/integrated/assessmentevaluation/index/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoAssessEvaluationTemplate: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/assessmentevaluation/template',
+  path: '/frame/po/integrated/assessmentevaluation/template',
   component: () => import('/@/views/po/integrated/assessmentevaluation/template/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoAssessEvaluationTemplateCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/assessmentevaluation/template/templateCreate',
+  path: '/frame/po/integrated/assessmentevaluation/template/templateCreate',
   component: () =>
     import('/@/views/po/integrated/assessmentevaluation/template/templateCreate.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoAssessEvaluationDaily: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/assessmentevaluation/daily',
+  path: '/frame/po/integrated/assessmentevaluation/daily',
   component: () => import('/@/views/po/integrated/assessmentevaluation/daily/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoAssessEvaluationDailyCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/assessmentevaluation/daily/create',
+  path: '/frame/po/integrated/assessmentevaluation/daily/create',
   component: () => import('/@/views/po/integrated/assessmentevaluation/daily/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoAssessEvaluationMonthly: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/assessmentevaluation/monthly',
+  path: '/frame/po/integrated/assessmentevaluation/monthly',
   component: () => import('/@/views/po/integrated/assessmentevaluation/monthly/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoAssessEvaluationMonthlyCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/assessmentevaluation/monthly/create',
+  path: '/frame/po/integrated/assessmentevaluation/monthly/create',
   component: () => import('/@/views/po/integrated/assessmentevaluation/monthly/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoAssessEvaluationMonthlyScoring: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/assessmentevaluation/monthly/scoring',
+  path: '/frame/po/integrated/assessmentevaluation/monthly/scoring',
   component: () => import('/@/views/po/integrated/assessmentevaluation/monthly/scoring.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoAssessEvaluationMonthlyStationDtl: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/assessmentevaluation/monthly/stationDtl',
+  path: '/frame/po/integrated/assessmentevaluation/monthly/stationDtl',
   component: () => import('/@/views/po/integrated/assessmentevaluation/monthly/stationDtl.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoAssessEvaluationReport: AppRouteRecordRaw = {
-  path: '/framepage/po/integrated/assessmentevaluation/report',
+  path: '/frame/po/integrated/assessmentevaluation/report',
   component: () => import('/@/views/po/integrated/assessmentevaluation/report/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const GroupOperation: AppRouteRecordRaw = {
-  path: '/framepage/groupOperation',
+  path: '/frame/groupOperation',
   component: () => import('/@/views/da/groupOperation/GroupOperation.vue'),
   meta: { keepAlive: false },
 };
 
 export const StationOperation: AppRouteRecordRaw = {
-  path: '/framepage/stationOperation',
+  path: '/frame/stationOperation',
   component: () => import('/@/views/da/stationOperation/StationOperation.vue'),
   meta: { keepAlive: false },
 };
 
 export const BiCapacityStatistics: AppRouteRecordRaw = {
-  path: '/framepage/bi/grid/capacity/statistics',
+  path: '/frame/bi/grid/capacity/statistics',
   component: () => import('/@/views/bi/elec/gridCapacity/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiRecordStatistics: AppRouteRecordRaw = {
-  path: '/framepage/bi/grid/record/statistics',
+  path: '/frame/bi/grid/record/statistics',
   component: () => import('/@/views/bi/elec/gridRecord/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiElecEnvironmental: AppRouteRecordRaw = {
-  path: '/framepage/bi/elec/environmental',
+  path: '/frame/bi/elec/environmental',
   component: () => import('/@/views/bi/elec/environmental/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiElecLossPower: AppRouteRecordRaw = {
-  path: '/framepage/bi/elec/lossPower',
+  path: '/frame/bi/elec/lossPower',
   component: () => import('/@/views/bi/elec/lossPower/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiElecLossDetail: AppRouteRecordRaw = {
-  path: '/framepage/bi/elec/lossDetail',
+  path: '/frame/bi/elec/lossDetail',
   component: () => import('/@/views/bi/elec/lossDetail/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiElecLossPlanned: AppRouteRecordRaw = {
-  path: '/framepage/bi/elec/planned',
+  path: '/frame/bi/elec/planned',
   component: () => import('/@/views/bi/elec/planned/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiElecLossSettlement: AppRouteRecordRaw = {
-  path: '/framepage/bi/elec/settlement',
+  path: '/frame/bi/elec/settlement',
   component: () => import('/@/views/bi/elec/settlement/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiSafetyDisasterWarning: AppRouteRecordRaw = {
-  path: '/framepage/bi/safety/disasterWarning',
+  path: '/frame/bi/safety/disasterWarning',
   component: () => import('/@/views/bi/safety/disasterwarning/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiSafetyCheck: AppRouteRecordRaw = {
-  path: '/framepage/bi/safety/check',
+  path: '/frame/bi/safety/check',
   component: () => import('/@/views/bi/safety/check/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiSafetyAgreement: AppRouteRecordRaw = {
-  path: '/framepage/bi/safety/agreement',
+  path: '/frame/bi/safety/agreement',
   component: () => import('/@/views/bi/safety/agreement/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiSafetytoolsIndex: AppRouteRecordRaw = {
-  path: '/framepage/bi/safetytools/index',
+  path: '/frame/bi/safetytools/index',
   component: () => import('/@/views/bi/safetytools/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiIntegratedVehicle: AppRouteRecordRaw = {
-  path: '/framepage/bi/integrated/vehicle',
+  path: '/frame/bi/integrated/vehicle',
   component: () => import('/@/views/bi/integrated/vehicle/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiHiddenIndex: AppRouteRecordRaw = {
-  path: '/framepage/bi/hidden/index',
+  path: '/frame/bi/hidden/index',
   component: () => import('/@/views/bi/hidden/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiInspectionIndex: AppRouteRecordRaw = {
-  path: '/framepage/bi/inspection/index',
+  path: '/frame/bi/inspection/index',
   component: () => import('/@/views/bi/inspection/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiMaintenanceTicket: AppRouteRecordRaw = {
-  path: '/framepage/bi/maintenance/ticket',
+  path: '/frame/bi/maintenance/ticket',
   component: () => import('/@/views/bi/maintenance/ticket/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiFaultIndex: AppRouteRecordRaw = {
-  path: '/framepage/bi/fault/index',
+  path: '/frame/bi/fault/index',
   component: () => import('/@/views/bi/fault/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiMaintenanceWorkorder: AppRouteRecordRaw = {
-  path: '/framepage/bi/maintenance/workorder',
+  path: '/frame/bi/maintenance/workorder',
   component: () => import('/@/views/bi/maintenance/workorder/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiMaintenancePowerCut: AppRouteRecordRaw = {
-  path: '/framepage/bi/maintenance/powerCut',
+  path: '/frame/bi/maintenance/powerCut',
   component: () => import('/@/views/bi/maintenance/powercut/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiMaintenanceAssess: AppRouteRecordRaw = {
-  path: '/framepage/bi/maintenance/assess',
+  path: '/frame/bi/maintenance/assess',
   component: () => import('/@/views/bi/maintenance/assess/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiEquipmentIndex: AppRouteRecordRaw = {
-  path: '/framepage/bi/equipment/index',
+  path: '/frame/bi/equipment/index',
   component: () => import('/@/views/bi/equipment/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiIntegratedPersonnelqualifications: AppRouteRecordRaw = {
-  path: '/framepage/bi/integrated/personnelQualifications',
+  path: '/frame/bi/integrated/personnelQualifications',
   component: () => import('/@/views/bi/integrated/personnelqualifications/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiIntegratedPersonnelStructure: AppRouteRecordRaw = {
-  path: '/framepage/bi/integrated/personnelStructure',
+  path: '/frame/bi/integrated/personnelStructure',
   component: () => import('/@/views/bi/integrated/personnelstructure/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiIntegratedTrainingStatistics: AppRouteRecordRaw = {
-  path: '/framepage/bi/integrated/trainingStatistics',
+  path: '/frame/bi/integrated/trainingStatistics',
   component: () => import('/@/views/bi/integrated/trainingstatistics/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiOaAtt: AppRouteRecordRaw = {
-  path: '/framepage/bi/oa/att',
+  path: '/frame/bi/oa/att',
   component: () => import('/@/views/bi/oa/att/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiPowerContrast: AppRouteRecordRaw = {
-  path: '/framepage/bi/elec/powerContrast',
+  path: '/frame/bi/elec/powerContrast',
   component: () => import('/@/views/bi/elec/powerContrast/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaInfoInfoKind: AppRouteRecordRaw = {
-  path: '/framepage/oa/info/infoKind',
+  path: '/frame/oa/info/infoKind',
   component: () => import('/@/views/oa/info/infokind/infoKind.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaInfoOfficedoc: AppRouteRecordRaw = {
-  path: '/framepage/oa/info/officedoc/index',
+  path: '/frame/oa/info/officedoc/index',
   component: () => import('/@/views/oa/info/officedoc/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaInfoOfficedocCreate: AppRouteRecordRaw = {
-  path: '/framepage/oa/info/officedoc/create',
+  path: '/frame/oa/info/officedoc/create',
   component: () => import('/@/views/oa/info/officedoc/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaInfoInfonoticeIndex: AppRouteRecordRaw = {
-  path: '/framepage/oa/info/infonotice/index',
+  path: '/frame/oa/info/infonotice/index',
   component: () => import('/@/views/oa/info/infonotice/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaInfoInfonoticeCreate: AppRouteRecordRaw = {
-  path: '/framepage/oa/info/infonotice/create',
+  path: '/frame/oa/info/infonotice/create',
   component: () => import('/@/views/oa/info/infonotice/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaInfoInformationIndex: AppRouteRecordRaw = {
-  path: '/framepage/oa/info/information/index',
+  path: '/frame/oa/info/information/index',
   component: () => import('/@/views/oa/info/information/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaInfoInformationCreate: AppRouteRecordRaw = {
-  path: '/framepage/oa/info/information/create',
+  path: '/frame/oa/info/information/create',
   component: () => import('/@/views/oa/info/information/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaInfoQueryIndex: AppRouteRecordRaw = {
-  path: '/framepage/oa/info/query/index',
+  path: '/frame/oa/info/query/index',
   component: () => import('/@/views/oa/info/query/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaAttendIndex: AppRouteRecordRaw = {
-  path: '/framepage/oa/attend/index',
+  path: '/frame/oa/attend/index',
   component: () => import('/@/views/oa/attend/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaAttendCreate: AppRouteRecordRaw = {
-  path: '/framepage/oa/attend/create',
+  path: '/frame/oa/attend/create',
   component: () => import('/@/views/oa/attend/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaAttendCalendar: AppRouteRecordRaw = {
-  path: '/framepage/oa/attend/calendar',
+  path: '/frame/oa/attend/calendar',
   component: () => import('/@/views/oa/attend/calendar.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaAskreportIndex: AppRouteRecordRaw = {
-  path: '/framepage/oa/askreport',
+  path: '/frame/oa/askreport',
   component: () => import('/@/views/oa/askreport/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaAskreportDetail: AppRouteRecordRaw = {
-  path: '/framepage/oa/askreport/detail',
+  path: '/frame/oa/askreport/detail',
   component: () => import('/@/views/oa/askreport/detail.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaAddressbook: AppRouteRecordRaw = {
-  path: '/framepage/oa/addressbook',
+  path: '/frame/oa/addressbook',
   component: () => import('/@/views/oa/addressbook/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaWorkbench: AppRouteRecordRaw = {
-  path: '/framepage/workbench',
+  path: '/frame/workbench',
   component: () => import('/@/views/workbench/Workbench.vue'),
   meta: { keepAlive: true },
 };
 
 export const BpmWorkflow: AppRouteRecordRaw = {
-  path: '/framepage/bpm/manage/workflow',
+  path: '/frame/bpm/manage/workflow',
   component: () => import('/@/views/bpm/manage/workflow/workflow.vue'),
   meta: { keepAlive: true },
 };
 
 export const DevPage: AppRouteRecordRaw = {
-  path: '/framepage/dev',
+  path: '/frame/dev',
   component: () => import('/@/views/dev/dev.vue'),
   meta: { keepAlive: true },
 };
 
 export const Meta2dRenderPage: AppRouteRecordRaw = {
-  path: '/framepage/monitor/wiringDiagram/meta2d',
+  path: '/frame/monitor/wiringDiagram/meta2d',
   component: () => import('/@/views/monitor/wiringDiagram/meta2d.vue'),
   meta: { keepAlive: true },
 };
 
 export const BpmWftaskAssignRule: AppRouteRecordRaw = {
-  path: '/framepage/bpm/manage/wftaskAssignRule',
+  path: '/frame/bpm/manage/wftaskAssignRule',
   component: () => import('/@/views/bpm/manage/taskAssignRule/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BpmWfdefinition: AppRouteRecordRaw = {
-  path: '/framepage/bpm/manage/wftaskDefinition',
+  path: '/frame/bpm/manage/wftaskDefinition',
   component: () => import('/@/views/bpm/manage/definition/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BpmWfprocessEditor: AppRouteRecordRaw = {
-  path: '/framepage/bpm/manage/wfeditor',
+  path: '/frame/bpm/manage/wfeditor',
   component: () => import('/@/views/bpm/manage/workflow/processEditor.vue'),
   meta: { keepAlive: true },
 };
 
 export const BpmWfprocessInstance: AppRouteRecordRaw = {
-  path: '/framepage/bpm/task/processInstance',
+  path: '/frame/bpm/task/processInstance',
   component: () => import('/@/views/bpm/manage/processInstance/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BpmWftaskTodo: AppRouteRecordRaw = {
-  path: '/framepage/bpm/task/todo',
+  path: '/frame/bpm/task/todo',
   component: () => import('/@/views/bpm/manage/task/todo/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BpmWftaskDone: AppRouteRecordRaw = {
-  path: '/framepage/bpm/task/done',
+  path: '/frame/bpm/task/done',
   component: () => import('/@/views/bpm/manage/task/done/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BpmTaskOperation: AppRouteRecordRaw = {
-  path: '/framepage/bpm/task/operation',
+  path: '/frame/bpm/task/operation',
   component: () => import('/@/views/bpm/manage/task/operation/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetMonitorAreaSet: AppRouteRecordRaw = {
-  path: '/framepage/baseset/monitor/area',
+  path: '/frame/baseset/monitor/area',
   component: () => import('/@/views/baseset/monitor/area/areaSet.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetMonitorModelSet: AppRouteRecordRaw = {
-  path: '/framepage/baseset/monitor/model',
+  path: '/frame/baseset/monitor/model',
   component: () => import('/@/views/baseset/monitor/model/modelSet.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetMonitorDeviceSet: AppRouteRecordRaw = {
-  path: '/framepage/baseset/monitor/device',
+  path: '/frame/baseset/monitor/device',
   component: () => import('/@/views/baseset/monitor/device/deviceSet.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetMonitorDeviceInfoSet: AppRouteRecordRaw = {
-  path: '/framepage/baseset/monitor/deviceinfo',
+  path: '/frame/baseset/monitor/deviceinfo',
   component: () => import('/@/views/baseset/monitor/deviceinfo/deviceInfoSet.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetMonitorModelInfo: AppRouteRecordRaw = {
-  path: '/framepage/baseset/monitor/modelinfo/modelInfo',
+  path: '/frame/baseset/monitor/modelinfo/modelInfo',
   component: () => import('/@/views/baseset/monitor/modelinfo/modelInfo.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetMonitorSunrise: AppRouteRecordRaw = {
-  path: '/framepage/baseset/monitor/sunrise',
+  path: '/frame/baseset/monitor/sunrise',
   component: () => import('/@/views/baseset/monitor/sunrise/sunriseSet.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetPowerstation: AppRouteRecordRaw = {
-  path: '/framepage/baseset/operation/powerstation',
+  path: '/frame/baseset/operation/powerstation',
   component: () => import('/@/views/baseset/operation/powerstation/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetStationDrawer: AppRouteRecordRaw = {
-  path: '/framepage/baseset/operation/powerstation/create',
+  path: '/frame/baseset/operation/powerstation/create',
   component: () => import('/@/views/baseset/operation/powerstation/stationDrawer.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetMaterial: AppRouteRecordRaw = {
-  path: '/framepage/baseset/operation/material',
+  path: '/frame/baseset/operation/material',
   component: () => import('/@/views/baseset/operation/material/material.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetRelatedParty: AppRouteRecordRaw = {
-  path: '/framepage/baseset/operation/relatedparty',
+  path: '/frame/baseset/operation/relatedparty',
   component: () => import('/@/views/baseset/operation/relatedparty/relatedParty.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetWarehouse: AppRouteRecordRaw = {
-  path: '/framepage/baseset/operation/warehouse',
+  path: '/frame/baseset/operation/warehouse',
   component: () => import('/@/views/baseset/operation/warehouse/warehouse.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetAssessRule: AppRouteRecordRaw = {
-  path: '/framepage/baseset/operation/assessRule',
+  path: '/frame/baseset/operation/assessRule',
   component: () => import('/@/views/baseset/operation/assessrule/assessRule.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetSafeCheckSet: AppRouteRecordRaw = {
-  path: '/framepage/baseset/operation/safeCheckSet',
+  path: '/frame/baseset/operation/safeCheckSet',
   component: () => import('/@/views/baseset/operation/safecheck/safeCheckSet.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetPersonnelqualifications: AppRouteRecordRaw = {
-  path: '/framepage/baseset/operation/personnelqualifications',
+  path: '/frame/baseset/operation/personnelqualifications',
   component: () => import('/@/views/baseset/operation/personnelqualifications/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetSettlement: AppRouteRecordRaw = {
-  path: '/framepage/baseset/operation/settlement',
+  path: '/frame/baseset/operation/settlement',
   component: () => import('/@/views/baseset/operation/settlement/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetLinelossrate: AppRouteRecordRaw = {
-  path: '/framepage/baseset/operation/linelossrate',
+  path: '/frame/baseset/operation/linelossrate',
   component: () => import('/@/views/baseset/operation/linelossrate/lineLossRateSet.vue'),
   meta: { keepAlive: true },
 };
 
 export const SysParameter: AppRouteRecordRaw = {
-  path: '/framepage/system/configuration/parameter',
+  path: '/frame/system/configuration/parameter',
   component: () => import('/@/views/system/configuration/parameter/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const SysOrgan: AppRouteRecordRaw = {
-  path: '/framepage/system/rbac/org/index',
+  path: '/frame/system/rbac/org/index',
   component: () => import('/@/views/system/rbac/org/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const SysFunction: AppRouteRecordRaw = {
-  path: '/framepage/system/rbac/function/index',
+  path: '/frame/system/rbac/function/index',
   component: () => import('/@/views/system/rbac/function/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const SysPermission: AppRouteRecordRaw = {
-  path: '/framepage/system/rbac/permission/index',
+  path: '/frame/system/rbac/permission/index',
   component: () => import('/@/views/system/rbac/permission/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const SystemDict: AppRouteRecordRaw = {
-  path: '/framepage/system/configuration/dict',
+  path: '/frame/system/configuration/dict',
   component: () => import('/@/views/system/configuration/dict/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const SysRole: AppRouteRecordRaw = {
-  path: '/framepage/system/rbac/role/index',
+  path: '/frame/system/rbac/role/index',
   component: () => import('/@/views/system/rbac/role/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const OALeave: AppRouteRecordRaw = {
-  path: '/framepage/hr/manage/oaleave',
+  path: '/frame/hr/manage/oaleave',
   component: () => import('/@/views/hr/manage/oaleave/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const OALeaveCreate: AppRouteRecordRaw = {
-  path: '/framepage/hr/manage/OALeaveCreate',
+  path: '/frame/hr/manage/OALeaveCreate',
   component: () => import('/@/views/hr/manage/oaleave/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const OALeaveDetail: AppRouteRecordRaw = {
-  path: '/framepage/hr/manage/OALeaveCreate',
+  path: '/frame/hr/manage/OALeaveCreate',
   component: () => import('/@/views/hr/manage/oaleave/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const BasesetIndexStorehHouse: AppRouteRecordRaw = {
-  path: '/framepage/baseset/bi/indexstorehouse',
+  path: '/frame/baseset/bi/indexstorehouse',
   component: () => import('/@/views/baseset/bi/indexstorehouse/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const OAScheduleList: AppRouteRecordRaw = {
-  path: '/framepage/oa/schedule/index',
+  path: '/frame/oa/schedule/index',
   component: () => import('/@/views/oa/schedule/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const SysOrgType: AppRouteRecordRaw = {
-  path: '/framepage/system/configuration/orgType',
+  path: '/frame/system/configuration/orgType',
   component: () => import('/@/views/system/configuration/orgType/orgType.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiReportFormPreview: AppRouteRecordRaw = {
-  path: '/framepage/bi/reportform/preview/index',
+  path: '/frame/bi/reportform/preview/index',
   component: () => import('/@/views/bi/reportform/preview/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BiReportForm: AppRouteRecordRaw = {
-  path: '/framepage/bi/reportform/index',
+  path: '/frame/bi/reportform/index',
   component: () => import('/@/views/bi/reportform/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const CodeBuildRule: AppRouteRecordRaw = {
-  path: '/framepage/system/configuration/codeBuildRule',
+  path: '/frame/system/configuration/codeBuildRule',
   component: () => import('/@/views/system/configuration/codeBuildRule/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const BaseWiringDiagram: AppRouteRecordRaw = {
-  path: '/framepage/baseset/monitor/wiringdiagram/index',
+  path: '/frame/baseset/monitor/wiringdiagram/index',
   component: () => import('/@/views/baseset/monitor/wiringdiagram/wiringdiagram.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaScheduleWorkMenu: AppRouteRecordRaw = {
-  path: '/framepage/oa/schedule/work/menu/index',
+  path: '/frame/oa/schedule/work/menu/index',
   component: () => import('/@/views/oa/schedule/work/menu/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaScheduleWorkIndex: AppRouteRecordRaw = {
-  path: '/framepage/oa/schedule/work/schedule/index',
+  path: '/frame/oa/schedule/work/schedule/index',
   component: () => import('/@/views/oa/schedule/work/schedule/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaScheduleWorkCreate: AppRouteRecordRaw = {
-  path: '/framepage/oa/schedule/work/schedule/create',
+  path: '/frame/oa/schedule/work/schedule/create',
   component: () => import('/@/views/oa/schedule/work/schedule/create.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaScheduleWorkRecord: AppRouteRecordRaw = {
-  path: '/framepage/oa/schedule/work/record/index',
+  path: '/frame/oa/schedule/work/record/index',
   component: () => import('/@/views/oa/schedule/work/record/index.vue'),
   meta: { keepAlive: true },
 };
 
 export const OaInfoOfficedocView: AppRouteRecordRaw = {
-  path: '/framepage/oa/info/officedoc/view',
+  path: '/frame/oa/info/officedoc/view',
   component: () => import('/@/views/oa/info/officedoc/view.vue'),
   meta: { keepAlive: true },
 };
 
 export const PoInspectionpause: AppRouteRecordRaw = {
-  path: '/framepage/po/inspection/inspectionpause',
+  path: '/frame/po/inspection/inspectionpause',
   component: () => import('/@/views/po/inspection/inspectionpause/index.vue'),
   meta: { keepAlive: true },
 };
 export const PoInspectionpauseCreate: AppRouteRecordRaw = {
-  path: '/framepage/po/inspection/inspectionpause/create',
+  path: '/frame/po/inspection/inspectionpause/create',
   component: () => import('/@/views/po/inspection/inspectionpause/create.vue'),
   meta: { keepAlive: true },
 };
@@ -1460,6 +1468,7 @@ export const basicRoutes = [
   PAGE_NOT_FOUND_ROUTE,
   GroupOperationRoute,
   StationOperationRoute,
+  Frame,
   FramePage,
   FrameWorkbench,
   PvSubareaOverview,

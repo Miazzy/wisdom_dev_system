@@ -125,8 +125,8 @@
   const loading = ref(false);
   const userStore = useUserStore();
   const emit = defineEmits(['change']);
-  const pageurl = '/#/framepage/workbench';
-  const cacheurl = '/#/framepage/cachepage';
+  const pageurl = '/#/frame/workbench';
+  const cacheurl = '/#/frame/cachepage';
   const workbench = {
     title: '工作台',
     key: 'workbench',
@@ -274,7 +274,7 @@
   const handlePath = (value) => {
     const path = value.startsWith('/') ? value : '/' + value;
     let tempKey = path.replace('/da/', '/');
-    tempKey = tempKey.startsWith('/framepage') ? tempKey : '/framepage' + tempKey;
+    tempKey = tempKey.startsWith('/frame') ? tempKey : '/frame' + tempKey;
     const key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
     return key;
   };
@@ -284,7 +284,7 @@
     const path = value.startsWith('/') ? value : '/' + value;
     const id = menu && menu?.id && Reflect.has(menu, 'id') ? menu?.id : buildUUID();
     let tempKey = path.replace('/da/', '/');
-    tempKey = tempKey.startsWith('/framepage') ? tempKey : '/framepage' + tempKey;
+    tempKey = tempKey.startsWith('/frame') ? tempKey : '/frame' + tempKey;
     let key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
     activePane.value.pageurl = cacheurl; // Single-Iframe-Mode
 
@@ -386,7 +386,7 @@
       screenClass.value = '';
       MsgManager.getInstance().sendMsg('iframe-screen', { status: 'off' });
     }
-    if (activeKey.value.includes('/framepage/cockpit/')) {
+    if (activeKey.value.includes('/frame/cockpit/')) {
       nextTick(() => {
         handleRefreshTabPage();
       });
