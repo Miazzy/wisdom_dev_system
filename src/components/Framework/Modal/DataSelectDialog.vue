@@ -359,24 +359,9 @@
   const handleSearch = () => {
     const text = searchText.value ? searchText.value.trim() : '';
     const list = tdataList.value.filter((node) => {
-      const flag = node[props.tfields.title].includes(text);
-      if (flag) {
-        node['company'] = treeMap.value.get(node['orgId'])
-          ? treeMap.value.get(node['orgId'])[props.tfields.title]
-          : '';
-        node['dept'] = treeMap.value.get(node['parent_node']['parentId'])
-          ? treeMap.value.get(node['parent_node']['parentId'])[props.tfields.title]
-          : '';
-        node['postion'] = treeMap.value.get(node['parentId'])
-          ? treeMap.value.get(node['parentId'])[props.tfields.title]
-          : '';
-      }
-      return flag;
+      return !node.disabled && node[props.tfields.title].includes(text);
     });
-    xdataList.value = list.map((item) => {
-      const { company, dept, key, label, orgId, parentId, parent_node, postion, title, value } = item;
-      return { company, dept, key, label, orgId, parentId, parent_node, postion, title, value };
-    });
+    xdataList.value = list;
   };
 
   // 表格点击事件
