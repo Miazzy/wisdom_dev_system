@@ -11,7 +11,7 @@
 
     <template #overlay>
       <Menu @click="handleMenuClick">
-        <MenuItem key="lock" :text="truncateName(getUserInfo.realName)" icon="ph:user-thin" />
+        <MenuItem key="user" :text="truncateName(getUserInfo.realName)" icon="ph:user-thin" />
         <!-- <MenuItem
           v-if="getUseLockPage"
           key="lock"
@@ -48,6 +48,8 @@
   import { openWindow } from '/@/utils';
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
+  import { addTabPage } from '@/utils/route';
+
 
   type MenuEvent = 'logout' | 'doc' | 'lock';
 
@@ -109,6 +111,11 @@
         openWindow(DOC_URL);
       }
 
+      // 跳转到用户页面
+      function handleUser() {
+        addTabPage('/system/rbac/org/userProfile','个人信息');
+      }
+
       function handleMenuClick(e: MenuInfo) {
         switch (e.key as MenuEvent) {
           case 'logout':
@@ -117,8 +124,8 @@
           case 'doc':
             openDoc();
             break;
-          case 'lock':
-            handleLock();
+          case 'user':
+            handleUser();
             break;
         }
       }

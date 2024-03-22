@@ -1,7 +1,7 @@
 <template>
   <div class="indicator-group">
     <div class="indicator-item" v-for="(item, index) in props.data" :key="index" @click="handleClick(item, index)">
-      <div class="value-text">{{ item.value }}</div>
+      <div class="value-text">{{ (item.value || item.value===0)?item.value:'&nbsp;' }}</div>
       <div class="label-text">{{ item.label }}</div>
     </div>
   </div>
