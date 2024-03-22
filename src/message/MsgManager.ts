@@ -83,43 +83,50 @@ export class MsgManager extends Subject {
 
   // 向指定信道推送信息
   public sendMsg(channelName, message) {
-    let subchannel = MsgManager.subchannels.get(channelName);
-    if (!subchannel) {
-      subchannel = new Set();
-      MsgManager.subchannels.set(channelName, subchannel);
-    }
-    subchannel.add(message);
-    this.notifyObservers(channelName, message);
+    try {
+      let subchannel = MsgManager.subchannels.get(channelName);
+      if (!subchannel) {
+        subchannel = new Set();
+        MsgManager.subchannels.set(channelName, subchannel);
+      }
+      subchannel.add(message);
+      this.notifyObservers(channelName, message);
 
-    let channel = MsgManager.channels.get(channelName);
-    if (!channel) {
-      channel = new BroadcastChannel(channelName);
-      MsgManager.channels.set(channelName, channel);
+      let channel = MsgManager.channels.get(channelName);
+      if (!channel) {
+        channel = new BroadcastChannel(channelName);
+        MsgManager.channels.set(channelName, channel);
+      }
+      channel.postMessage(message);
+    } catch (error) {
+      //
     }
-    channel.postMessage(message);
   }
 
   // 监听指定信道消息
   public listen(channelName, callback) {
-    let channel = MsgManager.channels.get(channelName);
-    if (!channel) {
-      channel = new BroadcastChannel(channelName);
-      MsgManager.channels.set(channelName, channel);
+    try {
+      let channel = MsgManager.channels.get(channelName);
+      if (!channel) {
+        channel = new BroadcastChannel(channelName);
+        MsgManager.channels.set(channelName, channel);
+      }
+      channel.onmessage = (event) => {
+        const message = event.data;
+        callback(message);
+      };
+      const observer = new Observer(channelName, callback);
+      this.addObserver(observer);
+      let subchannel = MsgManager.subchannels.get(channelName);
+      if (!subchannel) {
+        subchannel = new Set();
+        MsgManager.subchannels.set(channelName, subchannel);
+      }
+      subchannel.forEach((message) => {
+        observer.update(channelName, message);
+      });
+    } catch (error) {
+      //
     }
-    channel.onmessage = (event) => {
-      const message = event.data;
-      callback(message);
-    };
-
-    const observer = new Observer(channelName, callback);
-    this.addObserver(observer);
-    let subchannel = MsgManager.subchannels.get(channelName);
-    if (!subchannel) {
-      subchannel = new Set();
-      MsgManager.subchannels.set(channelName, subchannel);
-    }
-    subchannel.forEach((message) => {
-      observer.update(channelName, message);
-    });
   }
 }

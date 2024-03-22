@@ -36,24 +36,26 @@
       </div>
     </div>
     <template #footer>
-      <a-button @click="handleFileSelect">
-        <Icon icon="ant-design:select-outlined" />
-        选择文件
-      </a-button>
-      <a-button
-        type="primary"
-        :disabled="fileList.length === 0"
-        :loading="uploading"
-        style="margin-top: 16px"
-        @click="handleUpload"
-      >
-        <Icon icon="material-symbols-light:upload" />
-        {{ uploading ? '上传中...' : '开始上传' }}
-      </a-button>
-      <a-button @click="handleClose">
-        <Icon icon="carbon:close-outline" />
-        关闭
-      </a-button>
+      <div class="footer-container">
+        <a-button @click="handleFileSelect">
+          <Icon icon="ant-design:select-outlined" />
+          选择文件
+        </a-button>
+        <a-button
+          type="primary"
+          :disabled="fileList.length === 0"
+          :loading="uploading"
+          style="margin-top: 16px"
+          @click="handleUpload"
+        >
+          <Icon icon="material-symbols-light:upload" />
+          {{ uploading ? '上传中...' : '开始上传' }}
+        </a-button>
+        <a-button @click="handleClose">
+          <Icon icon="carbon:close-outline" />
+          关闭
+        </a-button>
+      </div>
     </template>
   </Dialog>
 </template>
@@ -119,11 +121,12 @@
     emit('update:visible', false); // 关闭弹框
   };
 
-  const getFiles = async (bizId) => {
+  // 获取附件列表
+  const getFiles = async (bizId, fileKindId = '') => {
     if (typeof bizId == 'undefined' || bizId == null || bizId == '') {
       return [];
     }
-    const filelist = await FileApi.getFiles({ bizId });
+    const filelist = await FileApi.getFiles({ bizId, fileKindId });
     return filelist;
   };
 
@@ -217,7 +220,7 @@
     FileApi.uploadFile(formData)
       .then(async () => {
         uploading.value = false;
-        fileList.value = await getFiles(props.bizId);
+        fileList.value = await getFiles(props.bizId, props.fileKindId);
         emit('update:value', fileList.value);
         emit('change', fileList.value);
         SysMessage.getInstance().success('操作成功');
@@ -250,7 +253,8 @@
         if (props.value != null && props.value.length > 0) {
           fileList.value = props.value;
         } else {
-          fileList.value = await FileApi.getFiles({ bizId: props.bizId });
+          const params = { bizId: props.bizId, fileKindId: props.fileKindId };
+          fileList.value = await FileApi.getFiles(params);
         }
       }
     },
@@ -296,16 +300,28 @@
     }
   }
 
+  :deep(.ant-btn) {
+    margin: 0px 5px 0px 2px;
+  }
+
+  .footer-container {
+    margin-top: -5px;
+  }
+
   :deep(.modal-footer) {
     height: 60px;
     padding: 5px 0 10px;
     line-height: 60px;
     text-align: right;
+
+    &.footer-button {
+      top: -5px;
+    }
   }
 
   :deep(.modal-footer .footer-button) {
     position: absolute;
-    top: 2px;
+    top: -5px;
     right: 5px;
     margin-top: -5px;
   }

@@ -134,7 +134,8 @@
   // 处理上传完毕函数
   const handleUploadOver = async () => {
     const bizId = getBizId();
-    filelist.value = await FileApi.getFiles({ bizId });
+    const fileKindId = props.fileKindId;
+    filelist.value = await FileApi.getFiles({ bizId, fileKindId });
     emit('update:value', filelist.value);
     emit('change', filelist.value);
     if (props.callback != null) {
@@ -143,11 +144,11 @@
   };
 
   // 获取附件列表
-  const getFiles = async (bizId) => {
+  const getFiles = async (bizId, fileKindId = '') => {
     if (typeof bizId == 'undefined' || bizId == null || bizId == '') {
       return [];
     }
-    const filelist = await FileApi.getFiles({ bizId });
+    const filelist = await FileApi.getFiles({ bizId, fileKindId });
     return filelist;
   };
 
@@ -155,7 +156,7 @@
     () => props.bizId,
     async () => {
       const bizId = getBizId();
-      filelist.value = await getFiles(bizId);
+      filelist.value = await getFiles(bizId, props.fileKindId);
       bizFileId.value = bizId;
       emit('update:value', filelist.value);
     },
@@ -175,7 +176,7 @@
   onMounted(async () => {
     try {
       const bizId = getBizId();
-      filelist.value = await getFiles(bizId);
+      filelist.value = await getFiles(bizId, props.fileKindId);
       bizFileId.value = bizId;
       emit('update:value', filelist.value);
       emit('loaded', filelist.value);

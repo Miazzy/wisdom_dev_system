@@ -28,7 +28,7 @@
       :expandOnSearch="true"
     >
       <template #headerTitle>
-        <span class="vben-basic-title" :title="title">{{title}}</span>
+        <span class="vben-basic-title" :title="title">{{ title }}</span>
       </template>
       <template #title="nodeItem">
         <a-tooltip v-if="nodeItem[fieldNames.title || 'title'].length > 9">
@@ -41,7 +41,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, ref, watch, provide, unref, computed } from 'vue';
+  import { onMounted, ref, watch, provide, unref, computed, isProxy, toRaw } from 'vue';
   import { BasicTree, TreeItem, TreeActionType } from '/@/components/Tree';
   import { type Nullable } from '@vben/types';
   import type { PropType } from 'vue';
@@ -66,7 +66,7 @@
     selectedKeys: { type: Array as PropType<string[]>, default: [] }, // 选中的树节点
     treeStyle: { type: String, default: 'margin: 10px 0 10px 10px' },
   });
-  const emit = defineEmits(['select', 'edit', 'add', 'delete', 'refresh', 'check']);
+  const emit = defineEmits(['select', 'selected', 'edit', 'add', 'delete', 'refresh', 'check']);
 
   const selectedNode = ref('');
   const curSelectedKeys = ref<any[]>([]);
@@ -87,11 +87,23 @@
     return getTree().getSelectedNode(selectedNode.value);
   }
 
+  // 获取
+  function getPlainObj(obj) {
+    if (obj) {
+      return isProxy(obj) ? toRaw(obj.__v_raw) : obj;
+    } else {
+      return null;
+    }
+  }
+
   // 选择
   function handleSelect(keys) {
-    selectedNode.value = keys[0];
-    const node = getTree().getSelectedNode(selectedNode.value);
-    emit('select', node);
+    if (keys && keys.length > 0) {
+      selectedNode.value = keys[0];
+      const node = getTree().getSelectedNode(selectedNode.value);
+      const rawNode = getPlainObj(node);
+      emit('select', rawNode);
+    }
   }
 
   // 复选框勾选
@@ -130,7 +142,8 @@
   watch(
     () => props.value,
     (newValue) => {
-      if (newValue) { // 当监听到的数据为null时，不能进行设置，否则存在null时报错导致后续无法渲染
+      if (newValue) {
+        // 当监听到的数据为null时，不能进行设置，否则存在null时报错导致后续无法渲染
         treeData.value = newValue as unknown as TreeItem[];
       }
     },
@@ -160,8 +173,8 @@
   function getCheckedKeys() {
     let checkedKeys = getTree().getCheckedKeys();
     let checkedNodes = [];
-    checkedKeys.forEach(item => {
-      checkedNodes.push(getTree().getSelectedNode(item))
+    checkedKeys.forEach((item) => {
+      checkedNodes.push(getTree().getSelectedNode(item));
     });
     return checkedNodes;
   }
