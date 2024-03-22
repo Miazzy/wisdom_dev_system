@@ -4,10 +4,6 @@
       <Icon icon="ion:settings-outline" :size="17" @click="handleOpenDialog()" />
     </template>
     <div class="card-content">
-      <!-- <div class="data-board-item">
-        <div class="label-text">并网容量(MWp)</div>
-        <div class="value-text">563.33161</div>
-      </div> -->
       <div class="data-board-item" v-for="(n, index) in formState.dataResult" :key="index">
         <div class="label-text">{{ n.label }}</div>
         <div class="value-text">{{ n.value }}</div>
@@ -25,7 +21,8 @@
     :height="600"
     @cancel="receiverCancel"
     @confirm="receiverConfirm"
-    :max="30"
+    :scolumns="menuTableColumn"
+    :max="14"
   />
 </template>
 <script lang="ts" setup>
@@ -41,6 +38,17 @@
     dataBoard: [],
     dataResult: [],
   });
+
+  const menuTableColumn = ref([
+    {
+      title: '指标类型',
+      dataIndex: '',
+      customRender: ({ record }) => {
+        return record.parent_node.label;
+      },
+    },
+    { title: '指标名称', dataIndex: 'title' },
+  ]);
 
   onMounted(async () => {
     queryDataBoardByUserId();
