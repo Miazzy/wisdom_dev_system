@@ -47,7 +47,7 @@
     if (element) {
       var params = {
         bizId: item.id,
-        module: element.businessType == 'notice' ? 'infoNotice' : 'officeDoc',
+        module: element.key == 'notice' ? 'infoNotice' : 'officeDoc',
       };
       addTabPage(element.url, '通知公告详情', params);
 

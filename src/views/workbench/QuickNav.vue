@@ -19,25 +19,39 @@
     </div>
   </a-card>
 
-  <DataSelectDialog title="快捷导航设置" v-model:visible="openDialog" :value="formState.menuBoardDetail" :tdata="menuTreeData" :tfields="{ key: 'value', title: 'label' }" :width="800" :height="600"
-    :scolumns="menuTableColumn" @cancel="receiverCancel" @confirm="receiverConfirm" />
+  <DataSelectDialog
+    title="快捷导航设置"
+    v-model:visible="openDialog"
+    :value="formState.menuBoardDetail"
+    :tdata="menuTreeData"
+    :tfields="{ key: 'value', title: 'label' }"
+    :width="800"
+    :height="600"
+    :scolumns="menuTableColumn"
+    @cancel="receiverCancel"
+    @confirm="receiverConfirm"
+    :max="30"
+  />
 </template>
 <script lang="ts" setup>
   import Icon from '@/components/Icon/Icon.vue';
   import { ref, reactive, onMounted } from 'vue';
   import DataSelectDialog from '@/components/Framework/Modal/DataSelectDialog.vue';
-  // import { useRouter } from 'vue-router';
   import { TreeSelectProps, message } from 'ant-design-vue';
   import { addTabPage } from '@/utils/route';
   import { getMenuTreeData, saveMenuBoard, getMenuBoard, getMenuBoardResult } from './data';
 
-  // const router = useRouter();
   const openDialog = ref(false);
   const menuTreeData = ref<TreeSelectProps['treeData']>();
   const menuTableColumn = ref([
-    { title: '名称', dataIndex: 'title' },
-    { title: '所属功能', dataIndex: 'function'},
-    { title: '模块', dataIndex: 'module' },
+    {
+      title: '所属模块',
+      dataIndex: '',
+      customRender: ({ record }) => {
+        return record.parent_node.label;
+      },
+    },
+    { title: '功能名称', dataIndex: 'title' },
   ]);
 
   const menuBoard = ref([]);
@@ -58,82 +72,6 @@
     '#4799F5',
     '#379EFF',
   ];
-  // const navList = ref([
-  //   [
-  //     {
-  //       label: '电站运营',
-  //       icon: 'ion:tv',
-  //       url: '/da/stationOperation',
-  //     },
-  //     {
-  //       label: '分区总览',
-  //       icon: 'ion:layers',
-  //       url: '/monitor/PVArea/subareaOverview',
-  //     },
-  //     {
-  //       label: '组串总览',
-  //       icon: 'ion:easel',
-  //       url: '/monitor/PVArea/groupSeriesOverview',
-  //     },
-  //     {
-  //       label: '告警总览',
-  //       icon: 'ion:notifications',
-  //       url: '/monitor/faultWarning',
-  //     },
-  //     {
-  //       label: '生产管理',
-  //       icon: 'ion:speedometer',
-  //       url: '/po/elec/produce/index',
-  //     },
-  //     {
-  //       label: '电气一票',
-  //       icon: 'ion:scale-sharp',
-  //       url: '/po/ticket/firstworkticket/index',
-  //     },
-  //     {
-  //       label: '隐患管理',
-  //       icon: 'ion:warning',
-  //       url: '/po/danger/index',
-  //     },
-  //     {
-  //       label: '巡检执行',
-  //       icon: 'ion:map',
-  //       url: '/po/inspection/inspectionexecution',
-  //     },
-  //     {
-  //       label: '缺陷管理',
-  //       icon: 'ion:build',
-  //       url: '/po/fault/index',
-  //     },
-  //     {
-  //       label: '工单管理',
-  //       icon: 'ion:document-attach',
-  //       url: '/po/workorder/index',
-  //     },
-  //   ],
-  //   [
-  //     {
-  //       label: '物资台账',
-  //       icon: 'ion:receipt',
-  //       url: '/po/equipment/index',
-  //     },
-  //     {
-  //       label: '计划电量统计',
-  //       icon: 'ion:bar-chart',
-  //       url: '/bi/elec/planned',
-  //     },
-  //     {
-  //       label: '隐患统计',
-  //       icon: 'ion:shield-checkmark',
-  //       url: '/bi/hidden/index',
-  //     },
-  //     {
-  //       label: '缺陷统计',
-  //       icon: 'ion:pie-chart',
-  //       url: '/bi/fault/index',
-  //     },
-  //   ],
-  // ]);
 
   onMounted(async () => {
     queryMenuBoardByUserId();
