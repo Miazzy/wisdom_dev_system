@@ -10,6 +10,7 @@
     :module="tmodule"
     :message="tmessage"
     :format="tformat"
+    :mode="tmode"
   />
 </template>
 
@@ -27,6 +28,7 @@
     application: { type: String, default: '' },
     module: { type: String, default: '' },
     message: { type: String, default: '' },
+    mode: { type: String, default: 'normal' },
     format: { type: String, default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4' },
   });
 
@@ -34,6 +36,7 @@
   const tcolumns = ref<any[]>([]);
   const tapplication = ref('');
   const tmodule = ref('');
+  const tmode = ref('normal');
   const tmessage = ref('');
   const tformat = ref('');
   const csstyle = ref({ width: props.width, height: props.height });
@@ -101,6 +104,13 @@
     },
   );
 
+  watch(
+    () => props.mode,
+    () => {
+      tmode.value = props.mode;
+    },
+  );
+
   const validate = () => {
     uploadTable.value?.validate();
   };
@@ -120,6 +130,7 @@
     tmodule.value = props.module;
     tmessage.value = props.message;
     tformat.value = props.format;
+    tmode.value = props.mode;
   });
 </script>
 

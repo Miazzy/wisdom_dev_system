@@ -68,6 +68,7 @@
         >
           <slot name="actions" :item="item">
             <UploadBox
+              v-show="!item.readonly"
               v-model:value="item.filelist"
               @loaded="
                 (list) => {
@@ -86,6 +87,7 @@
               :maxSize="item.maxSize"
               :application="tapplication"
               :module="tmodule"
+              :mode="tmode"
               :bizId="item.bizId"
               :fileKindId="item.fileKindId"
             />
@@ -112,6 +114,7 @@
     application: { type: String, default: '' },
     module: { type: String, default: '' },
     message: { type: String, default: '' },
+    mode: { type: String, default: 'normal' },
     format: {
       type: String,
       default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4',
@@ -130,6 +133,7 @@
   const tmodule = ref('');
   const tmessage = ref('');
   const tformat = ref('');
+  const tmode = ref('normal');
 
   const handleFileItemLoaded = (item, list) => {
     emit('change', item, list);
@@ -212,6 +216,19 @@
     },
   );
 
+  watch(
+    () => props.mode,
+    (val) => {
+      tmode.value = props.mode;
+      if (val == 'view') {
+        toperable.value = false;
+      } else if (val == 'normal') {
+        toperable.value = true;
+      }
+    },
+  );
+
+
   defineExpose({
     validate,
     handleClearTips,
@@ -227,6 +244,7 @@
     tmodule.value = props.module;
     tmessage.value = props.message;
     tformat.value = props.format;
+    tmode.value = props.mode;
   });
 </script>
 
