@@ -2,10 +2,10 @@
   <div class="workflow-approve-box">
     <!-- 审批按钮 -->
     <div class="button-content" style="" v-show="isShowBtns">
-      <Button @click="handleSubmit" v-if="isNewProcessType && !isReadOnly" type="primary"
+      <Button @click="handleSubmit" v-if="isNewProcessType && !isReadOnly && !processStatus" type="primary"
         >提交</Button
       >
-      <Button @click="handleSave" v-if="isNewProcessType && !isReadOnly">保存</Button>
+      <Button @click="handleSave" v-if="isNewProcessType && !isReadOnly && !processStatus">保存</Button>
 
       <!-- <Button @click="handleCollect" v-if="processStatus != 0">收藏</Button> -->
       <Button
@@ -232,6 +232,12 @@
       } else if (newValue !== 0 && prevValue === '') {
         // status: '' => 1,2,3..., 表示在审批状态
         processType.value = ProcessType.VIEW;
+      } else if (newValue !== 0) {
+        // status: '' => 1,2,3..., 表示在审批状态
+        processType.value = ProcessType.VIEW;
+      } else if (newValue === 0) {
+        // status: '' => 0, 表示在新增状态
+        processType.value = ProcessType.NEW;
       }
     },
     { immediate: true },
