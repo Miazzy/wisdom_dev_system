@@ -1420,6 +1420,11 @@ export const PoInspectionpauseCreate: AppRouteRecordRaw = {
   component: () => import('/@/views/po/inspection/inspectionpause/create.vue'),
   meta: { keepAlive: true },
 };
+export const SystemUserProfile: AppRouteRecordRaw = {
+  path: '/framepage/system/rbac/org/userProfile',
+  component: () => import('/@/views/system/rbac/org/userProfile.vue'),
+  meta: { keepAlive: true },
+};
 
 // 暴露基础路由
 export const basicRoutes = [
@@ -1645,4 +1650,5 @@ export const basicRoutes = [
   BasesetPersonnelqualifications,
   BasesetSettlement,
   BasesetLinelossrate,
+  SystemUserProfile
 ];
