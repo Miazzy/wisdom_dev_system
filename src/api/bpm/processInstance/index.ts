@@ -30,6 +30,7 @@ export enum BpmProInstanceApi {
   GetFallbackNode = '/bpm/process-instance/getFallbackNode',
   BackTask = '/bpm/process-instance/back?taskId=',
   ReplenishTask = '/bpm/process-instance/replenish?taskId=',
+  DeleteProcessInstance = '/bpm/process-instance/delete',
 }
 
 export const getMyProcessInstancePage = async (params) => {
@@ -45,6 +46,12 @@ export const createProcessInstance = async (data) => {
 export const cancelProcessInstance = async (id: string, reason: string) => {
   const data = { id, reason };
   const requestParams = { url: BpmProInstanceApi.CancelProcessInstance, data };
+  return defHttp.delete<any>(requestParams, {});
+};
+
+export const deleteProcessInstance = async (id: string) => {
+  const data = { id };
+  const requestParams = { url: BpmProInstanceApi.DeleteProcessInstance, data };
   return defHttp.delete<any>(requestParams, {});
 };
 

@@ -7,7 +7,7 @@
   import { IconEnum } from '@/enums/appEnum';
   import { BasicTable, useTable, TableAction } from '@/components/Table';
   import { exportOaLeave, getOaLeavePage } from '@/api/hr/oaleave';
-  import { cancelProcessInstance } from '@/api/bpm/processInstance';
+  import { deleteProcessInstance } from '@/api/bpm/processInstance';
   import { exportExcelFile } from '@/utils/file/download';
   import { addTabPage } from '@/utils/route';
   import { MsgManager } from '/@/message/MsgManager';
@@ -60,7 +60,7 @@
       inputErrorMessage: '取消原因不能为空',
     });
     // 发起取消
-    await cancelProcessInstance(row.processInstanceId, value);
+    await deleteProcessInstance(row.processInstanceId, value);
     createMessage.success(t('common.delSuccessText'));
     reload();
   }
@@ -99,7 +99,7 @@
               {
                 icon: IconEnum.DELETE,
                 danger: true,
-                label: '取消',
+                label: '删除',
                 ifShow: () => {
                   return record.status <= 1;
                 },

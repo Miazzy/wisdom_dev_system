@@ -201,7 +201,7 @@
           >
         </div>
         <div class="flow-row-3">
-          <div v-if="item.reason" class="comment-text">{{ item.reason }}</div>
+          <div v-if="props.type != 'approval'" class="comment-text">{{ item.reason }}</div>
           <Textarea
             v-if="props.type === 'approval' && item.result === 1 && editAuthority(item)"
             class="fit-comment-textarea"
@@ -233,7 +233,7 @@
   });
   const resultObj = reactive({
     '1': {
-      text: '处理中',
+      text: '正在处理',
       color: '#1890FF',
     },
     '2': {
@@ -245,15 +245,11 @@
       color: '#FF4D4F',
     },
     '4': {
-      text: '已取消',
-      color: '#8C8C8C',
+      text: '打回',
+      color: '#FF4D4F',
     },
     '5': {
       text: '已终止',
-      color: '#FF4D4F',
-    },
-    '6': {
-      text: '退回/驳回',
       color: '#FF4D4F',
     },
   });
