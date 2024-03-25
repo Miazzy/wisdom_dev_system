@@ -28,15 +28,18 @@
   ]);
 
   function toggleDarkMode() {
-    const darkMode = getDarkMode.value === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK;
-    setDarkMode(darkMode);
-    updateDarkTheme(darkMode);
-    updateHeaderBgColor();
-    updateSidebarBgColor();
-    sendDarkModeMsg(darkMode); 
-    let themeName = darkMode === ThemeEnum.DARK ? 'theme1' : 'theme3';
-    localStorage.setItem('THEME', themeName);
-    sendThemeMessage('class', `${themeName} my-layout`);
+    const callback = async () => {
+      const darkMode = getDarkMode.value === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK;
+      setDarkMode(darkMode);
+      updateDarkTheme(darkMode);
+      updateHeaderBgColor();
+      updateSidebarBgColor();
+      sendDarkModeMsg(darkMode);
+      let themeName = darkMode === ThemeEnum.DARK ? 'theme1' : 'theme3';
+      localStorage.setItem('THEME', themeName);
+      sendThemeMessage('class', `${themeName} my-layout`);
+    };
+    callback();
   }
 </script>
 <style lang="less" scoped>
