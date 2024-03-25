@@ -3,17 +3,26 @@ import { createStorage as create, CreateStorageParams } from './storageCache';
 import { enableStorageEncryption, DEFAULT_CACHE_TIME } from '/@/settings/encryptionSetting';
 import localforage from 'localforage';
 
-localforage.config({
-  driver: localforage.INDEXEDDB,
-  name: 'systemDataDb',
-  storeName: 'systemDataStore',
-});
+try {
+  localforage
+    .ready()
+    .then(function () {})
+    .catch(function (e) {
+      console.info('localforage ready error:', 'No available storage method found... ', e);
+    });
+  localforage.config({
+    driver: localforage.INDEXEDDB,
+    name: 'systemDataDb',
+    storeName: 'systemDataStore',
+  });
+} catch (error) {
+  //
+}
 
 export type Options = Partial<CreateStorageParams>;
 
 const createOptions = (storage: Storage, options: Options = {}): Options => {
   return {
-    // No encryption in debug mode
     hasEncrypt: enableStorageEncryption,
     storage,
     prefixKey: getStorageShortName(),
