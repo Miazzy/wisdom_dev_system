@@ -43,7 +43,9 @@
     };
 
     nextTick(() => {
-      callback();
+      setTimeout(() => {
+        callback();
+      }, 0);
     });
   }
 
