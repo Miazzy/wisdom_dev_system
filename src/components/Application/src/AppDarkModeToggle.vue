@@ -6,7 +6,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, nextTick } from 'vue';
   import { SvgIcon } from '/@/components/Icon';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useRootSetting } from '/@/hooks/setting/useRootSetting';
@@ -20,15 +20,18 @@
   const appStore = useAppStore();
   const { setDarkMode } = useRootSetting();
   const getClass = ref('');
+  const themeMode = ref(appStore.getDarkMode);
 
   const clacThemeClassName = (darkMode) => {
     return darkMode === ThemeEnum.DARK ? `${prefixCls} ${prefixCls}--dark` : prefixCls;
   };
 
   function toggleDarkMode() {
+    const darkMode = themeMode.value === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK;
+    getClass.value = clacThemeClassName(darkMode);
+    themeMode.value = darkMode;
+
     const callback = async () => {
-      const darkMode = appStore.getDarkMode === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK;
-      getClass.value = clacThemeClassName(darkMode);
       setDarkMode(darkMode);
       updateDarkTheme(darkMode);
       updateHeaderBgColor();
@@ -38,11 +41,14 @@
       localStorage.setItem('THEME', themeName);
       sendThemeMessage('class', `${themeName} my-layout`);
     };
-    callback();
+
+    nextTick(() => {
+      callback();
+    });
   }
 
   onMounted(() => {
-    getClass.value = clacThemeClassName(appStore.getDarkMode);
+    getClass.value = clacThemeClassName(themeMode.value);
   });
 </script>
 <style lang="less" scoped>
