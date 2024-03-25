@@ -86,6 +86,7 @@
       border-radius: 50%;
       background-color: #fff;
       will-change: transform;
+      cursor: pointer;
     }
 
     &--dark {

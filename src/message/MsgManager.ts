@@ -84,20 +84,26 @@ export class MsgManager extends Subject {
   // 向指定信道推送信息
   public sendMsg(channelName, message) {
     try {
-      let subchannel = MsgManager.subchannels.get(channelName);
-      if (!subchannel) {
-        subchannel = new Set();
-        MsgManager.subchannels.set(channelName, subchannel);
-      }
-      subchannel.add(message);
-      this.notifyObservers(channelName, message);
+      const precall = async () => {
+        let channel = MsgManager.channels.get(channelName);
+        if (!channel) {
+          channel = new BroadcastChannel(channelName);
+          MsgManager.channels.set(channelName, channel);
+        }
+        channel.postMessage(message);
+      };
+      precall();
 
-      let channel = MsgManager.channels.get(channelName);
-      if (!channel) {
-        channel = new BroadcastChannel(channelName);
-        MsgManager.channels.set(channelName, channel);
-      }
-      channel.postMessage(message);
+      const callback = async () => {
+        let subchannel = MsgManager.subchannels.get(channelName);
+        if (!subchannel) {
+          subchannel = new Set();
+          MsgManager.subchannels.set(channelName, subchannel);
+        }
+        subchannel.add(message);
+        this.notifyObservers(channelName, message);
+      };
+      callback();
     } catch (error) {
       //
     }
