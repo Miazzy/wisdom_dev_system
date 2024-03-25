@@ -1,15 +1,16 @@
 <template>
-  <div class="weather-display" style="width: 2rem; margin-right: -0.2rem; margin-left: 0.1rem">
+  <div class="weather-display" style="width: 1.2rem; margin-right: -0.2rem; margin-left: 0.1rem">
     <div class="weather-icon" style="">
-      <Icon style="font-size: 0.34rem;" class="icon" icon="arcticons:quickweather" color="#32afff" />
+      <!-- <Icon style="font-size: 0.34rem;" class="icon" icon="arcticons:quickweather" color="#32afff" /> -->
+      <SvgIcon class="iconfont" :name="getWeatherIconName" style="width: 0.4rem; height:0.4rem;"> </SvgIcon>
     </div>
     <div class="weather-info" style="width: 1.65rem">
       <div class="temperature-range">
-        <span>{{ props.min }}</span>
+        <span>{{ props.temp }}</span>
         <span class="unit">℃</span>
-        <span style="margin: 0 0.1rem">~</span>
+        <!-- <span style="margin: 0 0.1rem">~</span>
         <span>{{ props.max }}</span>
-        <span class="unit">℃</span>
+        <span class="unit">℃</span> -->
       </div>
       <div class="weather-description" style="width: 100%">
         <div class="weather-text">{{ props.weatherText }}</div>
@@ -20,15 +21,22 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { computed, ref } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
+  import { SvgIcon } from '/@/components/Icon';
+  import { weatherIcons } from '@/utils/weatherIcon'
 
   const props = defineProps({
-    min: { type: [String, Number], default: '28' },
-    max: { type: [String, Number], default: '37' },
-    weatherText: { type: [String, Number], default: '晴转多云' },
-    airQuality: { type: [String, Number], default: 'PM 2.5' },
+    temp: { type: [String, Number], default: '' },
+    // max: { type: [String, Number], default: '37' },
+    weatherText: { type: [String, Number], default: '' },
+    airQuality: { type: [String, Number], default: '' },
+    weatherIcon: { type: String, default: '' },
   });
+
+  const getWeatherIconName = computed(()=>{
+    return props.weatherIcon&&weatherIcons[props.weatherIcon]?weatherIcons[props.weatherIcon]: 'tianqi-wu2';
+  })
 </script>
 
 <style lang="less" scoped>

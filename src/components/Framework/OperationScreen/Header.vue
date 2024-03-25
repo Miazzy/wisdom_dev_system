@@ -9,19 +9,32 @@
         <DigitalClock />
       </span>
       <span class="weather">
-        <WeatherDisplay />
+        <WeatherDisplay :temp="weatherInfo.temp" :weatherText="weatherInfo.text" :weatherIcon="weatherInfo.icon" />
       </span>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { ref, onMounted, defineProps, watch } from 'vue';
+  import { ref, onMounted, defineProps, watch, reactive } from 'vue';
   import DigitalClock from '/@/components/Framework/Chart/DigitalClock.vue';
   import WeatherDisplay from '/@/components/Framework/Chart/WeatherDisplay.vue';
+  import * as CommonApi from '@/api/da/common';
 
   const props = defineProps({
     title: { type: String, default: '' }, // 标题
+  });
+
+  const weatherInfo = reactive({});
+
+  const getWeatherData = async () => {
+    let res = await CommonApi.getWeather({ lastDay: 'now' });
+    let { temp, text, icon } = res.weather.now;
+    Object.assign(weatherInfo, { temp, text, icon });
+  };
+
+  onMounted(() => {
+    getWeatherData();
   });
 </script>
 <style>
@@ -72,17 +85,17 @@
 
       .time {
         :deep(.time-display .clock) {
-          color: #00F6FF;
+          color: #00f6ff;
         }
         :deep(.time-display .date) {
-          color: rgba(255, 255, 255, .6);
+          color: rgba(255, 255, 255, 0.6);
         }
       }
 
       .weather {
         margin-right: 0.2rem;
         :deep(.weather-display .weather-info .temperature-range) {
-          color: #00F6FF;
+          color: #00f6ff;
         }
       }
 
