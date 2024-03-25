@@ -4,10 +4,6 @@
       <AppDarkModeToggle class="enter-x mr-2" v-if="!sessionTimeout" />
     </div>
 
-    <!-- <span class="-enter-x xl:hidden">
-      <AppLogo :alwaysShowTitle="true" />
-    </span> -->
-
     <div class="absolute" :class="`${prefixCls}-logo`"></div>
 
     <div class="container relative h-full py-2 mx-auto sm:px-10">

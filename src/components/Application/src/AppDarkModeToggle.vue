@@ -6,7 +6,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted, nextTick } from 'vue';
+  import { ref, onMounted, nextTick, defineEmits } from 'vue';
   import { SvgIcon } from '/@/components/Icon';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useRootSetting } from '/@/hooks/setting/useRootSetting';
@@ -22,6 +22,8 @@
   const getClass = ref('');
   const themeMode = ref(appStore.getDarkMode);
 
+  const emit = defineEmits(['change']); // 定义事件
+
   const clacThemeClassName = (darkMode) => {
     return darkMode === ThemeEnum.DARK ? `${prefixCls} ${prefixCls}--dark` : prefixCls;
   };
@@ -30,7 +32,7 @@
     const darkMode = themeMode.value === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK;
     getClass.value = clacThemeClassName(darkMode);
     themeMode.value = darkMode;
-
+    emit('change', darkMode, true);
     const callback = async () => {
       setDarkMode(darkMode);
       updateDarkTheme(darkMode);
@@ -40,6 +42,10 @@
       let themeName = darkMode === ThemeEnum.DARK ? 'theme1' : 'theme3';
       localStorage.setItem('THEME', themeName);
       sendThemeMessage('class', `${themeName} my-layout`);
+
+      setTimeout(() => {
+        emit('change', darkMode, false);
+      }, 300);
     };
 
     nextTick(() => {
