@@ -1,12 +1,12 @@
 <template>
-  <div v-if="getShowDarkModeToggle" :class="getClass" @click="toggleDarkMode">
+  <div :class="getClass" @click="toggleDarkMode">
     <div :class="`${prefixCls}-inner`"></div>
     <SvgIcon size="14" name="sun" />
     <SvgIcon size="14" name="moon" />
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { SvgIcon } from '/@/components/Icon';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useRootSetting } from '/@/hooks/setting/useRootSetting';
@@ -14,10 +14,12 @@
   import { updateDarkTheme } from '/@/logics/theme/dark';
   import { ThemeEnum } from '/@/enums/appEnum';
   import { sendDarkModeMsg, sendThemeMessage } from '@/utils/theme';
+  import { useAppStore } from '/@/store/modules/app';
 
   const { prefixCls } = useDesign('dark-switch');
-  const { getDarkMode, setDarkMode, getShowDarkModeToggle } = useRootSetting();
-  const getClass = ref(prefixCls);
+  const appStore = useAppStore();
+  const { setDarkMode } = useRootSetting();
+  const getClass = ref('');
 
   const clacThemeClassName = (darkMode) => {
     return darkMode === ThemeEnum.DARK ? `${prefixCls} ${prefixCls}--dark` : prefixCls;
@@ -25,7 +27,7 @@
 
   function toggleDarkMode() {
     const callback = async () => {
-      const darkMode = getDarkMode.value === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK;
+      const darkMode = appStore.getDarkMode === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK;
       getClass.value = clacThemeClassName(darkMode);
       setDarkMode(darkMode);
       updateDarkTheme(darkMode);
@@ -38,6 +40,10 @@
     };
     callback();
   }
+
+  onMounted(() => {
+    getClass.value = clacThemeClassName(appStore.getDarkMode);
+  });
 </script>
 <style lang="less" scoped>
   @prefix-cls: ~'@{namespace}-dark-switch';
