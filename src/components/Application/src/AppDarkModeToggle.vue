@@ -29,10 +29,10 @@
   };
 
   function toggleDarkMode() {
+    emit('change', '', true);
     const darkMode = themeMode.value === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK;
     getClass.value = clacThemeClassName(darkMode);
     themeMode.value = darkMode;
-    emit('change', darkMode, true);
     const callback = async () => {
       setDarkMode(darkMode);
       updateDarkTheme(darkMode);
@@ -44,7 +44,7 @@
       sendThemeMessage('class', `${themeName} my-layout`);
 
       setTimeout(() => {
-        emit('change', darkMode, false);
+        emit('change', '', false);
       }, 300);
     };
 
