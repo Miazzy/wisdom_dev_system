@@ -3,14 +3,26 @@
  */
 class Subject {
   observers;
+  observeMap;
 
   constructor() {
     this.observers = new Set();
+    this.observeMap = new Map<string, Set<any>>();
   }
 
   // 注册观察者
   addObserver(observer) {
+    const channelName = observer.getChannelName();
     this.observers.add(observer);
+    if (channelName) {
+      const sets = this.observeMap.get(channelName);
+      if (!sets) {
+        this.observeMap.set(channelName, new Set([observer]));
+      } else {
+        sets.add(observer);
+        this.observeMap.set(channelName, sets);
+      }
+    }
   }
 
   // 移除观察者
@@ -20,8 +32,17 @@ class Subject {
 
   // 通知观察者
   notifyObservers(channelName, message) {
-    for (const observer of this.observers) {
-      observer.update(channelName, message);
+    try {
+      const sets = this.observeMap.get(channelName);
+      if (sets && sets.size) {
+        sets.forEach((observer) => observer.update(channelName, message));
+      } else {
+        for (const observer of this.observers) {
+          observer.update(channelName, message);
+        }
+      }
+    } catch (error) {
+      //
     }
   }
 }
@@ -42,6 +63,10 @@ class Observer {
     if (channelName === this.channelName) {
       this.callback(message);
     }
+  }
+
+  getChannelName() {
+    return this.channelName;
   }
 }
 
