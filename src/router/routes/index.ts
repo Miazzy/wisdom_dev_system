@@ -105,42 +105,42 @@ export const CockpitOverviewRoute: AppRouteRecordRaw = {
   path: '/frame/cockpit/overview',
   name: 'CockpitOverview',
   component: () => import('/@/views/da/cockpit/overview/Overview.vue'),
-  meta: { keepAlive: false },
+  meta: { keepAlive: true },
 };
 
 // 运维驾驶舱路由
 export const CockpitOperationRoute: AppRouteRecordRaw = {
   path: '/frame/cockpit/operation',
   component: () => import('/@/views/da/cockpit/operation/Operation.vue'),
-  meta: { keepAlive: false },
+  meta: { keepAlive: true },
 };
 
 // 资产驾驶舱路由
 export const CockpitPropertyRoute: AppRouteRecordRaw = {
   path: '/frame/cockpit/property',
   component: () => import('/@/views/da/cockpit/property/Property.vue'),
-  meta: { keepAlive: false },
+  meta: { keepAlive: true },
 };
 
 // 安全驾驶舱路由
 export const CockpitSecurityRoute: AppRouteRecordRaw = {
   path: '/frame/cockpit/security',
   component: () => import('/@/views/da/cockpit/security/Security.vue'),
-  meta: { keepAlive: false },
+  meta: { keepAlive: true },
 };
 
 // 综合驾驶舱路由
 export const CockpitCompositionRoute: AppRouteRecordRaw = {
   path: '/frame/cockpit/composition',
   component: () => import('/@/views/da/cockpit/composition/Composition.vue'),
-  meta: { keepAlive: false },
+  meta: { keepAlive: true },
 };
 
 // 安全驾驶舱路由
 export const CockpitPowerRoute: AppRouteRecordRaw = {
   path: '/frame/cockpit/power',
   component: () => import('/@/views/da/cockpit/power/Power.vue'),
-  meta: { keepAlive: false },
+  meta: { keepAlive: true },
 };
 
 // 集团运营大屏
