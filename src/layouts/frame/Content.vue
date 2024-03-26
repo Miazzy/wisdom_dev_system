@@ -344,7 +344,6 @@
       MsgManager.getInstance().sendMsg('iframe-url-change', {
         url: key,
         loading,
-        panes: panes.value,
       });
     }, 150);
   };

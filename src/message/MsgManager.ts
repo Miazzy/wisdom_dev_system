@@ -110,23 +110,30 @@ export class MsgManager extends Subject {
   public sendMsg(channelName, message) {
     try {
       const precall = async () => {
-        let channel = MsgManager.channels.get(channelName);
-        if (!channel) {
-          channel = new BroadcastChannel(channelName);
-          MsgManager.channels.set(channelName, channel);
+        try {
+          let channel = MsgManager.channels.get(channelName);
+          if (!channel) {
+            channel = new BroadcastChannel(channelName);
+            MsgManager.channels.set(channelName, channel);
+          }
+          channel.postMessage(message);
+        } catch (error) {
+          //
         }
-        channel.postMessage(message);
       };
       precall();
-
       const callback = async () => {
-        let subchannel = MsgManager.subchannels.get(channelName);
-        if (!subchannel) {
-          subchannel = new Set();
-          MsgManager.subchannels.set(channelName, subchannel);
+        try {
+          let subchannel = MsgManager.subchannels.get(channelName);
+          if (!subchannel) {
+            subchannel = new Set();
+            MsgManager.subchannels.set(channelName, subchannel);
+          }
+          subchannel.add(message);
+          this.notifyObservers(channelName, message);
+        } catch (error) {
+          //
         }
-        subchannel.add(message);
-        this.notifyObservers(channelName, message);
       };
       callback();
     } catch (error) {
