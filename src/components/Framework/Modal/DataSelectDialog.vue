@@ -395,6 +395,20 @@
     checkedNodes.value = e.checkedNodes;
   };
   const handleNode = () => {
+    if (selectedNode.value.key) {
+      let flag = true;
+      allNodes.value.forEach((i) => {
+        if (selectedNode.value[props.tfields.key] === i[props.tfields.key]) {
+          flag = false;
+        }
+      });
+      if (flag) {
+        let selectedNodeInTree = getCheckedNodesByValues(treeData.value, [selectedNode.value[props.tfields.key]])[0];
+        console.log('selectedNodeInTree', selectedNodeInTree);
+        checkedKeys.value.checked.push(selectedNodeInTree.key);
+        checkedNodes.value.push(selectedNodeInTree);
+      }
+    }
     allNodes.value = checkedNodes.value;
   };
 
@@ -417,7 +431,7 @@
 
     return valueArr;
   };
-  const getCheckedKeysByValues = (treeData, valueArr) => {
+  function getCheckedKeysByValues(treeData, valueArr) {
     let keyArr = [];
     if (valueArr?.length) {
       treeData.forEach((item) => {
@@ -430,7 +444,35 @@
       });
     }
     return keyArr;
-  };
+  }
+  function getCheckedNodesByValues(treeData, valueArr) {
+    let nodeArr = [];
+    if (valueArr?.length) {
+      treeData.forEach((item) => {
+        if (valueArr.includes(item[props.tfields.key])) {
+          nodeArr.push(item);
+        }
+        if (item.children?.length) {
+          nodeArr.push(...getCheckedNodesByValues(item.children, valueArr));
+        }
+      });
+    }
+    return nodeArr;
+  }
+  function getCheckedNodesByKeys(treeData, keyArr) {
+    let nodeArr = [];
+    if (keyArr?.length) {
+      treeData.forEach((item) => {
+        if (keyArr.includes(item.key)) {
+          nodeArr.push(item);
+        }
+        if (item.children?.length) {
+          nodeArr.push(...getCheckedNodesByKeys(item.children, keyArr));
+        }
+      });
+    }
+    return nodeArr;
+  }
 
   watch(
     () => props.value,
@@ -466,7 +508,9 @@
       treeData.value = transformData(data, rule);
       treeMap.value = transformMap(data, rule);
       transformTableData(data, rule, 'top', null);
-      checkedKeys.value.checked = getCheckedKeysByValues(treeData.value, getValueArr(props.value));
+      let checkedValues = getValueArr(props.value);
+      checkedKeys.value.checked = getCheckedKeysByValues(treeData.value, checkedValues);
+      checkedNodes.value = getCheckedNodesByValues(treeData.value, checkedValues);
     },
   );
 
