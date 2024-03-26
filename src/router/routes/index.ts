@@ -1429,7 +1429,7 @@ export const PoInspectionpauseCreate: AppRouteRecordRaw = {
   meta: { keepAlive: true },
 };
 export const SystemUserProfile: AppRouteRecordRaw = {
-  path: '/framepage/system/rbac/org/userProfile',
+  path: '/frame/system/rbac/org/userProfile',
   component: () => import('/@/views/system/rbac/org/userProfile.vue'),
   meta: { keepAlive: true },
 };
