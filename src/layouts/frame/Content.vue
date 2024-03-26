@@ -279,10 +279,32 @@
     return key;
   };
 
+  // 处理Tabs栏偏移量
+  function handleDivTransformOffset(element, offsetX) {
+    setTimeout(() => {
+      // 获取原有的transform属性值
+      const transformStyle = element.style.transform;
+      // 使用正则表达式匹配translate的值
+      const match = transformStyle.match(/translate\((-?\d+\.?\d*px),\s*(-?\d+\.?\d*px)\)/);
+      if (match) {
+        // 提取出原有的偏移量
+        const currentX = parseFloat(match[1]);
+        const currentY = parseFloat(match[2]);
+        if (currentX) {
+          // 计算新的偏移量
+          const newX = currentX + offsetX;
+          // 更新transform属性值
+          element.style.transform = `translate(${newX}px, ${currentY}px)`;
+        }
+      }
+    }, 300);
+  }
+
   // 处理新增Tab页签Page的函数
   const handleNewTabPage = (value, name, menu) => {
     const path = value.startsWith('/') ? value : '/' + value;
     const id = menu && menu?.id && Reflect.has(menu, 'id') ? menu?.id : buildUUID();
+    const element = document.querySelector('.ant-tabs-nav-list');
     let tempKey = path.replace('/da/', '/');
     tempKey = tempKey.startsWith('/frame') ? tempKey : '/frame' + tempKey;
     let key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
@@ -311,6 +333,7 @@
       }
     }
     handleActivePath();
+    handleDivTransformOffset(element, -10);
   };
 
   // 处理URL变更的函数
@@ -456,6 +479,19 @@
     emit('change', activeKey.value, paneMap.get(activeKey.value));
   };
 
+  // 删除注释节点函数
+  const handleDeleteCommentNode = () => {
+    setTimeout(() => {
+      const pnode = document.querySelector('.ant-tabs-nav-list');
+      const inkBar = document.querySelector('.ant-tabs-nav-list .ant-tabs-ink-bar');
+      if (pnode && inkBar) {
+        const dom = pnode.childNodes[pnode.childNodes.length - 2];
+        pnode.removeChild(dom);
+        inkBar.parentNode.removeChild(inkBar);
+      }
+    }, 300);
+  };
+
   // 处理推送Tab栏消息函数
   const handleTabMessage = (event) => {
     const message = Reflect.has(event, 'type') && Reflect.has(event, 'data') ? event : event.data;
@@ -584,9 +620,9 @@
     MsgManager.getInstance().listen('system-menu-collapse', handleMenuCollapsed);
     handleActivePath();
     handleResize();
+    handleDeleteCommentNode();
     screenFlag.value = false;
     window.addEventListener('resize', handleReload);
-
     // 监听是否打开Dialog
     MsgManager.getInstance().listen('modal-open', (message) => {
       handleMaskZindex(message);
@@ -602,6 +638,14 @@
     .app-content {
       .tabs-content {
         border-bottom: 1px solid transparent;
+
+        .ant-tabs-tab {
+          margin-right: 3px;
+
+          &:last-of-type {
+            margin-right: 15px !important;
+          }
+        }
 
         .ant-tabs {
           background-color: transparent;
@@ -621,6 +665,14 @@
       .tabs-content {
         border-bottom: 1px solid #f0f0f0;
 
+        .ant-tabs-tab {
+          margin-right: 3px;
+
+          &:last-of-type {
+            margin-right: 15px !important;
+          }
+        }
+
         .tabs-buttons {
           span {
             border-left: 1px solid #f0f0f0;
@@ -631,7 +683,7 @@
   }
 </style>
 <style>
-  .ant-tabs-nav-list div.ant-tabs-tab:last-child {
+  .ant-tabs-nav-list div.ant-tabs-tab:last-of-type {
     padding-right: 6px;
     border-radius: 0;
   }
