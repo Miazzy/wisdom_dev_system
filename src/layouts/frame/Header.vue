@@ -25,7 +25,7 @@
       <div class="icon-element">
         <AppSearch :class="`${prefixCls}-action__item `" class="search-icon" />
       </div>
-      <div class="icon-element">
+      <div class="icon-element" style="display: none;">
         <Notify :class="`${prefixCls}-action__item notify-item notify-icon`" />
       </div>
       <div class="icon-element">
