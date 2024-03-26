@@ -13,15 +13,11 @@ export default defineComponent({
       spinStatus.value = status;
     }
 
-    function renderTheme() {
-      return <ThemePicker />;
-    }
-
     return () => (
       <BasicDrawer {...attrs} title="项目配置" width={330} class="setting-drawer">
         {<Divider>主题</Divider>}
         {<AppDarkModeToggle class="mx-auto" onChange={handleThemeChange} />}
-        {renderTheme()}
+        {<ThemePicker />}
         <Divider />
         <div style="width: 100%; height: calc(50vh - 260px); "></div>
         <Spin spinning={spinStatus.value}>
