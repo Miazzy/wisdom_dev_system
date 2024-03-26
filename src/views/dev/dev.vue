@@ -4,6 +4,12 @@
     <!-- 标题 -->
     <BillTitle :options="billTitleOptions" />
 
+    <Marquee>
+      <span>{{ '通知信息...' }}</span>
+      <template #backup>
+        <span>{{ '通知信息...' }}</span>
+      </template>
+    </Marquee>
     <!-- 
     <EchartChinaMap
       :title="`行政区域图`"
@@ -156,6 +162,7 @@
   import SelectBox from '@/components/Framework/Combox/SelectBox.vue';
   import Icon from '@/components/Icon/Icon.vue';
   import TreeSelectBox from '@/components/Framework/Combox/TreeSelectBox.vue';
+  import Marquee from '@/components/Framework/Marquee/Marquee.vue';
   import UploadBox from '@/components/Framework/Combox/UploadBox.vue';
   import CommonTree from '@/components/Framework/Tree/CommonTree.vue';
   import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';
