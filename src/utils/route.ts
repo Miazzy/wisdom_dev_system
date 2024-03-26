@@ -107,7 +107,6 @@ export const getCurrentPageInfo = () => {
 
 // 新增TabPage页面函数（iframe模式）
 export const addTabPage = (path: string, name: string = '', params: Object | null = null) => {
-  debugger;
   const id = buildUUID();
   const userStore = useUserStore();
   const nameMap = userStore.getMenuNameMap;

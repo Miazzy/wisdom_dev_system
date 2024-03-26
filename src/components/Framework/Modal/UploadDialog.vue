@@ -43,7 +43,7 @@
         </a-button>
         <a-button
           type="primary"
-          :disabled="fileList.length === 0"
+          :disabled="uploadBtnFlag"
           :loading="uploading"
           style="margin-top: 16px"
           @click="handleUpload"
@@ -63,7 +63,7 @@
 <script lang="ts" setup>
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import Icon from '@/components/Icon/Icon.vue';
-  import { ref, defineProps, defineEmits, onMounted, watch, unref } from 'vue';
+  import { ref, defineProps, defineEmits, onMounted, watch, unref, computed } from 'vue';
   import { Modal } from 'ant-design-vue';
   import type { UploadProps } from 'ant-design-vue';
   import * as FileApi from '@/api/infra/file';
@@ -73,7 +73,7 @@
   const fileList = ref<UploadProps['fileList']>([]);
   const uploading = ref<boolean>(false);
   const buttonID = 'upload-button-' + (Math.random() * 10000).toFixed(0);
-
+  
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
     title: String, // 弹框标题
@@ -103,6 +103,20 @@
     'confirm',
     'close',
   ]); // 定义事件
+
+  const uploadBtnFlag = computed(() => {
+    let valid = false;
+    try {
+      fileList.value.forEach((file: UploadProps['fileList'][number]) => {
+        if (!file.id) {
+          valid = true;
+        }
+      });
+    } catch (error) {
+      //
+    }
+    return !valid;
+  });
 
   const cancel = () => {
     emit('cancel'); // 发送取消事件
@@ -263,6 +277,15 @@
   watch(
     () => props.tdata,
     () => {},
+  );
+
+  watch(
+    () => props.bizId,
+    async () => {
+      if (props.bizId && props.fileKindId) {
+        fileList.value = await getFiles(props.bizId, props.fileKindId);
+      }
+    },
   );
 
   onMounted(() => {

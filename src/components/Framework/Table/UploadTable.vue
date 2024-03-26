@@ -95,6 +95,7 @@
     () => {
       trows.value = props.rows as any[];
     },
+    { deep: true },
   );
 
   watch(
