@@ -7,7 +7,7 @@ export default defineBuildConfig({
   rollup: {
     emitCJS: true,
     esbuild: {
-      sourceMap: false,
+      sourceMap: true,
     },
   },
 });

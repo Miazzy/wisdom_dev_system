@@ -4,7 +4,7 @@ import { defineApplicationConfig } from '@vben/vite-config';
 // 自定义Vite配置
 const customConfig = defineConfig({
   build: {
-    sourcemap: false, // 关闭sourcemap
+    sourcemap: true, // 关闭sourcemap
   },
 });
 
@@ -12,7 +12,7 @@ export default defineApplicationConfig({
   ...customConfig, // 自定义配置
   overrides: {
     build: {
-      sourcemap: false, // 关闭sourcemap
+      sourcemap: true, // 关闭sourcemap
     },
     optimizeDeps: {
       include: [
