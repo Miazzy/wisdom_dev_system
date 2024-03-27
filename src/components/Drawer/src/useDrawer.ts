@@ -26,6 +26,15 @@ const dataTransferRef = reactive<any>({});
 
 const visibleData = reactive<{ [key: number]: boolean }>({});
 
+// 判断当前页面是否在 iframe 中显示
+const checkInIframe = () => {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true;
+  }
+};
+
 /**
  * @description: Applicable to separate drawer and call outside
  */
@@ -56,15 +65,6 @@ export function useDrawer(): UseDrawerReturnType {
       visibleData[uid] = visible;
     };
   }
-
-  // 判断当前页面是否在 iframe 中显示
-  const checkInIframe = () => {
-    try {
-      return window.self !== window.top;
-    } catch (e) {
-      return true;
-    }
-  };
 
   const getInstance = () => {
     const instance = unref(drawer);
@@ -122,7 +122,7 @@ export const useDrawerInner = (callbackFn?: Fn): UseDrawerInnerReturnType => {
     throw new Error('useDrawerInner() can only be used inside setup() or functional components!');
   }
 
-  const getInstance = () => { 
+  const getInstance = () => {
     const instance = unref(drawerInstanceRef);
     if (!instance) {
       error('useDrawerInner instance is undefined!');
@@ -167,6 +167,9 @@ export const useDrawerInner = (callbackFn?: Fn): UseDrawerInnerReturnType => {
 
       closeDrawer: () => {
         getInstance()?.setDrawerProps({ visible: false });
+        if (checkInIframe()) {
+          MsgManager.getInstance().sendMsg('drawer-open', { type: 'remove' });
+        }
       },
 
       setDrawerProps: (props: Partial<DrawerProps>) => {
