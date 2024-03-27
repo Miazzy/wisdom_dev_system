@@ -7,6 +7,7 @@ export enum Api {
   DELETE_URL = '/baseset/index-storehouse/delete',
   GET_URL = '/baseset/index-storehouse/get',
   PAGE_URL = '/baseset/index-storehouse/page',
+  DETAIL_LIST_URL = '/baseset/index-storehouse/detail/list',
   EXPORT_EXCEL_URL = '/baseset/index-storehouse/export-excel',
   TABLE_PAGE_URL = '/baseset/index-storehouse/table-page',
   TABLE_COLUMN_PAGE_URL = '/baseset/index-storehouse/table-column-page',
@@ -72,6 +73,15 @@ export const getPage = (params) =>
     {
       url: Api.PAGE_URL,
       params,
+    },
+    { isOnlyResult: true },
+  );
+
+// 分页获取指标库设置
+export const getDetailList = (indexStorehouseId: string) =>
+  defHttp.get(
+    {
+      url: `${Api.DETAIL_LIST_URL}?indexStorehouseId=${indexStorehouseId}`,
     },
     { isOnlyResult: true },
   );
