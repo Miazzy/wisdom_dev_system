@@ -172,18 +172,6 @@
     handleActivePath();
   };
 
-  // 处理当前激活状态Pane函数
-  const handleActivePane = (pane) => {
-    // Single-Iframe-Mode
-    if (pane.status) {
-      activePane.value.pageurl = pane.pageurl;
-      activePane.value.key = pane.key;
-      activePane.value.title = pane.title;
-      activePane.value.closable = pane.closable;
-      activePane.value.status = pane.status;
-    }
-  };
-
   // Tab栏关闭页签操作等
   const handleTabEdit = (targetKey: string | MouseEvent, action: string) => {
     if (action === 'remove') {
