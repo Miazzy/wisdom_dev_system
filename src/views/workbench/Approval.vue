@@ -322,6 +322,7 @@
   const doMy = async () => {
     //我发起
     const getMyProcessInstancePage = await ProcessInstanceApi.getMyProcessInstancePage();
+    tableDataSource3.value.splice(0, tableDataSource3.value.length);
     if (getMyProcessInstancePage) {
       getMyProcessInstancePage.list.forEach((element) => {
         tableDataSource3.value.push({
@@ -343,6 +344,7 @@
   const doDone = async () => {
     //已处理
     const getDoneTaskPage = await TaskApi.getDoneTaskPage();
+    tableDataSource4.value.splice(0, tableDataSource4.value.length);
     if (getDoneTaskPage) {
       getDoneTaskPage.list.forEach((element) => {
         tableDataSource4.value.push({
