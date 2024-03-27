@@ -6,19 +6,7 @@
 
     <Marquee>
       <span>{{ '通知信息...' }}</span>
-      <template #backup>
-        <span>{{ '通知信息...' }}</span>
-      </template>
     </Marquee>
-    <!-- 
-    <EchartChinaMap
-      :title="`行政区域图`"
-      :data="chinaRegionData"
-      :width="800"
-      :height="600"
-      :zoom="1.5"
-      :offset="150"
-    /> -->
 
     <div style="margin: 10px 0 0 40px">
       <Tinymce v-model="richTextValue" :width="`calc(100% - 80px)`" :height="600" :maxChars="100" :disabled="true" @change="handleRichTextChange" />
