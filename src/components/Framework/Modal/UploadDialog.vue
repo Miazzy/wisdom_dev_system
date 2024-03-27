@@ -133,6 +133,7 @@
 
   const updateVisible = ($event) => {
     modalVisible.value = $event;
+    emit('update:visible', $event); // 关闭弹框
   };
 
   // 获取附件列表
