@@ -33,7 +33,7 @@ export const deleteFile = async (id: number) => {
 };
 
 export const attachmentPreviewDomain = () => {
-  const previewdomain =
+  let previewdomain =
     process.env.NODE_ENV === 'development' ? 'http://10.8.111.167' : 'http://122.9.154.245';
   previewdomain = previewdomain + ':8012'; //预览域名
   return previewdomain;
