@@ -11,7 +11,7 @@
     @confirm="confirm"
     @close="close"
   >
-    <div class="dialog-content" :style="`height: calc(${props.height}px - 90px)`">
+    <div :id="uid" class="dialog-content" :style="`height: calc(${props.height}px - 90px)`">
       <!-- 温馨提示区域 -->
       <div class="top-content">
         <a-alert
@@ -25,6 +25,7 @@
       <div class="main-content">
         <div :style="`height: calc(${props.height + 10}px - 220px); overflow-y: scroll;`">
           <a-upload
+            ref="antUpload"
             :file-list="fileList"
             :multiple="true"
             :before-upload="beforeUpload"
@@ -63,18 +64,30 @@
 <script lang="ts" setup>
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import Icon from '@/components/Icon/Icon.vue';
-  import { ref, defineProps, defineEmits, onMounted, watch, unref, computed } from 'vue';
+  import {
+    ref,
+    defineProps,
+    defineEmits,
+    onMounted,
+    watch,
+    unref,
+    computed,
+    getCurrentInstance,
+  } from 'vue';
   import { Modal } from 'ant-design-vue';
   import type { UploadProps } from 'ant-design-vue';
   import * as FileApi from '@/api/infra/file';
   import { SysMessage } from '/@/hooks/web/useMessage';
   import { MsgManager } from '/@/message/MsgManager';
+  import { buildUUID } from '/@/utils/uuid';
 
   const modalVisible = ref(false);
   const fileList = ref<UploadProps['fileList']>([]);
   const uploading = ref<boolean>(false);
   const buttonID = 'upload-button-' + (Math.random() * 10000).toFixed(0);
-  
+  const antUpload = ref();
+  const uid = ref(buildUUID());
+
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
     title: String, // 弹框标题
@@ -145,29 +158,40 @@
     return filelist;
   };
 
-  const handleRemove: UploadProps['onRemove'] = (file) => {
-    Modal.confirm({
-      title: '确认操作',
-      content: '请确认是否删除此附件？',
-      onOk: async () => {
-        try {
-          const index = fileList.value.indexOf(file);
-          const newFileList = fileList.value.slice();
-          newFileList.splice(index, 1);
-          fileList.value = newFileList;
-          if (Reflect.has(file, 'id')) {
-            await FileApi.deleteFile(file.id);
+  const handleRemove: UploadProps['onRemove'] = async (file): Boolean => {
+    const callback = new Promise((resolve, reject) => {
+      Modal.confirm({
+        title: '确认操作',
+        content: '请确认是否删除此附件？',
+        onOk: async () => {
+          try {
+            let index = fileList.value.indexOf(file);
+            fileList.value.splice(index, 1);
+            if (Reflect.has(file, 'id')) {
+              await FileApi.deleteFile(file.id);
+            } else {
+              const selector = `.dialog-content > .main-content .ant-upload-list`;
+              const selectorElement = `.dialog-content > .main-content .ant-upload-list .ant-upload-list-text-container:nth-child(${++index})`;
+              const parentNode = document.querySelector(selector);
+              const node = document.querySelector(selectorElement);
+              parentNode.removeChild(node);
+            }
+            emit('update:value', fileList.value);
+            emit('change', fileList.value);
+          } catch (error) {
+            //
           }
-        } finally {
+          resolve(true);
+        },
+        onCancel() {
           emit('update:value', fileList.value);
           emit('change', fileList.value);
-        }
-      },
-      onCancel() {
-        emit('update:value', fileList.value);
-        emit('change', fileList.value);
-      },
+          reject(false);
+        },
+      });
     });
+    const result = await callback;
+    return result;
   };
 
   const beforeUpload: UploadProps['beforeUpload'] = (file) => {
@@ -326,7 +350,7 @@
   }
 
   :deep(.ant-btn) {
-    margin: 0px 5px 0px 2px;
+    margin: 0 5px 0 2px;
   }
 
   .footer-container {
