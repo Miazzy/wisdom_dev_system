@@ -57,15 +57,19 @@ export const createStorage = ({
      * @memberof Cache
      */
     set(key: string, value: any, expire: number | null = timeout) {
-      const stringData = JSON.stringify({
-        value,
-        time: Date.now(),
-        expire: !isNullOrUnDef(expire) ? new Date().getTime() + expire * 1000 : null,
-      });
-      const stringifyValue = this.hasEncrypt
-        ? this.encryption.encryptByAES(stringData)
-        : stringData;
-      this.storage.setItem(this.getKey(key), stringifyValue);
+      try {
+        const stringData = JSON.stringify({
+          value,
+          time: Date.now(),
+          expire: !isNullOrUnDef(expire) ? new Date().getTime() + expire * 1000 : null,
+        });
+        const stringifyValue = this.hasEncrypt
+          ? this.encryption.encryptByAES(stringData)
+          : stringData;
+        this.storage.setItem(this.getKey(key), stringifyValue);
+      } catch (error) {
+        //
+      }
     }
 
     /**
@@ -75,19 +79,22 @@ export const createStorage = ({
      * @memberof Cache
      */
     get(key: string, def: any = null): any {
-      const val = this.storage.getItem(this.getKey(key));
-      if (!val) return def;
-
       try {
-        const decVal = this.hasEncrypt ? this.encryption.decryptByAES(val) : val;
-        const data = JSON.parse(decVal);
-        const { value, expire } = data;
-        if (isNullOrUnDef(expire) || expire >= new Date().getTime()) {
-          return value;
+        const val = this.storage.getItem(this.getKey(key));
+        if (!val) return def;
+        try {
+          const decVal = this.hasEncrypt ? this.encryption.decryptByAES(val) : val;
+          const data = JSON.parse(decVal);
+          const { value, expire } = data;
+          if (isNullOrUnDef(expire) || expire >= new Date().getTime()) {
+            return value;
+          }
+          this.remove(key);
+        } catch (e) {
+          return def;
         }
-        this.remove(key);
-      } catch (e) {
-        return def;
+      } catch (error) {
+        //
       }
     }
 
@@ -98,19 +105,22 @@ export const createStorage = ({
      * @memberof Cache
      */
     async fget(key: string, def: any = null): Promise<any> {
-      const val = await this.storage.getItem(this.getKey(key));
-      if (!val) return def;
-
       try {
-        const decVal = this.hasEncrypt ? this.encryption.decryptByAES(val) : val;
-        const data = JSON.parse(decVal);
-        const { value, expire } = data;
-        if (isNullOrUnDef(expire) || expire >= new Date().getTime()) {
-          return value;
+        const val = await this.storage.getItem(this.getKey(key));
+        if (!val) return def;
+        try {
+          const decVal = this.hasEncrypt ? this.encryption.decryptByAES(val) : val;
+          const data = JSON.parse(decVal);
+          const { value, expire } = data;
+          if (isNullOrUnDef(expire) || expire >= new Date().getTime()) {
+            return value;
+          }
+          this.remove(key);
+        } catch (e) {
+          return def;
         }
-        this.remove(key);
-      } catch (e) {
-        return def;
+      } catch (error) {
+        //
       }
     }
 
@@ -120,14 +130,22 @@ export const createStorage = ({
      * @memberof Cache
      */
     remove(key: string) {
-      this.storage.removeItem(this.getKey(key));
+      try {
+        this.storage.removeItem(this.getKey(key));
+      } catch (error) {
+        //
+      }
     }
 
     /**
      * Delete all caches of this instance
      */
     clear(): void {
-      this.storage.clear();
+      try {
+        this.storage.clear();
+      } catch (error) {
+        //
+      }
     }
   };
   return new WebStorage();

@@ -32,6 +32,7 @@ import { DICT_TYPE } from '@/utils/dict';
 import { createLocalForage } from '@/utils/cache';
 import { MsgManager } from '/@/message/MsgManager';
 import { darkMode } from '/@/settings/designSetting';
+import { generateNameMap } from '/@/utils/route';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -103,8 +104,17 @@ export const useUserStore = defineStore({
     },
     getMenuNameMap(state) {
       if (state?.menuNameMap?.size === 0) {
-        const list = getAuthCache<[string, string][]>(MENU_NAME_MAP_KEY);
-        state.menuNameMap = deserializeMap(list);
+        try {
+          const list = getAuthCache<[string, string][]>(MENU_NAME_MAP_KEY);
+          state.menuNameMap = deserializeMap(list);
+          if (!list || list?.length == 0) {
+            const mlist = getAuthCache(MENU_LIST_KEY) as never[];
+            state.menuNameMap = generateNameMap(mlist, null);
+            setAuthCache(MENU_NAME_MAP_KEY, serializeMap(state.menuNameMap));
+          }
+        } catch (error) {
+          //
+        }
       }
       return state?.menuNameMap;
     },

@@ -29,6 +29,23 @@ export const pushAndRefresh = (path: string) => {
   router.push(path);
 };
 
+// 获取节点名称
+export const generateNameMap = (tree = [], menuNameMap: Map<string, any> | null) => {
+  menuNameMap = menuNameMap ? menuNameMap : new Map<string, any>();
+  try {
+    for (const node of tree) {
+      const path = node?.url.includes('?') ? node?.url.split('?')[0] : node?.url;
+      menuNameMap.set(path, node?.name);
+      if (node?.children && node?.children.length > 0) {
+        generateNameMap(node?.children, menuNameMap);
+      }
+    }
+  } catch (error) {
+    //
+  }
+  return menuNameMap;
+};
+
 // 将路径转为带参数url
 export const pathToUrl = (path, params) => {
   const hasQuery = path.includes('?');
@@ -62,7 +79,9 @@ export const urlToPath = (url?) => {
       const paramPairs = queryString.split('&');
       params = handleParseParams(paramPairs);
     } else {
-      const burl = Array.from(window.parent.document.getElementsByTagName("iframe")).filter(e=>e.classList[0] =='active')[0].src;
+      const burl = Array.from(window.parent.document.getElementsByTagName('iframe')).filter(
+        (e) => e.classList[0] == 'active',
+      )[0].src;
       const paramPairs = burl.split('?')[1].split('&');
       params = handleParseParams(paramPairs);
     }
@@ -106,39 +125,50 @@ export const getCurrentPageInfo = () => {
 };
 
 // 新增TabPage页面函数（iframe模式）
-export const addTabPage = (path: string, name: string = '', params: Object | null = null) => {
-  debugger;
+export const addTabPage = (
+  path: string,
+  name: string | null | undefined = '',
+  params: Object | null = null,
+) => {
   const id = buildUUID();
-  const userStore = useUserStore();
-  const nameMap = userStore.getMenuNameMap;
-  const purePath = path.includes('?') ? path.split('?')[0] : path;
-  name = name == '' ? nameMap.get(purePath) : name;
-  path.replace('/framepage', '/frame');
-  path = path.startsWith('/frame') ? path : '/frame' + path;
-  path = params == null || typeof params == 'undefined' ? path : pathToUrl(path, params);
-  const message = { type: 'addTabPage', data: { id, path, name, params } };
-  sendMessage(message);
+  try {
+    const userStore = useUserStore();
+    const nameMap = userStore.getMenuNameMap as Map<string, any>;
+    const purePath = path.includes('?') ? path.split('?')[0] : path;
+    name = name == '' ? nameMap.get(purePath) : name;
+    path.replace('/framepage', '/frame');
+    path = path.startsWith('/frame') ? path : '/frame' + path;
+    path = params == null || typeof params == 'undefined' ? path : pathToUrl(path, params);
+    const message = { type: 'addTabPage', data: { id, path, name, params } };
+    sendMessage(message);
+  } catch (error) {
+    //
+  }
   return id;
 };
 
 // 新增Tab页签并关闭原页面（iframe模式）
 export const addTabAndClose = (
   path: string,
-  name: string = '',
+  name: string | null | undefined = '',
   params: Object | null = null,
   closeID: string = '',
   refresh: boolean = true,
 ) => {
   const id = buildUUID();
-  const userStore = useUserStore();
-  const nameMap = userStore.getMenuNameMap;
-  const purePath = path.includes('?') ? path.split('?')[0] : path;
-  name = name == '' ? nameMap.get(purePath) : name;
-  path.replace('/framepage', '/frame');
-  path = path.startsWith('/frame') ? path : '/frame' + path;
-  path = params == null || typeof params == 'undefined' ? path : pathToUrl(path, params);
-  const message = { type: 'addTabAndClose', data: { id, path, name, params, closeID, refresh } };
-  sendMessage(message);
+  try {
+    const userStore = useUserStore();
+    const nameMap = userStore.getMenuNameMap as Map<string, any>;
+    const purePath = path.includes('?') ? path.split('?')[0] : path;
+    name = name == '' ? nameMap.get(purePath) : name;
+    path.replace('/framepage', '/frame');
+    path = path.startsWith('/frame') ? path : '/frame' + path;
+    path = params == null || typeof params == 'undefined' ? path : pathToUrl(path, params);
+    const message = { type: 'addTabAndClose', data: { id, path, name, params, closeID, refresh } };
+    sendMessage(message);
+  } catch (error) {
+    //
+  }
   return id;
 };
 

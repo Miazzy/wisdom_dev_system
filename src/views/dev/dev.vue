@@ -4,15 +4,9 @@
     <!-- 标题 -->
     <BillTitle :options="billTitleOptions" />
 
-    <!-- 
-    <EchartChinaMap
-      :title="`行政区域图`"
-      :data="chinaRegionData"
-      :width="800"
-      :height="600"
-      :zoom="1.5"
-      :offset="150"
-    /> -->
+    <Marquee>
+      <span>{{ '通知信息...' }}</span>
+    </Marquee>
 
     <div style="margin: 10px 0 0 40px">
       <Tinymce v-model="richTextValue" :width="`calc(100% - 80px)`" :height="600" :maxChars="100" :disabled="true" @change="handleRichTextChange" />
@@ -156,6 +150,7 @@
   import SelectBox from '@/components/Framework/Combox/SelectBox.vue';
   import Icon from '@/components/Icon/Icon.vue';
   import TreeSelectBox from '@/components/Framework/Combox/TreeSelectBox.vue';
+  import Marquee from '@/components/Framework/Marquee/Marquee.vue';
   import UploadBox from '@/components/Framework/Combox/UploadBox.vue';
   import CommonTree from '@/components/Framework/Tree/CommonTree.vue';
   import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';

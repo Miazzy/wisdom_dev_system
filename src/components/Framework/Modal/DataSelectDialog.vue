@@ -46,7 +46,14 @@
                       <span>{{index + 1}}</span>
                     </template>
                     <template v-else-if="column.dataIndex === 'sort'">
-                      <Icon icon="ant-design:drag-outlined" size="12" />
+                      
+                      <div class="sort-cell">
+                        <div v-if="sortIndex[record[props.tfields.key]]" class="editable-cell-input-wrapper">
+                          <a-input-number v-model:value="sortIndex[record[props.tfields.key]].index" :min="1" :max="allNodes.length" size="small" :controls="false" />
+                          <Icon icon="ant-design:check-outlined" size="12" style="margin-left: 4px;" @click="save(record,index)" />
+                        </div>
+                        <Icon v-else icon="ant-design:drag-outlined" size="12" @click="edit(record,index)" />
+                      </div>
                     </template>
                     <template v-else-if="column.dataIndex === 'action'">
                       <a>
@@ -73,12 +80,14 @@
 <script lang="ts" setup>
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import Icon from '@/components/Icon/Icon.vue';
-  import { ref, defineProps, defineEmits, onMounted, watch, unref } from 'vue';
+  import { ref, defineProps, defineEmits, onMounted, watch, unref, reactive } from 'vue';
   import { TreeItem } from '@/components/Tree';
   import { Modal } from 'ant-design-vue';
   import { SysMessage } from '/@/hooks/web/useMessage';
   import { getOrganTree } from '/@/api/sys/user';
   import { message } from 'ant-design-vue';
+  import type { Ref, UnwrapRef } from 'vue';
+  import { cloneDeep } from 'lodash-es';
 
   const modalVisible = ref(false);
   const treeData = ref([]);
@@ -395,6 +404,21 @@
     checkedNodes.value = e.checkedNodes;
   };
   const handleNode = () => {
+    if (selectedNode.value?.key) {
+      let flag = true;
+      allNodes.value.forEach((i) => {
+        if (selectedNode.value[props.tfields.key] === i[props.tfields.key]) {
+          flag = false;
+        }
+      });
+      if (flag) {
+        let selectedNodeInTree = getCheckedNodesByValues(treeData.value, [
+          selectedNode.value[props.tfields.key],
+        ])[0];
+        checkedKeys.value.checked.push(selectedNodeInTree.key);
+        checkedNodes.value.push(selectedNodeInTree);
+      }
+    }
     allNodes.value = checkedNodes.value;
   };
 
@@ -417,7 +441,7 @@
 
     return valueArr;
   };
-  const getCheckedKeysByValues = (treeData, valueArr) => {
+  function getCheckedKeysByValues(treeData, valueArr) {
     let keyArr = [];
     if (valueArr?.length) {
       treeData.forEach((item) => {
@@ -430,6 +454,47 @@
       });
     }
     return keyArr;
+  }
+  function getCheckedNodesByValues(treeData, valueArr) {
+    let nodeArr = [];
+    if (valueArr?.length) {
+      treeData.forEach((item) => {
+        if (valueArr.includes(item[props.tfields.key])) {
+          nodeArr.push(item);
+        }
+        if (item.children?.length) {
+          nodeArr.push(...getCheckedNodesByValues(item.children, valueArr));
+        }
+      });
+    }
+    return nodeArr;
+  }
+  function getCheckedNodesByKeys(treeData, keyArr) {
+    let nodeArr = [];
+    if (keyArr?.length) {
+      treeData.forEach((item) => {
+        if (keyArr.includes(item.key)) {
+          nodeArr.push(item);
+        }
+        if (item.children?.length) {
+          nodeArr.push(...getCheckedNodesByKeys(item.children, keyArr));
+        }
+      });
+    }
+    return nodeArr;
+  }
+
+  // 排序
+  const sortIndex = reactive({});
+
+  const edit = (record, index) => {
+    sortIndex[record[props.tfields.key]] = { index:index + 1 };
+  };
+  const save = (record, index) => {
+    let arr = [...allNodes.value];
+    arr.splice(sortIndex[record[props.tfields.key]].index - 1, 0, arr.splice(index, 1)[0]);
+    allNodes.value = arr;
+    delete sortIndex[record[props.tfields.key]];
   };
 
   watch(
@@ -466,7 +531,9 @@
       treeData.value = transformData(data, rule);
       treeMap.value = transformMap(data, rule);
       transformTableData(data, rule, 'top', null);
-      checkedKeys.value.checked = getCheckedKeysByValues(treeData.value, getValueArr(props.value));
+      let checkedValues = getValueArr(props.value);
+      checkedKeys.value.checked = getCheckedKeysByValues(treeData.value, checkedValues);
+      checkedNodes.value = getCheckedNodesByValues(treeData.value, checkedValues);
     },
   );
 
@@ -654,5 +721,10 @@
 
   .btn-margin {
     margin: 1px 0 1px 10px;
+  }
+
+  .editable-cell-input-wrapper {
+    display: flex;
+    align-items: center;
   }
 </style>

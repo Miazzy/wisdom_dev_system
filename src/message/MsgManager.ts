@@ -3,14 +3,26 @@
  */
 class Subject {
   observers;
+  observeMap;
 
   constructor() {
     this.observers = new Set();
+    this.observeMap = new Map<string, Set<any>>();
   }
 
   // 注册观察者
   addObserver(observer) {
+    const channelName = observer.getChannelName();
     this.observers.add(observer);
+    if (channelName) {
+      const sets = this.observeMap.get(channelName);
+      if (!sets) {
+        this.observeMap.set(channelName, new Set([observer]));
+      } else {
+        sets.add(observer);
+        this.observeMap.set(channelName, sets);
+      }
+    }
   }
 
   // 移除观察者
@@ -20,8 +32,17 @@ class Subject {
 
   // 通知观察者
   notifyObservers(channelName, message) {
-    for (const observer of this.observers) {
-      observer.update(channelName, message);
+    try {
+      const sets = this.observeMap.get(channelName);
+      if (sets && sets.size) {
+        sets.forEach((observer) => observer.update(channelName, message));
+      } else {
+        for (const observer of this.observers) {
+          observer.update(channelName, message);
+        }
+      }
+    } catch (error) {
+      //
     }
   }
 }
@@ -42,6 +63,10 @@ class Observer {
     if (channelName === this.channelName) {
       this.callback(message);
     }
+  }
+
+  getChannelName() {
+    return this.channelName;
   }
 }
 
@@ -84,20 +109,33 @@ export class MsgManager extends Subject {
   // 向指定信道推送信息
   public sendMsg(channelName, message) {
     try {
-      let subchannel = MsgManager.subchannels.get(channelName);
-      if (!subchannel) {
-        subchannel = new Set();
-        MsgManager.subchannels.set(channelName, subchannel);
-      }
-      subchannel.add(message);
-      this.notifyObservers(channelName, message);
-
-      let channel = MsgManager.channels.get(channelName);
-      if (!channel) {
-        channel = new BroadcastChannel(channelName);
-        MsgManager.channels.set(channelName, channel);
-      }
-      channel.postMessage(message);
+      const precall = async () => {
+        try {
+          let channel = MsgManager.channels.get(channelName);
+          if (!channel) {
+            channel = new BroadcastChannel(channelName);
+            MsgManager.channels.set(channelName, channel);
+          }
+          channel.postMessage(message);
+        } catch (error) {
+          //
+        }
+      };
+      precall();
+      const callback = async () => {
+        try {
+          let subchannel = MsgManager.subchannels.get(channelName);
+          if (!subchannel) {
+            subchannel = new Set();
+            MsgManager.subchannels.set(channelName, subchannel);
+          }
+          subchannel.add(message);
+          this.notifyObservers(channelName, message);
+        } catch (error) {
+          //
+        }
+      };
+      callback();
     } catch (error) {
       //
     }

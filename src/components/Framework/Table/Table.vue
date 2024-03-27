@@ -10,7 +10,7 @@
           <span>{{ column.title }}</span>
         </th>
         <th
-          v-if="toperable"
+          v-show="toperable"
           :style="{ width: tactioncolumn.width, textAlign: tactioncolumn.halign }"
           >操作</th
         >
@@ -63,7 +63,7 @@
           </template>
         </td>
         <td
-          v-if="toperable"
+          v-show="toperable"
           :style="{ width: tactioncolumn.width, textAlign: tactioncolumn.halign }"
         >
           <slot name="actions" :item="item">
@@ -165,6 +165,7 @@
     () => {
       tdata.value = props.data as any[];
     },
+    { deep: true },
   );
 
   watch(
@@ -227,7 +228,6 @@
       }
     },
   );
-
 
   defineExpose({
     validate,

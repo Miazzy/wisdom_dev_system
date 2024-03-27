@@ -3,7 +3,13 @@
     <div class="title"> {{ props.title }} </div>
     <div class="info">
       <button class="settings">
-        <Icon v-if="screenIconFlag" icon="octicon:screen-full-24" color="#32afff" style="font-size: 0.28rem; cursor: pointer" @click="handleScreen" />
+        <Icon
+          v-if="screenIconFlag"
+          icon="octicon:screen-full-24"
+          color="#32afff"
+          style="font-size: 0.28rem; cursor: pointer"
+          @click="handleScreen"
+        />
       </button>
       <span class="time">
         <DigitalClock />
@@ -12,33 +18,67 @@
         <WeatherDisplay />
       </span>
       <button class="settings">
-        <Icon icon="arcticons:settings" color="#32afff" style="font-size: 0.28rem; cursor: pointer" @click="handleSettings" />
+        <Icon
+          icon="arcticons:settings"
+          color="#32afff"
+          style="font-size: 0.28rem; cursor: pointer"
+          @click="handleSettings"
+        />
       </button>
     </div>
-    <a-drawer :width="drawerWidth" :placement="placement" :visible="visible" :closable="closable" :drawerStyle="drawerStyle" :contentWrapperStyle="contentWrapperStyle" :maskStyle="maskStyle"
-      @close="handleSetupClose">
+    <a-drawer
+      :width="drawerWidth"
+      :placement="placement"
+      :visible="visible"
+      :closable="closable"
+      :drawerStyle="drawerStyle"
+      :contentWrapperStyle="contentWrapperStyle"
+      :maskStyle="maskStyle"
+      @close="handleSetupClose"
+    >
       <div class="screen-drawer-content">
         <div class="right-panel-slot">
           <h2 class="search-h2">统计条件</h2>
-          <div class="search-choice-tips">已选择: <span>{{ dateType }}</span></div>
+          <div class="search-choice-tips"
+            >已选择: <span>{{ dateType }}</span></div
+          >
           <div class="search-choice">
             <div class="search-choice-t">
-              <Icon icon="material-symbols-light:date-range-outline-rounded" color="#0866e0" style="font-size: 0.22rem" />
+              <Icon
+                icon="material-symbols-light:date-range-outline-rounded"
+                color="#0866e0"
+                style="font-size: 0.22rem"
+              />
               <span class="search-choice-title">日期</span>
             </div>
             <div class="search-choice-b">
               <div class="iframe-search-daterange">
                 <div class="button-content radio-group">
-                  <a-radio-group v-model:value="dateType" size="small" @change="handleDateTypeChange">
+                  <a-radio-group
+                    v-model:value="dateType"
+                    size="small"
+                    @change="handleDateTypeChange"
+                  >
                     <a-radio-button value="上月">上月</a-radio-button>
                     <a-radio-button value="本月">本月</a-radio-button>
                     <a-radio-button value="本年">本年</a-radio-button>
                   </a-radio-group>
                 </div>
                 <div class="button-content range-group">
-                  <a-range-picker v-model:value="dateRange" style="width: 200px" picker="month" size="small" @change="handleDateRangeChange" dropdownClassName="cockpit-header-dropdown">
+                  <a-range-picker
+                    v-model:value="dateRange"
+                    style="width: 200px"
+                    picker="month"
+                    size="small"
+                    @change="handleDateRangeChange"
+                    dropdownClassName="cockpit-header-dropdown"
+                  >
                     <template #suffixIcon>
-                      <Icon icon="material-symbols-light:date-range-outline-rounded" color="#fefefe" style="font-size: 0.22rem" />
+                      <Icon
+                        icon="material-symbols-light:date-range-outline-rounded"
+                        color="#fefefe"
+                        style="font-size: 0.22rem"
+                      />
                     </template>
                   </a-range-picker>
                 </div>
@@ -92,10 +132,16 @@
 
   const handleSettings = () => {
     visible.value = true;
+    if (checkInIframe()) {
+      MsgManager.getInstance().sendMsg('drawer-open', { type: 'open' });
+    }
   };
 
   const handleSetupClose = () => {
     visible.value = false;
+    if (checkInIframe()) {
+      MsgManager.getInstance().sendMsg('drawer-open', { type: 'remove' });
+    }
   };
 
   const handleDateTypeChange = () => {
@@ -121,6 +167,15 @@
       'screen-date-set',
       JSON.stringify({ startDate, endDate, dateType: 'month' }),
     );
+  };
+
+  // 判断当前页面是否在 iframe 中显示
+  const checkInIframe = () => {
+    try {
+      return window.self !== window.top;
+    } catch (e) {
+      return true;
+    }
   };
 
   onMounted(() => {
@@ -152,7 +207,9 @@
       margin: 0;
       padding: 0;
       padding: 0 7px;
-      transition: border 0.3s, box-shadow 0.3s;
+      transition:
+        border 0.3s,
+        box-shadow 0.3s;
       border: 1px solid #0866e0;
       border-radius: 0;
       background: transparent;
@@ -195,7 +252,11 @@
         height: 24px;
         margin: 0;
         padding: 0 8px;
-        transition: color 0.3s, background 0.3s, border-color 0.3s, box-shadow 0.3s;
+        transition:
+          color 0.3s,
+          background 0.3s,
+          border-color 0.3s,
+          box-shadow 0.3s;
         border: 1px solid #0866e0;
         border-radius: 0;
         background: transparent;
@@ -230,7 +291,11 @@
           height: 24px;
           margin: 0;
           padding: 0 8px;
-          transition: color 0.3s, background 0.3s, border-color 0.3s, box-shadow 0.3s;
+          transition:
+            color 0.3s,
+            background 0.3s,
+            border-color 0.3s,
+            box-shadow 0.3s;
           border: 1px solid #0866e0;
           border-radius: 0;
           background: transparent;
