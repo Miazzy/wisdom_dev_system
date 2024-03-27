@@ -404,7 +404,7 @@
     checkedNodes.value = e.checkedNodes;
   };
   const handleNode = () => {
-    if (selectedNode.value.key) {
+    if (selectedNode.value?.key) {
       let flag = true;
       allNodes.value.forEach((i) => {
         if (selectedNode.value[props.tfields.key] === i[props.tfields.key]) {
