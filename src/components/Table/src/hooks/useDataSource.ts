@@ -262,7 +262,7 @@ export function useDataSource(
     });
   };
 
-  async function fetch(opt?: FetchParams) {
+  async function fetch(opt?: FetchParams, loading?: Boolean) {
     const {
       api,
       columns,
@@ -276,7 +276,10 @@ export function useDataSource(
     } = unref(propsRef);
     if (!api || !isFunction(api)) return;
     try {
-      setLoading(true);
+      if (typeof loading == 'undefined') {
+        loading = true;
+      }
+      setLoading(loading as boolean);
       const { pageField, sizeField, listField, totalField } = Object.assign(
         {},
         FETCH_SETTING,
@@ -376,7 +379,11 @@ export function useDataSource(
   }
 
   async function reload(opt?: FetchParams) {
-    return await fetch(opt);
+    return await fetch(opt, true);
+  }
+
+  async function reloadData(opt?: FetchParams, loading?: Boolean) {
+    return await fetch(opt, loading);
   }
 
   onMounted(() => {
@@ -394,6 +401,7 @@ export function useDataSource(
     getAutoCreateKey,
     fetch,
     reload,
+    reloadData,
     updateTableData,
     updateTableDataRecord,
     deleteTableDataRecord,
