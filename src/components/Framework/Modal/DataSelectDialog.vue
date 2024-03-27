@@ -231,7 +231,8 @@
         title: props.message.delete,
         onOk() {
           allNodes.value = [];
-          emit('update:value', allNodes.value);
+          checkedKeys.value.checked = [];
+          checkedNodes.value = [];
         },
       });
     } else {
@@ -243,13 +244,15 @@
 
   const handleDeleteNode = (item, index) => {
     allNodes.value = allNodes.value.filter((node, tindex) => tindex !== index);
-    if (item.key) {
-      checkedKeys.value.checked = checkedKeys.value.checked.filter((key) => key !== item.key);
-    } else {
-      checkedKeys.value.checked = getCheckedKeysByValues(treeData.value, getValueArr(allNodes.value));
-    }
+    // if (item.key) {
+    //   checkedKeys.value.checked = checkedKeys.value.checked.filter((key) => key !== item.key);
+    // } else {
+      let checkedValues = getValueArr(allNodes.value);
+      checkedKeys.value.checked = getCheckedKeysByValues(treeData.value, checkedValues);
+      checkedNodes.value = getCheckedNodesByValues(treeData.value, checkedValues);
+    // }
 
-    emit('update:value', allNodes.value);
+    // emit('update:value', allNodes.value);
   };
 
   // 按tfields生成转换规则
@@ -431,7 +434,7 @@
   ]);
   const selectedDataList = ref<any>([]);
 
-  const getValueArr = (data) => {
+  function getValueArr(data) {
     let valueArr = [];
     if (data?.length) {
       data.forEach((item) => {
