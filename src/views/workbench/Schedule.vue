@@ -43,6 +43,8 @@
   import Schedule from '../oa/schedule/Schedule.vue';
   import { defHttp } from '/@/utils/http/axios';
   import { MsgManager } from '/@/message/MsgManager';
+  import { forEach } from '/@/utils/helper/treeHelper';
+  import moment from 'moment';
 
   const schedule = ref();
   const dropdownVisible = ref(false);
@@ -72,12 +74,57 @@
     let date = dt.getDate().toString().padStart(2, '0');
     let dtstr = `${year}-${month}-${date}`;
     let listData = list.value[dtstr];
-
-    // let listData = [
-    //   { type: 'warning', content: '会议(3)' },
-    //   { type: 'success', content: '日程(1) ' },
-    // ];
-    return listData || [];
+    const resultData = [];
+    const scheduleData = [];
+    let scheduleItem = {};
+    if (listData != null) {
+      forEach(listData, (item) => {
+        if (item.dataType == 'schedule') {
+          let week = new Date(item.today).getDay();
+          let startWeek = new Date(item.startTime).getDay();
+          scheduleItem = item;
+          switch (item.notificationRules) {
+            case 'not': //不重复
+              if (item.today == moment(new Date(item.startTime)).format('YYYY-MM-DD')) {
+                scheduleData.push(item);
+              }
+              break;
+            case 'day': //每日
+              scheduleData.push(item);
+              break;
+            case 'workday': //工作日
+              if (week >= 1 && week <= 5) {
+                scheduleData.push(item);
+              }
+              break;
+            case 'weekday': //每周
+              if (week == startWeek) {
+                scheduleData.push(item);
+              }
+              break;
+            case 'monthly': //每月
+              let number1 = Math.ceil(new Date(item.today).getDate() / 7);
+              let number2 = Math.ceil(new Date(item.startTime).getDate() / 7);
+              if (week == startWeek && number1 == number2) {
+                scheduleData.push(item);
+              }
+              break;
+            case 'monthly2': //每月当日
+              if (new Date(item.startTime).getDate() == new Date(item.today).getDate()) {
+                scheduleData.push(item);
+              }
+              break;
+          }
+        } else {
+          resultData.push(item);
+        }
+      });
+      if (scheduleData.length > 0) {
+        scheduleItem.content = '日程(' + scheduleData.length + ')';
+        resultData.push(scheduleItem);
+      }
+    }
+    return resultData || [];
   };
 
   async function readData() {
@@ -119,12 +166,59 @@
     );
 
   const select = (value: Dayjs) => {
-    getSchedule({ date: value.toDate().toDateString() })
-      .then((data) => {
-        Content.value = data.result;
-        visible.value = true;
-      })
-      .catch(() => {});
+    let listData = list.value[moment(value.toDate()).format('YYYY-MM-DD')];
+    let contentData = '';
+    debugger;
+    if (listData != null) {
+      forEach(listData, (item) => {
+        if (item.dataType == 'schedule') {
+          let week = new Date(item.today).getDay();
+          let startWeek = new Date(item.startTime).getDay();
+          switch (item.notificationRules) {
+            case 'not': //不重复
+              if (item.today == moment(new Date(item.startTime)).format('YYYY-MM-DD')) {
+                contentData += item.contentData;
+              }
+              break;
+            case 'day': //每日
+              contentData += item.contentData;
+              break;
+            case 'workday': //工作日
+              if (week >= 1 && week <= 5) {
+                contentData += item.contentData;
+              }
+              break;
+            case 'weekday': //每周
+              if (week == startWeek) {
+                contentData += item.contentData;
+              }
+              break;
+            case 'monthly': //每月
+              let number1 = Math.ceil(new Date(item.today).getDate() / 7);
+              let number2 = Math.ceil(new Date(item.startTime).getDate() / 7);
+              if (week == startWeek && number1 == number2) {
+                contentData += item.contentData;
+              }
+              break;
+            case 'monthly2': //每月当日
+              if (new Date(item.startTime).getDate() == new Date(item.today).getDate()) {
+                contentData += item.contentData;
+              }
+              break;
+          }
+        } else {
+          contentData += item.contentData + '\n';
+        }
+      });
+    }
+    Content.value = contentData;
+    visible.value = true;
+    // getSchedule({ date: value.toDate().toDateString() })
+    //   .then((data) => {
+    //     Content.value = data.result;
+    //     visible.value = true;
+    //   })
+    //   .catch(() => {});
   };
 </script>
 
