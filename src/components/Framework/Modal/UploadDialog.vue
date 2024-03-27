@@ -68,6 +68,7 @@
   import type { UploadProps } from 'ant-design-vue';
   import * as FileApi from '@/api/infra/file';
   import { SysMessage } from '/@/hooks/web/useMessage';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const modalVisible = ref(false);
   const fileList = ref<UploadProps['fileList']>([]);
@@ -132,7 +133,6 @@
 
   const updateVisible = ($event) => {
     modalVisible.value = $event;
-    emit('update:visible', false); // 关闭弹框
   };
 
   // 获取附件列表
@@ -257,6 +257,7 @@
   const handleClose = () => {
     modalVisible.value = false;
     emit('update:visible', false); // 关闭弹框
+    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
   };
 
   watch(

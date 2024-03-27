@@ -65,6 +65,7 @@
     if (props.smode == 'simple') {
       emit('update:visible', false); // 关闭弹框
     }
+    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
   };
 
   const cancel = () => {
@@ -72,10 +73,12 @@
     if (props.smode == 'simple') {
       emit('update:visible', false); // 关闭弹框
     }
+    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
   };
 
   const confirm = () => {
     emit('confirm'); // 发送确定事件
+    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
   };
 
   // 计算 modal-body 的高度，减去 header 和 footer 的高度
