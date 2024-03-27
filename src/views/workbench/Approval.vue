@@ -51,6 +51,7 @@
   import { MsgManager } from '/@/message/MsgManager';
   import { DateTools } from '/@/utils/dateUtil';
   import Schedule from '../oa/schedule/Schedule.vue';
+  import moment from 'moment';
 
   const userStore = useUserStore();
   const getUserInfo = userStore.getUserInfo;
@@ -369,16 +370,58 @@
     tableDataSource5.value = [];
 
     if (getSchedulePage) {
-      tabList.value[4].count = getSchedulePage.length;
       getSchedulePage.forEach((element) => {
-        tableDataSource5.value.push({
+        let item = {
           content: element.content,
           id: element.id,
           type: element.type,
           startTime: DateTools.format(element.startTime, 'YYYY-MM-DD hh:mm'),
           creator: element.creator,
-        });
+        };
+
+        if (element.type == 'schedule') {
+          let week = new Date().getDay();
+          let startWeek = new Date(element.startTime).getDay();
+          switch (element.notificationRules) {
+            case 'not': //不重复
+              if (
+                moment(new Date()).format('YYYY-MM-DD') ==
+                moment(new Date(element.startTime)).format('YYYY-MM-DD')
+              ) {
+                tableDataSource5.value.push(item);
+              }
+              break;
+            case 'day': //每日
+              tableDataSource5.value.push(item);
+              break;
+            case 'workday': //工作日
+              if (week >= 1 && week <= 5) {
+                tableDataSource5.value.push(item);
+              }
+              break;
+            case 'weekday': //每周
+              if (week == startWeek) {
+                tableDataSource5.value.push(item);
+              }
+              break;
+            case 'monthly': //每月
+              let number1 = Math.ceil(new Date().getDate() / 7);
+              let number2 = Math.ceil(new Date(element.startTime).getDate() / 7);
+              if (week == startWeek && number1 == number2) {
+                tableDataSource5.value.push(item);
+              }
+              break;
+            case 'monthly2': //每月当日
+              if (new Date(element.startTime).getDate() == new Date().getDate()) {
+                tableDataSource5.value.push(item);
+              }
+              break;
+          }
+        } else {
+          tableDataSource5.value.push(item);
+        }
       });
+      tabList.value[4].count = tableDataSource5.value.length;
     }
     if (tInstance5) {
       tInstance5?.setTableData(tableDataSource5.value);
