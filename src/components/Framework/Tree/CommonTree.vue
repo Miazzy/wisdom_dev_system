@@ -33,9 +33,17 @@
       <template #title="nodeItem">
         <a-tooltip v-if="nodeItem[fieldNames.title || 'title'].length > 9">
           <template #title>{{ nodeItem[fieldNames.title || 'title'] }}</template>
-          <span class="common-tree-node-text">{{ nodeItem[fieldNames.title || 'title'] }}</span>
+          <a-badge v-if="nodeItem.badge" :count="nodeItem.badge" :offset="[16, 0]" :numberStyle="{ transform: 'scale(0.8)' }">
+            <span class="common-tree-node-text" style="line-height: 28px;">{{ nodeItem[fieldNames.title || 'title'] }}</span>
+          </a-badge>
+          <span v-else class="common-tree-node-text">{{ nodeItem[fieldNames.title || 'title'] }}</span>
         </a-tooltip>
-        <template v-else>{{ nodeItem[fieldNames.title || 'title'] }}</template>
+        <template v-else>
+          <a-badge v-if="nodeItem.badge" :count="nodeItem.badge" :offset="[16, 0]" :numberStyle="{ transform: 'scale(0.8)' }">
+            <span style="line-height: 28px;">{{ nodeItem[fieldNames.title || 'title'] }}</span>
+          </a-badge>
+          <span v-else>{{ nodeItem[fieldNames.title || 'title'] }}</span>
+        </template>
       </template>
     </BasicTree>
   </div>
