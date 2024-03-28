@@ -264,6 +264,59 @@ export function useDataSource(
     });
   };
 
+  async function fetchByDataSource(data: any[] = []) {
+    const { columns, fetchSetting, pagination } = unref(propsRef);
+
+    try {
+      const { pageField, sizeField } = Object.assign({}, FETCH_SETTING, fetchSetting);
+      let pageParams: Recordable = {};
+
+      const paginationInfo = unref(getPaginationInfo);
+      const { current = 1, pageSize = PAGE_SIZE } = isBoolean(paginationInfo) ? {} : unref(paginationInfo);
+
+      if ((isBoolean(pagination) && !pagination) || isBoolean(paginationInfo)) {
+        pageParams = {};
+      } else {
+        pageParams[pageField] = current;
+        pageParams[sizeField] = pageSize;
+      }
+
+      const resultItems: Recordable[] = data.slice((current - 1) * pageSize, current * pageSize);
+      const resultTotal: number = data?.length || 0;
+
+      if (Number(resultTotal)) {
+        const currentTotalPage = Math.ceil(resultTotal / pageSize);
+        if (current > currentTotalPage) {
+          setPagination({
+            current: currentTotalPage,
+          });
+        }
+      }
+
+      resultItems.forEach((item) => {
+        addMissingColumns(item, columns);
+      });
+
+      rawDataSourceRef.value = { list: data, total: resultTotal };
+      dataSourceRef.value = resultItems;
+
+      setPagination({
+        total: resultTotal || 0,
+      });
+
+      emit('fetch-success', {
+        items: unref(resultItems),
+        total: resultTotal,
+      });
+
+      return resultItems;
+    } catch (error) {
+      // 错误处理逻辑...
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function fetch(opt?: FetchParams, loading?: Boolean) {
     const {
       api,
@@ -397,6 +450,10 @@ export function useDataSource(
     return await fetch(opt, loading);
   }
 
+  async function reloadByDataSource(data: any[] = []) {
+    return await fetchByDataSource(data);
+  }
+
   onMounted(() => {
     useTimeoutFn(() => {
       unref(propsRef).immediate && fetch();
@@ -413,6 +470,7 @@ export function useDataSource(
     fetch,
     reload,
     reloadData,
+    reloadByDataSource,
     updateTableData,
     updateTableDataRecord,
     deleteTableDataRecord,

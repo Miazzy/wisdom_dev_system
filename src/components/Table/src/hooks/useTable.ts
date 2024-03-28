@@ -71,6 +71,9 @@ export function useTable(tableProps?: Props): [
     reloadData: async (opt?: FetchParams, loading?: Boolean) => {
       return await getTableInstance()?.reloadData(opt, loading);
     },
+    reloadByDataSource: async (data: any[] = []) => {
+      return await getTableInstance()?.reloadByDataSource(data);
+    },
     setProps: (props: Partial<BasicTableProps>) => {
       getTableInstance()?.setProps(props);
     },

@@ -159,6 +159,7 @@
         getRowKey,
         reload,
         reloadData,
+        reloadByDataSource,
         getAutoCreateKey,
         updateTableData,
       } = useDataSource(
@@ -302,6 +303,7 @@
       const tableAction: TableActionType = {
         reload,
         reloadData,
+        reloadByDataSource,
         getSelectRows,
         setSelectedRows,
         clearSelectedRowKeys,
