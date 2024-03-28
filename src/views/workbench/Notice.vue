@@ -27,8 +27,6 @@
   import * as DateUtil from '/@/utils/dateUtil';
   import * as WorkbenchApi from '@/api/workbench';
   import { addTabPage } from '@/utils/route';
-  // import { useRouter } from 'vue-router';
-  // const router = useRouter();
 
   const urls: any = ref([
     { key: 'notice', url: '/oa/info/officedoc/view' },
@@ -51,9 +49,7 @@
       };
       addTabPage(element.url, '通知公告详情', params);
 
-      setTimeout(() => {
-        getNoticeAndAnnouncementPage();
-      }, 10000);
+      item.isRead = 1; //设置为已读
     }
   };
 
