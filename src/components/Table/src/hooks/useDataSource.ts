@@ -10,6 +10,8 @@ import {
   reactive,
   Ref,
   watchEffect,
+  isRef,
+  isReactive,
 } from 'vue';
 import { useTimeoutFn } from '@vben/hooks';
 import { buildUUID } from '/@/utils/uuid';
@@ -319,7 +321,16 @@ export function useDataSource(
       const isArrayResult = Array.isArray(res);
 
       let resultItems: Recordable[] = isArrayResult ? res : get(res, listField);
-      const resultTotal: number = isArrayResult ? res.length : get(res, totalField);
+      let resultTotal: number = isArrayResult ? res.length : get(res, totalField);
+
+      // 如果res是Proxy对象，则上述取值方式存在问题
+      if (typeof resultItems === 'undefined' && typeof resultTotal === 'undefined') {
+        if ((isRef(res) || isReactive(res)) && !isArrayResult) {
+          // 如果 res 是 ref 或者 reactive ，取出字段为 listField 和 totalField 的值
+          resultItems = get(unref(res), listField);
+          resultTotal = get(unref(res), totalField);
+        }
+      }
 
       // 假如数据变少，导致总页数变少并小于当前选中页码，通过getPaginationRef获取到的页码是不正确的，需获取正确的页码再次执行
       if (Number(resultTotal)) {
