@@ -31,19 +31,13 @@
         <span class="vben-basic-title" :title="title">{{ title }}</span>
       </template>
       <template #title="nodeItem">
-        <a-tooltip v-if="nodeItem[fieldNames.title || 'title'].length > 9">
+        <a-tooltip>
           <template #title>{{ nodeItem[fieldNames.title || 'title'] }}</template>
           <a-badge v-if="nodeItem.badge" :count="nodeItem.badge" :offset="[16, 0]" :numberStyle="{ transform: 'scale(0.8)' }">
             <span class="common-tree-node-text" style="line-height: 28px;">{{ nodeItem[fieldNames.title || 'title'] }}</span>
           </a-badge>
           <span v-else class="common-tree-node-text">{{ nodeItem[fieldNames.title || 'title'] }}</span>
         </a-tooltip>
-        <template v-else>
-          <a-badge v-if="nodeItem.badge" :count="nodeItem.badge" :offset="[16, 0]" :numberStyle="{ transform: 'scale(0.8)' }">
-            <span style="line-height: 28px;">{{ nodeItem[fieldNames.title || 'title'] }}</span>
-          </a-badge>
-          <span v-else>{{ nodeItem[fieldNames.title || 'title'] }}</span>
-        </template>
       </template>
     </BasicTree>
   </div>
@@ -159,7 +153,6 @@
 
   // 计算tree高度
   const treeWrapperHeightClass = computed(() => {
-    // return props.search?'h-[calc(100vh-120px-68px)]' : 'h-[calc(100vh-120px-36px)]';
     return props.search ? 'h-[calc(100%-82px)]' : 'h-[calc(100%-48px)]';
   });
 
@@ -262,6 +255,11 @@
     .vben-basic-title {
       padding-left: 7px;
       cursor: pointer;
+    }
+    :deep(.fix-tooltip-position) {
+      left: auto !important;
+      top: -36px !important;
+      right: 6px !important;
     }
   }
 </style>
