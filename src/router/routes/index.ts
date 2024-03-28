@@ -1148,6 +1148,12 @@ export const DevPage: AppRouteRecordRaw = {
   meta: { keepAlive: true },
 };
 
+export const EdittablePage: AppRouteRecordRaw = {
+  path: '/frame/edittable',
+  component: () => import('/@/views/dev/EditRowTable.vue'),
+  meta: { keepAlive: true },
+};
+
 export const Meta2dRenderPage: AppRouteRecordRaw = {
   path: '/frame/monitor/wiringDiagram/meta2d',
   component: () => import('/@/views/monitor/wiringDiagram/meta2d.vue'),
@@ -1634,6 +1640,7 @@ export const basicRoutes = [
   OaAddressbook,
   OaWorkbench,
   DevPage,
+  EdittablePage,
   Meta2dRenderPage,
   BpmWorkflow,
   BpmWftaskAssignRule,
@@ -1659,5 +1666,5 @@ export const basicRoutes = [
   BasesetPersonnelqualifications,
   BasesetSettlement,
   BasesetLinelossrate,
-  SystemUserProfile
+  SystemUserProfile,
 ];
