@@ -3,12 +3,6 @@
     <template #extra>
       <Icon
         icon="ion:settings-outline"
-        title="工作菜单设置"
-        class="set-class"
-        @click="handleMenuView"
-      />
-      <Icon
-        icon="ion:settings-outline"
         title="工作安排设置"
         class="set-class"
         @click="handleScheduleView"
