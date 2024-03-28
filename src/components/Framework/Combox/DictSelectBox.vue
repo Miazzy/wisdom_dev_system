@@ -19,7 +19,7 @@
 </template>
 <script lang="ts" setup>
   import type { SelectProps } from 'ant-design-vue';
-  import { ref, onMounted, defineProps, defineEmits, watch } from 'vue';
+  import { ref, onMounted, defineProps, defineEmits, watch, onActivated } from 'vue';
   import { useDictStoreWithOut } from '@/store/modules/dict';
   import { createLocalStorage } from '@/utils/cache';
   import { DICT_DATA__KEY } from '@/enums/cacheEnum';
@@ -178,8 +178,18 @@
     },
   );
 
+  // 处于激活状态时，检查选项是否正常加载，如果未加载则再次加载
+  onActivated(async () => {
+    setTimeout(() => {
+      handleFocus();
+    }, 1500);
+  });
+
   // 启动加载
   onMounted(async () => {
     handleInitData();
+    setTimeout(() => {
+      handleFocus();
+    }, 1500);
   });
 </script>
