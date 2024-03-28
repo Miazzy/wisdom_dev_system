@@ -9,7 +9,7 @@ export default defineComponent({
   name: 'Modal',
   inheritAttrs: false,
   props: basicProps as any,
-  emits: ['cancel'],
+  emits: ['cancel', 'ok'],
   setup(props, { slots, emit }) {
     const { visible, draggable, destroyOnClose } = toRefs(props);
     const attrs = useAttrs();
@@ -19,12 +19,16 @@ export default defineComponent({
       draggable,
     });
 
+    const onOk = (e: Event) => {
+      emit('ok', e);
+    };
+
     const onCancel = (e: Event) => {
       emit('cancel', e);
     };
 
     return () => {
-      const propsData = { ...unref(attrs), ...props, onCancel } as Recordable;
+      const propsData = { ...unref(attrs), ...props, onCancel, onOk } as Recordable;
       return <Modal {...propsData}>{extendSlots(slots)}</Modal>;
     };
   },
