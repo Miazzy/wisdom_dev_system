@@ -29,13 +29,12 @@
                 <span role="img" aria-label="paper-clip" class="anticon anticon-paper-clip">
                   <Icon icon="ph:file-light" />
                 </span>
-                <span class="file-text">
+                <span class="file-text" @click="preview(file?.url)">
                   <a
                     target="_blank"
                     class="ant-upload-list-item-name"
                     :size="file?.size"
                     :title="file?.name"
-                    :href="preview(file?.url)"
                   >
                     {{ file?.name }}
                   </a>
@@ -102,6 +101,7 @@
   import { defineProps, onMounted, ref, watch } from 'vue';
   import UploadBox from '@/components/Framework/Combox/UploadBox.vue';
   import Icon from '@/components/Icon/Icon.vue';
+  import * as FileApi from '@/api/infra/file';
 
   const props = defineProps({
     tableCssStyle: { type: Object, default: {} },
@@ -143,7 +143,9 @@
   };
 
   const preview = (url) => {
-    props.viewFunction(url);
+    // TODO
+    // props.viewFunction(url);
+    FileApi.attachmentDownloadUrl(url);
   };
 
   const validate = () => {
