@@ -11,6 +11,8 @@
     :options="options"
     :filter-option="filterOption"
     placeholder="请选择数据..."
+    @mouseenter="handleFocus"
+    @inputKeyDown="handleFocus"
     @change="handleChange"
   />
   <span v-if="props.vmode == 'view'">{{ findOption(props.value) }}</span>
@@ -19,10 +21,10 @@
   import type { SelectProps } from 'ant-design-vue';
   import { ref, onMounted, defineProps, defineEmits, watch } from 'vue';
   import { useDictStoreWithOut } from '@/store/modules/dict';
-  import { createLocalForage } from '@/utils/cache';
+  import { createLocalStorage } from '@/utils/cache';
   import { DICT_DATA__KEY } from '@/enums/cacheEnum';
 
-  const ls = createLocalForage();
+  const ls = createLocalStorage();
 
   const dictStore = useDictStoreWithOut();
   const selectedValue = ref<any>();
@@ -111,15 +113,18 @@
   // 定义emits
   const emit = defineEmits(['update:value', 'change']);
 
-  watch(
-    () => props.value,
-    () => {
-      setupValue();
-    },
-  );
+  // 处理Focus、keydown等函数
+  const handleFocus = () => {
+    const { type } = props;
+    const list = options.value;
+    if (!list || list?.length == 0) {
+      console.warn('dict select box of type:', type, ' has not loaded, and load this data again.');
+      handleInitData();
+    }
+  };
 
-  // 启动加载
-  onMounted(async () => {
+  // 处理初始化操作函数
+  const handleInitData = async () => {
     // 在组件挂载后，通过后端接口获取数据字段的数据
     try {
       const { type } = props;
@@ -144,9 +149,13 @@
             cache = await ls.fget(DICT_DATA__KEY + type);
             if (!cache) {
               // 调用后端接口获取数据
-              const response = await dictStore.fetchBackendData(typeList, props);
-              // 格式化后端数据，将数据转换为适用于下拉框的格式
+              let response = await dictStore.fetchBackendData(typeList, props);
               options.value = response;
+              if (!response || response.length == 0) {
+                // 未获取到数据，则再次加载
+                response = await dictStore.fetchBackendData(type, props);
+                options.value = response;
+              }
             } else {
               options.value = cache;
             }
@@ -160,5 +169,17 @@
     } catch (error) {
       console.error('Failed to fetch data:', error);
     }
+  };
+
+  watch(
+    () => props.value,
+    () => {
+      setupValue();
+    },
+  );
+
+  // 启动加载
+  onMounted(async () => {
+    handleInitData();
   });
 </script>
