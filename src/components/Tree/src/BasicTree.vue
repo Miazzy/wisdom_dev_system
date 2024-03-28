@@ -89,11 +89,11 @@
             state.selectedKeys = v;
             emit('update:selectedKeys', v);
           },
-          onExpand: (keys, event) => {
-            setTimeout(() => {
-              handleBadge();
-            }, 300);
-          },
+          // onExpand: (keys, event) => {
+          //   setTimeout(() => {
+          //     handleBadge();
+          //   }, 300);
+          // },
           onCheck: (v: CheckKeys, e) => {
             let currentValue = toRaw(state.checkedKeys) as KeyType[];
             if (isArray(currentValue) && searchState.startSearch) {
@@ -260,13 +260,13 @@
         try {
           for (let element of data) {
             const key = 'val_' + getTreeNodeKey(element);
-            const badge = Reflect.get(element, 'badge') || 0;
+            // const badge = Reflect.get(element, 'badge') || 0;
             if (Reflect.has(element, 'class')) {
               element.class = element.class + ' ' + key + ' ';
             } else {
               element.class = key;
             }
-            treeBadgeMap.set(key, badge);
+            // treeBadgeMap.set(key, badge);
             if (Reflect.has(element, 'children')) {
               handleTreeData(Reflect.get(element, 'children'));
             }
