@@ -143,10 +143,10 @@
   };
 
   const preview = (url) => {
-    // TODO
     // props.viewFunction(url);
     // FileApi.attachmentDownloadUrl(url);
-    FileApi.attachmentPreview(url);
+    const previewURL = FileApi.attachmentPreview(url);
+    window.open(previewURL);
   };
 
   const validate = () => {
