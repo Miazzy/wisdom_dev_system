@@ -7,7 +7,13 @@
   <teleport to="body">
     <div class="modal-mask" v-if="visible">
       <div class="modal-mask-container" @mousewheel.prevent></div>
-      <div class="modal-container" :style="{ width: width + 'px', height: height + 'px' }">
+      <div
+        class="modal-container"
+        :style="{
+          width: typeof width == 'number' ? width + 'px' : width,
+          height: typeof height == 'number' ? height + 'px' : height,
+        }"
+      >
         <div class="modal-header">
           <span :style="`font-size: ${props.tsize}px; font-weight: ${props.tweight};`">{{
             title
@@ -40,14 +46,18 @@
   import { ref, defineProps, defineEmits, computed, watch, nextTick, onMounted } from 'vue';
   import { MsgManager } from '/@/message/MsgManager';
 
+  defineOptions({
+    name: 'Dialog',
+  });
+
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
     title: String, // 弹框标题
     smode: { type: String, default: 'default' },
     tweight: { type: Number, default: 400 },
     tsize: { type: String, default: '16' }, // 标题大小
-    width: { type: Number, default: 800 }, // 弹框宽度
-    height: { type: Number, default: 600 }, // 弹框高度
+    width: { type: [Number, String], default: 800 }, // 弹框宽度
+    height: { type: [Number, String], default: 600 }, // 弹框高度
     pheight: { type: Number, default: 88 }, // 弹框高度
     showBtm: { type: Boolean, default: true },
     mode: { type: String, default: '' },
@@ -56,7 +66,7 @@
     overflowX: { type: String, default: 'hidden' },
   });
 
-  const emit = defineEmits(['update:visible', 'cancel', 'confirm', 'close']); // 定义事件
+  const emit = defineEmits(['update:visible', 'cancel', 'confirm', 'ok', 'close']); // 定义事件
 
   const appDom = document.querySelector('div#app');
   const closeModal = () => {
@@ -78,6 +88,10 @@
 
   const confirm = () => {
     emit('confirm'); // 发送确定事件
+    emit('ok'); // 发送确定事件
+    if (props.smode == 'simple') {
+      emit('update:visible', false); // 关闭弹框
+    }
     MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
   };
 
@@ -89,11 +103,6 @@
   // 禁用事件回调函数
   const callback = function (event) {
     event.preventDefault();
-  };
-
-  // 允许事件回调函数
-  const allowCallback = function (event) {
-    //
   };
 
   // 在 setup 中创建一个变量来保存滚动位置
