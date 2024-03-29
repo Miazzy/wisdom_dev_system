@@ -9,7 +9,7 @@
         <DigitalClock />
       </span>
       <span class="weather">
-        <WeatherDisplay :temp="weatherInfo.temp" :weatherText="weatherInfo.text" :weatherIcon="weatherInfo.icon" />
+        <WeatherDisplay />
       </span>
     </div>
   </div>
@@ -23,18 +23,6 @@
 
   const props = defineProps({
     title: { type: String, default: '' }, // 标题
-  });
-
-  const weatherInfo = reactive({});
-
-  const getWeatherData = async () => {
-    let res = await CommonApi.getWeather({ lastDay: 'now' });
-    let { temp, text, icon } = res.weather.now;
-    Object.assign(weatherInfo, { temp, text, icon });
-  };
-
-  onMounted(() => {
-    getWeatherData();
   });
 </script>
 <style>
