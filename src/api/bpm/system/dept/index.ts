@@ -14,7 +14,7 @@ export interface DeptVO {
 
 // 表单API
 export enum DeptApi {
-  GetSimpleDeptList = '/system/organ/list-all-simple',
+  GetSimpleDeptList = '/system/org/list-all-simple',
   GetDeptPage = '/system/dept/list',
   GetDept = '/system/dept/get?id=',
   CreateDept = '/system/dept/create',

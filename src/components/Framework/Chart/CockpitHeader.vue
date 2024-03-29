@@ -159,9 +159,23 @@
     handleDateRangeChange();
   };
 
+
   const handleDateRangeChange = () => {
     const startDate = dateRange.value[0].format('YYYY-MM');
     const endDate = dateRange.value[1].format('YYYY-MM');
+    dateType.value = '';
+    // 上月
+    if(startDate === dayjs().subtract(1, 'month').format('YYYY-MM') && endDate === dayjs().subtract(1, 'month').format('YYYY-MM')) {
+      dateType.value = '上月';
+    }
+    // 本月
+    if(startDate === dayjs().format('YYYY-MM') && endDate === dayjs().format('YYYY-MM')) {
+      dateType.value = '本月';
+    }
+    // 本年
+    if(startDate === dayjs().startOf('year').format('YYYY-MM') && endDate === dayjs().endOf('year').format('YYYY-MM')) {
+      dateType.value = '本年';
+    }
     emit('dateChange', [startDate, endDate], dateType.value);
     sessionStorage.setItem(
       'screen-date-set',
