@@ -74,6 +74,9 @@ export function useTable(tableProps?: Props): [
     reloadByDataSource: async (data: any[] = []) => {
       return await getTableInstance()?.reloadByDataSource(data);
     },
+    selectTableRow: async (index: number = 0) => {
+      return await getTableInstance()?.selectTableRow(index);
+    },
     reloadApiDataByLocal: async (data: any[] = []) => {
       return await getTableInstance()?.reloadApiDataByLocal(data);
     },

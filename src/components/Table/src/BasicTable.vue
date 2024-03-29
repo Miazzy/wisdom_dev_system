@@ -17,6 +17,7 @@
 
     <Table
       ref="tableElRef"
+      :class="`btable ${tableClass}`"
       v-bind="getBindValues"
       :tableLayout="tableLayout"
       :rowClassName="getRowClassName"
@@ -111,6 +112,8 @@
 
       const { prefixCls } = useDesign('basic-table');
       const [registerForm, formActions] = useForm();
+
+      const tableClass = `btable-${Math.floor(Math.random() * 10000)}`;
 
       const getProps = computed(() => {
         return { ...props, ...unref(innerPropsRef) } as BasicTableProps;
@@ -301,11 +304,21 @@
         innerPropsRef.value = { ...unref(innerPropsRef), ...props };
       }
 
+      const selectTableRow = (index = 0) => {
+        try {
+          const selector = `.${tableClass} .ant-table .ant-table-container .ant-table-body tbody.ant-table-tbody .ant-table-row`;
+          document.querySelectorAll(selector)[index].click();
+        } catch (error) {
+          //
+        }
+      };
+
       const tableAction: TableActionType = {
         reload,
         reloadData,
         reloadByDataSource,
         reloadApiDataByLocal,
+        selectTableRow,
         getSelectRows,
         setSelectedRows,
         clearSelectedRowKeys,
@@ -351,6 +364,7 @@
       return {
         formRef,
         tableElRef,
+        tableClass,
         getBindValues,
         getLoading,
         registerForm,
