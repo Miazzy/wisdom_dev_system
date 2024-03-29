@@ -375,50 +375,61 @@
           content: element.content,
           id: element.id,
           type: element.type,
-          startTime: DateTools.format(element.startTime, 'YYYY-MM-DD hh:mm'),
+          startTime: DateTools.format(element.startTime, 'YYYY-MM-DD HH:mm'),
           creator: element.creator,
         };
 
         if (element.type == 'schedule') {
           let week = new Date().getDay();
           let startWeek = new Date(element.startTime).getDay();
+          let notificationTime = moment(new Date(element.startTime)).format('HH:mm');
+          let nowTime = moment(new Date()).format('HH:mm');
+          let needNotice = nowTime >= notificationTime;
           switch (element.notificationRules) {
             case 'not': //不重复
               if (
                 moment(new Date()).format('YYYY-MM-DD') ==
-                moment(new Date(element.startTime)).format('YYYY-MM-DD')
+                  moment(new Date(element.startTime)).format('YYYY-MM-DD') &&
+                needNotice
               ) {
                 tableDataSource5.value.push(item);
               }
               break;
             case 'day': //每日
-              tableDataSource5.value.push(item);
+              if (needNotice) {
+                tableDataSource5.value.push(item);
+              }
+
               break;
             case 'workday': //工作日
-              if (week >= 1 && week <= 5) {
+              if (week >= 1 && week <= 5 && needNotice) {
                 tableDataSource5.value.push(item);
               }
               break;
             case 'weekday': //每周
-              if (week == startWeek) {
+              if (week == startWeek && needNotice) {
                 tableDataSource5.value.push(item);
               }
               break;
             case 'monthly': //每月
               let number1 = Math.ceil(new Date().getDate() / 7);
               let number2 = Math.ceil(new Date(element.startTime).getDate() / 7);
-              if (week == startWeek && number1 == number2) {
+              if (week == startWeek && number1 == number2 && needNotice) {
                 tableDataSource5.value.push(item);
               }
               break;
             case 'monthly2': //每月当日
-              if (new Date(element.startTime).getDate() == new Date().getDate()) {
+              if (new Date(element.startTime).getDate() == new Date().getDate() && needNotice) {
                 tableDataSource5.value.push(item);
               }
               break;
           }
         } else {
-          tableDataSource5.value.push(item);
+          let now = new Date().getTime();
+          let startTime = new Date(element.startTime).getTime();
+          if (startTime - now <= notificationRulesTime[element.notificationRules]) {
+            tableDataSource5.value.push(item);
+          }
         }
       });
       tabList.value[4].count = tableDataSource5.value.length;
@@ -426,6 +437,16 @@
     if (tInstance5) {
       tInstance5?.setTableData(tableDataSource5.value);
     }
+  };
+  const notificationRulesTime = {
+    start: 0,
+    '5min': 5 * 60 * 1000,
+    '15min': 15 * 60 * 1000,
+    '30min': 30 * 60 * 1000,
+    '1h': 60 * 60 * 1000,
+    '2h': 2 * 60 * 60 * 1000,
+    '4h': 4 * 60 * 60 * 1000,
+    '8h': 8 * 60 * 60 * 1000,
   };
 
   const reloadAll = async () => {
