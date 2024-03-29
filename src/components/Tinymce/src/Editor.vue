@@ -465,6 +465,9 @@
           iframes.forEach((iframe) => {
             const iframeBody = iframe.contentDocument.body;
             iframeBody.style.color = '#fff';
+            // 设置滚动条样式
+            iframe.contentDocument.documentElement.style.scrollbarColor = 'rgb(144 147 153 / 30%) rgb(0 0 0 / 5%)';
+            iframe.contentDocument.documentElement.style.scrollbarWidth = 'thin'
           });
         } else {
           setTimeout(() => {
@@ -521,6 +524,13 @@
       .tox-toolbar-overlord {
         display: none;
       }
+    }
+
+    .tox-edit-area__iframe {
+      * {
+  scrollbar-color: rgb(144 147 153 / 30%) rgb(0 0 0 / 5%); /* 滑块颜色  滚动条背景颜色 */
+  scrollbar-width: thin; /* 滚动条宽度有三种：thin、auto、none */
+}
     }
   }
 </style>
