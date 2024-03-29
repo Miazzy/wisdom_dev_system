@@ -6,14 +6,14 @@
     </div>
     <div class="weather-info" style="width: 1.65rem">
       <div class="temperature-range">
-        <span>{{ props.temp }}</span>
+        <span>{{ weatherInfo.temp }}</span>
         <span class="unit">℃</span>
         <!-- <span style="margin: 0 0.1rem">~</span>
         <span>{{ props.max }}</span>
         <span class="unit">℃</span> -->
       </div>
       <div class="weather-description" style="width: 100%">
-        <div class="weather-text">{{ props.weatherText }}</div>
+        <div class="weather-text">{{ weatherInfo.text }}</div>
         <div class="air-quality">{{ props.airQuality }}</div>
       </div>
     </div>
@@ -21,22 +21,29 @@
 </template>
 
 <script setup>
-  import { computed, ref } from 'vue';
+  import { computed, reactive, onMounted } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
   import { SvgIcon } from '/@/components/Icon';
   import { weatherIcons } from '@/utils/weatherIcon'
+  import * as CommonApi from '@/api/da/common';
 
   const props = defineProps({
-    temp: { type: [String, Number], default: '' },
-    // max: { type: [String, Number], default: '37' },
-    weatherText: { type: [String, Number], default: '' },
     airQuality: { type: [String, Number], default: '' },
-    weatherIcon: { type: String, default: '' },
   });
 
   const getWeatherIconName = computed(()=>{
-    return props.weatherIcon&&weatherIcons[props.weatherIcon]?weatherIcons[props.weatherIcon]: 'tianqi-wu2';
+    return weatherInfo.icon&&weatherIcons[weatherInfo.icon]?weatherIcons[weatherInfo.icon]: 'tianqi-wu2';
   })
+
+  const weatherInfo = reactive({});
+  const getWeatherData = async () => {
+    let res = await CommonApi.getWeather({ lastDay: 'now' });
+    Object.assign(weatherInfo, res.weather.now);
+  };
+
+  onMounted(() => {
+    getWeatherData();
+  });
 </script>
 
 <style lang="less" scoped>
