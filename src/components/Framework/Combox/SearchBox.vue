@@ -154,6 +154,7 @@
     'change',
     'search',
     'searchclick',
+    'clear',
     'update:searchText',
   ]); // 允许双向绑定value
 
@@ -527,6 +528,15 @@
         searchRealText.value = props.value;
       } catch (error) {
         //
+      }
+    },
+  );
+
+  watch(
+    () => searchRealText.value,
+    (val) => {
+      if (!val) {
+        emit('clear', val);
       }
     },
   );
