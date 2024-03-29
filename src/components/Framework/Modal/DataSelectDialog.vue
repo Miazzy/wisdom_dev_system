@@ -99,6 +99,7 @@
   const treeMap = ref<any>();
   const tdataList = ref<any>([]);
   const xdataList = ref<any>([]);
+  const searchTableRef = ref<HTMLElement>();
   type fieldType = { key: String; title: String; dept: String; postion: String };
   type tIconsType = { parent: String; leaf: String };
   type messageType = { double: String; delete: String };
@@ -130,8 +131,8 @@
     message: {
       type: Object,
       default: {
-        none: '当前没有被选人员，无法删除！',
-        double: '该节点已经被选中，请不要重复勾选！',
+        none: '当前没有被选数据，无法删除！',
+        double: '该节点已经被选中！',
         delete: '请您确认是否删除所有勾选节点？',
       } as messageType,
     },
@@ -244,15 +245,9 @@
 
   const handleDeleteNode = (item, index) => {
     allNodes.value = allNodes.value.filter((node, tindex) => tindex !== index);
-    // if (item.key) {
-    //   checkedKeys.value.checked = checkedKeys.value.checked.filter((key) => key !== item.key);
-    // } else {
-      let checkedValues = getValueArr(allNodes.value);
-      checkedKeys.value.checked = getCheckedKeysByValues(treeData.value, checkedValues);
-      checkedNodes.value = getCheckedNodesByValues(treeData.value, checkedValues);
-    // }
-
-    // emit('update:value', allNodes.value);
+    let deletedNode = getCheckedNodesByValues(treeData.value, item[[props.tfields.key]])[0];
+    checkedKeys.value.checked = checkedKeys.value.checked.filter((node, tindex) => node !== deletedNode.key);
+    checkedNodes.value = checkedNodes.value.filter((node, tindex) => node.key !== deletedNode.key);
   };
 
   // 按tfields生成转换规则
@@ -374,6 +369,9 @@
       return !node.disabled && node[props.tfields.title].includes(text);
     });
     xdataList.value = list;
+    if(text.length===0) {
+      selectedNode.value = null;
+    }
   };
 
   // 表格点击事件
@@ -412,6 +410,7 @@
       allNodes.value.forEach((i) => {
         if (selectedNode.value[props.tfields.key] === i[props.tfields.key]) {
           flag = false;
+          message.warning(props.message.double);
         }
       });
       if (flag) {
@@ -422,7 +421,7 @@
         checkedNodes.value.push(selectedNodeInTree);
       }
     }
-    allNodes.value = checkedNodes.value;
+    allNodes.value = checkedNodes.value; 
   };
 
   // 右侧表格
@@ -623,10 +622,10 @@
           height: 100vh;
         }
         :deep(.ant-table-body .ant-table-row.selected) {
-          background: var(--el-color-primary-light-8);
+          background: #00427d;
         }
         :deep(.ant-table-body .ant-table-row.selected td) {
-          background: var(--el-color-primary-light-8);
+          background: #00427d;
         }
         :deep(.ant-table-body) {
           overflow-x: hidden;
