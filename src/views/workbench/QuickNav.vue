@@ -119,7 +119,7 @@
         label: item.name,
         value: item.id,
         parentId: item.parentId,
-        disabled: selectIndex ? item.nodeKindId != 'fun' : false,
+        disabled: selectIndex ? item.nodeKind != 'fun' : false,
       };
 
       if (item.children && item.children.length > 0) {
