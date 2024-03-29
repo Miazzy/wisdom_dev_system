@@ -86,6 +86,7 @@ export interface TableActionType {
   reload: (opt?: FetchParams) => Promise<void>;
   reloadData: (opt?: FetchParams, loading?: Boolean) => Promise<void>;
   reloadByDataSource: (data: any[]) => Promise<void>;
+  reloadApiDataByLocal: (data: any[]) => Promise<void>;
   setSelectedRows: (rows: Recordable[]) => void;
   getSelectRows: <T = Recordable>() => T[];
   clearSelectedRowKeys: () => void;

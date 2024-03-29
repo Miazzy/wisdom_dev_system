@@ -160,6 +160,7 @@
         reload,
         reloadData,
         reloadByDataSource,
+        reloadApiDataByLocal,
         getAutoCreateKey,
         updateTableData,
       } = useDataSource(
@@ -304,6 +305,7 @@
         reload,
         reloadData,
         reloadByDataSource,
+        reloadApiDataByLocal,
         getSelectRows,
         setSelectedRows,
         clearSelectedRowKeys,

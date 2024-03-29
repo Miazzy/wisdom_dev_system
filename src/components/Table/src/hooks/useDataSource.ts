@@ -454,6 +454,13 @@ export function useDataSource(
     return await fetchByDataSource(data);
   }
 
+  async function reloadApiDataByLocal(data: any[] = []) {
+    const { current = 1, pageSize = PAGE_SIZE } = unref(getPaginationInfo) as PaginationProps;
+    const total = data?.length;
+    const list = data?.slice((current - 1) * pageSize, current * pageSize);
+    return { total, list };
+  }
+
   onMounted(() => {
     useTimeoutFn(() => {
       unref(propsRef).immediate && fetch();
@@ -471,6 +478,7 @@ export function useDataSource(
     reload,
     reloadData,
     reloadByDataSource,
+    reloadApiDataByLocal,
     updateTableData,
     updateTableDataRecord,
     deleteTableDataRecord,
