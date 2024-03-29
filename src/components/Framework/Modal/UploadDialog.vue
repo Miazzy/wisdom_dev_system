@@ -11,14 +11,14 @@
     @confirm="confirm"
     @close="close"
   >
-    <div :id="uid" class="dialog-content" :style="`height: calc(${props.height}px - 90px)`">
+    <div :id="uid" class="dialog-content" :style="`height: calc(${props.height}px - 110px)`">
       <!-- 温馨提示区域 -->
       <div class="top-content">
         <a-alert
           message="温馨提示"
           :description="props.tmessage"
           type="info"
-          style="margin-top: 10px; color: #0960bd"
+          style="margin-top: 10px; color: #1890FF"
         />
       </div>
       <!-- 附件列表区域 -->
@@ -399,6 +399,6 @@
   }
 
   :deep(.ant-alert-with-description .ant-alert-message) {
-    color: #0960bd;
+    color: #1890FF;
   }
 </style>
