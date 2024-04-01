@@ -148,7 +148,7 @@ export const GroupOperationRoute: AppRouteRecordRaw = {
   path: '/groupOperation',
   name: 'GroupOperation',
   component: () => import('/@/views/da/groupOperation/GroupOperation.vue'),
-  meta: { title: '集团运营', keepAlive: false },
+  meta: { title: '集团运营', keepAlive: true },
 };
 
 // 电站运营大屏
@@ -156,7 +156,7 @@ export const StationOperationRoute: AppRouteRecordRaw = {
   path: '/stationOperation',
   name: 'StationOperation',
   component: () => import('/@/views/da/stationOperation/StationOperation.vue'),
-  meta: { title: '电站运营', keepAlive: false },
+  meta: { title: '电站运营', keepAlive: true },
 };
 
 // 电站运营大屏
@@ -887,13 +887,13 @@ export const PoAssessEvaluationReport: AppRouteRecordRaw = {
 export const GroupOperation: AppRouteRecordRaw = {
   path: '/frame/groupOperation',
   component: () => import('/@/views/da/groupOperation/GroupOperation.vue'),
-  meta: { keepAlive: false },
+  meta: { keepAlive: true },
 };
 
 export const StationOperation: AppRouteRecordRaw = {
   path: '/frame/stationOperation',
   component: () => import('/@/views/da/stationOperation/StationOperation.vue'),
-  meta: { keepAlive: false },
+  meta: { keepAlive: true },
 };
 
 export const BiCapacityStatistics: AppRouteRecordRaw = {
