@@ -20,7 +20,7 @@ export enum SystemAuthApi {
  */
 export function loginApi(params: LoginParams) {
   const requestParams = { url: SystemAuthApi.Login, params };
-  return defHttp.post<LoginResultModel>(requestParams, { isOnlyResult: true });
+  return defHttp.post<LoginResultModel>(requestParams, { isOnlyResult: true, errorMessageMode: 'modal'});
 }
 
 /**
