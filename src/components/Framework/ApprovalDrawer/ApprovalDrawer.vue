@@ -140,8 +140,6 @@
   const trackTabRef = ref();
   const approvalTabRef = ref();
 
-  const processInstanceId = ref(null);
-
   const activeKey = ref('1');
 
   const emit = defineEmits([
@@ -313,7 +311,7 @@
       return false;
     }
     if (processOperation.value == 2) {
-      if (myTask.result == 2) {
+      if (myTask.result > 1) {
         SysMessage.getInstance().warning('此任务已处理。');
         return false;
       }
@@ -329,6 +327,7 @@
         processOperation.value = 0;
         emit('onReload');
         SysMessage.getInstance().success('操作成功。');
+        organVisible.value = false;
       });
     } else if (processOperation.value == 3) {
       const ccToVos = [];
@@ -344,6 +343,7 @@
         processOperation.value = 0;
         emit('onReload');
         SysMessage.getInstance().success('操作成功。');
+        organVisible.value = false;
       });
     }
   };
@@ -387,8 +387,8 @@
 <style lang="less" scoped>
   .fit-approval-tab {
     :deep(.ant-tabs-tab) {
-      padding-left: 0;
       padding-right: 0;
+      padding-left: 0;
       font-size: 16px;
 
       &.ant-tabs-tab-active .ant-tabs-tab-btn {

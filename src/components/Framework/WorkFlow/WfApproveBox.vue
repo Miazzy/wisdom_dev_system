@@ -2,10 +2,15 @@
   <div class="workflow-approve-box">
     <!-- 审批按钮 -->
     <div class="button-content" style="" v-show="isShowBtns">
-      <Button @click="handleSubmit" v-if="isNewProcessType && !isReadOnly && !processStatus" type="primary"
+      <Button
+        @click="handleSubmit"
+        v-if="isNewProcessType && !isReadOnly && !processStatus"
+        type="primary"
         >提交</Button
       >
-      <Button @click="handleSave" v-if="isNewProcessType && !isReadOnly && !processStatus">保存</Button>
+      <Button @click="handleSave" v-if="isNewProcessType && !isReadOnly && !processStatus"
+        >保存</Button
+      >
 
       <!-- <Button @click="handleCollect" v-if="processStatus != 0">收藏</Button> -->
       <Button
@@ -205,7 +210,7 @@
     }
     //获取当前流程是否可操作
     const startUserId = data.startUser.id;
-    if (startUserId === getUserInfo.userId && data.formVariables.status == 0) {
+    if (startUserId === getUserInfo.userId) {
       isReadOnly.value = false;
     }
     isHandle.value = data['status'];
