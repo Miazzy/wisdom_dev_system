@@ -231,6 +231,10 @@
   .modal-body {
     margin: 0.15rem 0 0;
     padding: 0 10px 10px;
+
+    :deep(.ant-form-item-control) {
+      text-align: left;
+    }
   }
 
   .modal-footer {
