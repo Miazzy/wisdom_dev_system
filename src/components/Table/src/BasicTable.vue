@@ -9,6 +9,7 @@
       @register="registerForm"
       @submit="handleSearchInfoChange"
       @advanced-change="redoHeight"
+      @toggle="handleFormToggle"
     >
       <template #[replaceFormSlotKey(item)]="data" v-for="item in getFormSlotKeys">
         <slot :name="item" v-bind="data || {}"></slot>
@@ -313,6 +314,10 @@
         }
       };
 
+      const handleFormToggle = (flag) => {
+        emit('form-toggle', flag);
+      };
+
       const tableAction: TableActionType = {
         reload,
         reloadData,
@@ -379,6 +384,7 @@
         replaceFormSlotKey,
         getFormSlotKeys,
         getWrapperClass,
+        handleFormToggle,
         columns: getViewColumns,
       };
     },

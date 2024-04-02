@@ -165,6 +165,7 @@ export default function ({
 
   function handleToggleAdvanced() {
     advanceState.isAdvanced = !advanceState.isAdvanced;
+    emit('toggle', advanceState.isAdvanced);
   }
 
   return { handleToggleAdvanced, fieldsIsAdvancedMap };
