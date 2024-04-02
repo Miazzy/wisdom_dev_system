@@ -22,27 +22,27 @@ export default {
   dark: '黑暗主题',
 
   exportTitle: '导出',
-  exportMessage: '是否要导出数据？',
+  exportMessage: '确定要导出所有记录？',
   exportSuccessText: '导出成功',
 
   message: {
     confirmTitle: '温馨提示',
     alertTitle: '系统提示',
-    delMessage: '是否确认删除此数据项？',
-    exportMessage: '是否确认导出此数据项？',
+    delMessage: '确定要删除选中记录？',
+    exportMessage: '确定要导出所有记录？',
   },
 
   delSuccessText: '删除成功',
 
   required: '必填',
-  createSuccess: '创建成功',
+  createSuccess: '添加成功',
   updateSuccess: '修改成功',
   delSuccess: '删除成功',
   saveSuccessText: '保存成功',
 
   action: {
-    create: '新增',
-    update: '编辑',
+    create: '添加',
+    update: '修改',
     export: '导出',
     edit: '修改',
   },
