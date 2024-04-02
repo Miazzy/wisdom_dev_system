@@ -1,6 +1,9 @@
 <template>
   <!-- 搜索工作栏 -->
-  <div class="search-box" style="width: calc(100% - 20px); height: auto; margin: 10px; background: #fefefe">
+  <div
+    class="search-box"
+    style="width: calc(100% - 20px); height: auto; margin: 10px; background: #fefefe"
+  >
     <!-- 标题 -->
     <BillTitle :options="billTitleOptions" />
 
@@ -9,29 +12,76 @@
     </Marquee>
 
     <div style="margin: 10px 0 0 40px">
-      <Tinymce v-model="richTextValue" :width="`calc(100% - 80px)`" :height="600" :maxChars="100" :disabled="true" @change="handleRichTextChange" />
+      <Tinymce
+        v-model="richTextValue"
+        :width="`calc(100% - 80px)`"
+        :height="600"
+        :maxChars="100"
+        :disabled="true"
+        @change="handleRichTextChange"
+      />
     </div>
 
-    <CommonTree :title="`电站树`" @select="handleSelect" :value="treeData" class="w-1/4" :isShowOperationBtns="false" :canEdit="true" :canAdd="true" :canDelete="false"
-      :fieldNames="{ key: 'nodeId', title: 'nodeName' }" checkable @edit="handleTreeEdit" @add="handleTreeAdd" @delete="handleTreeDelete" @refresh="handleTreeRefresh" ref="myCommonTree" />
+    <CommonTree
+      :title="`电站树`"
+      @select="handleSelect"
+      :value="treeData"
+      class="w-1/4"
+      :isShowOperationBtns="false"
+      :canEdit="true"
+      :canAdd="true"
+      :canDelete="false"
+      :fieldNames="{ key: 'nodeId', title: 'nodeName' }"
+      checkable
+      @edit="handleTreeEdit"
+      @add="handleTreeAdd"
+      @delete="handleTreeDelete"
+      @refresh="handleTreeRefresh"
+      ref="myCommonTree"
+    />
 
     <Button @click="handleCancelCheck">取消勾选</Button>
     <div class="" style="width: 100%">
       <span style="float: left"> SearchBox </span>
       <!-- search box -->
       <span style="margin-left: 10px">searchBoxSearchText: {{ searchBoxSearchText }}</span>
-      <SearchBox v-model:value="searchTableText" v-model:searchText="searchBoxSearchText" :columns="searchBoxColumns" :data="searchBoxData" :vfield="'date'" :pagination="true" twidth="500px"
-        style="width: 220px" @search="handleSearchBoxSearch" @select="tableBoxSelect" />
+      <SearchBox
+        v-model:value="searchTableText"
+        v-model:searchText="searchBoxSearchText"
+        :columns="searchBoxColumns"
+        :data="searchBoxData"
+        :vfield="'date'"
+        :pagination="true"
+        twidth="500px"
+        style="width: 220px"
+        @search="handleSearchBoxSearch"
+        @select="tableBoxSelect"
+      />
       <span style="float: left"> TreeBox </span>
       <!-- tree box -->
-      <TreeBox v-model:value="searchTreeText" vmode="edit" :tfields="{ key: 'nodeId', title: 'nodeName' }" :data="treeData" :multiple="true" :expand-all="false" @select="treeBoxSelect"
-        style="width: 220px" twidth="400px" />
+      <TreeBox
+        v-model:value="searchTreeText"
+        vmode="edit"
+        :tfields="{ key: 'nodeId', title: 'nodeName' }"
+        :data="treeData"
+        :multiple="true"
+        :expand-all="false"
+        @select="treeBoxSelect"
+        style="width: 220px"
+        twidth="400px"
+      />
       <span style="float: left"> SelectBox </span>
       <br />
-      <SelectBox v-model:value="searchSelectText" :tfields="{ label: 'llll', value: 'vvv' }" :data="[
+      <SelectBox
+        v-model:value="searchSelectText"
+        :tfields="{ label: 'llll', value: 'vvv' }"
+        :data="[
           { vvv: '01', llll: 'Lucy01' },
           { vvv: '02', llll: 'Lucy02' },
-        ]" @change="handleSelectBox" twidth="220px" />
+        ]"
+        @change="handleSelectBox"
+        twidth="220px"
+      />
     </div>
     <br />
     <Button @click="handleOpenCgDialog" style="margin: 0 10px 0 0">打开分类Dialog</Button>
@@ -39,16 +89,54 @@
     <Button @click="handleOpen2OgDialog" style="margin: 0 10px 0 0">打开组织Dialog2</Button>
     <br />
     <br />
-    <UploadBox :vmode="'box'" :width="800" :height="550" :maxCount="20" :maxSize="100 * 1024 * 1024" :application="`baseset`" :module="`oaleave`"
-      :bizId="`test-bizid-${Math.floor(Math.random() * 100000)}`" />
-    <CategoryDialog :title="`分类树Dialog`" v-model:visible="modalVisible" :tdata="treeData" :tfields="{ key: 'nodeId', title: 'nodeName' }" :gcolumns="searchBoxColumns" :gdata="searchBoxData"
-      :width="800" :height="600" @cancel="handleCategoryCancel" @confirm="handleCategoryConfirm" />
+    <UploadBox
+      :vmode="'box'"
+      :width="800"
+      :height="550"
+      :maxCount="20"
+      :maxSize="100 * 1024 * 1024"
+      :application="`baseset`"
+      :module="`oaleave`"
+      :bizId="`test-bizid-${Math.floor(Math.random() * 100000)}`"
+    />
+    <CategoryDialog
+      :title="`分类树Dialog`"
+      v-model:visible="modalVisible"
+      :tdata="treeData"
+      :tfields="{ key: 'nodeId', title: 'nodeName' }"
+      :gcolumns="searchBoxColumns"
+      :gdata="searchBoxData"
+      :width="800"
+      :height="600"
+      @cancel="handleCategoryCancel"
+      @confirm="handleCategoryConfirm"
+    />
 
-    <OrganDialog :title="`组织人员1Dialog`" v-model:visible="organVisible" v-model:value="organValue" :tdata="treeData" :tfields="{ key: 'nodeId', title: 'nodeName' }" :width="800" :height="600"
-      @cancel="handleOrganCancel" @confirm="handleOrganConfirm" />
+    <OrganDialog
+      :title="`组织人员1Dialog`"
+      v-model:visible="organVisible"
+      v-model:value="organValue"
+      :tdata="treeData"
+      :tfields="{ key: 'nodeId', title: 'nodeName' }"
+      :width="800"
+      :height="600"
+      @cancel="handleOrganCancel"
+      @confirm="handleOrganConfirm"
+    />
 
-    <OrganDialog :title="`组织人员2Dialog`" v-model:visible="organ2Visible" v-model:value="organ2Value" :tdata="treeData" :tfields="{ key: 'nodeId', title: 'nodeName' }" :width="800" :height="600"
-      @cancel="handleOrgan2Cancel" @confirm="handleOrgan2Confirm" />
+    <OrganDialog
+      :title="`组织人员2Dialog`"
+      v-model:visible="organ2Visible"
+      v-model:value="organ2Value"
+      :tdata="treeData"
+      :tfields="{ key: 'nodeId', title: 'nodeName' }"
+      :width="800"
+      :height="600"
+      @cancel="handleOrgan2Cancel"
+      @confirm="handleOrgan2Confirm"
+    />
+
+    <Dialog v-model:visible="dialogVisible" />
     <br />
     <span style="display: block; margin-top: 10px; margin-left: 5px"> {{ categoryConfirm }} </span>
     <br />
@@ -57,19 +145,55 @@
     <span style="float: left"> DictSelectBox {{ username + `${JSON.stringify(userInfo)}` }} </span>
     <br />
 
-    <DictSelectBox v-model:value="selectedValue" :multiple="`multiple`" :type="DICT_TYPE.BPM_MODEL_CATEGORY" :width="220" :disabled="true" @change="handleDictSelectBoxChange" />
+    <DictSelectBox
+      v-model:value="selectedValue"
+      :multiple="`multiple`"
+      :type="DICT_TYPE.BPM_MODEL_CATEGORY"
+      :width="220"
+      :disabled="true"
+      @change="handleDictSelectBoxChange"
+    />
 
-    <DictSelectBox v-model:value="selectedValue" :multiple="`multiple`" :type="DICT_TYPE.SYSTEM_USER_SEX" :width="220" :maxTagCount="1" style="margin-left: 5px" @change="handleDictSelectBoxChange" />
+    <DictSelectBox
+      v-model:value="selectedValue"
+      :multiple="`multiple`"
+      :type="DICT_TYPE.SYSTEM_USER_SEX"
+      :width="220"
+      :maxTagCount="1"
+      style="margin-left: 5px"
+      @change="handleDictSelectBoxChange"
+    />
 
-    <DictSelectBox v-model:value="selectedSValue" :type="DICT_TYPE.INFRA_CONFIG_TYPE" :width="220" style="margin-left: 5px" @change="handleDictSelectBoxChange" />
+    <DictSelectBox
+      v-model:value="selectedSValue"
+      :type="DICT_TYPE.INFRA_CONFIG_TYPE"
+      :width="220"
+      style="margin-left: 5px"
+      @change="handleDictSelectBoxChange"
+    />
 
     <DictSelectBox v-model:value="selectedSValue" :type="DICT_TYPE.CERTIFICATE" />
 
     <br /><br />
 
-    <DictRadioGroup v-model:value="radioGroupValue" :type="DICT_TYPE.BPM_MODEL_CATEGORY" rtype="radio"  :disabled="disabled" />
-    <DictRadioGroup v-model:value="radioGroupValue" :type="DICT_TYPE.SYSTEM_USER_SEX" rtype="vertical"  :disabled="disabled" />
-    <DictRadioGroup v-model:value="radioGroupValue" :type="DICT_TYPE.INFRA_CONFIG_TYPE" rtype="button"  :disabled="disabled" />
+    <DictRadioGroup
+      v-model:value="radioGroupValue"
+      :type="DICT_TYPE.BPM_MODEL_CATEGORY"
+      rtype="radio"
+      :disabled="disabled"
+    />
+    <DictRadioGroup
+      v-model:value="radioGroupValue"
+      :type="DICT_TYPE.SYSTEM_USER_SEX"
+      rtype="vertical"
+      :disabled="disabled"
+    />
+    <DictRadioGroup
+      v-model:value="radioGroupValue"
+      :type="DICT_TYPE.INFRA_CONFIG_TYPE"
+      rtype="button"
+      :disabled="disabled"
+    />
 
     <XButton preIcon="ep:folder-opened" title="打开文件" />
     <XTextButton preIcon="ep:folder-opened" title="打开文件" />
@@ -85,8 +209,17 @@
     <div> {{ uuidVal }} </div>
 
     <!-- 流程审批抽屉组件 -->
-    <ApprovalDrawer @register="approvalDrawerRegister" :flowData="flowData" @agree="handleAgree" @reject="handleReject" @save="handleSave" @end="handleEnd" @transfer="handleTransfer"
-      @notice="handleNotice" @collect="handleCollect" />
+    <ApprovalDrawer
+      @register="approvalDrawerRegister"
+      :flowData="flowData"
+      @agree="handleAgree"
+      @reject="handleReject"
+      @save="handleSave"
+      @end="handleEnd"
+      @transfer="handleTransfer"
+      @notice="handleNotice"
+      @collect="handleCollect"
+    />
 
     <!-- <BubbleChart
       :data="chartData"
@@ -131,10 +264,20 @@
 
     <!-- <NtgaleChart /> -->
 
-    <Table :table-css-style="{ width: '1200px', margin: '5px 0px 5px 0px', height: 'auto' }" :data="tableDataSource" :columns="tableColumns" />
+    <Table
+      :table-css-style="{ width: '1200px', margin: '5px 0px 5px 0px', height: 'auto' }"
+      :data="tableDataSource"
+      :columns="tableColumns"
+    />
 
     <div style="width: 1200px; height: 400px; margin: 5px 0px 20px 0px">
-      <UploadTable ref="uploadTable" :rows="uploadRows" :colwidths="uploadColWidths" :application="`baseset`" :module="`oaleave`" />
+      <UploadTable
+        ref="uploadTable"
+        :rows="uploadRows"
+        :colwidths="uploadColWidths"
+        :application="`baseset`"
+        :module="`oaleave`"
+      />
     </div>
 
     <BasicTable @register="registerTable" />
@@ -183,7 +326,7 @@
   // import NtgaleChart from '/@/components/Framework/Chart/NtgaleChart.vue';
   // import ThreeDPieChart from '/@/components/Framework/Chart/ThreeDPieChart.vue';
   // import { BillTitleOptions } from '/@/components/Framework/BillTitle/types';
-  // import Dialog from '@/components/Framework/Modal/Dialog.vue';
+  import Dialog from '@/components/Framework/Modal/Dialog.vue';
   // import dayjs from 'dayjs';
   import { DateTools } from '/@/utils/dateUtil';
   import { Tinymce } from '/@/components/Tinymce/index';
@@ -201,6 +344,7 @@
   const userInfo = userStore.getUserInfo;
   const username = userInfo?.username;
   const disabled = ref(false);
+  const dialogVisible = ref(false);
 
   const { pushCloseTab, updatePath, closeCurrentPage } = useTabs();
 
@@ -688,7 +832,12 @@
   const testColumns: BasicColumn[] = [
     { title: '类型', dataIndex: 'typeName', width: 150 },
     { title: '年份', dataIndex: 'year', width: 150 },
-    { title: '金额', dataIndex: 'money', width: 150, format: { type: 'Money', format: '$,###.00' } },
+    {
+      title: '金额',
+      dataIndex: 'money',
+      width: 150,
+      format: { type: 'Money', format: '$,###.00' },
+    },
     { title: '日期', dataIndex: 'date', width: 120, format: { type: 'Date', format: 'datestime' } },
   ];
   tableData.value = ref([

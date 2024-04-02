@@ -43,7 +43,16 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, defineProps, defineEmits, computed, watch, nextTick, onMounted } from 'vue';
+  import {
+    ref,
+    defineProps,
+    defineEmits,
+    computed,
+    watch,
+    nextTick,
+    onMounted,
+    getCurrentInstance,
+  } from 'vue';
   import { MsgManager } from '/@/message/MsgManager';
 
   defineOptions({
@@ -53,7 +62,7 @@
   const props = defineProps({
     visible: Boolean, // 是否显示弹框
     title: String, // 弹框标题
-    smode: { type: String, default: 'default' },
+    smode: { type: String, default: 'simple' },
     tweight: { type: Number, default: 400 },
     tsize: { type: String, default: '16' }, // 标题大小
     width: { type: [Number, String], default: 800 }, // 弹框宽度
@@ -67,6 +76,7 @@
   });
 
   const emit = defineEmits(['update:visible', 'cancel', 'confirm', 'ok', 'close']); // 定义事件
+  const instance = ref();
 
   const appDom = document.querySelector('div#app');
   const closeModal = () => {
@@ -80,7 +90,9 @@
 
   const cancel = () => {
     emit('cancel'); // 发送取消事件
-    if (props.smode == 'simple') {
+    if (props.smode !== 'simple') {
+      //
+    } else {
       emit('update:visible', false); // 关闭弹框
     }
     MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
@@ -154,6 +166,7 @@
 
   onMounted(() => {
     // 监听check-iframe-framepage消息
+    instance.value = getCurrentInstance();
     MsgManager.getInstance().listen('iframe-dialog-close', () => {
       closeModal();
       enableScroll();
@@ -216,7 +229,7 @@
   }
 
   .modal-body {
-    margin: 0.15rem 0 0 0;
+    margin: 0.15rem 0 0;
     padding: 0 10px 10px;
   }
 
