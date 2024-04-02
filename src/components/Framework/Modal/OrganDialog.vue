@@ -1,14 +1,5 @@
 <template>
-  <Dialog
-    :title="title"
-    :visible="modalVisible"
-    @update:visible="updateVisible"
-    :width="props.width"
-    :height="props.height"
-    @cancel="cancel"
-    @confirm="confirm"
-    @close="handleClose"
-  >
+  <Dialog :title="title" :visible="modalVisible" @update:visible="updateVisible" :width="props.width" :height="props.height" @cancel="cancel" @confirm="confirm" @close="handleClose">
     <div class="dialog-content" :style="`height: calc(${props.height}px - 90px)`">
       <!-- 左侧分类树 -->
       <div class="category-tree">
@@ -18,65 +9,28 @@
         <div class="category-content" :style="`height: calc(${props.height}px - 130px)`">
           <div class="category-search-box" style="position: relative">
             <span class="search-title" style="">搜索</span>
-            <a-input-search
-              v-model:value="searchText"
-              class="search-input"
-              placeholder="请输入搜索内容"
-              enter-button
-              @change="handleSearch"
-              @search="handleSearch"
-              @keydown.prevent.enter="preventEnter"
-            />
+            <a-input-search v-model:value="searchText" class="search-input" placeholder="请输入搜索内容" enter-button @change="handleSearch" @search="handleSearch" @keydown.prevent.enter="preventEnter" />
             <span class="search-icon" style="left: 300px">
               <Icon icon="mdi:arrow-up" size="22" class="rotate-left" @click="handleNode" />
             </span>
             <span class="search-icon" style="left: 340px">
-              <Icon
-                icon="material-symbols:delete-outline"
-                class="icon-delete"
-                size="22"
-                @click="handleDelete"
-              />
+              <Icon icon="material-symbols:delete-outline" class="icon-delete" size="22" @click="handleDelete" />
             </span>
           </div>
           <div class="tree-value" :style="`height: calc(${props.height}px - 180px);`">
             <!-- 基础Tree组件 -->
-            <a-tree
-              v-if="searchText.length <= 0"
-              :tree-data="treeData"
-              show-icon
-              :default-expand-all="false"
-              @select="handleSelect"
-            >
+            <a-tree v-if="searchText.length <= 0" :tree-data="treeData" show-icon :default-expand-all="false" @select="handleSelect">
               <template #switcherIcon="{ switcherCls }">
-                <Icon :icon="props.ticons.parent" color="#333" size="14" :class="switcherCls" />
+                <Icon :icon="props.ticons.parent" size="14" :class="switcherCls" />
               </template>
               <template #icon="{ key, isLeaf }">
-                <Icon
-                  v-if="isLeaf && !isTopNode(key)"
-                  :icon="props.ticons.leaf"
-                  color="#333"
-                  size="14"
-                />
-                <Icon
-                  v-if="!isLeaf && !isTopNode(key)"
-                  :icon="props.ticons.middle"
-                  color="#333"
-                  size="14"
-                />
+                <Icon v-if="isLeaf && !isTopNode(key)" :icon="props.ticons.leaf" size="14" />
+                <Icon v-if="!isLeaf && !isTopNode(key)" :icon="props.ticons.middle" size="14" />
               </template>
             </a-tree>
 
-            <a-table
-              v-if="searchText.length > 0"
-              size="small"
-              :columns="scolumns"
-              :data-source="xdataList"
-              :pagination="false"
-              :scroll="{ x: (props.width - 30) / 2, y: props.height - 220 }"
-              style="overflow-x: hidden"
-              :customRow="handleTableClick"
-            />
+            <a-table v-if="searchText.length > 0" size="small" :columns="scolumns" :data-source="xdataList" :pagination="false" :scroll="{ x: (props.width - 30) / 2, y: props.height - 220 }"
+              style="overflow-x: hidden" :customRow="handleTableClick" />
           </div>
         </div>
       </div>
@@ -87,11 +41,7 @@
           <span>被选人员</span>
         </span>
         <div class="employee-content">
-          <div
-            position="center"
-            class="layout-content"
-            :style="`height: calc(${props.height}px - 140px);`"
-          >
+          <div position="center" class="layout-content" :style="`height: calc(${props.height}px - 140px);`">
             <div class="component-wrap">
               <template :key="index" v-for="(item, index) of allNodes">
                 <a class="component-item">
@@ -409,8 +359,7 @@
       return flag;
     });
     xdataList.value = list.map((item) => {
-      const { company, dept, key, label, orgId, parentId, parent_node, postion, title, value } =
-        item;
+      const { company, dept, key, label, orgId, parentId, parent_node, postion, title, value } = item;
       return { company, dept, key, label, orgId, parentId, parent_node, postion, title, value };
     });
   };
@@ -502,6 +451,50 @@
           }
         }
       }
+
+      .category-tree {
+        border-right: 1px solid rgb(255 255 255 / 16%);
+
+        span.category-title {
+          border-bottom: 1px solid rgb(255 255 255 / 16%);
+        }
+
+        div.category-content div.category-search-box {
+          border-bottom: 1px solid rgb(255 255 255 / 16%);
+        }
+
+        div.category-content div.category-search-box .search-icon {
+          border: 1px solid rgb(255 255 255 / 16%);
+        }
+      }
+      .employee-table {
+        span.employee-title {
+          border-bottom: 1px solid rgb(255 255 255 / 16%);
+        }
+      }
+    }
+  }
+
+  .theme3 {
+    .category-tree {
+      border-right: 1px solid #ebebeb;
+
+      span.category-title {
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      div.category-content div.category-search-box {
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      div.category-content div.category-search-box .search-icon {
+        border: 1px solid rgb(240 240 240);
+      }
+    }
+    .employee-table {
+      span.employee-title {
+        border-bottom: 1px solid rgb(240 240 240);
+      }
     }
   }
 </style>
@@ -515,7 +508,6 @@
   .category-tree {
     width: 50%;
     padding: 10px;
-    border-right: 1px solid #ebebeb; /* 右侧加上分割线 */
     text-align: left;
 
     span.category-title {
@@ -523,7 +515,6 @@
       width: calc(100% + 25px);
       margin-left: -17.5px;
       padding-bottom: 5px;
-      border-bottom: 1px solid rgb(240 240 240);
       text-align: left;
 
       span {
@@ -538,7 +529,6 @@
       div.category-search-box {
         width: 100%;
         height: 45px;
-        border-bottom: 1px solid #f0f0f0;
 
         .search-title {
           height: 45px;
@@ -561,7 +551,6 @@
           height: 35px;
           margin: 0 3px;
           padding-top: 2px;
-          border: 1px solid rgb(240 240 240);
           border-radius: 4px;
           line-height: 35px;
           text-align: center;
@@ -590,14 +579,6 @@
           height: 100vh;
         }
 
-        :deep(.ant-table-body .ant-table-row.selected) {
-          background: var(--el-color-primary-light-8);
-        }
-
-        :deep(.ant-table-body .ant-table-row.selected td) {
-          background: var(--el-color-primary-light-8);
-        }
-
         :deep(.ant-table-body) {
           overflow-x: hidden;
         }
@@ -605,6 +586,14 @@
 
       :deep(.ant-btn .anticon) {
         margin-top: 7.5px;
+      }
+    }
+
+    :deep(.ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected) {
+      background-color: transparent;
+      .ant-tree-title,
+      .ant-tree-icon__customize {
+        color: #1890ff;
       }
     }
   }
@@ -619,7 +608,6 @@
       width: calc(100% + 25px);
       margin-left: -17.5px;
       padding-bottom: 5px;
-      border-bottom: 1px solid rgb(240 240 240);
       text-align: left;
 
       span {
