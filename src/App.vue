@@ -112,7 +112,9 @@
         console.info('routePath: ', routePath);
       } else {
         const isLocal = window.location.hostname == 'localhost';
-        const isOverview = window.localStorage.getItem('overview-screen-flag');
+        const isOverview =
+          window.localStorage.getItem('overview-screen-flag') ||
+          window.localStorage.getItem('overview');
         routePath != PageEnum.BASE_HOME && !isLocal && !isOverview
           ? router.push(PageEnum.BASE_HOME)
           : null;
