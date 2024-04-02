@@ -25,12 +25,7 @@
         </Button>
 
         <slot name="advanceBefore"></slot>
-        <Button
-          type="link"
-          size="small"
-          @click="toggleAdvanced"
-          v-if="showAdvancedButton && !hideAdvanceBtn"
-        >
+        <Button type="link" size="small" @click="toggleAdvanced" v-show="showExpandText">
           {{ isAdvanced ? t('component.form.putAway') : t('component.form.unfold') }}
           <BasicArrow class="ml-1" :expand="!isAdvanced" up />
         </Button>
@@ -118,6 +113,12 @@
         );
       });
 
+      const showExpandText = computed(() => {
+        const { showAdvancedButton, hideAdvanceBtn } = props;
+        const result = showAdvancedButton;
+        return result;
+      });
+
       function toggleAdvanced() {
         emit('toggle-advanced');
       }
@@ -128,6 +129,7 @@
         getResetBtnOptions,
         getSubmitBtnOptions,
         toggleAdvanced,
+        showExpandText,
         ...useFormContext(),
       };
     },
