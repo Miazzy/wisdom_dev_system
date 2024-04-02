@@ -1,5 +1,5 @@
 [data-theme='dark'] .theme1 {
-  background-color: transparent  !important;
+  background-color: transparent !important;
 
   .ant-menu.ant-menu-dark {
     color: #fff;
@@ -16,10 +16,11 @@
   }
 
   .tox {
-    .tox-toolbar, .tox-toolbar__primary {
+    .tox-toolbar,
+    .tox-toolbar__primary {
       background-color: #073b6d80 !important;
     }
-    
+
     .tox-edit-area__iframe {
       background-color: #073b6d !important;
     }
@@ -78,6 +79,10 @@
   .ant-select:not(.ant-select-customize-input) .ant-select-selector {
     border: 1px solid rgb(255 255 255 / 16%);
     background-color: rgb(7 59 109 / 50%);
+  }
+
+  .ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    color: #1890ff;
   }
 
   .ant-select-arrow {
@@ -348,6 +353,7 @@
 
   .ant-picker-input > input[disabled] {
     background-color: transparent;
+    color: #1890ff;
   }
 
   // vben-tree
@@ -541,7 +547,7 @@
     > .ant-tabs {
       .vben-basic-table .ant-table-wrapper {
         background-color: transparent;
-      } 
+      }
     }
   }
   // ant-modal
@@ -567,7 +573,8 @@
     background-color: #002f5c;
   }
 
-  .ant-modal .ant-table tbody > tr > td.ant-table-cell-fix-left, .ant-modal .ant-table tbody > tr > td.ant-table-cell-fix-right {
+  .ant-modal .ant-table tbody > tr > td.ant-table-cell-fix-left,
+  .ant-modal .ant-table tbody > tr > td.ant-table-cell-fix-right {
     background-color: #002f5c;
   }
 
@@ -576,7 +583,8 @@
   }
 
   // vben-basic-column-setting
-  .vben-basic-column-setting__fixed-left:not(.disabled), .vben-basic-column-setting__fixed-right:not(.disabled) {
+  .vben-basic-column-setting__fixed-left:not(.disabled),
+  .vben-basic-column-setting__fixed-right:not(.disabled) {
     color: rgb(255 255 255 / 60%);
   }
 
@@ -606,9 +614,10 @@
 
       span {
         color: #557faff0;
-        
+
         &.vben-app-search-footer-item {
-          box-shadow: inset 0 -2px 0 0 #557faf90, inset 0 0 1px 1px #557faff0, 0 1px 2px 1px #557faf30;
+          box-shadow: inset 0 -2px 0 0 #557faf90, inset 0 0 1px 1px #557faff0,
+            0 1px 2px 1px #557faf30;
         }
       }
     }
@@ -628,36 +637,39 @@
 
   .ant-input[disabled] {
     border-color: rgba(255, 255, 255, 0.16) !important;
-    background-color: rgba(7,59,109,0.5) !important;
-    color: #1890FF !important;
+    background-color: rgba(7, 59, 109, 0.5) !important;
+    color: #1890ff !important;
   }
 
   .el-form-item__label {
-    color: #FEFEFE;
+    color: #fefefe;
   }
   .el-input__wrapper {
-    background-color:  rgba(7,59,109,0.5);
-    box-shadow: none;
-    border: 1px solid rgba(255, 255, 255, 0.16);    
-  }
-  .el-input__inner {
-    color: #FEFEFE;
-  }
-  .el-textarea__inner {
-    background-color:  rgba(7,59,109,0.5);
+    background-color: rgba(7, 59, 109, 0.5);
     box-shadow: none;
     border: 1px solid rgba(255, 255, 255, 0.16);
-    color: #FEFEFE;
+  }
+  .el-input__inner {
+    color: #fefefe;
+  }
+  .el-textarea__inner {
+    background-color: rgba(7, 59, 109, 0.5);
+    box-shadow: none;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #fefefe;
   }
   .ant-modal-mask {
     background-color: rgb(0 0 0 / 70%);
   }
+
+  // .ant-input-number
+  .ant-input-number-disabled {
+    background-color: rgba(7, 59, 109, 0.5);
+    color: #1890ff;
+  }
 }
 
-
-
 .theme1 {
-
   .ant-layout {
     background: transparent;
   }
@@ -668,7 +680,8 @@
     border-left-color: rgb(10 36 74 / 70%);
     background-color: rgb(10 36 74 / 70%) !important;
 
-    .vben-layout-header-logo , #app > .main-layout .logo{
+    .vben-layout-header-logo,
+    #app > .main-layout .logo {
       background: url('../assets/images/my-logo-dark.png') no-repeat 24px 6px/104px auto;
 
       &:hover {
@@ -1026,11 +1039,11 @@
       .ant-tree-switcher-icon {
         color: rgb(255 255 255 / 30%);
       }
-  
+
       .ant-tree-icon__customize {
         color: rgb(255 255 255 / 30%);
       }
-  
+
       .ant-tree-title {
         color: rgb(255 255 255 / 26%);
       }
@@ -1245,7 +1258,7 @@
 
     .notice-item {
       .item-dot {
-        background: #1890FF;
+        background: #1890ff;
       }
 
       .title-text {
