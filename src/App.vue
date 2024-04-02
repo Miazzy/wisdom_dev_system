@@ -112,6 +112,7 @@
         console.info('routePath: ', routePath);
       } else {
         const isLocal = window.location.hostname == 'localhost';
+        // 设置单独预览模式，Overview模式，预览模式，调试模式
         const isOverview =
           window.localStorage.getItem('overview-screen-flag') ||
           window.localStorage.getItem('overview');
