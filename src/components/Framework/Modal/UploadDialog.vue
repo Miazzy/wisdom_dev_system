@@ -169,6 +169,7 @@
             fileList.value.splice(index, 1);
             if (Reflect.has(file, 'id')) {
               await FileApi.deleteFile(file.id);
+              emit('change', fileList.value);
             } else {
               const selector = `.dialog-content > .main-content .ant-upload-list`;
               const selectorElement = `.dialog-content > .main-content .ant-upload-list .ant-upload-list-text-container:nth-child(${++index})`;
@@ -177,7 +178,6 @@
               parentNode.removeChild(node);
             }
             emit('update:value', fileList.value);
-            emit('change', fileList.value);
           } catch (error) {
             //
           }
