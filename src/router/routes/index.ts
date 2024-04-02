@@ -89,7 +89,7 @@ export const LoginRoute: AppRouteRecordRaw = {
   path: '/login',
   name: 'Login',
   component: () => import('/@/views/sys/login/Login.vue'),
-  meta: { title: t('routes.basic.login'), keepAlive: true },
+  meta: { title: t('routes.basic.login'), keepAlive: false },
 };
 
 // 缓存页面
