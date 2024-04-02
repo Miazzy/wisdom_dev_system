@@ -273,4 +273,8 @@
     line-height: 30px;
     cursor: pointer;
   }
+
+  :deep(.ant-form-item-control) {
+    text-align: left;
+  }
 </style>
