@@ -226,25 +226,26 @@ function confirm(content: string, tip?: string) {
 }
 
 // 删除窗体
-function delConfirm(content?: string, tip?: string) {
+const delConfirm = async (content?: string, tip?: string) => {
   const { t } = useI18n();
   MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
-  return Modal.confirm({
-    title: tip ? tip : t('common.message.confirmTitle'),
-    icon: createVNode(ExclamationCircleOutlined),
-    content: content ? content : t('common.message.delMessage'),
-    onOk() {
-      return new Promise((resolve) => {
-        setTimeout(resolve, 0);
-      })
-        .catch(() => console.log('error'))
-        .finally(() => MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' }));
-    },
-    onCancel() {
-      MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
-    },
+  const callback = new Promise((resolve, reject) => {
+    Modal.confirm({
+      title: tip ? tip : t('common.message.confirmTitle'),
+      icon: createVNode(ExclamationCircleOutlined),
+      content: content ? content : t('common.message.delMessage'),
+      onOk() {
+        MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+        resolve(true);
+      },
+      onCancel() {
+        MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+        reject(false);
+      },
+    });
   });
-}
+  return await callback;
+};
 
 // 导出窗体
 function exportConfirm(content?: string, tip?: string) {
