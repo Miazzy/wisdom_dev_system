@@ -91,6 +91,8 @@ export interface FormProps {
   autoSetPlaceHolder?: boolean;
   // Auto submit on press enter on input
   autoSubmitOnEnter?: boolean;
+  // No Hide Btn Flag
+  noHideBtnFlag?: boolean;
   // Check whether the information is added to the label
   rulesMessageJoinLabel?: boolean;
   // Whether to show collapse and expand buttons

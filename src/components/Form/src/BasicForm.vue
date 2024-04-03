@@ -304,7 +304,10 @@
         formActionType: formActionType as any,
         setFormModel,
         getFormClass,
-        getFormActionBindProps: computed(() => ({ ...getProps.value, ...advanceState })),
+        getFormActionBindProps: computed(() => {
+          const result = { ...getProps.value, ...advanceState };
+          return result;
+        }),
         fieldsIsAdvancedMap,
         ...formActionType,
       };

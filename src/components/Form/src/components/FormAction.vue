@@ -74,6 +74,7 @@
       },
       actionSpan: propTypes.number.def(6),
       isAdvanced: propTypes.bool,
+      noHideBtnFlag: propTypes.bool.def(false),
       hideAdvanceBtn: propTypes.bool,
     },
     emits: ['toggle-advanced'],
@@ -114,8 +115,13 @@
       });
 
       const showExpandText = computed(() => {
-        const { showAdvancedButton, hideAdvanceBtn } = props;
-        const result = showAdvancedButton;
+        const { showAdvancedButton, hideAdvanceBtn, noHideBtnFlag } = props;
+        let result = null;
+        if (noHideBtnFlag) {
+          result = showAdvancedButton && !hideAdvanceBtn;
+        } else {
+          result = showAdvancedButton;
+        }
         return result;
       });
 
