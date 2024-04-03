@@ -62,6 +62,7 @@ export const getProcessInstance = async (id: string) => {
   try {
     result = await defHttp.get<any>(requestParams, { isOnlyResult });
   } catch (error) {
+    console.error('查询流程信息异常, WorkFlow Get Process Instance:', error);
     result = await defHttp.get<any>(requestParams, { isOnlyResult });
   }
   return result;
