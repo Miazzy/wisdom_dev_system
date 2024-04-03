@@ -1,10 +1,17 @@
 import type { ModalFunc, ModalFuncProps } from 'ant-design-vue/lib/modal/Modal';
 import { Modal, message as Message, notification } from 'ant-design-vue';
-import { InfoCircleFilled, CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons-vue';
+import {
+  InfoCircleFilled,
+  CheckCircleFilled,
+  CloseCircleFilled,
+  ExclamationCircleOutlined,
+} from '@ant-design/icons-vue';
 import { NotificationArgsProps, ConfigProps } from 'ant-design-vue/lib/notification';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { isString } from '/@/utils/is';
-import { ElMessage, ElMessageBox, ElNotification } from 'element-plus';
+import { ElMessageBox } from 'element-plus';
+import { createVNode } from 'vue';
+import { MsgManager } from '/@/message/MsgManager';
 
 export interface NotifyApi {
   info(config: NotificationArgsProps): void;
@@ -59,12 +66,28 @@ function renderContent({ content }: Pick<ModalOptionsEx, 'content'>) {
 function createConfirm(options: ModalOptionsEx): ConfirmOptions {
   const iconType = options.iconType || 'warning';
   Reflect.deleteProperty(options, 'iconType');
+  const { onOk, onCancel } = options;
+  const handleOk = async (...args) => {
+    if (onOk && typeof onOk == 'function') {
+      await onOk(args);
+    }
+    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+  };
+  const handleCancel = async (...args) => {
+    if (onCancel && typeof onCancel == 'function') {
+      await onCancel(args);
+    }
+    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+  };
   const opt: ModalFuncProps = {
     centered: true,
     icon: getIcon(iconType),
     ...options,
+    onOk: handleOk,
+    onCancel: handleCancel,
     content: renderContent(options),
   };
+  MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
   return Modal.confirm(opt) as unknown as ConfirmOptions;
 }
 
@@ -152,60 +175,95 @@ function alertWarning(content: string) {
 
 // 通知提示
 function notify(content: string) {
-  ElNotification.info(content);
+  notification.info({
+    message: '通知提示',
+    description: content,
+  });
 }
 
 // 错误通知
 function notifyError(content: string) {
-  ElNotification.error(content);
+  notification.error({
+    message: '错误提示',
+    description: content,
+  });
 }
 
 // 成功通知
 function notifySuccess(content: string) {
-  ElNotification.success(content);
+  notification.success({
+    message: '成功提示',
+    description: content,
+  });
 }
 
 // 警告通知
 function notifyWarning(content: string) {
-  ElNotification.warning(content);
+  notification.warning({
+    message: '警告提示',
+    description: content,
+  });
 }
 
 // 确认窗体
 function confirm(content: string, tip?: string) {
   const { t } = useI18n();
-  return ElMessageBox.confirm(content, tip ? tip : t('common.message.confirmTitle'), {
-    confirmButtonText: t('common.okText'),
-    cancelButtonText: t('common.cancelText'),
-    type: 'warning',
+  MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
+  return Modal.confirm({
+    title: tip ? tip : t('common.message.confirmTitle'),
+    content: content,
+    onOk() {
+      return new Promise((resolve) => {
+        setTimeout(resolve, 0);
+      })
+        .catch(() => console.log('error'))
+        .finally(() => MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' }));
+    },
+    onCancel() {
+      MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    },
   });
 }
 
 // 删除窗体
 function delConfirm(content?: string, tip?: string) {
   const { t } = useI18n();
-  return ElMessageBox.confirm(
-    content ? content : t('common.message.delMessage'),
-    tip ? tip : t('common.message.confirmTitle'),
-    {
-      confirmButtonText: t('common.okText'),
-      cancelButtonText: t('common.cancelText'),
-      type: 'warning',
+  MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
+  return Modal.confirm({
+    title: tip ? tip : t('common.message.confirmTitle'),
+    icon: createVNode(ExclamationCircleOutlined),
+    content: content ? content : t('common.message.delMessage'),
+    onOk() {
+      return new Promise((resolve) => {
+        setTimeout(resolve, 0);
+      })
+        .catch(() => console.log('error'))
+        .finally(() => MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' }));
     },
-  );
+    onCancel() {
+      MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    },
+  });
 }
 
 // 导出窗体
 function exportConfirm(content?: string, tip?: string) {
   const { t } = useI18n();
-  return ElMessageBox.confirm(
-    content ? content : t('common.message.exportMessage'),
-    tip ? tip : t('common.message.confirmTitle'),
-    {
-      confirmButtonText: t('common.okText'),
-      cancelButtonText: t('common.cancelText'),
-      type: 'warning',
+  MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
+  return Modal.confirm({
+    title: tip ? tip : t('common.message.confirmTitle'),
+    content: content ? content : t('common.message.exportMessage'),
+    onOk() {
+      return new Promise((resolve) => {
+        setTimeout(resolve, 0);
+      })
+        .catch(() => console.log('error'))
+        .finally(() => MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' }));
     },
-  );
+    onCancel() {
+      MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    },
+  });
 }
 
 // 提交内容
