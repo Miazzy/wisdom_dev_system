@@ -23,6 +23,8 @@
       :tableLayout="tableLayout"
       :rowClassName="getRowClassName"
       v-show="getEmptyDataIsShowTable"
+      @drag-end="handleResizeColumn"
+      @resize-column="handleResizeColumn"
       @change="handleTableChange"
     >
       <template #[item]="data" v-for="item in Object.keys($slots)" :key="item">
@@ -109,6 +111,8 @@
 
       const wrapRef = ref(null);
       const formRef = ref(null);
+      const dragCell = ref(null);
+      const dragStartTime = ref(0);
       const innerPropsRef = ref<Partial<BasicTableProps>>();
 
       const { prefixCls } = useDesign('basic-table');
@@ -180,12 +184,28 @@
         emit,
       );
 
+      const handleRemoveIconActive = () => {
+        const dom = document.querySelector('.anticon.active');
+        dom.classList.remove('active');
+      };
+
       function handleTableChange(...args) {
-        onTableChange.call(undefined, ...args);
-        emit('change', ...args);
-        // 解决通过useTable注册onChange时不起作用的问题
-        const { onChange } = unref(getProps);
-        onChange && isFunction(onChange) && onChange.call(undefined, ...args);
+        // 标题拖拽会触发此处，如果key字段一致则不触发
+        const now = new Date().getTime();
+        const diff = now - dragStartTime.value;
+        if (dragCell.value && dragCell.value.key === args[2]['field'] && diff < 1000) {
+          setTimeout(handleRemoveIconActive, 75);
+          setTimeout(handleRemoveIconActive, 100);
+          setTimeout(handleRemoveIconActive, 150);
+          setTimeout(handleRemoveIconActive, 175);
+          setTimeout(handleRemoveIconActive, 300);
+        } else {
+          onTableChange.call(undefined, ...args);
+          emit('change', ...args);
+          // 解决通过useTable注册onChange时不起作用的问题
+          const { onChange } = unref(getProps);
+          onChange && isFunction(onChange) && onChange.call(undefined, ...args);
+        }
       }
 
       const {
@@ -229,7 +249,6 @@
       const handlers: InnerHandlers = {
         onColumnsChange: (data: ColumnChangeParam[]) => {
           emit('columns-change', data);
-          // support useTable
           unref(getProps).onColumnsChange?.(data);
         },
       };
@@ -318,6 +337,16 @@
         emit('form-toggle', flag);
       };
 
+      const handleResizeColumn = (w, col) => {
+        if (col) {
+          dragCell.value = col;
+          dragStartTime.value = new Date().getTime();
+          setTimeout(() => {
+            dragCell.value = null;
+          }, 1500);
+        }
+      };
+
       const tableAction: TableActionType = {
         reload,
         reloadData,
@@ -385,6 +414,7 @@
         getFormSlotKeys,
         getWrapperClass,
         handleFormToggle,
+        handleResizeColumn,
         columns: getViewColumns,
       };
     },
