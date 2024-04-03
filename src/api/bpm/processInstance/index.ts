@@ -57,7 +57,14 @@ export const deleteProcessInstance = async (id: string) => {
 
 export const getProcessInstance = async (id: string) => {
   const requestParams = { url: BpmProInstanceApi.GetProcessInstance + id };
-  return defHttp.get<any>(requestParams, { isOnlyResult: true });
+  const isOnlyResult = true;
+  let result = null;
+  try {
+    result = await defHttp.get<any>(requestParams, { isOnlyResult });
+  } catch (error) {
+    result = await defHttp.get<any>(requestParams, { isOnlyResult });
+  }
+  return result;
 };
 
 //终止流程实例
