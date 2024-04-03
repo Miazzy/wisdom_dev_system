@@ -8,7 +8,7 @@
 // =================================
 
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 11px;
   height: 8px;
 }
 
@@ -53,5 +53,13 @@
     height: 2px;
     opacity: 0.75;
     background-color: @primary-color;
+  }
+}
+
+// 去掉ant-btn点击的动画效果
+.ant-btn {
+  transition: none !important;
+  &[ant-click-animating-without-extra-node]:after {
+    display: none;
   }
 }
