@@ -18,20 +18,11 @@
             </a-badge>
           </template>
           <div class="table-box">
-            <BasicTable @register="tableList[index]" :scroll="{ y: 248 }">
-              <template #bodyCell="{ column, record }">
-                <template v-if="column.dataIndex === 'action'">
-                  <TableAction
-                    :actions="[
-                      {
-                        label: '查看',
-                        onClick: handleCheck.bind(null, record),
-                      },
-                    ]"
-                  />
-                </template>
-              </template>
-            </BasicTable>
+            <BasicTable
+              @register="tableList[index]"
+              @row-db-click="(record) => handleCheck(record)"
+              :scroll="{ y: 248 }"
+            />
           </div>
         </a-tab-pane>
       </a-tabs>
@@ -185,11 +176,11 @@
     bordered: false,
     showIndexColumn: true,
     canResize: false,
-    actionColumn: {
-      width: 140,
-      title: '操作',
-      dataIndex: 'action',
-    },
+    // actionColumn: {
+    //   width: 140,
+    //   title: '操作',
+    //   dataIndex: 'action',
+    // },
   };
   const tableDataSource1 = ref([]);
   const tableDataSource2 = ref([]);
