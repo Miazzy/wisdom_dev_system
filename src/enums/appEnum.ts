@@ -70,6 +70,6 @@ export enum IconEnum {
   PASSWORD = 'ant-design:key-outlined',
   SETTING = 'ant-design:setting-outlined',
   SEND = 'ant-design:send-outlined',
-  ENABLE = 'ant-design:check',
-  DISABLE = 'ant-design:close',
+  ENABLE = 'ant-design:poweroff-outlined',
+  DISABLE = 'ant-design:stop-outlined',
 }
