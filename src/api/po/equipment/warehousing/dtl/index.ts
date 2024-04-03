@@ -29,7 +29,7 @@ export function deleteEquipmentWarehousingDtl(id: string) {
 export function exportEquipmentWarehousingDtl(params) {
   return defHttp.download(
     { url: '/po/equipment-warehousing-dtl/export-excel', params },
-    '设备入库明细.xls',
+    { isReturnNativeResponse: true },
   );
 }
 

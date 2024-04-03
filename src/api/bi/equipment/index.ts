@@ -25,6 +25,6 @@ export function getEquipmentOutboundDtlPage(params) {
 export function exportEquipmentBalance(params) {
   return defHttp.download(
     { url: '/bi/equipment-balance/export-excel', params },
-    '设备入库结存.xls',
+    { isReturnNativeResponse: true },
   );
 }

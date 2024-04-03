@@ -27,7 +27,10 @@ export function deleteEquipmentOutbound(id: string) {
 
 // 导出设备出库单 Excel
 export function exportEquipmentOutbound(params) {
-  return defHttp.download({ url: '/po/equipment-outbound/export-excel', params }, '设备出库单.xls');
+  return defHttp.download(
+    { url: '/po/equipment-outbound/export-excel', params },
+    { isReturnNativeResponse: true },
+  );
 }
 
 // 获得流程默认信息

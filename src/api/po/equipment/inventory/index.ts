@@ -48,7 +48,7 @@ export function getInventoryProcessExists(warehouseId) {
 export function exportEquipmentInventory(params) {
   return defHttp.download(
     { url: '/po/equipment-inventory/export-excel', params },
-    '库存盘点单.xls',
+    { isReturnNativeResponse: true },
   );
 }
 

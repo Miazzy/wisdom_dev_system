@@ -29,6 +29,6 @@ export function deleteEquipmentInventoryDtl(id: number) {
 export function exportEquipmentInventoryDtl(params) {
   return defHttp.download(
     { url: '/po/equipment-inventory-dtl/export-excel', params },
-    '库存盘点明细.xls',
+    { isReturnNativeResponse: true },
   );
 }

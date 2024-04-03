@@ -29,6 +29,6 @@ export function deleteEquipmentOutboundDtl(id: string) {
 export function exportEquipmentOutboundDtl(params) {
   return defHttp.download(
     { url: '/po/equipment-outbound-dtl/export-excel', params },
-    '设备出库明细.xls',
+    { isReturnNativeResponse: true },
   );
 }
