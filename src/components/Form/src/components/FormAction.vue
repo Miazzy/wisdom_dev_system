@@ -42,6 +42,7 @@
   import { Button, ButtonProps } from '/@/components/Button';
   import { BasicArrow } from '/@/components/Basic';
   import { useFormContext } from '../hooks/useFormContext';
+  import type { FormSchema } from '../types/form';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { propTypes } from '/@/utils/propTypes';
 
@@ -76,6 +77,11 @@
       isAdvanced: propTypes.bool,
       noHideBtnFlag: propTypes.bool.def(false),
       hideAdvanceBtn: propTypes.bool,
+      // 表单配置规则
+      schemas: {
+        type: Array as PropType<FormSchema[]>,
+        default: () => [],
+      },
     },
     emits: ['toggle-advanced'],
     setup(props, { emit }) {
@@ -114,10 +120,21 @@
         );
       });
 
+      // 计算schemas数组中每个查询字段
+      const calcColPropsSpan = (acc, curr) => {
+        if (curr?.colProps?.span) {
+          return acc + curr?.colProps?.span;
+        } else {
+          return acc;
+        }
+      };
+
+      // 计算是否显示展开折叠Text按钮
       const showExpandText = computed(() => {
-        const { showAdvancedButton, hideAdvanceBtn, noHideBtnFlag } = props;
+        const { showAdvancedButton, hideAdvanceBtn, noHideBtnFlag, schemas } = props;
+        const totalSpan = schemas.reduce(calcColPropsSpan, 0);
         let result = null;
-        if (noHideBtnFlag) {
+        if (noHideBtnFlag || totalSpan <= 20) {
           result = showAdvancedButton && !hideAdvanceBtn;
         } else {
           result = showAdvancedButton;
