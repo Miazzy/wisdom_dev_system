@@ -71,13 +71,17 @@ function createConfirm(options: ModalOptionsEx): ConfirmOptions {
     if (onOk && typeof onOk == 'function') {
       await onOk(args);
     }
-    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    if (window.self !== window.top) {
+      MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    }
   };
   const handleCancel = async (...args) => {
     if (onCancel && typeof onCancel == 'function') {
       await onCancel(args);
     }
-    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    if (window.self !== window.top) {
+      MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    }
   };
   const opt: ModalFuncProps = {
     centered: true,
@@ -87,7 +91,9 @@ function createConfirm(options: ModalOptionsEx): ConfirmOptions {
     onCancel: handleCancel,
     content: renderContent(options),
   };
-  MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
+  if (window.self !== window.top) {
+    MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
+  }
   return Modal.confirm(opt) as unknown as ConfirmOptions;
 }
 
