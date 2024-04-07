@@ -17,88 +17,96 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in tdata" :key="item.key">
-        <td
-          v-for="column in tcolumns"
-          :key="column.key"
-          :style="{ width: column.width, textAlign: column.talign }"
-        >
-          <template v-if="column.dataIndex === 'filelist'">
-            <template v-for="file in item.filelist" :key="`${file.id}`">
-              <div class="ant-upload-list-item">
-                <span role="img" aria-label="paper-clip" class="anticon anticon-paper-clip">
-                  <Icon icon="ph:file-light" />
+      <template v-for="item in tdata" :key="item.key">
+        <tr :style="trStyle">
+          <td
+            v-for="column in tcolumns"
+            :key="column.key"
+            :style="{
+              width: column.width,
+              textAlign: column.talign,
+              height: handleTdHeightStyle(column),
+              display: handleTdDisplayStyle(column),
+              border: handleTdBorderStyle(column),
+            }"
+          >
+            <template v-if="column.dataIndex === 'filelist'">
+              <template v-for="file in item.filelist" :key="`${file.id}`">
+                <div class="ant-upload-list-item">
+                  <span role="img" aria-label="paper-clip" class="anticon anticon-paper-clip">
+                    <Icon icon="ph:file-light" />
+                  </span>
+                  <span class="file-text" @click="preview(file?.url)">
+                    <a
+                      target="_blank"
+                      class="ant-upload-list-item-name"
+                      :size="file?.size"
+                      :title="file?.name"
+                    >
+                      {{ file?.name }}
+                    </a>
+                  </span>
+                </div>
+              </template>
+              <template
+                v-if="
+                  item['required'] && item.showReqTips && item.filelist && item.filelist.length == 0
+                "
+              >
+                <span class="file-alert">
+                  <a-alert message="请上传本行附件信息" type="error" show-icon />
                 </span>
-                <span class="file-text" @click="preview(file?.url)">
-                  <a
-                    target="_blank"
-                    class="ant-upload-list-item-name"
-                    :size="file?.size"
-                    :title="file?.name"
-                  >
-                    {{ file?.name }}
-                  </a>
-                </span>
-              </div>
+              </template>
             </template>
-            <template
-              v-if="
-                item['required'] && item.showReqTips && item.filelist && item.filelist.length == 0
-              "
-            >
-              <span class="file-alert">
-                <a-alert message="请上传本行附件信息" type="error" show-icon />
+            <template v-else-if="column.dataIndex === 'filetype'">
+              <span class="file-type">
+                <span class="required"> {{ item['required'] ? '*' : ' ' }}</span>
+                <span class="text">{{ item[column.dataIndex] }}</span>
               </span>
             </template>
-          </template>
-          <template v-else-if="column.dataIndex === 'filetype'">
-            <span class="file-type">
-              <span class="required"> {{ item['required'] ? '*' : ' ' }}</span>
-              <span class="text">{{ item[column.dataIndex] }}</span>
-            </span>
-          </template>
-          <template v-else-if="column.dataIndex !== 'filelist'">
-            <span>{{ item[column.dataIndex] }}</span>
-          </template>
-        </td>
-        <td
-          v-show="toperable"
-          :style="{ width: tactioncolumn.width, textAlign: tactioncolumn.halign }"
-        >
-          <slot name="actions" :item="item">
-            <UploadBox
-              v-show="!item.readonly"
-              v-model:value="item.filelist"
-              @loaded="
-                (list) => {
-                  handleFileItemLoaded(item, list);
-                }
-              "
-              @change="
-                (list) => {
-                  handleFileItemLoaded(item, list);
-                }
-              "
-              :vmode="'edit'"
-              :width="800"
-              :height="550"
-              :maxCount="item.maxCount"
-              :maxSize="item.maxSize"
-              :application="tapplication"
-              :module="tmodule"
-              :mode="tmode"
-              :bizId="item.bizId"
-              :fileKindId="item.fileKindId"
-            />
-          </slot>
-        </td>
-      </tr>
+            <template v-else-if="column.dataIndex !== 'filelist'">
+              <span>{{ item[column.dataIndex] }}</span>
+            </template>
+          </td>
+          <td
+            v-show="toperable"
+            :style="{ width: tactioncolumn.width, textAlign: tactioncolumn.halign }"
+          >
+            <slot name="actions" :item="item">
+              <UploadBox
+                v-show="!item.readonly"
+                v-model:value="item.filelist"
+                @loaded="
+                  (list) => {
+                    handleFileItemLoaded(item, list);
+                  }
+                "
+                @change="
+                  (list) => {
+                    handleFileItemLoaded(item, list);
+                  }
+                "
+                :vmode="'edit'"
+                :width="800"
+                :height="550"
+                :maxCount="item.maxCount"
+                :maxSize="item.maxSize"
+                :application="tapplication"
+                :module="tmodule"
+                :mode="tmode"
+                :bizId="item.bizId"
+                :fileKindId="item.fileKindId"
+              />
+            </slot>
+          </td>
+        </tr>
+      </template>
     </tbody>
   </table>
 </template>
 
 <script lang="ts" setup>
-  import { defineProps, onMounted, ref, watch } from 'vue';
+  import { defineProps, onMounted, ref, watch, computed } from 'vue';
   import UploadBox from '@/components/Framework/Combox/UploadBox.vue';
   import Icon from '@/components/Icon/Icon.vue';
   import * as FileApi from '@/api/infra/file';
@@ -115,6 +123,7 @@
     module: { type: String, default: '' },
     message: { type: String, default: '' },
     mode: { type: String, default: 'normal' },
+    fixed: { type: String, default: '' },
     format: {
       type: String,
       default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4',
@@ -134,6 +143,11 @@
   const tmessage = ref('');
   const tformat = ref('');
   const tmode = ref('normal');
+  const tFixed = ref('');
+
+  const trStyle = computed(() => {
+    return tFixed.value == 'bottom' ? 'border-right: 1px solid #ddd' : '';
+  });
 
   const handleFileItemLoaded = (item, list) => {
     emit('change', item, list);
@@ -161,6 +175,18 @@
     for (const item of tdata.value) {
       delete item.showReqTips;
     }
+  };
+
+  const handleTdHeightStyle = (column) => {
+    return column.key == 'filelist' && tFixed.value == 'bottom' ? '40px' : '';
+  };
+
+  const handleTdDisplayStyle = (column) => {
+    return column.key == 'filelist' && tFixed.value == 'bottom' ? 'block' : '';
+  };
+
+  const handleTdBorderStyle = (column) => {
+    return column.key == 'filelist' && tFixed.value == 'bottom' ? '0px' : '';
   };
 
   watch(
@@ -221,6 +247,13 @@
   );
 
   watch(
+    () => props.fixed,
+    () => {
+      tFixed.value = props.fixed;
+    },
+  );
+
+  watch(
     () => props.mode,
     (val) => {
       tmode.value = props.mode;
@@ -248,6 +281,7 @@
     tmessage.value = props.message;
     tformat.value = props.format;
     tmode.value = props.mode;
+    tFixed.value = props.fixed;
   });
 </script>
 

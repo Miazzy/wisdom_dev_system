@@ -11,6 +11,7 @@
     :message="tmessage"
     :format="tformat"
     :mode="tmode"
+    :fixed="tFixed"
   />
 </template>
 
@@ -29,6 +30,7 @@
     module: { type: String, default: '' },
     message: { type: String, default: '' },
     mode: { type: String, default: 'normal' },
+    fixed: { type: String, default: '' },
     format: { type: String, default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4' },
   });
 
@@ -39,6 +41,8 @@
   const tmode = ref('normal');
   const tmessage = ref('');
   const tformat = ref('');
+  const tHeight = ref('auto');
+  const tFixed = ref('');
   const csstyle = ref({ width: props.width, height: props.height });
   const uploadTable = ref();
 
@@ -112,6 +116,20 @@
     },
   );
 
+  watch(
+    () => props.height,
+    () => {
+      tHeight.value = props.height;
+    },
+  );
+
+  watch(
+    () => props.fixed,
+    () => {
+      tFixed.value = props.fixed;
+    },
+  );
+
   const validate = () => {
     uploadTable.value?.validate();
   };
@@ -132,6 +150,8 @@
     tmessage.value = props.message;
     tformat.value = props.format;
     tmode.value = props.mode;
+    tHeight.value = props.height;
+    tFixed.value = props.fixed;
   });
 </script>
 
