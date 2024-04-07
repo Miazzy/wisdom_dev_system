@@ -33,6 +33,7 @@ import { createLocalForage } from '@/utils/cache';
 import { MsgManager } from '/@/message/MsgManager';
 import { darkMode } from '/@/settings/designSetting';
 import { generateNameMap } from '/@/utils/route';
+import * as FileApi from '@/api/infra/file';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -250,6 +251,15 @@ export const useUserStore = defineStore({
       userInfo.avatar = avatar;
       userInfo.username = name;
       userInfo.realName = realName;
+      if (!avatar) {
+        try {
+          const resp = await FileApi.getFiles({ bizId: id });
+          const path = FileApi.attachmentDownloadUrl(resp[0].url);
+          userInfo.avatar = path;
+        } catch (error) {
+          //
+        }
+      }
       this.setUserInfo(userInfo as UserInfo);
       return userInfo as UserInfo;
     },
