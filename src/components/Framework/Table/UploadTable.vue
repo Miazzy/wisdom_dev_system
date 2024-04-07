@@ -1,23 +1,54 @@
 <template>
-  <Table
-    ref="uploadTable"
-    :operable="true"
-    :table-css-style="csstyle"
-    :data="trows"
-    :columns="tcolumns.slice(0, tcolumns.length - 1)"
-    :actioncolumn="tcolumns[tcolumns.length - 1]"
-    :application="tapplication"
-    :module="tmodule"
-    :message="tmessage"
-    :format="tformat"
-    :mode="tmode"
-    :fixed="tFixed"
-  />
+  <div style="position: relative" :style="csstyle">
+    <Table
+      ref="uploadTable"
+      :operable="true"
+      :data="trows"
+      :columns="tcolumns.slice(0, tcolumns.length - 1)"
+      :actioncolumn="tcolumns[tcolumns.length - 1]"
+      :application="tapplication"
+      :module="tmodule"
+      :message="tmessage"
+      :format="tformat"
+      :mode="tmode"
+      :fixed="tFixed"
+    />
+    <Icon
+      v-if="tFixed === 'bottom'"
+      icon="ri:skip-up-line"
+      :size="20"
+      style="position: absolute; top: 1px; right: 0"
+      @click="handleDrawerOpen"
+    />
+  </div>
+  <template v-show="tFixed === 'bottom'">
+    <a-drawer
+      :height="450"
+      title="附件列表"
+      :placement="`bottom`"
+      :visible="visible"
+      @close="handleDrawerClose"
+    >
+      <Table
+        ref="uploadTable"
+        :operable="true"
+        :data="trows"
+        :columns="tcolumns.slice(0, tcolumns.length - 1)"
+        :actioncolumn="tcolumns[tcolumns.length - 1]"
+        :application="tapplication"
+        :module="tmodule"
+        :message="tmessage"
+        :format="tformat"
+        :mode="tmode"
+      />
+    </a-drawer>
+  </template>
 </template>
 
 <script lang="ts" setup>
   import { defineProps, onMounted, ref, watch } from 'vue';
   import Table from '@/components/Framework/Table/Table.vue';
+  import Icon from '@/components/Icon/Icon.vue';
 
   const props = defineProps({
     multiple: { type: Boolean, default: true },
@@ -31,7 +62,10 @@
     message: { type: String, default: '' },
     mode: { type: String, default: 'normal' },
     fixed: { type: String, default: '' },
-    format: { type: String, default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4' },
+    format: {
+      type: String,
+      default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4',
+    },
   });
 
   const trows = ref<any[]>([]);
@@ -45,6 +79,7 @@
   const tFixed = ref('');
   const csstyle = ref({ width: props.width, height: props.height });
   const uploadTable = ref();
+  const visible = ref(false);
 
   tcolumns.value = [
     {
@@ -136,6 +171,14 @@
 
   const handleClearTips = () => {
     uploadTable.value?.handleClearTips();
+  };
+
+  const handleDrawerClose = () => {
+    visible.value = false;
+  };
+
+  const handleDrawerOpen = () => {
+    visible.value = true;
   };
 
   defineExpose({

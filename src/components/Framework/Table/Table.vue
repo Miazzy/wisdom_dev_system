@@ -11,7 +11,11 @@
         </th>
         <th
           v-show="toperable"
-          :style="{ width: tactioncolumn.width, textAlign: tactioncolumn.halign }"
+          :style="{
+            width: tactioncolumn.width,
+            textAlign: tactioncolumn.halign,
+            display: handleTdOperateStyle(),
+          }"
           >操作</th
         >
       </tr>
@@ -70,7 +74,11 @@
           </td>
           <td
             v-show="toperable"
-            :style="{ width: tactioncolumn.width, textAlign: tactioncolumn.halign }"
+            :style="{
+              width: tactioncolumn.width,
+              textAlign: tactioncolumn.halign,
+              display: handleTdOperateStyle(),
+            }"
           >
             <slot name="actions" :item="item">
               <UploadBox
@@ -187,6 +195,10 @@
 
   const handleTdBorderStyle = (column) => {
     return column.key == 'filelist' && tFixed.value == 'bottom' ? '0px' : '';
+  };
+
+  const handleTdOperateStyle = () => {
+    return props.mode == 'view' ? 'none' : 'block';
   };
 
   watch(
