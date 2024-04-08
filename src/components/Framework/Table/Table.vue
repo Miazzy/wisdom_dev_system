@@ -41,14 +41,26 @@
                     <Icon icon="ph:file-light" />
                   </span>
                   <span class="file-text" @click="preview(file?.url)">
-                    <a-popover placement="top">
+                    <a-popover v-if="handleBtnAccess('preview') || handleBtnAccess('download')">
                       <template #content>
                         <div class="file-title-content">
                           <span>{{ file?.name }}</span>
                         </div>
                         <div class="file-button-content">
-                          <a-button v-if="handleBtnAccess('preview')" preIcon="ic:baseline-pageview" @click="preview(file?.url)" :iconSize="16">预览</a-button>
-                          <a-button v-if="handleBtnAccess('download')" preIcon="foundation:download" @click="download(file?.url)" :iconSize="16" >下载</a-button>
+                          <a-button
+                            v-if="handleBtnAccess('preview')"
+                            preIcon="ic:baseline-pageview"
+                            @click="preview(file?.url)"
+                            :iconSize="16"
+                            >预览</a-button
+                          >
+                          <a-button
+                            v-if="handleBtnAccess('download')"
+                            preIcon="foundation:download"
+                            @click="download(file?.url)"
+                            :iconSize="16"
+                            >下载</a-button
+                          >
                         </div>
                       </template>
                       <template #title>
@@ -63,6 +75,15 @@
                         {{ file?.name }}
                       </a>
                     </a-popover>
+                    <a
+                      v-else
+                      target="_blank"
+                      class="ant-upload-list-item-name"
+                      :size="file?.size"
+                      :title="file?.name"
+                    >
+                      {{ file?.name }}
+                    </a>
                   </span>
                 </div>
               </template>
@@ -181,8 +202,10 @@
   };
 
   const preview = (url) => {
-    const previewURL = FileApi.attachmentPreview(url);
-    window.open(previewURL);
+    if (tOperate.value.includes('preview')) {
+      const previewURL = FileApi.attachmentPreview(url);
+      window.open(previewURL);
+    }
   };
 
   const download = (url) => {
@@ -286,6 +309,13 @@
     () => props.fixed,
     () => {
       tFixed.value = props.fixed;
+    },
+  );
+
+  watch(
+    () => props.operate,
+    () => {
+      tOperate.value = props.operate;
     },
   );
 
