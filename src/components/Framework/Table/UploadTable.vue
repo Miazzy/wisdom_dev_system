@@ -49,6 +49,7 @@
   import { defineProps, onMounted, ref, watch } from 'vue';
   import Table from '@/components/Framework/Table/Table.vue';
   import Icon from '@/components/Icon/Icon.vue';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const props = defineProps({
     multiple: { type: Boolean, default: true },
@@ -175,10 +176,12 @@
 
   const handleDrawerClose = () => {
     visible.value = false;
+    MsgManager.getInstance().sendMsg('drawer-open', { type: 'remove' });
   };
 
   const handleDrawerOpen = () => {
     visible.value = true;
+    MsgManager.getInstance().sendMsg('drawer-open', { type: 'open' });
   };
 
   defineExpose({
