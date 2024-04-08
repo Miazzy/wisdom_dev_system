@@ -1,0 +1,155 @@
+*, ::before, ::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: initial;
+}
+button {
+  display: none;
+}
+.workflow-approve-box {
+  display: none;
+}
+.print-btn {
+  display: none;
+}
+.bill-title-box .bill-title {
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 16px;
+}
+.bill-title-box .bill-info-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #666;
+}
+.ant-card-head {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.85);
+}
+.ant-form-item-control {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.ant-form-item-label {
+  display: inline-block;
+  flex-grow: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: right;
+  vertical-align: middle;
+}
+.ant-form-horizontal .ant-form-item-label {
+  flex-grow: 0;
+}
+.ant-form-item-label > label {
+  height: 32px;
+  line-height: 32px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  margin-right: 10px;
+}
+.ant-row {
+  display: flex;
+  flex-flow: row wrap;
+}
+.ant-col {
+  position: relative;
+  max-width: 100%;
+  min-height: 1px;
+}
+.ant-form-horizontal .ant-form-item-control {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.ant-col-3 {
+  display: block;
+  flex: 0 0 12.5%;
+  max-width: 12.5%;
+}
+.ant-col-3.ant-form-item-label {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+.ant-col-6 {
+  display: block;
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+.ant-col-6.ant-form-item-label {
+  flex: 0 0 40%;
+  max-width: 40%;
+}
+.ant-col-12 {
+  display: block;
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+.ant-col-22 {
+  display: block;
+  flex: 0 0 91.66666667%;
+  max-width: 91.66666667%;
+}
+.ant-col-23 {
+  display: block;
+  flex: 0 0 95.83333333%;
+  max-width: 95.83333333%;
+}
+.ant-col-24 {
+  display: block;
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+.anticon {
+  display: none;
+}
+.ant-form-item-control-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  color: #666;
+  font-size: 14px;
+}
+.ant-input {
+  line-height: 32px;
+}
+.ant-select-selector {
+  display: flex;
+  align-items: center;
+  line-height: 32px;
+  height: 32px;
+}
+.ant-select-selection-search {
+  display: none;
+}
+.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  font-size: 12px;
+}
+table {
+  width: 100%;
+  display: table;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.85);
+}
+table th, table td {
+  height: 38px;
+  padding: 4px 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+table td .file-type {
+  display: block;
+  position: relative;
+  height: 35px;
+  line-height: 35px;
+  text-align: left;
+}
+.ant-table {
+  width: 200%;
+  transform: scale(0.5);
+  transform-origin: 0 0;
+}
