@@ -65,7 +65,7 @@
     message: { type: String, default: '' },
     mode: { type: String, default: 'normal' },
     fixed: { type: String, default: '' },
-    operate: { type: String, default: '' },
+    operate: { type: String, default: 'download,preview' },
     format: {
       type: String,
       default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4',
