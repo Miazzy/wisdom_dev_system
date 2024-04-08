@@ -149,6 +149,9 @@
         treeData.value = newValue as unknown as TreeItem[];
       }
     },
+    {
+      deep: true,
+    },
   );
 
   // 计算tree高度
