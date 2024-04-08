@@ -88,6 +88,9 @@
     <Button @click="handleOpenOgDialog" style="margin: 0 10px 0 0">打开组织Dialog</Button>
     <Button @click="handleOpen2OgDialog" style="margin: 0 10px 0 0">打开组织Dialog2</Button>
     <br />
+
+    <InputGroup style="margin: 10px 0" :width="300" />
+
     <br />
     <UploadBox
       :vmode="'box'"
@@ -290,6 +293,7 @@
   import { useTabs } from '/@/hooks/web/useTabs';
   import SearchBox from '@/components/Framework/Combox/SearchBox.vue';
   import TreeBox from '@/components/Framework/Combox/TreeBox.vue';
+  import InputGroup from '@/components/Framework/InputGroup/InputGroup.vue';
   import SelectBox from '@/components/Framework/Combox/SelectBox.vue';
   import Icon from '@/components/Icon/Icon.vue';
   import TreeSelectBox from '@/components/Framework/Combox/TreeSelectBox.vue';
