@@ -11,7 +11,7 @@
       :message="tmessage"
       :format="tformat"
       :mode="tmode"
-      :operate="props.operate"
+      :operate="tOperate"
       :fixed="tFixed"
     />
     <Icon
@@ -41,7 +41,7 @@
         :message="tmessage"
         :format="tformat"
         :mode="tmode"
-        :operate="props.operate"
+        :operate="tOperate"
       />
     </a-drawer>
   </template>
@@ -84,6 +84,7 @@
   const csstyle = ref({ width: props.width, height: props.height });
   const uploadTable = ref();
   const visible = ref(false);
+  const tOperate = ref('');
 
   tcolumns.value = [
     {
@@ -169,6 +170,13 @@
     },
   );
 
+  watch(
+    () => props.operate,
+    () => {
+      tOperate.value = props.operate;
+    },
+  );
+
   const validate = () => {
     uploadTable.value?.validate();
   };
@@ -201,6 +209,7 @@
     tmode.value = props.mode;
     tHeight.value = props.height;
     tFixed.value = props.fixed;
+    tOperate.value = props.operate;
   });
 </script>
 

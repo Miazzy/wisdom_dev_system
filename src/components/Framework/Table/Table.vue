@@ -48,7 +48,7 @@
                         </div>
                         <div class="file-button-content">
                           <a-button v-if="handleBtnAccess('preview')" preIcon="ic:baseline-pageview" @click="preview(file?.url)" :iconSize="16">预览</a-button>
-                          <a-button v-if="handleBtnAccess('download')" preIcon="foundation:download" @click="download(file?.url)" :iconSize="16" style="margin-left: 10px;">下载</a-button>
+                          <a-button v-if="handleBtnAccess('download')" preIcon="foundation:download" @click="download(file?.url)" :iconSize="16" >下载</a-button>
                         </div>
                       </template>
                       <template #title>
@@ -385,6 +385,12 @@
   .file-title-content {
     margin: 3px 0 15px;
     font-size: 14px;
+  }
+
+  .file-button-content {
+    button:first-child {
+      margin-right: 10px;
+    }
   }
 
   .ant-upload-list-item {
