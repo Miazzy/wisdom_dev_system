@@ -11,6 +11,7 @@
       :message="tmessage"
       :format="tformat"
       :mode="tmode"
+      :operate="props.operate"
       :fixed="tFixed"
     />
     <Icon
@@ -40,6 +41,7 @@
         :message="tmessage"
         :format="tformat"
         :mode="tmode"
+        :operate="props.operate"
       />
     </a-drawer>
   </template>
@@ -63,6 +65,7 @@
     message: { type: String, default: '' },
     mode: { type: String, default: 'normal' },
     fixed: { type: String, default: '' },
+    operate: { type: String, default: '' },
     format: {
       type: String,
       default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4',

@@ -43,13 +43,16 @@
                   <span class="file-text" @click="preview(file?.url)">
                     <a-popover placement="top">
                       <template #content>
+                        <div class="file-title-content">
+                          <span>{{ file?.name }}</span>
+                        </div>
                         <div class="file-button-content">
-                          <a-button v-if="props.operate.includes('preview')" preIcon="ic:baseline-pageview" @click="preview(file?.url)" :iconSize="16">预览</a-button>
-                          <a-button v-if="props.operate.includes('download')" preIcon="foundation:download" @click="download(file?.url)" :iconSize="16" style="margin-left: 10px;">下载</a-button>
+                          <a-button v-if="handleBtnAccess('preview')" preIcon="ic:baseline-pageview" @click="preview(file?.url)" :iconSize="16">预览</a-button>
+                          <a-button v-if="handleBtnAccess('download')" preIcon="foundation:download" @click="download(file?.url)" :iconSize="16" style="margin-left: 10px;">下载</a-button>
                         </div>
                       </template>
                       <template #title>
-                        <span>{{ file?.name }}</span>
+                        <span>附件详情</span>
                       </template>
                       <a
                         target="_blank"
@@ -143,7 +146,7 @@
     message: { type: String, default: '' },
     mode: { type: String, default: 'normal' },
     fixed: { type: String, default: '' },
-    operate: { type: String, default: 'download,preview' },
+    operate: { type: String, default: '' },
     format: {
       type: String,
       default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4',
@@ -164,6 +167,7 @@
   const tformat = ref('');
   const tmode = ref('normal');
   const tFixed = ref('');
+  const tOperate = ref('');
 
   const trStyle = computed(() => {
     return tFixed.value == 'bottom' ? 'border-right: 1px solid #ddd' : '';
@@ -192,6 +196,11 @@
         item.showReqTips = true;
       }
     }
+  };
+
+  const handleBtnAccess = (type: String = '') => {
+    const flag = tOperate.value.includes(type);
+    return flag;
   };
 
   const handleClearTips = () => {
@@ -309,6 +318,7 @@
     tformat.value = props.format;
     tmode.value = props.mode;
     tFixed.value = props.fixed;
+    tOperate.value = props.operate;
   });
 </script>
 
@@ -370,6 +380,11 @@
     th {
       background-color: #f2f2f2;
     }
+  }
+
+  .file-title-content {
+    margin: 3px 0 15px;
+    font-size: 14px;
   }
 
   .ant-upload-list-item {
