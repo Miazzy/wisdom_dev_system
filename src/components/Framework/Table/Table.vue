@@ -41,14 +41,25 @@
                     <Icon icon="ph:file-light" />
                   </span>
                   <span class="file-text" @click="preview(file?.url)">
-                    <a
-                      target="_blank"
-                      class="ant-upload-list-item-name"
-                      :size="file?.size"
-                      :title="file?.name"
-                    >
-                      {{ file?.name }}
-                    </a>
+                    <a-popover placement="top">
+                      <template #content>
+                        <div class="file-button-content">
+                          <a-button preIcon="ic:baseline-pageview" @click="preview(file?.url)" :iconSize="16">预览</a-button>
+                          <a-button preIcon="foundation:download" @click="download(file?.url)" :iconSize="16" style="margin-left: 10px;">下载</a-button>
+                        </div>
+                      </template>
+                      <template #title>
+                        <span>{{ file?.name }}</span>
+                      </template>
+                      <a
+                        target="_blank"
+                        class="ant-upload-list-item-name"
+                        :size="file?.size"
+                        :title="file?.name"
+                      >
+                        {{ file?.name }}
+                      </a>
+                    </a-popover>
                   </span>
                 </div>
               </template>
@@ -165,10 +176,13 @@
   };
 
   const preview = (url) => {
-    // props.viewFunction(url);
-    // FileApi.attachmentDownloadUrl(url);
     const previewURL = FileApi.attachmentPreview(url);
     window.open(previewURL);
+  };
+
+  const download = (url) => {
+    const previewURL = url;
+    window.open(previewURL, '_self');
   };
 
   const validate = () => {
