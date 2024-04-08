@@ -1,4 +1,5 @@
 import { defHttp } from '/@/utils/http/axios';
+import { getToken } from '/@/utils/auth';
 
 // 表单API
 export enum FileApi {
@@ -48,13 +49,19 @@ export const attachmentDownloadUrl = (url) => {
     downloaddomain = 'http://10.8.111.203'; //下载域名
   }
   downloaddomain = downloaddomain + ':48080'; //下载域名
-  return downloaddomain + url;
+  return downloaddomain + getUrl(url);
 };
 
 export const attachmentPreview = (url) => {
   return (
     attachmentPreviewDomain() +
     '/onlinePreview?url=' +
-    encodeURIComponent(btoa(encodeURI(attachmentDownloadUrl(url))))
+    encodeURIComponent(btoa(encodeURI(attachmentDownloadUrl(getUrl(url)))))
   );
+};
+
+const getUrl = (url) => {
+  const token = getToken();
+  url = url + '?token=' + token;
+  return url;
 };

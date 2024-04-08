@@ -64,6 +64,19 @@ button {
   flex: 1 1 0;
   min-width: 0;
 }
+.ant-col-0 {
+  display: none;
+}
+.ant-col-1 {
+  display: block;
+  flex: 0 0 4.16666667%;
+  max-width: 4.16666667%;
+}
+.ant-col-2 {
+  display: block;
+  flex: 0 0 8.33333333%;
+  max-width: 8.33333333%;
+}
 .ant-col-3 {
   display: block;
   flex: 0 0 12.5%;
@@ -72,6 +85,16 @@ button {
 .ant-col-3.ant-form-item-label {
   flex: 0 0 20%;
   max-width: 20%;
+}
+.ant-col-4 {
+  display: block;
+  flex: 0 0 16.66666667%;
+  max-width: 16.66666667%;
+}
+.ant-col-5 {
+  display: block;
+  flex: 0 0 20.83333333%;
+  max-width: 20.83333333%;
 }
 .ant-col-6 {
   display: block;
@@ -82,10 +105,80 @@ button {
   flex: 0 0 40%;
   max-width: 40%;
 }
+.ant-col-7 {
+  display: block;
+  flex: 0 0 29.16666667%;
+  max-width: 29.16666667%;
+}
+.ant-col-8 {
+  display: block;
+  flex: 0 0 33.33333333%;
+  max-width: 33.33333333%;
+}
+.ant-col-9 {
+  display: block;
+  flex: 0 0 37.5%;
+  max-width: 37.5%;
+}
+.ant-col-10 {
+  display: block;
+  flex: 0 0 41.66666667%;
+  max-width: 41.66666667%;
+}
+.ant-col-11 {
+  display: block;
+  flex: 0 0 45.83333333%;
+  max-width: 45.83333333%;
+}
 .ant-col-12 {
   display: block;
   flex: 0 0 50%;
   max-width: 50%;
+}
+.ant-col-13 {
+  display: block;
+  flex: 0 0 54.16666667%;
+  max-width: 54.16666667%;
+}
+.ant-col-14 {
+  display: block;
+  flex: 0 0 58.33333333%;
+  max-width: 58.33333333%;
+}
+.ant-col-15 {
+  display: block;
+  flex: 0 0 62.5%;
+  max-width: 62.5%;
+}
+.ant-col-16 {
+  display: block;
+  flex: 0 0 66.66666667%;
+  max-width: 66.66666667%;
+}
+.ant-col-17 {
+  display: block;
+  flex: 0 0 70.83333333%;
+  max-width: 70.83333333%;
+}
+.ant-col-18 {
+  display: block;
+  flex: 0 0 75%;
+  max-width: 75%;
+}
+.ant-col-19 {
+  display: block;
+  flex: 0 0 79.16666667%;
+  max-width: 79.16666667%;
+}
+.ant-col-20 {
+  display: block;
+  flex: 0 0 83.33333333%;
+  max-width: 83.33333333%;
+}
+.ant-col-21 {
+  display: block;
+  flex: 0 0 87.5%;
+  max-width: 87.5%;
 }
 .ant-col-22 {
   display: block;
@@ -128,8 +221,19 @@ button {
 .ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
   font-size: 12px;
 }
-table {
+.ant-input-number-group-wrapper {
+  width: 300px;
+}
+.ant-input-number-group-wrapper .ant-input-number-group {
+  width: 300px;
+}
+.ant-input-number-group .ant-input-number {
   width: 100%;
+  text-align: right;
+}
+table {
+  width: 100% !important;
+  min-width: 100% !important;
   display: table;
   border-collapse: collapse;
   font-size: 14px;
@@ -141,6 +245,9 @@ table th, table td {
   border: 1px solid #ddd;
   text-align: left;
 }
+table th {
+  border-bottom: none;
+}
 table td .file-type {
   display: block;
   position: relative;
@@ -149,7 +256,17 @@ table td .file-type {
   text-align: left;
 }
 .ant-table {
-  width: 200%;
+  width: 200% ;
   transform: scale(0.5);
   transform-origin: 0 0;
+}
+.ant-table-small .ant-table-selection-column {
+  width: 46px;
+  min-width: 46px;
+}
+.ant-table-bordered .ant-table-selection-col {
+  width: 50px;
+}
+.ant-table-header table {
+  table-layout: auto !important;
 }
