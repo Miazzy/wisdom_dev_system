@@ -1,5 +1,5 @@
 import type { App } from 'vue';
-import { AButton, VButton } from './Button';
+import { Button, AButton, VButton } from './Button';
 // import { Input, Layout } from 'ant-design-vue';
 // import VXETable from 'vxe-table';
 
