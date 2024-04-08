@@ -44,8 +44,8 @@
                     <a-popover placement="top">
                       <template #content>
                         <div class="file-button-content">
-                          <a-button preIcon="ic:baseline-pageview" @click="preview(file?.url)" :iconSize="16">预览</a-button>
-                          <a-button preIcon="foundation:download" @click="download(file?.url)" :iconSize="16" style="margin-left: 10px;">下载</a-button>
+                          <a-button v-if="props.operate.includes('preview')" preIcon="ic:baseline-pageview" @click="preview(file?.url)" :iconSize="16">预览</a-button>
+                          <a-button v-if="props.operate.includes('download')" preIcon="foundation:download" @click="download(file?.url)" :iconSize="16" style="margin-left: 10px;">下载</a-button>
                         </div>
                       </template>
                       <template #title>
@@ -143,6 +143,7 @@
     message: { type: String, default: '' },
     mode: { type: String, default: 'normal' },
     fixed: { type: String, default: '' },
+    operate: { type: String, default: 'download,preview' },
     format: {
       type: String,
       default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4',
