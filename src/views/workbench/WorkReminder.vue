@@ -35,7 +35,15 @@
     </div>
   </a-card>
 
-  <a-modal v-model:visible="modal.open" title="工作安排" @ok="handleSuccess">
+  <Dialog
+    v-model:visible="modal.open"
+    title="工作安排"
+    smode="default"
+    @ok="handleSuccess"
+    @cancel="handleCancel"
+    :width="520"
+    :height="330"
+  >
     <a-form
       ref="modalFormRef"
       :model="formState"
@@ -97,7 +105,7 @@
         </a-col>
       </a-row>
     </a-form>
-  </a-modal>
+  </Dialog>
 </template>
 
 <script lang="ts" setup>
@@ -105,6 +113,7 @@
   import dayjs from 'dayjs';
   import { assign } from 'lodash-es';
   import { FormInstance } from 'ant-design-vue';
+  import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import Icon from '@/components/Icon/Icon.vue';
   import { BasicTable, useTable, BasicColumn } from '@/components/Table';
   import DictRadioGroup from '@/components/Framework/Radio/DictRadioGroup.vue';
@@ -194,6 +203,10 @@
           });
       });
     }
+  };
+
+  const handleCancel = () => {
+    modal.open = false;
   };
 
   const handleClick = async (record) => {
