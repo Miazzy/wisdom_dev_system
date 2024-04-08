@@ -1,5 +1,5 @@
 <template>
-  <a-button
+  <Button
     :type="tType"
     :class="tClassName"
     :loading="tLoading"
@@ -11,12 +11,22 @@
     <template v-if="tIcon" #icon>
       <Icon :icon="tIcon" :size="props.iconSize" />
     </template>
-    {{ tText }}
-  </a-button>
+    <slot v-if="props.text === ''"></slot>
+    <template v-if="props.text !== ''">
+      {{ tText }}
+    </template>
+  </Button>
 </template>
 <script lang="ts" setup>
   import { onMounted, ref, watch, defineProps, defineEmits } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
+  import { Button } from 'ant-design-vue';
+
+  defineOptions({
+    name: 'VButton',
+    extends: Button,
+    inheritAttrs: false,
+  });
 
   const props = defineProps({
     type: { type: String, default: 'default' }, // primary | ghost | dashed | link | text | default
@@ -25,7 +35,7 @@
     disabled: { type: Boolean, default: false },
     danger: { type: Boolean, default: false },
     size: { type: String, default: 'middle' },
-    icon: { type: String, default: '' },
+    preIcon: { type: String, default: '' },
     iconSize: { type: Number, default: 15 },
     time: { type: Number, default: 1000 },
     text: { type: String, default: '' },
@@ -64,7 +74,7 @@
     tDisabled.value = props.disabled;
     tDanger.value = props.danger;
     tSize.value = props.size;
-    tIcon.value = props.icon;
+    tIcon.value = props.preIcon;
     tText.value = props.text;
   };
 
@@ -118,9 +128,9 @@
   );
 
   watch(
-    () => props.size,
+    () => props.preIcon,
     () => {
-      tIcon.value = props.icon;
+      tIcon.value = props.preIcon;
     },
   );
 
