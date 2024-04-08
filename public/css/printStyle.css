@@ -238,7 +238,6 @@ table {
   border-collapse: collapse;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.85);
-  page-break-inside: avoid;
 }
 table th, table td {
   height: 38px;
