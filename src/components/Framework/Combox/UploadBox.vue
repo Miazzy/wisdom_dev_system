@@ -3,6 +3,7 @@
     <Button
       v-if="props.vmode == 'edit' || props.vmode == 'box'"
       @click="handleOpenUpDialog"
+      :disabled="tDisabled"
       style="margin: 0 10px 0 0"
     >
       <Icon icon="material-symbols-light:upload" />
@@ -89,6 +90,7 @@
   const uploadVisible = ref(false);
   const filelist = ref([]);
   const bizFileId = ref('');
+  const tDisabled = ref(false);
 
   // 定义emits
   const emit = defineEmits(['update:value', 'change', 'cancel', 'confirm', 'loaded']);
@@ -172,12 +174,20 @@
     () => {},
   );
 
+  watch(
+    () => props.disabled,
+    () => {
+      tDisabled.value = props.disabled;
+    },
+  );
+
   // 启动加载
   onMounted(async () => {
     try {
       const bizId = getBizId();
       filelist.value = await getFiles(bizId, props.fileKindId);
       bizFileId.value = bizId;
+      tDisabled.value = props.disabled;
       emit('update:value', filelist.value);
       emit('loaded', filelist.value);
       if (props.callback != null) {
