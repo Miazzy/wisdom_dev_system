@@ -98,7 +98,7 @@
             label="状态"
             name="status"
             :labelCol="{ span: 6 }"
-            :rules="[{ required: true }]"
+            :rules="[{ required: true, message: '请选择状态！' }]"
           >
             <DictRadioGroup v-model:value="formState.status" :type="`work_record_status`" />
           </a-form-item>
@@ -189,7 +189,7 @@
   const handleSuccess = () => {
     const value = modalFormRef.value;
     if (value) {
-      value.validateFields().then(() => {
+      value.validateFields().then((e) => {
         loadingFlag.value = true;
         saveWorkRecord(formState)
           .then(() => {
@@ -198,7 +198,7 @@
             modal.open = false;
             loadingFlag.value = false;
           })
-          .catch(() => {
+          .catch((e) => {
             loadingFlag.value = false;
           });
       });
@@ -219,7 +219,7 @@
     } else {
       assign(formState, record);
     }
-    formState.status = String(data.status);
+    formState.status = data.status ? String(data.status) : null;
     modal.open = true;
   };
 
