@@ -89,8 +89,10 @@
     <Button @click="handleOpen2OgDialog" style="margin: 0 10px 0 0">打开组织Dialog2</Button>
     <br />
 
-    <InputGroup style="margin: 10px 0" :width="300" />
-
+    <InputGroup v-model:value="igValue" style="margin: 10px 0" :width="300" />
+    <br />
+    <span style="display: block; margin-top: 10px; margin-left: 5px"> {{ igValue }} </span>
+    <br />
     <br />
     <UploadBox
       :vmode="'box'"
@@ -349,6 +351,7 @@
   const username = userInfo?.username;
   const disabled = ref(false);
   const dialogVisible = ref(false);
+  const igValue = ref('');
 
   const { pushCloseTab, updatePath, closeCurrentPage } = useTabs();
 
