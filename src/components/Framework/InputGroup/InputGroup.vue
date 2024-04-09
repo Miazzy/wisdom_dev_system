@@ -32,7 +32,7 @@
     value1: { type: [Number, String], default: null },
     value2: { type: [Number, String], default: null },
     width: { type: [Number], default: 220 },
-    type: { type: [String], default: 'number' }, // number | string | float
+    type: { type: [String], default: 'float' }, // number | string | float
   });
 
   // 定义emits
@@ -59,15 +59,14 @@
         val.value = val.value.replace(/-/g, '');
       }
     } else if (isFloat) {
-      val.value = val.value.replace(/[^\d.]/g, ''); // 剔除非数字和小数点
+      val.value = val.value.replace(/[^-\d.]/g, ''); // 剔除非数字和小数点
       if (val.value.startsWith('-') && val.value.lastIndexOf('-') != 0) {
         val.value = '-' + val.value.replace(/-/g, '');
       } else if (!val.value.startsWith('-')) {
         val.value = val.value.replace(/-/g, '');
       }
-      if (val.value.split('.').length > 2) {
-        // 如果输入中包含多个小数点，则只保留第一个小数点前的部分
-        val.value = val.value.replace(/\.(?=.*\.)/g, '');
+      if (val.value.split('.').length > 2 && val.value.endsWith('.')) {
+        val.value = val.value.slice(0, val.value.length - 1);
       }
     }
     if (iValue1.value && iValue2.value) {
