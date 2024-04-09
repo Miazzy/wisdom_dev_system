@@ -32,7 +32,7 @@
     value1: { type: [Number, String], default: null },
     value2: { type: [Number, String], default: null },
     width: { type: [Number], default: 220 },
-    type: { type: [String], default: 'float' }, // number | string | float
+    type: { type: [String], default: 'number' }, // number | string | float
   });
 
   // 定义emits
@@ -68,6 +68,9 @@
       if (val.value.split('.').length > 2 && val.value.endsWith('.')) {
         val.value = val.value.slice(0, val.value.length - 1);
       }
+    }
+    if (props.type === 'number' && val.value.startsWith('0')) {
+      val.value = parseInt(val.value);
     }
     if (iValue1.value && iValue2.value) {
       emit('update:value', `${iValue1.value},${iValue2.value}`);
