@@ -1439,9 +1439,15 @@ export const SystemUserProfile: AppRouteRecordRaw = {
   component: () => import('/@/views/system/rbac/org/userProfile.vue'),
   meta: { keepAlive: true },
 };
+export const DeviceEquipment: AppRouteRecordRaw = {
+  path: '/frame/baseset/operation/deviceequipment',
+  component: () => import('/@/views/baseset/operation/deviceequipment/index.vue'),
+  meta: { keepAlive: true },
+};
 
 // 暴露基础路由
 export const basicRoutes = [
+  DeviceEquipment,
   PoInspectionpause,
   PoInspectionpauseCreate,
   OaInfoOfficedocView,
