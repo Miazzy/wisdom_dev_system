@@ -204,7 +204,7 @@
       @confirm="handleOrgan2Confirm"
     />
 
-    <Dialog v-model:visible="dialogVisible" />
+    <!-- <Dialog v-model:visible="dialogVisible" /> -->
     <br />
     <span style="display: block; margin-top: 10px; margin-left: 5px"> {{ categoryConfirm }} </span>
     <br />
@@ -332,6 +332,21 @@
 
     <!-- <NtgaleChart /> -->
 
+    <div style="margin: 16px 0 0 16px">
+      <Button @click="handleOpenDialog">打开Dialog</Button>
+    </div>
+
+    <Dialog v-model:visible="dialog001">
+      <div>
+        <div>dialog001</div>
+        <Button @click="handleOpenInnerDialog">打开内部Dialog</Button>
+      </div>
+    </Dialog>
+
+    <Dialog v-model:visible="dialog002">
+      <div>内部Dialog002</div>
+    </Dialog>
+
     <Table
       :table-css-style="{ width: '1200px', margin: '5px 0px 5px 0px', height: 'auto' }"
       :data="tableDataSource"
@@ -365,6 +380,7 @@
   import Marquee from '@/components/Framework/Marquee/Marquee.vue';
   import UploadBox from '@/components/Framework/Combox/UploadBox.vue';
   import CommonTree from '@/components/Framework/Tree/CommonTree.vue';
+  // import Dialog from '@/components/Framework/Modal/Dialog.vue';
   import DictSelectBox from '@/components/Framework/Combox/DictSelectBox.vue';
   import DictRadioGroup from '@/components/Framework/Radio/DictRadioGroup.vue';
   import BillTitle from '/@/components/Framework/BillTitle/BillTitle.vue';
@@ -413,7 +429,7 @@
   const userInfo = userStore.getUserInfo;
   const username = userInfo?.username;
   const disabled = ref(false);
-  const dialogVisible = ref(false);
+  const dialogVisible = ref(true);
   const igValue = ref('399,502');
 
   const { pushCloseTab, updatePath, closeCurrentPage } = useTabs();
@@ -713,6 +729,20 @@
 
   const handleFinishFailed = (element, index) => {
     //
+  };
+
+  const dialog001 = ref(false);
+  const dialog002 = ref(false);
+
+  const handleOpenDialog = () => {
+    //
+    dialog001.value = true;
+    debugger;
+  };
+
+  const handleOpenInnerDialog = () => {
+    //
+    dialog002.value = true;
   };
 
   const handleValidate = (element, index) => {
