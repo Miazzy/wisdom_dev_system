@@ -245,7 +245,7 @@
   };
 
   const handleTdOperateStyle = () => {
-    return props.mode == 'view' ? 'none' : 'block';
+    return props.mode == 'view' ? 'none' : '';
   };
 
   watch(
