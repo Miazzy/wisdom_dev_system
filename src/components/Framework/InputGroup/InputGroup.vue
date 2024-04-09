@@ -7,6 +7,7 @@
       :style="inputStyle"
       placeholder="最小值"
       required
+      @keydown="handleInput"
       @blur="handleInput"
       @input="handleInput"
     />
@@ -18,6 +19,7 @@
       :style="inputStyle"
       placeholder="最大值"
       required
+      @keydown="handleInput"
       @blur="handleInput"
       @input="handleInput"
     />
@@ -36,7 +38,7 @@
   });
 
   // 定义emits
-  const emit = defineEmits(['update:value', 'update:value1', 'update:value2']);
+  const emit = defineEmits(['update:value', 'update:value1', 'update:value2', 'change']);
 
   const inputWidth = ref(100);
   const iValue1 = ref();
@@ -74,8 +76,10 @@
     }
     if (iValue1.value && iValue2.value) {
       emit('update:value', `${iValue1.value},${iValue2.value}`);
+      emit('change', `${iValue1.value},${iValue2.value}`);
     } else {
       emit('update:value', '');
+      emit('change', '');
     }
     if (iValue1.value) {
       emit('update:value1', iValue1.value);

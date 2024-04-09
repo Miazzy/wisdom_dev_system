@@ -91,11 +91,16 @@
 
     <div style="width: 800px; margin: 15px 0 0; text-align: left;">
       <a-form
+        ref="AntdForm"
         :model="formState"
         name="basic"
         :label-col="{ span: 8 }"
         :wrapper-col="{ span: 16 }"
         autocomplete="off"
+        @submit="handleFinish"
+        @finish="handleFinish"
+        @finishFailed="handleFinishFailed"
+        @validate="handleValidate"
       >
         <a-form-item
           label="Username"
@@ -114,6 +119,14 @@
         </a-form-item>
 
         <a-form-item
+          label="xname"
+          name="xname"
+          :rules="[{ required: true, message: 'Please input your xname!' }]"
+        >
+          <a-input v-model:value="formState.xname" />
+        </a-form-item>
+
+        <a-form-item
           label="igValue"
           name="igValue"
           :rules="[{ required: true, message: '请输入igValue的范围' }]"
@@ -121,16 +134,23 @@
           <InputGroup v-model:value="formState.igValue" style="margin: 10px 0" :width="300" />
         </a-form-item>
 
+        <a-form-item
+          label="radioValue"
+          name="radioValue"
+          :rules="[{ required: true, message: '请选择radioValue的值' }]"
+        >
+          <a-radio-group v-model:value="formState.radioValue" :options="plainOptions" />
+        </a-form-item>
+
         <a-form-item name="remember" :wrapper-col="{ offset: 8, span: 16 }">
           <a-checkbox v-model:checked="formState.remember">Remember me</a-checkbox>
         </a-form-item>
 
         <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-          <a-button type="primary" html-type="submit">Submit</a-button>
+          <a-button type="primary" html-type="submit" @click="handleFinish">Submit</a-button>
         </a-form-item>
       </a-form>
     </div>
-    
 
     <InputGroup v-model:value="igValue" style="margin: 10px 0" :width="300" />
     <br />
@@ -420,11 +440,20 @@
   const formState = reactive<any>({
     username: '',
     password: '',
-    igValue: '',
+    xname: '',
+    igValue: null,
+    radioValue: null,
     remember: true,
   });
 
+  const plainOptions = [
+    { label: 'Apple', value: 'Apple' },
+    { label: 'Pear', value: 'Pear' },
+    { label: 'Orange', value: 'Orange' },
+  ];
+
   const uploadTable = ref();
+  const AntdForm = ref();
   const uploadRows = ref<any[]>([]);
   const uploadColWidths = ref<string[]>([]);
   uploadRows.value = [
@@ -675,6 +704,21 @@
     // TODO 监听富文本框change事件
     richTextValue.value;
   }
+
+  const handleFinish = (element, index) => {
+    AntdForm.value.validateFields().then((e) => {
+      debugger;
+    });
+    debugger;
+  };
+
+  const handleFinishFailed = (element, index) => {
+    debugger;
+  };
+
+  const handleValidate = (element, index) => {
+    debugger;
+  };
 
   // 左侧树状菜单选中事件
   function handleSelect(node) {
