@@ -89,6 +89,49 @@
     <Button @click="handleOpen2OgDialog" style="margin: 0 10px 0 0">打开组织Dialog2</Button>
     <br />
 
+    <div style="width: 800px; margin: 15px 0 0; text-align: left;">
+      <a-form
+        :model="formState"
+        name="basic"
+        :label-col="{ span: 8 }"
+        :wrapper-col="{ span: 16 }"
+        autocomplete="off"
+      >
+        <a-form-item
+          label="Username"
+          name="username"
+          :rules="[{ required: true, message: 'Please input your username!' }]"
+        >
+          <a-input v-model:value="formState.username" />
+        </a-form-item>
+
+        <a-form-item
+          label="Password"
+          name="password"
+          :rules="[{ required: true, message: 'Please input your password!' }]"
+        >
+          <a-input-password v-model:value="formState.password" />
+        </a-form-item>
+
+        <a-form-item
+          label="igValue"
+          name="igValue"
+          :rules="[{ required: true, message: '请输入igValue的范围' }]"
+        >
+          <InputGroup v-model:value="formState.igValue" style="margin: 10px 0" :width="300" />
+        </a-form-item>
+
+        <a-form-item name="remember" :wrapper-col="{ offset: 8, span: 16 }">
+          <a-checkbox v-model:checked="formState.remember">Remember me</a-checkbox>
+        </a-form-item>
+
+        <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
+          <a-button type="primary" html-type="submit">Submit</a-button>
+        </a-form-item>
+      </a-form>
+    </div>
+    
+
     <InputGroup v-model:value="igValue" style="margin: 10px 0" :width="300" />
     <br />
     <span style="display: block; margin-top: 10px; margin-left: 5px"> {{ igValue }} </span>
@@ -351,7 +394,7 @@
   const username = userInfo?.username;
   const disabled = ref(false);
   const dialogVisible = ref(false);
-  const igValue = ref('');
+  const igValue = ref('399,502');
 
   const { pushCloseTab, updatePath, closeCurrentPage } = useTabs();
 
@@ -373,6 +416,13 @@
   const searchSelectText = ref('');
   const searchBoxSearchText = ref('');
   const uuidVal = ref('');
+
+  const formState = reactive<any>({
+    username: '',
+    password: '',
+    igValue: '',
+    remember: true,
+  });
 
   const uploadTable = ref();
   const uploadRows = ref<any[]>([]);

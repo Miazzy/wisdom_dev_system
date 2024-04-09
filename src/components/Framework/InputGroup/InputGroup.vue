@@ -74,6 +74,8 @@
     }
     if (iValue1.value && iValue2.value) {
       emit('update:value', `${iValue1.value},${iValue2.value}`);
+    } else {
+      emit('update:value', '');
     }
     if (iValue1.value) {
       emit('update:value1', iValue1.value);
@@ -91,6 +93,20 @@
     return true;
   };
 
+  const handleValueRange = () => {
+    if (!props.value1 && !props.value2 && props.value) {
+      const vals = props.value.split(',');
+      iValue1.value = vals[0];
+      iValue2.value = vals[1];
+      if (iValue1.value) {
+        emit('update:value1', iValue1.value);
+      }
+      if (iValue2.value) {
+        emit('update:value2', iValue2.value);
+      }
+    }
+  };
+
   defineExpose({
     validate,
   });
@@ -106,6 +122,9 @@
     () => props.value1,
     () => {
       iValue1.value = props.value1;
+      if (iValue1.value && iValue2.value) {
+        emit('update:value', `${iValue1.value},${iValue2.value}`);
+      }
     },
   );
 
@@ -113,17 +132,16 @@
     () => props.value2,
     () => {
       iValue2.value = props.value2;
+      if (iValue1.value && iValue2.value) {
+        emit('update:value', `${iValue1.value},${iValue2.value}`);
+      }
     },
   );
 
   watch(
     () => props.value,
     () => {
-      if (!props.value1 && !props.value2 && props.value) {
-        const vals = props.value.split(',');
-        iValue1.value = vals[0];
-        iValue2.value = vals[1];
-      }
+      handleValueRange();
     },
   );
 
@@ -131,6 +149,7 @@
     inputWidth.value = (props.width - 30) / 2;
     iValue1.value = props.value1;
     iValue2.value = props.value2;
+    handleValueRange();
   });
 </script>
 
