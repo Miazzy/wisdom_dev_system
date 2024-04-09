@@ -341,10 +341,9 @@
         <div>dialog001</div>
         <Button @click="handleOpenInnerDialog">打开内部Dialog</Button>
       </div>
-    </Dialog>
-
-    <Dialog v-model:visible="dialog002">
-      <div>内部Dialog002</div>
+      <Dialog v-model:visible="dialog002">
+        <div>内部Dialog002</div>
+      </Dialog>
     </Dialog>
 
     <Table
