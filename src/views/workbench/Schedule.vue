@@ -168,7 +168,6 @@
   const select = (value: Dayjs) => {
     let listData = list.value[moment(value.toDate()).format('YYYY-MM-DD')];
     let contentData = '';
-    debugger;
     if (listData != null) {
       forEach(listData, (item) => {
         if (item.dataType == 'schedule') {

@@ -707,17 +707,16 @@
 
   const handleFinish = (element, index) => {
     AntdForm.value.validateFields().then((e) => {
-      debugger;
+      //
     });
-    debugger;
   };
 
   const handleFinishFailed = (element, index) => {
-    debugger;
+    //
   };
 
   const handleValidate = (element, index) => {
-    debugger;
+    //
   };
 
   // 左侧树状菜单选中事件
