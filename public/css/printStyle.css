@@ -206,6 +206,10 @@ button {
   color: #666;
   font-size: 14px;
 }
+.ant-form-item-control-input-content {
+  flex: auto;
+  max-width: 100%;
+}
 .ant-input {
   line-height: 32px;
 }
@@ -221,15 +225,28 @@ button {
 .ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
   font-size: 12px;
 }
+.ant-input-number-handler-wrap {
+  display: none;
+}
 .ant-input-number-group-wrapper {
-  width: 300px;
+  width: 200px;
 }
 .ant-input-number-group-wrapper .ant-input-number-group {
-  width: 300px;
+  width: 100%;
 }
 .ant-input-number-group .ant-input-number {
+  width: 2em;
+  float: left;
+}
+.ant-input-number-group-addon {
+  width: 1em;
+  float: left;
+}
+.ant-input-textarea {
   width: 100%;
-  text-align: right;
+}
+.ant-input-textarea textarea {
+  width: 100%;
 }
 table {
   width: 100% !important;
