@@ -73,6 +73,7 @@
   import { useFullScreen } from './hooks/useModalFullScreen';
   import { omit } from 'lodash-es';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import { MsgManager } from '/@/message/MsgManager';
 
   export default defineComponent({
     name: 'BasicModal',
@@ -169,11 +170,20 @@
               (unref(modalWrapperRef) as any).scrollTop();
             }
           });
+          handleMask(v);
         },
         {
           immediate: false,
         },
       );
+
+      const handleMask = (v) => {
+        if (v) {
+          MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
+        } else {
+          MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+        }
+      };
 
       // 取消事件
       async function handleCancel(e: Event) {
@@ -185,9 +195,9 @@
           visibleRef.value = !isClose;
           return;
         }
-
         visibleRef.value = false;
         emit('cancel', e);
+        handleMask(visibleRef.value);
       }
 
       /**
@@ -198,6 +208,7 @@
         propsRef.value = deepMerge(unref(propsRef) || ({} as any), props);
         if (Reflect.has(props, 'visible')) {
           visibleRef.value = !!props.visible;
+          handleMask(visibleRef.value);
         }
         if (Reflect.has(props, 'defaultFullscreen')) {
           fullScreenRef.value = !!props.defaultFullscreen;
