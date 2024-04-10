@@ -4,7 +4,7 @@
     v-model:value="radioValue"
     name="radioGroup"
     @change="change"
-    :disabled="disabled"
+    :disabled="isDisabled"
   >
     <template v-if="props.rtype != 'button'">
       <a-radio
@@ -33,17 +33,26 @@
 </template>
 <script lang="ts" setup>
   import type { SelectProps } from 'ant-design-vue';
-  import { ref, reactive, onMounted, defineProps, defineEmits, watch } from 'vue';
+  import { ref, reactive, onMounted, defineProps, defineEmits, watch, computed } from 'vue';
   import { useDictStoreWithOut } from '@/store/modules/dict';
   import { createLocalForage } from '@/utils/cache';
   import { DICT_DATA__KEY } from '@/enums/cacheEnum';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const ls = createLocalForage();
 
   const dictStore = useDictStoreWithOut();
   const options = ref<SelectProps['options']>([]);
   const radioValue = ref('');
-  const disabled = ref(false);
+  const tDisabled = ref(false);
+
+  // 注入全局的disable状态
+  const appDisabled = ref(false);
+
+  // 根据disable状态计算出组件的disable状态
+  const isDisabled = computed(() => {
+    return tDisabled.value || appDisabled.value;
+  });
 
   const props = defineProps({
     vmode: { type: String, default: 'edit' },
@@ -92,7 +101,7 @@
   watch(
     () => props.disabled,
     () => {
-      disabled.value = props.disabled;
+      tDisabled.value = props.disabled;
     },
   );
 
@@ -102,7 +111,7 @@
     try {
       const { type } = props;
       let cache = await ls.fget(DICT_DATA__KEY + type);
-      disabled.value = props.disabled;
+      tDisabled.value = props.disabled;
       if (!cache) {
         if (props.mode !== 'group') {
           // 调用后端接口获取数据
@@ -135,6 +144,10 @@
       }
     } catch (error) {
       console.error('Failed to fetch data:', error);
+    } finally {
+      MsgManager.getInstance().listen('global-disabled', (message) => {
+        appDisabled.value = message;
+      });
     }
   });
 </script>

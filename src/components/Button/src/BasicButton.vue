@@ -1,5 +1,5 @@
 <template>
-  <Button v-bind="getBindValue" :class="getButtonClass" :disabled="tDisabled" @click="handleClick">
+  <Button v-bind="getBindValue" :class="getButtonClass" :disabled="isDisabled" @click="handleClick">
     <template #default="data">
       <Icon :icon="preIcon" v-if="preIcon" :size="iconSize" />
       <slot v-bind="data || {}"></slot>
@@ -14,6 +14,7 @@
   import Icon from '@/components/Icon/Icon.vue';
   import { buttonProps } from './props';
   import { useAttrs } from '@vben/hooks';
+  import { MsgManager } from '/@/message/MsgManager';
 
   defineOptions({
     name: 'AButton',
@@ -32,6 +33,14 @@
         [`is-disabled`]: disabled,
       },
     ];
+  });
+
+  // 注入全局的disable状态
+  const appDisabled = ref(false);
+
+  // 根据disable状态计算出组件的disable状态
+  const isDisabled = computed(() => {
+    return tDisabled.value || appDisabled.value;
   });
 
   const handleClick = () => {
@@ -58,5 +67,6 @@
 
   onMounted(() => {
     tDisabled.value = props.disabled;
+    MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
   });
 </script>

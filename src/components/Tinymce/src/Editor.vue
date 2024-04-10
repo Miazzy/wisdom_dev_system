@@ -73,6 +73,7 @@
   import { isNumber } from '/@/utils/is';
   import { useLocale } from '/@/locales/useLocale';
   import { useAppStore } from '/@/store/modules/app';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const tinymceProps = {
     options: {
@@ -134,6 +135,9 @@
       const appStore = useAppStore();
 
       const tinymceContent = computed(() => props.modelValue);
+
+      // 注入全局的disable状态
+      const appDisabled = ref(false);
 
       const containerWidth = computed(() => {
         const width = props.width;
@@ -224,7 +228,7 @@
         if (editor) {
           editor.setMode(getdDisabled ? 'readonly' : 'design');
         }
-        return getdDisabled ?? false;
+        return (getdDisabled ?? false) || appDisabled.value;
       });
 
       watch(
@@ -247,6 +251,10 @@
           setTimeout(() => {
             initEditor();
           }, 30);
+        });
+
+        MsgManager.getInstance().listen('global-disabled', (message) => {
+          appDisabled.value = message;
         });
       });
 

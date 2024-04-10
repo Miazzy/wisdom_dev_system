@@ -32,4 +32,3 @@
     message: propTypes.string.def(''),
   });
 </script>
-/@/utils/propType

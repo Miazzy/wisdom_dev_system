@@ -7,6 +7,7 @@
       :style="inputStyle"
       placeholder="最小值"
       required
+      :disabled="isDisabled"
       @keydown="handleInput"
       @blur="handleInput"
       @input="handleInput"
@@ -19,6 +20,7 @@
       :style="inputStyle"
       placeholder="最大值"
       required
+      :disabled="isDisabled"
       @keydown="handleInput"
       @blur="handleInput"
       @input="handleInput"
@@ -28,12 +30,14 @@
 
 <script lang="ts" setup>
   import { onMounted, ref, watch, defineProps, computed, defineEmits } from 'vue';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const props = defineProps({
     value: { type: [String], default: '' },
     value1: { type: [Number, String], default: null },
     value2: { type: [Number, String], default: null },
     width: { type: [Number], default: 220 },
+    disabled: { type: [Boolean], default: false },
     type: { type: [String], default: 'number' }, // number | string | float
   });
 
@@ -43,6 +47,14 @@
   const inputWidth = ref(100);
   const iValue1 = ref();
   const iValue2 = ref();
+
+  // 注入全局的disable状态
+  const appDisabled = ref(false);
+
+  // 根据disable状态计算出组件的disable状态
+  const isDisabled = computed(() => {
+    return props.disabled || appDisabled.value;
+  });
 
   const inputStyle = computed(() => {
     return `width: ${inputWidth.value}px;`;
@@ -154,6 +166,7 @@
     iValue1.value = props.value1;
     iValue2.value = props.value2;
     handleValueRange();
+    MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
   });
 </script>
 
