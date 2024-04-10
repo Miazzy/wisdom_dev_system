@@ -1196,6 +1196,12 @@ export const BpmWftaskDone: AppRouteRecordRaw = {
   meta: { keepAlive: true },
 };
 
+export const BpmTaskCenter: AppRouteRecordRaw = {
+  path: '/frame/bpm/task/taskCenter',
+  component: () => import('/@/views/bpm/manage/task/taskCenter/index.vue'),
+  meta: { keepAlive: true },
+};
+
 export const BpmTaskOperation: AppRouteRecordRaw = {
   path: '/frame/bpm/task/operation',
   component: () => import('/@/views/bpm/manage/task/operation/index.vue'),
@@ -1696,6 +1702,7 @@ export const basicRoutes = [
   BpmWfprocessInstance,
   BpmWftaskTodo,
   BpmWftaskDone,
+  BpmTaskCenter,
   BpmTaskOperation,
   BasesetMonitorAreaSet,
   BasesetMonitorModelSet,
