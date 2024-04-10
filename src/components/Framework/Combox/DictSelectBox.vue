@@ -5,7 +5,7 @@
     show-search
     allow-clear
     :mode="props.multiple"
-    :disabled="props.disabled"
+    :disabled="isDisabled"
     :maxTagCount="props.maxTagCount"
     :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}`"
     :options="options"
@@ -19,16 +19,25 @@
 </template>
 <script lang="ts" setup>
   import type { SelectProps } from 'ant-design-vue';
-  import { ref, onMounted, defineProps, defineEmits, watch, onActivated } from 'vue';
+  import { ref, onMounted, defineProps, defineEmits, watch, onActivated, computed } from 'vue';
   import { useDictStoreWithOut } from '@/store/modules/dict';
   import { createLocalStorage } from '@/utils/cache';
   import { DICT_DATA__KEY } from '@/enums/cacheEnum';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const ls = createLocalStorage();
 
   const dictStore = useDictStoreWithOut();
   const selectedValue = ref<any>();
   const options = ref<SelectProps['options']>([]);
+
+  // 注入全局的disable状态
+  const appDisabled = ref(false);
+
+  // 根据disable状态计算出组件的disable状态
+  const isDisabled = computed(() => {
+    return props.disabled || appDisabled.value;
+  });
 
   const props = defineProps({
     vmode: { type: String, default: 'edit' },
@@ -188,6 +197,7 @@
   // 启动加载
   onMounted(async () => {
     handleInitData();
+    MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
     setTimeout(() => {
       handleFocus();
     }, 1500);

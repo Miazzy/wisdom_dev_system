@@ -8,7 +8,7 @@
     :dropdown-style="{ maxHeight: '400px', width: '500px', overflow: 'auto' }"
     placeholder="请选择..."
     allow-clear
-    :disabled="props.disabled"
+    :disabled="isDisabled"
     :tree-default-expand-all="treeDefaultExpandAll"
     :multiple="props.multiple"
     :dropdownMatchSelectWidth="props.twidth"
@@ -26,8 +26,9 @@
   <span v-if="props.vmode == 'view'">{{ findOption(props.value) }}</span>
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted, defineProps, defineEmits, watch, unref, reactive } from 'vue';
+  import { ref, onMounted, defineProps, defineEmits, watch, unref, reactive, computed } from 'vue';
   import { getCustomCompOptions } from '@/utils/cache';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const selectedValue = ref<any>();
   const props = defineProps({
@@ -60,6 +61,14 @@
   const tdata = ref([]);
   const treeData = reactive([]);
   const searchValue = ref('');
+
+  // 注入全局的disable状态
+  const appDisabled = ref(false);
+
+  // 根据disable状态计算出组件的disable状态
+  const isDisabled = computed(() => {
+    return props.disabled || appDisabled.value;
+  });
 
   // 定义emits
   const emit = defineEmits(['update:value', 'change', 'select', 'search', 'expand']);
@@ -168,6 +177,7 @@
     try {
       selectedValue.value = props?.value;
       reloadData();
+      MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
     } catch (error) {
       //
     }

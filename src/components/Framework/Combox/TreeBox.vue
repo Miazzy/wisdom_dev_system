@@ -3,6 +3,7 @@
     <a-dropdown
       v-if="(props.vmode == 'edit' || props.vmode == 'label') && !props.disabled"
       :trigger="['click']"
+      :disabled="isDisabled"
       @visible-change="handleVisibleChange"
       v-model:visible="showDropdown"
     >
@@ -12,6 +13,7 @@
           v-model:value="searchLabelText"
           class="tree-text"
           :allow-clear="showDropdown"
+          :disabled="isDisabled"
           placeholder="请选择下拉树中数据..."
           @change="handleLabelChange"
           @click="toggleDropdown($event)"
@@ -22,6 +24,7 @@
           v-model:value="searchRealText"
           class="tree-text"
           :allow-clear="showDropdown"
+          :disabled="isDisabled"
           placeholder="请选择下拉树中数据..."
           @focus="handlePreventEvent"
           @keydown="handlePreventEvent"
@@ -141,10 +144,12 @@
     watch,
     unref,
     reactive,
+    computed,
   } from 'vue';
   import { TreeItem } from '../../Tree';
   import { getCustomCompOptions } from '@/utils/cache';
   import Icon from '@/components/Icon/Icon.vue';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const showDropdown = ref(false);
   const searchRealText = ref<string>('');
@@ -198,6 +203,14 @@
 
   const newTfields = ref({});
   const tdata = ref([]);
+
+  // 注入全局的disable状态
+  const appDisabled = ref(false);
+
+  // 根据disable状态计算出组件的disable状态
+  const isDisabled = computed(() => {
+    return props.disabled || appDisabled.value;
+  });
 
   const emit = defineEmits(['update:value', 'update:skeys', 'select', 'change']); // 允许双向绑定value
 
@@ -508,7 +521,9 @@
     }
   });
 
-  onUnmounted(() => {});
+  onUnmounted(() => {
+    MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
+  });
 
   defineExpose({ reload });
 </script>

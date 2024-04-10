@@ -3,7 +3,7 @@
     <Button
       v-if="props.vmode == 'edit' || props.vmode == 'box'"
       @click="handleOpenUpDialog"
-      :disabled="tDisabled"
+      :disabled="isDisabled"
       style="margin: 0 10px 0 0"
     >
       <Icon icon="material-symbols-light:upload" />
@@ -58,8 +58,9 @@
   import { Button } from 'ant-design-vue';
   import Icon from '@/components/Icon/Icon.vue';
   import UploadDialog from '@/components/Framework/Modal/UploadDialog.vue';
-  import { ref, onMounted, defineProps, defineEmits, watch, unref, reactive } from 'vue';
+  import { ref, onMounted, defineProps, defineEmits, watch, unref, reactive, computed } from 'vue';
   import * as FileApi from '@/api/infra/file';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const props = defineProps({
     vmode: { type: String, default: 'edit' },
@@ -91,6 +92,14 @@
   const filelist = ref([]);
   const bizFileId = ref('');
   const tDisabled = ref(false);
+
+  // 注入全局的disable状态
+  const appDisabled = ref(false);
+
+  // 根据disable状态计算出组件的disable状态
+  const isDisabled = computed(() => {
+    return tDisabled.value || appDisabled.value;
+  });
 
   // 定义emits
   const emit = defineEmits(['update:value', 'change', 'cancel', 'confirm', 'loaded']);
@@ -193,6 +202,7 @@
       if (props.callback != null) {
         props.callback(filelist.value);
       }
+      MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
     } catch (error) {
       console.error(error);
     }

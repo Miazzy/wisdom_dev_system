@@ -4,6 +4,7 @@
       ref="dropdown"
       v-if="props.vmode == 'edit' && !props.disabled"
       :trigger="['click']"
+      :disabled="isDisabled"
       class="search-dropdown-box"
       v-model:visible="showDropdown"
       @visibleChange="handleClickOutside"
@@ -13,6 +14,7 @@
         v-model:value="searchRealText"
         class="search-text"
         :allow-clear="showDropdown"
+        :disabled="isDisabled"
         placeholder="请选择下拉列表中数据..."
         @focus="handlePreventEvent"
         @keydown="handlePreventEvent"
@@ -95,12 +97,14 @@
     reactive,
     withDirectives,
     nextTick,
+    computed,
   } from 'vue';
   import { getCustomCompOptions } from '@/utils/cache';
   import clickOutside from '/@/directives/clickOutside';
   import { Table } from 'ant-design-vue';
   import type { TableProps } from 'ant-design-vue';
   import { defHttp } from '/@/utils/http/axios';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const showDropdown = ref(false);
   const searchRealText = ref<any>('');
@@ -146,6 +150,14 @@
     hideOnSinglePage: false,
     simple: false,
     disabled: false,
+  });
+
+  // 注入全局的disable状态
+  const appDisabled = ref(false);
+
+  // 根据disable状态计算出组件的disable状态
+  const isDisabled = computed(() => {
+    return props.disabled || appDisabled.value;
   });
 
   const emit = defineEmits([
@@ -546,6 +558,7 @@
       await reloadData();
       searchRealText.value = props.value;
       withDirectives(searchBox, [[clickOutside, handleClickOutside]]); // 注册 clickOutside 指令
+      MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
     } catch (error) {
       //
     }

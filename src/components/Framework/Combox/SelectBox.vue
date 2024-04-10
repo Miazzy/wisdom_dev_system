@@ -7,7 +7,7 @@
     :dropdown-style="props.dstyle"
     :style="`width: ${typeof props.twidth == 'number' ? props.twidth + 'px' : props.twidth}`"
     placeholder="请选择..."
-    :disabled="props.disabled"
+    :disabled="isDisabled"
     :mode="modeValue"
     :max-tag-count="props.maxTagCount"
     :max-tag-text-length="props.maxTagTextLength"
@@ -22,6 +22,7 @@
 <script lang="ts" setup>
   import { ref, onMounted, defineProps, defineEmits, watch, unref, reactive, computed } from 'vue';
   import { getCustomCompOptions } from '@/utils/cache';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const selectedValue = ref<any>();
   const props = defineProps({
@@ -44,6 +45,14 @@
   const newTfields = ref({});
   const tdata = ref([]);
   const selectData = reactive([]);
+
+  // 注入全局的disable状态
+  const appDisabled = ref(false);
+
+  // 根据disable状态计算出组件的disable状态
+  const isDisabled = computed(() => {
+    return props.disabled || appDisabled.value;
+  });
 
   // 定义emits
   const emit = defineEmits(['update:value', 'change', 'select', 'search', 'expand']);
@@ -172,6 +181,7 @@
     try {
       selectedValue.value = props?.value;
       reloadData();
+      MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
     } catch (error) {
       //
     }

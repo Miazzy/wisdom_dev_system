@@ -6,7 +6,7 @@
     allow-clear
     placeholder="请选择..."
     :dropdown-style="props.dstyle"
-    :disabled="props.disabled"
+    :disabled="isDisabled"
     :options="cascaderData"
     :show-search="{ filter }"
     :multiple="modeValue"
@@ -22,6 +22,7 @@
   import { ref, onMounted, defineProps, defineEmits, watch, unref, reactive, computed } from 'vue';
   import { getCustomCompOptions } from '@/utils/cache';
   import type { ShowSearchType } from 'ant-design-vue/es/cascader';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const selectedValue = ref<any>();
   const props = defineProps({
@@ -44,6 +45,14 @@
   const newTfields = ref({});
   const tdata = ref([]);
   const cascaderData = reactive([]);
+
+  // 注入全局的disable状态
+  const appDisabled = ref(false);
+
+  // 根据disable状态计算出组件的disable状态
+  const isDisabled = computed(() => {
+    return props.disabled || appDisabled.value;
+  });
 
   // 定义emits
   const emit = defineEmits(['update:value', 'change', 'search']);
@@ -165,6 +174,7 @@
     try {
       selectedValue.value = props?.value;
       reloadData();
+      MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
     } catch (error) {
       //
     }
