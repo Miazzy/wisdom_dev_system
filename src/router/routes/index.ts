@@ -1444,9 +1444,50 @@ export const DeviceEquipment: AppRouteRecordRaw = {
   component: () => import('/@/views/baseset/operation/deviceequipment/index.vue'),
   meta: { keepAlive: true },
 };
+export const BaseEleWorkCardIndex: AppRouteRecordRaw = {
+  path: '/frame/baseset/monitor/smartdevices/eleworkcard/index',
+  component: () => import('/@/views/baseset/monitor/smartdevices/eleworkcard/index.vue'),
+  meta: { keepAlive: true },
+};
+
+export const BaseEleWorkCardCreate: AppRouteRecordRaw = {
+  path: '/frame/baseset/monitor/smartdevices/eleworkcard/create',
+  component: () => import('/@/views/baseset/monitor/smartdevices/eleworkcard/detail.vue'),
+  meta: { keepAlive: true },
+};
+
+export const BaseInspectionInstrumentCreate: AppRouteRecordRaw = {
+  path: '/frame/baseset/monitor/smartdevices/inspectioninstrument/create',
+  component: () => import('/@/views/baseset/monitor/smartdevices/inspectioninstrument/detail.vue'),
+  meta: { keepAlive: true },
+};
+
+export const BaseInspectionInstrumentIndex: AppRouteRecordRaw = {
+  path: '/frame/baseset/monitor/smartdevices/inspectioninstrument/index',
+  component: () => import('/@/views/baseset/monitor/smartdevices/inspectioninstrument/index.vue'),
+  meta: { keepAlive: true },
+};
+
+export const BaseDrivingRecorderCreate: AppRouteRecordRaw = {
+  path: '/frame/baseset/monitor/smartdevices/drivingrecorder/create',
+  component: () => import('/@/views/baseset/monitor/smartdevices/drivingrecorder/detail.vue'),
+  meta: { keepAlive: true },
+};
+
+export const BaseDrivingRecorderIndex: AppRouteRecordRaw = {
+  path: '/frame/baseset/monitor/smartdevices/drivingrecorder/index',
+  component: () => import('/@/views/baseset/monitor/smartdevices/drivingrecorder/index.vue'),
+  meta: { keepAlive: true },
+};
 
 // 暴露基础路由
 export const basicRoutes = [
+  BaseEleWorkCardIndex,
+  BaseEleWorkCardCreate,
+  BaseInspectionInstrumentIndex,
+  BaseInspectionInstrumentCreate,
+  BaseDrivingRecorderIndex,
+  BaseDrivingRecorderCreate,
   DeviceEquipment,
   PoInspectionpause,
   PoInspectionpauseCreate,
