@@ -471,6 +471,20 @@
         span.employee-title {
           border-bottom: 1px solid rgb(255 255 255 / 16%);
         }
+        a.component-item {
+          border: 1px dashed rgb(255 255 255 / 16%);
+          background-color: rgba(7,59,109,0.5);
+          color: #f0f0f0;
+          i.icon-close {
+            span.anticon {
+              color: #f0f0f0;
+              &:hover {
+                box-shadow: 0 0 1px 0 rgb(255 255 255 / 10%);
+                color: rgb(255 255 255 / 50%);
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -494,6 +508,20 @@
     .employee-table {
       span.employee-title {
         border-bottom: 1px solid rgb(240 240 240);
+      }
+      a.component-item {
+        border: 1px dashed #cdcdcd;
+        background-color: #fff;
+        color: #303030;
+        i.icon-close {
+          span.anticon {
+            color: #303030;
+            &:hover {
+              box-shadow: 0 0 1px 0 rgb(0 0 0 / 10%);
+              color: #6f6f6f;
+            }
+          }
+        }
       }
     }
   }
@@ -637,9 +665,6 @@
             margin: 5px 4px 0;
             padding: 0 15px;
             float: left;
-            border: 1px dashed #cdcdcd;
-            background-color: #fff;
-            color: #303030;
             line-height: 30px;
             text-decoration: none;
             white-space: nowrap;
@@ -657,13 +682,10 @@
               span.anticon {
                 position: relative;
                 top: 2px;
-                color: #303030;
 
                 &:hover {
                   position: relative;
                   top: 1px;
-                  box-shadow: 0 0 1px 0 rgb(0 0 0 / 10%);
-                  color: #6f6f6f;
                 }
               }
             }
