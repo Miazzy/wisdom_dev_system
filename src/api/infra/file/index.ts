@@ -56,7 +56,7 @@ export const attachmentPreview = (url) => {
   return (
     attachmentPreviewDomain() +
     '/onlinePreview?url=' +
-    encodeURIComponent(btoa(encodeURI(attachmentDownloadUrl(getUrl(url)))))
+    encodeURIComponent(btoa(encodeURI(attachmentDownloadUrl(url))))
   );
 };
 
