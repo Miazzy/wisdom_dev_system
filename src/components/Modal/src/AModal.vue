@@ -25,13 +25,11 @@
   const emit = defineEmits(['cancel', 'ok']); // 定义事件
 
   const handleCancel = () => {
-    //
     emit('cancel');
-    MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
+    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
   };
 
   const handleOk = () => {
-    //
     emit('ok');
     MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
   };
