@@ -38,4 +38,5 @@ export const setGlobalDisabled: Directive = {
 
 export const setupGlobalDisabledDirective = (app: App) => {
   app.directive('global-disabled', setGlobalDisabled);
+  app.directive('page-readonly', setGlobalDisabled);
 };
