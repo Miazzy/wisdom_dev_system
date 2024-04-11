@@ -164,7 +164,7 @@
   onMountedOrActivated(() => {
     try {
       const { params } = urlToPath() as any;
-      const flag = params['global_disabled'] == 'true' || params['global_disabled'] == true;
+      const flag = params['global_disabled'] == 'true' || params['page_readonly'] == 'true';
       isGlobalDisabled.value = flag;
     } catch (e) {
       //
