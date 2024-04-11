@@ -1,5 +1,11 @@
 <template>
-  <Button v-bind="getBindValue" :class="getButtonClass" :disabled="isDisabled" @click="handleClick">
+  <Button
+    v-bind="getBindValue"
+    v-auth="tPermissionCode"
+    :class="getButtonClass"
+    :disabled="isDisabled"
+    @click="handleClick"
+  >
     <template #default="data">
       <Icon :icon="preIcon" v-if="preIcon" :size="iconSize" />
       <slot v-bind="data || {}"></slot>
@@ -24,6 +30,7 @@
 
   const props = defineProps(buttonProps);
   const tDisabled = ref();
+  const tPermissionCode = ref();
   const attrs = useAttrs({ excludeDefaultKeys: false });
   const getButtonClass = computed(() => {
     const { color, disabled } = props;
@@ -65,8 +72,18 @@
     },
   );
 
+  watch(
+    () => props.permissionCode,
+    () => {
+      tPermissionCode.value = props.permissionCode;
+    },
+  );
+
   onMounted(() => {
     tDisabled.value = props.disabled;
-    MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
+    tPermissionCode.value = props.permissionCode;
+    MsgManager.getInstance().listen('global-disabled', (message) => {
+      appDisabled.value = message;
+    });
   });
 </script>
