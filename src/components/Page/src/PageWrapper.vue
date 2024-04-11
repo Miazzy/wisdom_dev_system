@@ -1,5 +1,5 @@
 <template>
-  <div :class="getClass" ref="wrapperRef">
+  <div :class="getClass" ref="wrapperRef" v-global-disabled="isGlobalDisabled">
     <PageHeader
       :ghost="ghost"
       :title="title"
@@ -53,6 +53,8 @@
   import { PageHeader } from 'ant-design-vue';
   import { useContentHeight } from '/@/hooks/web/useContentHeight';
   import { PageWrapperFixedHeightKey } from '/@/enums/pageEnum';
+  import { onMountedOrActivated } from '@vben/hooks';
+  import { urlToPath } from '/@/utils/route';
 
   defineOptions({
     name: 'PageWrapper',
@@ -81,6 +83,7 @@
   const headerRef = ref(null);
   const contentRef = ref(null);
   const footerRef = ref(null);
+  const isGlobalDisabled = ref(false);
   const { prefixCls } = useDesign('page-wrapper');
 
   provide(
@@ -157,6 +160,16 @@
       immediate: true,
     },
   );
+
+  onMountedOrActivated(() => {
+    try {
+      const { params } = urlToPath() as any;
+      const flag = params['global_disabled'] == 'true' || params['global_disabled'] == true;
+      isGlobalDisabled.value = flag;
+    } catch (e) {
+      //
+    }
+  });
 </script>
 <style lang="less">
   @prefix-cls: ~'@{namespace}-page-wrapper';
