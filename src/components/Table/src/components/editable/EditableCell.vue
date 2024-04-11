@@ -1,6 +1,17 @@
 <script lang="tsx">
-  import { CSSProperties, PropType, watch } from 'vue';
-  import { computed, defineComponent, nextTick, ref, toRaw, unref, watchEffect } from 'vue';
+  import {
+    CSSProperties,
+    PropType,
+    watch,
+    computed,
+    defineComponent,
+    nextTick,
+    ref,
+    toRaw,
+    unref,
+    onMounted,
+    watchEffect,
+  } from 'vue';
   import type { BasicColumn } from '../../types/table';
   import { CheckOutlined, CloseOutlined, FormOutlined } from '@ant-design/icons-vue';
   import { CellComponent } from './CellComponent';
@@ -182,9 +193,16 @@
       });
 
       watchEffect(() => {
-        const { editable } = props.column;
+        const { editable, key } = props.column;
+        const record = props.record || {};
+        const editByNull = Reflect.get(record, `_${key}_editByNull_`);
         if (isBoolean(editable) || isBoolean(unref(getRowEditable))) {
           isEdit.value = !!editable || unref(getRowEditable);
+          if (Reflect.has(props.column, 'editByNull') && editByNull === false) {
+            isEdit.value = false;
+          } else if (Reflect.has(props.column, 'editByNull') && typeof editByNull === 'undefined' && Reflect.get(record, `_${key}_init_`)) {
+            isEdit.value = false;
+          }
         }
       });
 
@@ -192,7 +210,8 @@
         () => props.record,
         () => {
           handleInitRecord();
-      });
+        },
+      );
 
       function handleEdit() {
         if (unref(getRowEditable) || unref(props.column?.editRow)) return;
@@ -266,7 +285,13 @@
         try {
           const { column, index, record } = props;
           if (!record) return false;
-          const { key, dataIndex } = column;
+          const { editable, key, dataIndex, editByNull } = column;
+          if (isBoolean(editable) || isBoolean(unref(getRowEditable))) {
+            const record = props.record || {};
+            if (editByNull && Reflect.has(record, key) && Reflect.get(record, key)) {
+              record[`_${key}_editByNull_`] = false;
+            }
+          }
           const value = unref(currentValueRef);
           if (!key && !dataIndex) return;
 
@@ -405,10 +430,20 @@
               return true;
             }
           };
+
+          const { key } = props.column;
+          const record = props.record || {};
+          if (!Reflect.get(record, `_${key}_init_`)) {
+            Reflect.set(record, `_${key}_init_`, record[key]);
+          }
         }
       }
 
       handleInitRecord();
+
+      onMounted(() => {
+        handleInitRecord();
+      });
 
       return {
         isEdit,

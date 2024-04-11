@@ -446,6 +446,7 @@ export interface BasicColumn extends ColumnProps<Recordable> {
   // Editable
   edit?: boolean;
   editRow?: boolean;
+  editByNull?: boolean;
   editable?: boolean;
   editComponent?: ComponentType;
   editComponentProps?:
