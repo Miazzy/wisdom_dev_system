@@ -31,6 +31,7 @@ export enum BpmProInstanceApi {
   BackTask = '/bpm/process-instance/back?taskId=',
   ReplenishTask = '/bpm/process-instance/replenish?taskId=',
   DeleteProcessInstance = '/bpm/process-instance/delete',
+  GetFlowData = '/bpm/process-instance/getFlowData?bizId=',
 }
 
 export const getMyProcessInstancePage = async (params) => {
@@ -91,4 +92,9 @@ export const replenishTask = async (params) => {
     url: BpmProInstanceApi.ReplenishTask + params.taskId + '&targetKey=' + params.targetKey,
   };
   return defHttp.post<any>(requestParams, {});
+};
+
+export const getFlowData = async (bizId) => {
+  const requestParams = { url: BpmProInstanceApi.GetFlowData+bizId };
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
