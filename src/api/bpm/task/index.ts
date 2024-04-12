@@ -20,6 +20,7 @@ export enum BpmTaskApi {
   UpdateCcTo = '/bpm/task/updateCcTo?processInstanceId=',
   GetSchedulePage = '/oa/calendar-schedule/list',
   GetHiTaskinst = '/bpm/task/get-hi_taskinst',
+  GetFlowTasks = '/bpm/task/getFlowTasks',
 }
 
 export const getTodoTaskPage = async (params) => {
@@ -94,4 +95,10 @@ export const getTodoCCPage = async (params) => {
 export const updateCcTo = async (processInstanceId) => {
   const requestParams = { url: BpmTaskApi.UpdateCcTo + processInstanceId };
   return defHttp.put<any>(requestParams, {});
+};
+
+//查询流程数据
+export const getFlowTasks = async (params) => {
+  const requestParams = { url: BpmTaskApi.GetFlowTasks, params };
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
