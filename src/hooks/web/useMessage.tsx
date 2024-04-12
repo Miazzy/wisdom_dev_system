@@ -324,7 +324,7 @@ export class SysMessage {
   }
 
   info(content: string) {
-    if (SysMessage.valid(content)) {
+    if (SysMessage.valid(content) && !document.hidden) {
       SysMessage.lasttime = new Date().getTime();
       SysMessage.lastMessage = content;
       Message.info(content);
@@ -332,7 +332,7 @@ export class SysMessage {
   }
 
   error(content: string) {
-    if (SysMessage.valid(content)) {
+    if (SysMessage.valid(content) && !document.hidden) {
       SysMessage.lasttime = new Date().getTime();
       SysMessage.lastMessage = content;
       Message.error(content);
@@ -340,7 +340,7 @@ export class SysMessage {
   }
 
   success(content: string) {
-    if (SysMessage.valid(content)) {
+    if (SysMessage.valid(content) && !document.hidden) {
       SysMessage.lasttime = new Date().getTime();
       SysMessage.lastMessage = content;
       Message.success(content);
@@ -348,7 +348,7 @@ export class SysMessage {
   }
 
   warning(content: string) {
-    if (SysMessage.valid(content)) {
+    if (SysMessage.valid(content) && !document.hidden) {
       SysMessage.lasttime = new Date().getTime();
       SysMessage.lastMessage = content;
       Message.warning(content);
