@@ -15,7 +15,7 @@ export const toPage = async (bizId) => {
   if(flowData){
     let tabName = getTabName(flowData.status,flowData.name,flowData.startUserId,flowData.isHandle);
     let isReadOnly = ((tabName.indexOf(t('common.action.view')) != -1 || tabName.indexOf(t('common.action.approval')) != -1)?true:false);
-    addTabPage(flowData.viewPath, tabName, { id: bizId, isReadOnly: isReadOnly });
+    addTabPage(flowData.viewPath, tabName, { id: bizId, processInstanceId: flowData.processInstanceId, isReadOnly: isReadOnly });
   }
 };
 
