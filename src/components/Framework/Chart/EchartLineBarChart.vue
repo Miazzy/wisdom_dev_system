@@ -31,6 +31,7 @@
 
   // 解构 props
   const { data, colors, category, ybgcolor, name } = toRefs(props);
+  const emit = defineEmits(['clickItem', 'click']);
 
   // 监听数据变化
   watch(
@@ -80,7 +81,7 @@
         },
         backgroundColor: props.tipsBgColor ? props.tipsBgColor : 'rgb(50,175,255, 15%)',
         textStyle: {
-          color: props.tipsTextColor ? props.tipsTextColor : '#fff', //设置文字颜色       
+          color: props.tipsTextColor ? props.tipsTextColor : '#fff', //设置文字颜色
         },
         borderColor: 'transparent',
       },
@@ -285,16 +286,19 @@
     option && myChart.setOption(option);
   };
 
-  const emit = defineEmits(['clickItem']);
-
   // 创建地图并绘制点位
   onMounted(() => {
     createChart();
     nextTick(() => {
-      var chartDom = document.getElementById('echarts-linebar-container' + random);
-      let myChart = echarts.getInstanceByDom(chartDom);
-      myChart.on('click', (params) => {
-        emit('clickItem', params);
+      const chartDom = document.getElementById('echarts-linebar-container' + random);
+      const myChart = echarts.getInstanceByDom(chartDom);
+      myChart.getZr().on('click', (params) => {
+        const pointInPixel = [params.offsetX, params.offsetY];
+        const pointInGrid = myChart.convertFromPixel({ seriesIndex: 0 }, pointInPixel);
+        const index = pointInGrid[0];
+        const data = props.data.barData[0][index];
+        emit('clickItem', { data, index });
+        emit('click', { data, index });
       });
     });
   });
