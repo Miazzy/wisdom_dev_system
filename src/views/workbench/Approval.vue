@@ -43,6 +43,7 @@
   import { DateTools } from '/@/utils/dateUtil';
   import Schedule from '../oa/schedule/Schedule.vue';
   import moment from 'moment';
+    import * as CommonUtil from '/@/utils/common';
 
   const userStore = useUserStore();
   const getUserInfo = userStore.getUserInfo;
@@ -249,19 +250,17 @@
       TaskApi.updateCcTo(record.processInstanceId).then((res) => {
         if (res.result) {
           doCC();
-          addTabPage(
-            `${record.viewPath}?processInstanceId=${record.processInstanceId}`,
-            record.flowName,
-          );
+          CommonUtil.toFlowPage(record.businessKey);
         }
       });
     } else if (activeKey.value == '5') {
       schedule.value.handleView({ id: record.id, type: record.type });
     } else {
-      addTabPage(
-        `${record.viewPath}?processInstanceId=${record.processInstanceId}`,
-        record.flowName,
-      );
+      // addTabPage(
+      //   `${record.viewPath}?processInstanceId=${record.processInstanceId}`,
+      //   record.flowName,
+      // );
+      CommonUtil.toFlowPage(record.businessKey);
     }
   };
 
@@ -280,6 +279,7 @@
           time: DateTools.format(element.createTime, 'YYYY-MM-DD hh:mm'),
           viewPath: element.bpmProcessDefinitionRespVO.formCustomCreatePath,
           processInstanceId: element.processInstance.id,
+          businessKey: element.businessKey
         });
       });
     }
@@ -303,6 +303,7 @@
           time: DateTools.format(element.createTime, 'YYYY-MM-DD hh:mm'),
           viewPath: element.bpmProcessDefinitionRespVO.formCustomCreatePath,
           processInstanceId: element.processInstance.id,
+          businessKey: element.businessKey
         });
       });
     }
@@ -325,6 +326,7 @@
           time: DateTools.format(element.createTime, 'YYYY-MM-DD hh:mm'),
           viewPath: element.bpmProcessDefinitionRespVO.formCustomCreatePath,
           processInstanceId: element.id,
+          businessKey: element.businessKey
         });
       });
     }
@@ -347,6 +349,7 @@
           time: DateTools.format(element.createTime, 'YYYY-MM-DD hh:mm'),
           viewPath: element.bpmProcessDefinitionRespVO.formCustomCreatePath,
           processInstanceId: element.processInstance.id,
+          businessKey: element.businessKey
         });
       });
     }

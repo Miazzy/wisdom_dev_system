@@ -45,5 +45,7 @@ export default {
     update: '修改',
     export: '导出',
     edit: '修改',
+    view: '查看',
+    approval: '审批'
   },
 };

@@ -1,12 +1,6 @@
 <template>
   <a-card title="工作安排" :bordered="false">
     <template #extra>
-      <Icon
-        icon="ion:settings-outline"
-        title="工作安排设置"
-        class="set-class"
-        @click="handleScheduleView"
-      />
       <span @click="handleRecordView">更多 &gt;</span>
     </template>
     <div class="card-content">
