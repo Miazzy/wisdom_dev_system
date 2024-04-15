@@ -517,13 +517,28 @@
   onMounted(() => {
     setupBarShape();
     setupData();
-    nextTick(()=>{
+    nextTick(() => {
       const chartDom = document.getElementById('chart-pillar-container' + random);
-      let myChart = echarts.getInstanceByDom(chartDom);
-      myChart.on('click', (params)=> {
-        emit('clickItem', params);
-      })
-    })
+      const myChart = echarts.getInstanceByDom(chartDom);
+      myChart?.on('click', (params) => {
+        try {
+          emit('clickItem', params);
+        } catch (error) {
+          //
+        }
+      });
+      myChart?.getZr()?.on('click', (params) => {
+        try {
+          const pointInPixel = [params.offsetX, params.offsetY];
+          const pointInGrid = myChart.convertFromPixel({ seriesIndex: 0 }, pointInPixel);
+          const index = pointInGrid[0];
+          const data = props?.data?.barData[index];
+          emit('clickItem', { data, index });
+        } catch (error) {
+          //
+        }
+      });
+    });
   });
   onUnmounted(() => {});
 </script>
