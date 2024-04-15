@@ -239,6 +239,7 @@
 <style lang="less" scoped>
   .echarts-emap-china-container {
     background: transparent;
+
     :deep(.anchorBL) {
       display: none;
     }
