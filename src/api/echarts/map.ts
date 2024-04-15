@@ -1,11 +1,15 @@
 import { getAppEnvConfig } from '/@/utils/env';
 
+// API
+export enum Api {
+  GetMapDataURL = '/echarts/china_map_data.json',
+}
+
 // 查询中国行政区域地图数据
 export const getChinaJsonData = async () => {
-  debugger;
   const config = getAppEnvConfig();
   const callback = new Promise((resolve) => {
-    const url = config.VITE_ECHARTS_CHINA_MAP_ALL_DATA;
+    const url = config.VITE_ECHARTS_CHINA_MAP_ALL_DATA || Api.GetMapDataURL;
     _fetch(url, function (text:any) {
       const data = JSON.parse(text);
       resolve(data);
