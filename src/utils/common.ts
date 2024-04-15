@@ -10,7 +10,7 @@ export const toUnderline = (str) => {
   return str.replace(/([A-Z])/g, '_$1').toLowerCase();
 };
 
-export const toPage = async (bizId) => {
+export const toFlowPage = async (bizId) => {
   const flowData = await ProcessInstanceApi.getFlowData(bizId);
   if(flowData){
     let tabName = getTabName(flowData.status,flowData.name,flowData.startUserId,flowData.isHandle);
