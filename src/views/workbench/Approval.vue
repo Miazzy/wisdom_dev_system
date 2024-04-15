@@ -250,7 +250,7 @@
       TaskApi.updateCcTo(record.processInstanceId).then((res) => {
         if (res.result) {
           doCC();
-          CommonUtil.toPage(record.businessKey);
+          CommonUtil.toFlowPage(record.businessKey);
         }
       });
     } else if (activeKey.value == '5') {
@@ -260,7 +260,7 @@
       //   `${record.viewPath}?processInstanceId=${record.processInstanceId}`,
       //   record.flowName,
       // );
-      CommonUtil.toPage(record.businessKey);
+      CommonUtil.toFlowPage(record.businessKey);
     }
   };
 
