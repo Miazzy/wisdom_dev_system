@@ -22,7 +22,7 @@
 </template>
 <script lang="ts" setup>
   const props = defineProps({
-    src: { type: String, default: '../../../../src/assets/images/indicatorimage.png' },
+    src: { type: String, default: '/images/indicatorimage.png' },
     title: { type: String, default: '光伏电站' },
     text: { type: String, default: '今日发电量' },
     subText: { type: String, default: '实时功率' },
