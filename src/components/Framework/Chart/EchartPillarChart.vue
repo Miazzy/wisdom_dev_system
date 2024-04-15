@@ -108,28 +108,30 @@
       },
       data: [],
     },
-    yAxis: {
-      type: 'value',
-      splitLine: {
-        show: true, //网格线
-        lineStyle: {
-          color: props.axisColor, //坐标轴线线的颜色
-          width: props.axisWidth, //坐标轴线线宽
+    yAxis: [
+      {
+        type: 'value',
+        splitLine: {
+          show: true, //网格线
+          lineStyle: {
+            color: props.axisColor, //坐标轴线线的颜色
+            width: props.axisWidth, //坐标轴线线宽
+          },
+        },
+        axisLine: {
+          //坐标轴轴线相关设置
+          show: ' ', //是否显示坐标轴轴线
+          onZero: ' ', //X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度
+          onZeroAxisIndex: '12', //当有双轴时，可以用这个属性手动指定，在哪个轴的 0 刻度上
+          symbol: ['none', 'none'], //轴线两边的箭头
+          symbolSize: [10, 10], //轴线两边的箭头的大小，第一个数字表示宽度（垂直坐标轴方向），第二个数字表示高度（平行坐标轴方向）
+          lineStyle: {
+            color: props.axisColor, //坐标轴线线的颜色
+            width: props.axisWidth, //坐标轴线线宽
+          },
         },
       },
-      axisLine: {
-        //坐标轴轴线相关设置
-        show: ' ', //是否显示坐标轴轴线
-        onZero: ' ', //X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度
-        onZeroAxisIndex: '12', //当有双轴时，可以用这个属性手动指定，在哪个轴的 0 刻度上
-        symbol: ['none', 'none'], //轴线两边的箭头
-        symbolSize: [10, 10], //轴线两边的箭头的大小，第一个数字表示宽度（垂直坐标轴方向），第二个数字表示高度（平行坐标轴方向）
-        lineStyle: {
-          color: props.axisColor, //坐标轴线线的颜色
-          width: props.axisWidth, //坐标轴线线宽
-        },
-      },
-    },
+    ],
     tooltip: {
       trigger: 'axis',
       align: 'left',
