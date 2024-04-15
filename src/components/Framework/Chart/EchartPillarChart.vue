@@ -49,7 +49,11 @@
   const barData = ref([]);
   const categories = ref([]);
   const lineData = ref([]);
-  const pillarOption = ref({
+  const cnameList = ref([]);
+  const pillarOption = ref({});
+
+  const handleOptions = () => {
+    pillarOption.value = {
     backgroundColor: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
       {
         offset: 0,
@@ -141,12 +145,12 @@
           return props.tipsFormat(params);
         } else {
           const units = props.data.units;
-          const name = props.name;
+          const name = cnameList.value || props.name;
           const first = params?.length > 0&&(params[0].value||params[0].value===0) ? `${name[0]}：${params[0].value} ${units[0]}` : '';
           const namelabel = params[0].name + '<br />';
           try {
-            const second = params?.length > 2&&(params[2].value||params[2].value===0) ? `<br /> ${name[1]}：${params[2].value} ${units[1]}` : '';
-            const third = params?.length > 3&&(params[3].value||params[3].value===0) ? `<br /> ${name[2]}：${params[3].value} ${units[2]}` : '';
+            const second = params?.length > 2 && (params[2].value||params[2].value===0) ? `<br /> ${name[1]}：${params[2].value} ${units[1]}` : '';
+            const third = params?.length > 3 && (params[3].value||params[3].value===0) ? `<br /> ${name[2]}：${params[3].value} ${units[2]}` : '';
             return namelabel + first + second + third;
           } catch (e) {
             return first;
@@ -178,7 +182,7 @@
         data: [],
         type: 'custom',
         showBackground: true,
-        name: props.name.length ? props.name[0] : null,
+        name: cnameList.value.length ? cnameList.value[0] : null,
         color: new echarts.graphic.LinearGradient(
           0,
           1,
@@ -330,7 +334,7 @@
         // 新增的折线图配置
         data: [],
         type: 'line',
-        name: props.name.length ? props.name[1] : null,
+        name: cnameList.value.length ? cnameList.value[1] : null,
         color: new echarts.graphic.LinearGradient(
           0,
           1,
@@ -367,7 +371,7 @@
         // 新增的折线图配置
         data: [],
         type: 'line',
-        name: props.name.length ? props.name[2] : null,
+        name: cnameList.value.length ? cnameList.value[2] : null,
         color: new echarts.graphic.LinearGradient(
           0,
           1,
@@ -419,7 +423,8 @@
       itemHeight: 10,
       // icon: 'rect'
     },
-  });
+  }
+  };
 
   // 查询初始化信息函数
   const setupBarShape = async () => {
@@ -488,6 +493,8 @@
     barData.value = props.data.barData;
     categories.value = props.data.categories;
     lineData.value = props.data.lineData;
+    cnameList.value = props.name as [];
+    handleOptions();
 
     // 设置统计数据
     try {
@@ -514,19 +521,22 @@
     },
   );
 
+  watch(
+    () => props.name,
+    (val) => {
+      setupData();
+    },
+    {
+      deep: true,
+    },
+  );
+
   onMounted(() => {
     setupBarShape();
     setupData();
     nextTick(() => {
       const chartDom = document.getElementById('chart-pillar-container' + random);
       const myChart = echarts.getInstanceByDom(chartDom);
-      myChart?.on('click', (params) => {
-        try {
-          emit('clickItem', params);
-        } catch (error) {
-          //
-        }
-      });
       myChart?.getZr()?.on('click', (params) => {
         try {
           const pointInPixel = [params.offsetX, params.offsetY];

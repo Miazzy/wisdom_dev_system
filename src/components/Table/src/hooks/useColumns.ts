@@ -30,7 +30,6 @@ function handleItem(item: BasicColumn, ellipsis: boolean) {
 }
 
 function handleChildren(children: BasicColumn[] | undefined, ellipsis: boolean) {
-  debugger;
   if (!children) return;
   children.forEach((item) => {
     const { children } = item;
@@ -215,7 +214,6 @@ export function useColumns(
    * @param columnList key｜column
    */
   function setColumns(columnList: Partial<BasicColumn>[] | (string | string[])[]) {
-    debugger;
     const columns = cloneDeep(columnList);
     if (!isArray(columns)) return;
 
