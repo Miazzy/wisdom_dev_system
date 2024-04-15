@@ -30,6 +30,7 @@ function handleItem(item: BasicColumn, ellipsis: boolean) {
 }
 
 function handleChildren(children: BasicColumn[] | undefined, ellipsis: boolean) {
+  debugger;
   if (!children) return;
   children.forEach((item) => {
     const { children } = item;
@@ -84,6 +85,16 @@ function handleIndexColumn(
       : {}),
     ...indexColumnProps,
   });
+
+  // 最后一个字段清除width
+  try {
+    if (columns.length >= 10) {
+      const column = columns[columns.length - 1];
+      delete column.width;
+    }
+  } catch (error) {
+    //
+  }
 }
 
 function handleActionColumn(propsRef: ComputedRef<BasicTableProps>, columns: BasicColumn[]) {
@@ -173,11 +184,9 @@ export function useColumns(
     return columns
       .filter((column) => hasPermission(column.auth) && isIfShow(column))
       .map((column) => {
-        // Support table multiple header editable
         if (column.children?.length) {
           column.children = column.children.map(mapFn);
         }
-
         return mapFn(column);
       });
   });
@@ -206,6 +215,7 @@ export function useColumns(
    * @param columnList key｜column
    */
   function setColumns(columnList: Partial<BasicColumn>[] | (string | string[])[]) {
+    debugger;
     const columns = cloneDeep(columnList);
     if (!isArray(columns)) return;
 
