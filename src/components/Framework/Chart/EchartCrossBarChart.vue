@@ -153,9 +153,6 @@
           name: names0,
           type: 'bar',
           stack: 'total',
-          label: {
-            show: true,
-          },
           emphasis: {
             focus: 'series',
           },
@@ -171,9 +168,6 @@
           name: names1,
           type: 'bar',
           stack: 'total',
-          label: {
-            show: true,
-          },
           emphasis: {
             focus: 'series',
           },
