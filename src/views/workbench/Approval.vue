@@ -1,5 +1,5 @@
 <template>
-  <a-card title="待办任务" :bordered="false">
+  <a-card title="任务看板" :bordered="false">
     <template #extra>
       <span @click="toMorePage">更多 &gt;</span>
     </template>
@@ -94,16 +94,16 @@
   const toMorePage = () => {
     if (activeKey.value == '1') {
       // router.push(`/bpm/task/todo`);
-      addTabPage(`/bpm/task/todo`, '待办任务');
+      addTabPage(`/bpm/task/taskCenter`, '任务中心', {flowType: '010001'});
     } else if (activeKey.value == '2') {
       // router.push(`/bpm/task/todo`);
-      addTabPage(`/bpm/task/todo`, '待办任务');
+      addTabPage(`/bpm/task/taskCenter`, '任务中心', {flowType: '010002'});
     } else if (activeKey.value == '3') {
       // router.push(`/bpm/task/processInstance`);
-      addTabPage(`/bpm/task/processInstance`, '我的流程');
+      addTabPage(`/bpm/task/taskCenter`, '任务中心', {flowType: '020001'});
     } else if (activeKey.value == '4') {
       // router.push(`/bpm/task/done`);
-      addTabPage(`/bpm/task/done`, '已办任务');
+      addTabPage(`/bpm/task/taskCenter`, '任务中心', {flowType: '020003'});
     } else if (activeKey.value == '5') {
       // router.push(`/bpm/task/done`);
       addTabPage(`/oa/schedule/index`, '日程提醒');
