@@ -30,6 +30,7 @@
             <QrCodeForm />
           </div>
         </div>
+        <div style="display: none"><iframe src="/#/frame/workbench"></iframe></div>
       </div>
     </div>
   </div>

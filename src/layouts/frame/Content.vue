@@ -84,22 +84,9 @@
         size="26"
         @click="handleScreenTabPage"
       />
-      <div v-if="props.mode === 'multi'" class="content" :style="contentStyle">
-        <template v-for="pane in panes">
-          <div v-show="pane.status" class="content" :style="contentStyle">
-            <iframe
-              v-if="pane.show"
-              :key="pane.key"
-              :src="pane.pageurl"
-              :class="`${pane.status ? 'active' : 'disactive'}`"
-              :style="iframeWidth"
-            ></iframe>
-          </div>
-        </template>
-      </div>
-      <div v-else-if="props.mode === 'single'" class="content" :style="contentStyle">
+      <div class="content" :style="contentStyle">
         <iframe
-          :src="activePane.pageurl"
+          :src="activePane.pageurl || '/#/frame/workbench'"
           :panekey="activeKey"
           :pageurl="activePane.pageurl"
           :class="`${activePane.status ? 'active' : 'disactive'}`"
@@ -141,7 +128,7 @@
     closable: false,
     show: true,
     status: true,
-    pageurl: cacheurl,
+    pageurl: pageurl,
   };
   const panes = ref<any[]>([workbench]);
   const paneMap = new Map();
