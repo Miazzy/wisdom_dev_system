@@ -10,7 +10,7 @@ export const getChinaJsonData = async () => {
   const config = getAppEnvConfig();
   const callback = new Promise((resolve) => {
     const url = config.VITE_ECHARTS_CHINA_MAP_ALL_DATA || Api.GetMapDataURL;
-    _fetch(url, function (text:any) {
+    _fetch(url, function (text: any) {
       const data = JSON.parse(text);
       resolve(data);
     });
@@ -20,8 +20,8 @@ export const getChinaJsonData = async () => {
 };
 
 // 获取Http请求函数
-function _fetch(url:any, cb:any) {
-  var xhr = new XMLHttpRequest();
+function _fetch(url: any, cb: any) {
+  const xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
   xhr.send();
   xhr.onreadystatechange = function () {
