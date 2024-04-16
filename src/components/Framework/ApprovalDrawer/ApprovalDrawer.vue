@@ -286,7 +286,7 @@
   async function queryDeptTreeList() {
     OrgApi.getListTree({
       showPosition: false,
-      fullId: '/HZ93a0bf6ab8dd83016ab8deaca70009.ogn',
+      // fullId: '/HZ93a0bf6ab8dd83016ab8deaca70009.ogn',
     }).then((res) => {
       const list = res as unknown as TreeItem[];
       treeData.value = list;
