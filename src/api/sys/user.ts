@@ -13,6 +13,9 @@ export enum SystemAuthApi {
   OrganTree = '/system/org/list-tree',
   OrgStationTree = '/baseset/common/list-orgStationPeriodTree',
   MaterialTree = '/baseset/material-category/getTreeData',
+  WiringDiagramGetTree = '/baseset/wiringdiagram/info/getTree?fullName=&code=',
+  WiringDiagramGetJSON = '/baseset/wiringdiagram/info/getJson',
+  WiringDiagramGetList = '/monitor/wiring-diagram/list',
 }
 
 /**
@@ -89,4 +92,30 @@ export function checkToken(token) {
 export function getTreeData(params) {
   const requestParams = { url: SystemAuthApi.OrgStationTree, params };
   return defHttp.post(requestParams, { isOnlyResult: true });
+}
+
+/*
+ * @description: get wiring diagram tree
+ */
+export function getWiringDiagramTree(params: any = {}) {
+  const requestParams = { url: SystemAuthApi.WiringDiagramGetTree, params };
+  return defHttp.get(requestParams, { isOnlyResult: true });
+}
+
+/*
+ * @description: get wiring diagram json
+ */
+export function getWiringDiagramJSON(id: string = '') {
+  const params = { id };
+  const requestParams = { url: SystemAuthApi.WiringDiagramGetJSON, params };
+  return defHttp.get(requestParams, { isOnlyResult: true });
+}
+
+/*
+ * @description: get wiring diagram list
+ */
+export function getWiringDiagramList(infoId: string = '', stationId: string = '') {
+  const params = { infoId, stationId };
+  const requestParams = { url: SystemAuthApi.WiringDiagramGetList, params };
+  return defHttp.get(requestParams, { isOnlyResult: true });
 }
