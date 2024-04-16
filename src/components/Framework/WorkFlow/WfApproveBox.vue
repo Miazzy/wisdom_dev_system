@@ -175,6 +175,7 @@
   //发送通知消息
   const sendMsg = () => {
     MsgManager.getInstance().sendMsg('workbench-approval', {}); // 工作台
+    MsgManager.getInstance().sendMsg('task-center-page', {}); // 发送消息，通知审批待办任务已办任务刷新列表
     MsgManager.getInstance().sendMsg(props.listenMessage, {}); // 发送消息，通知审批待办任务已办任务刷新列表
   };
 

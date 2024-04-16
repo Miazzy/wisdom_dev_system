@@ -190,6 +190,7 @@
     }
     // closeCurrentTab();
     MsgManager.getInstance().sendMsg('workflow-task-done', {}); // 发送消息，通知审批待办任务已办任务刷新列表
+    MsgManager.getInstance().sendMsg('task-center-page', {}); // 发送消息，通知审批待办任务已办任务刷新列表
   }
 
   // 驳回
@@ -202,6 +203,7 @@
     }
     // closeCurrentTab();
     MsgManager.getInstance().sendMsg('workflow-task-done', {}); // 发送消息，通知审批待办任务已办任务刷新列表
+    MsgManager.getInstance().sendMsg('task-center-page', {}); // 发送消息，通知审批待办任务已办任务刷新列表
   }
 
   // 保存
@@ -321,7 +323,7 @@
       }
       const params = {
         id: myTask.id,
-        assigneeUserId: getPersonId(nodeList[0].id),
+        assigneeUserId: getPersonId(nodeList[0].key),
       };
       TaskApi.updateTaskAssignee(params).then(() => {
         processOperation.value = 0;
@@ -332,7 +334,7 @@
     } else if (processOperation.value == 3) {
       const ccToVos = [];
       for (const node of nodeList) {
-        ccToVos.push({ userId: getPersonId(node.id) });
+        ccToVos.push({ userId: getPersonId(node.key) });
       }
       const params = {
         id: myTask.id,
