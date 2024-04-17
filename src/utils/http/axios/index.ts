@@ -196,6 +196,10 @@ const transform: AxiosTransform = {
         ? `${options.authenticationScheme} ${token}`
         : token;
       // 代理设置
+            // TODO开发人员填写自己的版本号
+            if (config.url?.startsWith('/admin-api/po')) {
+              (config as Recordable).headers.version = '9.9.9';
+            }
     }
     return config;
   },
