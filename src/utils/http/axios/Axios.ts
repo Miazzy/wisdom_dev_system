@@ -18,6 +18,7 @@ import { useDictStoreWithOut } from '@/store/modules/dict';
 import { SystemAuthApi } from '/@/api/sys/user';
 import { CommonApi } from '/@/api/baseset/common/index';
 import { DictDataApi } from '/@/api/bpm/system/dict/data';
+import { FileApi } from '/@/api/infra/file/index';
 import { createLocalForage } from '@/utils/cache';
 import { pathToUrl, sendOfflineMessage } from '/@/utils/route';
 
@@ -314,6 +315,15 @@ export class VAxios {
         });
       }
     }
+    if (conf.url === FileApi.GetFiles) {
+      const key = FileApi.GetFiles + pathToUrl(conf.url, { ...conf.params, ...options });
+      const cache = await ls.fget(key);
+      if (cache) {
+        return new Promise((resolve) => {
+          resolve(cache);
+        });
+      }
+    }
     if (conf.url === SystemAuthApi.SysLogout) {
       return new Promise((resolve) => {
         const result = `{"userId":"","username":""}`;
@@ -372,6 +382,11 @@ export class VAxios {
                   CommonApi.LIST_STATION_TREE +
                   pathToUrl(CommonApi.LIST_STATION_TREE, { ...conf?.data, ...options });
                 ls.set(key, ret, 60 * 60 * 24 * 7);
+              }
+              if (conf.url == opt.apiUrl + FileApi.GetFiles) {
+                const key =
+                  FileApi.GetFiles + pathToUrl(FileApi.GetFiles, { ...conf?.data, ...options });
+                ls.set(key, ret, 60 * 10);
               }
               resolve(ret);
             } catch (err) {
