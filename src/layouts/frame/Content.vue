@@ -272,7 +272,7 @@
           element.style.transform = `translate(${newX}px, ${currentY}px)`;
         }
       }
-    }, 300);
+    }, 150);
   }
 
   // 处理新增Tab页签Page的函数
@@ -320,7 +320,7 @@
         url: key,
         loading,
       });
-    }, 150);
+    }, 10);
   };
 
   // 处理刷新当前页面的函数
