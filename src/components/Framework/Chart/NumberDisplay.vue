@@ -79,19 +79,25 @@
   watch(
     () => props.value,
     () => {
-      digitArray.value = String(props.value).split('').map(String) as never[];
+      if (props.value !== null && typeof props.value !== 'undefined') {
+        digitArray.value = String(props.value).split('').map(String) as never[];
+      }
     },
   );
 
   watch(
     () => props.subtitle,
     () => {
-      digitArray.value = String(props.value).split('').map(String) as never[];
+      if (props.value !== null && typeof props.value !== 'undefined') {
+        digitArray.value = String(props.value).split('').map(String) as never[];
+      }
     },
   );
 
   onMounted(() => {
-    digitArray.value = String(props.value).split('').map(String) as never[];
+    if (props.value !== null && typeof props.value !== 'undefined') {
+      digitArray.value = String(props.value).split('').map(String) as never[];
+    }
   });
 </script>
 
