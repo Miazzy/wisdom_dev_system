@@ -209,7 +209,7 @@
   };
 
   const download = (url) => {
-    const previewURL = url;
+    const previewURL = FileApi.attachmentDownloadUrl(url);
     window.open(previewURL, '_self');
   };
 
