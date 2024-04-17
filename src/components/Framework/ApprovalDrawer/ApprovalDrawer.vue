@@ -18,7 +18,7 @@
     :get-container="getContainer"
   >
     <OrganDialog
-      :title="`组织人员Dialog`"
+      :title="`组织人员`"
       :visible="organVisible"
       @update:visible="organVisible = $event"
       :tdata="treeData"
