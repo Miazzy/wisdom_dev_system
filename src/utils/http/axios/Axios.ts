@@ -316,7 +316,7 @@ export class VAxios {
       }
     }
     if (conf.url === FileApi.GetFiles) {
-      const key = FileApi.GetFiles + pathToUrl(conf.url, { ...conf.params, ...options });
+      const key = pathToUrl(conf.url, { ...conf.params, ...options });
       const cache = await ls.fget(key);
       if (cache) {
         return new Promise((resolve) => {
@@ -384,9 +384,10 @@ export class VAxios {
                 ls.set(key, ret, 60 * 60 * 24 * 7);
               }
               if (conf.url == opt.apiUrl + FileApi.GetFiles) {
-                const key =
-                  FileApi.GetFiles + pathToUrl(FileApi.GetFiles, { ...conf?.data, ...options });
-                ls.set(key, ret, 60 * 10);
+                const params = { ...conf?.params, ...options };
+                delete params._t;
+                const key = pathToUrl(FileApi.GetFiles, params);
+                ls.set(key, ret, 60);
               }
               resolve(ret);
             } catch (err) {
