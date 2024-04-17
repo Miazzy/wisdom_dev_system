@@ -279,7 +279,7 @@ export class VAxios {
       }
     }
     if (conf.url === SystemAuthApi.OrganTree) {
-      const key = SystemAuthApi.OrganTree + pathToUrl(conf.url, { ...conf.params, ...options });
+      const key = pathToUrl(conf.url, { ...conf.params, ...options });
       const cache = await ls.fget(key);
       if (cache) {
         return new Promise((resolve) => {
@@ -288,8 +288,7 @@ export class VAxios {
       }
     }
     if (conf.url === SystemAuthApi.OrgStationTree) {
-      const key =
-        SystemAuthApi.OrgStationTree + pathToUrl(conf.url, { ...conf.params, ...options });
+      const key = pathToUrl(conf.url, { ...conf.params, ...options });
       const cache = await ls.fget(key);
       if (cache) {
         return new Promise((resolve) => {
@@ -298,7 +297,7 @@ export class VAxios {
       }
     }
     if (conf.url === SystemAuthApi.MaterialTree) {
-      const key = SystemAuthApi.MaterialTree + pathToUrl(conf.url, { ...conf.params, ...options });
+      const key = pathToUrl(conf.url, { ...conf.params, ...options });
       const cache = await ls.fget(key);
       if (cache) {
         return new Promise((resolve) => {
@@ -307,7 +306,7 @@ export class VAxios {
       }
     }
     if (conf.url === CommonApi.LIST_STATION_TREE) {
-      const key = CommonApi.LIST_STATION_TREE + pathToUrl(conf.url, { ...conf.params, ...options });
+      const key = pathToUrl(conf.url, { ...conf.params, ...options });
       const cache = await ls.fget(key);
       if (cache) {
         return new Promise((resolve) => {
@@ -351,6 +350,8 @@ export class VAxios {
           if (transformResponseHook && isFunction(transformResponseHook)) {
             try {
               const ret = transformResponseHook(res, opt);
+              const params = { ...conf?.params, ...options };
+              delete params._t;
               if (conf.url == opt.apiUrl + DictDataApi.GetDictDataMap) {
                 const key = DictDataApi.GetDictDataMap + '?' + qs.stringify(config.params);
                 ls.set(key, ret, 60 * 60 * 24 * 7);
@@ -360,32 +361,22 @@ export class VAxios {
                 ls.set(key, ret, 60 * 60 * 24 * 7);
               }
               if (conf.url == opt.apiUrl + SystemAuthApi.OrganTree) {
-                const key =
-                  SystemAuthApi.OrganTree +
-                  pathToUrl(SystemAuthApi.OrganTree, { ...conf?.data, ...options });
+                const key = pathToUrl(SystemAuthApi.OrganTree, params);
                 ls.set(key, ret, 60 * 60 * 24 * 7);
               }
               if (conf.url == opt.apiUrl + SystemAuthApi.OrgStationTree) {
-                const key =
-                  SystemAuthApi.OrgStationTree +
-                  pathToUrl(SystemAuthApi.OrgStationTree, { ...conf?.data, ...options });
+                const key = pathToUrl(SystemAuthApi.OrgStationTree, params);
                 ls.set(key, ret, 60 * 60 * 24 * 7);
               }
               if (conf.url == opt.apiUrl + SystemAuthApi.MaterialTree) {
-                const key =
-                  SystemAuthApi.MaterialTree +
-                  pathToUrl(SystemAuthApi.MaterialTree, { ...conf?.data, ...options });
+                const key = pathToUrl(SystemAuthApi.MaterialTree, params);
                 ls.set(key, ret, 60 * 60 * 24 * 7);
               }
               if (conf.url == opt.apiUrl + CommonApi.LIST_STATION_TREE) {
-                const key =
-                  CommonApi.LIST_STATION_TREE +
-                  pathToUrl(CommonApi.LIST_STATION_TREE, { ...conf?.data, ...options });
+                const key = pathToUrl(CommonApi.LIST_STATION_TREE, params);
                 ls.set(key, ret, 60 * 60 * 24 * 7);
               }
               if (conf.url == opt.apiUrl + FileApi.GetFiles) {
-                const params = { ...conf?.params, ...options };
-                delete params._t;
                 const key = pathToUrl(FileApi.GetFiles, params);
                 ls.set(key, ret, 60);
               }
