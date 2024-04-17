@@ -323,7 +323,7 @@
       }
       const params = {
         id: myTask.id,
-        assigneeUserId: getPersonId(nodeList[0].key),
+        assigneeUserId: getPersonId(nodeList[0].value),
       };
       TaskApi.updateTaskAssignee(params).then(() => {
         processOperation.value = 0;
@@ -334,7 +334,7 @@
     } else if (processOperation.value == 3) {
       const ccToVos = [];
       for (const node of nodeList) {
-        ccToVos.push({ userId: getPersonId(node.key) });
+        ccToVos.push({ userId: getPersonId(node.value) });
       }
       const params = {
         id: myTask.id,
