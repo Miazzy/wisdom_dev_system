@@ -146,7 +146,7 @@
   const handleUploadOver = async () => {
     const bizId = getBizId();
     const fileKindId = props.fileKindId;
-    filelist.value = await FileApi.getFiles({ bizId, fileKindId });
+    filelist.value = await getFiles(bizId, fileKindId);
     emit('update:value', filelist.value);
     emit('change', filelist.value);
     if (props.callback != null) {
@@ -159,7 +159,8 @@
     if (typeof bizId == 'undefined' || bizId == null || bizId == '') {
       return [];
     }
-    const filelist = await FileApi.getFiles({ bizId, fileKindId });
+    const random = Math.random();
+    const filelist = await FileApi.getFiles({ bizId, fileKindId, random });
     return filelist;
   };
 
