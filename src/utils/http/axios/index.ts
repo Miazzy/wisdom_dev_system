@@ -155,6 +155,14 @@ const transform: AxiosTransform = {
         config.params = undefined;
       }
     } else {
+      if (
+        config.method?.toUpperCase() === RequestEnum.POST ||
+        config.method?.toUpperCase() === RequestEnum.PUT ||
+        config.method?.toUpperCase() === RequestEnum.DELETE
+      ) {
+        config.params = Object.assign(params || {}, joinTimestamp(joinTime, false));
+        config.url = config.url + `${joinTimestamp(joinTime, true)}`;
+      }
       if (!isString(params)) {
         formatDate && formatRequestDate(params);
         if (
@@ -196,10 +204,10 @@ const transform: AxiosTransform = {
         ? `${options.authenticationScheme} ${token}`
         : token;
       // 代理设置
-            // TODO开发人员填写自己的版本号
-            if (config.url?.startsWith('/admin-api/po')) {
-              (config as Recordable).headers.version = '9.9.9';
-            }
+      // TODO开发人员填写自己的版本号
+      if (config.url?.startsWith('/admin-api/po')) {
+        (config as Recordable).headers.version = '9.9.9';
+      }
     }
     return config;
   },
