@@ -25,7 +25,7 @@
                 class="ant-upload-list-item-name"
                 :size="file?.size"
                 :title="file?.name"
-                :href="FileApi.attachmentPreview(file?.url)"
+                :href="FileApi.attachmentPreview(file?.url,file?.name)"
               >
                 {{ file?.name }}
               </a>

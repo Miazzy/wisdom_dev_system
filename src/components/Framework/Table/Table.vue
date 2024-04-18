@@ -40,7 +40,7 @@
                   <span role="img" aria-label="paper-clip" class="anticon anticon-paper-clip">
                     <Icon icon="ph:file-light" />
                   </span>
-                  <span class="file-text" @click="preview(file?.url)">
+                  <span class="file-text" @click="preview(file?.url,file?.name)">
                     <a-popover v-if="handleBtnAccess('preview') || handleBtnAccess('download')">
                       <template #content>
                         <div class="file-title-content">
@@ -50,7 +50,7 @@
                           <a-button
                             v-if="handleBtnAccess('preview')"
                             preIcon="ic:baseline-pageview"
-                            @click="preview(file?.url)"
+                            @click="preview(file?.url,file?.name)"
                             :iconSize="16"
                             >预览</a-button
                           >
@@ -201,9 +201,9 @@
     }
   };
 
-  const preview = (url) => {
+  const preview = (url,name) => {
     if (tOperate.value.includes('preview')) {
-      const previewURL = FileApi.attachmentPreview(url);
+      const previewURL = FileApi.attachmentPreview(url,name);
       window.open(previewURL);
     }
   };
