@@ -86,7 +86,9 @@
       />
       <div class="content" :style="contentStyle">
         <div v-if="!loadOverFlag" class="iframe-component">
-          <component :is="currentComponent" />
+          <keep-alive>
+            <component :is="currentComponent" />
+          </keep-alive>
         </div>
         <iframe
           :src="activePane.pageurl || '/#/frame/workbench'"
