@@ -316,6 +316,12 @@ export class VAxios {
     }
     if (conf.url === FileApi.GetFiles) {
       const key = pathToUrl(conf.url, { ...conf.params, ...options });
+      if (conf.params.bizId === '-1' || conf.params.bizId === -1) {
+        return new Promise((resolve) => {
+          const result = `[]`;
+          resolve(JSON.parse(result));
+        });
+      }
       const cache = await ls.fget(key);
       if (cache) {
         return new Promise((resolve) => {
@@ -378,7 +384,8 @@ export class VAxios {
               }
               if (conf.url == opt.apiUrl + FileApi.GetFiles) {
                 const key = pathToUrl(FileApi.GetFiles, params);
-                ls.set(key, ret, 60);
+                const result = Array.isArray(ret) && ret.length === 0 ? `[]` : ret;
+                ls.set(key, result, params?.type === 'avatar' ? 60 * 100 : 5);
               }
               resolve(ret);
             } catch (err) {

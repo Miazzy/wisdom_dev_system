@@ -61,6 +61,7 @@
   import { ref, onMounted, defineProps, defineEmits, watch, unref, reactive, computed } from 'vue';
   import * as FileApi from '@/api/infra/file';
   import { MsgManager } from '/@/message/MsgManager';
+  import { useThrottleFn } from '@vueuse/core';
 
   const props = defineProps({
     vmode: { type: String, default: 'edit' },
@@ -92,6 +93,7 @@
   const filelist = ref([]);
   const bizFileId = ref('');
   const tDisabled = ref(false);
+  const lastTimeStamp = ref(0);
 
   // 注入全局的disable状态
   const appDisabled = ref(false);
@@ -103,6 +105,18 @@
 
   // 定义emits
   const emit = defineEmits(['update:value', 'change', 'cancel', 'confirm', 'loaded']);
+
+  const getFileList = async () => {
+    const now = new Date().getTime();
+    if (now - lastTimeStamp.value > 1000) {
+      filelist.value = await getFiles(bizFileId.value, props.fileKindId);
+      emit('update:value', filelist.value);
+      emit('change', filelist.value);
+      lastTimeStamp.value = new Date().getTime();
+    }
+  };
+
+  const getFileListFunc = useThrottleFn(getFileList, 150);
 
   // 打开弹框函数
   const handleOpenUpDialog = () => {
@@ -145,32 +159,41 @@
   // 处理上传完毕函数
   const handleUploadOver = async () => {
     const bizId = getBizId();
-    const fileKindId = props.fileKindId;
-    filelist.value = await getFiles(bizId, fileKindId);
-    emit('update:value', filelist.value);
-    emit('change', filelist.value);
-    if (props.callback != null) {
-      props.callback(filelist.value);
-    }
+    bizFileId.value = bizId;
+    getFileListFunc();
+    setTimeout(() => {
+      if (props.callback != null) {
+        props.callback(filelist.value);
+      }
+    }, 300);
   };
 
   // 获取附件列表
   const getFiles = async (bizId, fileKindId = '') => {
-    if (typeof bizId == 'undefined' || bizId == null || bizId == '') {
-      return [];
-    }
-    const random = Math.random();
-    const filelist = await FileApi.getFiles({ bizId, fileKindId, random });
-    return filelist;
+    const callback = new Promise((resolve) => {
+      const func = () => {
+        if (typeof bizId == 'undefined' || bizId == null || bizId == '' || bizId == '-1') {
+          resolve([]);
+        }
+        FileApi.getFiles({ bizId, fileKindId }).then((data) => {
+          resolve(data);
+        });
+      };
+      const exec = useThrottleFn(func, 1000);
+      exec();
+    });
+    const result = await callback;
+    return result as [];
   };
 
   watch(
     () => props.bizId,
     async () => {
       const bizId = getBizId();
-      filelist.value = await getFiles(bizId, props.fileKindId);
       bizFileId.value = bizId;
-      emit('update:value', filelist.value);
+      if (!(bizId == '-1' || bizId == '')) {
+        getFileListFunc();
+      }
     },
   );
 
@@ -195,15 +218,20 @@
   onMounted(async () => {
     try {
       const bizId = getBizId();
-      filelist.value = await getFiles(bizId, props.fileKindId);
       bizFileId.value = bizId;
+      if (!(bizId == '-1' || bizId == '')) {
+        getFileListFunc();
+      }
       tDisabled.value = props.disabled;
-      emit('update:value', filelist.value);
-      emit('loaded', filelist.value);
       if (props.callback != null) {
         props.callback(filelist.value);
       }
-      MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
+      MsgManager.getInstance().listen('global-disabled', (message) => {
+        appDisabled.value = message;
+      });
+      setTimeout(() => {
+        emit('loaded', filelist.value);
+      }, 300);
     } catch (error) {
       console.error(error);
     }

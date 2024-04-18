@@ -24,6 +24,9 @@ export const uploadFile = async (params) => {
 };
 
 export const getFiles = async (params) => {
+  if (typeof params.bizId == 'undefined' || params.bizId == null || params.bizId == '') {
+    return [];
+  }
   const requestParams = { url: FileApi.GetFiles, params };
   return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };

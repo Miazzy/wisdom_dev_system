@@ -253,7 +253,7 @@ export const useUserStore = defineStore({
       userInfo.realName = realName;
       if (!avatar) {
         try {
-          const resp = await FileApi.getFiles({ bizId: id });
+          const resp = await FileApi.getFiles({ bizId: id, type: 'avatar' });
           const path = FileApi.attachmentDownloadUrl(resp[0].url);
           userInfo.avatar = path;
         } catch (error) {
