@@ -18,7 +18,7 @@ import { useI18n } from '/@/hooks/web/useI18n';
 import { joinTimestamp, formatRequestDate } from './helper';
 import { AxiosRetry } from '/@/utils/http/axios/axiosRetry';
 import axios from 'axios';
-import { sendOfflineMessage } from '/@/utils/route';
+import { sendOfflineMessage, urlToPath } from '/@/utils/route';
 
 const globSetting = useGlobSetting();
 const urlPrefix = globSetting.urlPrefix;
@@ -142,7 +142,7 @@ const transform: AxiosTransform = {
       }
     }
 
-    const params = config.params || {};
+    let params = config.params || {};
     const data = config.data || false;
     formatDate && data && !isString(data) && formatRequestDate(data);
     if (config.method?.toUpperCase() === RequestEnum.GET) {
@@ -160,6 +160,10 @@ const transform: AxiosTransform = {
         config.method?.toUpperCase() === RequestEnum.PUT ||
         config.method?.toUpperCase() === RequestEnum.DELETE
       ) {
+        if (isString(params)) {
+          config.url = config.url + params;
+          params = urlToPath(params)['params'];
+        }
         const prefix = config?.url?.includes('?') ? '&' : '?';
         config.params = Object.assign(params || {}, joinTimestamp(joinTime, false));
         config.url = config?.url + `${joinTimestamp(joinTime, true, prefix)}`;
