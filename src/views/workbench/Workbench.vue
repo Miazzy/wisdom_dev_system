@@ -41,6 +41,13 @@
   import Schedule from './Schedule.vue';
   import Notice from './Notice.vue';
   import WorkReminder from './WorkReminder.vue';
+  import { MsgManager } from '/@/message/MsgManager';
+
+  onMounted(() => {
+    if (window.self !== window.top) {
+      MsgManager.getInstance().sendMsg('workbench-loadover', true);
+    }
+  });
 </script>
 <style lang="less" scoped>
   .workbench {

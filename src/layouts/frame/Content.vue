@@ -85,6 +85,9 @@
         @click="handleScreenTabPage"
       />
       <div class="content" :style="contentStyle">
+        <div v-if="!loadOverFlag" class="iframe-component">
+          <component :is="currentComponent" />
+        </div>
         <iframe
           :src="activePane.pageurl || '/#/frame/workbench'"
           :panekey="activeKey"
@@ -102,6 +105,7 @@
   import { MsgManager } from '/@/message/MsgManager';
   import { useUserStore } from '/@/store/modules/user';
   import { buildUUID } from '/@/utils/uuid';
+  import Workbench from '/@/views/workbench/Workbench.vue';
 
   const props = defineProps({
     path: { type: String, default: null },
@@ -128,7 +132,7 @@
     closable: false,
     show: true,
     status: true,
-    pageurl: pageurl,
+    pageurl: cacheurl,
   };
   const panes = ref<any[]>([workbench]);
   const paneMap = new Map();
@@ -145,6 +149,8 @@
   const screenClass = ref('');
   const activePane = ref(cachepage); // Single-Iframe-Mode
   const iframeClass = ref('');
+  const currentComponent = ref(Workbench);
+  const loadOverFlag = ref(false);
 
   // 处理Tab栏页签变更
   const handleTabChange = async (key, options: any = null) => {
@@ -166,6 +172,12 @@
     }
   };
 
+  const handleIframeStyle = () => {
+    iframeWidth.value = loadOverFlag.value
+      ? 'width: 100%; height: 100%;'
+      : 'width: 100%; height: 100%; opacity: 0;';
+  };
+
   // 处理浏览器窗口Resize函数
   const handleResize = () => {
     setTimeout(() => {
@@ -174,7 +186,7 @@
         contentClass.value = '';
         contentStyle.value = '';
         contentWidth.value = '';
-        iframeWidth.value = 'width: 100%; height: 100%;';
+        handleIframeStyle();
         return;
       }
       const swidth = window.screen.availWidth;
@@ -186,13 +198,13 @@
         contentClass.value = 'layout-xscroll';
         contentStyle.value = `width: ${cwidth - 220}px;`;
         contentWidth.value = `width: ${cwidth - 220}px;`;
-        iframeWidth.value = 'width: 100%; height: 100%;';
+        handleIframeStyle();
       } else {
         tabWidth.value = cwidth - menuTabMargin.value - 25 + 'px';
         contentClass.value = '';
         contentStyle.value = '';
         contentWidth.value = '';
-        iframeWidth.value = 'width: 100%; height: 100%;';
+        handleIframeStyle();
       }
     }, 100);
   };
@@ -579,6 +591,7 @@
 
   onMounted(() => {
     paneMap.set(panes.value[0].pageurl, panes.value[0]);
+    iframeWidth.value = `width: 100%; height: 100%; opacity: 0;`;
     activeKey.value = panes.value[0].pageurl;
     tabWidth.value = document.body.clientWidth - menuTabMargin.value + 'px';
     panes.value[0].show = false;
@@ -604,6 +617,11 @@
     // 监听是否打开Drawer
     MsgManager.getInstance().listen('drawer-open', (message) => {
       handleMaskZindex(message);
+    });
+
+    MsgManager.getInstance().listen('workbench-loadover', (message) => {
+      loadOverFlag.value = true;
+      handleIframeStyle();
     });
   });
 </script>
@@ -681,6 +699,14 @@
         border-bottom: 0 solid transparent;
       }
     }
+  }
+
+  .iframe-component {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+    z-index: 1000;
   }
 
   .app-content {

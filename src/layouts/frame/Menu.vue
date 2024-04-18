@@ -80,6 +80,7 @@
   const containerRef = ref();
   const menuMap = new Map();
   const userStore = useUserStore();
+  const loadOverFlag = ref(false);
 
   const props = defineProps({
     mode: { type: String, default: 'inline' },
@@ -132,19 +133,25 @@
   };
 
   const handleMenuClick = (event) => {
-    const token = getAuthCache<string>(TOKEN_KEY);
-    if (typeof token == 'undefined' || token == null || token == '') {
-      return userStore.logout(true);
+    if (loadOverFlag.value) {
+      const token = getAuthCache<string>(TOKEN_KEY);
+      if (typeof token == 'undefined' || token == null || token == '') {
+        return userStore.logout(true);
+      }
+      const { key } = event;
+      const menu = menuMap.get(key);
+      emit('click', key, menu, event);
     }
-    const { key } = event;
-    const menu = menuMap.get(key);
-    emit('click', key, menu, event);
   };
 
   onMounted(() => {
     menuList.value = props.menus;
     systemTheme.value = props.theme;
     systemMode.value = props.mode;
+
+    MsgManager.getInstance().listen('workbench-loadover', (message) => {
+      loadOverFlag.value = true;
+    });
   });
 </script>
 <style lang="less">
