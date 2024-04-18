@@ -5,15 +5,20 @@ const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export function joinTimestamp<T extends boolean>(
   join: boolean,
   restful: T,
+  prefix?: string,
 ): T extends true ? string : object;
 
-export function joinTimestamp(join: boolean, restful = false): string | object {
+export function joinTimestamp(
+  join: boolean,
+  restful = false,
+  prefix: string = '?',
+): string | object {
   if (!join) {
     return restful ? '' : {};
   }
   const now = new Date().getTime();
   if (restful) {
-    return `?_t=${now}`;
+    return `${prefix || '?'}_t=${now}`;
   }
   return { _t: now };
 }

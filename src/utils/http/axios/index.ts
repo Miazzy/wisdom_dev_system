@@ -160,8 +160,9 @@ const transform: AxiosTransform = {
         config.method?.toUpperCase() === RequestEnum.PUT ||
         config.method?.toUpperCase() === RequestEnum.DELETE
       ) {
+        const prefix = config?.url?.includes('?') ? '&' : '?';
         config.params = Object.assign(params || {}, joinTimestamp(joinTime, false));
-        config.url = config.url + `${joinTimestamp(joinTime, true)}`;
+        config.url = config?.url + `${joinTimestamp(joinTime, true, prefix)}`;
       }
       if (!isString(params)) {
         formatDate && formatRequestDate(params);
