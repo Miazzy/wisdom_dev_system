@@ -210,7 +210,7 @@
 
   const download = (url) => {
     const previewURL = FileApi.attachmentDownloadUrl(url);
-    window.open(previewURL, '_self');
+    window.open(previewURL);
   };
 
   const validate = () => {
