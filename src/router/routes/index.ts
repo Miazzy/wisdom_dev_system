@@ -1492,9 +1492,16 @@ export const MonitorSmartDeviceRealStatus: AppRouteRecordRaw = {
   meta: { keepAlive: true },
 };
 
+export const MonitorSmartDeviceMonitorInfo: AppRouteRecordRaw = {
+  path: '/frame/monitor/smartdevice/monitorInfo/monitorInfo',
+  component: () => import('/@/views/monitor/smartdevice/monitorInfo/monitorInfo.vue'),
+  meta: { keepAlive: false },
+};
+
 // 暴露基础路由
 export const basicRoutes = [
   MonitorSmartDeviceRealStatus,
+  MonitorSmartDeviceMonitorInfo,
   BaseEleWorkCardIndex,
   BaseEleWorkCardCreate,
   BaseInspectionInstrumentIndex,
