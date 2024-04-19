@@ -290,6 +290,7 @@ export const useUserStore = defineStore({
       this.setUserInfo(null);
       // 通知loadover的值为false
       MsgManager.getInstance().sendMsg('workbench-loadover', false);
+      MsgManager.getInstance().sendMsg('logouting', true);
       setTimeout(() => {
         try {
           window.sessionStorage.clear(); // 清空sessionStorage和localStorage缓存
@@ -312,6 +313,9 @@ export const useUserStore = defineStore({
       setTimeout(() => {
         goLogin && router.push(PageEnum.BASE_LOGIN);
       }, 300);
+      setTimeout(() => {
+        MsgManager.getInstance().sendMsg('logouting', false);
+      }, 3000);
     },
     /**
      * @description: Confirm before logging out

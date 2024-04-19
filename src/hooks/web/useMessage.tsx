@@ -287,6 +287,7 @@ export class SysMessage {
   private static instance: SysMessage;
   private static lastMessage: string;
   private static lasttime: number;
+  private static logouting: Boolean = false;
 
   static getInstance() {
     if (!SysMessage.instance) {
@@ -302,6 +303,9 @@ export class SysMessage {
           SysMessage.instance = instance;
           window.SysMessage = instance;
         }
+        MsgManager.getInstance().listen('logouting', (message) => {
+          SysMessage.logouting = message;
+        });
       } catch (error) {
         //
       }
@@ -332,7 +336,11 @@ export class SysMessage {
   }
 
   error(content: string) {
-    if (SysMessage.valid(content) && !document.hidden) {
+    if (SysMessage.logouting) {
+      console.error(`${content}, time:`, new Date().getTime());
+    } else if (content == '系统异常') {
+      console.error('系统异常, time:', new Date().getTime());
+    } else if (SysMessage.valid(content) && !document.hidden) {
       SysMessage.lasttime = new Date().getTime();
       SysMessage.lastMessage = content;
       Message.error(content);
