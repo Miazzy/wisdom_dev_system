@@ -242,7 +242,7 @@
       SysMessage.getInstance().warning(`bizId不能为空`);
       return false;
     }
-    fileList.value.forEach((file: UploadProps['fileList'][number]) => {
+    fileList?.value?.forEach((file: UploadProps['fileList'][number]) => {
       if (!file.id) {
         // 未上传前file.id为空
         formData.append('files[]', file as any);
