@@ -291,38 +291,41 @@
 
   // 处理新增Tab页签Page的函数
   const handleNewTabPage = (value, name, menu) => {
-    const path = value.startsWith('/') ? value : '/' + value;
-    const id = menu && menu?.id && Reflect.has(menu, 'id') ? menu?.id : buildUUID();
-    const element = document.querySelector('.ant-tabs-nav-list');
-    let tempKey = path.replace('/da/', '/');
-    tempKey = tempKey.startsWith('/frame') ? tempKey : '/frame' + tempKey;
-    let key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
-    activePane.value.pageurl = cacheurl; // Single-Iframe-Mode
+    // 首页加载完毕后，才能触发跳转页面等操作
+    if (loadOverFlag.value) {
+      const path = value.startsWith('/') ? value : '/' + value;
+      const id = menu && menu?.id && Reflect.has(menu, 'id') ? menu?.id : buildUUID();
+      const element = document.querySelector('.ant-tabs-nav-list');
+      let tempKey = path.replace('/da/', '/');
+      tempKey = tempKey.startsWith('/frame') ? tempKey : '/frame' + tempKey;
+      let key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
+      activePane.value.pageurl = cacheurl; // Single-Iframe-Mode
 
-    if (!handleKeyExist(paneMap, key)) {
-      const nkey: string = calcUrlRandom(key);
-      const pane = {
-        id: id,
-        title: name || props.menu.name,
-        show: true,
-        closable: true,
-        status: true,
-        pageurl: nkey,
-      };
-      paneMap.set(nkey, menu || props.menu);
-      panes.value.push(pane);
-      activeKey.value = nkey;
-    }
-
-    for (let pane of panes.value) {
-      pane.key = pane.key ? pane.key : new Date().getTime();
-      pane.status = removeUrlRandom(pane.pageurl) === removeUrlRandom(key);
-      if (pane.status) {
-        activeKey.value = pane.pageurl;
+      if (!handleKeyExist(paneMap, key)) {
+        const nkey: string = calcUrlRandom(key);
+        const pane = {
+          id: id,
+          title: name || props.menu.name,
+          show: true,
+          closable: true,
+          status: true,
+          pageurl: nkey,
+        };
+        paneMap.set(nkey, menu || props.menu);
+        panes.value.push(pane);
+        activeKey.value = nkey;
       }
+
+      for (let pane of panes.value) {
+        pane.key = pane.key ? pane.key : new Date().getTime();
+        pane.status = removeUrlRandom(pane.pageurl) === removeUrlRandom(key);
+        if (pane.status) {
+          activeKey.value = pane.pageurl;
+        }
+      }
+      handleActivePath();
+      handleDivTransformOffset(element, -10);
     }
-    handleActivePath();
-    handleDivTransformOffset(element, -10);
   };
 
   // 处理URL变更的函数
