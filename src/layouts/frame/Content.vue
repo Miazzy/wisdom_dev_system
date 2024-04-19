@@ -620,9 +620,9 @@
     MsgManager.getInstance().listen('drawer-open', (message) => {
       handleMaskZindex(message);
     });
-
+    // 监听loadover函数
     MsgManager.getInstance().listen('workbench-loadover', (message) => {
-      loadOverFlag.value = true;
+      loadOverFlag.value = message;
       handleIframeStyle();
     });
   });

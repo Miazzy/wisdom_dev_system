@@ -288,6 +288,8 @@ export const useUserStore = defineStore({
       this.setToken(undefined);
       this.setSessionTimeout(false);
       this.setUserInfo(null);
+      // 通知loadover的值为false
+      MsgManager.getInstance().sendMsg('workbench-loadover', false);
       setTimeout(() => {
         try {
           window.sessionStorage.clear(); // 清空sessionStorage和localStorage缓存

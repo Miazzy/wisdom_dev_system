@@ -150,7 +150,7 @@
     systemMode.value = props.mode;
 
     MsgManager.getInstance().listen('workbench-loadover', (message) => {
-      loadOverFlag.value = true;
+      loadOverFlag.value = message;
     });
   });
 </script>
