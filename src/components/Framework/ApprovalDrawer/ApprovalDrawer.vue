@@ -114,7 +114,7 @@
 
   // 编辑权限
   const editAuthority = (item) => {
-    return item.assigneeUser.id === getUserInfo.userId;
+    return item.assigneeUser.id === getUserInfo.userId && item.processInstanceStatus === 1;
   };
 
   // 当前节点数据

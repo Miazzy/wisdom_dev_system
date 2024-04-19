@@ -275,7 +275,7 @@
   // TODO 编辑权限
   const editAuthority = (item) => {
     const getUserInfo = toRaw(userStore.getUserInfo);
-    return item.assigneeUser.id === getUserInfo.userId;
+    return item.assigneeUser.id === getUserInfo.userId && item.processInstanceStatus === 1;
   };
 
   defineExpose({

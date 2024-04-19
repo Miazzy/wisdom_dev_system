@@ -180,11 +180,16 @@
   };
 
   const handleEnd = (flowData) => {
+    onReload();
     emit('end', flowData);
+    closeApprovalDrawer();
+    sendMsg();
   };
 
   const handleTransfer = (flowData) => {
     emit('transfer', flowData);
+    closeApprovalDrawer();
+    sendMsg();
   };
 
   const handleNotice = (flowData) => {
