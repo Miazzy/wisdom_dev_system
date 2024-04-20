@@ -264,17 +264,19 @@ export class VAxios {
     const transform = this.getTransform();
     const { requestOptions } = this.options;
     const opt: RequestOptions = Object.assign({}, requestOptions, options);
-    const key = pathToUrl(conf.url, { ...conf.params, ...options });
+    const key = pathToUrl(conf.url, { ...conf?.params, ...conf?.data, ...options });
     const now = new Date().getTime();
     let lastRequestTime = 0;
     let cache = null;
 
+    // 需拦截并缓存的URL请求接口
     const needInterceptURL: Array<string> = [
       DictDataApi.GetDictDataMap,
       SystemAuthApi.GetPermissionInfo,
       SystemAuthApi.OrganTree,
       SystemAuthApi.OrgStationTree,
       SystemAuthApi.MaterialTree,
+      SystemAuthApi.WorkRecord,
       CommonApi.LIST_STATION_TREE,
       FileApi.GetFiles,
     ] as Array<string>;
@@ -289,27 +291,31 @@ export class VAxios {
     VAxios.requestRecMap.set(key, rec as any);
 
     // 检查查询数据字典
-    if (needInterceptURL.includes(conf?.url as string)) {
+    if (needInterceptURL.includes(conf?.url as string) && !cache) {
       cache = await ls.fget(key);
-      if (now - lastRequestTime < 1500) {
-        if (!cache) {
-          await sleep(500);
-          cache = await ls.fget(key);
-        }
-        if (!cache) {
-          await sleep(500);
-          cache = await ls.fget(key);
-        }
-        if (!cache) {
-          await sleep(500);
-          cache = await ls.fget(key);
-        }
+    }
+
+    // 如果请求过快，则直接获取最近一个请求的缓存数据
+    if (now - lastRequestTime <= 1500) {
+      if (!cache) {
+        await sleep(500);
+        cache = await ls.fget(key);
       }
-      if (cache) {
-        return new Promise((resolve) => {
-          resolve(cache as never);
-        });
+      if (!cache) {
+        await sleep(500);
+        cache = await ls.fget(key);
       }
+      if (!cache) {
+        await sleep(500);
+        cache = await ls.fget(key);
+      }
+    }
+
+    // 如果该请求存在缓存数据，则直接返回缓存数据
+    if (cache) {
+      return new Promise((resolve) => {
+        resolve(cache as never);
+      });
     }
 
     // 单独处理SysLogout请求
@@ -340,36 +346,19 @@ export class VAxios {
           if (transformResponseHook && isFunction(transformResponseHook)) {
             try {
               const ret = transformResponseHook(res, opt);
-              const params = { ...conf?.params, ...options };
+              const params = { ...conf?.params, ...conf?.data, ...options };
+              const pathURL = (conf?.url?.slice(opt.apiUrl?.length) || '').split('?')[0];
+              const result = Array.isArray(ret) && ret.length === 0 ? `[]` : ret;
               delete params._t;
-              if (conf.url == opt.apiUrl + DictDataApi.GetDictDataMap) {
-                const key = DictDataApi.GetDictDataMap + '?' + qs.stringify(config.params);
-                ls.set(key, ret, 60 * 60 * 24 * 7);
-              }
-              if (conf.url == opt.apiUrl + SystemAuthApi.GetPermissionInfo) {
-                const key = SystemAuthApi.GetPermissionInfo;
-                ls.set(key, ret, 60 * 60 * 24 * 7);
-              }
-              if (conf.url == opt.apiUrl + SystemAuthApi.OrganTree) {
-                const key = pathToUrl(SystemAuthApi.OrganTree, params);
-                ls.set(key, ret, 60 * 60 * 24 * 7);
-              }
-              if (conf.url == opt.apiUrl + SystemAuthApi.OrgStationTree) {
-                const key = pathToUrl(SystemAuthApi.OrgStationTree, params);
-                ls.set(key, ret, 60 * 60 * 24 * 7);
-              }
-              if (conf.url == opt.apiUrl + SystemAuthApi.MaterialTree) {
-                const key = pathToUrl(SystemAuthApi.MaterialTree, params);
-                ls.set(key, ret, 60 * 60 * 24 * 7);
-              }
-              if (conf.url == opt.apiUrl + CommonApi.LIST_STATION_TREE) {
-                const key = pathToUrl(CommonApi.LIST_STATION_TREE, params);
-                ls.set(key, ret, 60 * 60 * 24 * 7);
-              }
-              if (conf.url == opt.apiUrl + FileApi.GetFiles) {
+              if (pathURL == FileApi.GetFiles) {
                 const key = pathToUrl(FileApi.GetFiles, params);
-                const result = Array.isArray(ret) && ret.length === 0 ? `[]` : ret;
                 ls.set(key, result, params?.type === 'avatar' ? 60 * 100 : 1.5);
+              } else if (needInterceptURL.includes(pathURL)) {
+                const key = pathToUrl(pathURL, params);
+                ls.set(key, result, 60 * 60 * 24 * 7);
+              } else {
+                const key = pathToUrl(pathURL, params);
+                ls.set(key, result, 1.5);
               }
               resolve(ret);
             } catch (err) {
