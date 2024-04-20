@@ -22,20 +22,11 @@ import { FileApi } from '/@/api/infra/file/index';
 import { createLocalForage } from '@/utils/cache';
 import { pathToUrl, sendOfflineMessage } from '/@/utils/route';
 import { sleep } from '@/utils/http/axios/axiosRetry';
+
 export * from './axiosTransform';
 
 const ls = createLocalForage();
 const dictStore = useDictStoreWithOut();
-
-const needInterceptURL: Array<string> = [
-  DictDataApi.GetDictDataMap,
-  SystemAuthApi.GetPermissionInfo,
-  SystemAuthApi.OrganTree,
-  SystemAuthApi.OrgStationTree,
-  SystemAuthApi.MaterialTree,
-  CommonApi.LIST_STATION_TREE,
-  FileApi.GetFiles,
-] as Array<string>;
 
 /**
  * @description:  axios module
@@ -278,6 +269,16 @@ export class VAxios {
     let lastRequestTime = 0;
     let cache = null;
 
+    const needInterceptURL: Array<string> = [
+      DictDataApi.GetDictDataMap,
+      SystemAuthApi.GetPermissionInfo,
+      SystemAuthApi.OrganTree,
+      SystemAuthApi.OrgStationTree,
+      SystemAuthApi.MaterialTree,
+      CommonApi.LIST_STATION_TREE,
+      FileApi.GetFiles,
+    ] as Array<string>;
+
     let rec = VAxios.requestRecMap.get(key) as Array<number>;
     if (!rec || rec?.length == 0) {
       rec = Array.from([now]);
@@ -290,20 +291,17 @@ export class VAxios {
     // 检查查询数据字典
     if (needInterceptURL.includes(conf?.url as string)) {
       cache = await ls.fget(key);
-      if (now - lastRequestTime < 1000) {
+      if (now - lastRequestTime < 1500) {
         if (!cache) {
-          debugger;
-          await sleep(1000);
+          await sleep(500);
           cache = await ls.fget(key);
         }
         if (!cache) {
-          debugger;
-          await sleep(1000);
+          await sleep(500);
           cache = await ls.fget(key);
         }
         if (!cache) {
-          debugger;
-          await sleep(1000);
+          await sleep(500);
           cache = await ls.fget(key);
         }
       }
@@ -371,7 +369,7 @@ export class VAxios {
               if (conf.url == opt.apiUrl + FileApi.GetFiles) {
                 const key = pathToUrl(FileApi.GetFiles, params);
                 const result = Array.isArray(ret) && ret.length === 0 ? `[]` : ret;
-                ls.set(key, result, params?.type === 'avatar' ? 60 * 100 : 60 * 10);
+                ls.set(key, result, params?.type === 'avatar' ? 60 * 100 : 1.5);
               }
               resolve(ret);
             } catch (err) {
