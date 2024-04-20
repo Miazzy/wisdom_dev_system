@@ -331,6 +331,7 @@ export const handleLogoutFn = (that: any) => {
       return;
     }
   }
+  that.getToken && doLogout();
   that.setToken(undefined);
   that.setSessionTimeout(false);
   that.setUserInfo(null);
@@ -339,7 +340,6 @@ export const handleLogoutFn = (that: any) => {
     router.push(PageEnum.BASE_LOGIN);
     MsgManager.getInstance().sendMsg('workbench-loadover', false); // 通知loadover的值为false
     MsgManager.getInstance().sendMsg('logouting', true);
-    that.getToken && doLogout();
   }, 0);
   setTimeout(() => {
     try {
@@ -358,7 +358,9 @@ export const handleLogoutFn = (that: any) => {
     } catch (error) {
       //
     }
-  }, 1500);
+    router.push(PageEnum.BASE_LOGIN);
+    window.open('/#/login', '_self');
+  }, 100);
   setTimeout(() => {
     MsgManager.getInstance().sendMsg('logouting', false);
   }, 3500);
