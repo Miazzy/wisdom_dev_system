@@ -1,8 +1,8 @@
 import { AxiosError, AxiosInstance } from 'axios';
+
 /**
  *  请求重试机制
  */
-
 export class AxiosRetry {
   /**
    * 重试
@@ -25,6 +25,14 @@ export class AxiosRetry {
    * 延迟
    */
   private delay(waitTime: number) {
-    return new Promise((resolve) => setTimeout(resolve, waitTime));
+    return sleep(waitTime);
   }
 }
+
+/**
+ * sleep函数
+ * @param waitTime
+ */
+export const sleep = (waitTime: number) => {
+  return new Promise((resolve) => setTimeout(resolve, waitTime));
+};

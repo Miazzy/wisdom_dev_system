@@ -21,10 +21,21 @@ import { DictDataApi } from '/@/api/bpm/system/dict/data';
 import { FileApi } from '/@/api/infra/file/index';
 import { createLocalForage } from '@/utils/cache';
 import { pathToUrl, sendOfflineMessage } from '/@/utils/route';
+import { sleep } from '@/utils/http/axios/axiosRetry';
+export * from './axiosTransform';
 
 const ls = createLocalForage();
 const dictStore = useDictStoreWithOut();
-export * from './axiosTransform';
+
+const needInterceptURL: Array<string> = [
+  DictDataApi.GetDictDataMap,
+  SystemAuthApi.GetPermissionInfo,
+  SystemAuthApi.OrganTree,
+  SystemAuthApi.OrgStationTree,
+  SystemAuthApi.MaterialTree,
+  CommonApi.LIST_STATION_TREE,
+  FileApi.GetFiles,
+] as Array<string>;
 
 /**
  * @description:  axios module
@@ -33,11 +44,15 @@ export class VAxios {
   // 用于存储pending的请求的数组（处理多条相同请求）
   private axiosInstance: AxiosInstance;
   private readonly options: CreateAxiosOptions;
+  private static requestRecMap: Map<string, []>;
 
   constructor(options: CreateAxiosOptions) {
     this.options = options;
     this.axiosInstance = axios.create(options);
     this.setupInterceptors();
+    if (VAxios.requestRecMap == null) {
+      VAxios.requestRecMap = new Map<string, any>();
+    }
   }
 
   /**
@@ -258,77 +273,48 @@ export class VAxios {
     const transform = this.getTransform();
     const { requestOptions } = this.options;
     const opt: RequestOptions = Object.assign({}, requestOptions, options);
+    const key = pathToUrl(conf.url, { ...conf.params, ...options });
+    const now = new Date().getTime();
+    let lastRequestTime = 0;
+    let cache = null;
+
+    let rec = VAxios.requestRecMap.get(key) as Array<number>;
+    if (!rec || rec?.length == 0) {
+      rec = Array.from([now]);
+    } else {
+      lastRequestTime = rec[rec.length - 1] as number;
+      rec.push(now);
+    }
+    VAxios.requestRecMap.set(key, rec as any);
 
     // 检查查询数据字典
-    if (conf.url === DictDataApi.GetDictDataMap) {
-      const key = DictDataApi.GetDictDataMap + '?' + qs.stringify(config.params);
-      const cache = await ls.fget(key);
+    if (needInterceptURL.includes(conf?.url as string)) {
+      cache = await ls.fget(key);
+      if (now - lastRequestTime < 1000) {
+        if (!cache) {
+          debugger;
+          await sleep(1000);
+          cache = await ls.fget(key);
+        }
+        if (!cache) {
+          debugger;
+          await sleep(1000);
+          cache = await ls.fget(key);
+        }
+        if (!cache) {
+          debugger;
+          await sleep(1000);
+          cache = await ls.fget(key);
+        }
+      }
       if (cache) {
         return new Promise((resolve) => {
-          resolve(cache);
+          resolve(cache as never);
         });
       }
     }
-    if (conf.url === SystemAuthApi.GetPermissionInfo) {
-      const key = SystemAuthApi.GetPermissionInfo;
-      const cache = await ls.fget(key);
-      if (cache) {
-        return new Promise((resolve) => {
-          resolve(cache);
-        });
-      }
-    }
-    if (conf.url === SystemAuthApi.OrganTree) {
-      const key = pathToUrl(conf.url, { ...conf.params, ...options });
-      const cache = await ls.fget(key);
-      if (cache) {
-        return new Promise((resolve) => {
-          resolve(cache);
-        });
-      }
-    }
-    if (conf.url === SystemAuthApi.OrgStationTree) {
-      const key = pathToUrl(conf.url, { ...conf.params, ...options });
-      const cache = await ls.fget(key);
-      if (cache) {
-        return new Promise((resolve) => {
-          resolve(cache);
-        });
-      }
-    }
-    if (conf.url === SystemAuthApi.MaterialTree) {
-      const key = pathToUrl(conf.url, { ...conf.params, ...options });
-      const cache = await ls.fget(key);
-      if (cache) {
-        return new Promise((resolve) => {
-          resolve(cache);
-        });
-      }
-    }
-    if (conf.url === CommonApi.LIST_STATION_TREE) {
-      const key = pathToUrl(conf.url, { ...conf.params, ...options });
-      const cache = await ls.fget(key);
-      if (cache) {
-        return new Promise((resolve) => {
-          resolve(cache);
-        });
-      }
-    }
-    if (conf.url === FileApi.GetFiles) {
-      const key = pathToUrl(conf.url, { ...conf.params, ...options });
-      if (conf.params.bizId === '-1' || conf.params.bizId === -1) {
-        return new Promise((resolve) => {
-          const result = `[]`;
-          resolve(JSON.parse(result));
-        });
-      }
-      const cache = await ls.fget(key);
-      if (cache) {
-        return new Promise((resolve) => {
-          resolve(cache);
-        });
-      }
-    }
+
+    // 单独处理SysLogout请求
     if (conf.url === SystemAuthApi.SysLogout) {
       return new Promise((resolve) => {
         const result = `{"userId":"","username":""}`;
@@ -385,7 +371,7 @@ export class VAxios {
               if (conf.url == opt.apiUrl + FileApi.GetFiles) {
                 const key = pathToUrl(FileApi.GetFiles, params);
                 const result = Array.isArray(ret) && ret.length === 0 ? `[]` : ret;
-                ls.set(key, result, params?.type === 'avatar' ? 60 * 100 : 5);
+                ls.set(key, result, params?.type === 'avatar' ? 60 * 100 : 60 * 10);
               }
               resolve(ret);
             } catch (err) {

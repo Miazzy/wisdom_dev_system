@@ -24,7 +24,9 @@ export const uploadFile = async (params) => {
 };
 
 export const getFiles = async (params) => {
-  if (typeof params.bizId == 'undefined' || params.bizId == null || params.bizId == '') {
+  if (params.bizId === '-1' || params.bizId === -1) {
+    return [];
+  } else if (typeof params.bizId == 'undefined' || params.bizId == null || params.bizId == '') {
     return [];
   }
   const requestParams = { url: FileApi.GetFiles, params };
@@ -43,7 +45,7 @@ export const attachmentPreviewDomain = () => {
   return previewdomain;
 };
 
-export const attachmentPreviewUrl = (url,name) => {
+export const attachmentPreviewUrl = (url, name) => {
   const pictureTypes = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.ico', '.jfif', '.webp'];
   const arrays = pictureTypes.filter((item) => url.indexOf(item) > 0);
   let downloaddomain = arrays.length == 0 ? 'http://192.168.0.200' : 'http://139.9.148.32'; //测试环境下载域名
@@ -53,8 +55,8 @@ export const attachmentPreviewUrl = (url,name) => {
   }
   downloaddomain = downloaddomain + ':48080'; //下载域名
   let previewUrl = downloaddomain + getUrl(url);
-  if(name){
-    previewUrl = previewUrl+'&fullfilename='+name;
+  if (name) {
+    previewUrl = previewUrl + '&fullfilename=' + name;
   }
   return previewUrl;
 };
@@ -69,11 +71,11 @@ export const attachmentDownloadUrl = (url) => {
   return downloaddomain + getUrl(url);
 };
 
-export const attachmentPreview = (url,name) => {
+export const attachmentPreview = (url, name) => {
   return (
     attachmentPreviewDomain() +
     '/onlinePreview?url=' +
-    encodeURIComponent(btoa(encodeURI(attachmentPreviewUrl(url,name))))
+    encodeURIComponent(btoa(encodeURI(attachmentPreviewUrl(url, name))))
   );
 };
 

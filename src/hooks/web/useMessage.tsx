@@ -287,7 +287,7 @@ export class SysMessage {
   private static instance: SysMessage;
   private static lastMessage: string;
   private static lasttime: number;
-  private static logouting: Boolean = false;
+  public static logouting: Boolean = false;
 
   static getInstance() {
     if (!SysMessage.instance) {
@@ -296,6 +296,9 @@ export class SysMessage {
       try {
         if (!Reflect.has(window.top, 'SysMessage')) {
           window.top.SysMessage = instance;
+          MsgManager.getInstance().listen('logouting', (message) => {
+            SysMessage.logouting = message;
+          });
         }
         if (window.top !== window) {
           SysMessage.instance = window?.top?.SysMessage ? window?.top?.SysMessage : instance;
@@ -303,9 +306,6 @@ export class SysMessage {
           SysMessage.instance = instance;
           window.SysMessage = instance;
         }
-        MsgManager.getInstance().listen('logouting', (message) => {
-          SysMessage.logouting = message;
-        });
       } catch (error) {
         //
       }
