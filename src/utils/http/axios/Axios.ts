@@ -277,6 +277,7 @@ export class VAxios {
       SystemAuthApi.OrgStationTree,
       SystemAuthApi.MaterialTree,
       SystemAuthApi.WorkRecord,
+      SystemAuthApi.MonitorAlarm,
       CommonApi.LIST_STATION_TREE,
       FileApi.GetFiles,
     ] as Array<string>;
@@ -350,14 +351,14 @@ export class VAxios {
               const pathURL = (conf?.url?.slice(opt.apiUrl?.length) || '').split('?')[0];
               const result = Array.isArray(ret) && ret.length === 0 ? `[]` : ret;
               delete params._t;
+              const key = pathToUrl(pathURL, params);
               if (pathURL == FileApi.GetFiles) {
-                const key = pathToUrl(FileApi.GetFiles, params);
                 ls.set(key, result, params?.type === 'avatar' ? 60 * 100 : 1.5);
+              } else if (pathURL == SystemAuthApi.MonitorAlarm) {
+                ls.set(key, result, 10);
               } else if (needInterceptURL.includes(pathURL)) {
-                const key = pathToUrl(pathURL, params);
                 ls.set(key, result, 60 * 60 * 24 * 7);
               } else {
-                const key = pathToUrl(pathURL, params);
                 ls.set(key, result, 1.5);
               }
               resolve(ret);

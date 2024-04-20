@@ -17,6 +17,7 @@ export enum SystemAuthApi {
   WiringDiagramGetJSON = '/baseset/wiringdiagram/info/getJson',
   WiringDiagramGetList = '/monitor/wiring-diagram/list',
   WorkRecord = '/oa/work-record/page',
+  MonitorAlarm = '/monitor/alarm/page',
 }
 
 /**
