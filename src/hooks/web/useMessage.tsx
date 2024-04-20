@@ -296,9 +296,6 @@ export class SysMessage {
       try {
         if (!Reflect.has(window.top, 'SysMessage')) {
           window.top.SysMessage = instance;
-          MsgManager.getInstance().listen('logouting', (message) => {
-            SysMessage.logouting = message;
-          });
         }
         if (window.top !== window) {
           SysMessage.instance = window?.top?.SysMessage ? window?.top?.SysMessage : instance;

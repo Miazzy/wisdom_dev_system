@@ -34,6 +34,7 @@ import { MsgManager } from '/@/message/MsgManager';
 import { darkMode } from '/@/settings/designSetting';
 import { generateNameMap } from '/@/utils/route';
 import * as FileApi from '@/api/infra/file';
+import { useDebounceFn } from '@vueuse/core';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -44,8 +45,10 @@ interface UserState {
   menuNameMap?: Map<string, string>;
   sessionTimeout?: boolean;
   currentPath?: string;
-  lastUpdateTime: number;
+  lastUpdateTime?: number;
+  lastLogoutTime?: number;
   organTree?: string;
+  theme?: string;
 }
 
 export const useUserStore = defineStore({
@@ -69,6 +72,8 @@ export const useUserStore = defineStore({
     sessionTimeout: false,
     // Last fetch time
     lastUpdateTime: 0,
+    // Last logout time
+    lastLogoutTime: 0,
     // organ tree
     organTree: '',
     // theme
@@ -123,12 +128,18 @@ export const useUserStore = defineStore({
       return !!state.sessionTimeout;
     },
     getLastUpdateTime(state): number {
-      return state.lastUpdateTime;
+      return state.lastUpdateTime as number;
+    },
+    getLastLogoutTime(state): number {
+      return state.lastLogoutTime as number;
     },
   },
   actions: {
     getAccessToken() {
       return this.token;
+    },
+    setLastLogoutTime(time) {
+      this.lastLogoutTime = time;
     },
     setToken(info: string | undefined) {
       this.token = info ? info : '';
@@ -266,56 +277,8 @@ export const useUserStore = defineStore({
     /**
      * @description: logout
      */
-    async logout(goLogin = false) {
-      const time = localStorage.getItem('LOGIN_TIMESTAMP');
-      const nowtime = new Date().getTime();
-      const flag = typeof time == 'undefined' || time == null || time == '';
-      const timestamp = Number(time);
-      const diff = nowtime - timestamp;
-      if (!flag) {
-        if (diff < 10 * 1000) {
-          diff > 5000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
-          return;
-        }
-      }
-      if (this.getToken) {
-        try {
-          await doLogout();
-        } catch {
-          // console.log('注销Token失败');
-        }
-      }
-      this.setToken(undefined);
-      this.setSessionTimeout(false);
-      this.setUserInfo(null);
-      // 通知loadover的值为false
-      MsgManager.getInstance().sendMsg('workbench-loadover', false);
-      MsgManager.getInstance().sendMsg('logouting', true);
-      setTimeout(() => {
-        try {
-          window.sessionStorage.clear(); // 清空sessionStorage和localStorage缓存
-          // 退出登录不清本地深浅模式缓存
-          const darkMode = window.localStorage.getItem(APP_DARK_MODE_KEY) || darkMode;
-          const rememberInfo = window.localStorage.getItem('REMEMBER_ME_INFO') || '';
-          window.localStorage.clear(); // 清空sessionStorage和localStorage缓存
-          window.localStorage.setItem(APP_DARK_MODE_KEY, darkMode);
-          window.localStorage.setItem('REMEMBER_ME_INFO', rememberInfo);
-        } catch (error) {
-          //
-        }
-        try {
-          const ls = createLocalForage();
-          ls.clear();
-        } catch (error) {
-          //
-        }
-      }, 1000);
-      setTimeout(() => {
-        goLogin && router.push(PageEnum.BASE_LOGIN);
-      }, 300);
-      setTimeout(() => {
-        MsgManager.getInstance().sendMsg('logouting', false);
-      }, 3000);
+    async logout() {
+      handleLogout(this as any);
     },
     /**
      * @description: Confirm before logging out
@@ -328,12 +291,13 @@ export const useUserStore = defineStore({
         title: () => h('span', t('sys.app.logoutTip')),
         content: () => h('span', t('sys.app.logoutMessage')),
         onOk: async () => {
-          await this.logout(true);
+          await this.logout();
         },
       });
     },
   },
 });
+
 // Need to be used outside the setup
 export function useUserStoreWithOut() {
   return useUserStore(store);
@@ -348,3 +312,57 @@ export function serializeMap(map: Map<string, string>): [string, string][] {
 export function deserializeMap(arr: [string, string][]): Map<string, string> {
   return new Map(arr);
 }
+
+// 处理退出登录操作
+export const handleLogoutFn = (that: any) => {
+  const time = localStorage.getItem('LOGIN_TIMESTAMP');
+  const lasttime = that.getLastLogoutTime;
+  const nowtime = new Date().getTime();
+  const flag = typeof time == 'undefined' || time == null || time == '';
+  const timestamp = Number(time);
+  const diff = nowtime - timestamp;
+  console.info('logout diff:', nowtime - lasttime);
+  if (nowtime - lasttime < 5000) {
+    return;
+  }
+  if (!flag) {
+    if (diff < 10 * 1000) {
+      diff > 3000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
+      return;
+    }
+  }
+  that.setToken(undefined);
+  that.setSessionTimeout(false);
+  that.setUserInfo(null);
+  that.setLastLogoutTime(nowtime);
+  setTimeout(() => {
+    router.push(PageEnum.BASE_LOGIN);
+    MsgManager.getInstance().sendMsg('workbench-loadover', false); // 通知loadover的值为false
+    MsgManager.getInstance().sendMsg('logouting', true);
+    that.getToken && doLogout();
+  }, 0);
+  setTimeout(() => {
+    try {
+      window.sessionStorage.clear(); // 清空sessionStorage和localStorage缓存
+      const darkMode = window.localStorage.getItem(APP_DARK_MODE_KEY) || darkMode; // 退出登录不清本地深浅模式缓存
+      const rememberInfo = window.localStorage.getItem('REMEMBER_ME_INFO') || '';
+      window.localStorage.clear(); // 清空sessionStorage和localStorage缓存
+      window.localStorage.setItem(APP_DARK_MODE_KEY, darkMode);
+      window.localStorage.setItem('REMEMBER_ME_INFO', rememberInfo);
+    } catch (error) {
+      //
+    }
+    try {
+      const ls = createLocalForage();
+      ls.clear();
+    } catch (error) {
+      //
+    }
+  }, 1500);
+  setTimeout(() => {
+    MsgManager.getInstance().sendMsg('logouting', false);
+  }, 3500);
+};
+
+// 退出登录防抖操作
+export const handleLogout = useDebounceFn(handleLogoutFn, 3000);

@@ -136,7 +136,7 @@
     if (loadOverFlag.value) {
       const token = getAuthCache<string>(TOKEN_KEY);
       if (typeof token == 'undefined' || token == null || token == '') {
-        return userStore.logout(true);
+        return userStore.logout();
       }
       const { key } = event;
       const menu = menuMap.get(key);

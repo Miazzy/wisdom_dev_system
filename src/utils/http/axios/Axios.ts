@@ -22,6 +22,7 @@ import { FileApi } from '/@/api/infra/file/index';
 import { createLocalForage } from '@/utils/cache';
 import { pathToUrl, sendOfflineMessage } from '/@/utils/route';
 import { sleep } from '@/utils/http/axios/axiosRetry';
+import { SysMessage } from '/@/hooks/web/useMessage';
 
 export * from './axiosTransform';
 
@@ -323,6 +324,14 @@ export class VAxios {
     if (conf.url === SystemAuthApi.SysLogout) {
       return new Promise((resolve) => {
         const result = `{"userId":"","username":""}`;
+        resolve(JSON.parse(result));
+      });
+    }
+
+    // 退出登录中Request请求打回
+    if (SysMessage.logouting) {
+      return new Promise((resolve) => {
+        const result = `{"code":"-1","data":"","msg":"退出登录中，无法发送请求."}`;
         resolve(JSON.parse(result));
       });
     }

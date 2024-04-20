@@ -4,6 +4,8 @@ import { buildUUID } from '/@/utils/uuid';
 import { MsgManager } from '/@/message/MsgManager';
 import { useGo } from '/@/hooks/web/usePage';
 import { useUserStore } from '/@/store/modules/user';
+import { useDebounceFn } from '@vueuse/core';
+import { PageEnum } from '/@/enums/pageEnum';
 
 // 解析路由路径参数
 export const parseRoutePath = (path: string): Record<string, string> => {
@@ -205,8 +207,7 @@ export const reloadTabById = (id) => {
 // 处理路由
 export const handleRouteGo = () => {
   const go = useGo();
-  const flag = window.location.hash && window.location.hash.startsWith('#');
-  const path = flag ? window.location.hash.slice(1) : window.location.hash;
+  const { path } = urlToPath();
   if (!['/framepage', '/frame', '/login'].includes(path)) {
     go(path);
   }
@@ -219,20 +220,26 @@ export const sendMessage = (message) => {
 
 // 推送下线消息函数
 export const sendOfflineMessage = () => {
-  const message = { type: 'userOffline' };
-  if (window.top == window) {
-    handleOfflineMessage(message);
+  const { path } = urlToPath();
+  if (path != PageEnum.BASE_LOGIN) {
+    const message = { type: 'userOffline' };
+    if (window.top == window) {
+      handleOfflineMessage(message);
+    }
+    MsgManager.getInstance().sendMsg('notify-message', message);
   }
-  MsgManager.getInstance().sendMsg('notify-message', message);
 };
 
 // 用户下线消息处理函数
-export const handleOfflineMessage = (message) => {
+export const handleOfflineMessageFn = (message) => {
   const userStore = useUserStore();
   if (message.type === 'userOffline') {
-    userStore.logout(true);
+    userStore.logout();
   }
 };
+
+// OffLine操作进行防抖处理
+export const handleOfflineMessage = useDebounceFn(handleOfflineMessageFn, 1500);
 
 // 监听用户下线消息
 export const listenOfflineMessage = () => {

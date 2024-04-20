@@ -38,7 +38,9 @@ class Subject {
         sets.forEach((observer) => observer.update(channelName, message));
       } else {
         for (const observer of this.observers) {
-          observer.update(channelName, message);
+          if (channelName === observer.getChannelName()) {
+            observer.update(channelName, message);
+          }
         }
       }
     } catch (error) {

@@ -214,6 +214,11 @@
     MsgManager.getInstance().listen('drawer-open', (message) => {
       handleMask(message);
     });
+    // 监听是否退出登录
+    MsgManager.getInstance().listen('logouting', (message) => {
+      SysMessage.logouting = message;
+      console.info('SysMessage.logouting:', SysMessage.logouting);
+    });
   });
 </script>
 <style lang="less" scoped>
