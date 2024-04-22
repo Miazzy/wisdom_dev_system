@@ -52,22 +52,22 @@
   const tabList = ref([
     {
       key: '1',
-      tab: '待处理',
+      tab: '待办任务',
       count: 0,
     },
     {
       key: '2',
-      tab: '待阅读',
+      tab: '待阅任务',
       count: 0,
     },
     {
       key: '3',
-      tab: '我发起',
+      tab: '本人发起',
       count: 0,
     },
     {
       key: '4',
-      tab: '已处理',
+      tab: '已办任务',
       count: 0,
     },
     {

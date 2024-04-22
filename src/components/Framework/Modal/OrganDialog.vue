@@ -43,7 +43,7 @@
         <div class="employee-content">
           <div position="center" class="layout-content" :style="`height: calc(${props.height}px - 140px);`">
             <div class="component-wrap">
-              <template :key="index" v-for="(item, index) of allNodes">
+              <template :key="index" v-for="(item, index) in allNodes">
                 <a class="component-item">
                   <span class="ui-component-text" :title="handleSNodeText(item)">
                     {{ handleSNodeText(item) }}
@@ -126,12 +126,14 @@
   ]);
 
   const cancel = () => {
+    allNodes.value = [];
     emit('cancel'); // 发送取消事件
   };
 
   const confirm = () => {
     const rule = props?.tfields as fieldType;
     const data = transformRespData(allNodes.value, rule);
+    emit('update:value', allNodes.value);
     emit('confirm', data, allNodes.value); // 发送确定事件
   };
 
@@ -184,7 +186,7 @@
       // message.warning(props.message.double);
       SysMessage.getInstance().warning(props.message.double);
     }
-    emit('update:value', allNodes.value);
+    // emit('update:value', allNodes.value);
   };
 
   const handleDelete = () => {
@@ -408,7 +410,7 @@
         searchText.value = '';
       } else {
         if (allNodes.value && props.value && allNodes.value.length != props.value.length) {
-          allNodes.value = props.value;
+          allNodes.value = [...props.value];
         }
       }
     },
@@ -430,7 +432,8 @@
 
   onMounted(() => {
     modalVisible.value = props.visible;
-    allNodes.value = props.value;
+    allNodes.value = [...props.value];
+    
   });
 </script>
 <style lang="less">
