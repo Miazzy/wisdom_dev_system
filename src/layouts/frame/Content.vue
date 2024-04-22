@@ -85,7 +85,7 @@
         @click="handleScreenTabPage"
       />
       <div class="content" :style="contentStyle">
-        <div v-if="!loadOverFlag" class="iframe-component">
+        <div v-if="!loadOverFlag || !firstPageFlag" class="iframe-component">
           <keep-alive>
             <component :is="currentComponent" />
           </keep-alive>
@@ -109,6 +109,7 @@
   import { buildUUID } from '/@/utils/uuid';
   import Workbench from '/@/views/workbench/Workbench.vue';
 
+  // const Workbench = () => import('/@/views/workbench/Workbench.vue');
   const props = defineProps({
     path: { type: String, default: null },
     menu: { type: Object, default: null },
@@ -153,6 +154,7 @@
   const iframeClass = ref('');
   const currentComponent = ref(Workbench);
   const loadOverFlag = ref(false);
+  const firstPageFlag = ref(false);
 
   // 处理Tab栏页签变更
   const handleTabChange = async (key, options: any = null) => {
@@ -175,7 +177,7 @@
   };
 
   const handleIframeStyle = () => {
-    iframeWidth.value = loadOverFlag.value
+    iframeWidth.value = loadOverFlag.value && firstPageFlag.value
       ? 'width: 100%; height: 100%;'
       : 'width: 100%; height: 100%; opacity: 0;';
   };
@@ -291,6 +293,10 @@
 
   // 处理新增Tab页签Page的函数
   const handleNewTabPage = (value, name, menu) => {
+    if (!firstPageFlag.value) {
+      firstPageFlag.value = true;
+      handleIframeStyle();
+    }
     // 首页加载完毕后，才能触发跳转页面等操作
     if (loadOverFlag.value) {
       const path = value.startsWith('/') ? value : '/' + value;
@@ -708,10 +714,10 @@
 
   .iframe-component {
     position: absolute;
-    width: 100%;
-    height: 100vh;
-    overflow-y: scroll;
     z-index: 1000;
+    width: 100%;
+    height: calc(100vh - 85px);
+    overflow-y: scroll;
   }
 
   .app-content {
@@ -771,7 +777,7 @@
     .iframe-content {
       position: relative;
       width: 100%;
-      height: calc(100vh - 85px);
+      height: calc(100vh - 90px);
 
       &.mask-zindex {
         z-index: 10000 !important;
