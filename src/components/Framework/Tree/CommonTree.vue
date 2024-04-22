@@ -6,44 +6,27 @@
 -->
 <template>
   <div class="overflow-hidden bg-white" :class="$attrs.class" :style="props.treeStyle">
-    <BasicTree
-      :title="title"
-      :toolbar="toolbar"
-      :search="props.search"
-      :canEdit="props.canEdit"
-      :canAdd="props.canAdd"
-      :canDelete="props.canDelete"
-      :treeWrapperClassName="`${treeWrapperHeightClass} overflow-auto`"
-      :clickRowToExpand="false"
-      :treeData="treeData"
-      :fieldNames="fieldNames"
-      @select="handleSelect"
-      :isShowOperationBtns="isShowOperationBtns"
-      ref="basicTreeRef"
-      class="fit-basic-tree"
-      :checkable="checkable"
-      @check="handleCheck"
-      :expandedKeys="curExpandedKeys"
-      :selectedKeys="curSelectedKeys"
-      :expandOnSearch="true"
-    >
+    <BasicTree :title="title" :toolbar="toolbar" :search="props.search" :canEdit="props.canEdit" :canAdd="props.canAdd" :canDelete="props.canDelete"
+      :treeWrapperClassName="`${treeWrapperHeightClass} overflow-auto`" :clickRowToExpand="false" :treeData="treeData" :fieldNames="fieldNames" @select="handleSelect"
+      :isShowOperationBtns="isShowOperationBtns" ref="basicTreeRef" class="fit-basic-tree" :checkable="checkable" @check="handleCheck" :expandedKeys="curExpandedKeys" :selectedKeys="curSelectedKeys"
+      :expandOnSearch="true">
       <template #headerTitle>
         <span class="vben-basic-title" :title="title">{{ title }}</span>
       </template>
       <template #title="nodeItem">
-        <a-tooltip>
+        <a-tooltip :visible="nodeItem[fieldNames.key || 'key']===mouseenterNode[fieldNames.key || 'key']&&mouseenterNode.isTooltipShow">
           <template #title>{{ nodeItem[fieldNames.title || 'title'] }}</template>
           <a-badge v-if="nodeItem.badge" :count="nodeItem.badge" :offset="[16, 0]" :numberStyle="{ transform: 'scale(0.8)' }">
-            <span class="common-tree-node-text" style="line-height: 28px;">{{ nodeItem[fieldNames.title || 'title'] }}</span>
+            <span class="common-tree-node-text" style="line-height: 28px;" @mouseenter="handleTooltipShow(nodeItem, $event)" @mouseleave="handleTooltipDisplay">{{ nodeItem[fieldNames.title || 'title'] }}</span>
           </a-badge>
-          <span v-else class="common-tree-node-text">{{ nodeItem[fieldNames.title || 'title'] }}</span>
+          <span v-else class="common-tree-node-text" @mouseenter="handleTooltipShow(nodeItem, $event)" @mouseleave="handleTooltipDisplay">{{ nodeItem[fieldNames.title || 'title'] }}</span>
         </a-tooltip>
       </template>
     </BasicTree>
   </div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, ref, watch, provide, unref, computed, isProxy, toRaw } from 'vue';
+  import { onMounted, ref, watch, provide, unref, computed, isProxy, toRaw, reactive } from 'vue';
   import { BasicTree, TreeItem, TreeActionType } from '/@/components/Tree';
   import { type Nullable } from '@vben/types';
   import type { PropType } from 'vue';
@@ -203,6 +186,16 @@
       deep: true,
     },
   );
+
+  // 提示气泡的显示隐藏
+  const mouseenterNode = reactive({isTooltipShow: false});
+  const handleTooltipShow = (nodeItem, e) => {
+    Object.assign(mouseenterNode, nodeItem);
+    mouseenterNode.isTooltipShow = e.target.scrollWidth > e.target.offsetWidth;
+  };
+  const handleTooltipDisplay = ()=>{
+    mouseenterNode.isTooltipShow = false;
+  }
 
   onMounted(() => {
     treeData.value = props.value as unknown as TreeItem[];
