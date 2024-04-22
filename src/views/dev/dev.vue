@@ -487,7 +487,6 @@
       maxCount: 1,
       maxSize: 1024 * 1024 * 4096,
       required: true,
-      // type: '': Number | Date | String ,
       format: 'YYYY-MM-DD', // 'date / time / datetime'
     },
   ];
