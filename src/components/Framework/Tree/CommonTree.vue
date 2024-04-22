@@ -17,7 +17,7 @@
         <a-tooltip :visible="nodeItem[fieldNames.key || 'key']===mouseenterNode[fieldNames.key || 'key']&&mouseenterNode.isTooltipShow">
           <template #title>{{ nodeItem[fieldNames.title || 'title'] }}</template>
           <a-badge v-if="nodeItem.badge" :count="nodeItem.badge" :offset="[16, 0]" :numberStyle="{ transform: 'scale(0.8)' }">
-            <span class="common-tree-node-text" style="line-height: 28px;" @mouseenter="handleTooltipShow(nodeItem, $event)">{{ nodeItem[fieldNames.title || 'title'] }}</span>
+            <span class="common-tree-node-text" style="line-height: 28px;" @mouseenter="handleTooltipShow(nodeItem, $event)" @mouseleave="handleTooltipDisplay">{{ nodeItem[fieldNames.title || 'title'] }}</span>
           </a-badge>
           <span v-else class="common-tree-node-text" @mouseenter="handleTooltipShow(nodeItem, $event)" @mouseleave="handleTooltipDisplay">{{ nodeItem[fieldNames.title || 'title'] }}</span>
         </a-tooltip>
