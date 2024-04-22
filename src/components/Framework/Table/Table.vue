@@ -138,6 +138,7 @@
                 :module="tmodule"
                 :mode="tmode"
                 :bizId="item.bizId"
+                :format="item.format"
                 :fileKindId="item.fileKindId"
               />
             </slot>

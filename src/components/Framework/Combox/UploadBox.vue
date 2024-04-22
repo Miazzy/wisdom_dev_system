@@ -45,9 +45,10 @@
       :maxSize="props.maxSize"
       :application="props.application"
       :module="props.module"
+      :format="tFormat"
       :bizId="bizFileId"
-      :fileKindId="props.fileKindId"
-      :tmessage="tmessage"
+      :fileKindId="tFileKindId"
+      :tmessage="tMessage"
       @change="handleUploadOver"
       @cancel="handleUploadCancel"
       @confirm="handleUploadConfirm"
@@ -79,10 +80,9 @@
     module: { type: String, default: '' },
     bizId: { type: [String, Function, Object], default: '-1' },
     fileKindId: { type: String, default: '' },
-    tmessage: {
+    format: {
       type: String,
-      default:
-        '文件只能上传png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4类型文件。',
+      default: 'png,jpg,jpeg,bmp,wps,pdf,txt,doc,docx,xls,xlsx,ppt,pptx,zip,rar,mp3,mp4',
     },
     multiple: { type: [String, Boolean], default: false },
     callback: { type: Function, default: null },
@@ -94,6 +94,9 @@
   const bizFileId = ref('');
   const tDisabled = ref(false);
   const lastTimeStamp = ref(0);
+  const tFormat = ref('');
+  const tMessage = ref('');
+  const tFileKindId = ref('');
 
   // 注入全局的disable状态
   const appDisabled = ref(false);
@@ -203,14 +206,24 @@
   );
 
   watch(
-    () => props.data,
-    () => {},
+    () => props.fileKindId,
+    (val) => {
+      tFileKindId.value = val;
+    },
   );
 
   watch(
     () => props.disabled,
     () => {
       tDisabled.value = props.disabled;
+    },
+  );
+
+  watch(
+    () => props.format,
+    (val) => {
+      tFormat.value = val;
+      tMessage.value = `文件只能上传${val}类型文件！`;
     },
   );
 
@@ -223,9 +236,13 @@
         getFileListFunc();
       }
       tDisabled.value = props.disabled;
+      tFormat.value = props.format;
+      tMessage.value = `文件只能上传${props.format}类型文件！`;
+      tFileKindId.value = props.fileKindId;
       if (props.callback != null) {
         props.callback(filelist.value);
       }
+      // 监听是否启用全局禁用
       MsgManager.getInstance().listen('global-disabled', (message) => {
         appDisabled.value = message;
       });
