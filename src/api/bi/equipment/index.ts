@@ -21,10 +21,28 @@ export function getEquipmentOutboundDtlPage(params) {
   );
 }
 
-// 导出设备入库结存 Excel
+// 导出库存结存 Excel
 export function exportEquipmentBalance(params) {
   return defHttp.download(
     { url: '/bi/equipment-balance/export-excel', params },
     { isReturnNativeResponse: true },
   );
 }
+
+// 导出入库明细 Excel
+export function exportWarehousingDtl(params) {
+  return defHttp.download(
+    { url: '/bi/equipment-balance/export-excel-warehousing', params },
+    { isReturnNativeResponse: true },
+  );
+}
+
+// 导出出库明细 Excel
+export function exportOutboundDtl(params) {
+  return defHttp.download(
+    { url: '/bi/equipment-balance/export-excel-outbound', params },
+    { isReturnNativeResponse: true },
+  );
+}
+
+
