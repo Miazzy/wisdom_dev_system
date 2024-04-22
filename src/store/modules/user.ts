@@ -326,8 +326,8 @@ export const handleLogoutFn = (that: any) => {
     return;
   }
   if (!flag) {
-    if (diff < 10 * 1000) {
-      diff > 3000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
+    if (diff < 15000) {
+      diff > 6000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
       return;
     }
   }
