@@ -316,6 +316,9 @@ export class VAxios {
     // 如果该请求存在缓存数据，则直接返回缓存数据
     if (cache) {
       return new Promise((resolve) => {
+        if (typeof cache === 'string') {
+          cache = JSON.parse(cache);
+        }
         resolve(cache as never);
       });
     }

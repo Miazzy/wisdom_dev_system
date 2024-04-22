@@ -155,6 +155,9 @@
       return [];
     }
     const filelist = await FileApi.getFiles({ bizId, fileKindId });
+    if (typeof filelist === 'string') {
+      return JSON.parse(filelist);
+    }
     return filelist;
   };
 
@@ -293,8 +296,7 @@
         if (props.value != null && props.value.length > 0) {
           fileList.value = props.value;
         } else {
-          const params = { bizId: props.bizId, fileKindId: props.fileKindId };
-          fileList.value = await FileApi.getFiles(params);
+          fileList.value = await getFiles(props.bizId, props.fileKindId);
         }
       }
     },
