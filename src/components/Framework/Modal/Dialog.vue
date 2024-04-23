@@ -54,6 +54,7 @@
     getCurrentInstance,
   } from 'vue';
   import { MsgManager } from '/@/message/MsgManager';
+  import { SysMessage } from '/@/hooks/web/useMessage';
 
   defineOptions({
     name: 'Dialog',
@@ -156,10 +157,12 @@
   watch(
     () => props.visible,
     (value) => {
-      if (value) {
-        disableScroll();
-      } else {
-        enableScroll();
+      if (SysMessage?.isLoadover) {
+        if (value) {
+          disableScroll();
+        } else {
+          enableScroll();
+        }
       }
     },
   );
