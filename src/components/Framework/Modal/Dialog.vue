@@ -157,12 +157,10 @@
   watch(
     () => props.visible,
     (value) => {
-      if (SysMessage?.isLoadover) {
-        if (value) {
-          disableScroll();
-        } else {
-          enableScroll();
-        }
+      if (value) {
+        disableScroll();
+      } else {
+        enableScroll();
       }
     },
   );
