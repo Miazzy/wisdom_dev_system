@@ -288,6 +288,7 @@ export class SysMessage {
   private static lastMessage: string;
   private static lasttime: number;
   public static logouting: Boolean = false;
+  public static isLoadover: Boolean = false;
 
   static getInstance() {
     if (!SysMessage.instance) {

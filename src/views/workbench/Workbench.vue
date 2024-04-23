@@ -42,9 +42,11 @@
   import Notice from './Notice.vue';
   import WorkReminder from './WorkReminder.vue';
   import { MsgManager } from '/@/message/MsgManager';
+  import { SysMessage } from '/@/hooks/web/useMessage';
 
   onMounted(() => {
     if (window.self !== window.top) {
+      SysMessage.isLoadover = true;
       MsgManager.getInstance().sendMsg('workbench-loadover', true);
     }
   });
