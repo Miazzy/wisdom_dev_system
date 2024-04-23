@@ -181,7 +181,7 @@
   .modal-mask {
     display: flex;
     position: fixed;
-    z-index: 1000;
+    z-index: 10000;
     top: 0;
     left: 0;
     align-items: center;
@@ -193,7 +193,7 @@
     .modal-mask-container {
       display: flex;
       position: absolute;
-      z-index: 1000;
+      z-index: 10000;
       top: 0;
       left: 0;
       align-items: center;
@@ -205,7 +205,7 @@
   }
 
   .modal-container {
-    z-index: 1005;
+    z-index: 10005;
     width: 400px;
     max-width: 80%;
     border-radius: 4px;
