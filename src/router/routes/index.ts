@@ -1498,8 +1498,22 @@ export const MonitorSmartDeviceMonitorInfo: AppRouteRecordRaw = {
   meta: { keepAlive: false },
 };
 
+export const MonitorSmartDeviceVideo: AppRouteRecordRaw = {
+  path: '/frame/monitor/smartdevice/video/index',
+  component: () => import('/@/views/monitor/smartdevice/video/index.vue'),
+  meta: { keepAlive: false },
+};
+
+export const MonitorSmartDeviceVideoHistory: AppRouteRecordRaw = {
+  path: '/frame/monitor/smartdevice/video/history',
+  component: () => import('/@/views/monitor/smartdevice/video/history.vue'),
+  meta: { keepAlive: false },
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  MonitorSmartDeviceVideo,
+  MonitorSmartDeviceVideoHistory,
   MonitorSmartDeviceRealStatus,
   MonitorSmartDeviceMonitorInfo,
   BaseEleWorkCardIndex,
