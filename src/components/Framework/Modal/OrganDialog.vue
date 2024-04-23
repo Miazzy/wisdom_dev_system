@@ -183,10 +183,8 @@
         allNodes.value.push(selectedNode.value);
       }
     } else {
-      // message.warning(props.message.double);
       SysMessage.getInstance().warning(props.message.double);
     }
-    // emit('update:value', allNodes.value);
   };
 
   const handleDelete = () => {
@@ -195,7 +193,6 @@
         title: props.message.delete,
         onOk() {
           allNodes.value = [];
-          emit('update:value', allNodes.value);
         },
       });
     } else {
@@ -207,7 +204,6 @@
 
   const handleDeleteNode = (item, index) => {
     allNodes.value = allNodes.value.filter((node, tindex) => tindex !== index);
-    emit('update:value', allNodes.value);
   };
 
   // 按tfields生成转换规则
