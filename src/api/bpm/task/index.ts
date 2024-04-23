@@ -21,6 +21,7 @@ export enum BpmTaskApi {
   GetSchedulePage = '/oa/calendar-schedule/list',
   GetHiTaskinst = '/bpm/task/get-hi_taskinst',
   GetFlowTasks = '/bpm/task/getFlowTasks',
+  GetTaskCount = '/bpm/task/getTaskCount',
 }
 
 export const getTodoTaskPage = async (params) => {
@@ -100,5 +101,11 @@ export const updateCcTo = async (processInstanceId) => {
 //查询流程数据
 export const getFlowTasks = async (params) => {
   const requestParams = { url: BpmTaskApi.GetFlowTasks, params };
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
+};
+
+//获取任务数量
+export const getTaskCount = async (params) => {
+  const requestParams = { url: BpmTaskApi.GetTaskCount, params };
   return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
