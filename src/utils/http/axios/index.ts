@@ -19,6 +19,7 @@ import { joinTimestamp, formatRequestDate } from './helper';
 import { AxiosRetry } from '/@/utils/http/axios/axiosRetry';
 import axios from 'axios';
 import { sendOfflineMessage, urlToPath } from '/@/utils/route';
+import { MsgManager } from '/@/message/MsgManager';
 
 
 const globSetting = useGlobSetting();
@@ -222,6 +223,11 @@ const transform: AxiosTransform = {
    * @description: 响应拦截器处理
    */
   responseInterceptors: (res: AxiosResponse<any>) => {
+    let method = res.config.method;
+    if('delete' == method){
+      MsgManager.getInstance().sendMsg('workflow-task-done', {}); // 发送消息，通知工作台刷新列表
+      MsgManager.getInstance().sendMsg('task-center-page', {}); // 发送消息，通知任务中心刷新列表
+    }
     return res;
   },
 
