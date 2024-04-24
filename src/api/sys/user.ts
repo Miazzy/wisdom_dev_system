@@ -16,6 +16,7 @@ export enum SystemAuthApi {
   WiringDiagramGetTree = '/baseset/wiringdiagram/info/getTree?fullName=&code=',
   WiringDiagramGetJSON = '/baseset/wiringdiagram/info/getJson',
   WiringDiagramGetList = '/monitor/wiring-diagram/list',
+  WiringDiagramStationList = '/monitor/wiring-diagram/station/list',
   WorkRecord = '/oa/work-record/page',
   MonitorAlarm = '/monitor/alarm/page',
 }
@@ -119,5 +120,14 @@ export function getWiringDiagramJSON(id: string = '') {
 export function getWiringDiagramList(infoId: string = '', stationId: string = '') {
   const params = { infoId, stationId };
   const requestParams = { url: SystemAuthApi.WiringDiagramGetList, params };
+  return defHttp.get(requestParams, { isOnlyResult: true });
+}
+
+/*
+ * @description: get wiring diagram list
+ */
+export function getWiringDiagramStationList() {
+  const params = {};
+  const requestParams = { url: SystemAuthApi.WiringDiagramStationList, params };
   return defHttp.get(requestParams, { isOnlyResult: true });
 }

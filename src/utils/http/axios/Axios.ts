@@ -279,6 +279,7 @@ export class VAxios {
       SystemAuthApi.MaterialTree,
       SystemAuthApi.WorkRecord,
       SystemAuthApi.MonitorAlarm,
+      SystemAuthApi.WiringDiagramStationList,
       CommonApi.LIST_STATION_TREE,
       FileApi.GetFiles,
     ] as Array<string>;
