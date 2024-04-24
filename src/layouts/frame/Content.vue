@@ -177,9 +177,10 @@
   };
 
   const handleIframeStyle = () => {
-    iframeWidth.value = loadOverFlag.value && firstPageFlag.value
-      ? 'width: 100%; height: 100%;'
-      : 'width: 100%; height: 100%; opacity: 0;';
+    iframeWidth.value =
+      loadOverFlag.value && firstPageFlag.value
+        ? 'width: 100%; height: 100%;'
+        : 'width: 100%; height: 100%; opacity: 0;';
   };
 
   // 处理浏览器窗口Resize函数
@@ -493,6 +494,7 @@
   const handleTabMessage = (event) => {
     const message = Reflect.has(event, 'type') && Reflect.has(event, 'data') ? event : event.data;
     const { data } = message;
+    handlePanesEmpty();
     // 处理接收到的消息
     if (message.type === 'addTabPage') {
       handleNewTabPage(data.path, data.name, { id: data.id });
@@ -585,9 +587,18 @@
     }
   };
 
+  const handlePanesEmpty = () => {
+    if (!panes.value || panes.value.length === 0) {
+      panes.value = [workbench];
+      paneMap.set(panes.value[0].pageurl, panes.value[0]);
+      activeKey.value = panes.value[0].pageurl;
+    }
+  };
+
   watch(
     () => props.path,
     () => {
+      handlePanesEmpty();
       const path = handlePath(props.path);
       if (props.path == '') {
         return;
@@ -601,17 +612,21 @@
   );
 
   onMounted(() => {
-    paneMap.set(panes.value[0].pageurl, panes.value[0]);
-    iframeWidth.value = `width: 100%; height: 100%; opacity: 0;`;
-    activeKey.value = panes.value[0].pageurl;
-    tabWidth.value = document.body.clientWidth - menuTabMargin.value + 'px';
-    panes.value[0].show = false;
-    panes.value[0].pageurl = '';
-    setTimeout(() => {
-      panes.value[0].show = true;
-      panes.value[0].pageurl = pageurl;
-      activePane.value.pageurl = pageurl;
-    }, 100);
+    try {
+      paneMap.set(panes.value[0].pageurl, panes.value[0]);
+      iframeWidth.value = `width: 100%; height: 100%; opacity: 0;`;
+      activeKey.value = panes.value[0].pageurl;
+      tabWidth.value = document.body.clientWidth - menuTabMargin.value + 'px';
+      panes.value[0].show = false;
+      panes.value[0].pageurl = '';
+      setTimeout(() => {
+        panes.value[0].show = true;
+        panes.value[0].pageurl = pageurl;
+        activePane.value.pageurl = pageurl;
+      }, 100);
+    } catch {
+      //
+    }
     MsgManager.getInstance().listen('iframe-tabs-message', handleTabMessage);
     MsgManager.getInstance().listen('iframe-tabs-refresh-all', handleRefreshMenuAll);
     MsgManager.getInstance().listen('iframe-screen-emit', handleScreenTabPage);
@@ -633,7 +648,11 @@
     MsgManager.getInstance().listen('workbench-loadover', (message) => {
       loadOverFlag.value = message;
       handleIframeStyle();
+      handlePanesEmpty();
     });
+    setTimeout(() => {
+      handlePanesEmpty();
+    }, 1000);
   });
 </script>
 <style lang="less">
