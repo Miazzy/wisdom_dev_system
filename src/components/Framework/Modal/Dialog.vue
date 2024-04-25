@@ -1,14 +1,19 @@
 <template>
-  <teleport :to="target">
+  <teleport v-if="['body', '#app'].includes(props.target)" :to="props.target">
     <div class="modal-mask" v-if="visible" @mousewheel.prevent>
       <div class="modal-mask-container" @mousewheel.prevent></div>
     </div>
   </teleport>
-  <teleport :to="target">
+  <teleport v-if="['body', '#app'].includes(props.target)" :to="props.target">
     <div class="modal-mask" v-if="visible">
-      <div class="modal-mask-container" @mousewheel.prevent></div>
+      <div
+        v-if="['body', '#app'].includes(props.target)"
+        class="modal-mask-container"
+        @mousewheel.prevent
+      ></div>
       <div
         class="modal-container"
+        :target="props.target"
         :style="{
           width: typeof width == 'number' ? width + 'px' : width,
           height: typeof height == 'number' ? height + 'px' : height,
@@ -40,6 +45,42 @@
       </div>
     </div>
   </teleport>
+  <template v-if="!['body', '#app'].includes(props.target)">
+    <div class="modal-mask" v-if="visible">
+      <div
+        class="modal-container"
+        :target="props.target"
+        :style="{
+          width: typeof width == 'number' ? width + 'px' : width,
+          height: typeof height == 'number' ? height + 'px' : height,
+        }"
+      >
+        <div class="modal-header">
+          <span :style="`font-size: ${props.tsize}px; font-weight: ${props.tweight};`">{{
+            title
+          }}</span>
+          <button class="modal-close" @click="closeModal">×</button>
+        </div>
+        <div
+          class="modal-body"
+          :style="{ height: bodyHeight + 'px', overflowY: overflowY, overflowX: overflowX }"
+        >
+          <!-- 插槽：用于自定义弹框内容 -->
+          <slot v-if="props.mode !== 'iframe'"></slot>
+          <iframe v-else :src="props.url" frameborder="0" width="100%" height="100%"></iframe>
+        </div>
+        <div v-if="props.showBtm" class="modal-footer" style="position: relative">
+          <!-- 底部按钮插槽：可以包含“取消”、“确定”按钮 -->
+          <div class="footer-button" style="">
+            <slot name="footer">
+              <a-button @click="cancel">取消</a-button>
+              <a-button type="primary" @click="confirm">确定</a-button>
+            </slot>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
 </template>
 
 <script lang="ts" setup>
@@ -138,20 +179,24 @@
 
   // 禁止页面滚动事件
   const disableScroll = () => {
-    saveScrollPosition();
-    appDom.addEventListener('mousewheel', callback, { passive: false });
-    nextTick(() => {
-      appDom.classList.add('modal-open');
-      MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
-    });
+    if (props.target === 'body') {
+      saveScrollPosition();
+      appDom.addEventListener('mousewheel', callback, { passive: false });
+      nextTick(() => {
+        appDom.classList.add('modal-open');
+        MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
+      });
+    }
   };
 
   // 恢复页面滚动事件
   const enableScroll = () => {
-    appDom.removeEventListener('mousewheel', callback, { passive: false });
-    appDom.classList.remove('modal-open');
-    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
-    restoreScrollPosition();
+    if (props.target === 'body') {
+      appDom.removeEventListener('mousewheel', callback, { passive: false });
+      appDom.classList.remove('modal-open');
+      MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+      restoreScrollPosition();
+    }
   };
 
   // 监听当前Dialog是否显示
