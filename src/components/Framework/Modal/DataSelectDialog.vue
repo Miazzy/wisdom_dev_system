@@ -230,6 +230,8 @@
     if (allNodes.value && allNodes.value.length > 0) {
       Modal.confirm({
         title: props.message.delete,
+        wrapClassName: 'dialog-modal-confirm',
+        zIndex: 10010,
         onOk() {
           allNodes.value = [];
           checkedKeys.value.checked = [];
@@ -238,6 +240,8 @@
       });
     } else {
       Modal.warning({
+        wrapClassName: 'dialog-modal-warning',
+        zIndex: 10010,
         title: props.message.none,
       });
     }
@@ -544,7 +548,12 @@
     allNodes.value = props.value;
   });
 </script>
-
+<style lang="less">
+  .ant-modal-root {
+    display: flex;
+    z-index: 10010;
+  }
+</style>
 <style lang="less" scoped>
   .dialog-content {
     display: flex; /* 使用 flex 布局 */
