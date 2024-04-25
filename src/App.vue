@@ -115,7 +115,7 @@
         // 设置单独预览模式，Overview模式，预览模式，调试模式
         const isOverview =
           window.localStorage.getItem('overview-screen-flag') ||
-          window.localStorage.getItem('overview');
+          window.localStorage.getItem('overview') || true;
         routePath != PageEnum.BASE_HOME && !isLocal && !isOverview
           ? router.push(PageEnum.BASE_HOME)
           : null;
