@@ -42,11 +42,11 @@ export const saveMenuBoard = (params) =>
   defHttp.post({ url: Api.saveMenuBoardUrl, params }, { isOnlyResult: true });
 
 //查询数据
-export const getMenuBoard = (params) =>
-  defHttp.get({ url: Api.getMenuBoardUrl, params }, { isOnlyResult: true });
+export const getMenuBoard = () =>
+  defHttp.get({ url: `/oa/menu-board/get?menuType=PC` }, { isOnlyResult: true });
 
-export const getMenuBoardResult = (params) =>
-  defHttp.get({ url: Api.getMenuBoardResultUrl, params }, { isOnlyResult: true });
+export const getMenuBoardResult = () =>
+  defHttp.get({ url: `/oa/menu-board/get-data?menuType=PC` }, { isOnlyResult: true });
 
 // ########################工作安排########################
 export const getWorkRecord = (workScheduleId: string, stationId: string) =>
