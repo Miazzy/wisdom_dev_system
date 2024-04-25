@@ -1,5 +1,5 @@
 <template>
-  <a-card title="日程安排" :bordered="false">
+  <a-card title="日程安排" :bordered="false" :key="cardKey">
     <template #extra>
       <a-dropdown v-model:visible="dropdownVisible" :trigger="['click']">
         <template #overlay>
@@ -46,6 +46,7 @@
   import { forEach } from '/@/utils/helper/treeHelper';
   import moment from 'moment';
 
+  let cardKey = 0;
   const schedule = ref();
   const dropdownVisible = ref(false);
   function handleClickMenu({ key }) {
@@ -145,15 +146,17 @@
 
   onMounted(async () => {
     readData();
-    MsgManager.getInstance().listen('setMeeting', function () {
-      setTimeout(() => {
-        readData();
-      }, 100);
+    MsgManager.getInstance().listen('setMeeting', async function () {
+      await readData();
+      cardKey += 1;
     });
   });
 
   const onPanelChange = (value: Dayjs, mode: string) => {
-    console.log(value, mode);
+    setTimeout(async () => {
+      await readData();
+      cardKey += 1;
+    }, 10);
   };
 
   const getSchedule = (params) =>
