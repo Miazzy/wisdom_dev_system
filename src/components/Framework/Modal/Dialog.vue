@@ -1,10 +1,10 @@
 <template>
-  <teleport to="body">
+  <teleport :to="target">
     <div class="modal-mask" v-if="visible" @mousewheel.prevent>
       <div class="modal-mask-container" @mousewheel.prevent></div>
     </div>
   </teleport>
-  <teleport to="body">
+  <teleport :to="target">
     <div class="modal-mask" v-if="visible">
       <div class="modal-mask-container" @mousewheel.prevent></div>
       <div
@@ -72,6 +72,7 @@
     showBtm: { type: Boolean, default: true },
     mode: { type: String, default: '' },
     url: { type: String, default: '' },
+    target: { type: String, default: 'body' },
     overflowY: { type: String, default: 'hidden' },
     overflowX: { type: String, default: 'hidden' },
   });

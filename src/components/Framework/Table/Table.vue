@@ -223,7 +223,7 @@
   };
 
   const handleBtnAccess = (type: String = '') => {
-    const flag = tOperate.value.includes(type);
+    const flag = tOperate.value.includes(type as string);
     return flag;
   };
 
