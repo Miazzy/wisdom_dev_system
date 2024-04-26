@@ -6,10 +6,6 @@ const customConfig = defineConfig({
   build: {
     sourcemap: true, // 关闭sourcemap
   },
-  server: {
-    force: true, // 设置为true将强制使用配置的协议
-    https: false // 设置为true将启用HTTPS
-  },
 });
 
 export default defineApplicationConfig({
