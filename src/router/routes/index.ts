@@ -1510,8 +1510,15 @@ export const MonitorSmartDeviceVideoHistory: AppRouteRecordRaw = {
   meta: { keepAlive: false },
 };
 
+export const SysAuthInfo: AppRouteRecordRaw = {
+  path: '/frame/system/rbac/authinfo/index',
+  component: () => import('/@/views/system/rbac/authinfo/index.vue'),
+  meta: { keepAlive: true },
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  SysAuthInfo,
   MonitorSmartDeviceVideo,
   MonitorSmartDeviceVideoHistory,
   MonitorSmartDeviceRealStatus,
