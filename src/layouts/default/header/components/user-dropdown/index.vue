@@ -1,7 +1,7 @@
 <template>
   <Dropdown placement="bottomLeft" :overlayClassName="`${prefixCls}-dropdown-overlay`">
     <span :class="[prefixCls, `${prefixCls}--${theme}`]" class="flex">
-      <img :class="`${prefixCls}__header`" :src="getUserInfo.avatar" />
+      <img :class="`${prefixCls}__header`" :src="avatarURL" />
       <span :class="`${prefixCls}__info hidden md:block`">
         <span :class="`${prefixCls}__name  `" class="truncate">
           {{ truncateName(getUserInfo.realName) }}
@@ -32,26 +32,21 @@
   // components
   import { Dropdown, Menu } from 'ant-design-vue';
   import type { MenuInfo } from 'ant-design-vue/lib/menu/src/interface';
-
-  import { defineComponent, computed } from 'vue';
-
+  import { defineComponent, computed, onMounted, ref } from 'vue';
   import { DOC_URL } from '/@/settings/siteSetting';
-
   import { useUserStore } from '/@/store/modules/user';
   import { useHeaderSetting } from '/@/hooks/setting/useHeaderSetting';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useModal } from '/@/components/Modal';
-
   import headerImg from '/@/assets/images/header.jpg';
   import { propTypes } from '/@/utils/propTypes';
   import { openWindow } from '/@/utils';
-
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
   import { addTabPage } from '@/utils/route';
+  import { MsgManager } from '/@/message/MsgManager';
 
-
-  type MenuEvent = 'logout' | 'doc' | 'lock';
+  type MenuEvent = 'logout' | 'doc' | 'lock' | 'user';
 
   export default defineComponent({
     name: 'UserDropdown',
@@ -70,6 +65,7 @@
       const { t } = useI18n();
       const { getShowDoc, getUseLockPage } = useHeaderSetting();
       const userStore = useUserStore();
+      const avatarURL = ref('');
 
       const truncateName = (name, maxLength = 10) => {
         if (name != null && typeof name != 'undefined') {
@@ -92,6 +88,7 @@
           user,
           roles = [],
         } = userStore.getUserInfo || {};
+        avatarURL.value = avatar;
         return { realName: realName || username || user?.id, avatar: avatar || headerImg, desc };
       });
 
@@ -113,13 +110,16 @@
 
       // 跳转到用户页面
       function handleUser() {
-        addTabPage('/system/rbac/org/userProfile','个人信息');
+        addTabPage('/system/rbac/org/userProfile', '个人信息');
       }
 
       function handleMenuClick(e: MenuInfo) {
         switch (e.key as MenuEvent) {
           case 'logout':
             handleLoginOut();
+            break;
+          case 'lock':
+            handleLock();
             break;
           case 'doc':
             openDoc();
@@ -130,6 +130,12 @@
         }
       }
 
+      onMounted(() => {
+        MsgManager.getInstance().listen('avatar-update-message', (message) => {
+          avatarURL.value = message.path;
+        });
+      });
+
       return {
         prefixCls,
         t,
@@ -138,6 +144,8 @@
         handleMenuClick,
         getShowDoc,
         register,
+        handleLock,
+        avatarURL,
         getUseLockPage,
       };
     },

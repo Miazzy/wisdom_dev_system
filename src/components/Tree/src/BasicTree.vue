@@ -550,4 +550,8 @@
       text-align: center;
     }
   }
+
+  .tree-scroll-y {
+    overflow-y: scroll;
+  }
 </style>

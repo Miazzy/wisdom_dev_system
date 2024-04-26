@@ -35,6 +35,7 @@ import { darkMode } from '/@/settings/designSetting';
 import { generateNameMap } from '/@/utils/route';
 import * as FileApi from '@/api/infra/file';
 import { useDebounceFn } from '@vueuse/core';
+import { getDownloadURL } from '/@/utils/upload.ts';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -174,6 +175,7 @@ export const useUserStore = defineStore({
       setAuthCache(ROLES_KEY, roleList);
     },
     setUserInfo(info: UserInfo | null) {
+      debugger;
       this.userInfo = info;
       this.lastUpdateTime = new Date().getTime();
       setAuthCache(USER_INFO_KEY, info);
@@ -264,8 +266,8 @@ export const useUserStore = defineStore({
       userInfo.realName = realName;
       if (!avatar) {
         try {
-          const resp = await FileApi.getFiles({ bizId: id, type: 'avatar' });
-          const path = FileApi.attachmentDownloadUrl(resp[0].url);
+          const resp = await FileApi.getFiles({ bizId: id });
+          const path = getDownloadURL(resp[0].url);
           userInfo.avatar = path;
         } catch (error) {
           //

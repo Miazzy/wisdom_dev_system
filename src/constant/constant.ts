@@ -20,3 +20,17 @@ export enum TimeInterval {
 export const Config = {
   RENDER_ENGINE_URL: 'http://139.9.148.32:9090/',
 };
+
+// 附件预览枚举
+export enum FILE_PREVIEW {
+  PREVIEW_DOMAIN = 'http://122.9.154.245',
+  PREVIEW_PORT = '8012',
+  DOWNLOAD_DOMAIN = 'http://139.9.148.32',
+  DOWNLOAD_PORT = '48080',
+  FILE_DOMAIN = 'http://192.168.0.200',
+  FILE_PORT = '48080',
+  IMAGE_TYPES = '[".jpg",".jpeg",".png",".gif",".bmp",".ico",".jfif",".webp"]',
+}
+
+// 附件预览图片类型
+export const PICTURE_TYPES = JSON.parse(FILE_PREVIEW.IMAGE_TYPES);
