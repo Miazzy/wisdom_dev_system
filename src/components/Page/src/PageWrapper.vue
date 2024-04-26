@@ -72,6 +72,7 @@
     contentBackground: propTypes.bool,
     contentFullHeight: propTypes.bool.def(false),
     contentClass: propTypes.string,
+    detail: { type: Boolean, default: false },
     fixedHeight: propTypes.bool,
     upwardSpace: propTypes.oneOfType([propTypes.number, propTypes.string]).def(0),
   });
@@ -140,10 +141,11 @@
   });
 
   const getContentClass = computed(() => {
-    const { contentBackground, contentClass } = props;
+    const { contentBackground, contentClass, detail } = props;
     return [
       `${prefixCls}-content`,
       contentClass,
+      detail ? 'detail-content' : '',
       {
         [`${prefixCls}-content-bg`]: contentBackground,
       },
@@ -179,6 +181,10 @@
 
     .@{prefix-cls}-content {
       margin: 16px;
+    }
+
+    .@{prefix-cls}-content.detail-content {
+      margin: 10px 0;
     }
 
     .ant-page-header {
