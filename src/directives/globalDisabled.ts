@@ -8,15 +8,14 @@ export const setGlobalDisabled: Directive = {
       el.querySelectorAll('input, textarea, select, button').forEach((input) => {
         input.disabled = true;
         input?.parentNode?.setAttribute('disabled', true);
-        MsgManager.getInstance().sendMsg('global-disabled', true);
       });
     } else {
       el.querySelectorAll('input, textarea, select, button').forEach((input) => {
         input.disabled = false;
         input?.parentNode?.setAttribute('disabled', false);
-        MsgManager.getInstance().sendMsg('global-disabled', false);
       });
     }
+    MsgManager.getInstance().sendMsg('global-disabled', binding.value);
   },
   updated(el, binding) {
     el.setAttribute('global-disabled', binding.value);
@@ -24,15 +23,14 @@ export const setGlobalDisabled: Directive = {
       el.querySelectorAll('input, textarea, select, button').forEach((input) => {
         input.disabled = true;
         input?.parentNode?.setAttribute('disabled', true);
-        MsgManager.getInstance().sendMsg('global-disabled', true);
       });
     } else {
       el.querySelectorAll('input, textarea, select, button').forEach((input) => {
         input.disabled = false;
         input?.parentNode?.setAttribute('disabled', false);
-        MsgManager.getInstance().sendMsg('global-disabled', false);
       });
     }
+    MsgManager.getInstance().sendMsg('global-disabled', binding.value);
   },
 };
 

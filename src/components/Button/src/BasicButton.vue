@@ -21,6 +21,8 @@
   import { buttonProps } from './props';
   import { useAttrs } from '@vben/hooks';
   import { MsgManager } from '/@/message/MsgManager';
+  import { onMountedOrActivated } from '@vben/hooks';
+  import { urlToPath } from '/@/utils/route';
 
   defineOptions({
     name: 'AButton',
@@ -79,11 +81,11 @@
     },
   );
 
-  onMounted(() => {
+  onMountedOrActivated(() => {
+    const { params } = urlToPath();
+    const flag = params['global_disabled'] == 'true' || params['page_readonly'] == 'true';
     tDisabled.value = props.disabled;
     tPermissionCode.value = props.permissionCode;
-    MsgManager.getInstance().listen('global-disabled', (message) => {
-      appDisabled.value = message;
-    });
+    appDisabled.value = flag;
   });
 </script>
