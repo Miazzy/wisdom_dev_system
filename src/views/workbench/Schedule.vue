@@ -56,6 +56,7 @@
     }, 300);
   }
   const value = ref<Dayjs>();
+  const needReadData = ref<boolean>(true);
 
   const getAlldaySchedule = (params) =>
     defHttp.get(
@@ -68,8 +69,16 @@
   const visible = ref<boolean>(false);
   const list = ref([]);
   const Content = ref<string>();
+  let startTime = new Date();
+  let endTime = new Date();
   const getListData = (value: Dayjs) => {
     let dt = value.toDate();
+    if (dt < startTime) {
+      startTime = dt;
+    }
+    if (dt > endTime) {
+      endTime = dt;
+    }
     let year = dt.getFullYear();
     let month = (dt.getMonth() + 1).toString().padStart(2, '0');
     let date = dt.getDate().toString().padStart(2, '0');
@@ -129,16 +138,21 @@
   };
 
   async function readData() {
-    let startDate = document
-      .querySelector(
-        '.ant-picker-calendar .ant-picker-date-panel tr:first-child .ant-picker-cell:first-child',
-      )
-      .getAttribute('title');
-    let endDate = document
-      .querySelector(
-        '.ant-picker-calendar .ant-picker-date-panel tr:last-child .ant-picker-cell:last-child',
-      )
-      .getAttribute('title');
+    let start = document.querySelector(
+      '.ant-picker-calendar .ant-picker-date-panel tr:first-child .ant-picker-cell:first-child',
+    );
+    let end = document.querySelector(
+      '.ant-picker-calendar .ant-picker-date-panel tr:last-child .ant-picker-cell:last-child',
+    );
+    let startDate = '';
+    let endDate = '';
+    if (start == null || end == null) {
+      startDate = startTime.toISOString().split('T')[0];
+      endDate = endTime.toISOString().split('T')[0];
+    } else {
+      startDate = start.getAttribute('title');
+      endDate = end.getAttribute('title');
+    }
 
     let data = await getAlldaySchedule({ startDate: startDate, endDate: endDate });
     list.value = data.result;
@@ -147,8 +161,10 @@
   onMounted(async () => {
     readData();
     MsgManager.getInstance().listen('setMeeting', async function () {
-      await readData();
-      cardKey += 1;
+      setTimeout(async () => {
+        await readData();
+        cardKey += 1;
+      }, 10);
     });
   });
 
