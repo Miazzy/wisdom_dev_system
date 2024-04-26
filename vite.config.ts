@@ -7,7 +7,8 @@ const customConfig = defineConfig({
     sourcemap: true, // 关闭sourcemap
   },
   server: {
-    https: false
+    force: true, // 设置为true将强制使用配置的协议
+    https: false // 设置为true将启用HTTPS
   },
 });
 
@@ -39,7 +40,6 @@ export default defineApplicationConfig({
           rewrite: (path) => path.replace(new RegExp(`^/admin-api/`), '/admin-api/'),
         },
       },
-      https: false,
     },
   },
 });
