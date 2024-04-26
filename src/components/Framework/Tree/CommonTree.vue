@@ -83,12 +83,13 @@
 
   // 选择
   function handleSelect(keys) {
+    let rawNode = {};
     if (keys && keys.length > 0) {
       selectedNode.value = keys[0];
       const node = getTree().getSelectedNode(selectedNode.value);
-      const rawNode = getPlainObj(node);
-      emit('select', rawNode);
+      rawNode = getPlainObj(node);
     }
+    emit('select', rawNode);
   }
 
   // 复选框勾选

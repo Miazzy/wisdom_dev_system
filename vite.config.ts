@@ -6,9 +6,6 @@ const customConfig = defineConfig({
   build: {
     sourcemap: true, // 关闭sourcemap
   },
-  server: {
-    https: false
-  },
 });
 
 export default defineApplicationConfig({
@@ -39,7 +36,6 @@ export default defineApplicationConfig({
           rewrite: (path) => path.replace(new RegExp(`^/admin-api/`), '/admin-api/'),
         },
       },
-      https: false,
     },
   },
 });
