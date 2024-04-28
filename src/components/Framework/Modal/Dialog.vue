@@ -193,12 +193,10 @@
 
   // 恢复页面滚动事件
   const enableScroll = () => {
-    if (props.target === 'body') {
-      appDom.removeEventListener('mousewheel', callback, { passive: false });
-      appDom.classList.remove('modal-open');
-      MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
-      restoreScrollPosition();
-    }
+    appDom.removeEventListener('mousewheel', callback, { passive: false });
+    appDom.classList.remove('modal-open');
+    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    restoreScrollPosition();
   };
 
   // 监听当前Dialog是否显示
