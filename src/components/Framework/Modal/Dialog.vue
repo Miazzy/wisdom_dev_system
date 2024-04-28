@@ -96,6 +96,7 @@
   } from 'vue';
   import { MsgManager } from '/@/message/MsgManager';
   import { SysMessage } from '/@/hooks/web/useMessage';
+  import { onMountedOrActivated } from '@vben/hooks';
 
   defineOptions({
     name: 'Dialog',
@@ -179,6 +180,7 @@
 
   // 禁止页面滚动事件
   const disableScroll = () => {
+    debugger;
     if (props.target === 'body') {
       saveScrollPosition();
       appDom.addEventListener('mousewheel', callback, { passive: false });
@@ -211,13 +213,18 @@
     },
   );
 
-  onMounted(() => {
+  onMountedOrActivated(() => {
+
     // 监听check-iframe-framepage消息
     instance.value = getCurrentInstance();
     MsgManager.getInstance().listen('iframe-dialog-close', () => {
       closeModal();
       enableScroll();
     });
+
+    if (props.target === 'body' && props.visible) { 
+      disableScroll();
+    }
   });
 </script>
 
