@@ -39,13 +39,21 @@
 
   // 图标
   const iconUrls = {
-    dayGen: '../../../assets/images/da/icon_day_gen.png', // 今日发电量
-    earnings: '../../../assets/images/da/icon_earnings.png', // 今日收益
-    dayOnline: '../../../assets/images/da/icon_day_online.png', // 累计上网电量
-    warningCount: '../../../assets/images/da/icon_warning_count.png', // 天气预警
+    dayGen: 'icon_day_gen.png', // 今日发电量
+    earnings: 'icon_earnings.png', // 今日收益
+    dayOnline: 'icon_day_online.png', // 累计上网电量
+    warningCount: 'icon_warning_count.png', // 天气预警
+    realGen: 'icon_real_gen.png', // 实发电量
+    online: 'icon_online.png', // 上网电量
+    settlement: 'icon_settlement.png', // 结算电量
+    loss: 'icon_loss.png', // 结算电量
+    lossRate: 'icon_loss_rate.png', // 损失率
+    facRate: 'icon_fac_rate.png', // 综合厂用电率
+    sysRate: 'icon_sys_rate.png', // 系统效率
+    comRate: 'icon_com_rate.png', // 计划完成
   };
   const getIcon = (icon: string) => {
-    return new URL(iconUrls[icon], import.meta.url).href;
+    return new URL(`../../../assets/images/da/${iconUrls[icon]}`, import.meta.url).href;
   };
 
   // 根据数据内容判断class
@@ -84,7 +92,6 @@
     .title-box {
       display: flex;
       align-items: center;
-      padding-top: 0.2rem;
       margin-bottom: 0.1rem;
       .icon-box {
         width: 0.56rem;
