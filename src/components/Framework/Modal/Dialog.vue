@@ -209,6 +209,7 @@
         enableScroll();
       }
     },
+    { deep: true },
   );
 
   onMountedOrActivated(() => {
