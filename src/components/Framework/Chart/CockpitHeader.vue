@@ -1,5 +1,8 @@
 <template>
   <div class="header">
+    <div class="logo-box">
+      LOGO
+    </div>
     <div class="title"> {{ props.title }} </div>
     <div class="info">
       <button class="settings">
@@ -477,10 +480,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 0.8rem;
-    padding: 0.1rem;
-    border-bottom: 0.02rem solid #01d8ff12;
+    height: 0.7rem;
+    padding: 0.1rem 0;
     color: white;
+    background: url('../../../assets/images/da/header_bg.png') no-repeat center/100% 100%;
+    .logo-box {
+      width: 3.8rem;
+      padding: 0.24rem 0 0 0.2rem;
+    }
 
     .title {
       margin-left: 0.2rem;
@@ -492,6 +499,7 @@
     }
 
     .info {
+      width: 3.8rem;
       display: flex;
       align-items: center;
 

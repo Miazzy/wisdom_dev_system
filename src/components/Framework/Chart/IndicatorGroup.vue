@@ -32,8 +32,8 @@
       cursor: pointer;
 
       .value-text {
-        margin-bottom: 0.1rem;
-        color: #32afff;
+        margin-bottom: 0.06rem;
+        color: #1890FF;
         font-size: 0.22rem;
         font-weight: 600;
       }

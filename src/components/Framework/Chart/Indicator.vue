@@ -59,13 +59,13 @@
   }
 
   .title {
-    color: #07A5FD;
+    color: #fff;
     font-size: 0.14rem;
   }
 
   .value {
     margin: 0.02rem 0;
-    color: rgb(255 255 255 / 99%);
+    color: #1890FF;
     font-size: 0.22rem;
   }
 
@@ -85,7 +85,7 @@
 
   .text-red {
     margin-left: 0.03rem;
-    color: #FF4F38;
+    color: #E05B5B;
     font-size: 0.14rem;
   }
 
@@ -101,7 +101,7 @@
 
     &.red {
       border-top: none;
-      border-bottom: 0.06rem solid #FF4F38;
+      border-bottom: 0.06rem solid #E05B5B;
     }
 
     &.green {
