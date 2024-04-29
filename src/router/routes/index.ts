@@ -1148,6 +1148,18 @@ export const DevPage: AppRouteRecordRaw = {
   meta: { keepAlive: true },
 };
 
+export const FormDesignPage: AppRouteRecordRaw = {
+  path: '/frame/formdesign',
+  component: () => import('/@/views/dev/FormDesign.vue'),
+  meta: { keepAlive: true },
+};
+
+export const FormBuildPage: AppRouteRecordRaw = {
+  path: '/frame/formbuild',
+  component: () => import('/@/views/dev/FormBuild.vue'),
+  meta: { keepAlive: true },
+};
+
 export const EdittablePage: AppRouteRecordRaw = {
   path: '/frame/edittable',
   component: () => import('/@/views/dev/EditRowTable.vue'),
@@ -1728,6 +1740,8 @@ export const basicRoutes = [
   OaAddressbook,
   OaWorkbench,
   DevPage,
+  FormDesignPage,
+  FormBuildPage,
   EdittablePage,
   Meta2dRenderPage,
   BpmWorkflow,
