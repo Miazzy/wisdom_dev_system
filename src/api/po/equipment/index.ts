@@ -55,3 +55,13 @@ export function getExistEquipment(materialId) {
     { isOnlyResult: true },
   );
 }
+
+// 获得设备物资拆分列表
+export function getEquipmentSplit(params) {
+  return defHttp.get({ url: '/po/equipment/getEquipmentSplit?id=' + params.id }, { isOnlyResult: true });
+}
+
+// 创建设备物资拆分 
+export function createEquipmentSplit(data) {
+  return defHttp.post({ url: '/po/equipment/createEquipmentSplit', data });
+}
