@@ -243,7 +243,7 @@
     if (searchLabelText.value == '') {
 
     }
-  }
+  };
 
   const toggleDropdown = (event) => {
     try {
@@ -496,7 +496,16 @@
     () => props.value,
     (newValue) => {
       try {
-        searchRealText.value = props.value;
+        if (newValue) {
+          searchRealText.value = newValue;
+        } else {
+          searchRealText.value = '';
+          searchLabelText.value = '';
+          if (props.multiple) {
+            emit('update:value', '');
+            emit('update:skeys', []);
+          }
+        }
       } catch {
         //
       }
@@ -522,7 +531,9 @@
   });
 
   onUnmounted(() => {
-    MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
+    MsgManager.getInstance().listen('global-disabled', (message) => {
+      appDisabled.value = message;
+    });
   });
 
   defineExpose({ reload });

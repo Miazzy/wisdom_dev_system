@@ -70,6 +70,18 @@
         style="width: 220px"
         twidth="400px"
       />
+      <span style="float: left"> TreeBox </span>
+      <TreeBox
+        v-model:value="searchTreeText"
+        vmode="edit"
+        :tfields="{ key: 'nodeId', title: 'nodeName' }"
+        :data="treeData"
+        :multiple="false"
+        :expand-all="false"
+        @select="treeBoxSelect"
+        style="width: 220px"
+        twidth="400px"
+      />
       <span style="float: left"> SelectBox </span>
       <br />
       <SelectBox
@@ -272,6 +284,7 @@
       <Button @click="handlePushAndClose">关闭并跳转</Button>
       <Button @click="handleGenerateUUID">生成UUID</Button>
       <Button @click="reloadCurrrentTab">刷新当前</Button>
+      <Button @click="handleClearTreeBox">清空TreeBox</Button>
     </div>
 
     <div> {{ uuidVal }} </div>
@@ -712,6 +725,10 @@
     const list = result.result as unknown as TreeItem[];
     treeData.value = list;
   }
+
+  const handleClearTreeBox = () => {
+    searchTreeText.value = '';
+  };
 
   // 设置富文本框数据绑定对象
   const richTextValue = ref('');

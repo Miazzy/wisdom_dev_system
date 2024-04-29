@@ -2,7 +2,7 @@
   <div :class="prefixCls" :style="getWrapStyle">
     <Spin :spinning="loading" size="large" :style="getWrapStyle">
       <iframe
-        :src="frameSrc"
+        :src="iframeURL"
         :class="`${prefixCls}__main`"
         ref="frameRef"
         @load="hideLoading"
@@ -12,14 +12,15 @@
 </template>
 <script lang="ts" setup>
   import type { CSSProperties } from 'vue';
-  import { ref, unref, computed } from 'vue';
+  import { ref, unref, computed, onMounted, watch } from 'vue';
   import { Spin } from 'ant-design-vue';
   import { useWindowSizeFn } from '@vben/hooks';
   import { propTypes } from '/@/utils/propTypes';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useLayoutHeight } from '/@/layouts/default/content/useContentViewHeight';
+  import { urlToPath } from '@/utils/route';
 
-  defineProps({
+  const props = defineProps({
     frameSrc: propTypes.string.def(''),
   });
 
@@ -28,6 +29,7 @@
   const heightRef = ref(window.innerHeight);
   const frameRef = ref<HTMLFrameElement>();
   const { headerHeightRef } = useLayoutHeight();
+  const iframeURL = ref('');
 
   const { prefixCls } = useDesign('iframe-page');
   useWindowSizeFn(calcHeight, { wait: 150, immediate: true });
@@ -54,6 +56,19 @@
     loading.value = false;
     calcHeight();
   }
+
+  watch(
+    () => props.frameSrc,
+    () => {
+      iframeURL.value = props.frameSrc;
+    },
+  );
+
+  onMounted(() => {
+    const { params } = urlToPath();
+    iframeURL.value = params?.iframeurl ? decodeURIComponent(params?.iframeurl) : props.frameSrc;
+    iframeURL.value = decodeURIComponent(iframeURL.value);
+  });
 </script>
 <style lang="less" scoped>
   @prefix-cls: ~'@{namespace}-iframe-page';
