@@ -8,9 +8,19 @@
         <div class="title-value-box">
           <div class="title-text">{{title}}</div>
           <div class="value-text">{{value}}</div>
+          <div v-if="percentPosition==='right'&&(tRatio||tRatio===0||hRatio||hRatio===0)" class="percent-data-box">
+            <div v-if="tRatio||tRatio===0" class="percent-item">
+              <span class="p-value" :class="handleTextClass(tRatio)">{{handleTextPercent(tRatio)}}</span>
+              <span class="p-title">同比</span>
+            </div>
+            <div v-if="hRatio||hRatio===0" class="percent-item">
+              <span class="p-value" :class="handleTextClass(hRatio)">{{handleTextPercent(hRatio)}}</span>
+              <span class="p-title">环比</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="percent-data-box">
+      <div v-if="percentPosition==='bottom'&&(tRatio||tRatio===0||hRatio||hRatio===0)" class="percent-data-box">
         <div v-if="tRatio||tRatio===0" class="percent-item">
           <span class="p-value" :class="handleTextClass(tRatio)">{{handleTextPercent(tRatio)}}</span>
           <span class="p-title">同比</span>
@@ -35,6 +45,7 @@
     tRatio: { type: [Number, String], default: '' },
     hRatio: { type: [Number, String], default: '' },
     icon: String,
+    percentPosition: { type: String, default: 'bottom' },
   });
 
   // 图标
@@ -51,6 +62,12 @@
     facRate: 'icon_fac_rate.png', // 综合厂用电率
     sysRate: 'icon_sys_rate.png', // 系统效率
     comRate: 'icon_com_rate.png', // 计划完成
+    runningDays: 'icon_running_days.png', // 安全运行天数
+    safeCheckCount: 'icon_safe_check_count.png', // 安全检查
+    hiddenCount: 'icon_hidden_count.png', // 安全隐患
+    trainingCount: 'icon_training_count.png', // 安全培训
+    signRage: 'icon_sign_rage.png', // 安全责任书签订
+    toolsCount: 'icon_tools_count.png', // 安全工器具
   };
   const getIcon = (icon: string) => {
     return new URL(`../../../assets/images/da/${iconUrls[icon]}`, import.meta.url).href;
@@ -92,7 +109,6 @@
     .title-box {
       display: flex;
       align-items: center;
-      margin-bottom: 0.1rem;
       .icon-box {
         width: 0.56rem;
         height: 0.62rem;
@@ -120,6 +136,7 @@
       justify-content: space-between;
       align-items: center;
       line-height: 1;
+      margin-top: 0.1rem;
       .p-value {
         font-size: 0.14rem;
         margin-right: 0.04rem;
