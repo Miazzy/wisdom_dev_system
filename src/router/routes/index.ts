@@ -1528,8 +1528,15 @@ export const SysAuthInfo: AppRouteRecordRaw = {
   meta: { keepAlive: true },
 };
 
+export const EquipmentSplit: AppRouteRecordRaw = {
+  path: '/frame/po/equipment/split',
+  component: () => import('/@/views/po/equipment/split.vue'),
+  meta: { keepAlive: true },
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  EquipmentSplit,
   SysAuthInfo,
   MonitorSmartDeviceVideo,
   MonitorSmartDeviceVideoHistory,
