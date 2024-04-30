@@ -74,6 +74,12 @@
     twoTicketCount: 'icon_two_ticket_count.png', // 两票统计
     defectCount: 'icon_defect_count.png', // 缺陷统计
     hiddenStatistics: 'icon_hidden_statistics.png', // 隐患统计
+    stationTotal: 'icon_station_total.png', // 电站规模
+    connectCapacity: 'icon_connect_capacity.png', // 并网容量
+    fullTotal: 'icon_full_total.png', // 全容量并网电站
+    equipmentTotal: 'icon_equipment_total.png', // 设备统计
+    transQty: 'icon_trans_qty.png', // 备品备件
+    orderTotal: 'icon_order_total.png', // 出入库单
   };
   const getIcon = (icon: string) => {
     return new URL(`../../../assets/images/da/${iconUrls[icon]}`, import.meta.url).href;
