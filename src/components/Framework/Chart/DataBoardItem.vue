@@ -41,7 +41,7 @@
   // 传入参数
   const props = defineProps({
     title: { type: String, default: '今日发电量(万kWh)' },
-    value: { type: Number, default: 0 },
+    value: { type: [Number, String], default: 0 },
     tRatio: { type: [Number, String], default: '' },
     hRatio: { type: [Number, String], default: '' },
     icon: String,
@@ -68,6 +68,12 @@
     trainingCount: 'icon_training_count.png', // 安全培训
     signRage: 'icon_sign_rage.png', // 安全责任书签订
     toolsCount: 'icon_tools_count.png', // 安全工器具
+    inspectionCount: 'icon_inspection_count.png', // 巡检统计
+    workOrderCount: 'icon_work_order_count.png', // 工单统计
+    netIncome: 'icon_net_income.png', // 细则统计
+    twoTicketCount: 'icon_two_ticket_count.png', // 两票统计
+    defectCount: 'icon_defect_count.png', // 缺陷统计
+    hiddenStatistics: 'icon_hidden_statistics.png', // 隐患统计
   };
   const getIcon = (icon: string) => {
     return new URL(`../../../assets/images/da/${iconUrls[icon]}`, import.meta.url).href;
