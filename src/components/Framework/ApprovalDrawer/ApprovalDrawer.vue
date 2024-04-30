@@ -41,9 +41,9 @@
         <TabPane key="2" tab="流程轨迹" force-render>
           <ApprovalTab ref="trackTabRef" :flowData="flowData" type="track" />
         </TabPane>
-        <TabPane key="3" tab="关联业务">
+        <!-- <TabPane key="3" tab="关联业务">
           <div>关联业务</div>
-        </TabPane>
+        </TabPane> -->
       </Tabs>
     </div>
     <template v-if="currentNodeData[0] && editAuthority(currentNodeData[0])" #footer>
