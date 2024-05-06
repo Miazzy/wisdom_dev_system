@@ -80,6 +80,12 @@
     equipmentTotal: 'icon_equipment_total.png', // 设备统计
     transQty: 'icon_trans_qty.png', // 备品备件
     orderTotal: 'icon_order_total.png', // 出入库单
+    task: 'icon_task.png', // 任务统计
+    ddzRate: 'icon_ddz_rate.png', // 调度持证率
+    trainingTotal: 'icon_training_total.png', // 培训统计
+    vehicleCount: 'icon_vehicle_count.png', // 车辆统计
+    eval: 'icon_eval.png', // 考核评价
+    contractTotal: 'icon_contract_total.png', // 合同统计
   };
   const getIcon = (icon: string) => {
     return new URL(`../../../assets/images/da/${iconUrls[icon]}`, import.meta.url).href;
