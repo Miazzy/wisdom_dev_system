@@ -1515,19 +1515,19 @@ export const MonitorSmartDeviceRealStatus: AppRouteRecordRaw = {
 export const MonitorSmartDeviceMonitorInfo: AppRouteRecordRaw = {
   path: '/frame/monitor/smartdevice/monitorInfo/monitorInfo',
   component: () => import('/@/views/monitor/smartdevice/monitorInfo/monitorInfo.vue'),
-  meta: { keepAlive: false },
+  meta: { keepAlive: true },
 };
 
 export const MonitorSmartDeviceVideo: AppRouteRecordRaw = {
   path: '/frame/monitor/smartdevice/video/index',
   component: () => import('/@/views/monitor/smartdevice/video/index.vue'),
-  meta: { keepAlive: false },
+  meta: { keepAlive: true },
 };
 
 export const MonitorSmartDeviceVideoHistory: AppRouteRecordRaw = {
   path: '/frame/monitor/smartdevice/video/history',
   component: () => import('/@/views/monitor/smartdevice/video/history.vue'),
-  meta: { keepAlive: false },
+  meta: { keepAlive: true },
 };
 
 export const SysAuthInfo: AppRouteRecordRaw = {
