@@ -92,6 +92,14 @@ export const LoginRoute: AppRouteRecordRaw = {
   meta: { title: t('routes.basic.login'), keepAlive: false },
 };
 
+// 登录路由
+export const LogoutRoute: AppRouteRecordRaw = {
+  path: '/logout',
+  name: 'Logout',
+  component: () => import('/@/views/sys/login/Login.vue'),
+  meta: { title: t('routes.basic.login'), keepAlive: false },
+};
+
 // 缓存页面
 export const CachePage: AppRouteRecordRaw = {
   path: '/frame/cachepage',
@@ -1573,6 +1581,7 @@ export const basicRoutes = [
   SysOrgan,
   SysParameter,
   LoginRoute,
+  LogoutRoute,
   CachePage,
   CockpitOverviewRoute,
   CockpitOperationRoute,

@@ -34,7 +34,7 @@ import { MsgManager } from '/@/message/MsgManager';
 import { darkMode } from '/@/settings/designSetting';
 import { generateNameMap } from '/@/utils/route';
 import * as FileApi from '@/api/infra/file';
-import { useDebounceFn } from '@vueuse/core';
+import { useDebounceFn, useThrottleFn } from '@vueuse/core';
 import { getDownloadURL } from '/@/utils/upload.ts';
 
 interface UserState {
@@ -323,15 +323,17 @@ export const handleLogoutFn = (that: any) => {
   const timestamp = Number(time);
   const diff = nowtime - timestamp;
   console.info('logout diff:', nowtime - lasttime);
-  if (nowtime - lasttime < 5000) {
+  if (nowtime - lasttime < 3000) {
     return;
   }
   if (!flag) {
-    if (diff < 15000) {
-      diff > 6000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
+    if (diff < 5000) {
+      diff > 3000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
       return;
     }
   }
+  router.push(PageEnum.BASE_LOGOUT);
+  window.open('/#' + PageEnum.BASE_LOGOUT, '_self');
   that.getToken && doLogout();
   that.setToken(undefined);
   that.setSessionTimeout(false);
@@ -368,4 +370,4 @@ export const handleLogoutFn = (that: any) => {
 };
 
 // 退出登录防抖操作
-export const handleLogout = useDebounceFn(handleLogoutFn, 3000);
+export const handleLogout = useThrottleFn(handleLogoutFn, 3000);
