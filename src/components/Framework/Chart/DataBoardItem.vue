@@ -102,14 +102,14 @@
   };
 
   // 根据数据内容判断是否添加%符号
-  const handleTextPercent = (text) => {
-    if (typeof text == 'string') {
-      return text;
-    } else if (typeof text == 'number') {
-      return String(text) + '%';
-    }
-    return text;
-  };
+  // const handleTextPercent = (text) => {
+  //   if (typeof text == 'string') {
+  //     return text;
+  //   } else if (typeof text == 'number') {
+  //     return String(text) + '%';
+  //   }
+  //   return text;
+  // };
 
   onMounted(() => {});
 </script>
