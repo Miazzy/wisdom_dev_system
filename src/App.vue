@@ -9,14 +9,12 @@
       <RouterView v-slot="{ Component, route }">
         <template v-if="handleRoute(route)">
           <KeepAlive :max="100">
-            <transition name="fade" mode="out-in">
-              <component
-                ref="componentRef"
-                :is="Component"
-                :key="handleRouteKey(route)"
-                :name="handleRouteKey(route)"
-              />
-            </transition>
+            <component
+              ref="componentRef"
+              :is="Component"
+              :key="handleRouteKey(route)"
+              :name="handleRouteKey(route)"
+            />
           </KeepAlive>
         </template>
         <template v-else>
