@@ -36,8 +36,8 @@ export function updateEquipmentStatus(ids: Array<string>, status: number) {
 }
 
 // 删除设备物资台账
-export function deleteEquipment(id: number) {
-  return defHttp.delete({ url: '/po/equipment/delete?id=' + id });
+export function deleteEquipment(ids: Array<string>) {
+  return defHttp.delete({ url: '/po/equipment/delete?ids=' + ids });
 }
 
 // 导出设备物资台账 Excel
