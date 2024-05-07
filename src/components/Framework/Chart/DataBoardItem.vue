@@ -46,8 +46,8 @@
     hRatio: { type: [Number, String], default: '' },
     icon: String,
     percentPosition: { type: String, default: 'bottom' },
-    tbTitle: { type: String, default: '同比' },
-    hbTitle: { type: String, default: '环比' }
+    tbTitle: { type: String, default: '同比(%)' },
+    hbTitle: { type: String, default: '环比(%)' }
   });
 
   // 图标
