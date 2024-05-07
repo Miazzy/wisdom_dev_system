@@ -42,24 +42,30 @@
 
   // 处理菜单点击函数
   const handleMenuClick = (key, menu, event) => {
-    currentPath.value = '';
-    nextTick(() => {
-      currentPath.value = menu.url;
-      currentMenu.value = menu;
-    });
-
-    MsgManager.getInstance().sendMsg('check-iframe-framepage', {});
+    try {
+      currentPath.value = '';
+      nextTick(() => {
+        currentPath.value = menu.url;
+        currentMenu.value = menu;
+      });
+    } catch {
+      //
+    }
+    // MsgManager.getInstance().sendMsg('check-iframe-framepage', {});
   };
 
   // 处理页签切换点击函数
   const handleTabsClick = (key, menu) => {
-    const preKey = !currentPath.value.includes('/#') ? '/#' + currentPath.value : currentPath.value;
-    if (key != preKey && currentPath.value) {
-      state.path = key;
-      state.menu = menu;
+    try {
+      const preKey = !currentPath.value.includes('/#') ? '/#' + currentPath.value : currentPath.value;
+      if (key != preKey && currentPath.value) {
+        state.path = key;
+        state.menu = menu;
+      }
+    } catch {
+      //
     }
-
-    MsgManager.getInstance().sendMsg('check-iframe-framepage', {});
+    // MsgManager.getInstance().sendMsg('check-iframe-framepage', {});
   };
 
   // 处理浏览器窗口Resize函数

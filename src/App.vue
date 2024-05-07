@@ -8,13 +8,15 @@
       </teleport>
       <RouterView v-slot="{ Component, route }">
         <template v-if="handleRoute(route)">
-          <KeepAlive :max="1000">
-            <component
-              ref="componentRef"
-              :is="Component"
-              :key="handleRouteKey(route)"
-              :name="handleRouteKey(route)"
-            />
+          <KeepAlive :max="100">
+            <transition name="fade" mode="out-in">
+              <component
+                ref="componentRef"
+                :is="Component"
+                :key="handleRouteKey(route)"
+                :name="handleRouteKey(route)"
+              />
+            </transition>
           </KeepAlive>
         </template>
         <template v-else>
@@ -42,32 +44,11 @@
 
   const { getAntdLocale } = useLocale();
   const router = useRouter();
-  const isRouterAlive = ref(true);
   const componentRef = ref();
-  const instance = getCurrentInstance();
-
-  // 收集已打开路由tabs的缓存
-  const { caches, collectCaches } = useRouteCache();
+  const { collectCaches } = useRouteCache();
   const visible = ref(false);
 
   useTitle();
-
-  // 重新载入函数
-  const reload = () => {
-    isRouterAlive.value = false;
-    nextTick(() => {
-      try {
-        if (instance?.proxy) {
-          nextTick(() => {
-            instance?.proxy?.$forceUpdate();
-          });
-        }
-      } catch (error) {
-        console.error('Force Update Error:', error);
-      }
-      isRouterAlive.value = true;
-    });
-  };
 
   // 处理route函数
   const handleRoute = (route) => {
@@ -110,30 +91,6 @@
         }
         console.info('currentPath: ', iframePath);
         console.info('routePath: ', routePath);
-      } else {
-        const isLocal = window.location.hostname == 'localhost';
-        // 设置单独预览模式，Overview模式，预览模式，调试模式
-        const isOverview =
-          window.localStorage.getItem('overview-screen-flag') ||
-          window.localStorage.getItem('overview') || true;
-        routePath != PageEnum.BASE_HOME && !isLocal && !isOverview
-          ? router.push(PageEnum.BASE_HOME)
-          : null;
-
-        window.addEventListener('storage', function (e) {
-          const hashFlag = window.location.hash && window.location.hash.startsWith('#');
-          const routePath = hashFlag ? window.location.hash.slice(1) : window.location.hash;
-          const loginFlag =
-            routePath == PageEnum.BASE_LOGIN || routePath == PageEnum.BASE_LOGIN + '/';
-          if (
-            !loginFlag &&
-            e?.storageArea?.length === 0 &&
-            e?.key === null &&
-            e?.newValue === null
-          ) {
-            sendOfflineMessage();
-          }
-        });
       }
     } catch (error) {
       //
@@ -153,25 +110,18 @@
   const handleIframePage = () => {
     setTimeout(() => {
       handleRoutePath();
-    }, 100);
+    }, 10);
   };
 
   // 处理路由变化函数
   const handleRouteChange = (message) => {
     try {
-      if (!checkInIframe()) {
-        return;
-      }
-      // 通知关闭窗口
-      // MsgManager.getInstance().sendMsg('iframe-dialog-close', {});
-      let { url, loading } = message; // const urls = panes.map((element) => element.pageurl.replace('/#/', '/'));
-      url = url.replace('/#/', '/');
-      caches.value.includes(url) ? null : (loading = true);
-      router.push(url as string);
-      if (loading) {
-        nextTick(async () => {
-          reload();
-        });
+      if (checkInIframe()) {
+        console.info('handleRouteChange:', new Date().getTime());
+        // 通知关闭窗口
+        let { url } = message;
+        url = url.replace('/#/', '/');
+        router.push(url as string);
       }
     } catch (error) {
       //
@@ -210,14 +160,22 @@
     MsgManager.getInstance().listen('modal-open', (message) => {
       handleMask(message);
     });
+
     // 监听是否打开Drawer
     MsgManager.getInstance().listen('drawer-open', (message) => {
       handleMask(message);
     });
+
     // 监听是否退出登录
     MsgManager.getInstance().listen('logouting', (message) => {
       SysMessage.logouting = message;
-      console.info('SysMessage.logouting:', SysMessage.logouting);
+    });
+
+    // 监听清空缓存操作
+    window.addEventListener('storage', function (e) {
+      if (e?.storageArea?.length === 0 && e?.key === null && e?.newValue === null) {
+        sendOfflineMessage();
+      }
     });
   });
 </script>
@@ -246,5 +204,15 @@
       height: 100%;
       background-color: rgb(0 0 0 / 15%);
     }
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.1s;
+  }
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
   }
 </style>

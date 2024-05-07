@@ -158,6 +158,7 @@
 
   // 处理Tab栏页签变更
   const handleTabChange = async (key, options: any = null) => {
+    console.info('handleTabChange  :', new Date().getTime());
     activeKey.value = key;
     for (let pane of panes.value) {
       pane.status = removeUrlRandom(pane.pageurl) === removeUrlRandom(key);
@@ -337,14 +338,13 @@
 
   // 处理URL变更的函数
   const handleUrlChange = (key, loading = false) => {
-    // Single-Iframe-Mode
-    setTimeout(() => {
+    nextTick(() => {
       activePane.value.pageurl = key;
       MsgManager.getInstance().sendMsg('iframe-url-change', {
         url: key,
         loading,
       });
-    }, 5);
+    });
   };
 
   // 处理刷新当前页面的函数
@@ -492,6 +492,7 @@
 
   // 处理推送Tab栏消息函数
   const handleTabMessage = (event) => {
+    console.info('handleTabMessage:', new Date().getTime());
     const message = Reflect.has(event, 'type') && Reflect.has(event, 'data') ? event : event.data;
     const { data } = message;
     handlePanesEmpty();
@@ -511,8 +512,10 @@
       }
       // 打开新页面 如果页面已打开过，则切换到相应页签；否则新打开一个页签
       if (paneMap.has(data.path)) {
+        console.info('handleTabChange  :', new Date().getTime());
         handleTabChange(data.path, { id: data.id });
       } else {
+        console.info('handleNewTabPage:', new Date().getTime());
         handleNewTabPage(data.path, data.name, { id: data.id });
       }
       // 检查是否需要刷新页面

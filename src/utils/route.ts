@@ -134,6 +134,7 @@ export const addTabPage = (
 ) => {
   const id = buildUUID();
   try {
+    console.info('addTabPage:', new Date().getTime());
     const userStore = useUserStore();
     const nameMap = userStore.getMenuNameMap as Map<string, any>;
     const purePath = path.includes('?') ? path.split('?')[0] : path;
@@ -159,6 +160,7 @@ export const addTabAndClose = (
 ) => {
   const id = buildUUID();
   try {
+    console.info('addTabAndClose:', new Date().getTime());
     const userStore = useUserStore();
     const nameMap = userStore.getMenuNameMap as Map<string, any>;
     const purePath = path.includes('?') ? path.split('?')[0] : path;
