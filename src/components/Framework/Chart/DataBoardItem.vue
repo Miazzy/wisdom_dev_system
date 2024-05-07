@@ -10,11 +10,11 @@
           <div class="value-text">{{value}}</div>
           <div v-if="percentPosition==='right'&&(tRatio||tRatio===0||hRatio||hRatio===0)" class="percent-data-box">
             <div v-if="tRatio||tRatio===0" class="percent-item">
-              <span class="p-value" :class="handleTextClass(tRatio)">{{handleTextPercent(tRatio)}}</span>
+              <span class="p-value" :class="handleTextClass(tRatio)">{{tRatio}}</span>
               <span class="p-title">同比</span>
             </div>
             <div v-if="hRatio||hRatio===0" class="percent-item">
-              <span class="p-value" :class="handleTextClass(hRatio)">{{handleTextPercent(hRatio)}}</span>
+              <span class="p-value" :class="handleTextClass(hRatio)">{{hRatio}}</span>
               <span class="p-title">环比</span>
             </div>
           </div>
@@ -22,11 +22,11 @@
       </div>
       <div v-if="percentPosition==='bottom'&&(tRatio||tRatio===0||hRatio||hRatio===0)" class="percent-data-box">
         <div v-if="tRatio||tRatio===0" class="percent-item">
-          <span class="p-value" :class="handleTextClass(tRatio)">{{handleTextPercent(tRatio)}}</span>
+          <span class="p-value" :class="handleTextClass(tRatio)">{{tRatio}}</span>
           <span class="p-title">同比</span>
         </div>
         <div v-if="hRatio||hRatio===0" class="percent-item">
-          <span class="p-value" :class="handleTextClass(hRatio)">{{handleTextPercent(hRatio)}}</span>
+          <span class="p-value" :class="handleTextClass(hRatio)">{{hRatio}}</span>
           <span class="p-title">环比</span>
         </div>
       </div>
