@@ -9,7 +9,7 @@
         <div class="value-text">{{props.value+props.unit}}</div>
         <div class="percentage-box" v-if="props.pLabel">
           <span class="percentage-label">{{props.pLabel}}</span>
-          <span class="percentage-value" :class="getPValueColor(props.pValue)">{{props.pValue}}%</span>
+          <span class="percentage-value" :class="getPValueColor(props.pValue)">{{props.pValue}}{{props.hasBracket? '(%)':'%'}}</span>
         </div>
       </div>
     </div>
@@ -24,6 +24,7 @@
     pLabel: { type: String, default: '' }, // 同比项
     pValue: { type: Number, default: 0 }, // 同比百分比
     unit: { type: String, default: '' }, // 单位
+    hasBracket: { type: Boolean, default: true }, // 百分比是否加括号
   });
 
   const getPValueColor = (value) => {
@@ -50,7 +51,7 @@
     .left {
       width: 0.9rem;
       height: 0.57rem;
-      margin-right: 0.18rem;
+      margin-right: 0.04rem;
       background: url('../../../assets/images/operationScreen/middle-indicator-icon-bg.png') no-repeat center/100% 100%;
       text-align: center;
       .indicator-icon {
@@ -78,7 +79,7 @@
           font-size: 0.28rem;
           color: #00f6ff;
           font-weight: 500;
-          margin-right: 0.18rem;
+          margin-right: 0.08rem;
         }
         .percentage-box {
           display: flex;

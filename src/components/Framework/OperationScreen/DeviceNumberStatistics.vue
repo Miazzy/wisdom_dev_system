@@ -10,7 +10,7 @@
         <span class="unit-text">{{props.unit}}</span>
       </div>
       <div class="percentage-box">
-        <span class="percentage-value" :class="getPValueColor(props.pValue)">{{props.pValue}}%</span>
+        <span class="percentage-value" :class="getPValueColor(props.pValue)">{{props.pValue}}{{props.hasBracket? '(%)':'%'}}</span>
       </div>
     </div>
   </div>
@@ -23,6 +23,7 @@
     value: { type: Number, default: 0 }, // 设备数
     unit: { type: String, default: '' }, // 单位
     pValue: { type: Number, default: 0 }, // 同比
+    hasBracket: { type: Boolean, default: true }, // 百分比是否加括号
   });
 
   const getPValueColor = (value) => {
@@ -60,7 +61,7 @@
     }
 
     .data-box {
-      width: 1.32rem;
+      width: 1.44rem;
       display: flex;
       align-items: center;
       padding: 0.1rem 0;
@@ -83,7 +84,7 @@
         }
       }
       .percentage-box {
-        flex: 1.2;
+        flex: 1.3;
         .percentage-value {
             font-size: 0.14rem;
           }
