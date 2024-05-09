@@ -323,12 +323,12 @@ export const handleLogoutFn = (that: any) => {
   const timestamp = Number(time);
   const diff = nowtime - timestamp;
   console.info('logout diff:', nowtime - lasttime);
-  if (nowtime - lasttime < 3000) {
+  if (nowtime - lasttime < 5000) {
     return;
   }
   if (!flag) {
-    if (diff < 5000) {
-      diff > 3000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
+    if (diff < 15000) {
+      diff > 5000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
       return;
     }
   }

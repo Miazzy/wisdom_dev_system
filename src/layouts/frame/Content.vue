@@ -91,9 +91,10 @@
           </keep-alive>
         </div>
         <iframe
-          :src="activePane.pageurl || '/#/frame/workbench'"
+          ref="iframeContent"
+          :src="activeKey"
           :panekey="activeKey"
-          :pageurl="activePane.pageurl"
+          :pageurl="activeKey"
           :class="`${activePane.status ? 'active' : 'disactive'}`"
           :style="iframeWidth"
         ></iframe>
@@ -117,6 +118,7 @@
   });
 
   const loading = ref(false);
+  const iframeContent = ref();
   const userStore = useUserStore();
   const emit = defineEmits(['change']);
   const pageurl = '/#/frame/workbench';
@@ -167,7 +169,6 @@
         activeKey.value = pane.pageurl;
       }
     }
-    handleActivePath();
   };
 
   // Tab栏关闭页签操作等
