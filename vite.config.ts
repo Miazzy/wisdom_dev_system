@@ -5,6 +5,13 @@ import { defineApplicationConfig } from '@vben/vite-config';
 const customConfig = defineConfig({
   build: {
     sourcemap: true, // 关闭sourcemap
+    rollupOptions: {// 处理重新发布之后加载上一次的资源
+      output: {
+        entryFileNames: `assets/[name].[hash].js`,
+        chunkFileNames: `assets/[name].[hash].js`,
+        assetFileNames: `assets/[name].[hash].[ext]`
+      }
+    }
   },
 });
 
