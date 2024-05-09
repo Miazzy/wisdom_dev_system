@@ -180,7 +180,6 @@
 
   // 禁止页面滚动事件
   const disableScroll = () => {
-    debugger;
     if (props.target === 'body') {
       saveScrollPosition();
       appDom.addEventListener('mousewheel', callback, { passive: false });

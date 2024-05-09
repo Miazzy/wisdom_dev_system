@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { onMounted, nextTick, ref, getCurrentInstance } from 'vue';
+  import { onMounted, nextTick, ref } from 'vue';
   import { ConfigProvider } from 'ant-design-vue';
   import { AppProvider } from '@/components/Application';
   import { useTitle } from '@/hooks/web/useTitle';
