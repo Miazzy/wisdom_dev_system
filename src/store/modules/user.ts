@@ -320,18 +320,18 @@ export const handleLogoutFn = (that: any) => {
   const lasttime = that.getLastLogoutTime;
   const nowtime = new Date().getTime();
   const flag = typeof time == 'undefined' || time == null || time == '';
-  const timestamp = Number(time);
+  const timestamp = Number(time || 0);
   const diff = nowtime - timestamp;
-  console.info('logout diff:', nowtime - lasttime);
-  if (nowtime - lasttime < 5000) {
+  const difflast = nowtime - lasttime;
+
+  if (difflast < 10000) {
+    diff > 5000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
+    return;
+  } else if (!flag && diff < 15000) {
+    diff > 10000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
     return;
   }
-  if (!flag) {
-    if (diff < 15000) {
-      diff > 5000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
-      return;
-    }
-  }
+
   router.push(PageEnum.BASE_LOGOUT);
   window.open('/#' + PageEnum.BASE_LOGOUT, '_self');
   that.getToken && doLogout();
@@ -339,11 +339,13 @@ export const handleLogoutFn = (that: any) => {
   that.setSessionTimeout(false);
   that.setUserInfo(null);
   that.setLastLogoutTime(nowtime);
+
   setTimeout(() => {
     router.push(PageEnum.BASE_LOGIN);
     MsgManager.getInstance().sendMsg('workbench-loadover', false); // 通知loadover的值为false
     MsgManager.getInstance().sendMsg('logouting', true);
   }, 0);
+
   setTimeout(() => {
     try {
       window.sessionStorage.clear(); // 清空sessionStorage和localStorage缓存
@@ -364,6 +366,7 @@ export const handleLogoutFn = (that: any) => {
     router.push(PageEnum.BASE_LOGIN);
     window.open('/#/login', '_self');
   }, 100);
+
   setTimeout(() => {
     MsgManager.getInstance().sendMsg('logouting', false);
   }, 3500);
