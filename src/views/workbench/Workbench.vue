@@ -33,7 +33,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, reactive, ref, unref, UnwrapRef, toRaw } from 'vue';
+  import { onMounted, reactive, ref, unref, UnwrapRef, toRaw, onActivated } from 'vue';
   import WorkbenchHeader from './WorkbenchHeader.vue';
   import DataBoard from './DataBoard.vue';
   import QuickNav from './QuickNav.vue';
@@ -44,10 +44,19 @@
   import { MsgManager } from '/@/message/MsgManager';
   import { SysMessage } from '/@/hooks/web/useMessage';
 
+  onActivated(() => {
+    //
+  });
+
   onMounted(() => {
     if (window.self !== window.top) {
       SysMessage.isLoadover = true;
       MsgManager.getInstance().sendMsg('workbench-loadover', true);
+    } else {
+      setTimeout(() => {
+        SysMessage.isLoadover = true;
+        MsgManager.getInstance().sendMsg('workbench-loadover', true);
+      }, 300);
     }
   });
 </script>

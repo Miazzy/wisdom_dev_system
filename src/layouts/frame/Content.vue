@@ -110,7 +110,6 @@
   import { buildUUID } from '/@/utils/uuid';
   import Workbench from '/@/views/workbench/Workbench.vue';
 
-  // const Workbench = () => import('/@/views/workbench/Workbench.vue');
   const props = defineProps({
     path: { type: String, default: null },
     menu: { type: Object, default: null },
@@ -139,6 +138,7 @@
     status: true,
     pageurl: cacheurl,
   };
+  const timestamp = new Date().getTime();
   const panes = ref<any[]>([workbench]);
   const paneMap = new Map();
   const activeKey = ref(panes.value[0].key);
@@ -619,7 +619,7 @@
     try {
       paneMap.set(panes.value[0].pageurl, panes.value[0]);
       iframeWidth.value = `width: 100%; height: 100%; opacity: 0;`;
-      activeKey.value = panes.value[0].pageurl;
+      activeKey.value = panes.value[0].pageurl + '?_tail=' + timestamp;
       tabWidth.value = document.body.clientWidth - menuTabMargin.value + 'px';
       panes.value[0].show = false;
       panes.value[0].pageurl = '';
