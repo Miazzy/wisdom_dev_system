@@ -1542,8 +1542,15 @@ export const EquipmentSplit: AppRouteRecordRaw = {
   meta: { keepAlive: true },
 };
 
+export const OaInfoInformationQuery: AppRouteRecordRaw = {
+  path: '/frame/oa/info/informationquery/index',
+  component: () => import('/@/views/oa/info/informationquery/index.vue'),
+  meta: { keepAlive: true },
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  OaInfoInformationQuery,
   EquipmentSplit,
   SysAuthInfo,
   MonitorSmartDeviceVideo,
