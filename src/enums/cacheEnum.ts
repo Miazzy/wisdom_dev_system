@@ -24,6 +24,9 @@ export const LOCALE_KEY = 'LOCALE__';
 // user info key
 export const USER_INFO_KEY = 'USER__INFO__';
 
+// system multi organization key
+export const SYSTEM_MULTI_ORGANIZATION_KEY = 'SYSTEM__MULTI__ORGANIZATION__';
+
 // role info key
 export const ROLES_KEY = 'ROLES__KEY__';
 

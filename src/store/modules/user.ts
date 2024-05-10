@@ -16,6 +16,7 @@ import {
   CURRENT_PATH_KEY,
   APP_DARK_MODE_KEY,
   ORGAN_TREE_KEY,
+  SYSTEM_MULTI_ORGANIZATION_KEY,
 } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
@@ -58,6 +59,8 @@ export const useUserStore = defineStore({
   state: (): UserState => ({
     // user info
     userInfo: null,
+    // multiOrganization info
+    multiOrganization: false,
     // token
     token: undefined,
     // refresh token
@@ -84,6 +87,9 @@ export const useUserStore = defineStore({
   getters: {
     getUserInfo(state): UserInfo {
       return state.userInfo || getAuthCache<UserInfo>(USER_INFO_KEY) || {};
+    },
+    isMultiOrganization(state): boolean {
+      return state.multiOrganization || getAuthCache<boolean>(SYSTEM_MULTI_ORGANIZATION_KEY);
     },
     getToken(state): string {
       return state.token || getAuthCache<string>(TOKEN_KEY);
@@ -180,6 +186,9 @@ export const useUserStore = defineStore({
       this.lastUpdateTime = new Date().getTime();
       setAuthCache(USER_INFO_KEY, info);
     },
+    setMultiOrganization(flag: boolean) {
+      setAuthCache(SYSTEM_MULTI_ORGANIZATION_KEY, flag);
+    },
     setSessionTimeout(flag: boolean) {
       this.sessionTimeout = flag;
     },
@@ -267,7 +276,7 @@ export const useUserStore = defineStore({
       if (!avatar) {
         try {
           const multiOrganization = await ParameterApi.getParameterByCode(DICT_TYPE.SYSTEM_MULTI_ORGANIZATION);
-          userInfo.multiOrganization = (multiOrganization && multiOrganization.value === 'true')?true:false;
+          this.setMultiOrganization((multiOrganization && multiOrganization.value === 'true'));
           const resp = await FileApi.getFiles({ bizId: id });
           const path = getDownloadURL(resp[0].url);
           userInfo.avatar = path;
