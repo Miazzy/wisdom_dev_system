@@ -36,6 +36,7 @@ import { generateNameMap } from '/@/utils/route';
 import * as FileApi from '@/api/infra/file';
 import { useDebounceFn, useThrottleFn } from '@vueuse/core';
 import { getDownloadURL } from '/@/utils/upload.ts';
+import * as ParameterApi from '@/api/system/parameter';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -265,6 +266,8 @@ export const useUserStore = defineStore({
       userInfo.realName = realName;
       if (!avatar) {
         try {
+          const multiOrganization = await ParameterApi.getParameterByCode(DICT_TYPE.SYSTEM_MULTI_ORGANIZATION);
+          userInfo.multiOrganization = (multiOrganization && multiOrganization.value === 'true')?true:false;
           const resp = await FileApi.getFiles({ bizId: id });
           const path = getDownloadURL(resp[0].url);
           userInfo.avatar = path;

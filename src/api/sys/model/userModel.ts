@@ -38,4 +38,5 @@ export interface GetUserInfoModel {
   permissions: any[]; // 权限
   roles: any[];
   menus: any[];
+  multiOrganization?: Boolean //是否多组织
 }

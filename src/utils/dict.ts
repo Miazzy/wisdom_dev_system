@@ -12,6 +12,8 @@ export type InfoType = 'success' | 'info' | 'warning' | 'danger';
 const dictStore = useDictStoreWithOut();
 
 export enum DICT_TYPE {
+
+  SYSTEM_MULTI_ORGANIZATION = "system_multi_organization",
   USER_TYPE = 'user_type',
   COMMON_STATUS = 'common_status',
   SYSTEM_TENANT_PACKAGE_ID = 'system_tenant_package_id',
