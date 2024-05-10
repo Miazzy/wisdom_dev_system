@@ -85,19 +85,13 @@
         @click="handleScreenTabPage"
       />
       <div class="content" :style="contentStyle">
-        <div v-if="!loadOverFlag || !firstPageFlag" class="iframe-component">
-          <keep-alive>
-            <component :is="currentComponent" />
-          </keep-alive>
-        </div>
-        <iframe
-          ref="iframeContent"
-          :src="activeKey"
-          :panekey="activeKey"
-          :pageurl="activeKey"
-          :class="`${activePane.status ? 'active' : 'disactive'}`"
+        <Frame
+          :isLoadOver="loadOverFlag"
+          :isFirstPage="firstPageFlag"
+          :status="activePane.status"
           :style="iframeWidth"
-        ></iframe>
+          :url="activeKey"
+        />
       </div>
     </div>
   </main>
@@ -108,7 +102,8 @@
   import { MsgManager } from '/@/message/MsgManager';
   import { useUserStore } from '/@/store/modules/user';
   import { buildUUID } from '/@/utils/uuid';
-  import Workbench from '/@/views/workbench/Workbench.vue';
+  import Frame from '/@/components/Frame/Frame.vue';
+  // import Workbench from '/@/views/workbench/Workbench.vue';
 
   const props = defineProps({
     path: { type: String, default: null },
@@ -117,7 +112,6 @@
   });
 
   const loading = ref(false);
-  const iframeContent = ref();
   const userStore = useUserStore();
   const emit = defineEmits(['change']);
   const pageurl = '/#/frame/workbench';
@@ -154,7 +148,6 @@
   const screenClass = ref('');
   const activePane = ref(cachepage); // Single-Iframe-Mode
   const iframeClass = ref('');
-  const currentComponent = ref(Workbench);
   const loadOverFlag = ref(false);
   const firstPageFlag = ref(false);
 
@@ -162,11 +155,13 @@
   const handleTabChange = async (key, options: any = null) => {
     console.info('handleTabChange  :', new Date().getTime());
     activeKey.value = key;
-    for (let pane of panes.value) {
-      pane.status = removeUrlRandom(pane.pageurl) === removeUrlRandom(key);
-      if (options && pane.status) {
-        pane.id = options.id;
-        activeKey.value = pane.pageurl;
+    if (options) {
+      for (let pane of panes.value) {
+        pane.status = removeUrlRandom(pane.pageurl) === removeUrlRandom(key);
+        if (options && pane.status) {
+          pane.id = options.id;
+          activeKey.value = pane.pageurl;
+        }
       }
     }
   };
@@ -178,6 +173,7 @@
     }
   };
 
+  // 计算iframe的Style样式
   const handleIframeStyle = () => {
     iframeWidth.value =
       loadOverFlag.value && firstPageFlag.value
@@ -615,6 +611,10 @@
     },
   );
 
+  defineExpose({
+    handleTabChange,
+  });
+
   onMounted(() => {
     try {
       paneMap.set(panes.value[0].pageurl, panes.value[0]);
@@ -735,7 +735,7 @@
     }
   }
 
-  .iframe-component {
+  :deep(.iframe-component) {
     position: absolute;
     z-index: 1000;
     width: 100%;
