@@ -1554,8 +1554,15 @@ export const OaInfoInformationView: AppRouteRecordRaw = {
   meta: { keepAlive: true },
 };
 
+export const SysFormDesign: AppRouteRecordRaw = {
+  path: '/frame/system/configuration/formDesign',
+  component: () => import('/@/views/system/configuration/formDesign/formDesign.vue'),
+  meta: { keepAlive: true },
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  SysFormDesign,
   OaInfoInformationView,
   OaInfoInformationQuery,
   EquipmentSplit,
