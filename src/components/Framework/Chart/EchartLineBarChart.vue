@@ -160,6 +160,11 @@
           splitLine: {
             show: false,
           },
+          axisLabel: {
+            color: props.txtColor, // 设置文本颜色
+            fontSize: 14, // 设置字体大小
+            fontFamily: 'Arial', // 设置字体样式
+          },
           axisLine: {
             lineStyle: {
               color: 'transparent',

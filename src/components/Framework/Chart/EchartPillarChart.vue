@@ -131,6 +131,22 @@
           },
         },
       },
+      {
+          type: 'value',
+          splitLine: {
+            show: false,
+          },
+          axisLabel: {
+            color: 'rgba(170, 221, 255, .8)', // 设置文本颜色
+            fontSize: 14, // 设置字体大小
+            fontFamily: 'Arial', // 设置字体样式
+          },
+          axisLine: {
+            lineStyle: {
+              color: 'transparent',
+            },
+          },
+        },
     ],
     tooltip: {
       trigger: 'axis',
@@ -368,6 +384,7 @@
             { offset: 1, color: `${lineColor1[1]}10` },
           ]),
         },
+        yAxisIndex: 1,
       },
       {
         // 新增的折线图配置
@@ -405,6 +422,7 @@
             { offset: 1, color: `${lineColor2[1]}10` },
           ]),
         },
+        yAxisIndex: 1,
       },
     ],
     grid: {
