@@ -55,6 +55,7 @@
   import { PageWrapperFixedHeightKey } from '/@/enums/pageEnum';
   import { onMountedOrActivated } from '@vben/hooks';
   import { urlToPath } from '/@/utils/route';
+  import { Memory } from '@/router/index';
 
   defineOptions({
     name: 'PageWrapper',
@@ -165,7 +166,8 @@
 
   onMountedOrActivated(() => {
     try {
-      const { params } = urlToPath() as any;
+      // const { params } = urlToPath() as any;
+      const params = Memory.getInstance().params;
       const flag = params['global_disabled'] == 'true' || params['page_readonly'] == 'true';
       isGlobalDisabled.value = flag;
     } catch (e) {

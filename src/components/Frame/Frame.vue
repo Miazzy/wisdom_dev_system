@@ -7,36 +7,18 @@
     :path="framePath"
   >
     <keep-alive>
-      <component :is="currentComponent" />
+      <component :is="currentComponent" :key="activeKey" />
     </keep-alive>
   </div>
-  <iframe
-    ref="iframeContent"
-    :src="activeKey"
-    :panekey="activeKey"
-    :pageurl="activeKey"
-    :class="`${status ? 'active' : 'disactive'}`"
-    :style="props.style"
-  ></iframe>
 </template>
 <script lang="ts" setup>
+  // import { PageEnum } from '/@/enums/pageEnum';
   import { onMounted, ref, watch, defineProps, computed } from 'vue';
-  import { urlToPath } from '/@/utils/route';
-  import FrameBlank from '/@/views/sys/iframe/FrameBlank.vue';
+  import { urlToPath } from '/@/utils/route'; // pathToUrl
   import Workbench from '/@/views/workbench/Workbench.vue';
-  import PoElecProduceIndex from '/@/views/po/elec/produce/index.vue';
-  import PvSubareaOverview from '/@/views/monitor/PVArea/subareaOverview/subareaOverview.vue';
-  import PvFaultWarning from '/@/views/monitor/faultWarning/faultWarning.vue';
-  import PvEnergyStorage from '/@/views/monitor/energyStorage/energyStorageMonitor.vue';
-
-  const routeList = [
-    ['/frame/cachepage', FrameBlank],
-    ['/frame/workbench', Workbench],
-    ['/frame/po/elec/produce/index', PoElecProduceIndex],
-    ['/frame/monitor/pvarea/subareaoverview', PvSubareaOverview],
-    ['/frame/monitor/faultWarning', PvFaultWarning],
-    ['/frame/monitor/energyStorage', PvEnergyStorage],
-  ];
+  import { routeMap } from '@/router/frame';
+  import { Memory } from '@/router/index';
+  import { useRouter } from 'vue-router';
 
   defineOptions({
     name: 'Frame',
@@ -53,13 +35,13 @@
 
   // 定义emits const emit = defineEmits(['click', 'change']);
   const currentComponent = ref<any>(Workbench);
-  const iframeContent = ref();
   const activeKey = ref('');
   const loadOverFlag = ref();
   const firstPageFlag = ref();
-  const routeMap = new Map<string, Object>();
   const framePath = ref('');
   const componentFlag = ref(true);
+  const router = useRouter();
+  // const routeMap = ref(null);
 
   const showCompFlag = computed(() => {
     if (componentFlag.value) {
@@ -75,9 +57,23 @@
     () => props.url,
     async () => {
       const { path, params } = urlToPath(props.url);
-      const component = routeMap.get(path);
       activeKey.value = props.url;
+
+      Memory.getInstance().url = props.url;
+      Memory.getInstance().path = path;
+      Memory.getInstance().params = params;
+      Memory.getInstance().query = params;
+
+      console.info('url:', props.url);
       framePath.value = path;
+
+      // const __path__ = window.decodeURIComponent(path);
+      // const url = pathToUrl(PageEnum.BASE_HOME, { __path__, ...params });
+      // if (url !== window.location.hash) {
+      //   // router.push(url);
+      // }
+
+      const component = routeMap ? routeMap.get(path) : null;
       if (component) {
         componentFlag.value = true;
         currentComponent.value = component;
@@ -106,12 +102,11 @@
     activeKey.value = props.url;
     loadOverFlag.value = props.isLoadOver;
     firstPageFlag.value = props.isFirstPage;
-    routeList.forEach((element) => {
-      const [path, component] = element;
-      if (typeof path === 'string') {
-        routeMap.set('/#' + path, component);
-      }
-    });
+
+    // nextTick(async () => {
+    //   const frame = await import(`@/router/frame`);
+    //   routeMap.value = frame.routeMap;
+    // });
   });
 </script>
 

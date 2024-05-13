@@ -23,6 +23,7 @@
   import { MsgManager } from '/@/message/MsgManager';
   import { onMountedOrActivated } from '@vben/hooks';
   import { urlToPath } from '/@/utils/route';
+  import { Memory } from '@/router/index';
 
   defineOptions({
     name: 'AButton',
@@ -82,7 +83,8 @@
   );
 
   onMountedOrActivated(() => {
-    const { params } = urlToPath();
+    // const { params } = urlToPath() as any;
+    const params = Memory.getInstance().params;
     const flag = params['global_disabled'] == 'true' || params['page_readonly'] == 'true';
     tDisabled.value = props.disabled;
     tPermissionCode.value = props.permissionCode;

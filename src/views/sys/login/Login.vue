@@ -46,10 +46,12 @@
   import { useGlobSetting } from '/@/hooks/setting';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import { routeMap } from '@/router/frame';
 
   defineComponent({
     name: 'Login',
   });
+
   defineProps({
     sessionTimeout: {
       type: Boolean,
@@ -62,7 +64,7 @@
   const title = computed(() => globSetting?.title ?? '');
 
   onMounted(() => {
-    //
+    routeMap.get('');
   });
 </script>
 <style lang="less">

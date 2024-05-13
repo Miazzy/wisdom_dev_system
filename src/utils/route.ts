@@ -6,6 +6,7 @@ import { useGo } from '/@/hooks/web/usePage';
 import { useUserStore } from '/@/store/modules/user';
 import { useDebounceFn } from '@vueuse/core';
 import { PageEnum } from '/@/enums/pageEnum';
+import { Memory } from '@/router/index';
 
 // 解析路由路径参数
 export const parseRoutePath = (path: string): Record<string, string> => {
@@ -75,6 +76,11 @@ export const urlToPath = (url?) => {
   const flag = window.location.hash && window.location.hash.startsWith('#');
   const originPath = url ? url : flag ? window.location.hash.slice(1) : window.location.pathname;
   const [path, queryString] = originPath.split('?');
+  if (originPath === PageEnum.BASE_HOME) {
+    const path = Memory.getInstance().path;
+    const params = Memory.getInstance().params;
+    return { path, params };
+  }
   let params: any = {};
   try {
     if (queryString) {
