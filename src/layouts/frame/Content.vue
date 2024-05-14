@@ -619,7 +619,7 @@
     try {
       paneMap.set(panes.value[0].pageurl, panes.value[0]);
       iframeWidth.value = `width: 100%; height: 100%; opacity: 0;`;
-      activeKey.value = panes.value[0].pageurl + '?_tail=' + timestamp;
+      activeKey.value = panes.value[0].pageurl; //  + '?_tail=' + timestamp;
       tabWidth.value = document.body.clientWidth - menuTabMargin.value + 'px';
       panes.value[0].show = false;
       panes.value[0].pageurl = '';
@@ -760,8 +760,8 @@
       }
     }
 
-    :deep(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
-      color: #fefefe;
+    :deep(.vben-multiple-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
+      color: #f0f0f0;
     }
 
     :deep(.ant-tabs-tab:first-child .ant-tabs-tab-btn) {
@@ -821,6 +821,7 @@
       .content {
         width: 100%;
         height: 100%;
+        margin: 0 !important;
 
         &.mask-zindex {
           z-index: 10000 !important;
