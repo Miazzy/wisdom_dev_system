@@ -54,7 +54,6 @@
     padding: 0.02rem 0.04rem;
     background-color: transparent;
     color: white;
-    font-family: Arial, sans-serif;
     text-align: center;
   }
 
@@ -67,6 +66,7 @@
     margin: 0.02rem 0;
     color: #1890FF;
     font-size: 0.22rem;
+    font-weight: 500;
   }
 
   .info {
