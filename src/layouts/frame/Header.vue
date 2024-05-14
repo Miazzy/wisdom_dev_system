@@ -255,16 +255,15 @@
     display: flex;
     align-items: left;
     justify-content: left;
-    height: 5.5vh;
-    min-height: 52px;
+    height: 3.25rem;
     padding: 0;
-    line-height: 5.5vh;
+    line-height: 3.25rem;
   }
 
   .logo {
     width: 260px;
     height: 100%;
-    margin: 0.02rem 0.05rem 0 0;
+    margin: 0.22rem 0.05rem 0 0;
   }
 
   .module-info {

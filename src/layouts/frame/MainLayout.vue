@@ -51,6 +51,7 @@
     } catch {
       //
     }
+    // MsgManager.getInstance().sendMsg('check-iframe-framepage', {});
   };
 
   // 处理页签切换点击函数
@@ -64,6 +65,7 @@
     } catch {
       //
     }
+    // MsgManager.getInstance().sendMsg('check-iframe-framepage', {});
   };
 
   // 处理浏览器窗口Resize函数

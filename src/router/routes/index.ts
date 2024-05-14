@@ -1560,22 +1560,8 @@ export const SysFormDesign: AppRouteRecordRaw = {
   meta: { keepAlive: true },
 };
 
-export const SysLoginLog: AppRouteRecordRaw = {
-  path: '/frame/system/loginfo/loginlog/index',
-  component: () => import('/@/views/system/loginfo/loginlog/index.vue'),
-  meta: { keepAlive: true },
-};
-
-export const SysOperationLog: AppRouteRecordRaw = {
-  path: '/frame/system/loginfo/operationlog/index',
-  component: () => import('/@/views/system/loginfo/operationlog/index.vue'),
-  meta: { keepAlive: true },
-};
-
 // 暴露基础路由
 export const basicRoutes = [
-  SysOperationLog,
-  SysLoginLog,
   SysFormDesign,
   OaInfoInformationView,
   OaInfoInformationQuery,

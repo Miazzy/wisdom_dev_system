@@ -253,7 +253,7 @@
   .app-menu {
     width: 220px;
     min-width: 220px;
-    height: calc(100vh - 5.5vh);
+    height: calc(100vh - 3.25rem);
     padding: 0;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -265,7 +265,7 @@
 
     .menu-content {
       width: 220px;
-      height: calc(100vh - 5.5vh);
+      height: 100%;
     }
 
     .app-menu-collClass-icon {
