@@ -713,6 +713,13 @@
       }
     }
   }
+
+  .anticon-close {
+    height: 30px;
+    line-height: 30px;
+    width: 1.05rem;
+    padding: 0 1rem 0 0;
+  }
 </style>
 <style>
   .ant-tabs-nav-list div.ant-tabs-tab:last-of-type {
