@@ -565,6 +565,13 @@
       menuTabMargin.value = 275;
     }
     handleResize();
+    if (activeKey.value.includes('/frame/cockpit/')) {
+      nextTick(() => {
+        setTimeout(()=>{
+          handleRefreshTabPage();
+        }, 500)
+      });
+    }
   };
 
   // 判断当前页面是否在 iframe 中显示
