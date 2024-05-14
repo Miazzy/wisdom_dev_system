@@ -33,7 +33,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, reactive, ref, unref, UnwrapRef, toRaw, onActivated } from 'vue';
+  import { onMounted, ref, onActivated, reactive, unref, UnwrapRef, toRaw, computed } from 'vue';
   import WorkbenchHeader from './WorkbenchHeader.vue';
   import DataBoard from './DataBoard.vue';
   import QuickNav from './QuickNav.vue';
@@ -44,19 +44,18 @@
   import { MsgManager } from '/@/message/MsgManager';
   import { SysMessage } from '/@/hooks/web/useMessage';
 
+  const isLoadFlag = ref(false);
+
   onActivated(() => {
     //
   });
 
   onMounted(() => {
     if (window.self !== window.top) {
+      isLoadFlag.value = true;
       SysMessage.isLoadover = true;
       MsgManager.getInstance().sendMsg('workbench-loadover', true);
-    } else {
-      setTimeout(() => {
-        SysMessage.isLoadover = true;
-        MsgManager.getInstance().sendMsg('workbench-loadover', true);
-      }, 300);
+      SysMessage.getInstance().info('工作台加载完毕....');
     }
   });
 </script>
