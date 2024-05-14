@@ -6,8 +6,8 @@
 </template>
 <script lang="ts" setup>
   import { ref, onMounted } from 'vue';
-  import { NgFormBuild } from 'ng-form-elementplus';
-  import 'ng-form-elementplus/lib/style.css';
+  // import { NgFormBuild } from 'ng-form-elementplus';
+  // import 'ng-form-elementplus/lib/style.css';
 
   const form = ref({});
 

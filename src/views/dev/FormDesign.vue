@@ -5,8 +5,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { NgFormDesign } from 'ng-form-elementplus';
-  import 'ng-form-elementplus/lib/style.css';
+  // import { NgFormDesign } from 'ng-form-elementplus';
+  // import 'ng-form-elementplus/lib/style.css';
 </script>
 <style scoped>
   .workspace-box {
