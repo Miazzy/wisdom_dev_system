@@ -806,7 +806,7 @@
     .iframe-content {
       position: relative;
       width: 100%;
-      height: calc(100vh - 90px);
+      height: calc(100vh - 82px);
 
       &.mask-zindex {
         z-index: 10000 !important;
