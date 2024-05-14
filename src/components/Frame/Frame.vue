@@ -11,6 +11,7 @@
     </keep-alive>
   </div>
   <iframe
+    v-show="!showCompFlag"
     ref="iframeContent"
     :src="activeKey"
     :panekey="activeKey"
@@ -24,19 +25,11 @@
   import { urlToPath } from '/@/utils/route';
   import FrameBlank from '/@/views/sys/iframe/FrameBlank.vue';
   import Workbench from '/@/views/workbench/Workbench.vue';
-  import PoElecProduceIndex from '/@/views/po/elec/produce/index.vue';
-  import PvSubareaOverview from '/@/views/monitor/PVArea/subareaOverview/subareaOverview.vue';
-  import PvFaultWarning from '/@/views/monitor/faultWarning/faultWarning.vue';
-  import PvEnergyStorage from '/@/views/monitor/energyStorage/energyStorageMonitor.vue';
   import { Memory } from '@/router/index';
 
   const routeList = [
     ['/frame/cachepage', FrameBlank],
     ['/frame/workbench', Workbench],
-    ['/frame/po/elec/produce/index', PoElecProduceIndex],
-    ['/frame/monitor/pvarea/subareaoverview', PvSubareaOverview],
-    ['/frame/monitor/faultWarning', PvFaultWarning],
-    ['/frame/monitor/energyStorage', PvEnergyStorage],
   ];
 
   defineOptions({
@@ -86,7 +79,6 @@
       Memory.getInstance().query = params;
 
       if (component) {
-        componentFlag.value = true;
         currentComponent.value = component;
       } else {
         componentFlag.value = false;

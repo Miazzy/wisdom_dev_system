@@ -103,6 +103,7 @@
   import { useUserStore } from '/@/store/modules/user';
   import { buildUUID } from '/@/utils/uuid';
   import Frame from '/@/components/Frame/Frame.vue';
+  import { ElLoading } from 'element-plus';
   // import Workbench from '/@/views/workbench/Workbench.vue';
 
   const props = defineProps({
@@ -150,6 +151,7 @@
   const iframeClass = ref('');
   const loadOverFlag = ref(false);
   const firstPageFlag = ref(false);
+  const loadingInstance = ref();
 
   // 处理Tab栏页签变更
   const handleTabChange = async (key, options: any = null) => {
@@ -617,6 +619,7 @@
 
   onMounted(() => {
     try {
+      loadingInstance.value = ElLoading.service({ fullscreen: false, background: '#90909010', text: '正在加载框架...' });
       paneMap.set(panes.value[0].pageurl, panes.value[0]);
       iframeWidth.value = `width: 100%; height: 100%; opacity: 0;`;
       activeKey.value = panes.value[0].pageurl; //  + '?_tail=' + timestamp;
@@ -653,6 +656,9 @@
       loadOverFlag.value = message;
       handleIframeStyle();
       handlePanesEmpty();
+      setTimeout(() => {
+        loadingInstance.value.close();
+      }, 300);
     });
     setTimeout(() => {
       handlePanesEmpty();
