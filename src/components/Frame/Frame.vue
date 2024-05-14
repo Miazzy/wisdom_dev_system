@@ -28,6 +28,7 @@
   import PvSubareaOverview from '/@/views/monitor/PVArea/subareaOverview/subareaOverview.vue';
   import PvFaultWarning from '/@/views/monitor/faultWarning/faultWarning.vue';
   import PvEnergyStorage from '/@/views/monitor/energyStorage/energyStorageMonitor.vue';
+  import { Memory } from '@/router/index';
 
   const routeList = [
     ['/frame/cachepage', FrameBlank],
@@ -78,10 +79,15 @@
       const component = routeMap.get(path);
       activeKey.value = props.url;
       framePath.value = path;
+
+      Memory.getInstance().url = props.url;
+      Memory.getInstance().path = path;
+      Memory.getInstance().params = params;
+      Memory.getInstance().query = params;
+
       if (component) {
         componentFlag.value = true;
         currentComponent.value = component;
-        console.info('use component...');
       } else {
         componentFlag.value = false;
       }
