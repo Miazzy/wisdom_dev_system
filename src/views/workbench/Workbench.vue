@@ -52,11 +52,6 @@
     if (window.self !== window.top) {
       SysMessage.isLoadover = true;
       MsgManager.getInstance().sendMsg('workbench-loadover', true);
-    } else {
-      setTimeout(() => {
-        SysMessage.isLoadover = true;
-        MsgManager.getInstance().sendMsg('workbench-loadover', true);
-      }, 300);
     }
   });
 </script>
