@@ -276,7 +276,7 @@ export class VAxios {
       SystemAuthApi.GetPermissionInfo,
       SystemAuthApi.OrganTree,
       SystemAuthApi.OrgStationTree,
-      SystemAuthApi.MaterialTree,
+      // SystemAuthApi.MaterialTree,
       SystemAuthApi.WorkRecord,
       SystemAuthApi.MonitorAlarm,
       SystemAuthApi.WiringDiagramStationList,
