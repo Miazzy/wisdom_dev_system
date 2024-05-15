@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="logo-box">
-      LOGO
+      <img class="logo-img" src="../../../assets/images/da/logo.png">
     </div>
     <div class="title"> {{ props.title }} </div>
     <div class="info">
@@ -487,6 +487,9 @@
     .logo-box {
       width: 3.8rem;
       padding: 0.24rem 0 0 0.2rem;
+      .logo-img {
+        height: 0.3rem;
+      }
     }
 
     .title {

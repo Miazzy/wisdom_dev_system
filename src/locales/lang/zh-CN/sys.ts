@@ -67,8 +67,8 @@ export default {
     signUpFormTitle: '注册',
     forgetFormTitle: '重置密码',
 
-    signInTitle: '集维管理系统 V1.0',
-    signInDesc: '电站运维，智能专家，为了生活更美好！',
+    signInTitle: '智慧新能源信息化平台',
+    signInDesc: '',
     policy: '我同意xxx隐私政策',
     scanSign: `扫码后点击"确认"，即可完成登录`,
 
