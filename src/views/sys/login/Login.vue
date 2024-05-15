@@ -13,7 +13,7 @@
           <div class="my-auto">
             <img :alt="title" src="../../../assets/images/login-img.png" class="w-1/2 -mt-16 -enter-x" style="width: 602px; margin-left: -126px; margin-top: 0;" />
             <div class="-enter-x sign-in-title">
-              <span class="inline-block"> {{ t('sys.login.signInTitle') }}</span>
+              <span style="margin-left: 64px;" class="inline-block"> {{ t('sys.login.signInTitle') }}</span>
             </div>
             <div class="-enter-x sign-in-desc">
               {{ t('sys.login.signInDesc') }}
