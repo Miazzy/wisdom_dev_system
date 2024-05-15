@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="logo">
-      <div class="logo-img-box"></div>
+      <img class="logo-img" src="../../../assets/images/da/logo.png">
     </div>
     <div class="title"> {{ props.title }} </div>
     <div class="info">
@@ -39,59 +39,39 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 0.8rem;
-    background: url('../../../assets/images/operationScreen/title-bg.png') no-repeat center/cover;
+    height: 0.7rem;
+    padding: 0.1rem 0;
+    background: url('../../../assets/images/da/header_bg.png') no-repeat center/100% 100%;
 
     .logo {
-      flex: 1;
-
-      .logo-img-box {
-        width: 1.08rem;
-        height: 0.33rem;
-        margin-left: 0.2rem;
-        background: url('../../../assets/images/my-logo-dark.png') no-repeat center/cover;
+      width: 2.9rem;
+      padding: 0.1rem 0 0 0.2rem;
+      color: #fff;
+      .logo-img {
+        height: 0.3rem;
       }
     }
 
     .title {
-      flex: 1;
-      background-clip: text;
-      -webkit-background-clip: text;
-      background-image: linear-gradient(0deg, #16cffe 0%, #00f6ff 100%);
-      color: transparent;
+      margin-left: 0.2rem;
+      color: #fff;
       font-family: 'Microsoft YaHei', '微软雅黑';
-      font-size: 0.3rem;
-      font-weight: 600;
-      text-align: center;
+      font-size: 0.24rem;
+      font-weight: 400;
+      line-height: 0.16rem;
     }
 
     .info {
+      width: 2.9rem;
       display: flex;
-      flex: 1;
       align-items: center;
-      justify-content: flex-end;
-
-      .time {
-        :deep(.time-display .clock) {
-          color: #00f6ff;
-        }
-        :deep(.time-display .date) {
-          color: rgba(255, 255, 255, 0.6);
-        }
-      }
-
-      .weather {
-        margin-right: 0.2rem;
-        :deep(.weather-display .weather-info .temperature-range) {
-          color: #00f6ff;
-        }
-      }
 
       .time,
       .weather {
         margin-left: 0.2rem;
         background: transparent;
         cursor: pointer;
+        color: rgba(255, 255, 255, 0.6);
       }
     }
   }

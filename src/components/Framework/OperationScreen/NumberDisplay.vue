@@ -25,8 +25,8 @@
     <div class="number-container">
       <div class="icon-box">
         <div class="inner-box">
-          <img v-if="props.colorStyle==='green'" class="icon-img" src="../../../assets/images/operationScreen/generation-icon.png">
-          <img v-if="props.colorStyle==='blue'" class="icon-img" src="../../../assets/images/operationScreen/online-electric-icon.png">
+          <img v-if="props.colorStyle==='green'" class="icon-img" src="../../../assets/images/operationScreen/online-electric-icon.png">
+          <img v-if="props.colorStyle==='blue'" class="icon-img" src="../../../assets/images/operationScreen/generation-icon.png">
         </div>
       </div>
       <div
@@ -89,6 +89,7 @@
     white-space: nowrap;
     line-height: 1;
     margin-bottom: 0.16rem;
+    color: rgba(255, 255, 255, 0.8);
   }
 
   .subtitle {
@@ -155,28 +156,24 @@
       .inner-box {
         width: 100%;
         height: 100%;
-        border-radius: 0.04rem;
+        border-radius: 0.03rem;
         padding-top: 0.1rem;
         text-align: center;
         .icon-img {
           display: inline-block;
-          width: 0.3rem;
+          height: 0.32rem;
         }
       }
     }
 
   .green {
-    .title {
-      color: #00F6FF;
-    }
-
     .number {
-      border: 0.01rem solid rgba(0, 246, 255, 0.25);
-      background-color: rgba(0, 246, 255, 0.2);
+      border: 0.01rem solid rgba(6, 227, 241, 0.45);
+      background-color: rgba(6, 227, 241, 0.2);
     }
 
     .number-dot {
-      color: #00F6FF;
+      color: #06E3F1;
     }
 
     .icon-box {
@@ -188,23 +185,19 @@
   }
 
   .blue {
-    .title {
-      color: #16CFFE;
-    }
-
     .number {
-      border: 0.01rem solid rgba(22, 207, 254, .25);
-      background-color: rgba(22, 207, 254, .2);
+      border: 0.01rem solid rgba(24, 144, 255, 0.45);
+      background-color: rgba(24, 144, 255, .2);
     }
 
     .number-dot {
-      color: #16CFFE;
+      color: #1890FF;
     }
 
     .icon-box {
-      border: 0.01rem solid rgba(22, 207, 254, .25);
+      border: 0.01rem solid rgba(24, 144, 255, 0.45);
       .inner-box {
-        background-color: rgba(22, 207, 254, .2);
+        background-color: rgba(24, 144, 255, .2);
       }
     }
   }
