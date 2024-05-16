@@ -226,6 +226,11 @@
   });
 </script>
 
+<style lang="less">
+  .ant-modal-wrap {
+    z-index: 10010;
+  }
+</style>
 <style lang="less" scoped>
   .modal-mask {
     display: flex;
