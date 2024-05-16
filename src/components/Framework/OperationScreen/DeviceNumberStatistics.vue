@@ -53,7 +53,7 @@
         display: inline-block;
         font-size: 0.16rem;
         width: 100%;
-        background: linear-gradient(0deg, #89f7fe, #01b4f1);
+        background: linear-gradient(180deg, #1890FF, #18C8FF);
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -76,7 +76,7 @@
         flex: 1;
         .value-text {
           font-size: 0.16rem;
-          color: #00f6ff;
+          color: #1890FF;
         }
         .unit-text {
           color: #fff;

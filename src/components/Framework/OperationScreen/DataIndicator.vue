@@ -9,7 +9,7 @@
   const props = defineProps({
     label: { type: String, default: '' }, // 指标项
     value: { type: Number, default: 0 }, // 指标值
-    color: { type: String, default: '#00F6FF' }, // 数值颜色
+    color: { type: String, default: '#1890FF' }, // 数值颜色
   });
 </script>
 

@@ -7,7 +7,7 @@
       <img v-if="props.icon==='treePlanting'" class="indicator-icon" :src="treePlanting">
     </div>
     <div class="right">
-      <div class="value-text">{{props.value}}</div>
+      <div class="value-text" :style="{color: vColor}">{{props.value}}</div>
       <div class="label-text">{{props.label}}</div>
     </div>
   </div>
@@ -24,6 +24,7 @@
     icon: { type: String, default: '' }, // 图标
     label: { type: String, default: '' }, // 指标项
     value: { type: Number, default: 0 }, // 指标值
+    vColor: { type: String, default: '' }, // 指标值颜色
   });
 </script>
 
@@ -46,7 +47,6 @@
       line-height: 1;
       .value-text {
         font-size: 0.22rem;
-        color: #00f6ff;
         font-weight: 500;
         margin-bottom: 0.1rem;
       }

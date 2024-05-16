@@ -53,8 +53,7 @@
       margin-right: 0.25rem;
       background: url('../../../assets/images/operationScreen/menu-bg.png') no-repeat center/100% 100%;
       font-size: 0.18rem;
-      color: #03A9FF;
-      line-height: 0.35rem;
+      color: rgba(24, 144, 255, 0.8);
       text-align: center;
       cursor: pointer;
       &:last-child {
@@ -62,7 +61,7 @@
       }
       &.selected {
         background: url('../../../assets/images/operationScreen/menu-selected-bg.png') no-repeat center/100% 100%;
-        color: #00F6FF;
+        color: #F4D038;
       }
     }
   }

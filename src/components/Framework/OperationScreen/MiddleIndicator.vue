@@ -1,12 +1,10 @@
 <template>
   <div class="indicator-item">
-    <div class="left">
-      <i class="indicator-icon iconfont" :class="`icon-${props.icon}`"></i>
-    </div>
+    <div class="left" :class="`${props.icon}`"></div>
     <div class="right">
       <div class="label-text">{{props.label}}</div>
       <div class="value-box">
-        <div class="value-text">{{props.value+props.unit}}</div>
+        <div class="value-text" :style="`color: ${vColor}`">{{props.value+props.unit}}</div>
         <div class="percentage-box" v-if="props.pLabel">
           <span class="percentage-label">{{props.pLabel}}</span>
           <span class="percentage-value" :class="getPValueColor(props.pValue)">{{props.pValue}}{{props.hasBracket? '(%)':'%'}}</span>
@@ -21,6 +19,7 @@
     icon: { type: String, default: '' }, // 图标
     label: { type: String, default: '' }, // 指标项
     value: { type: Number, default: 0 }, // 指标值
+    vColor: { type: String, default: '' }, // 指标值颜色
     pLabel: { type: String, default: '' }, // 同比项
     pValue: { type: Number, default: 0 }, // 同比百分比
     unit: { type: String, default: '' }, // 单位
@@ -43,25 +42,34 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 3.04rem;
-    height: 1.11rem;
-    background-color: rgba(7, 29, 54, 0.66);
-    border-radius: 0.01rem;
+    width: 15.83vw;
+    height: 10.09vh;
+    background-color: rgba(24, 144, 255, 0.1);
+    border-radius: 0.04rem;
+    border: 0.01rem solid rgba(24, 144, 255, 0.3);
     
     .left {
-      width: 0.9rem;
-      height: 0.57rem;
-      margin-right: 0.04rem;
-      background: url('../../../assets/images/operationScreen/middle-indicator-icon-bg.png') no-repeat center/100% 100%;
+      width: 29.6%;
+      height: 52.29%;
+      margin-right: 5%;
       text-align: center;
-      .indicator-icon {
-        display: inline-block;
-        font-size: 0.3rem;
-        width: 100%;
-        background: linear-gradient(0deg, #08fff6, #16cffe);
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+      &.gf-capacity {
+        background: url('../../../assets/images/operationScreen/gf-capacity.png') no-repeat center/auto 100%;
+      }
+      &.cn-capacity {
+        background: url('../../../assets/images/operationScreen/cn-capacity.png') no-repeat center/auto 100%;
+      }
+      &.safe-operation {
+        background: url('../../../assets/images/operationScreen/safe-operation.png') no-repeat center/auto 100%;
+      }
+      &.active-power {
+        background: url('../../../assets/images/operationScreen/active-power.png') no-repeat center/auto 100%;
+      }
+      &.max-active {
+        background: url('../../../assets/images/operationScreen/max-active.png') no-repeat center/auto 100%;
+      }
+      &.today-gen {
+        background: url('../../../assets/images/operationScreen/today-gen.png') no-repeat center/auto 100%;
       }
     }
 
@@ -77,7 +85,6 @@
         align-items: baseline;
         .value-text {
           font-size: 0.28rem;
-          color: #00f6ff;
           font-weight: 500;
           margin-right: 0.08rem;
         }
