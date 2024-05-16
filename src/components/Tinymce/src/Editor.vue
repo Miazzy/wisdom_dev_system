@@ -232,14 +232,14 @@
       });
 
       watch(
-        () => attrs.disabled,
+        () => props.disabled,
         () => {
           const editor = unref(editorRef);
           if (!editor) {
             return;
           }
-          editor.setMode(attrs.disabled ? 'readonly' : 'design');
-          richTextEditStatus('#' + tinymceId.value + '_ifr', attrs.disabled ? 'false' : 'true');
+          editor.setMode(props.disabled ? 'readonly' : 'design');
+          richTextEditStatus('#' + tinymceId.value + '_ifr', props.disabled ? 'false' : 'true');
         },
       );
 
