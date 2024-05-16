@@ -274,13 +274,13 @@ export class VAxios {
     const needInterceptURL: Array<string> = [
       DictDataApi.GetDictDataMap,
       SystemAuthApi.GetPermissionInfo,
-      SystemAuthApi.OrganTree,
-      SystemAuthApi.OrgStationTree,
+      // SystemAuthApi.OrganTree,
+      // SystemAuthApi.OrgStationTree,
       // SystemAuthApi.MaterialTree,
+      // CommonApi.LIST_STATION_TREE,
       SystemAuthApi.WorkRecord,
       SystemAuthApi.MonitorAlarm,
       SystemAuthApi.WiringDiagramStationList,
-      CommonApi.LIST_STATION_TREE,
       FileApi.GetFiles,
     ] as Array<string>;
 
