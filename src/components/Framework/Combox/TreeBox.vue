@@ -17,6 +17,7 @@
           placeholder="请选择下拉树中数据..."
           @change="handleLabelChange"
           @click="toggleDropdown($event)"
+          @clear="handleLabelChange"
         />
       </template>
       <template v-else>
@@ -29,6 +30,7 @@
           @focus="handlePreventEvent"
           @keydown="handlePreventEvent"
           @click="toggleDropdown($event)"
+          @clear="handleLabelChange"
         />
       </template>
 
@@ -212,7 +214,7 @@
     return props.disabled || appDisabled.value;
   });
 
-  const emit = defineEmits(['update:value', 'update:skeys', 'select', 'change']); // 允许双向绑定value
+  const emit = defineEmits(['update:value', 'update:skeys', 'select', 'change', 'clear']); // 允许双向绑定value
 
   const searchData = () => {
     try {
@@ -240,8 +242,14 @@
   };
 
   const handleLabelChange = () => {
-    if (searchLabelText.value == '') {
-
+    if (props.vmode === 'label' && searchLabelText.value == '') {
+      emit('update:value', '');
+      emit('update:skeys', []);
+      emit('clear', '');
+    } else if (props.vmode !== 'label' && searchRealText.value == '') {
+      emit('update:value', '');
+      emit('update:skeys', []);
+      emit('clear', '');
     }
   };
 
@@ -291,6 +299,8 @@
     }
     return reversedRule;
   };
+
+
 
   // 按tfields的设置转换tree的数据
   const transformData = (data, rule) => {
