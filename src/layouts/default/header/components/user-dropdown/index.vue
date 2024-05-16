@@ -1,5 +1,9 @@
 <template>
-  <Dropdown placement="bottomLeft" :overlayClassName="`${prefixCls}-dropdown-overlay`">
+  <Dropdown
+    placement="bottom"
+    :overlayClassName="`${prefixCls}-dropdown-overlay`"
+    :getPopupContainer="handleContainer"
+  >
     <span :class="[prefixCls, `${prefixCls}--${theme}`]" class="flex">
       <img :class="`${prefixCls}__header`" :src="avatarURL" />
       <span :class="`${prefixCls}__info hidden md:block`">
@@ -12,12 +16,6 @@
     <template #overlay>
       <Menu @click="handleMenuClick">
         <MenuItem key="user" :text="truncateName(getUserInfo.realName)" icon="ph:user-thin" />
-        <!-- <MenuItem
-          v-if="getUseLockPage"
-          key="lock"
-          :text="t('layout.header.tooltipLock')"
-          icon="ion:lock-closed-outline"
-        /> -->
         <MenuItem
           key="logout"
           :text="t('layout.header.dropdownItemLoginOut')"
@@ -98,6 +96,10 @@
         openModal(true);
       }
 
+      function handleContainer() {
+        return document.querySelector('div#app .main-layout .app-header .user-info');
+      }
+
       //  login out
       function handleLoginOut() {
         userStore.confirmLoginOut();
@@ -145,6 +147,7 @@
         getShowDoc,
         register,
         handleLock,
+        handleContainer,
         avatarURL,
         getUseLockPage,
       };
