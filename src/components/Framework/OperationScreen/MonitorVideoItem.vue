@@ -3,11 +3,15 @@
     <div class="video-box">
       视频
     </div>
-    <div class="title-box">{{props.title}}</div>
+    <div class="title-box">
+      <span>{{props.title}}</span>
+      <Icon icon="fluent-mdl2:scale-volume" style="font-size: 0.14rem;" />
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+  import Icon from '@/components/Icon/Icon.vue';
   const props = defineProps({
     width: { type: [Number, String], default: 340 },
     height: { type: [Number, String], default: 208 },
@@ -34,6 +38,9 @@
       padding: 0 0.14rem;
       font-size: 0.14rem;
       color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
   }
 </style>

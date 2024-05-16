@@ -71,6 +71,15 @@
       &.today-gen {
         background: url('../../../assets/images/operationScreen/today-gen.png') no-repeat center/auto 100%;
       }
+      &.rate {
+        background: url('../../../assets/images/operationScreen/rate.png') no-repeat center/auto 100%;
+      }
+      &.loss {
+        background: url('../../../assets/images/operationScreen/loss.png') no-repeat center/auto 100%;
+      }
+      &.person-total {
+        background: url('../../../assets/images/operationScreen/person-total.png') no-repeat center/auto 100%;
+      }
     }
 
     .right {

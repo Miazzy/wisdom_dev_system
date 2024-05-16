@@ -430,7 +430,7 @@
   .setting-box {
     position: absolute;
     right: 0.1rem;
-    top: 0.9rem;
+    top: 0;
     z-index: 100;
     width: 0.16rem;
     overflow: hidden;
