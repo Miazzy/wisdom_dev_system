@@ -1572,8 +1572,29 @@ export const SysOperationLog: AppRouteRecordRaw = {
   meta: { keepAlive: true },
 };
 
+export const BasesetVideoFirm: AppRouteRecordRaw = {
+  path: '/frame/baseset/monitor/video/videofirm',
+  component: () => import('/@/views/baseset/monitor/video/videofirm/videofirm.vue'),
+  meta: { keepAlive: true },
+};
+
+export const BasesetVideoInfo: AppRouteRecordRaw = {
+  path: '/frame/baseset/monitor/video/videoinfo',
+  component: () => import('/@/views/baseset/monitor/video/videoinfo/videoinfo.vue'),
+  meta: { keepAlive: true },
+};
+
+export const MonitorVideoInfo: AppRouteRecordRaw = {
+  path: '/frame/monitor/video',
+  component: () => import('/@/views/monitor/video/video.vue'),
+  meta: { keepAlive: true },
+};
+
 // 暴露基础路由
 export const basicRoutes = [
+  BasesetVideoFirm,
+  BasesetVideoInfo,
+  MonitorVideoInfo,
   SysOperationLog,
   SysLoginLog,
   SysFormDesign,
