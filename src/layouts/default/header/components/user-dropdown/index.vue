@@ -1,9 +1,5 @@
 <template>
-  <Dropdown
-    placement="bottom"
-    :overlayClassName="`${prefixCls}-dropdown-overlay`"
-    :getPopupContainer="handleContainer"
-  >
+  <Dropdown placement="bottom">
     <span :class="[prefixCls, `${prefixCls}--${theme}`]" class="flex">
       <img :class="`${prefixCls}__header`" :src="avatarURL" />
       <span :class="`${prefixCls}__info hidden md:block`">
@@ -27,8 +23,8 @@
   <LockAction @register="register" />
 </template>
 <script lang="ts">
-  // components
-  import { Dropdown, Menu } from 'ant-design-vue';
+  import { Menu } from 'ant-design-vue';
+  import Dropdown from '@/components/Framework/Dropdown/Dropdown.vue';
   import type { MenuInfo } from 'ant-design-vue/lib/menu/src/interface';
   import { defineComponent, computed, onMounted, ref } from 'vue';
   import { DOC_URL } from '/@/settings/siteSetting';
