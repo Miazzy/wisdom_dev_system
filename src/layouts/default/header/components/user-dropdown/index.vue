@@ -1,5 +1,5 @@
 <template>
-  <Dropdown placement="bottomLeft" :overlayClassName="`${prefixCls}-dropdown-overlay`">
+  <Dropdown placement="bottom">
     <span :class="[prefixCls, `${prefixCls}--${theme}`]" class="flex">
       <img :class="`${prefixCls}__header`" :src="avatarURL" />
       <span :class="`${prefixCls}__info hidden md:block`">
@@ -12,12 +12,6 @@
     <template #overlay>
       <Menu @click="handleMenuClick">
         <MenuItem key="user" :text="truncateName(getUserInfo.realName)" icon="ph:user-thin" />
-        <!-- <MenuItem
-          v-if="getUseLockPage"
-          key="lock"
-          :text="t('layout.header.tooltipLock')"
-          icon="ion:lock-closed-outline"
-        /> -->
         <MenuItem
           key="logout"
           :text="t('layout.header.dropdownItemLoginOut')"
@@ -29,8 +23,8 @@
   <LockAction @register="register" />
 </template>
 <script lang="ts">
-  // components
-  import { Dropdown, Menu } from 'ant-design-vue';
+  import { Menu } from 'ant-design-vue';
+  import Dropdown from '@/components/Framework/Dropdown/Dropdown.vue';
   import type { MenuInfo } from 'ant-design-vue/lib/menu/src/interface';
   import { defineComponent, computed, onMounted, ref } from 'vue';
   import { DOC_URL } from '/@/settings/siteSetting';
@@ -98,6 +92,10 @@
         openModal(true);
       }
 
+      function handleContainer() {
+        return document.querySelector('div#app .main-layout .app-header .user-info');
+      }
+
       //  login out
       function handleLoginOut() {
         userStore.confirmLoginOut();
@@ -145,6 +143,7 @@
         getShowDoc,
         register,
         handleLock,
+        handleContainer,
         avatarURL,
         getUseLockPage,
       };
