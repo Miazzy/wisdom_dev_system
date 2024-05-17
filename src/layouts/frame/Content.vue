@@ -45,7 +45,7 @@
           </template>
         </a-dropdown>
         <div class="tabs-buttons">
-          <Icon :icon="'octicon:screen-full-24'" size="15" @click="handleScreenTabPage" />
+          <Icon :icon="'octicon:screen-full-24'" size="15" style="opacity: 0"/>
           <Icon :icon="'icons8:refresh'" :spin="loading" size="15" @click="handleRefreshTabPage" />
           <a-dropdown :trigger="trigger">
             <Icon :icon="'codicon:fold-down'" size="13" />
