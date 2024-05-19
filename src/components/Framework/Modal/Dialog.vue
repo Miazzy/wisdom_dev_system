@@ -97,6 +97,8 @@
   import { MsgManager } from '/@/message/MsgManager';
   import { SysMessage } from '/@/hooks/web/useMessage';
   import { onMountedOrActivated } from '@vben/hooks';
+  import { useUserStoreWithOut } from '/@/store/modules/user';
+  import { dialogMaskOpen, dialogMaskClose } from '@/utils/mask';
 
   defineOptions({
     name: 'Dialog',
@@ -119,6 +121,7 @@
     overflowX: { type: String, default: 'hidden' },
   });
 
+  const userStore = useUserStoreWithOut();
   const emit = defineEmits(['update:visible', 'cancel', 'confirm', 'ok', 'close']); // 定义事件
   const instance = ref();
 
@@ -129,7 +132,7 @@
     if (props.smode == 'simple') {
       emit('update:visible', false); // 关闭弹框
     }
-    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    dialogMaskClose();
   };
 
   const cancel = () => {
@@ -139,7 +142,7 @@
     } else {
       emit('update:visible', false); // 关闭弹框
     }
-    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    dialogMaskClose();
   };
 
   const confirm = () => {
@@ -148,7 +151,7 @@
     if (props.smode == 'simple') {
       emit('update:visible', false); // 关闭弹框
     }
-    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    dialogMaskClose();
   };
 
   // 计算 modal-body 的高度，减去 header 和 footer 的高度
@@ -185,7 +188,8 @@
       appDom.addEventListener('mousewheel', callback, { passive: false });
       nextTick(() => {
         appDom.classList.add('modal-open');
-        MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
+        userStore.setHasMask(true);
+        dialogMaskOpen();
       });
     }
   };
@@ -194,7 +198,7 @@
   const enableScroll = () => {
     appDom.removeEventListener('mousewheel', callback, { passive: false });
     appDom.classList.remove('modal-open');
-    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    dialogMaskClose();
     restoreScrollPosition();
   };
 
@@ -212,7 +216,6 @@
   );
 
   onMountedOrActivated(() => {
-
     // 监听check-iframe-framepage消息
     instance.value = getCurrentInstance();
     MsgManager.getInstance().listen('iframe-dialog-close', () => {

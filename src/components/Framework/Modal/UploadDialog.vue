@@ -80,6 +80,7 @@
   import { SysMessage } from '/@/hooks/web/useMessage';
   import { MsgManager } from '/@/message/MsgManager';
   import { buildUUID } from '/@/utils/uuid';
+  import { dialogMaskOpen, dialogMaskClose } from '@/utils/mask';
 
   const modalVisible = ref(false);
   const fileList = ref<UploadProps['fileList']>([]);
@@ -285,7 +286,7 @@
   const handleClose = () => {
     modalVisible.value = false;
     emit('update:visible', false); // 关闭弹框
-    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    dialogMaskClose();
   };
 
   watch(

@@ -58,6 +58,9 @@ export const APP_LOCAL_CACHE_KEY = 'COMMON__LOCAL__KEY__';
 // base global session key
 export const APP_SESSION_CACHE_KEY = 'COMMON__SESSION__KEY__';
 
+// hasmask key
+export const HAS_MASK_KEY = 'HAS_MASK_KEY__';
+
 export enum CacheTypeEnum {
   SESSION,
   LOCAL,

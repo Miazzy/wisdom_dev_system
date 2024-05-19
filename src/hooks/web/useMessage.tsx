@@ -12,6 +12,7 @@ import { isString } from '/@/utils/is';
 import { ElMessageBox } from 'element-plus';
 import { createVNode } from 'vue';
 import { MsgManager } from '/@/message/MsgManager';
+import { dialogMaskOpen, dialogMaskClose } from '@/utils/mask';
 
 export interface NotifyApi {
   info(config: NotificationArgsProps): void;
@@ -72,7 +73,7 @@ function createConfirm(options: ModalOptionsEx): ConfirmOptions {
       await onOk(args);
     }
     if (window.self !== window.top) {
-      MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+      dialogMaskClose();
     }
   };
   const handleCancel = async (...args) => {
@@ -80,7 +81,7 @@ function createConfirm(options: ModalOptionsEx): ConfirmOptions {
       await onCancel(args);
     }
     if (window.self !== window.top) {
-      MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+      dialogMaskClose();
     }
   };
   const opt: ModalFuncProps = {
@@ -92,7 +93,7 @@ function createConfirm(options: ModalOptionsEx): ConfirmOptions {
     content: renderContent(options),
   };
   if (window.self !== window.top) {
-    MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
+    dialogMaskOpen();
   }
   return Modal.confirm(opt) as unknown as ConfirmOptions;
 }
@@ -213,8 +214,8 @@ function notifyWarning(content: string) {
 
 // 确认窗体
 function confirm(content: string, tip?: string) {
+  dialogMaskOpen();
   const { t } = useI18n();
-  MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
   return Modal.confirm({
     title: tip ? tip : t('common.message.confirmTitle'),
     content: content,
@@ -223,29 +224,31 @@ function confirm(content: string, tip?: string) {
         setTimeout(resolve, 0);
       })
         .catch(() => console.log('error'))
-        .finally(() => MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' }));
+        .finally(() => {
+          dialogMaskClose();
+        });
     },
     onCancel() {
-      MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+      dialogMaskClose();
     },
   });
 }
 
 // 删除窗体
 const delConfirm = async (content?: string, tip?: string) => {
+  dialogMaskOpen();
   const { t } = useI18n();
-  MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
   const callback = new Promise((resolve, reject) => {
     Modal.confirm({
       title: tip ? tip : t('common.message.confirmTitle'),
       icon: createVNode(ExclamationCircleOutlined),
       content: content ? content : t('common.message.delMessage'),
       onOk() {
-        MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+        dialogMaskClose();
         resolve(true);
       },
       onCancel() {
-        MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+        dialogMaskClose();
         reject(false);
       },
     });
@@ -255,8 +258,8 @@ const delConfirm = async (content?: string, tip?: string) => {
 
 // 导出窗体
 function exportConfirm(content?: string, tip?: string) {
+  dialogMaskOpen();
   const { t } = useI18n();
-  MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
   return Modal.confirm({
     title: tip ? tip : t('common.message.confirmTitle'),
     content: content ? content : t('common.message.exportMessage'),
@@ -265,10 +268,12 @@ function exportConfirm(content?: string, tip?: string) {
         setTimeout(resolve, 0);
       })
         .catch(() => console.log('error'))
-        .finally(() => MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' }));
+        .finally(() => {
+          dialogMaskClose();
+        });
     },
     onCancel() {
-      MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+      dialogMaskClose();
     },
   });
 }

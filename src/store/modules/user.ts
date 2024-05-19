@@ -17,6 +17,7 @@ import {
   APP_DARK_MODE_KEY,
   ORGAN_TREE_KEY,
   SYSTEM_MULTI_ORGANIZATION_KEY,
+  HAS_MASK_KEY,
 } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
@@ -41,6 +42,7 @@ import * as ParameterApi from '@/api/system/parameter';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
+  multiOrganization: boolean;
   token?: string;
   rtoken?: string;
   roleList: RoleEnum[];
@@ -52,6 +54,7 @@ interface UserState {
   lastLogoutTime?: number;
   organTree?: string;
   theme?: string;
+  hasMask?: boolean | string | number;
 }
 
 export const useUserStore = defineStore({
@@ -83,6 +86,8 @@ export const useUserStore = defineStore({
     organTree: '',
     // theme
     theme: '',
+    // hasMask
+    hasMask: 0,
   }),
   getters: {
     getUserInfo(state): UserInfo {
@@ -93,6 +98,9 @@ export const useUserStore = defineStore({
     },
     getToken(state): string {
       return state.token || getAuthCache<string>(TOKEN_KEY);
+    },
+    getHasMask(state): any {
+      return state.hasMask || getAuthCache<any>(HAS_MASK_KEY);
     },
     getTheme(state): string {
       return state.theme || getAuthCache<string>(THEME_KEY);
@@ -152,6 +160,10 @@ export const useUserStore = defineStore({
     setToken(info: string | undefined) {
       this.token = info ? info : '';
       setAuthCache(TOKEN_KEY, info);
+    },
+    setHasMask(mask) {
+      this.hasMask = mask;
+      setAuthCache(HAS_MASK_KEY, mask);
     },
     setTheme(theme: string | undefined) {
       this.theme = theme ? theme : ''; // for null or undefined value

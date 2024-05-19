@@ -18,6 +18,8 @@ import {
   MENU_NAME_MAP_KEY,
   CURRENT_PATH_KEY,
   ORGAN_TREE_KEY,
+  THEME_KEY,
+  HAS_MASK_KEY,
 } from '/@/enums/cacheEnum';
 import { DEFAULT_CACHE_TIME } from '/@/settings/encryptionSetting';
 import { toRaw } from 'vue';
@@ -35,6 +37,8 @@ interface BasicStore {
   [MENU_NAME_MAP_KEY]: Map<any, any>;
   [CURRENT_PATH_KEY]: string;
   [ORGAN_TREE_KEY]: string;
+  [THEME_KEY]: string;
+  [HAS_MASK_KEY]: string;
 }
 
 type LocalStore = BasicStore;

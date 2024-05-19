@@ -8,6 +8,7 @@
   import { ref, onMounted, watch } from 'vue';
   import { Modal } from 'ant-design-vue';
   import { MsgManager } from '/@/message/MsgManager';
+  import { dialogMaskOpen, dialogMaskClose } from '@/utils/mask';
 
   defineOptions({
     name: 'AModal',
@@ -26,12 +27,12 @@
 
   const handleCancel = () => {
     emit('cancel');
-    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    dialogMaskClose();
   };
 
   const handleOk = () => {
     emit('ok');
-    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    dialogMaskClose();
   };
 
   watch(

@@ -74,6 +74,7 @@
   import { omit } from 'lodash-es';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { MsgManager } from '/@/message/MsgManager';
+  import { dialogMaskOpen, dialogMaskClose } from '@/utils/mask';
 
   export default defineComponent({
     name: 'BasicModal',
@@ -179,9 +180,9 @@
 
       const handleMask = (v) => {
         if (v) {
-          MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
+          dialogMaskOpen();
         } else {
-          MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+          dialogMaskClose();
         }
       };
 
