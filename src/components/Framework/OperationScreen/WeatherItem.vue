@@ -43,7 +43,7 @@
 <style lang="less" scoped>
   .weather-item {
     .bg {
-      background-color: rgba(0, 246, 255, 0.15);
+      background-color: rgba(24,144,255, 0.15);
       border-radius: 0.04rem;
       border: 0.01rem solid rgba(0, 246, 255, 0.2);
     }
