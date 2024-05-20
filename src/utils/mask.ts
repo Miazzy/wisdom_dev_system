@@ -1,8 +1,8 @@
 import { MsgManager } from '/@/message/MsgManager';
 import { useUserStoreWithOut } from '/@/store/modules/user';
 
-const userStore = useUserStoreWithOut();
 export const dialogMaskOpen = () => {
+  const userStore = useUserStoreWithOut();
   let count = userStore.getHasMask;
   userStore.setHasMask(++count);
   if (count <= 1) {
@@ -11,6 +11,7 @@ export const dialogMaskOpen = () => {
 };
 
 export const dialogMaskClose = (force = false) => {
+  const userStore = useUserStoreWithOut();
   let count = userStore.getHasMask;
   userStore.setHasMask(--count);
   if (count <= 0 || force) {
