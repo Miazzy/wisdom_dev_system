@@ -86,6 +86,6 @@
     const flag = params['global_disabled'] == 'true' || params['page_readonly'] == 'true';
     tDisabled.value = props.disabled;
     tPermissionCode.value = props.permissionCode;
-    appDisabled.value = flag;
+    // appDisabled.value = flag;
   });
 </script>
