@@ -88,6 +88,8 @@
       selectedNode.value = keys[0];
       const node = getTree().getSelectedNode(selectedNode.value);
       rawNode = getPlainObj(node);
+    } else {
+      selectedNode.value = '';
     }
     emit('select', rawNode);
   }
