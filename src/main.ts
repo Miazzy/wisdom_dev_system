@@ -20,7 +20,7 @@ async function bootstrap() {
   const app = createApp(App);
 
   // 先全局注册组件，后期优化
-  app.use(ElementPlus);
+  app.use(ElementPlus, { zIndex: 10000 });
   app.use(Antd);
 
   // Configure store
