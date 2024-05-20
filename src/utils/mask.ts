@@ -10,10 +10,10 @@ export const dialogMaskOpen = () => {
   }
 };
 
-export const dialogMaskClose = () => {
+export const dialogMaskClose = (force = false) => {
   let count = userStore.getHasMask;
   userStore.setHasMask(--count);
-  if (count <= 0) {
+  if (count <= 0 || force) {
     MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
   }
 };
