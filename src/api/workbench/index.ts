@@ -7,3 +7,11 @@ export function getNoticeAndAnnouncementPage(params) {
     { isOnlyResult: true },
   );
 }
+
+// 查询资讯列表
+export function getInformationPage(params) {
+  return defHttp.get(
+    { url: '/po/workbench/information-page', params },
+    { isOnlyResult: true },
+  );
+}
