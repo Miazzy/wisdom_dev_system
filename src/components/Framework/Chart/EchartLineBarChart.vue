@@ -1,11 +1,7 @@
 <template>
-  <div
-    :id="`echarts-linebar-container${random}`"
-    class="echarts-linebar-container"
-    :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${
+  <div :id="`echarts-linebar-container${random}`" class="echarts-linebar-container" :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${
       typeof props.height == 'number' ? props.height + 'px' : props.height
-    };`"
-  ></div>
+    };`"></div>
 </template>
 <script lang="ts" setup>
   import { onMounted, toRefs, watch, nextTick } from 'vue';
@@ -25,6 +21,7 @@
     txtColor: { type: String, default: 'rgba(170, 221, 255, 0.8)' },
     tipsBgColor: { type: String, default: '' },
     tipsTextColor: { type: String, default: '' },
+    xAxisLabelInterval: { type: [Number, Function, String], default: 0 }, // 坐标轴刻度标签的显示间隔，在类目轴中有效，默认0强制显示所有标签，auto采用标签不重叠的策略间隔显示标签
   });
 
   const random = parseInt(Math.random() * 10000000);
@@ -54,12 +51,9 @@
       myChart = echarts.init(chartDom);
     }
     var option;
-    const barData0 =
-      data.value.barData && data.value.barData.length > 0 ? data.value.barData[0] : [];
-    const barData1 =
-      data.value.barData && data.value.barData.length > 1 ? data.value.barData[1] : [];
-    const barData2 =
-      data.value.barData && data.value.barData.length > 2 ? data.value.barData[2] : [];
+    const barData0 = data.value.barData && data.value.barData.length > 0 ? data.value.barData[0] : [];
+    const barData1 = data.value.barData && data.value.barData.length > 1 ? data.value.barData[1] : [];
+    const barData2 = data.value.barData && data.value.barData.length > 2 ? data.value.barData[2] : [];
     const lineData0 =
       data.value.lineData && data.value.lineData.length > 0 ? data.value.lineData[0] : [];
     const lineData1 =
@@ -102,7 +96,7 @@
             color: props.txtColor, // 设置文本颜色
             fontSize: 14, // 设置字体大小
             fontFamily: 'Arial', // 设置字体样式
-            interval: 0,
+            interval: props.xAxisLabelInterval,
             rotate: props.rotate,
           },
           splitLine: {
@@ -131,6 +125,7 @@
       yAxis: [
         {
           type: 'value',
+          show: data.value.barData && data.value.barData.length > 0,
           name: '',
           axisLabel: {
             color: props.txtColor, // 设置文本颜色
@@ -166,10 +161,13 @@
             fontFamily: 'Arial', // 设置字体样式
           },
           axisLine: {
+            show: !(data.value.barData && data.value.barData.length > 0),
             lineStyle: {
-              color: 'transparent',
+              color: props.txtColor, //坐标轴线线的颜色
+              width: '0.2', //坐标轴线线宽
             },
           },
+          position: data.value.barData && data.value.barData.length > 0 ? 'right' : 'left',
         },
       ],
       series: [
@@ -296,8 +294,8 @@
     createChart();
     nextTick(() => {
       const chartDom = document.getElementById('echarts-linebar-container' + random);
-      const myChart = echarts.getInstanceByDom(chartDom);
-      myChart.getZr().on('click', (params) => {
+      const myChart = echarts?.getInstanceByDom(chartDom);
+      myChart?.getZr().on('click', (params) => {
         const pointInPixel = [params.offsetX, params.offsetY];
         const pointInGrid = myChart.convertFromPixel({ seriesIndex: 0 }, pointInPixel);
         const index = pointInGrid[0];
@@ -307,6 +305,17 @@
       });
     });
   });
+
+  watch(
+    () => props.height,
+    () => {
+      setTimeout(() => {
+        const chartDom = document.getElementById('echarts-linebar-container' + random);
+        const myChart = echarts?.getInstanceByDom(chartDom);
+        myChart?.resize();
+      }, 100);
+    },
+  );
 </script>
 <style>
   .echarts-linebar-container {

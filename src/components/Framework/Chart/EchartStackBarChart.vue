@@ -1,9 +1,7 @@
 <template>
-  <div
-    id="echarts-stackbar-container"
-    class="echarts-stackbar-container"
-    :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height}; background-color: ${props.backgroundColor || 'transparent'};`"
-  ></div>
+  <div id="echarts-stackbar-container" class="echarts-stackbar-container"
+    :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height}; background-color: ${props.backgroundColor || 'transparent'};`">
+  </div>
 </template>
 <script lang="ts" setup>
   import { onMounted, watch, nextTick } from 'vue';
@@ -23,6 +21,7 @@
     axisWidth: { type: String, default: '0.2' },
     legendColor: { type: String, default: 'rgba(255, 255, 255, 0.6)' },
     rotate: { type: Number, default: 0 },
+    xAxisLabelInterval: { type: [Number, Function, String], default: 0 }, // 坐标轴刻度标签的显示间隔，在类目轴中有效，默认0强制显示所有标签，auto采用标签不重叠的策略间隔显示标签
   });
 
   // 创建图表
@@ -39,8 +38,7 @@
     const data1 = props.data.barData && props.data.barData.length > 1 ? props.data.barData[1] : [];
     const data2 = props.data.barData && props.data.barData.length > 2 ? props.data.barData[2] : [];
     const data3 = props.data.barData && props.data.barData.length > 3 ? props.data.barData[3] : [];
-    const lineData =
-      props.data.lineData && props.data.lineData.length > 0 ? props.data.lineData: [];
+    const lineData = props.data.lineData && props.data.lineData.length > 0 ? props.data.lineData : [];
     const lineNames = props.data.lineNames?.length ? props.data.lineNames : [];
 
     const defaultColors = [
@@ -55,13 +53,13 @@
         },
         backgroundColor: props.tipsBgColor ? props.tipsBgColor : 'rgb(50,175,255, 15%)',
         textStyle: {
-          color: props.tipsTextColor ? props.tipsTextColor : '#fff', //设置文字颜色       
+          color: props.tipsTextColor ? props.tipsTextColor : '#fff', //设置文字颜色
         },
         borderColor: 'transparent',
       },
       grid: {
         left: '3%',
-        right: '4%',
+        right: '3%',
         bottom: '3%',
         containLabel: true,
       },
@@ -86,7 +84,7 @@
             color: 'rgba(170, 221, 255, .8)', // 设置文本颜色
             fontSize: 14, // 设置字体大小
             fontFamily: 'Arial', // 设置字体样式
-            interval: 0,
+            interval: props.xAxisLabelInterval,
             rotate: props.rotate,
           },
           axisLine: {
@@ -147,6 +145,11 @@
             lineStyle: {
               color: 'transparent',
             },
+          },
+          axisLabel: {
+            color: props.axisColor, // 设置文本颜色
+            fontSize: 14, // 设置字体大小
+            fontFamily: 'Arial', // 设置字体样式
           },
         },
       ],
@@ -273,7 +276,7 @@
     },
     {
       deep: true,
-    }
+    },
   );
 
   // 监听数据变化
@@ -284,22 +287,32 @@
     },
     {
       deep: true,
-    }
+    },
   );
 
   const emit = defineEmits(['clickItem']);
 
+  watch(
+    () => props.height,
+    () => {
+      setTimeout(() => {
+        var chartDom = document.getElementById('echarts-stackbar-container');
+        let myChart = echarts?.getInstanceByDom(chartDom);
+        myChart?.resize();
+      }, 100);
+    },
+  );
 
   // 创建地图并绘制点位
   onMounted(() => {
     createChart();
-    nextTick(()=>{
+    nextTick(() => {
       var chartDom = document.getElementById('echarts-stackbar-container');
       let myChart = echarts.getInstanceByDom(chartDom);
-      myChart.on('click', (params)=> {
+      myChart.on('click', (params) => {
         emit('clickItem', params);
-      })
-    })
+      });
+    });
   });
 </script>
 <style>

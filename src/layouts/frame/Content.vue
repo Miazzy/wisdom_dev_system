@@ -546,6 +546,11 @@
         window.location.reload();
       });
     }
+    if (activeKey.value.includes('/frame/cockpit/')) {
+      nextTick(() => {
+        handleRefreshTabPage();
+      });
+    }
   };
 
   // 刷新Tab栏菜单

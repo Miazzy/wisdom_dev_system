@@ -198,6 +198,17 @@
       })
     })
   });
+
+  watch(
+    () => props.height,
+    () => {
+      setTimeout(() => {
+        var chartDom = document.getElementById('echarts-crossbar-container' + random);
+        let myChart = echarts?.getInstanceByDom(chartDom);
+        myChart?.resize();
+      }, 100);
+    },
+  );
 </script>
 <style>
   .echarts-crossbar-container {
