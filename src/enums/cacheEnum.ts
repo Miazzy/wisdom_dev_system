@@ -4,6 +4,9 @@ export const TOKEN_KEY = 'TOKEN__';
 // theme key
 export const THEME_KEY = 'THEME_KEY__';
 
+// sunsetCreateFlag key
+export const SUN_SET_CREATE_FLAG = 'sunsetCreateFlag__';
+
 // organ tree key
 export const ORGAN_TREE_KEY = 'ORGAN_TREE_KEY__';
 

@@ -18,6 +18,7 @@ import {
   ORGAN_TREE_KEY,
   SYSTEM_MULTI_ORGANIZATION_KEY,
   HAS_MASK_KEY,
+  SUN_SET_CREATE_FLAG,
 } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
@@ -64,6 +65,8 @@ export const useUserStore = defineStore({
     userInfo: null,
     // multiOrganization info
     multiOrganization: false,
+    // sunsetCreateFlag
+    sunsetCreateFlag: true,
     // token
     token: undefined,
     // refresh token
@@ -98,6 +101,9 @@ export const useUserStore = defineStore({
     },
     getToken(state): string {
       return state.token || getAuthCache<string>(TOKEN_KEY);
+    },
+    getSunSetCreateFlag(state): string {
+      return state.sunsetCreateFlag || getAuthCache<string>(SUN_SET_CREATE_FLAG);
     },
     getHasMask(state): any {
       return state.hasMask || getAuthCache<any>(HAS_MASK_KEY);
@@ -164,6 +170,10 @@ export const useUserStore = defineStore({
     setHasMask(mask) {
       this.hasMask = mask;
       setAuthCache(HAS_MASK_KEY, mask);
+    },
+    setSunSetCreateFlag(info: boolean) {
+      this.sunsetCreateFlag = info;
+      setAuthCache(SUN_SET_CREATE_FLAG, info);
     },
     setTheme(theme: string | undefined) {
       this.theme = theme ? theme : ''; // for null or undefined value
@@ -287,8 +297,10 @@ export const useUserStore = defineStore({
       userInfo.realName = realName;
       if (!avatar) {
         try {
-          const multiOrganization = await ParameterApi.getParameterByCode(DICT_TYPE.SYSTEM_MULTI_ORGANIZATION);
-          this.setMultiOrganization((multiOrganization && multiOrganization.value === 'true'));
+          const multiOrganization = await ParameterApi.getParameterByCode(
+            DICT_TYPE.SYSTEM_MULTI_ORGANIZATION,
+          );
+          this.setMultiOrganization(multiOrganization && multiOrganization.value === 'true');
           const resp = await FileApi.getFiles({ bizId: id });
           const path = getDownloadURL(resp[0].url);
           userInfo.avatar = path;
