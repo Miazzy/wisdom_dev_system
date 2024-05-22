@@ -54,7 +54,7 @@ interface UserState {
   lastLogoutTime?: number;
   organTree?: string;
   theme?: string;
-  hasMask?: boolean | string | number;
+  hasMask?: number;
 }
 
 export const useUserStore = defineStore({

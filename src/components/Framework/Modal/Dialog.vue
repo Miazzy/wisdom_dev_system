@@ -188,7 +188,6 @@
       appDom.addEventListener('mousewheel', callback, { passive: false });
       nextTick(() => {
         appDom.classList.add('modal-open');
-        userStore.setHasMask(true);
         dialogMaskOpen();
       });
     }

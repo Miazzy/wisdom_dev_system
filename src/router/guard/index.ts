@@ -13,6 +13,7 @@ import nProgress from 'nprogress';
 import projectSetting from '/@/settings/projectSetting';
 import { createParamMenuGuard } from './paramMenuGuard';
 import { useMultipleTabStore } from '/@/store/modules/multipleTab';
+import { dialogMaskInit } from '@/utils/mask';
 import { router, resetRouter } from '/@/router';
 
 // Don't change the order of creation
@@ -66,6 +67,7 @@ function createPageGuard(router: Router) {
   });
 
   router.afterEach((to) => {
+    dialogMaskInit();
     loadedPageMap.set(to.path, true);
   });
 }

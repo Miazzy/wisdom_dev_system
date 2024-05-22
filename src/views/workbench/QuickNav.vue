@@ -40,6 +40,7 @@
   import { TreeSelectProps, message } from 'ant-design-vue';
   import { addTabPage } from '@/utils/route';
   import { getMenuTreeData, saveMenuBoard, getMenuBoard, getMenuBoardResult } from './data';
+  import { dialogMaskInit } from '@/utils/mask';
 
   const openDialog = ref(false);
   const menuTreeData = ref<TreeSelectProps['treeData']>();
@@ -132,6 +133,7 @@
 
   //打开
   const handleOpenDialog = () => {
+    dialogMaskInit();
     openDialog.value = true;
     queryIndexTreeData();
   };
