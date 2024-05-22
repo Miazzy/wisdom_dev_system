@@ -213,26 +213,25 @@ function notifyWarning(content: string) {
 }
 
 // 确认窗体
-function confirm(content: string, tip?: string) {
+const confirm = async (content: string, tip?: string) => {
   dialogMaskOpen();
   const { t } = useI18n();
-  return Modal.confirm({
-    title: tip ? tip : t('common.message.confirmTitle'),
-    content: content,
-    onOk() {
-      return new Promise((resolve) => {
-        setTimeout(resolve, 0);
-      })
-        .catch(() => console.log('error'))
-        .finally(() => {
-          dialogMaskClose();
-        });
-    },
-    onCancel() {
-      dialogMaskClose();
-    },
+  const callback = new Promise((resolve, reject) => {
+    Modal.confirm({
+      title: tip ? tip : t('common.message.confirmTitle'),
+      content: content,
+      onOk() {
+        dialogMaskClose();
+        resolve(true);
+      },
+      onCancel() {
+        dialogMaskClose();
+        reject(false);
+      },
+    });
   });
-}
+  return await callback;
+};
 
 // 删除窗体
 const delConfirm = async (content?: string, tip?: string) => {
