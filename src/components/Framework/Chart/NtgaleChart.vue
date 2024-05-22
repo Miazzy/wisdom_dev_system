@@ -14,11 +14,11 @@
     id: { type: String },
     showLabel: { type: Boolean, default: false }, // 是否显示饼图图形旁边的文字标签
     roseType: { type: [String, Boolean], default: 'radius' }, // 是否展示成南丁格尔图，通过半径区分数据大小 radius/area
-    radius: {type: Array as PropType<Array<number|string>>, default: [30, 100] },
-    labelFormatter: { type: [String, Function], default: '{b}: {c}' }
+    radius: { type: Array as PropType<Array<number | string>>, default: [30, 100] },
+    labelFormatter: { type: [String, Function], default: '{b}: {c}' },
   });
 
-  const emit = defineEmits(['clickItem'])
+  const emit = defineEmits(['clickItem']);
 
   const setupData = () => {
     const chartDom = document.getElementById(props.id);
@@ -46,13 +46,13 @@
             formatter: props.labelFormatter,
             overflow: 'break',
             textBorderType: 'none',
-            color: '#BAC3C4'
+            color: '#BAC3C4',
           },
         },
       ],
     };
     option && myChart.setOption(option);
-  }
+  };
 
   watch(
     () => props.data,
@@ -64,15 +64,25 @@
     },
   );
 
+  watch(
+    () => props.height,
+    () => {
+      setTimeout(() => {
+        const chartDom = document.getElementById(props.id);
+        let myChart = echarts?.getInstanceByDom(chartDom);
+        myChart?.resize();
+      }, 100);
+    },
+  );
+
   onMounted(() => {
     setupData();
-    nextTick(()=>{
+    nextTick(() => {
       const chartDom = document.getElementById(props.id);
       let myChart = echarts.getInstanceByDom(chartDom);
-      myChart.on('click', (params)=> {
+      myChart.on('click', (params) => {
         emit('clickItem', params);
-      })
-    })
-    console.log(111, props.labelFormatter);
+      });
+    });
   });
 </script>
