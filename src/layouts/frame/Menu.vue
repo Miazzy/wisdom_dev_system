@@ -148,7 +148,7 @@
       }
       const { key } = event;
       const menu = menuMap.get(key);
-      if (menu.openWindowModel === 'window') {
+      if (menu.openWindowModel === 'newWindow') {
         window.open(`${window.origin}${handlePath(menu.url)}`, '_blank');
       } else {
         emit('click', key, menu, event);
