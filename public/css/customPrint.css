@@ -1,0 +1,140 @@
+@page { size: A4; margin: 1cm; @bottom-center { content: counter(page)  /  counter(pages);} }
+
+.print-box {
+  line-height: 1.8em;
+  margin: 10px;
+}
+
+.print-header {
+  height: 32px;
+  margin-bottom: 10px;
+  line-height: 32px;
+
+  .print-title {
+    font-size: 32px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .print-tag {
+    display: flex;
+    justify-content: center;
+    width: 42%;
+    margin-top: -32px;
+    float: right;
+    font-size: 28px;
+
+    .print-item {
+      padding: 0 12px;
+      border: 1px solid #ddd;
+    }
+  }
+}
+
+.print-container {
+  border: 1px solid;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+}
+
+.bill-box {
+  display: flex;
+}
+
+.bill-unit {
+  width: 50%;
+}
+
+.bill-code {
+  width: 50%;
+  text-align: right;
+}
+
+.print-row {
+  display: flex;
+}
+
+.print-col-6 {
+  width: 50%;
+}
+
+.print-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  .unset-border-top {
+    border-top: unset;
+  }
+
+  .unset-border-bottom {
+    border-bottom: unset;
+  }
+
+  .unset-border-left {
+    border-left: unset;
+  }
+
+  .unset-border-right {
+    border-right: unset;
+  }
+
+  tr > td,
+  tr > th {
+    padding: 5px;
+    border: 1px solid #0c2135;
+  }
+
+  .print-wrap {
+    white-space: pre-wrap;
+  }
+
+}
+
+.empty-time {
+  display: inline-block;
+  width: 10%;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.empty-line {
+  display: inline-block;
+  width: 20.666%;
+  margin-right: 5px;
+  margin-left: 5px;
+  text-indent: initial;
+}
+
+.empty-line::after{
+  content: ''; /* 伪元素需要内容，即使是空的 */
+  position: absolute; /* 绝对定位下划线 */
+  width: inherit; /* 横跨整个容器宽度 */
+  height: 1px; /* 下划线的高度 */
+  margin-top: 4px;
+  background-color: currentcolor;/* 下划线颜色，继承自容器文本颜色 */
+  border-bottom: 1px solid #0c2135;
+}
+
+.empty-200 {
+  display: inline-block;
+  width: 200px;
+}
+
+.empty-20 {
+  display: inline-block;
+  width: 20px;
+}
+
+.print-text {
+  text-indent: 2em;
+}

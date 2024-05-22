@@ -56,7 +56,12 @@
   const informationList = ref([]);
 
   const toMorePage = () => {
-    addTabPage(`/oa/info/query/index`, '信息查询');
+    if(activeKey.value == '1'){
+      addTabPage(`/oa/info/query/index`, '信息查询');
+    }else{
+      addTabPage('/oa/info/informationquery/index', '资讯查询');
+    }
+    
   };
 
 
