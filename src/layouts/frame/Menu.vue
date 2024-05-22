@@ -132,6 +132,14 @@
     return element?.id;
   };
 
+  const handlePath = (value) => {
+    const path = value.startsWith('/') ? value : '/' + value;
+    let tempKey = path.replace('/da/', '/');
+    tempKey = tempKey.startsWith('/frame') ? tempKey : '/frame' + tempKey;
+    const key = tempKey.includes('/#') ? tempKey : '/#' + tempKey;
+    return key;
+  };
+
   const handleMenuClick = (event) => {
     if (loadOverFlag.value) {
       const token = getAuthCache<string>(TOKEN_KEY);
@@ -140,7 +148,11 @@
       }
       const { key } = event;
       const menu = menuMap.get(key);
-      emit('click', key, menu, event);
+      if (menu.openWindowModel === 'window') {
+        window.open(`${window.origin}${handlePath(menu.url)}`, '_blank');
+      } else {
+        emit('click', key, menu, event);
+      }
     }
   };
 
