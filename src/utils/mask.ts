@@ -2,24 +2,36 @@ import { MsgManager } from '/@/message/MsgManager';
 import { useUserStoreWithOut } from '/@/store/modules/user';
 
 export const dialogMaskInit = () => {
-  const userStore = useUserStoreWithOut();
-  userStore.setHasMask(0);
+  try {
+    const userStore = useUserStoreWithOut();
+    userStore.setHasMask(0);
+  } catch (error) {
+    //
+  }
 };
 
 export const dialogMaskOpen = () => {
-  const userStore = useUserStoreWithOut();
-  let count = userStore.getHasMask;
-  userStore.setHasMask(++count);
-  if (count <= 1) {
-    MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
+  try {
+    const userStore = useUserStoreWithOut();
+    let count = userStore.getHasMask;
+    userStore.setHasMask(++count);
+    if (count <= 1) {
+      MsgManager.getInstance().sendMsg('modal-open', { type: 'open' });
+    }
+  } catch (error) {
+    //
   }
 };
 
 export const dialogMaskClose = (force = false) => {
-  const userStore = useUserStoreWithOut();
-  let count = userStore.getHasMask;
-  userStore.setHasMask(--count);
-  if (count <= 0 || force) {
-    MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+  try {
+    const userStore = useUserStoreWithOut();
+    let count = userStore.getHasMask;
+    userStore.setHasMask(--count);
+    if (count <= 0 || force) {
+      MsgManager.getInstance().sendMsg('modal-open', { type: 'remove' });
+    }
+  } catch (error) {
+    //
   }
 };
