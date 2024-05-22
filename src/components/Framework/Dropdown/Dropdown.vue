@@ -52,17 +52,20 @@
   .dropdown {
     display: inline-block;
     position: relative;
+    cursor: pointer;
 
     .dropdown-menu {
       display: none;
       position: absolute;
-      z-index: 10999;
+      z-index: 19999;
       top: 100%;
       left: 0;
+      cursor: pointer;
     }
 
     &:hover .dropdown-menu {
       display: block;
+      z-index: 19999;
       cursor: pointer;
     }
 

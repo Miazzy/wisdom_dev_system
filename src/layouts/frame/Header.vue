@@ -28,7 +28,7 @@
       <div class="icon-element" style="display: none;">
         <Notify :class="`${prefixCls}-action__item notify-item notify-icon`" />
       </div>
-      <div class="icon-element">
+      <div class="icon-element" style="cursor: pointer">
         <Icon
           v-if="!isFullscreen"
           :icon="'ant-design:fullscreen-outlined'"
@@ -44,7 +44,7 @@
           @click="toggle"
         />
       </div>
-      <div class="icon-element avatar-element">
+      <div class="icon-element avatar-element" style="cursor: pointer">
         <UserDropDown :theme="getHeaderTheme" />
       </div>
       <div class="icon-element">
