@@ -1,24 +1,15 @@
 <template>
-  <div
-    class="bill-title-box"
-    :style="`height: ${billTitleOption.height}px;`"
-  >
-    <div class="bill-title">{{ billTitleOption.title }}</div>
-    <div class="bill-info-box" v-if="billTitleOption.infoItems && billTitleOption.infoItems.length">
+  <div class="bill-title-box" :style="`height: ${DEF_HEIGHT}px;`">
+    <div class="bill-title">{{ options.subject }}</div>
+    <div class="bill-info-box">
       <div class="bill-info-item left">
-        <div v-if="billInfo.left" class="bill-info-item-content"
-          >{{ billInfo.left.label }}：{{ billInfo.left.value }}</div
-        >
+        <div class="bill-info-item-content">单据编号：{{ options.billCode || '' }}</div>
       </div>
       <div class="bill-info-item center">
-        <div v-if="billInfo.center" class="bill-info-item-content"
-          >{{ billInfo.center.label }}：{{ billInfo.center.value }}</div
-        >
+        <div class="bill-info-item-content">制单日期：{{ options.fillinDate || '' }}</div>
       </div>
       <div class="bill-info-item right">
-        <div v-if="billInfo.right" class="bill-info-item-content"
-          >{{ billInfo.right.label }}：{{ billInfo.right.value }}</div
-        >
+        <div class="bill-info-item-content">创建人：{{ options.personMemberName || '' }}</div>
       </div>
     </div>
   </div>
@@ -30,48 +21,17 @@
   const props = defineProps({
     options: { type: Object as PropType<BillTitleOptions> },
   });
-  const DEF_TITLE = '';
   const DEF_HEIGHT = 56;
-  // const DEF_BOTTOM_LINE = '1px solid #f0f0f0';
-  const billTitleOption = reactive<BillTitleOptions>({});
-
-  const billInfo = computed(() => {
-    let obj = {};
-    if (billTitleOption?.infoItems?.length) {
-      billTitleOption.infoItems.forEach((item) => {
-        obj[item.position] = item;
-      });
-    }
-    return obj;
-  });
-
-  watch(
-    () => props.options,
-    (newValue) => {
-      billTitleOption.title = newValue?.title || billTitleOption?.title;
-      billTitleOption.height = newValue?.height || billTitleOption?.height || DEF_HEIGHT;
-      // billTitleOption.bottomLine = newValue?.bottomLine || billTitleOption?.bottomLine || DEF_BOTTOM_LINE;
-      billTitleOption.infoItems = newValue?.infoItems || billTitleOption?.infoItems;
-    },
-    { deep: true }
-  );
-
-  onMounted(() => {
-    billTitleOption.title = props.options?.title || DEF_TITLE;
-    billTitleOption.height = props.options?.height || DEF_HEIGHT;
-    // billTitleOption.bottomLine = props.options?.bottomLine || DEF_BOTTOM_LINE;
-    billTitleOption.infoItems = props.options?.infoItems || [];
-  });
 </script>
 <style lang="less" scoped>
   .bill-title-box {
-    width: 100%;  
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     .bill-title {
-      font-size: 16px;   
+      font-size: 16px;
     }
 
     .bill-info-box {
