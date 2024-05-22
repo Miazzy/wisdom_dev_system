@@ -126,12 +126,10 @@
   const instance = ref();
 
   const appDom = document.querySelector('div#app');
+
   const closeModal = () => {
     emit('update:visible', false); // 关闭弹框
     emit('close');
-    if (props.smode == 'simple') {
-      emit('update:visible', false); // 关闭弹框
-    }
     dialogMaskClose();
   };
 
@@ -141,8 +139,8 @@
       //
     } else {
       emit('update:visible', false); // 关闭弹框
+      dialogMaskClose();
     }
-    dialogMaskClose();
   };
 
   const confirm = () => {
@@ -150,8 +148,8 @@
     emit('ok'); // 发送确定事件
     if (props.smode == 'simple') {
       emit('update:visible', false); // 关闭弹框
+      dialogMaskClose();
     }
-    dialogMaskClose();
   };
 
   // 计算 modal-body 的高度，减去 header 和 footer 的高度
@@ -217,12 +215,13 @@
   onMountedOrActivated(() => {
     // 监听check-iframe-framepage消息
     instance.value = getCurrentInstance();
+
     MsgManager.getInstance().listen('iframe-dialog-close', () => {
       closeModal();
       enableScroll();
     });
 
-    if (props.target === 'body' && props.visible) { 
+    if (props.target === 'body' && props.visible) {
       disableScroll();
     }
   });
