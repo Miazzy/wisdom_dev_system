@@ -170,6 +170,19 @@
   );
 
   watch(
+    () => selectedValue.value,
+    () => {
+      try {
+        if (props.multiple === true && selectedValue.value === null) {
+          selectedValue.value = [];
+        }
+      } catch (error) {
+        //
+      }
+    },
+  );
+
+  watch(
     () => props.data,
     () => {
       reloadData();
