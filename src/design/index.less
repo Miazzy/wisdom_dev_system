@@ -72,11 +72,19 @@ ul {
     .app-menu{
       height: calc(117.65vh - 3.25rem) !important;
     }
-
+    
     .app-content {
       .iframe-content {
         width: 100%;
         height: calc(117.65vh - 85px) !important;
+
+        .iframe-component {
+          position: absolute;
+          z-index: 1000;
+          width: 100%;
+          height: calc(107.5vh - 0px) !important;
+          overflow-y: scroll;
+        }
       }
 
       .tabs-content {
@@ -116,6 +124,14 @@ ul {
       .iframe-content {
         width: 100%;
         height: calc(131.58vh - 85px) !important;
+
+        .iframe-component {
+          position: absolute;
+          z-index: 1000;
+          width: 100%;
+          height: calc(120.5vh - 0px) !important;
+          overflow-y: scroll;
+        }
       }
 
       .tabs-content {

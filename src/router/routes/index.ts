@@ -184,12 +184,12 @@ export const Frame: AppRouteRecordRaw = {
 };
 
 // 框架页面
-export const FramePage: AppRouteRecordRaw = {
-  path: '/framepage',
-  name: 'FramePage',
-  component: () => import('/@/layouts/frame/MainLayout.vue'),
-  meta: { title: '工作台', keepAlive: true },
-};
+// export const FramePage: AppRouteRecordRaw = {
+//   path: '/framepage',
+//   name: 'FramePage',
+//   component: () => import('/@/layouts/frame/MainLayout.vue'),
+//   meta: { title: '工作台', keepAlive: true },
+// };
 
 export const PvSubareaOverview: AppRouteRecordRaw = {
   path: '/frame/monitor/pvarea/subareaoverview',
@@ -1652,7 +1652,6 @@ export const basicRoutes = [
   GroupOperationRoute,
   StationOperationRoute,
   Frame,
-  FramePage,
   FrameWorkbench,
   PvSubareaOverview,
   PvInverterOverview,
