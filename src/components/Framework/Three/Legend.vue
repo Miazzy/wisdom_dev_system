@@ -4,6 +4,10 @@
       <li v-for="(item, index) in data" :key="index" class="legend-item">
         <span :style="{ backgroundColor: colors[index % colors.length] }" class="dot-icon"></span>
         <span class="name">{{ item.name }}</span>
+        <span class="unit">
+          <span :style="{ color: colors[index % colors.length] }">{{ item.value }}</span>
+          <span class="unit-text"> {{ tUnit }} </span>
+        </span>
         <span class="value" :style="{ color: colors[index % colors.length] }"
           >{{ calculatePercentage(item.value) }}%</span
         >
@@ -33,18 +37,24 @@
       type: Number,
       default: 200,
     },
+    unit: {
+      type: String,
+      default: '',
+    },
   });
 
   // Extract refs from props
   const { data, colors } = toRefs(props);
 
-  const totalValue = ref(data.value.reduce((sum, item) => sum + item.value, 0));
-
+  const totalValue = ref([]);
+  const list = ref(null);
+  const tUnit = ref('');
   const calculatePercentage = (value) => ((value / totalValue.value) * 100).toFixed(2);
 
-  const list = ref(null);
-
   onMounted(() => {
+    if (props.data) {
+      totalValue.value = props.data.reduce((sum, item) => sum + item.value, 0);
+    }
     nextTick(() => {
       const scrollContainer = list.value;
       let isScrollingDown = true;
@@ -67,34 +77,53 @@
     });
   });
 
-  watch(data, (newData) => {
-    totalValue.value = newData.reduce((sum, item) => sum + item.value, 0);
-  });
+  watch(
+    () => props.data,
+    (newData) => {
+      totalValue.value = newData.reduce((sum, item) => sum + item.value, 0);
+    },
+  );
+
+  watch(
+    () => props.unit,
+    (value) => {
+      tUnit.value = value;
+      debugger;
+    },
+  );
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .legend-container {
     position: relative;
-    height: var(--height, 200px);
+    height: 100%;
     overflow: hidden;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
     text-align: center;
 
     .legend-list {
-      width: var(--width, 200px);
+      width: 110%;
       height: auto;
       max-height: 100%;
       overflow-y: scroll;
       text-align: center;
       list-style: none;
-      padding: 0;
+      padding: 0 5px 0 0;
       margin: 0;
       transition: transform 0.2s linear;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center items horizontally */
 
       .legend-item {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        white-space:nowrap;
         padding: 5px 5px;
+        width: 100%; /* Ensure items take full width */
 
         .dot-icon {
           width: 10px;
@@ -105,10 +134,19 @@
 
         .name {
           flex-grow: 1;
+          white-space:nowrap;
+        }
+
+        .unit {
+          margin-left: 5px;
+
+          .unit-text {
+            font-size: 12px;
+          }
         }
 
         .value {
-          margin-left: 10px;
+          margin-left: 5px;
         }
       }
     }
