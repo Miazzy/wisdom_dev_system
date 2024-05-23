@@ -101,7 +101,7 @@
     <Button @click="handleOpen2OgDialog" style="margin: 0 10px 0 0">打开组织Dialog2</Button>
     <br />
 
-    <div style="width: 800px; margin: 15px 0 0; text-align: left;">
+    <div style="width: 800px; margin: 15px 0 0; text-align: left">
       <a-form
         ref="AntdForm"
         :model="formState"
@@ -345,6 +345,22 @@
 
     <!-- <NtgaleChart /> -->
 
+    <div style="width: 500px; height: 500px">
+      <TreeDPie />
+    </div>
+
+    <div style="width: 500px; height: 300px">
+      <pie3d />
+    </div>
+
+    <!-- <PieChart /> -->
+
+    
+
+    <!-- <Echart3DPie /> -->
+
+    <!-- <EchartPieChart /> -->
+
     <div style="margin: 16px 0 0 16px">
       <Button @click="handleOpenDialog">打开Dialog</Button>
     </div>
@@ -387,6 +403,11 @@
   import TreeBox from '@/components/Framework/Combox/TreeBox.vue';
   import InputGroup from '@/components/Framework/InputGroup/InputGroup.vue';
   import SelectBox from '@/components/Framework/Combox/SelectBox.vue';
+  import pie3d from '@/components/Framework/Three/pie3d.vue';
+  import Echart3DPie from '@/components/Framework/Three/Echart3DPie.vue';
+  import EchartPieChart from '@/components/Framework/Three/EchartPieChart.vue';
+  import PieChart from '@/components/Framework/Three/PieChart.vue';
+  import TreeDPie from '@/components/Framework/Three/TreeDPie.vue';
   import Icon from '@/components/Icon/Icon.vue';
   import TreeSelectBox from '@/components/Framework/Combox/TreeSelectBox.vue';
   import Marquee from '@/components/Framework/Marquee/Marquee.vue';
