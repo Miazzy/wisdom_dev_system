@@ -558,7 +558,7 @@
       await reloadData();
       searchRealText.value = props.value;
       withDirectives(searchBox, [[clickOutside, handleClickOutside]]); // 注册 clickOutside 指令
-      MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
+      // MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
     } catch (error) {
       //
     }
