@@ -1,5 +1,8 @@
 <template>
-  <div class="chart-container" :style="`background: ${background}; width: ${width}; height: ${height}`">
+  <div
+    class="chart-container"
+    :style="`background: ${background}; width: ${width}px; height: ${height}px`"
+  >
     <div class="chart" ref="chart"></div>
     <div class="bg"></div>
   </div>
@@ -23,21 +26,23 @@
       },
       config: {
         type: Object,
-        default: {
-          showlegend: false,
-        },
+        default: {},
+      },
+      showlegend: {
+        type: Boolean,
+        default: false,
       },
       background: {
         type: String,
-        default: '#142c4eff',
+        default: 'transparent',
       },
       width: {
-        type: String,
-        default: '400px',
+        type: [Number, String],
+        default: 400,
       },
       height: {
-        type: String,
-        default: '400px',
+        type: Number,
+        default: 400,
       },
     },
     data() {
@@ -46,6 +51,7 @@
         optionColors: [],
         statusChart: null,
         option: {},
+        legend: false,
       };
     },
     created() {
@@ -53,11 +59,16 @@
     },
     mounted() {
       const that = this;
-      const { colors, data, config } = that;
-      that.optionData = data;
-      that.optionColors = colors?.length > 0 ? colors : color;
-      this.setLabel();
-      that.initChart();
+      const { colors, data, config, showlegend } = that;
+      if (!data || data.length == 0) {
+        return;
+      } else {
+        that.optionData = data;
+        that.optionColors = colors?.length > 0 ? colors : color;
+        that.legend = showlegend;
+        that.setLabel();
+        that.initChart();
+      }
       //根据窗口变化自动调节图表大小
       window.onresize = function () {
         that.changeSize();
@@ -109,13 +120,12 @@
       },
       // 图表初始化
       initChart() {
-        const { config } = this;
         this.statusChart = echarts.init(this.$refs.chart);
         // 传入数据生成 option, 构建3d饼状图, 参数工具文件已经备注的很详细
         this.option = getPie3D(this.optionData, 0.8, 240, 28, 26, 0.65);
         this.statusChart.setOption(this.option);
         // 是否需要label指引线，如果要就添加一个透明的2d饼状图并调整角度使得labelLine和3d的饼状图对齐，并再次setOption
-        if (config.showLegend) {
+        if (this.legend) {
           this.option.series.push(getDefaultStatus(this.optionData));
           this.statusChart.setOption(this.option);
         }
@@ -263,11 +273,10 @@
 <style lang="less" scoped>
   .chart-container {
     position: relative;
-    width: 400px;
-    height: 400px;
+    width: var(--width, 400px);
+    height: var(--height, 400px);
 
-    .chart,
-    .bg {
+    .chart, .bg {
       width: 100%;
       height: 100%;
     }

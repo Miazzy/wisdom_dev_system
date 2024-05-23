@@ -25,11 +25,11 @@
       type: Array,
       required: true,
     },
-    containerHeight: {
+    height: {
       type: Number,
       default: 200,
     },
-    cwidth: {
+    width: {
       type: Number,
       default: 200,
     },
@@ -74,13 +74,13 @@
 
 <style scoped>
   .legend-container {
-    height: var(--containerHeight, 200px);
+    position: relative;
+    height: var(--height, 200px);
     overflow: hidden;
     text-align: center;
-    position: relative;
 
     .legend-list {
-      width: var(--cwidth, 200px);
+      width: var(--width, 200px);
       height: auto;
       max-height: 100%;
       overflow-y: scroll;

@@ -5,11 +5,11 @@
     style="width: calc(100% - 20px); height: auto; margin: 10px; background: #fefefe"
   >
     <div style="width: 300px; height: 300px">
-      <TreeDPie :data="treeDPieData" :colors="treeDPieColors" width='300px' height="300px" />
+      <TreeDPie :data="treeDPieData" :colors="treeDPieColors" :width='300' :height="300" />
     </div>
 
     <div style="width: 300px; height: 300px">
-      <Legend :data="treeDPieData" :colors="treeDPieColors" :cwidth="200" />
+      <Legend :data="treeDPieData" :colors="treeDPieColors" :width="200" />
     </div>
 
   </div>
