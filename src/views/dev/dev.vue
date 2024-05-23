@@ -7,6 +7,11 @@
     <div style="width: 300px; height: 300px">
       <TreeDPie :data="treeDPieData" :colors="treeDPieColors" width='300px' height="300px" />
     </div>
+
+    <div style="width: 300px; height: 300px">
+      <Legend :data="treeDPieData" :colors="treeDPieColors" :cwidth="200" />
+    </div>
+
   </div>
 </template>
 <script lang="ts" setup>
@@ -18,11 +23,8 @@
   import TreeBox from '@/components/Framework/Combox/TreeBox.vue';
   import InputGroup from '@/components/Framework/InputGroup/InputGroup.vue';
   import SelectBox from '@/components/Framework/Combox/SelectBox.vue';
-  import pie3d from '@/components/Framework/Three/pie3d.vue';
-  import Echart3DPie from '@/components/Framework/Three/Echart3DPie.vue';
-  import EchartPieChart from '@/components/Framework/Three/EchartPieChart.vue';
-  import PieChart from '@/components/Framework/Three/PieChart.vue';
   import TreeDPie from '@/components/Framework/Three/TreeDPie.vue';
+  import Legend from '@/components/Framework/Three/Legend.vue';
   import Icon from '@/components/Icon/Icon.vue';
   import TreeSelectBox from '@/components/Framework/Combox/TreeSelectBox.vue';
   import Marquee from '@/components/Framework/Marquee/Marquee.vue';
@@ -257,7 +259,26 @@
     },
   ]);
 
-  const treeDPieColors = ref([]);
+  const treeDPieColors = ref(['#00BBFF90',
+  '#1890FF90',
+  '#99DD0090',
+  '#6495ED90',
+  '#F7C82490',
+  '#66DD0090',
+  '#8A2BE290',
+  '#58D59790',
+  '#FFFF0090',
+  '#00BBFF90',
+  '#77FFEE90',
+  '#0066FF90',
+  '#7FFF0090',
+  '#7FFFD490',
+  '#00FFFF90',
+  '#7FFFD490',
+  '#0000FF90',
+  '#6495ED90',
+  '#00BFFF90',
+  '#66CDAA90',]);
 
   const echartData = ref({
     categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5'],
