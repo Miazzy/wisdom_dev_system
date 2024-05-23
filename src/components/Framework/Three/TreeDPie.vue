@@ -41,7 +41,7 @@
         default: 400,
       },
       height: {
-        type: Number,
+        type: [Number, String],
         default: 400,
       },
     },
@@ -52,6 +52,7 @@
         statusChart: null,
         option: {},
         legend: false,
+        maxValue: 0,
       };
     },
     created() {
@@ -66,6 +67,9 @@
         that.optionData = data;
         that.optionColors = colors?.length > 0 ? colors : color;
         that.legend = showlegend;
+        data.map((item) => (item.value > that.maxValue ? (that.maxValue = item.value) : null));
+        that.maxValue > 20 ? (that.maxValue = 20) : null;
+        that.maxValue < 5 ? (that.maxValue = 5) : null;
         that.setLabel();
         that.initChart();
       }
@@ -122,7 +126,7 @@
       initChart() {
         this.statusChart = echarts.init(this.$refs.chart);
         // 传入数据生成 option, 构建3d饼状图, 参数工具文件已经备注的很详细
-        this.option = getPie3D(this.optionData, 0.8, 240, 28, 26, 0.65);
+        this.option = getPie3D(this.optionData, 0.8, 200, 15, this.maxValue || 15, 0.65);
         this.statusChart.setOption(this.option);
         // 是否需要label指引线，如果要就添加一个透明的2d饼状图并调整角度使得labelLine和3d的饼状图对齐，并再次setOption
         if (this.legend) {
@@ -276,7 +280,8 @@
     width: var(--width, 400px);
     height: var(--height, 400px);
 
-    .chart, .bg {
+    .chart,
+    .bg {
       width: 100%;
       height: 100%;
     }
