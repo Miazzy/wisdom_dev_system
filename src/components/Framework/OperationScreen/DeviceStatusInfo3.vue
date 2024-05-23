@@ -8,18 +8,21 @@
     </div>
     <div v-if="onlineShow" class="status-box">
       <div class="status-item online"> 在线 {{ online }} </div>
+      <div v-if="showLeave" class="status-item leave"> 离开 {{ leave }} </div>
       <div class="status-item offline"> 离线 {{ offline }} </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  const props = defineProps({
+  defineProps({
     icon: { type: String, default: '' }, // 设备图标
     label: { type: String, default: '' }, // 标题
     total: { type: Number, default: 0 }, // 总数
     online: { type: Number, default: 0 }, // 在线数
+    leave: { type: Number, default: 0 }, // 离开数
     offline: { type: Number, default: 0 }, // 离线数
+    showLeave: { type: Boolean, default: false }, // 离线数
     onlineShow: { type: Boolean, default: true }, // 离线数
   });
 </script>
@@ -64,6 +67,10 @@
 
         &.online {
           color: #52c41a;
+        }
+
+        &.leave {
+          color: #efbd47;
         }
 
         &.offline {
