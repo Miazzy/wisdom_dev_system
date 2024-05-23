@@ -5,13 +5,21 @@
     style="width: calc(100% - 20px); height: auto; margin: 10px; background: #fefefe"
   >
     <div style="width: 300px; height: 300px">
-      <TreeDPie :data="treeDPieData" :colors="treeDPieColors" :width='300' :height="300" />
+      <TreeDPie
+        :data="treeDPieData"
+        :colors="treeDPieColors"
+        :distance="220"
+        :alpha="50"
+        :width="300"
+        :height="300"
+        :opacity="0.6"
+        :ratio="0.8"
+      />
     </div>
 
     <div style="width: 300px; height: 300px">
       <Legend :data="treeDPieData" :colors="treeDPieColors" :width="200" />
     </div>
-
   </div>
 </template>
 <script lang="ts" setup>
@@ -259,26 +267,28 @@
     },
   ]);
 
-  const treeDPieColors = ref(['#00BBFF90',
-  '#1890FF90',
-  '#99DD0090',
-  '#6495ED90',
-  '#F7C82490',
-  '#66DD0090',
-  '#8A2BE290',
-  '#58D59790',
-  '#FFFF0090',
-  '#00BBFF90',
-  '#77FFEE90',
-  '#0066FF90',
-  '#7FFF0090',
-  '#7FFFD490',
-  '#00FFFF90',
-  '#7FFFD490',
-  '#0000FF90',
-  '#6495ED90',
-  '#00BFFF90',
-  '#66CDAA90',]);
+  const treeDPieColors = ref([
+    '#00BBFF90',
+    '#1890FF90',
+    '#99DD0090',
+    '#6495ED90',
+    '#F7C82490',
+    '#66DD0090',
+    '#8A2BE290',
+    '#58D59790',
+    '#FFFF0090',
+    '#00BBFF90',
+    '#77FFEE90',
+    '#0066FF90',
+    '#7FFF0090',
+    '#7FFFD490',
+    '#00FFFF90',
+    '#7FFFD490',
+    '#0000FF90',
+    '#6495ED90',
+    '#00BFFF90',
+    '#66CDAA90',
+  ]);
 
   const echartData = ref({
     categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5'],
