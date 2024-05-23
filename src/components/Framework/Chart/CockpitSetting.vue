@@ -3,16 +3,16 @@
     <div class="setting-box" :class="{'show-btns': isShowBtns }">
       <div class="setting-box-inner">
         <div class="left-btn">
-          <button class="btn-style full-screen-btn">
-            <i class="iconfont icon-quanping" @click="handleScreen"></i>
+          <button class="btn-style full-screen-btn" @click="handleScreen">
+            <i class="iconfont icon-quanping"></i>
           </button>
-          <button class="btn-style setting-btn">
-            <i class="iconfont icon-shezhi" @click="handleSettings"></i>
+          <button class="btn-style setting-btn" @click="handleSettings">
+            <i class="iconfont icon-shezhi"></i>
           </button>
         </div>
         <div class="right-btn">
-          <button class="btn-style open-btn">
-            <i class="iconfont icon-shousuojiantou" @click="handleSettingBtnsShow"></i>
+          <button class="btn-style open-btn" @click="handleSettingBtnsShow">
+            <i class="iconfont icon-shousuojiantou"></i>
           </button>
         </div>
       </div>
@@ -451,6 +451,7 @@
         height: 0.4rem;
         line-height: 0.4rem;
         background-color: rgba(24, 144, 255, 0.6);
+        cursor: pointer;
       }
       .full-screen-btn {
         border-radius: 2px 0 0 2px;
