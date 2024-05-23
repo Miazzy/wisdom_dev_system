@@ -1,7 +1,7 @@
 <template>
   <Dropdown placement="bottom">
     <span :class="[prefixCls, `${prefixCls}--${theme}`]" class="flex">
-      <img :class="`${prefixCls}__header`" :src="avatarURL" />
+      <img :class="`${prefixCls}__header`" :src="avatarURL?avatarURL:defaultAvatar" />
       <span :class="`${prefixCls}__info hidden md:block`">
         <span :class="`${prefixCls}__name  `" class="truncate">
           {{ truncateName(getUserInfo.realName) }}
@@ -39,6 +39,7 @@
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
   import { addTabPage } from '@/utils/route';
   import { MsgManager } from '/@/message/MsgManager';
+  import defaultAvatar from '@/assets/images/default-avatar-s.png';
 
   type MenuEvent = 'logout' | 'doc' | 'lock' | 'user';
 
@@ -146,6 +147,7 @@
         handleContainer,
         avatarURL,
         getUseLockPage,
+        defaultAvatar
       };
     },
   });
