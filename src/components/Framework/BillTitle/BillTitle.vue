@@ -9,7 +9,7 @@
         <div class="bill-info-item-content">制单日期：{{ options.fillinDate || '' }}</div>
       </div>
       <div class="bill-info-item right">
-        <div class="bill-info-item-content">创建人：{{ options.personMemberName || '' }}</div>
+        <div class="bill-info-item-content">创建人：{{ options.deptName? options.deptName + ' · ':'' }}{{ options.personMemberName || '' }}</div>
       </div>
     </div>
   </div>
