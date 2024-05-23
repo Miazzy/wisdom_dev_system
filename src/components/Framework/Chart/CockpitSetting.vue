@@ -90,7 +90,8 @@
   const isShowBtns = ref(false);
 
   const handleScreen = () => {
-    MsgManager.getInstance().sendMsg('iframe-screen-emit', {});
+    // MsgManager.getInstance().sendMsg('iframe-screen-emit', {});
+    window.open(window.location.href.split('?')[0])
   };
 
   const handleSettings = () => {
