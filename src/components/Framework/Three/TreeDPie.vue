@@ -1,7 +1,6 @@
 <template>
-  <div class="chart-container">
+  <div class="chart-container" :style="`background: ${background}; width: ${width}; height: ${height}`">
     <div class="chart" ref="chart"></div>
-    <!-- 底座背景 -->
     <div class="bg"></div>
   </div>
 </template>
@@ -9,37 +8,55 @@
 <script>
   import * as echarts from 'echarts';
   import 'echarts-gl';
-  import { getPie3D, getParametricEquation } from './chart.js'; // 3d图表库
-
-  const color = ['#1890FF90', '#F7C82490', '#58D59790', '#99DD0080'];
+  import { color, getPie3D, getParametricEquation, getDefaultStatus } from './chart.js'; // 3d图表库
 
   export default {
-    name: 'Chart',
+    name: 'ThreeDimPie',
+    props: {
+      data: {
+        type: Array,
+        default: [],
+      },
+      colors: {
+        type: Array,
+        default: [],
+      },
+      config: {
+        type: Object,
+        default: {
+          showlegend: false,
+        },
+      },
+      background: {
+        type: String,
+        default: '#142c4eff',
+      },
+      width: {
+        type: String,
+        default: '400px',
+      },
+      height: {
+        type: String,
+        default: '400px',
+      },
+    },
     data() {
       return {
-        optionData: [
-          {
-            name: '启用电梯',
-            value: 176,
-          },
-          {
-            name: '停用电梯',
-            value: 388,
-          },
-          {
-            name: '测试电梯',
-            value: 288,
-          },
-        ],
+        optionData: [],
+        optionColors: [],
         statusChart: null,
         option: {},
       };
     },
     created() {
-      this.setLabel();
+      //
     },
     mounted() {
       const that = this;
+      const { colors, data, config } = that;
+      that.optionData = data;
+      that.optionColors = colors?.length > 0 ? colors : color;
+      this.setLabel();
       that.initChart();
       //根据窗口变化自动调节图表大小
       window.onresize = function () {
@@ -49,14 +66,15 @@
     methods: {
       // 初始化label样式
       setLabel() {
+        const { optionColors } = this;
         this.optionData.forEach((item, index) => {
           item.itemStyle = {
-            color: color[index],
+            color: optionColors[index],
           };
           item.label = {
             normal: {
               show: true,
-              color: color[index],
+              color: optionColors[index],
               formatter: ['{b|{b}}', '{c|{c}}{b|台}', '{d|{d}%}'].join('\n'), // 用\n来换行
               rich: {
                 b: {
@@ -67,13 +85,13 @@
                 c: {
                   fontSize: 22,
                   color: '#fff',
-                  textShadowColor: '#1c90a6',
+                  textShadowColor: '#fefefe10',
                   textShadowOffsetX: 0,
                   textShadowOffsetY: 2,
                   textShadowBlur: 5,
                 },
                 d: {
-                  color: color[index],
+                  color: optionColors[index],
                   align: 'left',
                 },
               },
@@ -91,30 +109,16 @@
       },
       // 图表初始化
       initChart() {
+        const { config } = this;
         this.statusChart = echarts.init(this.$refs.chart);
         // 传入数据生成 option, 构建3d饼状图, 参数工具文件已经备注的很详细
-        this.option = getPie3D(this.optionData, 0.8, 240, 28, 26, 0.5);
+        this.option = getPie3D(this.optionData, 0.8, 240, 28, 26, 0.65);
         this.statusChart.setOption(this.option);
         // 是否需要label指引线，如果要就添加一个透明的2d饼状图并调整角度使得labelLine和3d的饼状图对齐，并再次setOption
-        this.option.series.push({
-          name: '电梯状态', //自己根据场景修改
-          backgroundColor: 'transparent',
-          type: 'pie',
-          label: {
-            opacity: 1,
-            fontSize: 13,
-            lineHeight: 20,
-          },
-          startAngle: -40, // 起始角度，支持范围[0, 360]。
-          clockwise: false, // 饼图的扇区是否是顺时针排布。上述这两项配置主要是为了对齐3d的样式
-          radius: ['20%', '50%'],
-          center: ['50%', '50%'],
-          data: this.optionData,
-          itemStyle: {
-            opacity: 0, //这里必须是0，不然2d的图会覆盖在表面
-          },
-        });
-        this.statusChart.setOption(this.option);
+        if (config.showLegend) {
+          this.option.series.push(getDefaultStatus(this.optionData));
+          this.statusChart.setOption(this.option);
+        }
         this.bindListen(this.statusChart);
       },
       // 监听鼠标事件，实现饼图选中效果（单选），近似实现高亮（放大）效果。
@@ -261,7 +265,6 @@
     position: relative;
     width: 400px;
     height: 400px;
-    background: #142C4Eff;
 
     .chart,
     .bg {
@@ -271,14 +274,13 @@
 
     .bg {
       position: absolute;
-      z-index: -1;
+      z-index: 0;
       bottom: 50px;
       left: 50%;
       width: 180px;
       height: 73px;
       transform: translateX(-50%);
-      background: no-repeat center;
-      background-image: url('https://ks3-cn-beijing.ksyun.com/sxjg-elevator/datav-platform-2.0/images/chart_opacity_bg.png');
+      background: transparent;
       background-size: 100% 100%;
     }
   }
