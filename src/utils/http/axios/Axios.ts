@@ -299,17 +299,17 @@ export class VAxios {
     }
 
     // 如果请求过快，则直接获取最近一个请求的缓存数据
-    if (now - lastRequestTime <= 1500) {
+    if (now - lastRequestTime <= 500) {
       if (!cache) {
-        await sleep(500);
+        await sleep(100);
         cache = await ls.fget(key);
       }
       if (!cache) {
-        await sleep(500);
+        await sleep(100);
         cache = await ls.fget(key);
       }
       if (!cache) {
-        await sleep(500);
+        await sleep(100);
         cache = await ls.fget(key);
       }
     }
@@ -372,7 +372,7 @@ export class VAxios {
               } else if (needInterceptURL.includes(pathURL)) {
                 ls.set(key, result, 60 * 60 * 24 * 7);
               } else {
-                ls.set(key, result, 1.5);
+                ls.set(key, result, 1);
               }
               resolve(ret);
             } catch (err) {
