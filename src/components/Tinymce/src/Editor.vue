@@ -253,9 +253,9 @@
           }, 30);
         });
 
-        MsgManager.getInstance().listen('global-disabled', (message) => {
-          appDisabled.value = message;
-        });
+        // MsgManager.getInstance().listen('global-disabled', (message) => {
+        //   appDisabled.value = message;
+        // });
       });
 
       onBeforeUnmount(() => {
