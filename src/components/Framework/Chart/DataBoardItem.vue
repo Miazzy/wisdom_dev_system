@@ -126,6 +126,7 @@
     border-radius: 0.04rem;
     border: 1px solid rgba(24, 144, 255, 0.3);
     padding: 0 0.15rem;
+    cursor: pointer;
     .title-box {
       display: flex;
       align-items: center;
