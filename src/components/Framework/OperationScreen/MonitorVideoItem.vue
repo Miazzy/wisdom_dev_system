@@ -1,20 +1,10 @@
 <template>
-  <div
-    class="monitor-video-item"
-    :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${
+  <div class="monitor-video-item" :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${
       typeof props.height == 'number' ? props.height + 'px' : props.height
-    }`"
-  >
+    }`">
     <div class="video-box">
       <div class="mcs8-video">
-        <video
-          class="video-layout"
-          ref="mcs8Video"
-          :src="videoSrc"
-          autoplay
-          playsinline
-          controls
-        ></video>
+        <video class="video-layout" ref="mcs8Video" :src="videoSrc" autoplay playsinline controls></video>
       </div>
     </div>
     <div class="title-box">
@@ -231,17 +221,12 @@
         .video-layout {
           display: block;
           width: 100%;
-          height: 296px;
-          border-radius: 6px;
         }
       }
     }
 
     .title-box {
       display: flex;
-      position: absolute;
-      bottom: 0;
-      left: 0;
       align-items: center;
       justify-content: space-between;
       width: 100%;
