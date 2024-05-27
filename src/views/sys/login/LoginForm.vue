@@ -56,6 +56,7 @@
   import { useUserStore } from '/@/store/modules/user';
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import { md5 } from '/@/utils/encryption/crypto';
 
   const ACol = Col;
   const ARow = Row;
@@ -95,7 +96,7 @@
         const params = {
           remember: rememberMe.value,
           account: data.account,
-          password: data.password,
+          password: md5(data.password),
         };
         rememberMe.value
           ? localStorage.setItem('REMEMBER_ME_INFO', JSON.stringify(params))
