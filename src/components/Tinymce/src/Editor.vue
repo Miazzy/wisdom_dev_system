@@ -227,6 +227,7 @@
         const editor = unref(editorRef);
         if (editor) {
           editor.setMode(getdDisabled ? 'readonly' : 'design');
+          richTextEditStatus('#' + tinymceId.value + '_ifr', props.disabled ? 'false' : 'true');
         }
         return (getdDisabled ?? false) || appDisabled.value;
       });
