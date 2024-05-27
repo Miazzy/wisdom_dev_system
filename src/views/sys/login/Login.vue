@@ -74,7 +74,12 @@
   html[data-theme='dark'] {
     .@{prefix-cls} {
 
-      background: url('/@/assets/images/login-bg-dark.png') no-repeat center/100% 100%;
+      transition: background-image 1s ease; /* 设置背景图片变换的动画效果 */
+      background-color: #23388d; /* 设置备用背景色 */
+      background-image: url('/@/assets/images/login-bg-dark.png');
+      background-repeat: no-repeat;
+      background-position: center/100%; /* 设置背景图片的位置 */
+      background-size: 100%; /* 设置背景图片的大小 */
 
       .ant-input,
       .ant-input-password {
