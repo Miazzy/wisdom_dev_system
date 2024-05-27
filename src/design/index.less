@@ -58,96 +58,192 @@ ul {
 }
 
 /************** 低分辨率自适应 **************/
-@media screen and (max-width: 1440px) {
-  body {
-    width: 117.65% !important;
-    height: 117.65vh !important;
-    transform: scale(0.85);
-    transform-origin: 0% 0%;
+// @media screen and (max-width: 1650px) {
+//   body {
+//     width: 100% !important;
+//     height: 100vh !important;
+//     transform: scale(1);
+//     transform-origin: 0% 0%;
 
-    .main-layout {
-        height: 117.65vh !important;
-    }
+//     .main-layout {
+//         height: 100vh !important;
+//     }
 
-    .app-menu{
-      height: calc(117.65vh - 3.25rem) !important;
-    }
+//     .app-menu{
+//       height: calc(100vh - 3.25rem) !important;
+//     }
     
-    .app-content {
-      .iframe-content {
-        width: 100%;
-        height: calc(117.65vh - 85px) !important;
+//     .app-content {
+//       .iframe-content {
+//         width: 100%;
+//         height: calc(100vh - 85px) !important;
 
-        .iframe-component {
-          position: absolute;
-          z-index: 1000;
-          width: 100%;
-          height: calc(107.5vh - 0px) !important;
-          overflow-y: scroll;
-        }
-      }
+//         .iframe-component {
+//           position: absolute;
+//           z-index: 1000;
+//           width: 100%;
+//           height: calc(90vh - 0px) !important;
+//           overflow-y: scroll;
+//         }
+//       }
 
-      .tabs-content {
-        .tabs-buttons {
-          position: fixed;
-          right: 0 !important;
-        }
-      }
-    }
+//       .tabs-content {
+//         .tabs-buttons {
+//           position: fixed;
+//           right: 0 !important;
+//         }
+//       }
+//     }
 
-    // 大屏和驾驶舱不缩放适配
-    .rem-layout {
-      transform: scale(1.1765);
-      transform-origin: 0 0;
-      width: 85% !important;
-      height: 100vh !important;
-    }
-  }
-}
+//     // 大屏和驾驶舱不缩放适配
+//     .rem-layout {
+//       transform: scale(1.0);
+//       transform-origin: 0 0;
+//       width: 100% !important;
+//       height: 100vh !important;
+//     }
+//   }
+// }
 
-@media screen and (max-width: 1280px) {
-  body {
-    width: 131.58% !important;
-    height: 131.58vh !important;
-    transform: scale(0.76);
-    transform-origin: 0% 0%;
+/************** 低分辨率自适应 **************/
+// @media screen and (max-width: 1450px) {
+//   body {
+//     width: 105% !important;
+//     height: 105vh !important;
+//     transform: scale(0.9523);
+//     transform-origin: 0% 0%;
 
-    .main-layout {
-        height: 131.58vh !important;
-    }
+//     .main-layout {
+//         height: 111vh !important;
+//     }
 
-    .app-menu{
-      height: calc(131.58vh - 3.25rem) !important;
-    }
+//     .app-menu{
+//       height: calc(111vh - 3.25rem) !important;
+//     }
+    
+//     .app-content {
+//       .iframe-content {
+//         width: 100%;
+//         height: calc(105vh - 85px) !important;
 
-    .app-content {
-      .iframe-content {
-        width: 100%;
-        height: calc(131.58vh - 85px) !important;
+//         .iframe-component {
+//           position: absolute;
+//           z-index: 1000;
+//           width: 100%;
+//           height: calc(95vh - 0px) !important;
+//           overflow-y: scroll;
+//         }
+//       }
 
-        .iframe-component {
-          position: absolute;
-          z-index: 1000;
-          width: 100%;
-          height: calc(120.5vh - 0px) !important;
-          overflow-y: scroll;
-        }
-      }
+//       .tabs-content {
+//         .tabs-buttons {
+//           position: fixed;
+//           right: 0 !important;
+//         }
+//       }
+//     }
 
-      .tabs-content {
-        .tabs-buttons {
-          position: fixed;
-          right: 0 !important;
-        }
-      }
-    }
+//     // 大屏和驾驶舱不缩放适配
+//     .rem-layout {
+//       transform: scale(1.05);
+//       transform-origin: 0 0;
+//       width: 95.23% !important;
+//       height: 100vh !important;
+//     }
+//   }
+// }
 
-    // 大屏和驾驶舱不缩放适配
-    .rem-layout {
-      transform: scale(1.3158);
-      transform-origin: 0 0;
-      width: 76% !important;
-      height: 100vh !important;
-    }
-  }
-}
+// /************** 低分辨率自适应 **************/
+// @media screen and (max-width: 1350px) {
+//   body {
+//     width: 111% !important;
+//     height: 111vh !important;
+//     transform: scale(0.901);
+//     transform-origin: 0% 0%;
+
+//     .main-layout {
+//         height: 110vh !important;
+//     }
+
+//     .app-menu{
+//       height: calc(111vh - 3.25rem) !important;
+//     }
+    
+//     .app-content {
+//       .iframe-content {
+//         width: 100%;
+//         height: calc(111vh - 85px) !important;
+
+//         .iframe-component {
+//           position: absolute;
+//           z-index: 1000;
+//           width: 100%;
+//           height: calc(91vh - 0px) !important;
+//           overflow-y: scroll;
+//         }
+//       }
+
+//       .tabs-content {
+//         .tabs-buttons {
+//           position: fixed;
+//           right: 0 !important;
+//         }
+//       }
+//     }
+
+//     // 大屏和驾驶舱不缩放适配
+//     .rem-layout {
+//       transform: scale(1.11);
+//       transform-origin: 0 0;
+//       width: 90.10% !important;
+//       height: 100vh !important;
+//     }
+//   }
+// }
+
+// @media screen and (max-width: 1280px) {
+//   body {
+//     width: 131.58% !important;
+//     height: 131.58vh !important;
+//     transform: scale(0.76);
+//     transform-origin: 0% 0%;
+
+//     .main-layout {
+//         height: 131.58vh !important;
+//     }
+
+//     .app-menu{
+//       height: calc(131.58vh - 3.25rem) !important;
+//     }
+
+//     .app-content {
+//       .iframe-content {
+//         width: 100%;
+//         height: calc(131.58vh - 85px) !important;
+
+//         .iframe-component {
+//           position: absolute;
+//           z-index: 1000;
+//           width: 100%;
+//           height: calc(120.5vh - 0px) !important;
+//           overflow-y: scroll;
+//         }
+//       }
+
+//       .tabs-content {
+//         .tabs-buttons {
+//           position: fixed;
+//           right: 0 !important;
+//         }
+//       }
+//     }
+
+//     // 大屏和驾驶舱不缩放适配
+//     .rem-layout {
+//       transform: scale(1.3158);
+//       transform-origin: 0 0;
+//       width: 76% !important;
+//       height: 100vh !important;
+//     }
+//   }
+// }
