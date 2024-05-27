@@ -25,7 +25,7 @@ export function createPermissionGuard(router: Router) {
       userStore.getUserInfo.homePath &&
       userStore.getUserInfo.homePath !== PageEnum.BASE_HOME
     ) {
-      next(userStore.getUserInfo.homePath);
+      // next(userStore.getUserInfo.homePath);
       return;
     }
 
@@ -38,8 +38,8 @@ export function createPermissionGuard(router: Router) {
         try {
           await userStore.afterLoginAction();
           if (!isSessionTimeout) {
-            next((to.query?.redirect as string) || '/');
-            return;
+            // next((to.query?.redirect as string) || '/');
+            // return;
           }
         } catch {
           //
@@ -109,10 +109,7 @@ export function createPermissionGuard(router: Router) {
     const routeList = router.getRoutes();
     const findRoute = routeList.find((item) => item.path == to.fullPath);
     const routeName = findRoute?.name;
-    const rlist = [
-      '/po/safety/safecheckexecution?checkType=2',
-      '/po/safety/safecheckexecution?checkType=1',
-    ];
+    const rlist = [];
     if (to.name != routeName && rlist.includes(to.fullPath)) {
       next({ path: to.fullPath, replace: true, query: {}, name: routeName });
     } else if (to.name === PAGE_NOT_FOUND_ROUTE.name) {
