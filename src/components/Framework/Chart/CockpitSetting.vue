@@ -60,6 +60,7 @@
   import WeatherDisplay from '/@/components/Framework/Chart/WeatherDisplay.vue';
   import Icon from '@/components/Icon/Icon.vue';
   import { MsgManager } from '/@/message/MsgManager';
+  import { ScreenList } from '/@/constant/constant';
 
   const props = defineProps({
     title: { type: String, default: '' }, // 列定义
@@ -90,8 +91,13 @@
   const isShowBtns = ref(false);
 
   const handleScreen = () => {
-    // MsgManager.getInstance().sendMsg('iframe-screen-emit', {});
-    window.open(window.location.href.split('?')[0])
+    const screenRouteMap = new Map(ScreenList);
+    const path = '/' + window.location.hash.split('?')[0];
+    if (screenRouteMap.has(path)) {
+      window.open(`${window.origin}${screenRouteMap.get(path)}`, '_blank');
+    } else {
+      window.open(`${window.origin}${path}`, '_blank');
+    }
   };
 
   const handleSettings = () => {

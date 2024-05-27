@@ -68,6 +68,7 @@
   import { TOKEN_KEY } from '/@/enums/cacheEnum';
   import { useUserStore } from '/@/store/modules/user';
   import { MsgManager } from '/@/message/MsgManager';
+  import { ScreenList } from '/@/constant/constant';
 
   const menuList = ref<any[]>([]);
   const systemTheme = ref('');
@@ -141,6 +142,7 @@
   };
 
   const handleMenuClick = (event) => {
+    const screenRouteMap = new Map(ScreenList);
     if (loadOverFlag.value) {
       const token = getAuthCache<string>(TOKEN_KEY);
       if (typeof token == 'undefined' || token == null || token == '') {
@@ -149,7 +151,12 @@
       const { key } = event;
       const menu = menuMap.get(key);
       if (menu.openWindowModel === 'newWindow') {
-        window.open(`${window.origin}${handlePath(menu.url)}`, '_blank');
+        const path = handlePath(menu.url);
+        if (screenRouteMap.has(path)) {
+          window.open(`${window.origin}${screenRouteMap.get(path)}`, '_blank');
+        } else {
+          window.open(`${window.origin}${path}`, '_blank');
+        }
       } else {
         emit('click', key, menu, event);
       }

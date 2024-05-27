@@ -32,5 +32,15 @@ export enum FILE_PREVIEW {
   IMAGE_TYPES = '[".jpg",".jpeg",".png",".gif",".bmp",".ico",".jfif",".webp"]',
 }
 
+export const ScreenList = [
+  ['/#/frame/cockpit/overview', '/#/CockpitOverview'],
+  ['/#/frame/cockpit/operation', '/#/CockpitOperation'],
+  ['/#/frame/cockpit/property', '/#/CockpitProperty'],
+  ['/#/frame/cockpit/security', '/#/CockpitSecurity'],
+  ['/#/frame/cockpit/composition', '/#/CockpitComposition'],
+  ['/#/frame/cockpit/power', '/#/CockpitPower'],
+  ['/#/frame/groupOperation', '/#/groupOperation'],
+];
+
 // 附件预览图片类型
 export const PICTURE_TYPES = JSON.parse(FILE_PREVIEW.IMAGE_TYPES);

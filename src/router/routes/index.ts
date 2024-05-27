@@ -151,6 +151,50 @@ export const CockpitPowerRoute: AppRouteRecordRaw = {
   meta: { keepAlive: true },
 };
 
+/////////////////////////大屏驾驶舱/////////////////////////////
+
+// 总览驾驶舱路由
+export const CockpitOverviewScrRoute: AppRouteRecordRaw = {
+  path: '/CockpitOverview',
+  component: () => import('/@/views/da/cockpit/overview/Overview.vue'),
+  meta: { keepAlive: true },
+};
+
+// 运维驾驶舱路由
+export const CockpitOperationScrRoute: AppRouteRecordRaw = {
+  path: '/CockpitOperation',
+  component: () => import('/@/views/da/cockpit/operation/Operation.vue'),
+  meta: { keepAlive: true },
+};
+
+// 资产驾驶舱路由
+export const CockpitPropertyScrRoute: AppRouteRecordRaw = {
+  path: '/CockpitProperty',
+  component: () => import('/@/views/da/cockpit/property/Property.vue'),
+  meta: { keepAlive: true },
+};
+
+// 安全驾驶舱路由
+export const CockpitSecurityScrRoute: AppRouteRecordRaw = {
+  path: '/CockpitSecurity',
+  component: () => import('/@/views/da/cockpit/security/Security.vue'),
+  meta: { keepAlive: true },
+};
+
+// 综合驾驶舱路由
+export const CockpitCompositionScrRoute: AppRouteRecordRaw = {
+  path: '/CockpitComposition',
+  component: () => import('/@/views/da/cockpit/composition/Composition.vue'),
+  meta: { keepAlive: true },
+};
+
+// 安全驾驶舱路由
+export const CockpitPowerScrRoute: AppRouteRecordRaw = {
+  path: '/CockpitPower',
+  component: () => import('/@/views/da/cockpit/power/Power.vue'),
+  meta: { keepAlive: true },
+};
+
 // 集团运营大屏
 export const GroupOperationRoute: AppRouteRecordRaw = {
   path: '/groupOperation',
@@ -166,6 +210,8 @@ export const StationOperationRoute: AppRouteRecordRaw = {
   component: () => import('/@/views/da/stationOperation/StationOperation.vue'),
   meta: { title: '电站运营', keepAlive: true },
 };
+
+/////////////////////////大屏驾驶舱/////////////////////////////
 
 // 电站运营大屏
 export const FrameWorkbench: AppRouteRecordRaw = {
@@ -1645,6 +1691,12 @@ export const basicRoutes = [
   CockpitSecurityRoute,
   CockpitCompositionRoute,
   CockpitPowerRoute,
+  CockpitOverviewScrRoute,
+  CockpitOperationScrRoute,
+  CockpitPropertyScrRoute,
+  CockpitSecurityScrRoute,
+  CockpitCompositionScrRoute,
+  CockpitPowerScrRoute,
   RootRoute,
   ...mainOutRoutes,
   REDIRECT_ROUTE,
