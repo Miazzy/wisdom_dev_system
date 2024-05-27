@@ -93,7 +93,10 @@
     if(item.source === '1'){
       window.open(item.url);
     }else{
-      addTabPage('/oa/info/informationquery/index', '资讯查询');
+      var params = {
+        bizId: item.id
+      };
+      addTabPage('/oa/info/informationquery/view', '资讯详情', params);
     }
   };
 
