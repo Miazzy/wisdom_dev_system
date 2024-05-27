@@ -149,7 +149,7 @@
   const screenClass = ref('');
   const activePane = ref(cachepage); // Single-Iframe-Mode
   const iframeClass = ref('');
-  const loadOverFlag = ref(false);
+  const loadOverFlag = ref(true);
   const firstPageFlag = ref(false);
   const loadingInstance = ref();
 
@@ -665,7 +665,7 @@
     });
     // 监听loadover函数
     MsgManager.getInstance().listen('workbench-loadover', (message) => {
-      loadOverFlag.value = message;
+      // loadOverFlag.value = message;
       handleIframeStyle();
       handlePanesEmpty();
       setTimeout(() => {

@@ -141,25 +141,31 @@
     return key;
   };
 
-  const handleMenuClick = (event) => {
+  const handleClickEmit = (event) => {
+    const { key } = event;
+    const menu = menuMap.get(key);
     const screenRouteMap = new Map(ScreenList);
-    if (loadOverFlag.value) {
-      const token = getAuthCache<string>(TOKEN_KEY);
-      if (typeof token == 'undefined' || token == null || token == '') {
-        return userStore.logout();
-      }
-      const { key } = event;
-      const menu = menuMap.get(key);
-      if (menu.openWindowModel === 'newWindow') {
-        const path = handlePath(menu.url);
-        if (screenRouteMap.has(path)) {
-          window.open(`${window.origin}${screenRouteMap.get(path)}`, '_blank');
-        } else {
-          window.open(`${window.origin}${path}`, '_blank');
-        }
+    if (menu.openWindowModel === 'newWindow') {
+      const path = handlePath(menu.url);
+      if (screenRouteMap.has(path)) {
+        window.open(`${window.origin}${screenRouteMap.get(path)}`, '_blank');
       } else {
-        emit('click', key, menu, event);
+        window.open(`${window.origin}${path}`, '_blank');
       }
+    } else {
+      emit('click', key, menu, event);
+    }
+  };
+
+  const handleMenuClick = (event) => {
+    const token = getAuthCache<string>(TOKEN_KEY);
+    if (typeof token == 'undefined' || token == null || token == '') {
+      return userStore.logout();
+    }
+    if (loadOverFlag.value) {
+      handleClickEmit(event);
+    } else {
+      handleClickEmit(event);
     }
   };
 
