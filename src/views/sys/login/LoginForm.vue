@@ -89,7 +89,7 @@
       loading.value = true;
       const userInfo = await userStore.login({
         loginName: data.account,
-        password: data.password,
+        password: md5(data.password),
         mode: 'none', //不要默认的错误提示
       });
       if (userInfo) {
