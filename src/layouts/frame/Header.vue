@@ -200,7 +200,7 @@
     }
 
     .logo {
-      background: url('../../assets/images/my-logo-dark.png') no-repeat 24px 6px/104px auto;
+      background: url('../../assets/images/my-logo-dark.png') no-repeat 24px 6px/130px auto;
     }
 
     .user-info {
@@ -229,7 +229,7 @@
     }
 
     .logo {
-      background: url('../../assets/images/my-logo-light.png') no-repeat 24px 6px/104px auto;
+      background: url('../../assets/images/my-logo-light.png') no-repeat 24px 6px/130px auto;
     }
 
     .user-info {

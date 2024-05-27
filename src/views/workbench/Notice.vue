@@ -136,7 +136,7 @@
           source: e.source,
           url: e.url,
           person: e.personMemberName,
-          time: DateUtil.formatToDate(e.finishedDate, 'YYYY-MM-DD HH:mm'),
+          time: DateUtil.formatToDate(e.finishedDate, 'YYYY-MM-DD'),
           // isRead: e.isRead,
           // businessType: e.businessType,
         });
