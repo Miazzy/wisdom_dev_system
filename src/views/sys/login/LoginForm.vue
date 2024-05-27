@@ -96,7 +96,7 @@
         const params = {
           remember: rememberMe.value,
           account: data.account,
-          password: md5(data.password),
+          password: data.password,
         };
         rememberMe.value
           ? localStorage.setItem('REMEMBER_ME_INFO', JSON.stringify(params))
