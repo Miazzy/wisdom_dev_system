@@ -166,7 +166,7 @@
     iValue1.value = props.value1;
     iValue2.value = props.value2;
     handleValueRange();
-    MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
+    // MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
   });
 </script>
 

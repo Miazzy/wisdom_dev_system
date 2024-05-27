@@ -145,9 +145,7 @@
     } catch (error) {
       console.error('Failed to fetch data:', error);
     } finally {
-      MsgManager.getInstance().listen('global-disabled', (message) => {
-        appDisabled.value = message;
-      });
+      // MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
     }
   });
 </script>

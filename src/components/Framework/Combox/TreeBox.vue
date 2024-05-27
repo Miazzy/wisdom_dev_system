@@ -535,15 +535,14 @@
       searchRealText.value = props.value;
       selectedValue.value = props.multiple ? [] : '';
       searchLabelText.value = treeEntry.value.get(props.value);
+      // MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
     } catch {
       //
     }
   });
 
   onUnmounted(() => {
-    MsgManager.getInstance().listen('global-disabled', (message) => {
-      appDisabled.value = message;
-    });
+    
   });
 
   defineExpose({ reload });

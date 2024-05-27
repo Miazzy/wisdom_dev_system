@@ -243,9 +243,7 @@
         props.callback(filelist.value);
       }
       // 监听是否启用全局禁用
-      MsgManager.getInstance().listen('global-disabled', (message) => {
-        appDisabled.value = message;
-      });
+      // MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
       setTimeout(() => {
         emit('loaded', filelist.value);
       }, 300);

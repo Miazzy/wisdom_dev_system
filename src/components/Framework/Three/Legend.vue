@@ -88,7 +88,6 @@
     () => props.unit,
     (value) => {
       tUnit.value = value;
-      debugger;
     },
   );
 </script>

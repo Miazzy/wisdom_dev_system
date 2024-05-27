@@ -194,7 +194,7 @@
     try {
       selectedValue.value = props?.value;
       reloadData();
-      MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
+      // MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
     } catch (error) {
       //
     }

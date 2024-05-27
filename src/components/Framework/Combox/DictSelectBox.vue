@@ -197,7 +197,7 @@
   // 启动加载
   onMounted(async () => {
     handleInitData();
-    MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
+    // MsgManager.getInstance().listen('global-disabled', (message) => { appDisabled.value = message; });
     setTimeout(() => {
       handleFocus();
     }, 1500);
