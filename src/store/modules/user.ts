@@ -230,11 +230,17 @@ export const useUserStore = defineStore({
       },
     ): Promise<GetUserInfoModel | null> {
       try {
+        const { notification } = useMessage();
         const { goHome = true, ...loginParams } = params;
         const task = TaskExecutor.getInstance();
         const once = OnceExecutor.getInstance();
         // Login接口传入登录账户参数，获取用户登录返回结果
         const data = await loginApi(loginParams);
+        if (data?.code === '-1') {
+          notification.error({ message: '警告提示', description: data?.msg });
+          SysMessage.getInstance().error(data?.msg);
+          return null;
+        }
         const { accessToken, refreshToken } = data || {};
         this.setToken(accessToken as string);
         this.setRefreshToken(refreshToken as string);

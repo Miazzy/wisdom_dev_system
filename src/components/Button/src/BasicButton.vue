@@ -19,9 +19,8 @@
   import { computed, ref, unref, onMounted, watch } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
   import { buttonProps } from './props';
-  import { useAttrs } from '@vben/hooks';
+  import { useAttrs, onMountedOrActivated } from '@vben/hooks';
   import { MsgManager } from '/@/message/MsgManager';
-  import { onMountedOrActivated } from '@vben/hooks';
   import { urlToPath } from '/@/utils/route';
 
   defineOptions({
