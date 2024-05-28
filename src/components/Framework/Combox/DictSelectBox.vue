@@ -68,11 +68,11 @@
     if (props.multiple == 'multiple') {
       selectedValue.value = props.value == null ? [] : (props.value as any[]);
     } else if (typeof props.value == 'string') {
-      selectedValue.value = props.value as string;
+      selectedValue.value = props.value === 'null' ? '' : (props.value as string);
     } else if (typeof props.value == 'number') {
       selectedValue.value = props.value as number;
     } else {
-      selectedValue.value = props.value;
+      selectedValue.value = props.value == null ? '' : props.value;
     }
 
     try {
@@ -80,12 +80,15 @@
         const flag =
           options.value &&
           props.value != null &&
+          props.value != 'null' &&
           options.value.length > 0 &&
           typeof options.value[0]?.value == 'string';
         if (flag) {
           selectedValue.value = String(props.value);
         } else if (props.value == null) {
-          selectedValue.value = null;
+          selectedValue.value = '';
+        } else if (props.value == 'null') {
+          selectedValue.value = '';
         }
       }
 
@@ -139,6 +142,8 @@
       const { type } = props;
       if (props.multiple == 'multiple' || props.multiple == 'tags') {
         selectedValue.value = [];
+      } else if (props.value == null || props.value == 'null') {
+        selectedValue.value = '';
       }
       let cache = await ls.fget(DICT_DATA__KEY + type);
       if (!cache) {
