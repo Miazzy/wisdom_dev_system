@@ -25,7 +25,7 @@ export function createPermissionGuard(router: Router) {
       userStore.getUserInfo.homePath &&
       userStore.getUserInfo.homePath !== PageEnum.BASE_HOME
     ) {
-      // next(userStore.getUserInfo.homePath);
+      next(userStore.getUserInfo.homePath);
       return;
     }
 
@@ -38,8 +38,8 @@ export function createPermissionGuard(router: Router) {
         try {
           await userStore.afterLoginAction();
           if (!isSessionTimeout) {
-            // next((to.query?.redirect as string) || '/');
-            // return;
+            next((to.query?.redirect as string) || '/');
+            return;
           }
         } catch {
           //
