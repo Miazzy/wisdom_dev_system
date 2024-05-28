@@ -237,7 +237,7 @@ export const useUserStore = defineStore({
         // Login接口传入登录账户参数，获取用户登录返回结果
         const data = await loginApi(loginParams);
         if (data?.code === '-1') {
-          notification.error({ message: '警告提示', description: data?.msg });
+          notification.error({ message: '错误提示', description: data?.msg });
           SysMessage.getInstance().error(data?.msg);
           return null;
         }
