@@ -59,6 +59,10 @@ export function initAppConfigStore() {
     themeName = darkMode === ThemeEnum.DARK ? 'theme1' : 'theme3';
     localStorage.setItem('THEME', themeName);
   }
+  if (darkMode === ThemeEnum.DARK && themeName != 'theme1') {
+    themeName = darkMode === ThemeEnum.DARK ? 'theme1' : 'theme3';
+    localStorage.setItem('THEME', themeName);
+  }
   sendThemeMessage('class', `${themeName} my-layout`);
   setTimeout(() => {
     clearObsoleteStorage();
