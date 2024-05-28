@@ -1,10 +1,20 @@
 <template>
-  <div class="monitor-video-item" :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${
+  <div
+    class="monitor-video-item"
+    :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${
       typeof props.height == 'number' ? props.height + 'px' : props.height
-    }`">
+    }`"
+  >
     <div class="video-box">
       <div class="mcs8-video">
-        <video class="video-layout" ref="mcs8Video" :src="videoSrc" autoplay playsinline controls></video>
+        <video
+          class="video-layout"
+          ref="mcs8Video"
+          :src="videoSrc"
+          autoplay
+          playsinline
+          controls
+        ></video>
       </div>
     </div>
     <div class="title-box">
@@ -15,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { onMounted, ref } from 'vue';
+  import { onMounted, onUnmounted, ref } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
   import { useMessage } from '@/hooks/web/useMessage';
 
@@ -31,7 +41,6 @@
   const message = useMessage();
   const mcs8Video = ref();
   const client = ref();
-  const closeTopBtn = ref<Number>(10);
 
   // 初始化
   const init = async () => {
@@ -42,15 +51,11 @@
     if (!client.value) {
       await connectServer();
     }
-    setTimeout(async () => {
-      await loadRealTimeVideo();
-    }, 500);
   };
 
   // 加载实时视频
   const loadRealTimeVideo = async () => {
-    const code = await client.value.openVideo(props.devId, mcs8Video.value);
-    closeTopBtn.value = code === 200 ? 28 : 10;
+    await client.value.openVideo(props.devId, mcs8Video.value);
   };
 
   // 连接服务器
@@ -90,6 +95,10 @@
             if (request.errCode == 200) {
               // document.getElementById('txtlog').value='媒体登录成功';
               console.log('媒体登录成功');
+
+              setTimeout(async () => {
+                await loadRealTimeVideo();
+              }, 500);
             }
             if (request.errCode == 401) {
               // document.getElementById('txtlog').value='连接媒体断开';
@@ -158,8 +167,6 @@
       host: 'yyzx.zfy.ygwl.net',
       port: '7709',
       uid: 'pc1',
-      // port: '7715',
-      // uid: 'pc0',
       pwd: '000000',
       // localVideo: document.getElementById('local_video'),
       // localAudio: document.getElementById('local_audio'),
@@ -179,16 +186,20 @@
     init();
   });
 
+  onUnmounted(() => {
+    if (client.value) {
+      closeMcs8Video();
+    }
+  });
+
   // 主动暴露组件方法
   defineExpose({
     openVideo: () => {
-      console.log(11, 'openVideo');
       if (client.value) {
         loadRealTimeVideo();
       }
     },
     closeVideo: () => {
-      console.log(11, 'closeVideo');
       if (client.value) {
         closeMcs8Video();
       }
