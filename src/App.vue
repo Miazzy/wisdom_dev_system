@@ -77,6 +77,7 @@
         const loginFlag =
           iframePath == PageEnum.BASE_LOGIN || iframePath == PageEnum.BASE_LOGIN + '/';
         if (iframePath !== routePath && !baseFlag) {
+          console.info('app vue page router push:', iframePath);
           router.push(iframePath as string);
         } else if (baseFlag) {
           SysMessage.getInstance().warning('警告：页签页面不能打开框架页面！');

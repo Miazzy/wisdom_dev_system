@@ -400,8 +400,15 @@ export const handleLogoutFn = (that: any) => {
       //
     }
     router.push(PageEnum.BASE_LOGIN);
-    window.open('/#/login', '_self');
   }, 100);
+
+  setTimeout(() => {
+    router.push(PageEnum.BASE_LOGIN);
+  }, 500);
+
+  setTimeout(() => {
+    router.push(PageEnum.BASE_LOGIN);
+  }, 900);
 
   setTimeout(() => {
     MsgManager.getInstance().sendMsg('logouting', false);
