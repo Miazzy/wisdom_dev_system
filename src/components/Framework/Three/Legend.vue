@@ -52,29 +52,33 @@
   const calculatePercentage = (value) => ((value / totalValue.value) * 100).toFixed(2);
 
   onMounted(() => {
-    if (props.data) {
-      totalValue.value = props.data.reduce((sum, item) => sum + item.value, 0);
-    }
-    nextTick(() => {
-      const scrollContainer = list.value;
-      let isScrollingDown = true;
+    try {
+      if (props.data) {
+        totalValue.value = props.data.reduce((sum, item) => sum + item.value, 0);
+      }
+      nextTick(() => {
+        const scrollContainer = list.value;
+        let isScrollingDown = true;
 
-      const scroll = () => {
-        if (isScrollingDown) {
-          scrollContainer.scrollTop += 1;
-          const isAttachBottom =
-            scrollContainer.scrollTop + scrollContainer.clientHeight >=
-            scrollContainer.scrollHeight;
-          if (isAttachBottom) {
-            setTimeout(() => {
-              scrollContainer.scrollTop = 0;
-            }, 300);
+        const scroll = () => {
+          if (isScrollingDown) {
+            scrollContainer.scrollTop += 1;
+            const isAttachBottom =
+              scrollContainer.scrollTop + scrollContainer.clientHeight >=
+              scrollContainer.scrollHeight;
+            if (isAttachBottom) {
+              setTimeout(() => {
+                scrollContainer.scrollTop = 0;
+              }, 300);
+            }
           }
-        }
-      };
+        };
 
-      setInterval(scroll, 100);
-    });
+        setInterval(scroll, 100);
+      });
+    } catch {
+      //
+    }
   });
 
   watch(
@@ -94,25 +98,25 @@
 
 <style lang="less" scoped>
   .legend-container {
+    display: flex;
     position: relative;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
     height: 100%;
     overflow: hidden;
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
     text-align: center;
 
     .legend-list {
+      display: flex;
       width: 110%;
       height: auto;
       max-height: 100%;
       overflow-y: scroll;
-      text-align: center;
       list-style: none;
-      padding: 0 5px 0 0;
+      text-align: center;
       margin: 0;
+      padding: 0 5px 0 0;
       transition: transform 0.2s linear;
-      display: flex;
       flex-direction: column;
       align-items: center; /* Center items horizontally */
 
@@ -133,7 +137,7 @@
 
         .name {
           flex-grow: 1;
-          white-space:nowrap;
+          white-space: nowrap;
         }
 
         .unit {

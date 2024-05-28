@@ -92,8 +92,12 @@
         that.initChart();
       }
       //根据窗口变化自动调节图表大小
-      window.onresize = function () {
-        that.changeSize();
+      window.onresize = () => {
+        try {
+          this.changeSize();
+        } catch {
+          //
+        }
       };
     },
     methods: {
@@ -286,7 +290,11 @@
       },
       // 自适应宽高
       changeSize() {
-        this.statusChart.resize();
+        try {
+          this.statusChart.resize();
+        } catch {
+          //
+        }
       },
     },
   };
