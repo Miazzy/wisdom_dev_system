@@ -5,12 +5,12 @@ export const setGlobalDisabled: Directive = {
   mounted(el, binding) {
     el.setAttribute('global-disabled', binding.value);
     if (binding.value) {
-      el.querySelectorAll('input, textarea, select, button').forEach((input) => {
+      el.querySelectorAll('input, textarea, select').forEach((input) => {
         input.disabled = true;
         input?.parentNode?.setAttribute('disabled', true);
       });
     } else {
-      el.querySelectorAll('input, textarea, select, button').forEach((input) => {
+      el.querySelectorAll('input, textarea, select').forEach((input) => {
         input.disabled = false;
         input?.parentNode?.setAttribute('disabled', false);
       });
@@ -20,12 +20,12 @@ export const setGlobalDisabled: Directive = {
   updated(el, binding) {
     el.setAttribute('global-disabled', binding.value);
     if (binding.value) {
-      el.querySelectorAll('input, textarea, select, button').forEach((input) => {
+      el.querySelectorAll('input, textarea, select').forEach((input) => {
         input.disabled = true;
         input?.parentNode?.setAttribute('disabled', true);
       });
     } else {
-      el.querySelectorAll('input, textarea, select, button').forEach((input) => {
+      el.querySelectorAll('input, textarea, select').forEach((input) => {
         input.disabled = false;
         input?.parentNode?.setAttribute('disabled', false);
       });

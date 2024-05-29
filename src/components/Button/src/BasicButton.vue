@@ -48,7 +48,8 @@
 
   // 根据disable状态计算出组件的disable状态
   const isDisabled = computed(() => {
-    return tDisabled.value || appDisabled.value;
+    const status = tDisabled.value || appDisabled.value;
+    return status;
   });
 
   const handleClick = () => {
@@ -81,10 +82,10 @@
   );
 
   onMountedOrActivated(() => {
-    const { params } = urlToPath();
-    const flag = params['global_disabled'] == 'true' || params['page_readonly'] == 'true';
-    tDisabled.value = props.disabled;
-    tPermissionCode.value = props.permissionCode;
+    // const { params } = urlToPath();
+    // const flag = params['global_disabled'] == 'true' || params['page_readonly'] == 'true';
     // appDisabled.value = flag;
+    tPermissionCode.value = props.permissionCode;
+    tDisabled.value = props.disabled;
   });
 </script>
