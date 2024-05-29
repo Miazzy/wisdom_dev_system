@@ -36,7 +36,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { computed, defineComponent, onMounted } from 'vue';
+  import { computed, defineComponent, onMounted, onActivated } from 'vue';
   import { AppLogo, AppDarkModeToggle } from '/@/components/Application';
   import LoginForm from './LoginForm.vue';
   import ForgetPasswordForm from './ForgetPasswordForm.vue';
@@ -46,10 +46,12 @@
   import { useGlobSetting } from '/@/hooks/setting';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import { useUserStore } from '/@/store/modules/user';
 
   defineComponent({
     name: 'Login',
   });
+
   defineProps({
     sessionTimeout: {
       type: Boolean,
@@ -60,9 +62,18 @@
   const { prefixCls } = useDesign('login');
   const { t } = useI18n();
   const title = computed(() => globSetting?.title ?? '');
+  const userStore = useUserStore();
+
+  const initStatus = () => {
+    userStore.clearUserInfo();
+  };
+
+  onActivated(() => {
+    initStatus();
+  });
 
   onMounted(() => {
-    //
+    initStatus();
   });
 </script>
 <style lang="less">

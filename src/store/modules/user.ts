@@ -321,6 +321,12 @@ export const useUserStore = defineStore({
     /**
      * @description: logout
      */
+    async clearUserInfo() {
+      handleClearUserInfo(this as any);
+    },
+    /**
+     * @description: logout
+     */
     async logout() {
       handleLogout(this as any);
     },
@@ -356,6 +362,21 @@ export function serializeMap(map: Map<string, string>): [string, string][] {
 export function deserializeMap(arr: [string, string][]): Map<string, string> {
   return new Map(arr);
 }
+
+// 执行清空用户信息操作;
+export const handleClearUserInfoFn = (that: any) => {
+  try {
+    const nowtime = new Date().getTime();
+    that.getToken && doLogout();
+    that.setToken(undefined);
+    that.setSessionTimeout(false);
+    that.setUserInfo(null);
+    that.setLastLogoutTime(nowtime);
+    createLocalForage().clear();
+  } catch (error) {
+    //
+  }
+};
 
 // 处理退出登录操作
 export const handleLogoutFn = (that: any) => {
@@ -422,6 +443,9 @@ export const handleLogoutFn = (that: any) => {
     MsgManager.getInstance().sendMsg('logouting', false);
   }, 3500);
 };
+
+// 退出登录防抖操作
+export const handleClearUserInfo = useThrottleFn(handleClearUserInfoFn, 3000);
 
 // 退出登录防抖操作
 export const handleLogout = useThrottleFn(handleLogoutFn, 3000);
