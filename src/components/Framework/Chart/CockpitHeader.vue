@@ -199,8 +199,15 @@
     drawerStyle.value = colorOptions.blue;
     contentWrapperStyle.value = colorOptions.transparent;
     maskStyle.value = colorOptions.transparent;
-    dateType.value = '上月';
-    handleDateTypeChange();
+    if(sessionStorage.getItem('screen-date-set')) {
+      let {startDate, endDate} = JSON.parse(sessionStorage.getItem('screen-date-set'));
+      dateRange.value = [dayjs(startDate), dayjs(endDate)];
+      handleDateRangeChange();
+    } else {
+      dateType.value = '上月';
+      handleDateTypeChange();
+    }
+    
   });
 </script>
 <style lang="less">
