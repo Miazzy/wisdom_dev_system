@@ -233,6 +233,7 @@
         activeKey.value = panes.value[0].pageurl;
       }
     }
+    handlePanesSingle();
     panes.value.map((pane) => (pane.status = pane.pageurl === activeKey.value));
     handleActivePath();
   };
@@ -258,6 +259,7 @@
         activeKey.value = panes.value[0].pageurl;
       }
     }
+    handlePanesSingle();
     panes.value.map((pane) => (pane.status = pane.pageurl === activeKey.value));
     handleActivePath();
   };
@@ -462,6 +464,7 @@
     }
     // 重新构建 paneMap
     paneMap.clear();
+    handlePanesSingle();
     panes.value.forEach((pane) => {
       pane.status = pane.pageurl === activeKey.value;
       paneMap.set(pane.pageurl, pane);
@@ -572,9 +575,9 @@
     handleResize();
     if (activeKey.value.includes('/frame/cockpit/')) {
       nextTick(() => {
-        setTimeout(()=>{
+        setTimeout(() => {
           handleRefreshTabPage();
-        }, 500)
+        }, 500);
       });
     }
   };
@@ -602,10 +605,18 @@
   };
 
   const handlePanesEmpty = () => {
-    if (!panes.value || panes.value.length === 0) {
+    if (!panes.value || panes.value.length <= 1) {
       panes.value = [workbench];
       paneMap.set(panes.value[0].pageurl, panes.value[0]);
       activeKey.value = panes.value[0].pageurl;
+    }
+  };
+
+  const handlePanesSingle = () => {
+    try {
+      handlePanesEmpty();
+    } catch {
+      //
     }
   };
 
@@ -631,7 +642,11 @@
 
   onMounted(() => {
     try {
-      loadingInstance.value = ElLoading.service({ fullscreen: false, background: '#90909010', text: '正在加载框架...' });
+      loadingInstance.value = ElLoading.service({
+        fullscreen: false,
+        background: '#90909010',
+        text: '正在加载框架...',
+      });
       paneMap.set(panes.value[0].pageurl, panes.value[0]);
       iframeWidth.value = `width: 100%; height: 100%; opacity: 0;`;
       activeKey.value = panes.value[0].pageurl; //  + '?_tail=' + timestamp;
@@ -727,10 +742,10 @@
   }
 
   .anticon-close {
-    height: 30px;
-    line-height: 30px;
     width: 1.05rem;
+    height: 30px;
     padding: 0 1rem 0 0;
+    line-height: 30px;
   }
 </style>
 <style>
