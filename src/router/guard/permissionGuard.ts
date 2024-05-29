@@ -36,7 +36,7 @@ export function createPermissionGuard(router: Router) {
         try {
           await userStore.afterLoginAction();
           if (!isSessionTimeout) {
-            const redirect = to.query?.redirect as string
+            const redirect = to.query?.redirect as string;
             if (redirect) {
               next(redirect);
             } else {

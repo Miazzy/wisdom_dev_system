@@ -93,6 +93,7 @@
     nextTick,
     onMounted,
     getCurrentInstance,
+    defineExpose,
   } from 'vue';
   import { MsgManager } from '/@/message/MsgManager';
   import { SysMessage } from '/@/hooks/web/useMessage';
@@ -211,6 +212,10 @@
     },
     { deep: true },
   );
+
+  defineExpose({
+    closeModal,
+  });
 
   onMountedOrActivated(() => {
     // 监听check-iframe-framepage消息
