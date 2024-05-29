@@ -37,9 +37,10 @@ import { MsgManager } from '/@/message/MsgManager';
 import { darkMode } from '/@/settings/designSetting';
 import { generateNameMap } from '/@/utils/route';
 import * as FileApi from '@/api/infra/file';
-import { useDebounceFn, useThrottleFn } from '@vueuse/core';
-import { getDownloadURL } from '/@/utils/upload.ts';
+import { useThrottleFn } from '@vueuse/core';
+import { getDownloadURL } from '@/utils/upload';
 import * as ParameterApi from '@/api/system/parameter';
+import { message } from '@/utils/tooltips';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -391,10 +392,10 @@ export const handleLogoutFn = (that: any) => {
   setTimeout(() => {
     try {
       window.sessionStorage.clear(); // 清空sessionStorage和localStorage缓存
-      const darkMode = window.localStorage.getItem(APP_DARK_MODE_KEY) || darkMode; // 退出登录不清本地深浅模式缓存
+      const darkModeValue = window.localStorage.getItem(APP_DARK_MODE_KEY) || darkMode; // 退出登录不清本地深浅模式缓存
       const rememberInfo = window.localStorage.getItem('REMEMBER_ME_INFO') || '';
       window.localStorage.clear(); // 清空sessionStorage和localStorage缓存
-      window.localStorage.setItem(APP_DARK_MODE_KEY, darkMode);
+      window.localStorage.setItem(APP_DARK_MODE_KEY, darkModeValue);
       window.localStorage.setItem('REMEMBER_ME_INFO', rememberInfo);
     } catch (error) {
       //
@@ -406,6 +407,7 @@ export const handleLogoutFn = (that: any) => {
       //
     }
     router.push(PageEnum.BASE_LOGIN);
+    message.loading('', '正在退出登录中...', 3000);
   }, 100);
 
   setTimeout(() => {
