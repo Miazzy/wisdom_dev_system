@@ -1,19 +1,17 @@
 import type { Router, RouteRecordRaw } from 'vue-router';
-
 import { usePermissionStoreWithOut } from '/@/store/modules/permission';
-
 import { PageEnum } from '/@/enums/pageEnum';
 import { useUserStoreWithOut } from '/@/store/modules/user';
-
 import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
-
 import { RootRoute } from '/@/router/routes';
+import { ScreenRouteList } from '@/constant/constant';
 
 const LOGIN_PATH = PageEnum.BASE_LOGIN;
 
 const ROOT_PATH = RootRoute.path;
 
-const whitePathList: PageEnum[] = [LOGIN_PATH];
+// 白名单路由，需要直接打开的路由地址，需要在此配置白名单路由地址
+const whitePathList: string[] = [LOGIN_PATH, ...ScreenRouteList];
 
 export function createPermissionGuard(router: Router) {
   const userStore = useUserStoreWithOut();
@@ -32,13 +30,18 @@ export function createPermissionGuard(router: Router) {
     const token = userStore.getToken;
 
     // Whitelist can be directly entered
-    if (whitePathList.includes(to.path as PageEnum)) {
+    if (whitePathList.includes(to.path as string)) {
       if (to.path === LOGIN_PATH && token) {
         const isSessionTimeout = userStore.getSessionTimeout;
         try {
           await userStore.afterLoginAction();
           if (!isSessionTimeout) {
-            next((to.query?.redirect as string) || '/');
+            const redirect = to.query?.redirect as string
+            if (redirect) {
+              next(redirect);
+            } else {
+              next();
+            }
             return;
           }
         } catch {

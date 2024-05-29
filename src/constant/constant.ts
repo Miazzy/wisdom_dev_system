@@ -32,6 +32,7 @@ export enum FILE_PREVIEW {
   IMAGE_TYPES = '[".jpg",".jpeg",".png",".gif",".bmp",".ico",".jfif",".webp"]',
 }
 
+// 大屏白名单路由
 export const ScreenList = [
   ['/#/frame/cockpit/overview', '/#/CockpitOverview'],
   ['/#/frame/cockpit/operation', '/#/CockpitOperation'],
@@ -40,7 +41,11 @@ export const ScreenList = [
   ['/#/frame/cockpit/composition', '/#/CockpitComposition'],
   ['/#/frame/cockpit/power', '/#/CockpitPower'],
   ['/#/frame/groupOperation', '/#/groupOperation'],
+  ['/#/frame/stationOperation', '/#/stationOperation'],
 ];
+
+// 大屏白名单路由
+export const ScreenRouteList = ScreenList.map((item) => item[1].slice(2));
 
 // 附件预览图片类型
 export const PICTURE_TYPES = JSON.parse(FILE_PREVIEW.IMAGE_TYPES);
