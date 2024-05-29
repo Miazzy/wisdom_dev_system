@@ -7,7 +7,7 @@
         </div>
         <div class="title-value-box">
           <div class="title-text">{{title}}</div>
-          <div class="value-text">{{value}}</div>
+          <div class="value-text"><span style="cursor: pointer;" @click="handleClickValue">{{value}}</span></div>
           <div v-if="percentPosition==='right'&&(tRatio||tRatio===0||hRatio||hRatio===0)" class="percent-data-box">
             <div v-if="tRatio||tRatio===0" class="percent-item">
               <span class="p-value" :class="handleTextClass(tRatio)">{{tRatio}}</span>
@@ -112,6 +112,10 @@
   //   }
   //   return text;
   // };
+  const emits = defineEmits(['clickValue']);
+  const handleClickValue = ()=>{
+    emits('clickValue');
+  }
 
   onMounted(() => {});
 </script>
@@ -126,7 +130,6 @@
     border-radius: 0.04rem;
     border: 1px solid rgba(24, 144, 255, 0.3);
     padding: 0 0.15rem;
-    cursor: pointer;
     .title-box {
       display: flex;
       align-items: center;
@@ -157,7 +160,7 @@
       justify-content: space-between;
       align-items: center;
       line-height: 1;
-      margin-top: 0.1rem;
+      margin-top: 0.04rem;
       .p-value {
         font-size: 0.14rem;
         margin-right: 0.04rem;
