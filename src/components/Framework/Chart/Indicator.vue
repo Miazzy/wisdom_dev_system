@@ -1,7 +1,7 @@
 <template>
   <div class="indicator">
     <div class="title">{{ title }}</div>
-    <div class="value">{{ value }}</div>
+    <div class="value" @click="handleClickValue">{{ value }}</div>
     <div class="info">
       <span class="subtitle">{{ subtitle }}</span>
       <span v-if="subtitle==='同比'&&props.percent!=0" class="trend" :class="props.percent>0?'red':'green'"></span>
@@ -44,6 +44,10 @@
       return `${props.percent as string}`;
     }
   });
+  const emits = defineEmits(['clickValue']);
+  const handleClickValue = ()=>{
+    emits('clickValue');
+  }
 </script>
 
 <style lang="less" scoped>
@@ -67,6 +71,7 @@
     color: #1890FF;
     font-size: 0.22rem;
     font-weight: 500;
+    cursor: pointer;
   }
 
   .info {
