@@ -97,7 +97,7 @@
   </main>
 </template>
 <script lang="ts" setup>
-  import { onMounted, ref, watch, nextTick, getCurrentInstance } from 'vue';
+  import { onMounted, ref, watch, nextTick, getCurrentInstance, onUnmounted } from 'vue';
   import Icon from '@/components/Icon/Icon.vue';
   import { MsgManager } from '/@/message/MsgManager';
   import { useUserStore } from '/@/store/modules/user';
@@ -690,6 +690,10 @@
     setTimeout(() => {
       handlePanesEmpty();
     }, 1000);
+  });
+
+  onUnmounted(() => {
+    loadingInstance.value.close();
   });
 </script>
 <style lang="less">

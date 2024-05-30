@@ -1,15 +1,25 @@
 <template>
   <div class="main-layout">
-    <Header v-show="!screenFlag" @click="handleModuleClick" />
-    <div class="main-content">
-      <Menu v-show="!screenFlag" :menus="menuList" @click="handleMenuClick" :theme="systemTheme" />
-      <Content
-        :path="currentPath"
-        :menu="currentMenu"
-        :style="contentStyle"
-        @change="handleTabsClick"
-      />
-    </div>
+    <template v-if="mode">
+      <Header v-show="!screenFlag" @click="handleModuleClick" />
+      <div class="main-content">
+        <Menu
+          v-show="!screenFlag"
+          :menus="menuList"
+          @click="handleMenuClick"
+          :theme="systemTheme"
+        />
+        <Content
+          :path="currentPath"
+          :menu="currentMenu"
+          :style="contentStyle"
+          @change="handleTabsClick"
+        />
+      </div>
+    </template>
+    <template v-else>
+      <iframe ref="pageFrame" :src="pageURL" class="page-frame"></iframe>
+    </template>
   </div>
 </template>
 <script lang="ts" setup>
@@ -17,7 +27,7 @@
   import Header from './Header.vue';
   import Menu from './Menu.vue';
   import Content from './Content.vue';
-  import { handleRouteGo, listenOfflineMessage } from '/@/utils/route';
+  import { handleRouteGo, listenOfflineMessage, urlToPath } from '/@/utils/route';
   import { MsgManager } from '/@/message/MsgManager';
 
   const currentModule = ref(null);
@@ -33,6 +43,8 @@
   });
   const instance = getCurrentInstance();
   const screenFlag = ref(false);
+  const mode = ref(false);
+  const pageURL = ref('');
 
   // 处理顶部模块点击函数
   const handleModuleClick = (cmodule, menus) => {
@@ -57,7 +69,9 @@
   // 处理页签切换点击函数
   const handleTabsClick = (key, menu) => {
     try {
-      const preKey = !currentPath.value.includes('/#') ? '/#' + currentPath.value : currentPath.value;
+      const preKey = !currentPath.value.includes('/#')
+        ? '/#' + currentPath.value
+        : currentPath.value;
       if (key != preKey && currentPath.value) {
         state.path = key;
         state.menu = menu;
@@ -113,12 +127,17 @@
 
   // Mounted时加载函数
   onMounted(() => {
+    const { params } = urlToPath();
+
     systemTheme.value = 'light';
     handleRouteGo();
     handleResize();
     listenOfflineMessage();
     window.addEventListener('resize', handleReload);
     MsgManager.getInstance().listen('iframe-screen', handleScreenMessage);
+
+    mode.value = params.mode ? false : true;
+    pageURL.value = params.mode ? window.origin + '/#' + window.decodeURIComponent(params.path) : '';
   });
 </script>
 <style lang="less">
@@ -141,6 +160,11 @@
     height: 100vh; /* 100%视窗高度，使布局充满整个屏幕 */
     overflow-y: hidden;
     overflow-x: hidden;
+
+    .page-frame {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .layout-xscroll {
