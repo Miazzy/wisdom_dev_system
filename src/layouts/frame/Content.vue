@@ -828,10 +828,10 @@
       display: flex;
       flex-direction: row;
       align-items: left;
-      justify-content: left;
+      justify-content: space-between;
 
       .tabs-buttons {
-        width: 90px;
+        // width: 90px;
 
         span {
           display: inline-flex;
