@@ -393,21 +393,23 @@ export const handleLogoutFn = async (that: any) => {
   const diff = nowtime - timestamp;
   const difflast = nowtime - lasttime;
 
-  if (difflast < 5000) {
-    diff > 5000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
+  // 步骤一 刚登录系统10秒禁止退出登录操作
+  if (difflast < 10000) {
+    diff > 3500 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
     return;
-  } else if (!flag && diff < 10000) {
-    diff > 5000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
+  }
+  if (!flag && diff < 10000) {
+    diff > 3500 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
     return;
   }
 
+  // 步骤二 发生退出登录请求，
   const response = await doLogout();
 
+  // 步骤三 清空线程，清空event监听，清空内存数据
   if (response.code === 0 && response.result === true) {
-    that.setToken(undefined);
-    that.setSessionTimeout(false);
-    that.setUserInfo(null);
-    that.setLastLogoutTime(nowtime);
+    // 开启退出登录锁
+    SysMessage.logouting = true;
 
     // 清空线程执行
     TaskExecutor.getInstance().destroy();
@@ -416,12 +418,17 @@ export const handleLogoutFn = async (that: any) => {
     // 清空所有Event的监听
     EventManager.getInstance().destory();
 
+    // 清空内存数据
     setTimeout(() => {
-      message.loading('', '正在退出登录中...', 750);
-      SysMessage.logouting = true; // MsgManager.getInstance().sendMsg('logouting', true);
+      that.setToken(undefined);
+      that.setSessionTimeout(false);
+      that.setUserInfo(null);
+      that.setLastLogoutTime(nowtime);
+      message.loading('', '正在退出登录中...', 1000);
       MsgManager.getInstance().sendMsg('workbench-loadover', false); // 通知loadover的值为false
     }, 0);
 
+    // 清空缓存数据
     setTimeout(() => {
       try {
         window.sessionStorage.clear(); // 清空sessionStorage和localStorage缓存
@@ -436,14 +443,16 @@ export const handleLogoutFn = async (that: any) => {
       }
     }, 100);
 
+    // 步骤四 跳转到退出登录页面
     setTimeout(() => {
       loginCallback(nowtime);
     }, 750);
 
     setTimeout(() => {
       loginCallback(nowtime);
-      SysMessage.logouting = false; // MsgManager.getInstance().sendMsg('logouting', false);
-    }, 1000);
+      // 关闭退出登录锁
+      SysMessage.logouting = false;
+    }, 1500);
   } else {
     SysMessage.getInstance().error(response.message || '退出登录失败，请稍后尝试...');
   }
