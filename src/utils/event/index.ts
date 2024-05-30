@@ -1,4 +1,6 @@
 import ResizeObserver from 'resize-observer-polyfill';
+import { sendOfflineMessage } from '@/utils/route';
+import { SysMessage } from '/@/hooks/web/useMessage';
 
 const isServer = typeof window === 'undefined';
 
@@ -39,4 +41,13 @@ export function triggerWindowResize() {
   event.initEvent('resize', true, true);
   (event as any).eventType = 'message';
   window.dispatchEvent(event);
+}
+
+export function clearStorageListener(e) {
+  if (SysMessage.logouting) {
+    return;
+  }
+  if (e?.storageArea?.length === 0 && e?.key === null && e?.newValue === null) {
+    sendOfflineMessage();
+  }
 }

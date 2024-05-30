@@ -326,10 +326,11 @@ export class VAxios {
 
     // 单独处理SysLogout请求
     if (conf.url === SystemAuthApi.SysLogout) {
-      return new Promise((resolve) => {
+      const callback = (resolve) => {
         const result = `{"userId":"","username":""}`;
         resolve(JSON.parse(result));
-      });
+      };
+      return new Promise(callback);
     }
 
     // 退出登录中Request请求打回

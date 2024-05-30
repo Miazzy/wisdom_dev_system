@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { onMounted, nextTick, ref } from 'vue';
+  import { onMounted, onUnmounted, nextTick, ref } from 'vue';
   import { ConfigProvider } from 'ant-design-vue';
   import { AppProvider } from '@/components/Application';
   import { useTitle } from '@/hooks/web/useTitle';
@@ -35,6 +35,7 @@
   import { useRouter } from 'vue-router';
   import { PageEnum } from '/@/enums/pageEnum';
   import { closeCurrentTab, sendOfflineMessage } from '@/utils/route';
+  import { EventManager } from '@/message/EventManager';
   import { SysMessage } from '/@/hooks/web/useMessage';
   import { MsgManager } from '/@/message/MsgManager';
   import { useRouteCache } from '@/hooks/web/useRouteCache';
@@ -171,11 +172,12 @@
     });
 
     // 监听清空缓存操作
-    window.addEventListener('storage', function (e) {
-      if (e?.storageArea?.length === 0 && e?.key === null && e?.newValue === null) {
-        sendOfflineMessage();
-      }
-    });
+    EventManager.getInstance().registerClearStorage();
+  });
+
+  onUnmounted(() => {
+    // 监听清空缓存操作
+    EventManager.getInstance().destoryClearStorage();
   });
 </script>
 <style lang="less" scoped>

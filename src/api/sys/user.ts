@@ -34,7 +34,7 @@ export function loginApi(params: LoginParams) {
  */
 export function doLogout() {
   const requestParams = { url: SystemAuthApi.Logout };
-  return defHttp.post(requestParams, { isOnlyResult: true });
+  return defHttp.post(requestParams, { isOnlyResult: false });
 }
 
 /**

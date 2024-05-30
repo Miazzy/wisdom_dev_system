@@ -41,6 +41,7 @@ import { useThrottleFn } from '@vueuse/core';
 import { getDownloadURL } from '@/utils/upload';
 import * as ParameterApi from '@/api/system/parameter';
 import { message } from '@/utils/tooltips';
+import { EventManager } from '@/message/EventManager';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -378,8 +379,12 @@ export const handleClearUserInfoFn = (that: any) => {
   }
 };
 
+export const loginCallback = (nowtime) => {
+  window.location.href = window.location.origin + '/#' + PageEnum.BASE_LOGIN + '?_t=' + nowtime;
+};
+
 // 处理退出登录操作
-export const handleLogoutFn = (that: any) => {
+export const handleLogoutFn = async (that: any) => {
   const time = localStorage.getItem('LOGIN_TIMESTAMP');
   const lasttime = that.getLastLogoutTime;
   const nowtime = new Date().getTime();
@@ -388,60 +393,60 @@ export const handleLogoutFn = (that: any) => {
   const diff = nowtime - timestamp;
   const difflast = nowtime - lasttime;
 
-  if (difflast < 10000) {
+  if (difflast < 5000) {
     diff > 5000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
     return;
-  } else if (!flag && diff < 15000) {
-    diff > 10000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
+  } else if (!flag && diff < 10000) {
+    diff > 5000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
     return;
   }
 
-  router.push(PageEnum.BASE_LOGOUT);
-  window.open('/#' + PageEnum.BASE_LOGOUT, '_self');
-  that.getToken && doLogout();
-  that.setToken(undefined);
-  that.setSessionTimeout(false);
-  that.setUserInfo(null);
-  that.setLastLogoutTime(nowtime);
+  const response = await doLogout();
 
-  setTimeout(() => {
-    router.push(PageEnum.BASE_LOGIN);
-    MsgManager.getInstance().sendMsg('workbench-loadover', false); // 通知loadover的值为false
-    MsgManager.getInstance().sendMsg('logouting', true);
-  }, 0);
+  if (response.code === 0 && response.result === true) {
+    that.setToken(undefined);
+    that.setSessionTimeout(false);
+    that.setUserInfo(null);
+    that.setLastLogoutTime(nowtime);
 
-  setTimeout(() => {
-    try {
-      window.sessionStorage.clear(); // 清空sessionStorage和localStorage缓存
-      const darkModeValue = window.localStorage.getItem(APP_DARK_MODE_KEY) || darkMode; // 退出登录不清本地深浅模式缓存
-      const rememberInfo = window.localStorage.getItem('REMEMBER_ME_INFO') || '';
-      window.localStorage.clear(); // 清空sessionStorage和localStorage缓存
-      window.localStorage.setItem(APP_DARK_MODE_KEY, darkModeValue);
-      window.localStorage.setItem('REMEMBER_ME_INFO', rememberInfo);
-    } catch (error) {
-      //
-    }
-    try {
-      const ls = createLocalForage();
-      ls.clear();
-    } catch (error) {
-      //
-    }
-    router.push(PageEnum.BASE_LOGIN);
-    message.loading('', '正在退出登录中...', 3000);
-  }, 100);
+    // 清空线程执行
+    TaskExecutor.getInstance().destroy();
+    OnceExecutor.getInstance().destroy();
 
-  setTimeout(() => {
-    router.push(PageEnum.BASE_LOGIN);
-  }, 500);
+    // 清空所有Event的监听
+    EventManager.getInstance().destory();
 
-  setTimeout(() => {
-    router.push(PageEnum.BASE_LOGIN);
-  }, 900);
+    setTimeout(() => {
+      message.loading('', '正在退出登录中...', 750);
+      SysMessage.logouting = true; // MsgManager.getInstance().sendMsg('logouting', true);
+      MsgManager.getInstance().sendMsg('workbench-loadover', false); // 通知loadover的值为false
+    }, 0);
 
-  setTimeout(() => {
-    MsgManager.getInstance().sendMsg('logouting', false);
-  }, 3500);
+    setTimeout(() => {
+      try {
+        window.sessionStorage.clear(); // 清空sessionStorage和localStorage缓存
+        const darkModeValue = window.localStorage.getItem(APP_DARK_MODE_KEY) || darkMode; // 退出登录不清本地深浅模式缓存
+        const rememberInfo = window.localStorage.getItem('REMEMBER_ME_INFO') || '';
+        window.localStorage.clear(); // 清空sessionStorage和localStorage缓存
+        window.localStorage.setItem(APP_DARK_MODE_KEY, darkModeValue);
+        window.localStorage.setItem('REMEMBER_ME_INFO', rememberInfo);
+        createLocalForage().clear();
+      } catch (error) {
+        //
+      }
+    }, 100);
+
+    setTimeout(() => {
+      loginCallback(nowtime);
+    }, 750);
+
+    setTimeout(() => {
+      loginCallback(nowtime);
+      SysMessage.logouting = false; // MsgManager.getInstance().sendMsg('logouting', false);
+    }, 1000);
+  } else {
+    SysMessage.getInstance().error(response.message || '退出登录失败，请稍后尝试...');
+  }
 };
 
 // 退出登录防抖操作

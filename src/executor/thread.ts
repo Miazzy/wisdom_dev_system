@@ -23,6 +23,12 @@ export class Thread {
     // TODO
   }
 
+  destroy() {
+    this.callback = null;
+    this.arrayTask = [];
+    this.listTask = [];
+  }
+
   pushTask(callback: Function) {
     this.callback = callback;
   }

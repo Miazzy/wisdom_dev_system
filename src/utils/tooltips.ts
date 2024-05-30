@@ -17,9 +17,9 @@ export const message = {
     const messageBox = document.createElement('div');
     messageBox.style.position = 'relative';
     messageBox.style.padding = '30px 80px';
-    messageBox.style.backgroundColor = '#fefefe10';
+    messageBox.style.backgroundColor = '#fefefe01';
     messageBox.style.borderRadius = '10px';
-    messageBox.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
+    messageBox.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.03)';
     messageBox.style.textAlign = 'left';
     messageBox.style.maxWidth = '80%';
     messageBox.style.maxHeight = '80%';
@@ -35,6 +35,7 @@ export const message = {
     // 创建内容
     const contentElement = document.createElement('div');
     contentElement.style.fontSize = '16px';
+    contentElement.style.color = '#409eff';
     contentElement.textContent = content;
 
     // 将标题添加到提示框
