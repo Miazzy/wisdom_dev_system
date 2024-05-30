@@ -60,7 +60,7 @@
   import WeatherDisplay from '/@/components/Framework/Chart/WeatherDisplay.vue';
   import Icon from '@/components/Icon/Icon.vue';
   import { MsgManager } from '/@/message/MsgManager';
-  import { ScreenList } from '/@/constant/constant';
+  import { Config, ScreenList } from '/@/constant/constant';
 
   const props = defineProps({
     title: { type: String, default: '' }, // 列定义
@@ -92,14 +92,14 @@
 
   const handleScreen = () => {
     const screenRouteMap = new Map(ScreenList);
-    const prefixPath = '/#/frame?mode=view&path=';
+    const prefixPath = 'frame?mode=view&path=';
     const path = '/' + window.location.hash.split('?')[0];
     if (screenRouteMap.has(path)) {
       const rpath = (screenRouteMap.get(path) as string).replace('/#/', '/');
-      window.open(`${window.origin}${prefixPath}${window.encodeURIComponent(rpath)}`, '_blank');
+      window.open(`${Config.RENDER_ENGINE_URL}${prefixPath}${window.encodeURIComponent(rpath)}`, '_blank');
     } else {
       const rpath = path.replace('/#/', '/');
-      window.open(`${window.origin}${prefixPath}${window.encodeURIComponent(rpath)}`, '_blank');
+      window.open(`${Config.RENDER_ENGINE_URL}${prefixPath}${window.encodeURIComponent(rpath)}`, '_blank');
     }
   };
 

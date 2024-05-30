@@ -68,7 +68,7 @@
   import { TOKEN_KEY } from '/@/enums/cacheEnum';
   import { useUserStore } from '/@/store/modules/user';
   import { MsgManager } from '/@/message/MsgManager';
-  import { ScreenList } from '/@/constant/constant';
+  import { Config, ScreenList } from '/@/constant/constant';
 
   const menuList = ref<any[]>([]);
   const systemTheme = ref('');
@@ -145,15 +145,15 @@
     const { key } = event;
     const menu = menuMap.get(key);
     const screenRouteMap = new Map(ScreenList);
-    const prefixPath = '/#/frame?mode=view&path=';
+    const prefixPath = 'frame?mode=view&path=';
     if (menu.openWindowModel === 'newWindow') {
       const path = handlePath(menu.url);
       if (screenRouteMap.has(path)) {
         const rpath = (screenRouteMap.get(path) as string).replace('/#/', '/');
-        window.open(`${window.origin}${prefixPath}${window.encodeURIComponent(rpath)}`, '_blank');
+        window.open(`${Config.RENDER_ENGINE_URL}${prefixPath}${window.encodeURIComponent(rpath)}`, '_blank');
       } else {
         const rpath = path.replace('/#/', '/');
-        window.open(`${window.origin}${prefixPath}${window.encodeURIComponent(rpath)}`, '_blank');
+        window.open(`${Config.RENDER_ENGINE_URL}${prefixPath}${window.encodeURIComponent(rpath)}`, '_blank');
       }
     } else {
       emit('click', key, menu, event);
