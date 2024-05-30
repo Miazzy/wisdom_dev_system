@@ -394,7 +394,7 @@ export const handleLogoutFn = async (that: any) => {
   const diff = nowtime - timestamp;
   const difflast = nowtime - lasttime;
 
-  // 步骤一 刚登录系统10秒禁止退出登录操作
+  // 步骤一 刚登录系统10秒内禁止退出登录操作
   if (difflast < 10000) {
     diff > 3500 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
     return;
@@ -404,7 +404,7 @@ export const handleLogoutFn = async (that: any) => {
     return;
   }
 
-  // 步骤二 发生退出登录请求，
+  // 步骤二 发送退出登录请求
   const response = await doLogout();
 
   // 步骤三 清空线程，清空event监听，清空内存数据
