@@ -41,13 +41,18 @@ export const useAppStore = defineStore({
     },
 
     getDarkMode(state): 'light' | 'dark' | string {
-      const htmlRoot = window.parent.document.getElementById('htmlRoot');
-      let htmlTheme = '';
-      if (htmlRoot?.getAttribute('data-theme')) {
-        htmlTheme = htmlRoot.getAttribute('data-theme') || '';
+      try {
+        const htmlRoot = window.parent.document.getElementById('htmlRoot');
+        let htmlTheme = '';
+        if (htmlRoot?.getAttribute('data-theme')) {
+          htmlTheme = htmlRoot.getAttribute('data-theme') || '';
+        }
+        const theme = state.darkMode || localStorage.getItem(APP_DARK_MODE_KEY) || htmlTheme || darkMode;
+        return theme;
+      } catch {
+        const theme = state.darkMode || localStorage.getItem(APP_DARK_MODE_KEY) || darkMode;
+        return theme;
       }
-      const theme = state.darkMode || localStorage.getItem(APP_DARK_MODE_KEY) || htmlTheme || darkMode;
-      return theme;
     },
 
     getBeforeMiniInfo(state): BeforeMiniState {
