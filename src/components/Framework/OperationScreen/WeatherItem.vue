@@ -89,10 +89,10 @@
       text-align: center;
       line-height: 1;
       .day-text {
-        margin-bottom: 0.13rem;
+        margin-bottom: 1.4vh;
       }
       .weather-icon {
-        margin-bottom: 0.03rem;
+        margin-bottom: 0.32vh;
       }
       .temperature-text {
         color: #fff;
