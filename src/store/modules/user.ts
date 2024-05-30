@@ -379,6 +379,7 @@ export const handleClearUserInfoFn = (that: any) => {
   }
 };
 
+// 执行跳转到登录页面函数
 export const loginCallback = (nowtime) => {
   window.location.href = window.location.origin + '/#' + PageEnum.BASE_LOGIN + '?_t=' + nowtime;
 };
@@ -408,8 +409,10 @@ export const handleLogoutFn = async (that: any) => {
 
   // 步骤三 清空线程，清空event监听，清空内存数据
   if (response.code === 0 && response.result === true) {
-    // 开启退出登录锁
+    // 开启退出登录锁，并提示退出登录消息
     SysMessage.logouting = true;
+    MsgManager.getInstance().sendMsg('workbench-loadover', false); // 通知loadover的值为false
+    message.loading('', '正在退出登录中...', 1000);
 
     // 清空线程执行
     TaskExecutor.getInstance().destroy();
@@ -424,8 +427,6 @@ export const handleLogoutFn = async (that: any) => {
       that.setSessionTimeout(false);
       that.setUserInfo(null);
       that.setLastLogoutTime(nowtime);
-      message.loading('', '正在退出登录中...', 1000);
-      MsgManager.getInstance().sendMsg('workbench-loadover', false); // 通知loadover的值为false
     }, 0);
 
     // 清空缓存数据
