@@ -92,11 +92,14 @@
 
   const handleScreen = () => {
     const screenRouteMap = new Map(ScreenList);
+    const prefixPath = '/#/frame?mode=view&path=';
     const path = '/' + window.location.hash.split('?')[0];
     if (screenRouteMap.has(path)) {
-      window.open(`${window.origin}${screenRouteMap.get(path)}`, '_blank');
+      const rpath = (screenRouteMap.get(path) as string).replace('/#/', '/');
+      window.open(`${window.origin}${prefixPath}${window.encodeURIComponent(rpath)}`, '_blank');
     } else {
-      window.open(`${window.origin}${path}`, '_blank');
+      const rpath = path.replace('/#/', '/');
+      window.open(`${window.origin}${prefixPath}${window.encodeURIComponent(rpath)}`, '_blank');
     }
   };
 
