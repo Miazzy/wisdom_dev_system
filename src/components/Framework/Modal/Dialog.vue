@@ -113,7 +113,7 @@
     tsize: { type: String, default: '16' }, // 标题大小
     width: { type: [Number, String], default: 800 }, // 弹框宽度
     height: { type: [Number, String], default: 600 }, // 弹框高度
-    pheight: { type: Number, default: 88 }, // 弹框高度
+    pheight: { type: Number, default: 121 }, // 弹框高度
     showBtm: { type: Boolean, default: true },
     mode: { type: String, default: '' },
     url: { type: String, default: '' },
@@ -275,9 +275,9 @@
 
   .modal-header {
     position: relative;
-    height: 45px;
+    height: 54px;
     padding: 0 5px 0 10px;
-    line-height: 45px;
+    line-height: 54px;
 
     span {
       position: absolute;
@@ -292,8 +292,8 @@
   }
 
   .modal-body {
-    margin: 0.15rem 0 0;
-    padding: 0 10px 10px;
+    margin: 0;
+    padding: 10px 16px;
 
     :deep(.ant-form-item-control) {
       text-align: left;
@@ -301,18 +301,17 @@
   }
 
   .modal-footer {
-    height: 35px;
-    padding: 12px;
-    line-height: 35px;
+    height: 67px;
+    padding: 10px 16px;
+    line-height: 67px;
     text-align: right;
-
     .footer-button {
-      position: absolute;
-      top: 2px;
-      right: 5px;
-
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      height: 100%;
       button {
-        margin: 1px 0 1px 10px;
+        margin-right: 10px;
       }
     }
   }
