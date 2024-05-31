@@ -145,15 +145,12 @@
     const { key } = event;
     const menu = menuMap.get(key);
     const screenRouteMap = new Map(ScreenList);
-    const prefixPath = 'frame?mode=view&path=';
     if (menu.openWindowModel === 'newWindow') {
       const path = handlePath(menu.url);
       if (screenRouteMap.has(path)) {
-        const rpath = (screenRouteMap.get(path) as string).replace('/#/', '/');
-        window.open(`${Config.RENDER_ENGINE_URL}${prefixPath}${window.encodeURIComponent(rpath)}`, '_blank');
+        window.open(`${window.origin}${screenRouteMap.get(path)}`, '_blank');
       } else {
-        const rpath = path.replace('/#/', '/');
-        window.open(`${Config.RENDER_ENGINE_URL}${prefixPath}${window.encodeURIComponent(rpath)}`, '_blank');
+        window.open(`${window.origin}${path}`, '_blank');
       }
     } else {
       emit('click', key, menu, event);
