@@ -312,6 +312,9 @@
       height: 100%;
       button {
         margin-right: 10px;
+        &:last-child {
+          margin-right: 0;
+        }
       }
     }
   }
