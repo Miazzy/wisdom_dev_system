@@ -1,10 +1,17 @@
 import { clearStorageListener } from '@/utils/event/index';
 import { Config } from '/@/constant/constant';
+import { useRouter } from 'vue-router';
 
 const listenMessage = (event) => {
+  const router = useRouter();
+  const { currentRoute } = router;
   if (Config.RENDER_ENGINE_URL.includes(event.origin)) {
-    const data = JSON.parse(event.data);
-    debugger;
+    const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+    if (data.message == 'verify_route') {
+      if (data.action == 'load') {
+        router.push(data.path);
+      }
+    }
   }
 };
 
