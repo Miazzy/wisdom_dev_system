@@ -236,7 +236,7 @@ export const sendOfflineMessage = () => {
 export const handleOfflineMessageFn = (message) => {
   const userStore = useUserStore();
   if (message.type === 'userOffline') {
-    userStore.logout();
+    userStore.logout(true);
   }
 };
 

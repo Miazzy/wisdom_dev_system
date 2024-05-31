@@ -328,8 +328,8 @@ export const useUserStore = defineStore({
     /**
      * @description: logout
      */
-    async logout() {
-      handleLogout(this as any);
+    async logout(force: boolean = false) {
+      handleLogout(this as any, force);
     },
     /**
      * @description: Confirm before logging out
@@ -385,7 +385,7 @@ export const loginCallback = (nowtime) => {
 };
 
 // 处理退出登录操作
-export const handleLogoutFn = async (that: any) => {
+export const handleLogoutFn = async (that: any, force: boolean = false) => {
   const time = localStorage.getItem('LOGIN_TIMESTAMP');
   const lasttime = that.getLastLogoutTime;
   const nowtime = new Date().getTime();
@@ -408,7 +408,7 @@ export const handleLogoutFn = async (that: any) => {
   const response = await doLogout();
 
   // 步骤三 清空线程，清空event监听，清空内存数据
-  if (response.code === 0 && response.result === true) {
+  if ((response.code === 0 && response.result === true) || force) {
     // 开启退出登录锁，并提示退出登录消息
     SysMessage.logouting = true;
     MsgManager.getInstance().sendMsg('workbench-loadover', false); // 通知loadover的值为false

@@ -172,12 +172,12 @@
     });
 
     // 监听清空缓存操作
-    EventManager.getInstance().registerClearStorage();
+    EventManager.getInstance().register();
   });
 
   onUnmounted(() => {
     // 监听清空缓存操作
-    EventManager.getInstance().destoryClearStorage();
+    EventManager.getInstance().destory();
   });
 </script>
 <style lang="less" scoped>
