@@ -288,6 +288,7 @@
           dataSource,
           footer: unref(getFooterProps),
           ...unref(getExpandOption),
+          showSorterTooltip: false
         };
         propsData.tableSetting = {
           redo: false,
