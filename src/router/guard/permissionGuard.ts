@@ -67,7 +67,7 @@ export function createPermissionGuard(router: Router) {
       if (to.path) {
         redirectData.query = {
           ...redirectData.query,
-          redirect: to.path,
+          // redirect: to.path,  // 跳转到 Login 页面不需要 redirect
         };
       }
       next(redirectData);
