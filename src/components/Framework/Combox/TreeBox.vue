@@ -8,7 +8,7 @@
       v-model:visible="showDropdown"
     >
       <!-- 输入框区域 -->
-      <template v-if="props.vmode === 'label'">
+      <template v-if="props.vmode == 'label'">
         <a-input
           v-model:value="searchLabelText"
           class="tree-text"
@@ -132,7 +132,14 @@
       </template>
     </a-dropdown>
     <span v-else-if="props.vmode == 'view'">{{ props.value }}</span>
-    <span v-else><a-input :value="props.value" class="search-text" :disabled="true" /></span>
+    <span v-else>
+      <template v-if="props.vmode == 'label'">
+        <a-input :value="searchLabelText" class="search-text" :disabled="true" />
+      </template>
+      <template v-else>
+        <a-input :value="searchRealText" class="search-text" :disabled="true" />
+      </template>
+    </span>
   </div>
 </template>
 
