@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'flex-layout': legendPosition==='right'}">
+  <div class="pie-chart-box">
     <div :id="props.id" ref="chart"
       :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height};`"></div>
   </div>
@@ -138,42 +138,4 @@
   });
 </script>
 <style lang="less" scoped>
-  .flex-layout {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    .right-legend-box {
-      padding-left: 0.1rem;
-      flex: 1;
-      .legend-list {
-        display: flex;
-        flex-wrap: wrap;
-        margin-bottom: 0;
-        .legend-item {
-          width: 50%;
-          display: flex;
-          .item-left {
-            font-size: 0.12rem;
-            .dot-icon {
-              display: inline-block;
-              width: 0.1rem;
-              height: 0.1rem;
-              border-radius: 50%;
-              margin-right: 0.12rem;
-            }
-          }
-          .item-right {
-            .name {
-              font-size: 0.12rem;
-              color: rgba(255, 255, 255, 0.6);
-            }
-            .value {
-              font-size: 0.14rem;
-              color: #fff;
-            }
-          }
-        }
-      }
-    }
-  }
 </style>
