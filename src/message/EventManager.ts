@@ -66,16 +66,31 @@ export class EventManager {
   public registerRouteRefresh() {
     const router = useRouter();
     const item = sessionStorage.getItem('ROUTE_PUSH_PATH');
+    const callback = (element, diff) => {
+      const path = window.location.hash.replace('#/', '/');
+      if (diff < 10000 && path != element.path) {
+        router.push(element.path);
+        sessionStorage.removeItem('ROUTE_PUSH_PATH');
+      }
+    };
     if (item) {
       const element = JSON.parse(item);
       const diff = new Date().getTime() - element.time;
-      const path = window.location.hash.replace('#/', '/');
       setTimeout(() => {
-        if (diff < 5000 && path != element.path) {
-          router.push(element.path);
-          sessionStorage.removeItem('ROUTE_PUSH_PATH');
-        }
+        callback(element, diff);
+      }, 300);
+      setTimeout(() => {
+        callback(element, diff);
+      }, 500);
+      setTimeout(() => {
+        callback(element, diff);
+      }, 750);
+      setTimeout(() => {
+        callback(element, diff);
       }, 1000);
+      setTimeout(() => {
+        callback(element, diff);
+      }, 1500);
     }
   }
 
