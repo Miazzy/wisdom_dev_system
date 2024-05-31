@@ -73,6 +73,15 @@ export class EventManager {
         sessionStorage.removeItem('ROUTE_PUSH_PATH');
       }
     };
+    const loginCheck = () => {
+      setTimeout(() => {
+        const hash = window.location.hash.replace('#/', '/');
+        const path = window.location.hash.replace('#/', '/').split('?')[0];
+        if (path == '/login' && path != hash) {
+          window.location.href = window.origin + '/#/login?t=' + new Date().getTime();
+        }
+      }, 300);
+    };
     if (item) {
       const element = JSON.parse(item);
       const diff = new Date().getTime() - element.time;
@@ -92,6 +101,7 @@ export class EventManager {
         callback(element, diff);
       }, 1500);
     }
+    loginCheck();
   }
 
   // 销毁所有Manager
