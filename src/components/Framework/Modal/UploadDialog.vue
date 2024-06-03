@@ -328,7 +328,6 @@
     height: 100%;
 
     .top-content {
-      // height: 100px;
       margin-bottom: 5px;
       border: 0 solid #f0f0f0;
       color: #0960bd;
@@ -351,10 +350,6 @@
     }
   }
 
-  // :deep(.ant-btn) {
-  //   margin: 0 5px 0 2px;
-  // }
-
   .footer-container {
     :deep(.ant-btn) {
       margin-right: 10px;
@@ -363,29 +358,6 @@
       }
     }
   }
-
-  // :deep(.modal-footer) {
-  //   height: 60px;
-  //   padding: 5px 0 10px;
-  //   line-height: 60px;
-  //   text-align: right;
-
-  //   &.footer-button {
-  //     top: -5px;
-  //   }
-  // }
-
-  // :deep(.modal-footer .footer-button) {
-  //   position: absolute;
-  //   top: -5px;
-  //   right: 5px;
-  //   margin-top: -5px;
-  // }
-
-  // :deep(.modal-footer .footer-button button) {
-  //   margin: 0 12px 0 0;
-  //   padding: 0 12px;
-  // }
 
   :deep(
       .ant-upload-list-text .ant-upload-list-item-name,
