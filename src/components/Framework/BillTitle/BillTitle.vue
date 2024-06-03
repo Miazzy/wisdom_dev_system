@@ -21,7 +21,7 @@
   const props = defineProps({
     options: { type: Object as PropType<BillTitleOptions> },
   });
-  const DEF_HEIGHT = 56;
+  const DEF_HEIGHT = 54;
 </script>
 <style lang="less" scoped>
   .bill-title-box {

@@ -5,6 +5,7 @@
       @click="handleOpenUpDialog"
       :disabled="isDisabled"
       style="margin: 0 10px 0 0"
+      :size="btnSize"
     >
       <Icon icon="material-symbols-light:upload" />
       {{ props.tname }}
@@ -87,6 +88,7 @@
     multiple: { type: [String, Boolean], default: false },
     callback: { type: Function, default: null },
     tfields: { type: Object, default: { label: 'label', value: 'value' } as Object },
+    btnSize: {type: String, default: ''}
   });
 
   const uploadVisible = ref(false);

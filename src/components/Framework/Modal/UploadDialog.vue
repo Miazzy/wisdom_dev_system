@@ -6,24 +6,23 @@
     @update:visible="updateVisible"
     :width="props.width"
     :height="props.height"
-    :pheight="100"
     @cancel="cancel"
     @confirm="confirm"
     @close="close"
   >
-    <div :id="uid" class="dialog-content" :style="`height: calc(${props.height}px - 110px)`">
+    <div :id="uid" class="dialog-content">
       <!-- 温馨提示区域 -->
       <div class="top-content">
         <a-alert
           message="温馨提示"
           :description="props.tmessage"
           type="info"
-          style="margin-top: 10px; color: #1890FF"
+          style="color: #1890FF"
         />
       </div>
       <!-- 附件列表区域 -->
       <div class="main-content">
-        <div :style="`height: calc(${props.height + 10}px - 220px); overflow-y: scroll;`">
+        <div style="overflow-y: scroll;height: 100%;max-height: 100%;">
           <a-upload
             ref="antUpload"
             :file-list="fileList"
@@ -329,7 +328,6 @@
     height: 100%;
 
     .top-content {
-      height: 100px;
       margin-bottom: 5px;
       border: 0 solid #f0f0f0;
       color: #0960bd;
@@ -352,35 +350,13 @@
     }
   }
 
-  :deep(.ant-btn) {
-    margin: 0 5px 0 2px;
-  }
-
   .footer-container {
-    margin-top: -5px;
-  }
-
-  :deep(.modal-footer) {
-    height: 60px;
-    padding: 5px 0 10px;
-    line-height: 60px;
-    text-align: right;
-
-    &.footer-button {
-      top: -5px;
+    :deep(.ant-btn) {
+      margin-right: 10px;
+      &:last-child {
+        margin-right: 0;
+      }
     }
-  }
-
-  :deep(.modal-footer .footer-button) {
-    position: absolute;
-    top: -5px;
-    right: 5px;
-    margin-top: -5px;
-  }
-
-  :deep(.modal-footer .footer-button button) {
-    margin: 0 12px 0 0;
-    padding: 0 12px;
   }
 
   :deep(
