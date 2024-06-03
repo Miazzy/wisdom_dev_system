@@ -10,10 +10,10 @@ export const setGlobalDisabled: Directive = {
         input?.parentNode?.setAttribute('disabled', true);
       });
     } else {
-      el.querySelectorAll('input, textarea, select').forEach((input) => {
-        input.disabled = false;
-        input?.parentNode?.setAttribute('disabled', false);
-      });
+      // el.querySelectorAll('input, textarea, select').forEach((input) => {
+      //   input.disabled = false;
+      //   input?.parentNode?.setAttribute('disabled', false);
+      // });
     }
     MsgManager.getInstance().sendMsg('global-disabled', binding.value);
   },
@@ -25,10 +25,10 @@ export const setGlobalDisabled: Directive = {
         input?.parentNode?.setAttribute('disabled', true);
       });
     } else {
-      el.querySelectorAll('input, textarea, select').forEach((input) => {
-        input.disabled = false;
-        input?.parentNode?.setAttribute('disabled', false);
-      });
+      // el.querySelectorAll('input, textarea, select').forEach((input) => {
+      //   input.disabled = false;
+      //   input?.parentNode?.setAttribute('disabled', false);
+      // });
     }
     MsgManager.getInstance().sendMsg('global-disabled', binding.value);
   },
