@@ -196,6 +196,10 @@
         padding-bottom: 10px !important;
       }
     }
+
+    .vben-basic-table-title {
+      cursor: default;
+    }
   }
 
   .vben-basic-table-title {
@@ -271,6 +275,7 @@
       display: flex;
       align-items: center;
       line-height: 1;
+      cursor: default;
     }
 
     .ant-card-head-title::before,
@@ -367,5 +372,20 @@
         width: calc(100% - 15px);
       }
     }
+  }
+
+  .table-in-dialog.vben-basic-table-form-container {
+    padding: 0;
+    .ant-form {
+      margin-bottom: 0;
+      padding: 0 0 2px 0;
+    }
+    
+    .ant-table-wrapper {
+      padding: 0;
+    }
+  }
+  .modal-container .modal-body .table-in-dialog.vben-basic-table-form-container .vben-basic-form .ant-col[tableaction] {
+    right: -10px !important;
   }
 }
