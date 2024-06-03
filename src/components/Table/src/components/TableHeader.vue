@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, toRefs } from 'vue';
+  import { ref, toRefs, onMounted } from 'vue';
   import { Divider } from 'ant-design-vue';
   import TableSettingComponent from './settings/index.vue';
   import TableTitle from './TableTitle.vue';
@@ -68,6 +68,27 @@
 
   // Expose Refs to Template
   const { title, tableSetting, showTableSetting, titleHelpMessage, target } = toRefs(props);
+
+  // 执行 dom 迁移操作
+  const handleTargetTransfer = () => {
+    try {
+      if (target.value) {
+        const targetElement = document.querySelector(target.value + ' .ant-tabs-nav-wrap');
+        const toolbar = document.querySelector(target.value + ' div#vben-btable-toolbar');
+        const title = document.querySelector(target.value + ' div.ant-table-title');
+        if (targetElement && toolbar) {
+          targetElement?.appendChild(toolbar);
+          title?.remove();
+        }
+      }
+    } catch {
+      //
+    }
+  };
+
+  onMounted(() => {
+    handleTargetTransfer();
+  });
 </script>
 
 <style lang="less" scoped>
