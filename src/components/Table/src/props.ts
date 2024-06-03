@@ -29,6 +29,8 @@ export const basicProps = {
   },
   showTableSetting: Boolean,
   target: { type: String, default: '' },
+  targetTabKey: { type: [String, Number], default: '' },
+  targetTabValue: { type: [String, Number], default: '' },
   autoCreateKey: { type: Boolean, default: true },
   striped: { type: Boolean, default: true },
   showSummary: Boolean,

@@ -155,6 +155,10 @@ export interface BasicTableProps<T = any> {
   showTableSetting?: boolean;
   // header 挂载目标
   target?: String;
+  // 目标 Tab key
+  targetTabKey?: String | Number;
+  // 目标 Tab value
+  targetTabValue?: String | Number;
   // table 设置信息
   tableSetting?: TableSetting;
   // 斑马纹
