@@ -28,6 +28,7 @@ export const basicProps = {
     default: DEFAULT_FILTER_FN,
   },
   showTableSetting: Boolean,
+  target: { type: String, default: '' },
   autoCreateKey: { type: Boolean, default: true },
   striped: { type: Boolean, default: true },
   showSummary: Boolean,

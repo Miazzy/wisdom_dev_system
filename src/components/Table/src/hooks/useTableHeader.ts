@@ -11,7 +11,7 @@ export function useTableHeader(
   handlers: InnerHandlers,
 ) {
   const getHeaderProps = computed((): Recordable => {
-    const { title, showTableSetting, titleHelpMessage, tableSetting } = unref(propsRef);
+    const { title, showTableSetting, titleHelpMessage, tableSetting, target } = unref(propsRef);
     const hideTitle = !slots.tableTitle && !title && !slots.toolbar && !showTableSetting;
     if (hideTitle && !isString(title)) {
       return {};
@@ -28,6 +28,7 @@ export function useTableHeader(
                 titleHelpMessage,
                 showTableSetting,
                 tableSetting,
+                target,
                 onColumnsChange: handlers.onColumnsChange,
               } as Recordable,
               {

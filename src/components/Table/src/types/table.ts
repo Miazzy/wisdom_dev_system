@@ -153,6 +153,9 @@ export interface BasicTableProps<T = any> {
   inset?: boolean;
   // 显示表格设置
   showTableSetting?: boolean;
+  // header 挂载目标
+  target?: String;
+  // table 设置信息
   tableSetting?: TableSetting;
   // 斑马纹
   striped?: boolean;
