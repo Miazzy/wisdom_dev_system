@@ -256,6 +256,10 @@
       text: '已取消',
       color: '#999',
     },
+    '7': {
+      text: '已转办',
+      color: '#999',
+    },
   });
 
   const innerFlowData = ref([]);
