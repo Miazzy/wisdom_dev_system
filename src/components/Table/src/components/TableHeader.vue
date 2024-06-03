@@ -121,9 +121,12 @@
     });
   });
 </script>
-
 <style lang="less" scoped>
   @prefix-cls: ~'@{namespace}-basic-table-header';
+
+  :deep(.vben-basic-table-header__toolbar) {
+    margin-top: 0.5rem;
+  }
 
   .vben-btable-toolbar {
     display: flex;
