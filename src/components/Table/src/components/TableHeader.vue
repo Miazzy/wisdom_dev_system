@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, toRefs, onMounted } from 'vue';
+  import { ref, toRefs, onMounted, nextTick } from 'vue';
   import { Divider } from 'ant-design-vue';
   import TableSettingComponent from './settings/index.vue';
   import TableTitle from './TableTitle.vue';
@@ -87,7 +87,9 @@
   };
 
   onMounted(() => {
-    handleTargetTransfer();
+    nextTick(() => {
+      handleTargetTransfer();
+    });
   });
 </script>
 
