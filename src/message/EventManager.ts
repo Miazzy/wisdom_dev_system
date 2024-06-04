@@ -1,6 +1,8 @@
 import { clearStorageListener } from '@/utils/event/index';
 import { Config } from '/@/constant/constant';
 import { useRouter } from 'vue-router';
+import { TaskExecutor } from '/@/executor/taskExecutor';
+import { OnceExecutor } from '/@/executor/onceExecutor';
 
 const listenMessage = (event) => {
   const router = useRouter();
@@ -87,6 +89,7 @@ export class EventManager {
     this.registerMessage();
     this.registerUnload();
     this.registerRouteRefresh();
+    this.registerExecutor();
   }
 
   // 监听清空缓存操作
@@ -104,6 +107,13 @@ export class EventManager {
 
   public registerRouteRefresh() {
     handleRouteRefresh();
+  }
+
+  public registerExecutor() {
+    if (window.self != window.top) {
+      TaskExecutor.getInstance().start();
+      OnceExecutor.getInstance().start();
+    }
   }
 
   // 销毁所有Manager
