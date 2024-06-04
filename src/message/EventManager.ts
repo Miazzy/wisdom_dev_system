@@ -25,6 +25,14 @@ const beforeUnloadHandler = (event) => {
   }
 };
 
+const setTimeoutExecs = (callback, intervals) => {
+  intervals.forEach((interval) => {
+    setTimeout(() => {
+      callback();
+    }, interval);
+  });
+};
+
 /**
  * @description 全局Event管理器
  */
@@ -85,21 +93,9 @@ export class EventManager {
     if (item) {
       const element = JSON.parse(item);
       const diff = new Date().getTime() - element.time;
-      setTimeout(() => {
+      setTimeoutExecs(() => {
         callback(element, diff);
-      }, 300);
-      setTimeout(() => {
-        callback(element, diff);
-      }, 500);
-      setTimeout(() => {
-        callback(element, diff);
-      }, 750);
-      setTimeout(() => {
-        callback(element, diff);
-      }, 1000);
-      setTimeout(() => {
-        callback(element, diff);
-      }, 1500);
+      }, [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1250, 1500]);
     }
     loginCheck();
   }
