@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="upload-box">
     <Button
       v-if="props.vmode == 'edit' || props.vmode == 'box'"
       @click="handleOpenUpDialog"
