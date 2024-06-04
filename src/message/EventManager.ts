@@ -33,6 +33,37 @@ const setTimeoutExecs = (callback, intervals) => {
   });
 };
 
+const pushToLastPath = (element, diff) => {
+  const router = useRouter();
+  const path = window.location.hash.replace('#/', '/');
+  if (diff < 10000 && path != element.path) {
+    router.push(element.path);
+    sessionStorage.removeItem('ROUTE_PUSH_PATH');
+  }
+};
+
+const handleLoginCheck = () => {
+  setTimeout(() => {
+    const hash = window.location.hash.replace('#/', '/');
+    const path = window.location.hash.replace('#/', '/').split('?')[0];
+    if (path == '/login' && path != hash) {
+      window.location.href = window.origin + '/#/login?_t=' + new Date().getTime();
+    }
+  }, 300);
+};
+
+const handleRouteRefresh = () => {
+  const item = sessionStorage.getItem('ROUTE_PUSH_PATH');
+  if (item) {
+    const element = JSON.parse(item);
+    const diff = new Date().getTime() - element.time;
+    setTimeoutExecs(() => {
+      pushToLastPath(element, diff);
+    }, [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1250, 1500]);
+  }
+  handleLoginCheck();
+};
+
 /**
  * @description 全局Event管理器
  */
@@ -72,32 +103,7 @@ export class EventManager {
   }
 
   public registerRouteRefresh() {
-    const router = useRouter();
-    const item = sessionStorage.getItem('ROUTE_PUSH_PATH');
-    const callback = (element, diff) => {
-      const path = window.location.hash.replace('#/', '/');
-      if (diff < 10000 && path != element.path) {
-        router.push(element.path);
-        sessionStorage.removeItem('ROUTE_PUSH_PATH');
-      }
-    };
-    const loginCheck = () => {
-      setTimeout(() => {
-        const hash = window.location.hash.replace('#/', '/');
-        const path = window.location.hash.replace('#/', '/').split('?')[0];
-        if (path == '/login' && path != hash) {
-          window.location.href = window.origin + '/#/login?t=' + new Date().getTime();
-        }
-      }, 300);
-    };
-    if (item) {
-      const element = JSON.parse(item);
-      const diff = new Date().getTime() - element.time;
-      setTimeoutExecs(() => {
-        callback(element, diff);
-      }, [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1250, 1500]);
-    }
-    loginCheck();
+    handleRouteRefresh();
   }
 
   // 销毁所有Manager
