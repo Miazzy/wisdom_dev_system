@@ -178,7 +178,7 @@
   );
 
   const validate = () => {
-    uploadTable.value?.validate();
+    return uploadTable.value?.validate();
   };
 
   const handleClearTips = () => {

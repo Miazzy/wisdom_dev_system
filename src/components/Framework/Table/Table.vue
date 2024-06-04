@@ -40,7 +40,7 @@
                   <span role="img" aria-label="paper-clip" class="anticon anticon-paper-clip">
                     <Icon icon="ph:file-light" />
                   </span>
-                  <span class="file-text" @click="preview(file?.url,file?.name)">
+                  <span class="file-text" @click="preview(file?.url, file?.name)">
                     <a-popover v-if="handleBtnAccess('preview') || handleBtnAccess('download')">
                       <template #content>
                         <div class="file-title-content">
@@ -50,7 +50,7 @@
                           <a-button
                             v-if="handleBtnAccess('preview')"
                             preIcon="ic:baseline-pageview"
-                            @click="preview(file?.url,file?.name)"
+                            @click="preview(file?.url, file?.name)"
                             :iconSize="16"
                             >预览</a-button
                           >
@@ -202,9 +202,9 @@
     }
   };
 
-  const preview = (url,name) => {
+  const preview = (url, name) => {
     if (tOperate.value.includes('preview')) {
-      const previewURL = FileApi.attachmentPreview(url,name);
+      const previewURL = FileApi.attachmentPreview(url, name);
       window.open(previewURL);
     }
   };
@@ -215,11 +215,15 @@
   };
 
   const validate = () => {
+    let count = 0;
     for (const item of tdata.value) {
       if (item.filelist && item.filelist.length == 0) {
         item.showReqTips = true;
+        count++;
       }
     }
+    const valid = count === 0;
+    return { count, valid };
   };
 
   const handleBtnAccess = (type: String = '') => {
@@ -358,12 +362,12 @@
     .theme1 {
       .table {
         th {
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          border: 1px solid rgb(255 255 255 / 15%);
           background-color: transparent;
         }
 
         td {
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          border: 1px solid rgb(255 255 255 / 15%);
           background-color: transparent;
         }
       }
