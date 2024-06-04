@@ -217,7 +217,7 @@
   const validate = () => {
     let count = 0;
     for (const item of tdata.value) {
-      if (item.filelist && item.filelist.length == 0) {
+      if (item.filelist && item.filelist.length == 0 && item.required) {
         item.showReqTips = true;
         count++;
       }
