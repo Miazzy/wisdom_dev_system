@@ -36,10 +36,9 @@ const setTimeoutExecs = (callback, intervals) => {
 };
 
 const pushToLastPath = (element, diff) => {
-  const router = useRouter();
   const path = window.location.hash.replace('#/', '/');
   if (diff < 10000 && path != element.path) {
-    router.push(element.path);
+    window.location.href = window.origin + `/#${element.path}`;
     sessionStorage.removeItem('ROUTE_PUSH_PATH');
   }
 };
