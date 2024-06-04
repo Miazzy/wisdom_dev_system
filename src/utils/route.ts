@@ -4,7 +4,7 @@ import { buildUUID } from '/@/utils/uuid';
 import { MsgManager } from '/@/message/MsgManager';
 import { useGo } from '/@/hooks/web/usePage';
 import { useUserStore } from '/@/store/modules/user';
-import { useDebounceFn } from '@vueuse/core';
+import { useThrottleFn } from '@vueuse/core';
 import { PageEnum } from '/@/enums/pageEnum';
 
 // 解析路由路径参数
@@ -235,13 +235,17 @@ export const sendOfflineMessage = () => {
 // 用户下线消息处理函数
 export const handleOfflineMessageFn = (message) => {
   const userStore = useUserStore();
+  console.info('exec handleOfflineMessageFn:', new Date().getTime());
   if (message.type === 'userOffline') {
     userStore.logout(true);
   }
 };
 
 // OffLine操作进行防抖处理
-export const handleOfflineMessage = useDebounceFn(handleOfflineMessageFn, 1500);
+export const handleOfflineMessage = useThrottleFn((message) => {
+  console.info('exec handleOfflineMessage:', new Date().getTime());
+  handleOfflineMessageFn(message);
+}, 5000);
 
 // 监听用户下线消息
 export const listenOfflineMessage = () => {

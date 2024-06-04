@@ -27,17 +27,17 @@ import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage, SysMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
 import { isArray } from '/@/utils/is';
-import { initDictMapInfo } from '/@/utils/dict';
 import { h, nextTick } from 'vue';
 import { TaskExecutor } from '/@/executor/taskExecutor';
 import { OnceExecutor } from '/@/executor/onceExecutor';
-import { DICT_TYPE } from '@/utils/dict';
 import { createLocalForage } from '@/utils/cache';
 import { MsgManager } from '/@/message/MsgManager';
 import { darkMode } from '/@/settings/designSetting';
 import { generateNameMap } from '/@/utils/route';
-import * as FileApi from '@/api/infra/file';
 import { useThrottleFn } from '@vueuse/core';
+import { initDictMapInfo } from '/@/utils/dict';
+import { DICT_TYPE } from '@/utils/dict';
+import * as FileApi from '@/api/infra/file';
 import { getDownloadURL } from '@/utils/upload';
 import * as ParameterApi from '@/api/system/parameter';
 import { message } from '@/utils/tooltips';
@@ -234,8 +234,6 @@ export const useUserStore = defineStore({
       try {
         const { notification } = useMessage();
         const { goHome = true, ...loginParams } = params;
-        const task = TaskExecutor.getInstance();
-        const once = OnceExecutor.getInstance();
         // Login接口传入登录账户参数，获取用户登录返回结果
         const data = await loginApi(loginParams);
         if (data?.code === '-1') {
@@ -246,24 +244,6 @@ export const useUserStore = defineStore({
         const { accessToken, refreshToken } = data || {};
         this.setToken(accessToken as string);
         this.setRefreshToken(refreshToken as string);
-        // 推入任务
-        task.pushOnceTask(async () => {
-          // const response = await execRefreshToken(this.getRefreshToken as string);
-          // const { accessToken } = response || {};
-          // this.setToken(accessToken as string);
-        });
-        // DICT_LOADING 登录时加载已知的数据字典 加载数据字典集合
-        once.pushOnceTask(async () => {
-          // const list = [
-          //   DICT_TYPE.BPM_MODEL_CATEGORY,
-          //   DICT_TYPE.SYSTEM_USER_SEX,
-          //   DICT_TYPE.INFRA_CONFIG_TYPE,
-          //   DICT_TYPE.CERTIFICATE,
-          // ];
-          // initDictMapInfo(list as []);
-        });
-        task.start();
-        once.start();
         return this.afterLoginAction(goHome);
       } catch (error) {
         return Promise.reject(error);
@@ -303,19 +283,20 @@ export const useUserStore = defineStore({
       userInfo.avatar = avatar;
       userInfo.username = name;
       userInfo.realName = realName;
-      if (!avatar) {
-        try {
-          const multiOrganization = await ParameterApi.getParameterByCode(
-            DICT_TYPE.SYSTEM_MULTI_ORGANIZATION,
-          );
-          this.setMultiOrganization(multiOrganization && multiOrganization.value === 'true');
-          const resp = await FileApi.getFiles({ bizId: id });
-          const path = getDownloadURL(resp[0].url);
-          userInfo.avatar = path;
-        } catch (error) {
-          //
-        }
-      }
+
+      // TODO 不能在登录过程中同步查询 头像 及 是否多组织结构，可以在此处发生消息或者跳转到 /frame 页面的 mounted 函数中 执行
+      // if (!avatar) {
+      //   try {
+      //     // 此处可能存在问题 获取多组织的代码需要在登录后，/frame 页面的 mounted 函数中获取
+      //     // const multiOrganization = false; // await ParameterApi.getParameterByCode(DICT_TYPE.SYSTEM_MULTI_ORGANIZATION);
+      //     // this.setMultiOrganization(multiOrganization);
+      //     // const resp = await FileApi.getFiles({ bizId: id });
+      //     // const path = getDownloadURL(resp[0].url);
+      //     // userInfo.avatar = path;
+      //   } catch (error) {
+      //     //
+      //   }
+      // }
       this.setUserInfo(userInfo as UserInfo);
       return userInfo as UserInfo;
     },
@@ -396,11 +377,11 @@ export const handleLogoutFn = async (that: any, force: boolean = false) => {
 
   // 步骤一 刚登录系统10秒内禁止退出登录操作
   if (difflast < 10000) {
-    diff > 3500 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
+    diff > 6000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
     return;
   }
   if (!flag && diff < 10000) {
-    diff > 3500 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
+    diff > 6000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
     return;
   }
 
@@ -413,10 +394,6 @@ export const handleLogoutFn = async (that: any, force: boolean = false) => {
     SysMessage.logouting = true;
     MsgManager.getInstance().sendMsg('workbench-loadover', false); // 通知loadover的值为false
     message.loading('', '正在退出登录中...', 1000);
-
-    // 清空线程执行
-    TaskExecutor.getInstance().destroy();
-    OnceExecutor.getInstance().destroy();
 
     // 清空所有Event的监听
     EventManager.getInstance().destory();

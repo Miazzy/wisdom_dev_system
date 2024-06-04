@@ -120,6 +120,7 @@ export class EventManager {
     this.destoryClearStorage();
     this.destoryMessage();
     this.destoryUnload();
+    this.destoryExecutor();
   }
 
   // 注销监听清空缓存
@@ -133,5 +134,11 @@ export class EventManager {
 
   public destoryUnload() {
     window.removeEventListener('beforeunload', beforeUnloadHandler);
+  }
+
+  public destoryExecutor() {
+    // 清空线程执行
+    TaskExecutor.getInstance().destroy();
+    OnceExecutor.getInstance().destroy();
   }
 }
