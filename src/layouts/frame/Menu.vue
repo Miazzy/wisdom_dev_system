@@ -149,9 +149,9 @@
       const path = handlePath(menu.url);
       if (screenRouteMap.has(path)) {
         const pathName = screenRouteMap.get(path);
-        window.open(`${window.origin}${pathName}`,  pathName.slice(3) , '_blank');
+        window.open(`${window.origin}${pathName}`,  pathName.slice(3));
       } else {
-        window.open(`${window.origin}${path}`, path.slice(3), '_blank');
+        window.open(`${window.origin}${path}`, path.slice(3));
       }
     } else {
       emit('click', key, menu, event);
