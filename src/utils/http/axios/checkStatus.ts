@@ -5,6 +5,7 @@ import { useUserStoreWithOut } from '/@/store/modules/user';
 import projectSetting from '/@/settings/projectSetting';
 import { SessionTimeoutProcessingEnum } from '/@/enums/appEnum';
 import { sendOfflineMessage } from '/@/utils/route';
+import { getLoginTimeDiff } from '/@/utils/common';
 
 const { createMessage, createErrorModal } = useMessage();
 const error = createMessage.error!;
@@ -27,12 +28,15 @@ export function checkStatus(
     // Jump to the login page if not logged in, and carry the path of the current page
     // Return to the current page after successful login. This step needs to be operated on the login page.
     case 401:
-      userStore.setToken(undefined);
-      errMessage = msg || t('sys.api.errMsg401');
-      if (stp === SessionTimeoutProcessingEnum.PAGE_COVERAGE) {
-        userStore.setSessionTimeout(true);
-      } else {
-        sendOfflineMessage();
+      const diff = getLoginTimeDiff();
+      if (diff > 10000) {
+        userStore.setToken(undefined);
+        errMessage = msg || t('sys.api.errMsg401');
+        if (stp === SessionTimeoutProcessingEnum.PAGE_COVERAGE) {
+          userStore.setSessionTimeout(true);
+        } else {
+          sendOfflineMessage();
+        }
       }
       break;
     case 403:

@@ -10,7 +10,7 @@ export const toUnderline = (str) => {
   return str.replace(/([A-Z])/g, '_$1').toLowerCase();
 };
 
-export const toFlowPage = async (bizId,flowName) => {
+export const toFlowPage = async (bizId, flowName) => {
   const flowData = await ProcessInstanceApi.getFlowData(bizId);
   if (flowData) {
     const tabName = getTabName(
@@ -42,4 +42,16 @@ export const getTabName = (status, flowName, startUserId, isHandle) => {
     tabName = t('common.action.approval');
   }
   return tabName + flowName;
+};
+
+export const getLoginTimeDiff = () => {
+  try {
+    const time = localStorage.getItem('LOGIN_TIMESTAMP');
+    const nowtime = new Date().getTime();
+    const timestamp = Number(time || 0);
+    const diff = nowtime - timestamp;
+    return diff;
+  } catch {
+    return -1;
+  }
 };

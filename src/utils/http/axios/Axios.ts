@@ -23,6 +23,7 @@ import { createLocalForage } from '@/utils/cache';
 import { pathToUrl, sendOfflineMessage } from '/@/utils/route';
 import { sleep } from '@/utils/http/axios/axiosRetry';
 import { SysMessage } from '/@/hooks/web/useMessage';
+import { getLoginTimeDiff } from '/@/utils/common';
 
 export * from './axiosTransform';
 
@@ -378,8 +379,9 @@ export class VAxios {
               resolve(ret);
             } catch (err) {
               reject(err || new Error('request error!'));
+              const diff = getLoginTimeDiff();
               const logoutFlag = res.data.code == ResultEnum.ACCOUNT_ERROR;
-              if (logoutFlag) {
+              if (logoutFlag && diff > 10000) {
                 setTimeout(() => {
                   sendOfflineMessage();
                 }, 500);

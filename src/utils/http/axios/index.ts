@@ -20,7 +20,7 @@ import { AxiosRetry } from '/@/utils/http/axios/axiosRetry';
 import axios from 'axios';
 import { sendOfflineMessage, urlToPath } from '/@/utils/route';
 import { MsgManager } from '/@/message/MsgManager';
-
+import { getLoginTimeDiff } from '/@/utils/common';
 
 const globSetting = useGlobSetting();
 const urlPrefix = globSetting.urlPrefix;
@@ -103,14 +103,19 @@ const transform: AxiosTransform = {
     // 在此处根据自己项目的实际情况对不同的code执行不同的操作
     // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
     let timeoutMsg = '';
+    const diff = getLoginTimeDiff();
     switch (code) {
       case ResultEnum.ACCOUNT_ERROR:
         timeoutMsg = message;
-        sendOfflineMessage();
+        if (diff > 10000) {
+          sendOfflineMessage();
+        }
         break;
       case ResultEnum.TIMEOUT:
         timeoutMsg = t('sys.api.timeoutMessage');
-        sendOfflineMessage();
+        if (diff > 10000) {
+          sendOfflineMessage();
+        }
         break;
       default:
         if (message) {

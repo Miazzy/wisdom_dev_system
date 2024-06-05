@@ -87,7 +87,8 @@
           SysMessage.getInstance().warning('警告：页签页面不能打开框架页面...');
           nextTick(closeCurrentTab);
         } else if (loginFlag) {
-          sendOfflineMessage();
+          // sendOfflineMessage();
+          SysMessage.getInstance().warning('警告：跳转异常，请稍后重试...');
         }
         console.info('currentPath: ', iframePath);
         console.info('routePath: ', routePath);
