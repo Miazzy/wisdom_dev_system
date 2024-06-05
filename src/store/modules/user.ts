@@ -376,19 +376,29 @@ export const handleLogoutFn = async (that: any, force: boolean = false) => {
   const difflast = nowtime - lasttime;
 
   // 步骤一 刚登录系统10秒内禁止退出登录操作
-  if (force === false) {
-    if (difflast < 10000) {
+  if (difflast < 10000) {
+    // 当 force 为 true 时，即强制退出的情况，不需要提示
+    if (force == false) {
       diff > 7500 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
-      return;
     }
-    if (!flag && diff < 10000) {
+    return;
+  }
+  if (!flag && diff < 10000) {
+    // 当 force 为 true 时，即强制退出的情况，不需要提示
+    if (force == false) {
       diff > 7500 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
-      return;
     }
+    return;
   }
 
   // 步骤二 发送退出登录请求
-  const response = await doLogout();
+  let response = { code: -1, result: null, message: '' };
+
+  try {
+    response = force ? response : await doLogout();
+  } catch {
+    //
+  }
 
   // 步骤三 清空线程，清空event监听，清空内存数据
   if ((response.code === 0 && response.result === true) || force) {
@@ -434,7 +444,7 @@ export const handleLogoutFn = async (that: any, force: boolean = false) => {
       SysMessage.logouting = false;
     }, 1500);
   } else {
-    SysMessage.getInstance().error(response.message || '退出登录失败，请稍后尝试...');
+    SysMessage.getInstance().error(response?.message || '退出登录失败，请稍后尝试...');
   }
 };
 
