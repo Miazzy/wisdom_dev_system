@@ -86,6 +86,7 @@
       />
       <div class="content" :style="contentStyle">
         <Frame
+          @loadover="handleFrameLoadOver"
           :isLoadOver="loadOverFlag"
           :isFirstPage="firstPageFlag"
           :status="activePane.status"
@@ -149,7 +150,7 @@
   const screenClass = ref('');
   const activePane = ref(cachepage); // Single-Iframe-Mode
   const iframeClass = ref('');
-  const loadOverFlag = ref(true);
+  const loadOverFlag = ref(false);
   const firstPageFlag = ref(false);
   const loadingInstance = ref();
 
@@ -612,6 +613,15 @@
     }
   };
 
+  const handleFrameLoadOver = (data: any) => {
+    if (data?.status === true) {
+      loadOverFlag.value = data?.status;
+      handleIframeStyle();
+      handlePanesEmpty();
+      loadingInstance.value.close();
+    }
+  };
+
   const handlePanesSingle = () => {
     try {
       handlePanesEmpty();
@@ -680,12 +690,12 @@
     });
     // 监听loadover函数
     MsgManager.getInstance().listen('workbench-loadover', (message) => {
-      // loadOverFlag.value = message;
-      handleIframeStyle();
-      handlePanesEmpty();
-      setTimeout(() => {
+      if (message === true) {
+        loadOverFlag.value = message;
+        handleIframeStyle();
+        handlePanesEmpty();
         loadingInstance.value.close();
-      }, 300);
+      }
     });
     setTimeout(() => {
       handlePanesEmpty();
@@ -693,6 +703,8 @@
   });
 
   onUnmounted(() => {
+    firstPageFlag.value = false;
+    loadOverFlag.value = false;
     loadingInstance.value.close();
   });
 </script>

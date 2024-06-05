@@ -12,7 +12,7 @@
   </div>
   <iframe
     v-show="!showCompFlag"
-    ref="iframeContent"
+    ref="myFrame"
     :src="activeKey"
     :panekey="activeKey"
     :pageurl="activeKey"
@@ -45,9 +45,9 @@
     url: { type: String, default: '' },
   });
 
-  // 定义emits const emit = defineEmits(['click', 'change']);
+  const emit = defineEmits(['loadover']);
   const currentComponent = ref<any>(Workbench);
-  const iframeContent = ref();
+  const myFrame = ref();
   const activeKey = ref('');
   const loadOverFlag = ref();
   const firstPageFlag = ref();
@@ -104,6 +104,10 @@
     activeKey.value = props.url;
     loadOverFlag.value = props.isLoadOver;
     firstPageFlag.value = props.isFirstPage;
+    myFrame.value.onload = () => {
+      emit('loadover', { status: true });
+      console.info('myframe 工作台 frame 加载完毕...', new Date().getTime());
+    };
     routeList.forEach((element) => {
       const [path, component] = element;
       if (typeof path === 'string') {
