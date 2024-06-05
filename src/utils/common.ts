@@ -3,14 +3,12 @@ import { addTabPage } from '@/utils/route';
 import { useUserStore } from '/@/store/modules/user';
 import { useI18n } from '@/hooks/web/useI18n';
 
-const { t } = useI18n();
-const userStore = useUserStore();
-
 export const toUnderline = (str) => {
   return str.replace(/([A-Z])/g, '_$1').toLowerCase();
 };
 
 export const toFlowPage = async (bizId, flowName) => {
+  const { t } = useI18n();
   const flowData = await ProcessInstanceApi.getFlowData(bizId);
   if (flowData) {
     const tabName = getTabName(
@@ -33,7 +31,9 @@ export const toFlowPage = async (bizId, flowName) => {
 };
 
 export const getTabName = (status, flowName, startUserId, isHandle) => {
+  const { t } = useI18n();
   let tabName = t('common.action.view');
+  const userStore = useUserStore();
   const userId = userStore.getUserInfo?.userId;
   const isEqual = userId == startUserId ? true : false;
   if (status == 0 && isEqual) {
