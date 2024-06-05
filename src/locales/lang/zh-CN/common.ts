@@ -30,6 +30,7 @@ export default {
     alertTitle: '系统提示',
     delMessage: '确定要删除选中记录？',
     exportMessage: '确定要导出所有记录？',
+    delNotDraftMessage: '非草稿状态不能删除。',
   },
 
   delSuccessText: '删除成功',
@@ -46,6 +47,6 @@ export default {
     export: '导出',
     edit: '修改',
     view: '查看',
-    approval: '审批'
+    approval: '审批',
   },
 };
