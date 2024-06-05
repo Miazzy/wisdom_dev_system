@@ -42,6 +42,7 @@ import { getDownloadURL } from '@/utils/upload';
 import * as ParameterApi from '@/api/system/parameter';
 import { message } from '@/utils/tooltips';
 import { EventManager } from '@/message/EventManager';
+import { getLoginTimeDiff } from '/@/utils/common';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -100,7 +101,8 @@ export const useUserStore = defineStore({
       return state.userInfo || getAuthCache<UserInfo>(USER_INFO_KEY) || {};
     },
     isMultiOrganization(state): boolean {
-      const status = state.multiOrganization || getAuthCache<boolean>(SYSTEM_MULTI_ORGANIZATION_KEY);
+      const status =
+        state.multiOrganization || getAuthCache<boolean>(SYSTEM_MULTI_ORGANIZATION_KEY);
       return status ? status : false;
     },
     getToken(state): string {
@@ -330,7 +332,12 @@ export const useUserStore = defineStore({
         title: () => h('span', t('sys.app.logoutTip')),
         content: () => h('span', t('sys.app.logoutMessage')),
         onOk: async () => {
-          await this.logout();
+          const diff = getLoginTimeDiff();
+          if (diff > 10000) {
+            await this.logout();
+          } else if (diff > 0 && diff < 10000) {
+            SysMessage.getInstance().error('您的操作太快，请稍后再尝试！');
+          }
         },
       });
     },
@@ -402,6 +409,7 @@ export const handleLogoutFn = async (that: any, force: boolean = false) => {
   let response = { code: -1, result: null, message: '' };
 
   try {
+    // 如果时强制退出的情况，则不需要发生推送登录的后端请求
     response = force ? response : await doLogout();
   } catch {
     //
