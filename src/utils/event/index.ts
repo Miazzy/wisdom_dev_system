@@ -48,6 +48,7 @@ export function clearStorageListener(e) {
     return;
   }
   if (e?.storageArea?.length === 0 && e?.key === null && e?.newValue === null) {
+    console.info('执行 logout 操作，监听到清空缓存... ', new Date().getTime());
     sendOfflineMessage();
   }
 }

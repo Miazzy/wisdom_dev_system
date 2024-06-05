@@ -376,13 +376,15 @@ export const handleLogoutFn = async (that: any, force: boolean = false) => {
   const difflast = nowtime - lasttime;
 
   // 步骤一 刚登录系统10秒内禁止退出登录操作
-  if (difflast < 10000) {
-    diff > 6000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
-    return;
-  }
-  if (!flag && diff < 10000) {
-    diff > 6000 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
-    return;
+  if (force === false) {
+    if (difflast < 10000) {
+      diff > 7500 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
+      return;
+    }
+    if (!flag && diff < 10000) {
+      diff > 7500 ? SysMessage.getInstance().error('您的操作太快，请稍后再尝试！') : null;
+      return;
+    }
   }
 
   // 步骤二 发送退出登录请求
