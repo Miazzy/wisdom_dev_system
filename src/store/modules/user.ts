@@ -46,6 +46,7 @@ import { EventManager } from '@/message/EventManager';
 interface UserState {
   userInfo: Nullable<UserInfo>;
   multiOrganization: boolean;
+  sunsetCreateFlag: boolean;
   token?: string;
   rtoken?: string;
   roleList: RoleEnum[];
@@ -99,7 +100,8 @@ export const useUserStore = defineStore({
       return state.userInfo || getAuthCache<UserInfo>(USER_INFO_KEY) || {};
     },
     isMultiOrganization(state): boolean {
-      return state.multiOrganization || getAuthCache<boolean>(SYSTEM_MULTI_ORGANIZATION_KEY);
+      const status = state.multiOrganization || getAuthCache<boolean>(SYSTEM_MULTI_ORGANIZATION_KEY);
+      return status ? status : false;
     },
     getToken(state): string {
       return state.token || getAuthCache<string>(TOKEN_KEY);

@@ -20,6 +20,8 @@ import {
   ORGAN_TREE_KEY,
   THEME_KEY,
   HAS_MASK_KEY,
+  SYSTEM_MULTI_ORGANIZATION_KEY,
+  SUN_SET_CREATE_FLAG,
 } from '/@/enums/cacheEnum';
 import { DEFAULT_CACHE_TIME } from '/@/settings/encryptionSetting';
 import { toRaw } from 'vue';
@@ -39,13 +41,13 @@ interface BasicStore {
   [ORGAN_TREE_KEY]: string;
   [THEME_KEY]: string;
   [HAS_MASK_KEY]: string;
+  [SYSTEM_MULTI_ORGANIZATION_KEY]: string;
+  [SUN_SET_CREATE_FLAG]: string;
 }
 
-type LocalStore = BasicStore;
-
-type SessionStore = BasicStore;
-
 export type BasicKeys = keyof BasicStore;
+type LocalStore = BasicStore;
+type SessionStore = BasicStore;
 type LocalKeys = keyof LocalStore;
 type SessionKeys = keyof SessionStore;
 
