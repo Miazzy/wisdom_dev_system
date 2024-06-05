@@ -34,14 +34,14 @@ export enum FILE_PREVIEW {
 
 // 大屏白名单路由
 export const ScreenList = [
-  ['/#/frame/cockpit/overview', '/#/CockpitOverview'],
-  ['/#/frame/cockpit/operation', '/#/CockpitOperation'],
-  ['/#/frame/cockpit/property', '/#/CockpitProperty'],
-  ['/#/frame/cockpit/security', '/#/CockpitSecurity'],
-  ['/#/frame/cockpit/composition', '/#/CockpitComposition'],
-  ['/#/frame/cockpit/power', '/#/CockpitPower'],
-  ['/#/frame/groupOperation', '/#/groupOperation'],
-  ['/#/frame/stationOperation', '/#/stationOperation'],
+  ['/#/frame/cockpit/overview', '/#/cockpitoverview'],
+  ['/#/frame/cockpit/operation', '/#/cockpitoperation'],
+  ['/#/frame/cockpit/property', '/#/cockpitproperty'],
+  ['/#/frame/cockpit/security', '/#/cockpitsecurity'],
+  ['/#/frame/cockpit/composition', '/#/cockpitcomposition'],
+  ['/#/frame/cockpit/power', '/#/cockpitpower'],
+  ['/#/frame/groupOperation', '/#/groupoperation'],
+  ['/#/frame/stationOperation', '/#/stationoperation'],
 ];
 
 // 大屏白名单路由

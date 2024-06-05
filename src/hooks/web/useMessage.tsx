@@ -291,6 +291,7 @@ export class SysMessage {
   private static instance: SysMessage;
   private static lastMessage: string;
   private static lasttime: number;
+  public static loginLock: Boolean = false;
   public static logouting: Boolean = false;
   public static isLoadover: Boolean = false;
 

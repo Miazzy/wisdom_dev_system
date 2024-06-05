@@ -241,11 +241,16 @@ export const useUserStore = defineStore({
           SysMessage.getInstance().error(data?.msg);
           return null;
         }
+        SysMessage.loginLock = true;
+        setTimeout(() => {
+          SysMessage.loginLock = false;
+        }, 10000);
         const { accessToken, refreshToken } = data || {};
         this.setToken(accessToken as string);
         this.setRefreshToken(refreshToken as string);
         return this.afterLoginAction(goHome);
       } catch (error) {
+        SysMessage.loginLock = false;
         return Promise.reject(error);
       }
     },

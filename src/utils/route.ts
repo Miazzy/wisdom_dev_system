@@ -6,6 +6,7 @@ import { useGo } from '/@/hooks/web/usePage';
 import { useUserStore } from '/@/store/modules/user';
 import { useThrottleFn } from '@vueuse/core';
 import { PageEnum } from '/@/enums/pageEnum';
+import { SysMessage } from '/@/hooks/web/useMessage';
 
 // 解析路由路径参数
 export const parseRoutePath = (path: string): Record<string, string> => {
@@ -236,6 +237,10 @@ export const sendOfflineMessage = () => {
 export const handleOfflineMessageFn = (message) => {
   const userStore = useUserStore();
   console.info('exec handleOfflineMessageFn:', new Date().getTime());
+  // 登录上锁的情况下，不能执行操作
+  if (SysMessage.loginLock) {
+    return;
+  }
   if (message.type === 'userOffline') {
     userStore.logout(true);
   }
