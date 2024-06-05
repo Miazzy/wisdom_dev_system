@@ -3,9 +3,10 @@ import type { App } from 'vue';
 import { unref } from 'vue';
 import { createRouter, createWebHashHistory, useRouter } from 'vue-router';
 import { basicRoutes } from './routes';
+import { ScreenRouteList } from '@/constant/constant';
 
 // 白名单应该包含基本静态路由
-const WHITE_NAME_LIST: string[] = [];
+const WHITE_NAME_LIST: string[] = [...ScreenRouteList];
 
 const getRouteNames = (array: any[]) =>
   array.forEach((item) => {
