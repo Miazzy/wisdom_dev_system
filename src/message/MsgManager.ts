@@ -1,3 +1,16 @@
+interface Emitter {
+  on(type: String, handler: Function): void;
+  off(type: String, handler?: Function): void;
+  emit(type: String, args: Object): void;
+}
+
+/**
+ * @description 空回调函数
+ */
+const emptyCallback = (type: string, args?: any = '...') => {
+  console.info('msgmanager exec empty callback: ', type, args);
+};
+
 /**
  * @description 主题类
  */
@@ -79,11 +92,13 @@ export class MsgManager extends Subject {
   private static instance: MsgManager | undefined;
   private static channels: Map<string, any>;
   private static subchannels: Map<string, any>;
+  private static emitter: Emitter;
 
   constructor() {
     super();
     MsgManager.channels = new Map<string, any>();
     MsgManager.subchannels = new Map<string, any>();
+    MsgManager.emitter = window?.mitt ? window?.mitt() : { on: emptyCallback, off: emptyCallback, emit: emptyCallback };
   }
 
   // 获取示例函数
@@ -92,17 +107,19 @@ export class MsgManager extends Subject {
       const instance = new MsgManager();
       MsgManager.instance = instance;
       try {
+        if (!Reflect.has(window, 'MsgManager')) {
+          window.MsgManager = instance;
+        }
+        if (!Reflect.has(window.self, 'MsgManager')) {
+          window.self.MsgManager = instance;
+        }
         if (!Reflect.has(window.top, 'MsgManager')) {
           window.top.MsgManager = instance;
         }
-        if (window.top !== window) {
-          MsgManager.instance = window?.top?.MsgManager ? window?.top?.MsgManager : instance;
-        } else {
-          MsgManager.instance = instance;
-          window.MsgManager = instance;
-        }
       } catch (error) {
-        //
+        window?.MsgManager = instance;
+        window?.self?.MsgManager = instance;
+        window?.top?.MsgManager = instance;
       }
     }
     return MsgManager.instance as MsgManager;
@@ -141,6 +158,11 @@ export class MsgManager extends Subject {
     } catch (error) {
       //
     }
+    try {
+      MsgManager.emitter.emit(channelName, message);
+    } catch {
+      //
+    }
   }
 
   // 监听指定信道消息
@@ -166,6 +188,11 @@ export class MsgManager extends Subject {
         observer.update(channelName, message);
       });
     } catch (error) {
+      //
+    }
+    try {
+      MsgManager.emitter.on(channelName, callback);
+    } catch {
       //
     }
   }
