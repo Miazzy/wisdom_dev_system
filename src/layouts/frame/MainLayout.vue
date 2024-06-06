@@ -30,6 +30,12 @@
   import { handleRouteGo, listenOfflineMessage, urlToPath } from '/@/utils/route';
   import { MsgManager } from '/@/message/MsgManager';
 
+  import { getDownloadURL } from '@/utils/upload';
+  import * as ParameterApi from '@/api/system/parameter';
+  import * as FileApi from '@/api/infra/file';
+  import { useUserStore } from '/@/store/modules/user';
+  import { DICT_TYPE } from '@/utils/dict';
+
   const currentModule = ref(null);
   const menuList = ref([]);
   const systemTheme = ref('');
@@ -45,6 +51,7 @@
   const screenFlag = ref(false);
   const mode = ref(false);
   const pageURL = ref('');
+  const userStore = useUserStore();
 
   // 处理顶部模块点击函数
   const handleModuleClick = (cmodule, menus) => {
@@ -125,14 +132,32 @@
     }
   };
 
+  const handleLoadUserExtra = async () => {
+    try {
+      const code = DICT_TYPE.SYSTEM_MULTI_ORGANIZATION;
+      const userInfo = userStore.getUserInfo;
+      const multiOrganization = await ParameterApi.getParameterByCode(code);
+      const flag = multiOrganization.value == 'false' || multiOrganization.value == false ? false : true;
+      const resp = await FileApi.getFiles({ bizId: userInfo?.userId });
+      const path = getDownloadURL(resp[0].url);
+      userInfo.avatar = path;
+      userStore.setMultiOrganization(flag);
+      userStore.setUserInfo(userInfo);
+    } catch (error) {
+      //
+    }
+  };
+
   // Mounted时加载函数
   onMounted(() => {
     const { params } = urlToPath();
-
     systemTheme.value = 'light';
+
     handleRouteGo();
     handleResize();
     listenOfflineMessage();
+    handleLoadUserExtra();
+
     window.addEventListener('resize', handleReload);
     MsgManager.getInstance().listen('iframe-screen', handleScreenMessage);
 

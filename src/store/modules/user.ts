@@ -215,6 +215,7 @@ export const useUserStore = defineStore({
       setAuthCache(USER_INFO_KEY, info);
     },
     setMultiOrganization(flag: boolean) {
+      this.multiOrganization = flag;
       setAuthCache(SYSTEM_MULTI_ORGANIZATION_KEY, flag);
     },
     setSessionTimeout(flag: boolean) {
