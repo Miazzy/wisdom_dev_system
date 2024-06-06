@@ -227,7 +227,7 @@
     }
     const params = {
       id: myTask.id,
-      reason: '测试终止流程。',
+      reason: myTask.reason,
     };
 
     Modal.confirm({
