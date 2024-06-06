@@ -7,7 +7,7 @@ interface Emitter {
 /**
  * @description 空回调函数
  */
-const emptyCallback = (type: string, args?: any = '...') => {
+const emptyCallback = (type: string, args: any = '...') => {
   console.info('msgmanager exec empty callback: ', type, args);
 };
 
@@ -117,9 +117,7 @@ export class MsgManager extends Subject {
           window.top.MsgManager = instance;
         }
       } catch (error) {
-        window?.MsgManager = instance;
-        window?.self?.MsgManager = instance;
-        window?.top?.MsgManager = instance;
+        window.MsgManager = instance;
       }
     }
     return MsgManager.instance as MsgManager;
