@@ -443,8 +443,9 @@
     '8h': 8 * 60 * 60 * 1000,
   };
 
+  // 重新加载任务栏数据
   const reloadAll = async () => {
-    // 后续需要一段时间处理后才能查询到最新数据，建议延时查询
+    // 延时查询是为了等待后端处理完毕数据，保证查询一致性
     setTimeout(() => {
       doTodo();
       doCC();
@@ -454,11 +455,21 @@
     }, 1500);
   };
 
+  // 加载任务栏待办、已办数据
+  const relodDoTask = async () => {
+    // 延时查询是为了等待后端处理完毕数据，保证查询一致性
+    setTimeout(() => {
+      doTodo();
+      doDone();
+    }, 1500);
+  };
+
   /** 初始化 */
   onMounted(async () => {
     doTodo();
     doCC();
     doSchedule();
+    MsgManager.getInstance().listen('workflow-task-done', relodDoTask);
     MsgManager.getInstance().listen('workbench-approval', reloadAll);
     MsgManager.getInstance().listen('setMeeting', doSchedule);
   });
