@@ -153,7 +153,7 @@ export const addTabPage = (
     path = path.startsWith('/frame') ? path : '/frame' + path;
     path = params == null || typeof params == 'undefined' ? path : pathToUrl(path, params);
     const message = { type: 'addTabPage', data: { id, path, name, params } };
-    if (window.self !== window.top) {
+    if (window.self !== window.top || window.location.hash === '#/frame') {
       sendMessage(message);
     } else {
       winOpenUrl(path, name || '');
