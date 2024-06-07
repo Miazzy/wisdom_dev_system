@@ -317,6 +317,8 @@
     const getMyProcessInstancePage = await ProcessInstanceApi.getMyProcessInstancePage();
     tableDataSource3.value.splice(0, tableDataSource3.value.length);
     if (getMyProcessInstancePage) {
+      const createdTaskCount = await TaskApi.getCreatedTaskCount();
+      tabList.value[2].count = createdTaskCount;
       getMyProcessInstancePage.list.forEach((element) => {
         tableDataSource3.value.push({
           title: element.description,
@@ -468,6 +470,7 @@
   onMounted(async () => {
     doTodo();
     doCC();
+    doMy();
     doSchedule();
     MsgManager.getInstance().listen('workflow-task-done', relodDoTask);
     MsgManager.getInstance().listen('workbench-approval', reloadAll);

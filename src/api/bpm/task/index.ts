@@ -22,6 +22,7 @@ export enum BpmTaskApi {
   GetHiTaskinst = '/bpm/task/get-hi_taskinst',
   GetFlowTasks = '/bpm/task/getFlowTasks',
   GetTaskCount = '/bpm/task/getTaskCount',
+  GetCreatedTaskCount = '/bpm/task/getCreatedTaskCount',
 }
 
 export const getTodoTaskPage = async (params) => {
@@ -107,5 +108,11 @@ export const getFlowTasks = async (params) => {
 //获取任务数量
 export const getTaskCount = async (params) => {
   const requestParams = { url: BpmTaskApi.GetTaskCount, params };
+  return defHttp.get<any>(requestParams, { isOnlyResult: true });
+};
+
+//查询本人发起数量(草稿、审批中)
+export const getCreatedTaskCount = async (params) => {
+  const requestParams = { url: BpmTaskApi.GetCreatedTaskCount, params };
   return defHttp.get<any>(requestParams, { isOnlyResult: true });
 };
