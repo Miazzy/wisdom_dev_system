@@ -179,6 +179,12 @@
     }
   }
 
+  .theme3 .@{prefix-cls} {
+    &.main-layout {
+      background-color: #f0f2f5;
+    }
+  }
+
   .@{prefix-cls} {
     position: relative;
 

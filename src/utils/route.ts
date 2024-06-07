@@ -12,7 +12,8 @@ import { getLoginTimeDiff } from '/@/utils/common';
 // window 通过新窗口打开网页
 export const winOpenUrl = (path: string, name: string) => {
   const wname = window.encodeURIComponent(name);
-  const url = window.origin + '/#' + path + '?__name__=' + wname;
+  const sign = path.includes('?') ? '&' : '?';
+  const url = window.origin + '/#' + path + sign + '__name__=' + wname;
   window.open(url, wname);
 };
 
