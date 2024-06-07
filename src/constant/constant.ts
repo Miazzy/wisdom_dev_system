@@ -16,6 +16,14 @@ export enum TimeInterval {
   TEN_HOUR = 3600000 * 10,
 }
 
+// 锁名称
+export enum Lock {
+  LoginLock = 'LoginLock',
+  PageRouteLock = 'PageRouteLock',
+  LogoutLock = 'LogoutLock',
+  RequestLock = 'RequestLock',
+}
+
 // 配置信息
 export const Config = {
   RENDER_ENGINE_URL: 'http://139.9.148.32:9090/',
