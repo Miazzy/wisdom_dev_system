@@ -1,0 +1,46 @@
+// 功能列表
+.left-tree-layout {
+  width: 298px;
+  border-radius: 2px;
+}
+
+.right-table-layout {
+  flex: 1;
+  width: calc(100% - 298px - 10px);
+}
+
+.fix-basic-table {
+  :deep(&.vben-basic-table .ant-table-wrapper) {
+    padding: 10px 16px 12px;
+  }
+
+  :deep(.table-settings .anticon-setting) {
+    margin-right: 0;
+  }
+
+}
+
+// bi报表
+.tab-model {
+  height: 100vh;
+  padding: 10px 10px 0;
+}
+
+.tab-button-div {
+  .ant-form {
+    margin-bottom: 10px;
+    padding: 12px 6px 4px 16px;
+  }
+
+  .vben-basic-form {
+    .ant-row .ant-col.ant-col-8 {
+      flex: 0 0 27.5%;
+      max-width: 27.5%;
+    }
+
+    .ant-col.ant-col-24 {
+      position: fixed;
+      right: 1rem;
+    }
+  }
+}
