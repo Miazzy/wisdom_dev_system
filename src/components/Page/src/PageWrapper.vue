@@ -108,7 +108,7 @@
 
   const getClass = computed(() => {
     const dense = { [`${prefixCls}--dense`]: props.dense };
-    const mainLayout = { ['main-layout']: window === window.top };
+    const mainLayout = { ['main-layout']: window.self === window.top };
     const attrClass = attrs.class ?? {};
     return [prefixCls, dense, mainLayout, attrClass];
   });
@@ -165,7 +165,7 @@
       const { params } = urlToPath() as any;
       const flag = params['global_disabled'] == 'true' || params['page_readonly'] == 'true';
       isGlobalDisabled.value = flag;
-      window.document.title = params['__name__'];
+      params['__name__'] ? window.document.title = params['__name__'] : null;
     } catch (e) {
       //
     }
@@ -176,7 +176,7 @@
 
   .theme1 .@{prefix-cls} {
     &.main-layout {
-      background: url(../../../assets/images/background1.png) no-repeat center / 100% 100%;
+      background: url('../../../assets/images/background1.png') no-repeat center / 100% 100%;
     }
   }
 
