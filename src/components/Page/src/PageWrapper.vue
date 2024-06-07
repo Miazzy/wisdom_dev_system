@@ -165,6 +165,7 @@
       const { params } = urlToPath() as any;
       const flag = params['global_disabled'] == 'true' || params['page_readonly'] == 'true';
       isGlobalDisabled.value = flag;
+      window.document.title = params['__name__'];
     } catch (e) {
       //
     }
