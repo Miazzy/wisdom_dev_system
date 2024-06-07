@@ -107,13 +107,10 @@
   setCompensation({ useLayoutFooter: true, elements: [footerRef] });
 
   const getClass = computed(() => {
-    return [
-      prefixCls,
-      {
-        [`${prefixCls}--dense`]: props.dense,
-      },
-      attrs.class ?? {},
-    ];
+    const dense = { [`${prefixCls}--dense`]: props.dense };
+    const mainLayout = { ['main-layout']: window === window.top };
+    const attrClass = attrs.class ?? {};
+    return [prefixCls, dense, mainLayout, attrClass];
   });
 
   const getShowHeader = computed(
@@ -175,6 +172,12 @@
 </script>
 <style lang="less">
   @prefix-cls: ~'@{namespace}-page-wrapper';
+
+  .theme1 .@{prefix-cls} {
+    &.main-layout {
+      background: url(../../../assets/images/background1.png) no-repeat center / 100% 100%;
+    }
+  }
 
   .@{prefix-cls} {
     position: relative;

@@ -9,6 +9,13 @@ import { PageEnum } from '/@/enums/pageEnum';
 import { SysMessage } from '/@/hooks/web/useMessage';
 import { getLoginTimeDiff } from '/@/utils/common';
 
+// window 通过新窗口打开网页
+export const winOpenUrl = (path: string, name: string) => {
+  const wname = window.encodeURIComponent(name);
+  const url = window.origin + '/#' + path + '?__name__=' + wname;
+  window.open(url, wname);
+};
+
 // 解析路由路径参数
 export const parseRoutePath = (path: string): Record<string, string> => {
   const segments = path.split('/');
@@ -145,7 +152,11 @@ export const addTabPage = (
     path = path.startsWith('/frame') ? path : '/frame' + path;
     path = params == null || typeof params == 'undefined' ? path : pathToUrl(path, params);
     const message = { type: 'addTabPage', data: { id, path, name, params } };
-    sendMessage(message);
+    if (window.self !== window.top) {
+      sendMessage(message);
+    } else {
+      winOpenUrl(path, name || '');
+    }
   } catch (error) {
     //
   }
