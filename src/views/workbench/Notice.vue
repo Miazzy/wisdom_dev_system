@@ -103,7 +103,7 @@
   const getNoticeAndAnnouncementPage = async () => {
     const noticeAndAnnouncement = await WorkbenchApi.getNoticeAndAnnouncementPage({
       pageNo: 1,
-      pageSize: 7,
+      pageSize: 6,
     });
     if (noticeAndAnnouncement) {
       noticeList.value.splice(0, noticeList.value.length);
@@ -124,7 +124,7 @@
   const getInformation = async () => {
     const information = await WorkbenchApi.getInformationPage({
       pageNo: 1,
-      pageSize: 7,
+      pageSize: 6,
     });
     if (information) {
       informationList.value.splice(0, informationList.value.length);
