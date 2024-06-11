@@ -131,7 +131,9 @@
 
       onMounted(() => {
         MsgManager.getInstance().listen('avatar-update-message', (message) => {
-          avatarURL.value = message.path;
+          if (message?.path) {
+            avatarURL.value = message?.path || avatarURL.value;
+          }
         });
       });
 

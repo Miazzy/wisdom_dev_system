@@ -12,8 +12,9 @@
   </a-card>
 </template>
 <script lang="ts" setup>
-  import { ref, computed } from 'vue';
+  import { ref, computed, onMounted } from 'vue';
   import { useUserStore } from '/@/store/modules/user';
+  import { MsgManager } from '/@/message/MsgManager';
   import defaultAvatar from '@/assets/images/default-avatar-s.png';
 
   const userStore = useUserStore();
@@ -28,6 +29,14 @@
   const getLoginName = () => {
     return getUserInfo.value.username;
   };
+
+  onMounted(() => {
+    MsgManager.getInstance().listen('avatar-update-message', (message) => {
+      if (message?.path) {
+        avatarURL.value = message?.path || avatarURL.value;
+      }
+    });
+  });
 </script>
 <style lang="less" scoped>
   .workbench-header {
