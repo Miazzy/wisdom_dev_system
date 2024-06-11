@@ -18,6 +18,7 @@
     rotate: { type: Number, default: 0 },
     tipsBgColor: { type: String, default: '' },
     tipsTextColor: { type: String, default: '' },
+    barWidth: { type: [Number, String], default: '' },
   });
 
   const random = parseInt(Math.random() * 10000000);
@@ -163,6 +164,8 @@
               { offset: 1, color: `${colors.value[0]}` },
             ]),
           },
+          barWidth: props.barWidth, // 设置柱子的宽度，可以根据需要调整
+          barMaxWidth: 20 // 柱子的最大宽度
         },
         {
           name: names1,
@@ -178,6 +181,8 @@
               { offset: 1, color: `${colors.value[1]}` },
             ]),
           },
+          barWidth: props.barWidth, // 设置柱子的宽度，可以根据需要调整
+          barMaxWidth: 20 // 柱子的最大宽度
         },
       ],
     };

@@ -13,7 +13,7 @@
     width: { type: [Number, String], default: 600 },
     height: { type: [Number, String], default: 300 },
     colors: Array,
-    barWidth: { type: Number, default: 25 },
+    barWidth: { type: [Number, String], default: '' },
     backgroundColor: { type: String, default: 'transparent' },
     tipsBgColor: { type: String, default: '' },
     tipsTextColor: { type: String, default: '' },
@@ -22,6 +22,7 @@
     legendColor: { type: String, default: 'rgba(255, 255, 255, 0.6)' },
     rotate: { type: Number, default: 0 },
     xAxisLabelInterval: { type: [Number, Function, String], default: 0 }, // 坐标轴刻度标签的显示间隔，在类目轴中有效，默认0强制显示所有标签，auto采用标签不重叠的策略间隔显示标签
+    dataZoomOptions: { type: Object, default: {} }, // 坐标轴滑动和缩放的配置
   });
 
   // 创建图表
@@ -164,6 +165,7 @@
           },
           data: data0,
           barWidth: props.barWidth, // 设置柱子的宽度，可以根据需要调整
+          barMaxWidth: 20 // 柱子的最大宽度
         },
         {
           name: barNames[1],
@@ -175,6 +177,7 @@
           },
           data: data1,
           barWidth: props.barWidth, // 设置柱子的宽度，可以根据需要调整
+          barMaxWidth: 20 // 柱子的最大宽度
         },
         {
           name: barNames[2],
@@ -186,6 +189,7 @@
           },
           data: data2,
           barWidth: props.barWidth, // 设置柱子的宽度，可以根据需要调整
+          barMaxWidth: 20 // 柱子的最大宽度
         },
         {
           name: barNames[3],
@@ -197,6 +201,7 @@
           },
           data: data3,
           barWidth: props.barWidth, // 设置柱子的宽度，可以根据需要调整
+          barMaxWidth: 20 // 柱子的最大宽度
         },
         {
           name: lineNames[0],
@@ -265,6 +270,10 @@
         itemHeight: 10,
       },
     };
+
+    if(Object.keys(props.dataZoomOptions)?.length) {
+      option.dataZoom = [props.dataZoomOptions];
+    }
     option && myChart.setOption(option);
   };
 

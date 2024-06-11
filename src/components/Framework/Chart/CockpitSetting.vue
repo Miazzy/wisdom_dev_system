@@ -436,7 +436,7 @@
   }
   .setting-box {
     position: absolute;
-    right: 0.1rem;
+    right: 0 ;
     top: 0;
     z-index: 100;
     width: 0.16rem;

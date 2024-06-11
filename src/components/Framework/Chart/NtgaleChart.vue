@@ -16,6 +16,7 @@
     roseType: { type: [String, Boolean], default: 'radius' }, // 是否展示成南丁格尔图，通过半径区分数据大小 radius/area
     radius: { type: Array as PropType<Array<number | string>>, default: [30, 100] },
     labelFormatter: { type: [String, Function], default: '{b}: {c}' },
+    colors: { type: Array, default: ['#0380FF', '#8FD0F4', '#697898', '#4ADECA', '#F5CC6B'] }, // 饼图颜色
   });
 
   const emit = defineEmits(['clickItem']);
@@ -27,6 +28,7 @@
       myChart = echarts.init(chartDom);
     }
     const option = {
+      color: props.colors,
       legend: {
         show: false,
       },

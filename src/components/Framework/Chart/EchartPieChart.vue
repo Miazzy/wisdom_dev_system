@@ -21,11 +21,10 @@
     showLegend: { type: Boolean, default: false }, // 是否显示图例
     legendOptions: { type: Object, default: {} }, // 图例配置
     pieCenter: { type: Array as PropType<Array<number | string>>, default: ['50%', '50%'] }, // 饼图中心位置
+    colors: { type: Array, default: ['#0380FF', '#8FD0F4', '#697898', '#4ADECA', '#F5CC6B'] }, // 饼图颜色
   });
 
   const emit = defineEmits(['clickItem']);
-
-  const colors = ['#0380FF', '#8FD0F4', '#697898', '#4ADECA', '#F5CC6B'];
 
   const setupData = () => {
     const chartDom = document.getElementById(props.id);
@@ -34,7 +33,7 @@
       myChart = echarts.init(chartDom);
     }
     const option = {
-      color: colors,
+      color: props.colors,
       legend: {
         show: props.showLegend,
         bottom: '6%',

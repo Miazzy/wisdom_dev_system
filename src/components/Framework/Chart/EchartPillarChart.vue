@@ -9,6 +9,9 @@
     <div :id="`chart-pillar-container${random}`"
       :style="`width:${typeof props.width == 'number' ? props.width + 'px' : props.width}; height:${typeof props.height == 'number' ? props.height + 'px' : props.height}; background-color: ${props.backgroundColor || 'transparent'};`">
     </div>
+    <div>
+
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -40,6 +43,7 @@
     axisColor: { type: String, default: 'rgba(170, 221, 255, .8)' },
     axisWidth: { type: String, default: '0.2' },
     xAxisLabelInterval: { type: [Number, Function, String], default: 0 }, // 坐标轴刻度标签的显示间隔，在类目轴中有效，默认0强制显示所有标签，auto采用标签不重叠的策略间隔显示标签
+    dataZoomOptions: { type: Object, default: {} }, // 坐标轴滑动和缩放的配置
   });
 
   // 设置柱和折线的颜色
@@ -454,6 +458,9 @@
         // icon: 'rect'
       },
     };
+    if(Object.keys(props.dataZoomOptions)?.length) {
+      pillarOption.value.dataZoom = [props.dataZoomOptions];
+    }
   };
 
   // 查询初始化信息函数

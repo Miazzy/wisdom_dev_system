@@ -22,6 +22,8 @@
     tipsBgColor: { type: String, default: '' },
     tipsTextColor: { type: String, default: '' },
     xAxisLabelInterval: { type: [Number, Function, String], default: 0 }, // 坐标轴刻度标签的显示间隔，在类目轴中有效，默认0强制显示所有标签，auto采用标签不重叠的策略间隔显示标签
+    barWidth: { type: [Number, String], default: '' },
+    dataZoomOptions: { type: Object, default: {} }, // 坐标轴滑动和缩放的配置
   });
 
   const random = parseInt(Math.random() * 10000000);
@@ -187,6 +189,8 @@
               { offset: 1, color: `${colors.value[0][0]}` },
             ]),
           },
+          barMaxWidth: 20,
+          barWidth: props.barWidth, // 设置柱子的宽度，可以根据需要调整
         },
         {
           name: barName1,
@@ -204,6 +208,8 @@
               { offset: 1, color: `${colors.value[1][0]}` },
             ]),
           },
+          barMaxWidth: 20,
+          barWidth: props.barWidth, // 设置柱子的宽度，可以根据需要调整
         },
         {
           name: barName2,
@@ -221,6 +227,8 @@
               { offset: 1, color: `${colors.value[2][0]}` },
             ]),
           },
+          barMaxWidth: 20,
+          barWidth: props.barWidth, // 设置柱子的宽度，可以根据需要调整
         },
         {
           name: lineName0,
@@ -285,7 +293,9 @@
         itemHeight: 10,
       },
     };
-
+    if(Object.keys(props.dataZoomOptions)?.length) {
+      option.dataZoom = [props.dataZoomOptions];
+    }
     option && myChart.setOption(option);
   };
 
