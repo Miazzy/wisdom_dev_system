@@ -1,5 +1,9 @@
+:deep(.detail-label) {
+  width: 124px;
+}
+
 // 功能列表
-.left-tree-layout {
+.left-tree-layout, :deep(.left-tree-layout) {
   width: 298px;
   border-radius: 2px;
 }
@@ -17,13 +21,29 @@
   :deep(.table-settings .anticon-setting) {
     margin-right: 0;
   }
+}
 
+.dialog-loading {
+  position: absolute;
+  z-index: 1000 !important;
+  top: 45%;
+  left: 45%;
+}
+
+.dialog-mask {
+  position: absolute;
+  z-index: 1001 !important;
+  top: -1px;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+  background: #ccc;
 }
 
 // bi报表
 .tab-model {
   height: 100vh;
-  padding: 10px 10px 0;
+  padding: 10px;
 }
 
 .tab-button-div {

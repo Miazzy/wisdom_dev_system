@@ -19,6 +19,11 @@
     :deep(.tab-pane-table) {
       width: 100%;
     }
+
+    :deep(.ant-picker-calendar.ant-picker-calendar-full) {
+      padding-right: 16px;
+      padding-left: 16px;
+    }
   }
 
   
@@ -26,6 +31,12 @@
     margin-right: 16px;
   }
   
+}
+
+.modal-table{
+  :deep(.vben-basic-table-header__toolbar > button.ant-btn:last-child) {
+    margin-right: 0;
+  }
 }
 
 .customer_require::before {
