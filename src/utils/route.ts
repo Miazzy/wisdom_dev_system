@@ -16,7 +16,8 @@ export const winOpenUrl = async (path: string, name: string) => {
   const sign = path.includes('?') ? '&' : '?';
   const prefix = path.startsWith('/#') ? '' : '/#';
   const url = window.origin + prefix + path + sign + '__name__=' + wname;
-  const element = JSON.stringify({ time: new Date().getTime(), path });
+  const argmentPath = path + sign + '__name__=' + wname;
+  const element = JSON.stringify({ time: new Date().getTime(), path: argmentPath });
   await sessionStorage.setItem('ROUTE_PUSH_PATH', element);
   await LockManager.getInstance().acquireLock('WIN_OPEN_LOCK', element);
   window.open(url, wname);
