@@ -4,6 +4,8 @@ import { useRouter } from 'vue-router';
 import { TaskExecutor } from '/@/executor/taskExecutor';
 import { OnceExecutor } from '/@/executor/onceExecutor';
 
+const REFRESH_TIME_INTERVAL = [100, 300, 500, 700, 900, 1000, 1250, 1500, 1750, 2000, 2500, 3000];
+
 const listenMessage = (event) => {
   const router = useRouter();
   if (Config.RENDER_ENGINE_URL.includes(event.origin)) {
@@ -60,7 +62,7 @@ const handleRouteRefresh = () => {
     const diff = new Date().getTime() - element.time;
     setTimeoutExecs(() => {
       pushToLastPath(element, diff);
-    }, [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1250, 1500]);
+    }, REFRESH_TIME_INTERVAL);
   }
   handleLoginCheck();
 };

@@ -11,17 +11,17 @@ import { getLoginTimeDiff } from '/@/utils/common';
 import { LockManager } from '/@/message/LockManager';
 
 // window 通过新窗口打开网页
-export const winOpenUrl = (path: string, name: string) => {
+export const winOpenUrl = async (path: string, name: string) => {
   const wname = window.encodeURIComponent(name);
   const sign = path.includes('?') ? '&' : '?';
   const prefix = path.startsWith('/#') ? '' : '/#';
   const url = window.origin + prefix + path + sign + '__name__=' + wname;
   const element = JSON.stringify({ time: new Date().getTime(), path });
-  LockManager.getInstance().acquireLock('ROUTE_PUSH_PATH', element);
+  await LockManager.getInstance().acquireLock('ROUTE_PUSH_PATH', element);
   window.open(url, wname);
   setTimeout(() => {
     LockManager.getInstance().releaseLock('ROUTE_PUSH_PATH');
-  }, 3000);
+  }, 10000);
 };
 
 // 解析路由路径参数
