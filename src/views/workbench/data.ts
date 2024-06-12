@@ -55,8 +55,8 @@ export const getWorkRecord = (workScheduleId: string, stationId: string) =>
     { isOnlyResult: true },
   );
 
-export const getWorkRecordPage = (params) =>
-  defHttp.get({ url: '/oa/work-record/page', params }, { isOnlyResult: true });
+export const getWorkRecordPage = ({ workDate }) =>
+  defHttp.get({ url: `/oa/work-record/page?workDate=${workDate}` }, { isOnlyResult: true });
 
 export const saveWorkRecord = (params) => {
   if (!params.id) {

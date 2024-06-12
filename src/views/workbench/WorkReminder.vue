@@ -5,7 +5,7 @@
     </template>
     <div class="card-content">
       <div class="table-box">
-        <BasicTable @register="registerWorkReminderTable" :scroll="{ y: 248 }">
+        <BasicTable @register="registerWorkReminderTable">
           <template #bodyCell="{ text, column, record }">
             <template v-if="column.dataIndex === 'content'">
               <a v-if="record.url" @click="handleView(record)" :title="text">
@@ -36,45 +36,39 @@
     @ok="handleSuccess"
     @cancel="handleCancel"
     :width="520"
-    :height="330"
+    :height="360"
   >
-    <a-form
-      ref="modalFormRef"
-      :model="formState"
-      name="recordForm"
-      autocomplete="off"
-      style="margin-top: 16px"
-    >
-      <a-row :gutter="24">
-        <a-col v-show="true" :span="22">
+    <a-form ref="modalFormRef" :model="formState" name="recordForm" autocomplete="off">
+      <a-row>
+        <a-col v-show="true" :span="24">
           <a-form-item
             label="类型"
             name="typeText"
-            :labelCol="{ span: 6 }"
+            :labelCol="{ style: { width: '124px' } }"
             :rules="[{ required: false }]"
           >
             <a-input v-model:value="formState.typeText" :disabled="true" />
           </a-form-item>
         </a-col>
       </a-row>
-      <a-row :gutter="24">
-        <a-col v-show="true" :span="22">
+      <a-row>
+        <a-col v-show="true" :span="24">
           <a-form-item
             label="内容"
             name="content"
-            :labelCol="{ span: 6 }"
+            :labelCol="{ style: { width: '124px' } }"
             :rules="[{ required: false }]"
           >
             <a-input v-model:value="formState.content" :disabled="true" />
           </a-form-item>
         </a-col>
       </a-row>
-      <a-row :gutter="24">
-        <a-col v-show="true" :span="22">
+      <a-row>
+        <a-col v-show="true" :span="24">
           <a-form-item
             label="执行时间"
             name="executionTime"
-            :labelCol="{ span: 6 }"
+            :labelCol="{ style: { width: '124px' } }"
             :rules="[{ required: true }]"
           >
             <a-time-picker
@@ -86,12 +80,12 @@
           </a-form-item>
         </a-col>
       </a-row>
-      <a-row :gutter="24">
-        <a-col v-show="true" :span="22">
+      <a-row>
+        <a-col v-show="true" :span="24">
           <a-form-item
             label="状态"
             name="status"
-            :labelCol="{ span: 6 }"
+            :labelCol="{ style: { width: '124px' } }"
             :rules="[{ required: true, message: '请选择状态！' }]"
           >
             <DictRadioGroup v-model:value="formState.status" :type="`work_record_status`" />
@@ -103,17 +97,17 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, reactive } from 'vue';
+  import { ref, reactive, onMounted } from 'vue';
   import dayjs from 'dayjs';
   import { assign } from 'lodash-es';
   import { FormInstance } from 'ant-design-vue';
   import Dialog from '@/components/Framework/Modal/Dialog.vue';
-  import Icon from '@/components/Icon/Icon.vue';
   import { BasicTable, useTable, BasicColumn } from '@/components/Table';
   import DictRadioGroup from '@/components/Framework/Radio/DictRadioGroup.vue';
   import { addTabPage } from '@/utils/route';
   import { SysMessage } from '@/hooks/web/useMessage';
   import { getWorkRecord, getWorkRecordPage, saveWorkRecord } from './data';
+  import { MsgManager } from '/@/message/MsgManager';
 
   const modal = reactive({
     open: ref<boolean>(false),
@@ -131,11 +125,6 @@
       title: '类型',
       dataIndex: 'type',
       width: 80,
-      customHeaderCell: () => {
-        return {
-          class: 'text-center',
-        };
-      },
       customRender: ({ record }) => {
         return record.typeText;
       },
@@ -143,13 +132,9 @@
     {
       title: '内容',
       dataIndex: 'content',
+      headAlign: 'center',
       align: 'left',
       width: 220,
-      customHeaderCell: () => {
-        return {
-          class: 'text-center',
-        };
-      },
     },
     {
       title: '时间',
@@ -180,19 +165,19 @@
     canResize: false,
   });
 
-  const handleSuccess = () => {
+  const handleSuccess = async () => {
     const value = modalFormRef.value;
     if (value) {
-      value.validateFields().then((e) => {
+      value.validateFields().then(async () => {
         loadingFlag.value = true;
-        saveWorkRecord(formState)
+        await saveWorkRecord(formState)
           .then(() => {
             SysMessage.getInstance().success('保存成功');
             reload();
             modal.open = false;
             loadingFlag.value = false;
           })
-          .catch((e) => {
+          .catch(() => {
             loadingFlag.value = false;
           });
       });
@@ -220,15 +205,16 @@
   const handleView = (record) => {
     addTabPage(record.url);
   };
-  const handleMenuView = () => {
-    addTabPage('/oa/schedule/work/menu/index');
-  };
-  const handleScheduleView = () => {
-    addTabPage('/oa/schedule/work/schedule/index');
-  };
+
   const handleRecordView = () => {
     addTabPage('/oa/schedule/work/record/index');
   };
+
+  onMounted(() => {
+    MsgManager.getInstance().listen('home-page-work-schedule', () => {
+      reload();
+    });
+  });
 </script>
 
 <style lang="less" scoped>
