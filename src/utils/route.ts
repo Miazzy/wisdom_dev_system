@@ -17,11 +17,12 @@ export const winOpenUrl = async (path: string, name: string) => {
   const prefix = path.startsWith('/#') ? '' : '/#';
   const url = window.origin + prefix + path + sign + '__name__=' + wname;
   const element = JSON.stringify({ time: new Date().getTime(), path });
-  await LockManager.getInstance().acquireLock('ROUTE_PUSH_PATH', element);
+  await sessionStorage.setItem('ROUTE_PUSH_PATH', element);
+  await LockManager.getInstance().acquireLock('WIN_OPEN_LOCK', element);
   window.open(url, wname);
   setTimeout(() => {
-    LockManager.getInstance().releaseLock('ROUTE_PUSH_PATH');
-  }, 10000);
+    LockManager.getInstance().releaseLock('WIN_OPEN_LOCK');
+  }, 3000);
 };
 
 // 解析路由路径参数
