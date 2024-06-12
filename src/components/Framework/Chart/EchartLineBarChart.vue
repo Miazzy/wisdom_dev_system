@@ -1,11 +1,17 @@
 <template>
-  <div :id="`echarts-linebar-container${random}`" class="echarts-linebar-container" :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${
+  <div v-show="!noData" :id="`echarts-linebar-container${random}`" class="echarts-linebar-container" :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${
       typeof props.height == 'number' ? props.height + 'px' : props.height
     };`"></div>
+  <div v-if="noData" :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${
+      typeof props.height == 'number' ? props.height + 'px' : props.height
+    };`">
+    <NoData />
+  </div>
 </template>
 <script lang="ts" setup>
-  import { onMounted, toRefs, watch, nextTick } from 'vue';
+  import { onMounted, toRefs, watch, nextTick, computed } from 'vue';
   import * as echarts from 'echarts';
+  import NoData from '/@/components/Framework/Chart/NoData.vue';
 
   // 定义属性
   const props = defineProps({
@@ -31,6 +37,14 @@
   // 解构 props
   const { data, colors, category, ybgcolor, name } = toRefs(props);
   const emit = defineEmits(['clickItem', 'click']);
+
+  const noData = computed(() => {
+    if (props.data?.barData?.length || props.data?.lineData?.length) {
+      return false;
+    } else {
+      return true;
+    }
+  });
 
   // 监听数据变化
   watch(

@@ -1,13 +1,17 @@
 <template>
   <div class="pie-chart-box">
-    <div :id="props.id" ref="chart"
+    <div v-show="!noData" :id="props.id" ref="chart"
       :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height};`"></div>
+    <div v-if="noData" :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height};transform: scale(0.85);`">
+      <NoData />
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
   import * as echarts from 'echarts';
-  import { onMounted, watch, PropType, nextTick, ref } from 'vue';
+  import { onMounted, watch, PropType, nextTick, ref, computed } from 'vue';
+  import NoData from '/@/components/Framework/Chart/NoData.vue';
 
   const props = defineProps({
     width: { type: [Number, String], default: 600 },
@@ -25,6 +29,14 @@
   });
 
   const emit = defineEmits(['clickItem']);
+
+  const noData = computed(() => {
+    if (props.data?.length) {
+      return false;
+    } else {
+      return true;
+    }
+  })
 
   const setupData = () => {
     const chartDom = document.getElementById(props.id);
