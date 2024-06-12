@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import { TaskExecutor } from '/@/executor/taskExecutor';
 import { OnceExecutor } from '/@/executor/onceExecutor';
 
-const REFRESH_TIME_INTERVAL = [100, 300, 500, 700, 900, 1000, 1250, 1500, 1750, 2000, 2500, 3000];
+const REFRESH_TIME_INTERVAL = [100, 300, 500, 700, 900, 1000, 1250, 1500];
 
 const listenMessage = (event) => {
   const router = useRouter();
@@ -43,8 +43,8 @@ const pushToLastPath = (element, diff) => {
   const prefix = element.path.includes('/#') ? '' : '/#';
   if (diff < 10000 && path != targetPath) {
     window.location.href = window.origin + prefix + element.path;
-    sessionStorage.removeItem('ROUTE_PUSH_PATH');
   }
+  sessionStorage.removeItem('ROUTE_PUSH_PATH');
 };
 
 const handleLoginCheck = () => {

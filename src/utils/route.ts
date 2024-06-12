@@ -19,11 +19,12 @@ export const winOpenUrl = async (path: string, name: string) => {
   const argmentPath = path + sign + '__name__=' + wname;
   const element = JSON.stringify({ time: new Date().getTime(), path: argmentPath });
   await sessionStorage.setItem('ROUTE_PUSH_PATH', element);
-  await LockManager.getInstance().acquireLock('WIN_OPEN_LOCK', element);
+  await LockManager.getInstance().acquireLock('WIN_OPEN_LOCK');
   window.open(url, wname);
+  await LockManager.getInstance().releaseLock('WIN_OPEN_LOCK');
   setTimeout(() => {
-    LockManager.getInstance().releaseLock('WIN_OPEN_LOCK');
-  }, 3000);
+    sessionStorage.removeItem('ROUTE_PUSH_PATH');
+  }, 1500);
 };
 
 // 解析路由路径参数
