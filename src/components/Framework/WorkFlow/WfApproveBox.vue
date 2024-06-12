@@ -138,7 +138,7 @@
   function getuntreated(flowData) {
     const obj = {};
     flowData.forEach((item) => {
-      if (item.assigneeUser.id === getUserInfo.userId && item.result === 1) {
+      if (item?.assigneeUser?.id === getUserInfo?.userId && item?.result === 1) {
         assign(obj, item);
       }
     });
@@ -226,7 +226,7 @@
   function getMyTask(flowData) {
     const obj = {};
     flowData.forEach((item) => {
-      if (item.assigneeUser.id === getUserInfo.userId) {
+      if (item?.assigneeUser?.id === getUserInfo?.userId) {
         assign(obj, item);
       }
     });
