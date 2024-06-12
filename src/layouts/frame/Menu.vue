@@ -69,6 +69,7 @@
   import { useUserStore } from '/@/store/modules/user';
   import { MsgManager } from '/@/message/MsgManager';
   import { Config, ScreenList } from '/@/constant/constant';
+  import { winOpenUrl } from '/@/utils/route';
 
   const menuList = ref<any[]>([]);
   const systemTheme = ref('');
@@ -148,10 +149,10 @@
     if (menu.openWindowModel === 'newWindow') {
       const path = handlePath(menu.url);
       if (screenRouteMap.has(path)) {
-        const pathName = screenRouteMap.get(path);
-        window.open(`${window.origin}${pathName}`,  pathName.slice(3));
+        const pathName = (screenRouteMap.get(path) as string) || '';
+        winOpenUrl(pathName, pathName.slice(3)); // window.open(`${window.origin}${pathName}`,  pathName.slice(3));
       } else {
-        window.open(`${window.origin}${path}`, path.slice(3));
+        winOpenUrl(path, path.slice(3)); // window.open(`${window.origin}${path}`, path.slice(3));
       }
     } else {
       emit('click', key, menu, event);

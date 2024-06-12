@@ -1,5 +1,5 @@
 interface LockManagerInterface {
-  acquireLock(lockName: string): Promise<void>;
+  acquireLock(lockName: string, lockValue?: string): Promise<void>;
   releaseLock(lockName: string): Promise<void>;
   hasLock(lockName: string): Promise<boolean>;
 }
@@ -29,11 +29,11 @@ export class LockManager implements LockManagerInterface {
     return LockManager.instance as LockManagerInterface;
   }
 
-  async acquireLock(lockName: string): Promise<void> {
+  async acquireLock(lockName: string, lockValue: string = 'true'): Promise<void> {
     const lockKey = `${LockManager.prefix}${lockName}`;
     const existingValue = await this.hasLock(lockName);
     if (!existingValue) {
-      await window.sessionStorage.setItem(lockKey, 'true');
+      await window.sessionStorage.setItem(lockKey, lockValue);
     } else {
       throw new Error('Lock already acquired.');
     }
