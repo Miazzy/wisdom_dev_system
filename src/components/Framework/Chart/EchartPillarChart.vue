@@ -5,18 +5,25 @@
 -->
 <template>
   <div
-    :style="`width:${typeof props.width == 'number' ? props.width + 'px' : props.width}; height:${typeof props.height == 'number' ? props.height + 'px' : props.height}; background-color: ${props.backgroundColor || 'transparent'};`">
-    <div :id="`chart-pillar-container${random}`"
-      :style="`width:${typeof props.width == 'number' ? props.width + 'px' : props.width}; height:${typeof props.height == 'number' ? props.height + 'px' : props.height}; background-color: ${props.backgroundColor || 'transparent'};`">
+    :style="`width:${typeof props.width == 'number' ? props.width + 'px' : props.width}; height:${
+      typeof props.height == 'number' ? props.height + 'px' : props.height
+    }; background-color: ${props.backgroundColor || 'transparent'};`"
+  >
+    <div
+      v-show="!noData"
+      :id="`chart-pillar-container${random}`"
+      :style="`width:${typeof props.width == 'number' ? props.width + 'px' : props.width}; height:${
+        typeof props.height == 'number' ? props.height + 'px' : props.height
+      }; background-color: ${props.backgroundColor || 'transparent'};`"
+    >
     </div>
-    <div>
-
-    </div>
+    <NoData v-if="noData" />
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue';
+  import { ref, onMounted, onUnmounted, watch, nextTick, computed } from 'vue';
   import * as echarts from 'echarts';
+  import NoData from '/@/components/Framework/Chart/NoData.vue';
 
   const random = parseInt(Math.random() * 10000000);
   // 定义属性
@@ -56,6 +63,14 @@
   const lineData = ref([]);
   const cnameList = ref([]);
   const pillarOption = ref({});
+
+  const noData = computed(() => {
+    if (props.data?.barData?.length || props.data?.lineData?.length) {
+      return false;
+    } else {
+      return true;
+    }
+  });
 
   const handleOptions = () => {
     pillarOption.value = {
@@ -458,7 +473,7 @@
         // icon: 'rect'
       },
     };
-    if(Object.keys(props.dataZoomOptions)?.length) {
+    if (Object.keys(props.dataZoomOptions)?.length) {
       pillarOption.value.dataZoom = [props.dataZoomOptions];
     }
   };
@@ -521,6 +536,7 @@
   // 获取发电统计数据
   const setupData = async () => {
     const chartDom = document.getElementById('chart-pillar-container' + random);
+    if (!chartDom) return;
     let myChart = echarts.getInstanceByDom(chartDom);
     if (myChart == undefined) {
       myChart = echarts.init(chartDom);
@@ -573,8 +589,10 @@
     () => {
       setTimeout(() => {
         const chartDom = document.getElementById('chart-pillar-container' + random);
-        const myChart = echarts?.getInstanceByDom(chartDom);
-        myChart?.resize();
+        if (chartDom) {
+          const myChart = echarts.getInstanceByDom(chartDom);
+          myChart?.resize();
+        }
       }, 100);
     },
   );
@@ -584,18 +602,20 @@
     setupData();
     nextTick(() => {
       const chartDom = document.getElementById('chart-pillar-container' + random);
-      const myChart = echarts.getInstanceByDom(chartDom);
-      myChart?.getZr()?.on('click', (params) => {
-        try {
-          const pointInPixel = [params.offsetX, params.offsetY];
-          const pointInGrid = myChart.convertFromPixel({ seriesIndex: 0 }, pointInPixel);
-          const index = pointInGrid[0];
-          const data = props?.data?.barData[index];
-          emit('clickItem', { data, index });
-        } catch (error) {
-          //
-        }
-      });
+      if (chartDom) {
+        const myChart = echarts.getInstanceByDom(chartDom);
+        myChart?.getZr()?.on('click', (params) => {
+          try {
+            const pointInPixel = [params.offsetX, params.offsetY];
+            const pointInGrid = myChart.convertFromPixel({ seriesIndex: 0 }, pointInPixel);
+            const index = pointInGrid[0];
+            const data = props?.data?.barData[index];
+            emit('clickItem', { data, index });
+          } catch (error) {
+            //
+          }
+        });
+      }
     });
   });
   onUnmounted(() => {});

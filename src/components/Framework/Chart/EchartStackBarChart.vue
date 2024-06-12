@@ -1,11 +1,16 @@
 <template>
-  <div id="echarts-stackbar-container" class="echarts-stackbar-container"
+  <div v-show="!noData" id="echarts-stackbar-container" class="echarts-stackbar-container"
     :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height}; background-color: ${props.backgroundColor || 'transparent'};`">
   </div>
+  <div v-if="noData" :style="`width: ${typeof props.width == 'number' ? props.width + 'px' : props.width}; height: ${typeof props.height == 'number' ? props.height + 'px' : props.height}; background-color: ${props.backgroundColor || 'transparent'};`">
+    <NoData />
+  </div>
+  
 </template>
 <script lang="ts" setup>
-  import { onMounted, watch, nextTick } from 'vue';
+  import { onMounted, watch, nextTick, computed } from 'vue';
   import * as echarts from 'echarts';
+  import NoData from '/@/components/Framework/Chart/NoData.vue';
 
   // 定义属性
   const props = defineProps({
@@ -23,6 +28,14 @@
     rotate: { type: Number, default: 0 },
     xAxisLabelInterval: { type: [Number, Function, String], default: 0 }, // 坐标轴刻度标签的显示间隔，在类目轴中有效，默认0强制显示所有标签，auto采用标签不重叠的策略间隔显示标签
     dataZoomOptions: { type: Object, default: {} }, // 坐标轴滑动和缩放的配置
+  });
+
+  const noData = computed(() => {
+    if (props.data?.barData?.length || props.data?.lineData?.length) {
+      return false;
+    } else {
+      return true;
+    }
   });
 
   // 创建图表
