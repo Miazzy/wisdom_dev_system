@@ -288,6 +288,7 @@
   async function queryDeptTreeList() {
     OrgApi.getListTree({
       showPosition: false,
+      status: 1,
       // fullId: '/HZ93a0bf6ab8dd83016ab8deaca70009.ogn',
     }).then((res) => {
       const list = res as unknown as TreeItem[];
@@ -321,6 +322,10 @@
         SysMessage.getInstance().warning('只能选择一个人员。');
         return false;
       }
+      if(nodeList[0].orgKindId != 'psm'){
+        SysMessage.getInstance().warning('请选择人员。');
+        return false;
+      }
       const params = {
         id: myTask.id,
         assigneeUserId: getPersonId(nodeList[0].value),
@@ -332,14 +337,18 @@
         organVisible.value = false;
       });
     } else if (processOperation.value == 3) {
-      const ccToVos = [];
-      for (const node of nodeList) {
-        ccToVos.push({ userId: getPersonId(node.value) });
+      
+      const userIds = [];
+      for (let i = 0; i < nodeList.length; i++) {
+        const item = nodeList[i];
+        getUserIds(item, userIds);
       }
+      let ccToVos = Array.from(new Set(userIds));
+      let users = ccToVos.map(item => ({userId: item}));
       const params = {
         id: myTask.id,
         processInstanceId: myTask.processInstance.id,
-        ccToVos: ccToVos,
+        ccToVos: users,
       };
       TaskApi.addCcTo(params).then(() => {
         processOperation.value = 0;
@@ -353,6 +362,20 @@
   const cancelOrganDialog = () => {
     processOperation.value = 0;
   };
+
+
+  function getUserIds(data,list) {
+      if(data.orgKindId === 'psm'){
+        list.push(getPersonId(data.id));
+      }
+      if (data.children && data.children.length > 0) {
+          for (let i = 0; i < data.children.length; i++) {
+              const item = data.children[i];
+              getUserIds(item,list)
+          }
+      }
+  }
+
 
   //获取未处理任务节点
   const getMyTask = (flowData) => {
