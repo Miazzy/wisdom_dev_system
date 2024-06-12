@@ -19,9 +19,6 @@ export class LockManager implements LockManagerInterface {
         if (!Reflect.has(window, 'MsgManager')) {
           window.LockManager = instance;
         }
-        if (!Reflect.has(window.self, 'MsgManager')) {
-          window.self.LockManager = instance;
-        }
         if (!Reflect.has(window.top, 'MsgManager')) {
           window.top.LockManager = instance;
         }

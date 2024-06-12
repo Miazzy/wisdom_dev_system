@@ -29,6 +29,7 @@
   import Content from './Content.vue';
   import { handleRouteGo, listenOfflineMessage, urlToPath } from '/@/utils/route';
   import { MsgManager } from '/@/message/MsgManager';
+  import { CacheManager } from '/@/message/CacheManager';
 
   import { getDownloadURL } from '@/utils/upload';
   import * as ParameterApi from '@/api/system/parameter';
@@ -143,6 +144,7 @@
       userInfo.avatar = path;
       userStore.setMultiOrganization(flag);
       userStore.setUserInfo(userInfo);
+      CacheManager.getInstance().setCache('AVATAR', path);
     } catch (error) {
       //
     }
