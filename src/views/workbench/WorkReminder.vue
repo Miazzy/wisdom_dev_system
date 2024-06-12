@@ -36,7 +36,7 @@
     @ok="handleSuccess"
     @cancel="handleCancel"
     :width="520"
-    :height="360"
+    :height="380"
   >
     <a-form ref="modalFormRef" :model="formState" name="recordForm" autocomplete="off">
       <a-row>

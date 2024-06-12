@@ -43,7 +43,7 @@
   import { DateTools } from '/@/utils/dateUtil';
   import Schedule from '../oa/schedule/Schedule.vue';
   import moment from 'moment';
-    import * as CommonUtil from '/@/utils/common';
+  import * as CommonUtil from '/@/utils/common';
 
   const userStore = useUserStore();
   const getUserInfo = userStore.getUserInfo;
@@ -94,16 +94,16 @@
   const toMorePage = () => {
     if (activeKey.value == '1') {
       // router.push(`/bpm/task/todo`);
-      addTabPage(`/bpm/task/taskCenter`, '任务中心', {flowType: '010001'});
+      addTabPage(`/bpm/task/taskCenter`, '任务中心', { flowType: '010001' });
     } else if (activeKey.value == '2') {
       // router.push(`/bpm/task/todo`);
-      addTabPage(`/bpm/task/taskCenter`, '任务中心', {flowType: '010002'});
+      addTabPage(`/bpm/task/taskCenter`, '任务中心', { flowType: '010002' });
     } else if (activeKey.value == '3') {
       // router.push(`/bpm/task/processInstance`);
-      addTabPage(`/bpm/task/taskCenter`, '任务中心', {flowType: '020001'});
+      addTabPage(`/bpm/task/taskCenter`, '任务中心', { flowType: '020001' });
     } else if (activeKey.value == '4') {
       // router.push(`/bpm/task/done`);
-      addTabPage(`/bpm/task/taskCenter`, '任务中心', {flowType: '020003'});
+      addTabPage(`/bpm/task/taskCenter`, '任务中心', { flowType: '020003' });
     } else if (activeKey.value == '5') {
       // router.push(`/bpm/task/done`);
       addTabPage(`/oa/schedule/index`, '日程提醒');
@@ -279,7 +279,7 @@
           time: DateTools.format(element.createTime, 'YYYY-MM-DD hh:mm'),
           viewPath: element.bpmProcessDefinitionRespVO.formCustomCreatePath,
           processInstanceId: element.processInstance.id,
-          businessKey: element.businessKey
+          businessKey: element.businessKey,
         });
       });
     }
@@ -303,7 +303,7 @@
           time: DateTools.format(element.createTime, 'YYYY-MM-DD hh:mm'),
           viewPath: element.bpmProcessDefinitionRespVO.formCustomCreatePath,
           processInstanceId: element.processInstance.id,
-          businessKey: element.businessKey
+          businessKey: element.businessKey,
         });
       });
     }
@@ -328,7 +328,7 @@
           time: DateTools.format(element.createTime, 'YYYY-MM-DD hh:mm'),
           viewPath: element.bpmProcessDefinitionRespVO.formCustomCreatePath,
           processInstanceId: element.id,
-          businessKey: element.businessKey
+          businessKey: element.businessKey,
         });
       });
     }
@@ -351,7 +351,7 @@
           time: DateTools.format(element.createTime, 'YYYY-MM-DD hh:mm'),
           viewPath: element.bpmProcessDefinitionRespVO.formCustomCreatePath,
           processInstanceId: element.processInstance.id,
-          businessKey: element.businessKey
+          businessKey: element.businessKey,
         });
       });
     }
