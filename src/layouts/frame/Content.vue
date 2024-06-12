@@ -217,6 +217,9 @@
 
   // 处理删除页签元素函数
   const handleRemoveItem = (targetKey: string) => {
+    if (targetKey == '/#/frame/workbench') {
+      return;
+    }
     let lastIndex = 0;
     panes.value.forEach((pane, i) => {
       if (pane.pageurl === targetKey) {
@@ -608,6 +611,10 @@
   const handlePanesEmpty = () => {
     if (!panes.value || panes.value.length <= 1) {
       panes.value = [workbench];
+      paneMap.set(panes.value[0].pageurl, panes.value[0]);
+      activeKey.value = panes.value[0].pageurl;
+    } else if (panes.value[0].pageurl != pageurl) {
+      panes.value = [workbench, ...panes.value];
       paneMap.set(panes.value[0].pageurl, panes.value[0]);
       activeKey.value = panes.value[0].pageurl;
     }
